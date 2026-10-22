@@ -103,16 +103,18 @@ class Panel:
         return [(x, left[x], right[x]) for x in shared]
 
     def bars(self) -> list[float]:
-        """Bar heights, in data coordinates.
+        """Bar tops (y + height), in data coordinates, so a stacked
+        bar is checked where it ends, not by its own height alone.
 
         Only the patches drawn in data space: a recession band is an
         axvspan whose height is 1.0 in axes fraction, and counting it as a
         bar of height 1 would compare an axis fraction against a Gini
         coefficient.
         """
-        return [float(p.get_height()) for p in self.ax.patches
-                if p.get_transform() is self.ax.transData
-                and hasattr(p, "get_height")]
+        return [float(p.get_y()) + float(p.get_height())
+                for p in self.ax.patches
+                if p.get_data_transform() is self.ax.transData
+                and hasattr(p, "get_height") and hasattr(p, "get_y")]
 
     def texts(self) -> list[str]:
         return [t.get_text() for t in self.ax.texts if t.get_text().strip()]
