@@ -32,6 +32,13 @@ departs from it only where its own data forces the departure.
 | 09 | Security | people | Homicide and violence, on the sources that disagree |
 | 10 | Mortality | people | What people die of, and how that moved |
 | 11 | Credit | money | What households owe and how badly they are servicing it |
+| 12 | Migration | people | Who arrives, who leaves, who is already here, and on which definition |
+
+Chapter 12 is newer than the other eleven and is not on the five
+published countries yet. It is in the spine because it is one of the few
+things every European statistical system measures in depth and almost
+nobody reads carefully — see §4a, which is longer than any other trap
+section for a reason.
 
 Each chapter is one plate of four panels. Four is the budget: a panel is
 about 7×4 inches at reading size, and a fifth makes every one of them too
@@ -160,6 +167,82 @@ is that the seam always lands on a politically interesting year.
 Take **one publisher per row** where a single series is unavoidable, record
 which in a `source` column, and keep the seam in the data where a reader
 can see it.
+
+### 4a. Migration, which is the worst of them
+
+Every trap above appears in migration statistics at once, and the subject
+attracts readers who already know what they think. The atlas publishes it
+the same way it publishes everything else — the official number, the
+definition it is on, and the number beside it that measures the adjacent
+thing — and the care has to be greater, not the ambition smaller.
+
+**Flow and stock are different chapters of the same story.** How many
+arrived in a year is not how many are here. Both belong on the plate, in
+separate panels, never on one axis.
+
+**Citizenship is not country of birth.** A naturalisation moves somebody
+from "foreign citizen" to "citizen" without anybody moving, so a
+foreign-citizen stock can fall in a year of record arrivals. Eurostat
+publishes both cuts and so should the plate: `migr_pop1ctz` by citizenship
+against `migr_pop3ctb` by country of birth, and `migr_imm1ctz` against
+`migr_imm3ctb` for the flow. Where they diverge, the gap is the
+naturalisation rate, which is itself a finding — `migr_acq` measures it.
+
+**Net migration is a difference of two numbers, one of which is badly
+measured.** Arrivals are recorded because arriving requires paperwork;
+departures frequently are not, because leaving does not. Register-based
+emigration counts are known to be low in most of Europe. Publish
+immigration and emigration as two series and let the reader see the net,
+rather than publishing a net figure whose error is dominated by the series
+nobody can measure.
+
+**Asylum has four numbers and they are not each other.** Applications
+(`migr_asyappctza`), first-instance decisions (`migr_asydcfsta`), grants,
+and people actually present. They differ by an order of magnitude at the
+edges, they lag each other by years, and conflating them is the single
+most common error in public writing on the subject. One panel, four
+labelled series, or four panels — never one line called "asylum".
+
+**A residence permit is not a person.** `migr_resfirst` counts first
+permits issued in a year; `migr_resvalid` counts permits in force. Someone
+who changes status gets a new first permit without a new arrival.
+
+**An irregular-crossing detection is an event, not a person.** Frontex
+counts detections at a border segment: one person crossing two borders is
+two detections, and a person detected twice on one border is two. It is a
+genuine official series and it does not measure how many people came.
+
+**Intra-EU movement and third-country nationals are different legal
+objects** with different data behind them. A chart that adds them is
+measuring nothing in particular. Eurostat's citizenship dimension splits
+them; use it.
+
+**The series break, hard, and recently.** The United Kingdom is the clean
+example: its Eurostat migration series carries values to 2019 and stops —
+the dataset's time dimension runs to 2024, but the UK rows end, which is
+the sort of thing that silently truncates a chart rather than failing it.
+After that the ONS is the source, and the ONS itself moved from the
+International Passenger Survey to administrative data (Home Office visa
+records and the DWP's RAPID database) after the pandemic, then revised EU
+and British national estimates again in late 2025 — upward, substantially.
+Three regimes in five years. They are annotated, drawn as separate
+segments, and never joined into one line.
+
+**Eurostat's migration tables, verified live against the dissemination
+API:** `migr_imm1ctz` and `migr_imm3ctb` (immigration, by citizenship and
+by country of birth), `migr_emi1ctz` (emigration), `migr_pop1ctz` and
+`migr_pop3ctb` (population on 1 January, both cuts), `migr_asyappctza`
+(asylum applicants), `migr_asydcfsta` (first-instance decisions),
+`migr_resfirst` and `migr_resvalid` (permits), `migr_acq` (acquisitions of
+citizenship), `migr_eipre` (third-country nationals found illegally
+present). These cover every EU member on one harmonised definition, which
+is what makes a European migration chapter possible at all.
+
+For a country outside that system, the equivalents are the national
+register or population survey, the interior ministry for permits and
+asylum, and the border agency for entries — three publishers who will
+disagree, which is the ordinary condition of this chapter rather than a
+problem with it.
 
 ### A subset drawn as a peer
 
