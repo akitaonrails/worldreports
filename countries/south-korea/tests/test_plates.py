@@ -1,11 +1,12 @@
-"""Korea's own plate layer: its drawing helpers, its political calendar,
-and the relationships its panels assert.
+"""Korea's own plate layer: its reading helpers, its conversions, its
+political calendar, and the relationships its panels assert.
 
-Everything here is specific to this country. The helpers below are
-private to countries/south-korea/plates.py on purpose — they were not
-promoted into core because no other country draws this way — so they are
-tested beside the plates that use them. The generic checks run against
-every country from tests/.
+Everything here is specific to this country. The spine itself — frame,
+slot order, reference scales, the "scale extended" marker — is held for
+every country by tests/test_spine.py; this file asks whether the numbers
+Korea's panels draw are the right numbers: that a rate is the count over
+the right population, that two surveys are never spliced, that a label
+names the line it sits on.
 """
 from __future__ import annotations
 
@@ -24,6 +25,7 @@ SLUG = "south-korea"
 COUNTRY = Country.load(SLUG)
 plates = sibling(str(COUNTRY.dir / "plates.py"), "plates")
 events = sibling(str(COUNTRY.dir / "events.py"), "events")
+NAMES = [entry["builder"].__name__ for entry in plates.PLATES]
 
 
 @pytest.fixture(scope="module")
@@ -38,28 +40,36 @@ def ax():
     plt.close(figure)
 
 
+def S(ctx, rel, col):
+    return plates._series(ctx, rel, col)
+
+
 # ------------------------------------------------------------- reading
 def test_series_reads_a_column(ctx):
-    gdp = plates._series(ctx, "macro/gdp.csv", "nominal_krw_tn")
+    gdp = S(ctx, "macro/gdp.csv", "nominal_krw_tn")
     assert gdp[2006] > 900 and gdp[2025] > 2500
 
 
 def test_a_blank_year_stays_a_gap(ctx):
-    """The whole point of the convention: 2026 exists in the file and is
-    empty, and nothing in the stack may invent a value for it."""
-    births = plates._series(ctx, "social/vital.csv", "births")
+    """2026 exists in the file and is empty, and nothing in the stack may
+    invent a value for it."""
+    births = S(ctx, "social/vital.csv", "births")
     assert 2025 in births
     assert 2026 not in births
 
 
 def test_a_missing_file_is_empty_rather_than_an_error(ctx):
-    """A panel whose fetcher has never run draws its 'data pending' note
-    instead of stopping the build."""
-    assert plates._series(ctx, "macro/does-not-exist.csv", "value") == {}
+    assert S(ctx, "macro/does-not-exist.csv", "value") == {}
 
 
-def test_series_skips_a_non_numeric_cell_instead_of_failing(ctx):
-    assert plates._series(ctx, "trade/destinations.csv", "destiny") == {}
+def test_series_skips_a_non_numeric_column_instead_of_failing(ctx):
+    assert S(ctx, "trade/destinations.csv", "destiny") == {}
+
+
+def test_series_can_be_cut_to_a_window(ctx):
+    pop = plates._series(ctx, "social/population.csv", "pop_mn",
+                         first=2006, last=2025)
+    assert min(pop) == 2006 and max(pop) == 2025
 
 
 def test_xy_keeps_years_and_values_aligned():
@@ -67,53 +77,67 @@ def test_xy_keeps_years_and_values_aligned():
     assert plates._xy(data) == ([2008, 2009, 2010], [2.0, 3.0, 1.0])
 
 
-def test_xy_can_be_restricted_to_years_that_exist():
-    data = {2008: 1.0, 2010: 2.0}
-    assert plates._xy(data, [2008, 2009, 2010]) == ([2008, 2010], [1.0, 2.0])
-
-
 def test_last_is_the_latest_year_not_the_largest_value():
     assert plates._last({2008: 9.0, 2020: 1.0}) == (2020, 1.0)
     assert plates._last({}) == (None, None)
 
 
-# ------------------------------------------------------------- drawing
-def test_room_only_ever_widens_to_the_right(ax):
-    """An end label sits past the last point, so the axis has to grow for
-    it — and the left edge must not move, or the panels stop lining up."""
-    ax.set_xlim(2006, 2026)
-    plates._room(ax, pad=3)
-    assert ax.get_xlim() == (2006, 2029)
+def test_surpluses_and_deficits_get_different_colours(ctx):
+    colour = plates._signed(ctx)
+    assert colour(1.5) == ctx.p.BLUE and colour(-3.7) == ctx.p.RED
 
 
-def test_an_end_label_lands_on_the_last_point(ctx, ax):
-    plates._end_label(ctx, ax, {2006: 1.0, 2025: 42.0})
-    (text,) = list(ax.texts)
-    assert text.get_text() == "42.0"
-    assert text.xy == (2025, 42.0)
+# ---------------------------------------------------------- conversions
+def test_the_homicide_denominator_is_the_release_s_own(ctx):
+    """Deaths of Korean nationals over the registered Korean-national
+    population: total deaths ÷ the all-cause rate recovers it, and it is
+    smaller than the projection population, which counts foreigners."""
+    pop = plates.kostat_population(ctx)
+    deaths = S(ctx, "social/vital.csv", "deaths")[2024]
+    rate = S(ctx, "social/mortality.csv", "all_causes")[2024]
+    assert pop[2024] == pytest.approx(deaths / rate * 100_000)
+    assert 50.9e6 < pop[2024] < 51.1e6
+    projection = S(ctx, "macro/gdp.csv", "population_mn")[2024] * 1e6
+    assert projection - pop[2024] > 0.5e6
 
 
-def test_an_end_label_on_an_empty_series_draws_nothing(ctx, ax):
-    plates._end_label(ctx, ax, {})
-    assert not ax.texts
+def test_homicide_per_100k_is_the_count_over_that_population(ctx):
+    years, rates = plates.homicide_rate(ctx)
+    got = dict(zip(years, rates))
+    count = S(ctx, "social/homicide.csv", "deaths")
+    pop = plates.kostat_population(ctx)
+    for y in (2014, 2024, 2025):
+        assert got[y] == pytest.approx(count[y] / pop[y] * 100_000)
+    # and it reproduces the one-decimal rate the release prints: 0.6
+    assert round(got[2024], 1) == 0.6
 
 
-def test_deficits_are_red_and_surpluses_blue(ctx, ax):
-    bars = plates._signed_bars(ctx, ax, {2007: 1.5, 2020: -3.7})
-    first, second = (b.get_facecolor() for b in bars)
-    assert first != second
-    assert first[0] < first[2], "a surplus should be more blue than red"
-    assert second[0] > second[2], "a deficit should be more red than blue"
+def test_the_minimum_wage_is_209_hours_at_the_average_rate(ctx):
+    usd = plates.minimum_wage_usd(ctx)
+    assert plates.MONTHLY_HOURS == 209
+    assert usd[2025] == pytest.approx(10030 * 209 / 1421.17)
+    assert 1400 < usd[2025] < 1550
 
 
-def test_pct_axis_formats_with_a_sign_of_its_unit(ax):
-    plates._pct_axis(ax, decimals=1)
-    assert ax.yaxis.get_major_formatter()(0.5) == "0.5%"
+def test_net_migration_is_per_1000_of_the_total_population(ctx):
+    years, rates = plates.net_migration_rate(ctx)
+    got = dict(zip(years, rates))
+    net = S(ctx, "social/migration.csv", "net")[2023]
+    pop = S(ctx, "social/population.csv", "pop_mn")[2023] * 1e6
+    assert got[2023] == pytest.approx(net / pop * 1000)
+    assert got[2021] < 0 < got[2023]
+
+
+def test_excess_deaths_are_measured_against_the_2015_2019_average(ctx):
+    deaths = S(ctx, "social/vital.csv", "deaths")
+    base = sum(deaths[y] for y in range(2015, 2020)) / 5
+    excess = plates.excess_deaths(ctx)
+    assert excess[2022] == pytest.approx((deaths[2022] / base - 1) * 100)
+    assert abs(sum(excess[y] for y in range(2015, 2020))) < 1e-9
 
 
 # -------------------------------------------------------------- events
 def test_every_presidency_is_contiguous():
-    """A gap or an overlap would draw two political strips over one year."""
     for (_, end, name, _), (start, *_) in zip(events.PRESIDENTS,
                                               events.PRESIDENTS[1:]):
         assert start >= end, f"{name}'s term overlaps the next"
@@ -121,9 +145,6 @@ def test_every_presidency_is_contiguous():
 
 
 def test_the_two_impeachments_are_mid_year():
-    """Park left office in March 2017 and Yoon in April 2025. Stored as
-    whole years both strips would be a year wrong, which is the kind of
-    error a reader notices and nothing else would catch."""
     ends = {name: end for _, end, name, _ in events.PRESIDENTS}
     assert 2017.0 < ends["Park"] < 2017.5
     assert 2025.0 < ends["Yoon"] < 2025.5
@@ -147,64 +168,112 @@ def test_every_band_runs_forwards():
 
 # ------------------------------------------------------------ registry
 def test_the_registry_and_the_chapters_agree_on_the_plates():
-    """Two lists name the ten plates. They have to be the same ten, or a
-    card on the page points at another plate's figure.
-
-    The two lists do not use the same names — a plate is declared by its
-    drawing function, a card by the file that function writes — so they
-    are compared through the filenames both end up at.
-    """
+    """Two lists name the eleven plates, and every card has its figure."""
     from core import sitebuild
     from core.render import load_plates
 
-    drawn = {pl.name for pl in load_plates(COUNTRY)}
-    assert {name for name, _ in plates.PLATES} == drawn
+    drawn = {pl.filename[:-4] for pl in load_plates(COUNTRY)}
     carded = {ch["id"] for ch in sitebuild.chapters_for(COUNTRY)}
-    assert len(carded) == len(drawn) == 10, \
-        f"{len(drawn)} plates drawn, {len(carded)} cards built"
+    assert drawn == carded and len(carded) == 11
     for plate_id in carded:
         assert (COUNTRY.out_dir / f"{plate_id}.png").exists(), \
             f"card {plate_id} has no rendered plate"
 
 
+def test_the_mortality_chapter_is_new_and_the_safety_one_kept_its_id():
+    from core import sitebuild
+    topics = {ch["id"]: ch["topic"] for ch in sitebuild.chapters_for(COUNTRY)}
+    assert topics["09_safety"] == "security"
+    assert topics["11_mortality"] == "mortality"
+
+
 # ----------------------------------------------------------- semantics
 def test_births_fall_below_deaths_in_2020_and_stay_there(ctx):
-    """Korea crossed into natural decrease in 2020 and has not come back.
-
-    Asked of the data rather than of the drawn lines: this panel names its
-    two series in place, beside their last points, rather than in a
-    legend, so there is no label on the line to match. The claim is about
-    the numbers anyway — the panel's job is to show them, which the test
-    below checks separately.
-    """
-    births = plates._series(ctx, "social/vital.csv", "births")
-    deaths = plates._series(ctx, "social/vital.csv", "deaths")
+    births = S(ctx, "social/vital.csv", "births")
+    deaths = S(ctx, "social/vital.csv", "deaths")
     shared = sorted(set(births) & set(deaths))
-    assert shared, "births and deaths never overlap"
     before = [y for y in shared if y < 2020 and births[y] <= deaths[y]]
     assert not before, f"deaths already exceeded births in {before}"
     after = [y for y in shared if y >= 2020]
-    assert after, "the series stop before the crossing"
-    assert all(deaths[y] > births[y] for y in after), \
-        "deaths no longer exceed births from 2020 on"
+    assert after and all(deaths[y] > births[y] for y in after)
 
 
-def test_the_demography_panel_names_both_series_and_the_crossing():
-    """Two unlabelled lines are two shapes. The panel labels each where it
-    ends and says in words what the crossing is, which is the only reason
-    a reader can tell which line is which."""
-    panel = plate(SLUG, "plate_demography").panel("births")
-    captions = " ".join(panel.texts()).lower()
-    assert "births" in captions
-    assert "deaths" in captions
-    assert "2020" in captions, "the crossing year is not named on the panel"
-    assert len(panel.data_lines()) >= 2
+def test_the_demography_panel_names_both_rates_and_the_crossing(ctx):
+    panel = plate(SLUG, "plate_demography").panel("crude birth")
+    assert "2020" in " ".join(panel.texts())
+    births = panel.points("Births per 1,000")
+    deaths = panel.points("Deaths per 1,000")
+    cbr = S(ctx, "social/vital.csv", "crude_birth_rate")
+    assert births[2019] == cbr[2019]
+    assert births[2019] > deaths[2019] and births[2020] < deaths[2020]
 
 
-@pytest.mark.parametrize("name", [n for n, _ in plates.PLATES])
+def test_the_two_gini_surveys_are_never_joined(ctx):
+    panel = plate(SLUG, "plate_people").panel("Gini")
+    hfws = panel.points("Household Finance")
+    hies = panel.points("Household Income")
+    assert min(hfws) == 2011 and max(hies) == 2016
+    assert hfws[2011] == pytest.approx(
+        S(ctx, "social/gini.csv", "hfws")[2011] * 100)
+    assert hies[2011] == pytest.approx(
+        S(ctx, "social/gini.csv", "hies")[2011] * 100)
+
+
+def test_the_fiscal_seam_is_drawn_as_a_seam(ctx):
+    """The IMF series starts in 2012; the Bank of Korea's covers the years
+    before it as its own segment, and the two never share a year."""
+    panel = plate(SLUG, "plate_fiscal").panel("Revenue and expenditure")
+    imf = panel.points("Revenue, IMF")
+    bok = panel.points("Revenue, BOK")
+    assert min(imf) == 2012 and max(bok) == 2011
+    assert not set(imf) & set(bok)
+
+
+def test_homicide_is_drawn_from_two_systems_and_labelled(ctx):
+    panel = plate(SLUG, "plate_safety").panel("Homicide")
+    national = panel.points("Statistics Korea")
+    unodc = panel.points("UNODC")
+    years, rates = plates.homicide_rate(ctx)
+    assert national == pytest.approx(dict(zip(years, rates)))
+    assert unodc[2019] == S(ctx, "social/security_intl.csv",
+                            "homicide_unodc")[2019]
+    assert panel.ax.get_yscale() == "log"
+
+
+def test_workplace_deaths_are_per_100k_workers_not_people(ctx):
+    panel = plate(SLUG, "plate_safety").panel("workplace")
+    line = panel.points("Per 100,000 workers")
+    assert line[2006] == pytest.approx(
+        S(ctx, "social/workplace.csv", "fatal_rate")[2006] * 10)
+    assert "insured workers" in panel.ax.get_ylabel()
+
+
+def test_the_kospi_line_is_in_dollars(ctx):
+    panel = plate(SLUG, "plate_markets").panel("equity")
+    kospi = S(ctx, "markets/kospi.csv", "close")
+    eop = S(ctx, "macro/won.csv", "eop")
+    got = panel.points("KOSPI in US$")
+    want = kospi[2025] / eop[2025] / (kospi[2006] / eop[2006]) * 100
+    assert got[2006] == pytest.approx(100)
+    assert got[2025] == pytest.approx(want)
+
+
+def test_the_won_index_rises_when_the_won_strengthens(ctx):
+    panel = plate(SLUG, "plate_markets").panel("Currency")
+    idx = panel.points("Won")
+    avg = S(ctx, "macro/won.csv", "avg")
+    assert idx[2025] == pytest.approx(avg[2006] / avg[2025] * 100)
+    assert idx[2025] < 100 < avg[2025] / avg[2006] * 100
+
+
+def test_deflation_would_not_be_cut_off(ctx):
+    """The old CPI axis started at zero. On the spine it starts at -2."""
+    panel = plate(SLUG, "plate_economy").panel("inflation")
+    assert panel.ylim()[0] <= -2
+
+
+@pytest.mark.parametrize("name", NAMES)
 def test_nothing_is_clipped(name):
-    """A hardcoded set_ylim silently hides data once the series grows past
-    it: the line leaves the top of the panel and the reader never learns a
-    peak is missing."""
     for panel in plate(SLUG, name).panels():
-        panel.nothing_is_clipped(slack=1e-6)
+        if panel.ax.get_visible():
+            panel.nothing_is_clipped(slack=1e-6)

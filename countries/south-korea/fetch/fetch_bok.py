@@ -20,7 +20,9 @@ Series used (all official BOK/ECOS):
   200Y113  national accounts, nominal, annual   — GDP, gross fixed capital
   200Y110  national accounts, real, annual      — real GDP (chained) -> growth
   200Y152  general government expenditure by COFOG function
-  200Y153  general government total revenue, expenditure, net lending
+  200Y153  general government total revenue, expenditure, net lending,
+           interest paid (1208, 소득계정_이자) and GFCF (1305)
+  721Y001  market rates — 10-year Korea Treasury Bond (5050000), annual
   722Y001  BOK base rate (0101000)
   731Y006  KRW/USD monthly close (0000003)
   732Y001  foreign exchange reserves, total (99)
@@ -41,7 +43,8 @@ the fetcher owns them outright):
   data/macro/reserves.csv       year,eop_usbi
   data/macro/external.csv       year,assets_usbi,liabilities_usbi,net_usbi
   data/macro/unemployment.csv   year,value
-  data/fiscal/government.csv    year,revenue,expenditure,balance   (% of GDP)
+  data/fiscal/government.csv    year,revenue,expenditure,balance,interest_paid,gov_gfcf (% of GDP)
+  data/markets/bond_10y.csv     year,ktb_10y                       (% per year, annual average)
   data/fiscal/tax_burden.csv    year,value                         (% of GDP)
   data/fiscal/investment.csv    year,gfcf_krw_tn,gfcf_pct_gdp
   data/fiscal/spending_by_function.csv      % of GDP, by COFOG function
@@ -274,14 +277,39 @@ def main() -> None:  # noqa: C901 — one block per output file, read top to bot
     revenue = annual(search("200Y153", "A", "2005", "2026", "1", "1401"))
     expense = annual(search("200Y153", "A", "2005", "2026", "1", "1400"))
     balance = annual(search("200Y153", "A", "2005", "2026", "1", "1309"))
+    # 소득계정_이자 is interest *paid* (재산소득, 지급 = 이자 + 기타 재산소득,
+    # and the second is zero for general government every year), so it is
+    # the gross interest bill the spine's fiscal slot 4 asks for. It is not
+    # the IMF's net interest, which nets off the interest the pension fund
+    # earns and is a fraction of this.
+    interest = annual(search("200Y153", "A", "2005", "2026", "1", "1208"))
+    gov_gfcf = annual(search("200Y153", "A", "2005", "2026", "1", "1305"))
 
     def pct_gdp(table: dict[int, float], year: int) -> float | None:
         base = gdp_bn.get(year)
         return None if not base or year not in table else table[year] / base * 100
 
-    write("fiscal/government.csv", "year,revenue,expenditure,balance",
+    write("fiscal/government.csv",
+          "year,revenue,expenditure,balance,interest_paid,gov_gfcf",
           [f"{y},{fmt(pct_gdp(revenue, y))},{fmt(pct_gdp(expense, y))},"
-           f"{fmt(pct_gdp(balance, y))}" for y in years])
+           f"{fmt(pct_gdp(balance, y))},{fmt(pct_gdp(interest, y))},"
+           f"{fmt(pct_gdp(gov_gfcf, y))}" for y in years])
+    # Spot values read off ECOS on 2026-10-22, in 십억원 (billion won). A
+    # refetch that moves one by more than a revision is a wrong item code.
+    for table, year, want in ((interest, 2019, 22222.7),
+                              (gov_gfcf, 2019, 97437.7)):
+        got = table.get(year)
+        assert got is not None and abs(got - want) <= want * 0.03, \
+            f"200Y153 spot value {year}: want {want}, got {got}"
+
+    # ---- 10-year government bond ---------------------------------------------
+    # 국고채(10년), the annual average ECOS publishes (cycle A), not a
+    # year-end close: the spine's slot is the year's average yield.
+    ktb = annual(search("721Y001", "A", "2005", "2026", "5050000"))
+    assert abs(ktb.get(2006, 0) - 5.15) < 0.05, f"KTB 10y 2006: {ktb.get(2006)}"
+    write("markets/bond_10y.csv", "year,ktb_10y",
+          [f"{y},{fmt(ktb.get(y), 2)}" for y in years if y <= LAST_FULL_YEAR
+           or y in ktb])
 
     # ---- tax burden -------------------------------------------------------
     # 조세총액 is published in 억원 (hundred-million won); nominal GDP is in
