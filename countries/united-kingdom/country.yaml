@@ -1,0 +1,125 @@
+# United Kingdom. The eighth country in the atlas and the first whose
+# harmonised layer is half-demolished: since Brexit the Eurostat
+# dissemination API has dropped the UK outright from the fiscal, LFS and
+# EU-SILC cubes (the slice comes back well-formed and EMPTY, not 404),
+# keeps HICP and the migration suite frozen at 2019, and still carries
+# demography and the Maastricht yield to the present. National series are
+# the ONS; the harmonised comparisons come from the IMF and World Bank.
+slug: united-kingdom
+flag_emoji: "🇬🇧"
+wordmark: United Kingdom
+name:
+  en: "United Kingdom"
+  fr: "Royaume-Uni"
+  pt: "Reino Unido"
+  es: "Reino Unido"
+  ko: "영국"
+
+locales:
+  - {code: en, html_lang: en-GB, og_locale: en_GB, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete. A flow for a year still running is not comparable
+# with the ones before it: plotted on the same line it draws a collapse
+# that never happened, so plates dash or hatch anything past it.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+
+# Bands drawn behind the data, dated off the quarter-on-quarter sign of
+# real GDP (ONS ABMI, current vintage, release 2026-09-29 — pulled live
+# and computed during the research pass, not from memory):
+#   2008 Q2 to 2009 Q2: five consecutive negative quarters, about 6%
+#     peak to trough.
+#   2020 Q1–Q2: the COVID contraction; Q2 alone was −19.9%, the deepest
+#     quarter in the modern series.
+#   2023 Q3–Q4: two consecutive negatives (−0.2, −0.3) — the shallow
+#     technical recession of late 2023. It meets the two-quarter rule,
+#     so it is banded, however small it looks next to the other two.
+# What is NOT banded, on the same evidence: the 2012 "double-dip" was
+# revised away (2012 Q2 −0.06 and Q4 −0.10 are single quarters in the
+# current vintage); 2021 Q1 (−1.1, the last COVID lockdown) is one
+# quarter; the 2016 Brexit-vote slowdown never produced two negative
+# quarters in a row.
+bands:
+  - {from: 2008.25, to: 2009.5, label: "2008–09 crisis"}
+  - {from: 2020.0,  to: 2020.5, label: "COVID-19"}
+  - {from: 2023.5,  to: 2024.0, label: "2023–24 recession"}
+
+# NOTE for the build phase: GBP has no entry in core.sitebuild's
+# CURRENCY_AFFIX yet. Adding one is an additive core/ change (Canada's
+# CAD entry is the template) and is required before chapters.py can
+# render money figures.
+currency:
+  code: GBP
+
+# The Union Jack is red #C8102E, white and blue #012169, which is not a
+# chart palette: the flag blue is nearly ink and the white is the paper.
+# These are darkened, desaturated siblings — the red pulled down, the
+# blue lifted out of the ink and split into a navy and a mid blue —
+# chosen to stay apart from each other in greyscale.
+palette:
+  RED:     "#B32438"
+  RED_D:   "#821A2A"
+  NAVY:    "#1B2E63"
+  NAVY_D:  "#121F45"
+  BLUE:    "#2E5FA3"
+  BLUE_D:  "#1F4377"
+  GREEN:   "#2E7D4F"
+  GREEN_D: "#1F5F3A"
+  GOLD:    "#BE8A1E"
+  PURPLE:  "#6E5BA6"
+  TEAL:    "#13807A"
+  primary: "#1B2E63"
+  alert:   "#B32438"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#1B2E63", "#B32438", "#2E5FA3", "#BE8A1E", "#2E7D4F", "#6E5BA6", "#13807A", "#1F2430"]
+  # Navy, the paper, red — the cross on its field laid flat. The middle
+  # band is the page colour, so it is drawn with an outline; unstroked
+  # it reads as a gap between two marks.
+  flag_bands: ["#1B2E63", "#FBFAF7", "#B32438"]
+  # A cool navy-black rather than a dark blue: the three family accents
+  # have to stay apart from each other and from the page.
+  web:
+    # U opens the wordmark: two vertical stems, a rounded base — same
+    # bearing the United States page uses for its U.
+    mark_bearing: "0.06em"
+    # Two words, thirteen letters: set smaller than the one-word marks.
+    mark_size: "clamp(2.5rem, 7.5vw, 5.4rem)"
+    ground:   "#0D1220"
+    raised:   "#151C30"
+    raised_2: "#1C2438"
+    rule:     "#2B3752"
+    ink:      "#E9EAF0"
+    muted:    "#98A1B8"
+    faint:    "#626D88"
+    money:    "#E8786A"
+    world:    "#3FA8A0"
+    people:   "#D9A63C"
+
+seo:
+  title:
+    en: "United Kingdom — plates of official data, 2006–2026"
+    pt: "Reino Unido — pranchas de dados oficiais, 2006–2026"
+  description:
+    en: "Data plates on the United Kingdom's economy, public finances, trade, markets, work, demography, migration, mortality, credit and crime, built only from official sources and regenerated from committed CSVs."
+    pt: "Pranchas de dados sobre a economia, as contas públicas, o comércio, os mercados, o trabalho, a demografia, a migração, a mortalidade, o crédito e o crime do Reino Unido, construídas apenas a partir de fontes oficiais."
+  keywords: [United Kingdom, ONS, Bank of England, Home Office, HMRC, migration, public finances, official statistics]
+  spatial: "United Kingdom"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+# The OBR is deliberately not named: its site is unreachable from the
+# build machine (pending in SOURCES.yaml) and no plate draws from it —
+# the fiscal outturn is the ONS's public sector finances.
+sources:
+  en: "the Office for National Statistics, the Bank of England, HM Treasury, the Home Office, HMRC, DWP, and the IMF, World Bank and UNDP for comparisons"
+  pt: "o Office for National Statistics, o Banco da Inglaterra, o HM Treasury, o Home Office, a HMRC, o DWP, além de FMI, Banco Mundial e PNUD para comparações"

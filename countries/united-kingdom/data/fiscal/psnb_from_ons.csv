@@ -1,0 +1,29 @@
+# ONS public sector finances (PUSF), release 21-10-2026. J5II, public
+# sector net borrowing excluding public sector banks, £ million, current
+# prices, NSA. SIGN: NEGATIVE = BORROWING (as published). Two keys on one
+# row: psnb_calendar is the generator's calendar-year row for `year`;
+# psnb_fiscal is the financial year STARTING in April of `year` (2020 =
+# FY 2020-21), summed here from the twelve monthly rows and blank until
+# all twelve are published. Verified: calendar 2020 = -269,927; FY 2020-21
+# in this vintage = -310834.
+year,psnb_ex_calendar_gbp_mn,psnb_ex_fiscal_gbp_mn
+2006,-43607,-40926
+2007,-41813,-45057
+2008,-88009,-116333
+2009,-161031,-159644
+2010,-148622,-141973
+2011,-122204,-122100
+2012,-130389,-123610
+2013,-103630,-102446
+2014,-104389,-98064
+2015,-85388,-80101
+2016,-67635,-57100
+2017,-56174,-61413
+2018,-51376,-44073
+2019,-49846,-58763
+2020,-269927,-310834
+2021,-157949,-115978
+2022,-104355,-123816
+2023,-145481,-135234
+2024,-148560,-149809
+2025,-151407,-134211
