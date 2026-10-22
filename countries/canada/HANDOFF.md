@@ -1,11 +1,15 @@
 # Canada — handoff
 
-Updated 2026-10-22 (second session). Branch `canada`. The country now
-**builds and the full suite is green** (`make test`: 621 passed + 20/20
-JS): five chapters drawn from the staged data, with the StatCan chapters
-absent rather than approximated. **Do not merge to `main` yet** — the
-country is a five-chapter atlas and the dek says so; merging is a product
-decision, not a test result.
+Updated 2026-10-22 (spine-redraw lane). The country is **on `main`** (the
+five-chapter atlas landed in 8b03c87/b32de7a; the earlier "do not merge"
+note in this file was stale and is withdrawn). This branch redraws the
+atlas onto the plate spine: twelve chapters, the five Canadian-publisher
+ones kept as they were where the spine allows, and the seven that had been
+absent — economy, trade, people, demography, security, mortality, credit —
+built from the harmonised publishers (World Bank, IMF, OECD, BIS,
+UNODC/WHO), each panel saying so. Statistics Canada's own line rides
+beside the harmonised one where it differs; the slots it will land in are
+mapped below. No Statistics Canada number is typed into `plates.py`.
 
 Read [`../../ADDING_A_COUNTRY.md`](../../ADDING_A_COUNTRY.md) and
 [`../../SOURCING_A_COUNTRY.md`](../../SOURCING_A_COUNTRY.md) first. They
@@ -13,78 +17,89 @@ are not background reading; they are the specification.
 
 ---
 
-## The blocker
+## Statistics Canada — back up, fetch follow-up work
 
-**Statistics Canada's data site is down.** `www150.statcan.gc.ca` has
-served an outage page under **HTTP 200** for every WDS endpoint since at
-least 02:40Z on 2026-10-22. Verified still down at the start of the second
-session. A browser User-Agent does not change it.
+From 02:40Z on 2026-10-22 `www150.statcan.gc.ca` served an outage page
+under **HTTP 200** for every WDS endpoint; that outage is why the seven
+chapters above were built from harmonised publishers instead of waiting.
 
-**Check it before assuming it is still down:**
+**Probed again at the start of the spine lane (2026-10-22):**
 
 ```sh
-curl -s https://www150.statcan.gc.ca/t1/wds/rest/getAllCubesListLite | head -c 20
-# JSON starting '[' => back up.  '<!--Last modified' => still down.
+curl -s -m 20 https://www150.statcan.gc.ca/t1/wds/rest/getAllCubesListLite | head -c 60
+# -> [{"productId":10100001,"cansimId":"183-0021","cubeTitleEn":"
 ```
 
-The StatCan fetcher is the critical path for chapters 01, 04, 06, 08, 09,
-10 and 11. The candidate table PIDs are listed below — **none has been
-verified against a live API**; treat every one as a candidate, not a fact.
-Any fetcher written against StatCan must check the payload shape before
-caching: the outage page arrives under HTTP 200, and a cached error page
-survives the retry that would have fixed it.
+The reply starts with `[` — **the platform answers again.** Still, no
+StatCan fetcher exists in `fetch/` and the spine lane deliberately did
+not start a fetch campaign: the redraw is finished on the harmonised
+path, and the national lines below are follow-up work, one fetcher and
+one PR per chapter group. Any fetcher written against StatCan must check
+the payload shape before caching: the outage page arrived under HTTP 200,
+and a cached error page survives the retry that would have fixed it.
 
-| Chapter | Table | What for |
+### Slots that take the Statistics Canada line when it is fetched
+
+The harmonised series stays canonical (spine rule 10); StatCan rides
+beside it as the labelled national line:
+
+| chapter.slot | national line | candidate table |
 |---|---|---|
-| economy | 36-10-0222 | GDP, expenditure-based, annual |
-| economy | 18-10-0005 | CPI, annual average |
-| people | 14-10-0327 | labour force survey, unemployment |
-| people | 11-10-0190 | income, after-tax, by decile |
-| demography | 17-10-0005 | population by age |
-| demography | 17-10-0008 | components of population growth |
-| migration | 17-10-0040 | quarterly estimates, **non-permanent residents** |
-| mortality | 13-10-0394 | leading causes of death |
-| security | 35-10-0177 | homicide survey |
-| credit | 36-10-0639 | household debt to disposable income |
-| markets | 33-10-0163 | annual average exchange rates (fills the 2006-07 USDCAD hole) |
-| trade | 12-10-0011 | merchandise trade by partner |
+| 01 economy 1 | real GDP growth from the national accounts | 36-10-0222 |
+| 01 economy 3 | national CPI beside the WB series | 18-10-0005 |
+| 01 economy 4 | LFS unemployment beside the ILO estimate | 14-10-0327 |
+| 04 trade 1–2 | StatCan balance reprints beside the WB | 12-10-0011 |
+| 05 markets 3 | annual average FX filling the 2006–07 hole (the H.10 series covers it meanwhile) | 33-10-0163 |
+| 06 people 1 | StatCan's own Gini, not the WB derivation | 11-10-0190 |
+| 06 people 2 | the official Market Basket Measure line | (MBM, CANSIM) |
+| 08 demography 1/3/4 | quarterly demographic estimate, vital statistics, components of growth | 17-10-0005, 17-10-0008 |
+| 09 security 1 | police-reported homicide beside UNODC | 35-10-0177 |
+| 10 mortality 1–3 | death registrations direct from the source | 13-10-0394 |
+| 11 credit 1 | household debt-to-disposable-income beside the BIS debt-to-GDP | 36-10-0639 |
+| 12 migration 1–2 | outflows / components of growth | 17-10-0008 |
+| 12 migration 3 | census foreign-born share | census |
+| 12 migration 4 | the non-permanent-resident **stock** — the story's missing piece | 17-10-0040 |
 
-The full-table CSV download (`getFullTableDownloadCSV/<pid>/en` → a zip
-URL) is almost certainly the better route than the coordinate API.
+The candidate table PIDs are **unverified against a live API**; treat
+every one as a candidate, not a fact. The full-table CSV download
+(`getFullTableDownloadCSV/<pid>/en` → a zip URL) is almost certainly the
+better route than the coordinate API.
 
 ---
 
 ## What is done
 
-### The five chapters the staged data carries
+### The twelve chapters, on the spine
 
-Plates (declarative PLATES shape, ids keep their spine numbers):
+Plates (declarative PLATES shape, ids are the spine's chapter numbers):
 
-- **02-fiscal** (FRT, federal, fiscal years): revenues vs total expenses
-  %GDP; budgetary balance with the actuarial split drawn only from
-  2008-09; public debt charges; accumulated deficit vs net debt in C$ tn
-  over the full 1966–2024 FRT run (that one panel leaves the shared
-  window on purpose — the 1990s paydown is the story).
-- **03-spending** (FRT): expenses by category (stacked); program expenses
-  vs debt charges; revenues by source; personal income tax vs all other
-  revenue.
-- **05-markets** (BoC): target rate eoy + avg from the static monthly
-  table; GoC 2y/10y benchmark yields; USDCAD noon vs daily, never
-  spliced, 2006-07 blank; TSX panel **pending** (see below).
-- **07-world**: G7 net vs gross debt together, never net alone; G7
-  general-government balance; HDI one vintage; reserves.
-- **12-migration** (IRCC + WB): PR admissions with the 2006-14 hole
-  visible (xlim stays 2006-2026); top-10 countries of citizenship
-  (stacked, ranked once); study permits as a flow, labelled as one;
-  WB population with the StatCan NPR caveat.
+- **01-economy, 04-trade, 06-people, 08-demography, 09-security,
+  10-mortality, 11-credit**: new, built from the harmonised publishers
+  (WB/IMF/OECD/BIS/UNODC/PHAC) — each panel footnotes that the Statistics
+  Canada line is pending, per the map above.
+- **02-fiscal** (IMF general government calendar-year canonical, the
+  FRT federal fiscal-year series as the labelled national lines beside
+  it): revenue/expenditure, balance + primary, gross debt with the two
+  figures quoted instead, interest paid.
+- **03-spending** (IMF COFOG stacked by function, social protection vs
+  the rest, WB GFCF, OECD public investment; federal FRT figures as
+  notes).
+- **05-markets** (BoC): policy rate vs inflation; 10y yield with the 2y
+  beside it; the dollar as index 2006 = 100 on the Fed H.10 base with
+  the BoC noon (to 2016) and single daily (from 2017) series never
+  spliced; TSX in US$ vs the S&P 500 (Yahoo, `official: false`).
+- **07-world**: GDP in US$ bn (log), HDI one vintage, TI's CPI,
+  reserves.
+- **12-migration** (IRCC + WB): admissions and study permits per 1,000
+  (flows, labelled as flows; permits keep the "flow" wording), net
+  migration, foreign-born share; the 2006-14 hole stays visible.
 
-Supporting files: `events.py`, `ui.json` (en/fr/pt, dek names the absent
-StatCan chapters), `DATA_NOTES.md` (the un-banded 2015 contraction, the
-three debts, the IRCC 2015 start and rounding, the fiscal-year
-convention, the USDCAD break), `i18n.json` (125 entries, strict render
-clean), `tests/test_plates.py` (17 fact tests — 2020-21 balance −14.8%,
-PR admissions 2024 = 480,955, 2023 avg rate 4.77, G7 2024 net 12.5 /
-gross 111.3, the splice and back-fill guards).
+Supporting files: `events.py`, `ui.json`, `DATA_NOTES.md`, `i18n.json`
+(fr + pt for every spine unit, panel title and note), `fetch/` (BoC,
+FRT, comparables, IRCC, harmonised, spine), `tests/test_plates.py`
+(the fact tests — 2020-21 federal balance −14.8%, PR admissions 2024 =
+480,955, the splice and back-fill and flow/stock guards, re-expressed
+against the spine slots).
 
 `SOURCES.yaml` now lists the curated CSVs beside their `_from_*`
 sidecars, which are kept for the next diff. Every CSV in `data/` was
@@ -138,28 +153,30 @@ Spot values, for checking that a rerun has not silently changed shape:
 
 ## What is left
 
-1. **The StatCan fetcher and the seven missing chapters** — the table
-   PIDs above, once the platform returns. They slot into spine numbers
-   01, 04, 06, 08, 09, 10, 11 without renumbering anything.
-2. **The S&P/TSX composite** (05 panel pending). Nobody official
-   publishes it. stooq (`stooq.com/q/d/l/?s=^tsx&i=d`) was behind a
-   JavaScript proof-of-work wall when tried — a headless browser could
-   pass it, or another redistributor; mark `official: false`.
-3. **Transparency International's CPI.** France curates it by hand with
-   the 2012 break in the CSV and no `official: false` flag. Canada could
-   do the same; it was left out rather than compiled from memory.
+1. **The StatCan fetcher and the national lines** — the platform
+   answered again (probe above); write the fetcher, shape-check before
+   caching, and add the labelled national lines to the slots mapped
+   above. Nothing needs renumbering.
+2. **The S&P/TSX composite** is drawn (05 markets slot 4) from Yahoo
+   Finance month-end closes, `official: false`, sidecar kept. If an
+   official publisher ever appears (stooq was behind a JS
+   proof-of-work wall), replace the feed and re-curate.
+3. **Transparency International's CPI** is drawn (07 world slot 3)
+   from TI's 2012-onward series, the same way France curates it; the
+   earlier 0–10 scores are not in TI's time series and are not drawn.
 4. **The non-permanent-resident stock** (StatCan 17-10-0040) for the
    migration chapter — the story's missing piece: most of the 2023-24
    growth never appears in the admissions file.
-5. When chapters are added: refresh `i18n.json` via
+5. When the national lines land: refresh `i18n.json` via
    `python3 -m pytest tests/test_catalogs.py -q -k canada`, extend
-   `countries/canada/tests/`, and re-check `core.qa` faults stay at zero.
-6. Then `make C=canada charts thumbs provenance && make site test` and
-   merge is a conversation, not a default — see the note at the top.
+   `countries/canada/tests/`, and keep `tests/test_layout.py` fault
+   counts down.
+6. `make C=canada charts thumbs provenance site test` before merging
+   anything built on top of this branch.
 
 ## Other countries queued behind this one
 
-Spain, United Kingdom (slug `united-kingdom`, languages en · pt), Italy,
+United Kingdom (slug `united-kingdom`, languages en · pt), Italy,
 Israel, Japan, China, Taiwan, Vietnam. See `COUNTRIES.md`.
 
 Israel needs RTL — the user chose "build RTL support when we get there",
@@ -168,5 +185,6 @@ shaping are unbuilt work, not a known-good path.
 
 ## State of `main`
 
-`main` is green and deployed; https://worldreports.io is serving it.
-Canada lives only on this branch.
+`main` is green and deployed; https://worldreports.io is serving it —
+Canada included, since the atlas merged in 8b03c87/b32de7a. This branch
+carries the spine redraw on top.
