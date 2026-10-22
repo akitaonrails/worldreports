@@ -4,7 +4,8 @@
 Usage:  python3 scripts/fetch_causes.py
 
 Outputs: data/social/causes_check.csv
-         (year, deaths_total, covid, influenza, pneumonia, respiratory)
+         (year, deaths_total, covid, influenza, pneumonia, respiratory,
+          suicide, transport)
 
 The registry publishes one row per (year, jurisdiction, ICD-10 cause, sex,
 age group) cell with a count, so a cause series is a sum over the count
@@ -13,6 +14,14 @@ column. Three ICD-10 groups are pulled out:
   U07         COVID-19
   J09-J11     influenza
   J12-J18     pneumonia
+  X60-X84     intentional self-harm (suicide)
+  V01-V89     land transport accidents
+
+The last two were added for the spine's security slots. With the cause
+truncated to three characters, V01-V89 is every land-transport accident,
+traffic or not: wider than the WHO road-traffic definition, which needs the
+fourth character to separate traffic from non-traffic. It is labelled as
+such wherever it is drawn, beside the WHO series, never in place of it.
 
 `respiratory` is influenza + pneumonia, which is the only honest way to read
 the flu line: Argentina codes almost nothing as influenza (9 to 358 deaths a
@@ -107,6 +116,10 @@ def bucket(code: str) -> str | None:
             return "influenza"
         if 12 <= chapter <= 18:
             return "pneumonia"
+    if code[:1] == "X" and code[1:3].isdigit() and 60 <= int(code[1:3]) <= 84:
+        return "suicide"
+    if code[:1] == "V" and code[1:3].isdigit() and 1 <= int(code[1:3]) <= 89:
+        return "transport"
     return None
 
 
@@ -121,7 +134,8 @@ def read_file(path: Path, delimiter: str) -> dict[int, dict[str, int]]:
             except (TypeError, ValueError, KeyError):
                 continue
             cell = out.setdefault(year, {"total": 0, "covid": 0,
-                                         "influenza": 0, "pneumonia": 0})
+                                         "influenza": 0, "pneumonia": 0,
+                                         "suicide": 0, "transport": 0})
             cell["total"] += count
             group = bucket(row.get("cie10_causa_id", ""))
             if group:
@@ -160,15 +174,17 @@ def main() -> None:
            KNOWN_COVID)
 
     DATA.mkdir(parents=True, exist_ok=True)
-    lines = ["year,deaths_total,covid,influenza,pneumonia,respiratory"]
+    lines = ["year,deaths_total,covid,influenza,pneumonia,respiratory,"
+             "suicide,transport"]
     for year in range(FIRST_YEAR, LAST_YEAR + 1):
         cell = rows.get(year)
         if cell is None:
-            lines.append(f"{year},,,,,")
+            lines.append(f"{year},,,,,,,")
             continue
         respiratory = cell["influenza"] + cell["pneumonia"]
         lines.append(f"{year},{cell['total']},{cell['covid']},"
-                     f"{cell['influenza']},{cell['pneumonia']},{respiratory}")
+                     f"{cell['influenza']},{cell['pneumonia']},{respiratory},"
+                     f"{cell['suicide']},{cell['transport']}")
     (DATA / "causes_check.csv").write_text("\n".join(lines) + "\n")
     print("  -> data/social/causes_check.csv")
 

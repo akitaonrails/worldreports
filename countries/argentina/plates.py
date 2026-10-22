@@ -1,858 +1,1150 @@
-"""The argentina plates.
+"""The Argentina plates, drawn on the plate spine.
 
-Each function draws one plate from this country's committed CSVs and saves it
-through the context, which resolves every path under countries/argentina/ and
-knows this country's palette, year span and last complete year. Ported from
-the standalone argentina-reports scripts/charts.py; the drawing is unchanged.
+Every plate declares its topic and claims its four panels by slot key in
+spine order (PLATE_SPINE.md, core/spine.py), so the comparison viewer can
+lay any of them over another country's plate for the same topic. The
+canonical slots carry the shared indicator in the shared unit and are put
+on the shared scale at save time; the lens slots carry what only Argentina
+has to say.
+
+Three things recur on almost every panel, and are drawn by the helpers at
+the top of this file rather than by hand:
+
+  - the INDEC intervention, 2007-2016, as a hatched band behind every
+    series INDEC produced or that is built on INDEC's national accounts or
+    CPI (the IMF and the World Bank republish what INDEC published);
+  - the recession bands from country.yaml, every year INDEC's real GDP
+    fell, behind every time series;
+  - the running year, dashed or hatched, through ctx.line and ctx.bars.
+
+A series with a hole in it is drawn as separate segments, never joined
+across the hole: a line from 2006 to 2016 across the intervened decade
+would assert that the years between were measured. Methodology breaks are
+the same: separate segments, separate labels, a note.
+
+Every number a note quotes is read from the CSVs as the plate is drawn.
 """
 from __future__ import annotations
 
+from matplotlib.patches import Patch
 from matplotlib.ticker import FuncFormatter
 
 from core.sideload import sibling
 
-# Argentina reads its CSVs through its own loader, which lives beside the
-# data it reads and so cannot address another country's files.
 ds = sibling(__file__, "datasets")
 events = sibling(__file__, "events")
 
+FIRST, LAST = ds.FIRST_YEAR, ds.LAST_YEAR
 
-def _line(ctx, ax, series, color=None, label="", lw=2.2, marker="o",
-         ms=3.4, ls="-", zorder=3, alpha=1.0):
-    # Gapped by default: a year with no reading breaks the line rather than
-    # being bridged. See datasets.xy_gapped.
-    color = color or ctx.p.CELESTE
-    years, values = ds.xy_gapped(series)
-    ax.plot(years, values, color=color, lw=lw, marker=marker, ms=ms,
-            label=label, ls=ls, zorder=zorder, alpha=alpha)
-    return years, values
 
-def _bars(ctx, ax, series, color=None, label="", width=0.72, alpha=1.0):
-    color = color or ctx.p.CELESTE
-    years, values = ds.xy(series)
-    ax.bar(years, values, width=width, color=color, label=label,
-           alpha=alpha, zorder=2)
-    return years, values
+# ================================================================ data
+def col(ctx, rel: str, column: str) -> dict[int, float]:
+    """{year: value} for one column, blanks dropped, inside the window."""
+    yrs, vals = ctx.series(ctx.table(rel), column)
+    return {int(y): float(v) for y, v in zip(yrs, vals) if FIRST <= y <= LAST}
 
-def _signed_bars(ctx, ax, series, width=0.72):
-    years, values = ds.xy(series)
-    colors = [ctx.p.GREEN if v >= 0 else ctx.p.RED for v in values]
-    ax.bar(years, values, width=width, color=colors, zorder=2)
-    ax.axhline(0, color=ctx.p.INK, lw=0.9, zorder=3)
-    return years, values
 
-def _end_label(ctx, ax, series, text=None, color=None, dx=0.25,
-               fmt="{:,.1f}"):
-    """Name the last point, so a line does not need a legend to be read."""
-    color = color or ctx.p.INK
-    if not series:
-        return
-    year = max(series)
-    value = series[year]
-    ax.annotate(text if text is not None else fmt.format(value),
-                (year + dx, value), fontsize=9, fontweight="bold",
-                color=color, va="center", ha="left", clip_on=False, zorder=7)
+def pairs(d: dict) -> tuple[list[int], list[float]]:
+    ys = sorted(d)
+    return ys, [d[y] for y in ys]
 
-def _pct_axis(ax, decimals=0):
-    ax.yaxis.set_major_formatter(
-        FuncFormatter(lambda v, _: f"{v:,.{decimals}f}%"))
 
-def _indec_gap(ctx, ax, label="INDEC intervened — official figures withdrawn"):
-    """Band the decade the state itself disavowed. Used wherever a series
-    would otherwise be drawn straight through it."""
-    start, end = events.INDEC_GAP
-    ax.axvspan(start, end, color=ctx.p.BAND, zorder=0)
-    ax.text((start + end) / 2, 0.5, label, transform=ax.get_xaxis_transform(),
-            ha="center", va="center", fontsize=8.2, color=ctx.p.MUTED,
-            style="italic", rotation=0, zorder=1,
-            bbox=dict(boxstyle="round,pad=0.35", facecolor=ctx.p.PAPER,
-                      edgecolor=ctx.p.SPINE, linewidth=0.6))
+def runs(d: dict) -> list[dict]:
+    """The series cut wherever a year is missing, so no gap is bridged."""
+    out: list[dict] = []
+    for y in sorted(d):
+        if out and y - max(out[-1]) == 1:
+            out[-1][y] = d[y]
+        else:
+            out.append({y: d[y]})
+    return out
 
-def _note(ctx, ax, x, y, text, color=None, ha="left", fontsize=8.2,
-          width=None):
-    """A caveat placed **where the thing it explains is**, in axis
-    coordinates. Captions in the far corner of a figure are not read as
-    belonging to the line they describe."""
-    color = color or ctx.p.MUTED
-    ax.text(x, y, text, transform=ax.transAxes, ha=ha, va="top",
-            fontsize=fontsize, color=color, style="italic", zorder=8,
-            bbox=dict(boxstyle="round,pad=0.4", facecolor=ctx.p.PAPER,
-                      edgecolor=ctx.p.SPINE, linewidth=0.6, alpha=0.95),
-            wrap=width is not None)
 
-def _headroom(ax, top: float = 0.18, bottom: float = 0.0) -> None:
-    """Grow the y range so a peak label has somewhere to sit.
+def full(ctx, d: dict) -> dict:
+    """Only complete years: an annual flow for the running year is not one."""
+    return {y: v for y, v in d.items() if y <= ctx.LAST_FULL_YEAR}
 
-    A value annotation drawn at the highest point of a panel lands on the
-    panel title unless the axis makes room for it. matplotlib will not do
-    this: its autoscaling only knows about the data.
+
+def population(ctx) -> dict[int, float]:
+    """INDEC's national population, persons, mid-year (macro/gdp.csv).
+
+    The denominator of every computed rate on these plates: the same
+    projection the Ministerio de Seguridad divides by for its published
+    homicide rate, national in scope like the DEIS registers it is
+    divided into. See DATA_NOTES.md, "Rates".
     """
-    lo, hi = ax.get_ylim()
-    span = hi - lo
-    ax.set_ylim(lo - span * bottom, hi + span * top)
+    return {y: v * 1e6 for y, v in col(ctx, "macro/gdp.csv",
+                                         "population_mn").items()}
 
-def _legend(ctx, ax, loc="upper left", ncol=1):
-    ax.legend(loc=loc, ncol=ncol, frameon=False, fontsize=9.2,
-              labelcolor=ctx.p.MUTED, handlelength=1.6)
 
-def plate_output(ctx, fig) -> None:
-    gdp = ds.load("macro/gdp.csv")
+# ============================================================ drawing
+def line(ctx, ax, d, color, label="", **kw):
+    """ctx.line per unbroken run, the legend entry on the first only."""
+    for i, seg in enumerate(runs(d)):
+        ctx.line(ax, *pairs(seg), color, label=label if i == 0 else "",
+                 **kw)
 
-    ax = fig.next_panel("Gross domestic product, US$ billion")
-    _bars(ctx, ax, gdp["usd_bn"], color=ctx.p.CELESTE)
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _headroom(ax, top=0.30)
-    peak = max(gdp["usd_bn"], key=lambda y: gdp["usd_bn"][y])
-    ctx.annotate_value(ax, peak, gdp["usd_bn"][peak],
-                     f"peak {gdp['usd_bn'][peak]:,.0f}", color=ctx.p.NAVY)
-    _end_label(ctx, ax, gdp["usd_bn"], fmt="{:,.0f}", color=ctx.p.CELESTE_D)
-    _note(ctx, ax, 0.02, 0.96,
-         "Dollar GDP moves with the exchange rate as well as with output.\n"
-         "The real-growth panel below is the one to read for activity.")
 
-    ax = fig.next_panel("Real GDP growth, % per year")
-    years, values = _signed_bars(ctx, ax, gdp["real_growth"])
-    fig.style_axis(ax)
-    _pct_axis(ax)
-    _headroom(ax, top=0.10, bottom=0.22)
-    for year in (2009, 2020):
-        if year in gdp["real_growth"]:
-            ctx.annotate_value(ax, year, gdp["real_growth"][year],
-                             f"{gdp['real_growth'][year]:.1f}%",
-                             color=ctx.p.RED, offset=(0, -22))
-    mean = sum(values) / len(values)
-    ax.axhline(mean, color=ctx.p.MUTED, lw=1.0, ls=(0, (4, 3)), zorder=4)
-    # 2026 has no growth bar yet, so the mean label goes in that slot.
-    ax.text(ds.LAST_YEAR, mean, f"mean\n{mean:.1f}%", fontsize=7.8,
-            color=ctx.p.MUTED, va="bottom", ha="center", linespacing=1.1)
+def bars(ctx, ax, d, color):
+    ctx.bars(ax, *pairs(d), color)
 
-    ax = fig.next_panel("GDP per capita, US$")
-    _line(ctx, ax, gdp["gdp_per_capita_usd"], color=ctx.p.NAVY)
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _headroom(ax)
-    _end_label(ctx, ax, gdp["gdp_per_capita_usd"], fmt="{:,.0f}", color=ctx.p.NAVY)
-    peak = max(gdp["gdp_per_capita_usd"], key=gdp["gdp_per_capita_usd"].get)
-    ctx.annotate_value(ax, peak, gdp["gdp_per_capita_usd"][peak],
-                     f"{gdp['gdp_per_capita_usd'][peak]:,.0f} in {peak}",
-                     color=ctx.p.NAVY)
 
-    ax = fig.next_panel("Real output, 2006 = 100")
-    growth = gdp["real_growth"]
-    index, level = {}, 100.0
-    for year in sorted(growth):
-        level *= 1 + growth[year] / 100
-        index[year] = level
-    index[ds.FIRST_YEAR] = 100.0
-    _line(ctx, ax, index, color=ctx.p.CELESTE_D)
-    ax.axhline(100, color=ctx.p.MUTED, lw=0.9, ls=(0, (4, 3)))
-    fig.style_axis(ax)
-    _end_label(ctx, ax, index, fmt="{:,.0f}", color=ctx.p.CELESTE_D)
-    _headroom(ax, top=0.35)
-    _note(ctx, ax, 0.02, 0.99,
-         "Twenty years of growth and recession that\n"
-         "very nearly cancel: the economy ends the\n"
-         "window close to where the index starts.")
+def signed(ctx):
+    return lambda v: ctx.p.GREEN if v >= 0 else ctx.p.RED
 
-def plate_prices(ctx, fig) -> None:
-    ipc = ds.load("macro/ipc.csv")
-    fx = ds.load("macro/dollar.csv")
-    par = ds.load("markets/parallel_fx.csv")
-    res = ds.load("macro/reserves.csv")
 
-    ax = fig.next_panel("Consumer price inflation, % per year")
-    _indec_gap(ctx, ax, "no usable official index")
-    _bars(ctx, ax, ipc["official"], color=ctx.p.CELESTE, label="INDEC, national index")
-    _bars(ctx, ax, ipc["alternative"], color=ctx.p.ASTERISK,
-         label="IPC San Luis (official, provincial)")
-    fig.style_axis(ax)
-    _pct_axis(ax)
-    _headroom(ax, top=0.22)
-    _legend(ctx, ax)
-    peak = max(ipc["official"], key=ipc["official"].get)
-    ctx.annotate_value(ax, peak, ipc["official"][peak],
-                     f"{ipc['official'][peak]:.0f}%", color=ctx.p.CELESTE_D)
-    _end_label(ctx, ax, ipc["official"], fmt="{:.0f}%", color=ctx.p.CELESTE_D)
+def indec(ax, ctx):
+    """The intervened decade, hatched and behind everything (zorder 0)."""
+    a, b = events.INDEC_GAP
+    ax.axvspan(a, b, facecolor="none", edgecolor=ctx.p.spine, hatch="////",
+               lw=0, zorder=0, alpha=0.55)
 
-    ax = fig.next_panel("Pesos per US dollar, log scale")
-    _line(ctx, ax, fx["official_eop"], color=ctx.p.NAVY, label="official rate")
-    _line(ctx, ax, par["blue"], color=ctx.p.ASTERISK, label="parallel (blue)", ls=(0, (5, 2)))
+
+def finish(ig, ax, ctx, intervened=False):
+    """Year axis, recession bands and (where it applies) the INDEC hatch."""
+    ig.style_axis(ax)
+    ig.add_recessions(ax, label=False)
+    if intervened:
+        indec(ax, ctx)
+
+
+def key(ctx, intervened=False) -> list:
+    """Legend handles for the bands, added to every slot-1 legend.
+
+    The bands are labelled once per plate, here, rather than one caption
+    per band: six recession captions and the intervention would sit on the
+    panel title.
+    """
+    out = [Patch(facecolor=ctx.p.band, edgecolor="none",
+                 label="years real GDP fell")]
+    if intervened:
+        out.append(Patch(facecolor="none", edgecolor=ctx.p.spine,
+                         hatch="////", lw=0, label="INDEC intervened, 2007–16"))
+    return out
+
+
+def legend(ctx, ax, loc="upper left", extra=(), ncol=1, **kw):
+    handles, labels = ax.get_legend_handles_labels()
+    handles = list(handles) + list(extra)
+    labels = list(labels) + [h.get_label() for h in extra]
+    ax.legend(handles, labels, loc=loc, ncol=ncol, frameon=False,
+              fontsize=8.4, labelcolor=ctx.p.muted, handlelength=1.6,
+              columnspacing=1.0, borderaxespad=0.3, **kw)
+
+
+def note(ctx, ax, x, y, text, ha="left", va="top"):
+    """A caveat placed where the thing it explains is, in axes fraction."""
+    ax.text(x, y, text, transform=ax.transAxes, ha=ha, va=va, fontsize=7.9,
+            color=ctx.p.muted, style="italic", zorder=8, linespacing=1.25,
+            bbox=dict(boxstyle="round,pad=0.35", facecolor=ctx.p.paper,
+                      edgecolor=ctx.p.spine, linewidth=0.6, alpha=0.95))
+
+
+def pct(decimals=0):
+    return FuncFormatter(lambda v, _: f"{v:,.{decimals}f}")
+
+
+def peak(d):
+    y = max(d, key=d.get)
+    return y, d[y]
+
+
+def trough(d):
+    y = min(d, key=d.get)
+    return y, d[y]
+
+
+# ============================================================ 01 economy
+def plate_output(ctx, ig) -> None:
+    p = ctx.p
+    gdp = ctx.table("macro/gdp.csv")
+    growth = col(ctx, "macro/gdp.csv", "real_growth")
+
+    ax = ig.slot("economy.growth", "Real GDP growth")
+    bars(ctx, ax, growth, signed(ctx))
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="lower center", extra=key(ctx, True))
+    lo_y, lo_v = trough(growth)
+    hi_y, hi_v = peak(full(ctx, {y: v for y, v in growth.items()
+                                 if y > lo_y}))
+    note(ctx, ax, 0.98, 0.97,
+         f"{lo_v:.1f}% in {lo_y},\n{hi_v:+.1f}% in {hi_y}.\n"
+         f"Fell in {sum(v < 0 for v in growth.values())} "
+         f"of {len(growth)} years.", ha="right")
+
+    ax = ig.slot("economy.gdp_per_person", "GDP per person")
+    wb = col(ctx, "macro/world.csv", "gdp_per_person_usd")
+    nat = col(ctx, "macro/gdp.csv", "gdp_per_capita_usd")
+    line(ctx, ax, nat, p.FAINT, label="INDEC, current US$", lw=1.6, ms=2.6)
+    line(ctx, ax, wb, p.NAVY, label="World Bank, current US$")
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="lower right")
+    gap = {y: (nat[y] / wb[y] - 1) * 100 for y in nat if y in wb}
+    gy, gv = peak(gap)
+    note(ctx, ax, 0.02, 0.97,
+         f"Both at the official rate, which under the cepos most\n"
+         f"people could not buy at. INDEC's is {gv:.0f}% higher in {gy}.")
+
+    ax = ig.slot("economy.inflation", "Consumer price inflation (Dec/Dec)")
+    ipc = col(ctx, "macro/ipc.csv", "official")
+    alt = col(ctx, "macro/ipc.csv", "alternative")
+    line(ctx, ax, alt, p.ASTERISK, label="IPC San Luis, provincial (official)")
+    line(ctx, ax, ipc, p.CELESTE_D, label="INDEC, national CPI")
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper left")
+    py, pv = peak(ipc)
+    note(ctx, ax, 0.02, 0.80,
+         f"The axis grows to hold {pv:.0f}% in {py}.\n"
+         f"No inflation target since 2018.\n"
+         f"{ctx.LAST_FULL_YEAR + 1}: rise since December, year to date.")
+
+    ax = ig.slot("economy.unemployment", "Unemployment")
+    eph = col(ctx, "macro/unemployment.csv", "value")
+    ilo = col(ctx, "macro/economy_intl.csv", "unemployment_ilo_pct")
+    line(ctx, ax, ilo, p.FAINT, label="ILO modelled estimate", lw=1.6, ms=2.6)
+    line(ctx, ax, eph, p.CELESTE, label="INDEC EPH, 31 urban areas")
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper right")
+    py, pv = peak(eph)
+    note(ctx, ax, 0.02, 0.97,
+         f"The EPH surveys the cities only, about two\n"
+         f"thirds of the population. Peak {pv:.1f}% in {py}.")
+
+
+# ============================================================= 02 prices
+def plate_prices(ctx, ig) -> None:
+    p = ctx.p
+    ipc = col(ctx, "macro/ipc.csv", "official")
+    alt = col(ctx, "macro/ipc.csv", "alternative")
+    eop = col(ctx, "macro/dollar.csv", "official_eop")
+    blue = col(ctx, "markets/parallel_fx.csv", "blue")
+    res = col(ctx, "macro/reserves.csv", "eop_usbi")
+    m = events.MARKS
+
+    ax = ig.slot("prices.lens1", "Consumer price inflation, % per year")
+    bars(ctx, ax, alt, p.ASTERISK)
+    bars(ctx, ax, ipc, p.CELESTE)
+    finish(ig, ax, ctx, intervened=True)
+    ig.headroom(ax, top=0.30)
+    legend(ctx, ax, loc="upper left", extra=[
+        Patch(color=p.CELESTE, label="INDEC, national index"),
+        Patch(color=p.ASTERISK, label="IPC San Luis (official, provincial)"),
+        *key(ctx, True)])
+    py, pv = peak(ipc)
+    ctx.annotate_value(ax, py, pv, f"{pv:.0f}%", p.CELESTE_D, offset=(0, 4))
+    note(ctx, ax, 0.98, 0.97,
+         f"{ctx.LAST_FULL_YEAR + 1}, hatched: the rise since\n"
+         f"December, year to date.",
+         ha="right")
+
+    ax = ig.slot("prices.lens2", "Pesos per US dollar, year end, log scale")
+    line(ctx, ax, eop, p.NAVY, label="official rate")
+    line(ctx, ax, blue, p.ASTERISK, label="parallel (blue)", ls=(0, (5, 2)))
+    finish(ig, ax, ctx)
     ax.set_yscale("log")
-    fig.style_axis(ax)
-    ax.set_ylim(2, max(par["blue"].values()) * 6)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _legend(ctx, ax, loc="lower right")
-    _end_label(ctx, ax, fx["official_eop"], fmt="{:,.0f}", color=ctx.p.NAVY)
-    _note(ctx, ax, 0.02, 0.97,
-         "Under the two cepos the official rate was a price\n"
-         "at which most people could not buy. The gap is the\n"
-         "story, so both lines are drawn.")
+    ax.set_ylim(1.5, 9000)
+    ax.yaxis.set_major_formatter(pct())
+    legend(ctx, ax, loc="lower right")
+    for k in ("cepo1", "cepo2"):
+        x, text = m[k]
+        ig.add_event(ax, x, text, dy=0.97)
 
-    ax = fig.next_panel("Exchange-rate gap, parallel over official, %")
-    gap = {y: (par["blue"][y] / fx["official_eop"][y] - 1) * 100
-           for y in par["blue"] if y in fx["official_eop"]}
-    _bars(ctx, ax, gap, color=ctx.p.SUN)
-    fig.style_axis(ax)
-    _pct_axis(ax)
-    _headroom(ax, top=0.20)
-    # The band labels go inside the panel, near its top: above the axes
-    # they collide with the panel title, and at the foot they sit on the
-    # bars they are meant to frame.
-    for start, end, label in ((2011.9, 2015.95, "cepo I"),
-                              (2019.7, 2025.3, "cepo II")):
-        fig.add_band(ax, start, end)
-        ax.text((start + end) / 2, 0.955, label, ha="center", va="top",
-                transform=ax.get_xaxis_transform(), fontsize=8.4,
-                color=ctx.p.MUTED, style="italic", zorder=4)
-    peak = max(gap, key=gap.get)
-    ctx.annotate_value(ax, peak, gap[peak], f"{gap[peak]:.0f}%", color=ctx.p.NAVY)
+    ax = ig.slot("prices.lens3", "The gap: parallel over official, %")
+    gap = {y: (blue[y] / eop[y] - 1) * 100 for y in blue if y in eop}
+    bars(ctx, ax, gap, p.SUN)
+    finish(ig, ax, ctx)
+    for a, b, label in ((m["cepo1"][0], m["cepo_off"][0], "cepo I"),
+                        (m["cepo2"][0], m["cepo_off2"][0], "cepo II")):
+        ax.axvspan(a, b, facecolor="none", edgecolor=p.SUN, hatch="..",
+                   lw=0, zorder=0, alpha=0.5)
+        ax.text((a + b) / 2, 0.97, label, transform=ax.get_xaxis_transform(),
+                ha="center", va="top", fontsize=8.4, color=p.muted,
+                style="italic", zorder=4)
+    ig.headroom(ax, top=0.22)
+    py, pv = peak(gap)
+    ctx.annotate_value(ax, py, pv, f"{pv:.0f}%", p.NAVY, offset=(0, 3))
+    note(ctx, ax, 0.02, 0.80,
+         "Blue at year end over the official\nrate at year end. Dotted: "
+         "the cepos.")
 
-    ax = fig.next_panel("Central bank reserves, US$ billion, year end")
-    _bars(ctx, ax, res["eop_usbi"], color=ctx.p.TEAL)
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    trough = min(res["eop_usbi"], key=res["eop_usbi"].get)
-    ctx.annotate_value(ax, trough, res["eop_usbi"][trough],
-                     f"{res['eop_usbi'][trough]:.1f}", color=ctx.p.RED,
-                     offset=(0, 6))
-    _end_label(ctx, ax, res["eop_usbi"], fmt="{:,.1f}", color=ctx.p.TEAL)
+    ax = ig.slot("prices.lens4", "Central bank gross reserves, US$ bn, "
+                                 "year end")
+    bars(ctx, ax, res, p.TEAL)
+    finish(ig, ax, ctx)
+    ig.headroom(ax, top=0.18)
+    ty, tv = trough(res)
+    ctx.annotate_value(ax, ty, tv, f"{tv:.1f}", p.RED, offset=(0, 3))
+    hy, hv = peak(full(ctx, res))
+    ctx.annotate_value(ax, hy, hv, f"{hv:.1f}", p.NAVY, offset=(0, 3))
+    note(ctx, ax, 0.02, 0.97,
+         f"{ctx.LAST_FULL_YEAR + 1}: latest reading, hatched.\n"
+         f"Gross reserves; the same series meets\n"
+         f"other countries on the world plate.")
 
-def plate_living(ctx, fig) -> None:
-    unemp = ds.load("macro/unemployment.csv")
-    wage = ds.load("macro/minimum_wage.csv")
-    pov = ds.load("social/poverty.csv")
-    gini = ds.load("social/gini.csv")
 
-    ax = fig.next_panel("Unemployment rate, %")
-    _line(ctx, ax, unemp["value"], color=ctx.p.CELESTE)
-    fig.style_axis(ax)
-    _pct_axis(ax, 0)
-    _headroom(ax)
-    _end_label(ctx, ax, unemp["value"], fmt="{:.1f}%", color=ctx.p.CELESTE_D)
-    peak = max(unemp["value"], key=unemp["value"].get)
-    ctx.annotate_value(ax, peak, unemp["value"][peak],
-                     f"{unemp['value'][peak]:.1f}%", color=ctx.p.NAVY)
+# ============================================================= 03 people
+def plate_living(ctx, ig) -> None:
+    p = ctx.p
+    s1 = col(ctx, "social/poverty.csv", "s1")
+    s2 = col(ctx, "social/poverty.csv", "s2")
 
-    ax = fig.next_panel("Minimum wage, US$ per month at the official rate")
-    _bars(ctx, ax, wage["usd_official"], color=ctx.p.CELESTE_D)
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _headroom(ax, top=0.48)
-    peak = max(wage["usd_official"], key=wage["usd_official"].get)
-    ctx.annotate_value(ax, peak, wage["usd_official"][peak],
-                     f"{wage['usd_official'][peak]:,.0f}", color=ctx.p.NAVY)
-    _end_label(ctx, ax, wage["usd_official"], fmt="{:,.0f}", color=ctx.p.CELESTE_D)
-    _note(ctx, ax, 0.02, 0.97,
-         "In pesos the minimum wage rises every year. Prices\n"
-         "rose about 1,200-fold over the same window, so the\n"
-         "peso figure is not a series; the dollar one is.")
+    ax = ig.slot("people.gini", "Income inequality, Gini (higher = less "
+                                "equal)")
+    gini = {y: v * 100 for y, v in col(ctx, "social/gini.csv",
+                                       "indec").items()}
+    wb = col(ctx, "social/gini_intl.csv", "wb")
+    line(ctx, ax, wb, p.FAINT, label="World Bank (PIP), from the EPH",
+         lw=1.6, ms=2.6)
+    line(ctx, ax, gini, p.PURPLE, label="INDEC, per-capita family income")
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper right", extra=key(ctx, True))
+    note(ctx, ax, 0.02, 0.06,
+         f"INDEC's coefficient (0–1) × 100. Urban EPH only.\n"
+         f"{gini[FIRST]:.1f} in {FIRST}, {gini[ctx.LAST_FULL_YEAR]:.1f} in "
+         f"{ctx.LAST_FULL_YEAR}.", va="bottom")
 
-    ax = fig.next_panel("People below the poverty line, % — each half year")
-    _indec_gap(ctx, ax, "withdrawn by the 2016 statistical emergency")
-    _line(ctx, ax, pov["s1"], color=ctx.p.CELESTE, label="first half")
-    _line(ctx, ax, pov["s2"], color=ctx.p.NAVY, label="second half", ls=(0, (5, 2)))
-    fig.style_axis(ax)
-    _pct_axis(ax)
-    _headroom(ax, top=0.16)
-    _legend(ctx, ax, loc="lower left", ncol=2)
-    if 2024 in pov["s1"]:
-        ctx.annotate_value(ax, 2024, pov["s1"][2024],
-                         f"{pov['s1'][2024]:.1f}%", color=ctx.p.RED,
-                         offset=(-6, 6), ha="right")
-        _note(ctx, ax, 0.02, 0.99,
-             "52.9% is the FIRST half of 2024 — the half after the\n"
-             "December 2023 devaluation. The second half was 38.1%.\n"
-             "The source dates this series at the end of its half year.")
+    ax = ig.slot("people.poverty", "Poverty rate")
+    avg = {y: (s1[y] + s2[y]) / 2 for y in s1 if y in s2}
+    wb = col(ctx, "social/poverty_intl.csv", "poverty_830_pct")
+    line(ctx, ax, wb, p.FAINT, label="World Bank, below US$8.30 a day",
+         lw=1.6, ms=2.6)
+    line(ctx, ax, avg, p.NAVY, label="INDEC, national basket (both halves)")
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper left")
+    py, pv = peak(avg)
+    note(ctx, ax, 0.98, 0.04,
+         f"31 urban areas, about two thirds of the people.\n"
+         f"Withdrawn 2007–15. Peak {pv:.1f}% in {py}.",
+         ha="right", va="bottom")
 
-    ax = fig.next_panel("Gini coefficient of per-capita family income")
-    _indec_gap(ctx, ax, "withdrawn")
-    _line(ctx, ax, gini["indec"], color=ctx.p.PURPLE)
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.3f}"))
-    _end_label(ctx, ax, gini["indec"], fmt="{:.3f}", color=ctx.p.PURPLE)
-    _headroom(ax, top=0.40, bottom=0.10)
-    _note(ctx, ax, 0.98, 0.99,
-         "Lower is more equal. The annual average hides a\n"
-         "quarterly spike to 0.467 in the first quarter of 2024.",
+    ax = ig.slot("people.minimum_wage", "Minimum wage, at the official rate")
+    wage = col(ctx, "macro/minimum_wage.csv", "usd_official")
+    bars(ctx, ax, wage, p.CELESTE_D)
+    finish(ig, ax, ctx)
+    py, pv = peak(wage)
+    last = ctx.LAST_FULL_YEAR
+    note(ctx, ax, 0.02, 0.97,
+         f"Monthly SMVM at the year's average official rate,\n"
+         f"in US$: {pv:,.0f} in {py}, {wage[last]:,.0f} in {last}. In pesos it\n"
+         f"rises every year; prices rose faster.")
+
+    ax = ig.slot("people.lens", "Lens: poverty each half year, %")
+    halves = {}
+    for y, v in s1.items():
+        halves[y + 0.25] = v
+    for y, v in s2.items():
+        halves[y + 0.75] = v
+    segs: list[dict] = []
+    for x in sorted(halves):
+        if segs and x - max(segs[-1]) <= 0.5 + 1e-9:
+            segs[-1][x] = halves[x]
+        else:
+            segs.append({x: halves[x]})
+    last_half = max(halves)
+    for i, seg in enumerate(segs):
+        ctx.line(ax, *pairs(seg), p.CELESTE, label="" if i else
+                 "first and second half of each year",
+                 split_year=last_half - 0.5)
+    finish(ig, ax, ctx, intervened=True)
+    ig.headroom(ax, top=0.25)
+    hy = max((y for y in s1), key=s1.get)
+    ctx.annotate_value(ax, hy + 0.25, s1[hy], f"{s1[hy]:.1f}%", p.RED,
+                       offset=(-6, 2), ha="right")
+    legend(ctx, ax, loc="upper left")
+    note(ctx, ax, 0.02, 0.86,
+         f"First half of {hy}, after the December {hy - 1}\n"
+         f"devaluation: {s1[hy]:.1f}%. Second half: {s2[hy]:.1f}%.")
+
+
+# ============================================================= 04 fiscal
+def plate_state(ctx, ig) -> None:
+    p = ctx.p
+    gg = "fiscal/general_government.csv"
+    rev = col(ctx, gg, "revenue_pct_gdp")
+    exp = col(ctx, gg, "expenditure_pct_gdp")
+    bal = col(ctx, gg, "balance_pct_gdp")
+    prim = col(ctx, gg, "primary_balance_pct_gdp")
+    debt = col(ctx, gg, "gross_debt_pct_gdp")
+    tax = col(ctx, "fiscal/tax_revenue.csv", "total_pct_gdp")
+
+    ax = ig.slot("fiscal.revenue_expenditure", "Revenue and expenditure")
+    line(ctx, ax, exp, p.RED, label="expenditure, general government (IMF)")
+    line(ctx, ax, rev, p.GREEN, label="revenue, general government (IMF)")
+    line(ctx, ax, tax, p.FAINT, label="national tax collection (Hacienda)",
+         lw=1.6, ms=2.6)
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper left", extra=key(ctx, True))
+    ed = col(ctx, "fiscal/tax_revenue.csv", "export_duties_pct_gdp")
+    ey, ev = peak(ed)
+    last = max(ed)
+    note(ctx, ax, 0.98, 0.04,
+         f"Export duties: {ev:.1f}% of GDP in {ey}, {ed[last]:.1f}% in "
+         f"{last}.", ha="right", va="bottom")
+
+    ax = ig.slot("fiscal.balance", "Overall and primary balance")
+    bars(ctx, ax, bal, signed(ctx))
+    line(ctx, ax, prim, p.NAVY, label="primary, general government (IMF)",
+         lw=2.0)
+    nat = ds.load("fiscal/primary_result.csv")
+    # Three methodologies, three segments, one legend entry: never joined.
+    for k in ("m1993", "m2007", "m2017"):
+        seg = {y: v for y, v in nat[k].items() if FIRST <= y <= LAST}
+        ctx.line(ax, *pairs(seg), p.ASTERISK, lw=1.4, ms=2.4,
+                 ls=(0, (3, 2)),
+                 label=("primary, national public sector (3 methods)"
+                        if k == "m2017" else ""))
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="lower left", extra=[
+        Patch(color=p.GREEN, label="overall balance, IMF (bars)")])
+    deficits = [y for y, v in prim.items() if v < 0]
+    turn = min(y for y, v in prim.items() if v > 0 and y > min(deficits))
+    before = max(y for y, v in prim.items() if v > 0 and y < turn)
+    note(ctx, ax, 0.98, 0.97,
+         f"IMF primary surplus {prim[turn]:+.1f}% of GDP in {turn}, the\n"
+         f"first since {before}. National series: three methods.",
          ha="right")
 
-def plate_state(ctx, fig) -> None:
-    prim = ds.load("fiscal/primary_result.csv")
-    tax = ds.load("fiscal/tax_revenue.csv")
-    spend = ds.load("fiscal/spending_by_function.csv")
+    ax = ig.slot("fiscal.debt", "Gross debt, general government")
+    line(ctx, ax, debt, p.NAVY, label="IMF WEO")
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper left")
+    py, pv = peak(debt)
+    note(ctx, ax, 0.02, 0.86,
+         f"{pv:.0f}% in {py}: debt mostly in dollars, measured\n"
+         f"after the December devaluation against a GDP\n"
+         f"earned at the year's average prices.")
 
-    ax = fig.next_panel("Primary balance of the national public sector, % of GDP")
-    # Three incompatible methodologies, drawn as three segments. Joining
-    # them into one line would imply a continuity the source denies.
-    palette = {"m1993": ctx.p.FAINT, "m2007": ctx.p.CELESTE, "m2017": ctx.p.NAVY}
-    names = {"m1993": "1993 methodology", "m2007": "2007 methodology",
-             "m2017": "2015 methodology"}
-    for key, color in palette.items():
-        if prim.get(key):
-            _line(ctx, ax, prim[key], color=color, label=names[key], lw=2.4)
-    ax.axhline(0, color=ctx.p.INK, lw=0.9)
-    fig.style_axis(ax)
-    _pct_axis(ax, 1)
-    _legend(ctx, ax, loc="lower left")
-    if 2024 in prim["m2017"]:
-        ctx.annotate_value(ax, 2024, prim["m2017"][2024],
-                         f"+{prim['m2017'][2024]:.2f}%", color=ctx.p.GREEN)
-    _headroom(ax, top=0.60)
-    _note(ctx, ax, 0.98, 0.99,
-         "The three segments are not one series. The treatment of\n"
-         "central-bank transfers and pension income changes at each\n"
-         "break by more than the deficit moves in a normal year.",
-         ha="right")
+    ax = ig.slot("fiscal.interest", "Interest paid")
+    interest = {y: prim[y] - bal[y] for y in prim if y in bal}
+    svc = col(ctx, "fiscal/spending_by_function.csv", "deuda")
+    line(ctx, ax, interest, p.RED,
+         label="general government, primary − overall (IMF)")
+    line(ctx, ax, svc, p.ASTERISK, label="debt service, national budget",
+         lw=1.6, ms=2.6, ls=(0, (3, 2)))
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper left")
+    note(ctx, ax, 0.98, 0.97,
+         "Net interest: the IMF's primary balance less its\n"
+         "overall balance, which it rounds to 0.1 point.", ha="right")
 
-    ax = fig.next_panel("Tax revenue, % of GDP")
-    _bars(ctx, ax, tax["total_pct_gdp"], color=ctx.p.CELESTE)
-    _line(ctx, ax, tax["export_duties_pct_gdp"], color=ctx.p.SUN,
-         label="of which export duties", lw=2.0)
-    _line(ctx, ax, tax["ganancias_pct_gdp"], color=ctx.p.RED,
-         label="of which income tax", lw=2.0)
-    fig.style_axis(ax)
-    _pct_axis(ax)
-    _headroom(ax, top=0.45)
-    _legend(ctx, ax, loc="upper right")
-    _note(ctx, ax, 0.02, 0.99,
-         "The two lines are components of the bars, not separate totals.")
 
-    ax = fig.next_panel("Primary spending by function, % of GDP")
-    groups = [("prevision", "pensions", ctx.p.NAVY),
-              ("salud_obras", "health insurance", ctx.p.TEAL),
-              ("educacion_superior", "education", ctx.p.CELESTE),
-              ("energia", "energy subsidies", ctx.p.SUN),
-              ("asistencia", "social assistance", ctx.p.GREEN),
-              ("transporte", "transport", ctx.p.PURPLE)]
-    years = sorted(set.intersection(*(set(spend[k]) for k, _, _ in groups)))
-    bottom = [0.0] * len(years)
-    for key, label, color in groups:
-        values = [spend[key][y] for y in years]
-        ax.bar(years, values, bottom=bottom, width=0.78, color=color,
-               label=label, zorder=2)
-        bottom = [b + v for b, v in zip(bottom, values)]
-    fig.style_axis(ax)
-    _pct_axis(ax)
-    _headroom(ax, top=0.62)
-    _legend(ctx, ax, loc="upper left", ncol=3)
-    _note(ctx, ax, 0.98, 0.74,
-         "Consolidated spending series ends in 2023.", ha="right")
+# ============================================================== 05 trade
+def plate_trade(ctx, ig) -> None:
+    p = ctx.p
+    x = col(ctx, "trade/trade_gns.csv", "exports_pct_gdp")
+    m = col(ctx, "trade/trade_gns.csv", "imports_pct_gdp")
 
-    ax = fig.next_panel("Pensions against debt interest, % of GDP")
-    _line(ctx, ax, spend["prevision"], color=ctx.p.NAVY, label="pensions")
-    _line(ctx, ax, spend["deuda"], color=ctx.p.RED, label="debt service")
-    fig.style_axis(ax)
-    _pct_axis(ax)
-    _legend(ctx, ax)
-    _end_label(ctx, ax, spend["prevision"], fmt="{:.1f}%", color=ctx.p.NAVY)
-    _end_label(ctx, ax, spend["deuda"], fmt="{:.1f}%", color=ctx.p.RED)
+    ax = ig.slot("trade.exports_imports", "Exports and imports, goods and "
+                                         "services")
+    line(ctx, ax, x, p.GREEN, label="exports (World Bank)")
+    line(ctx, ax, m, p.RED, label="imports (World Bank)")
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper right", extra=key(ctx, True))
+    goods = col(ctx, "trade/trade.csv", "exports")
+    last = ctx.LAST_FULL_YEAR
+    note(ctx, ax, 0.02, 0.97,
+         f"National-accounts basis. Goods exports by customs:\n"
+         f"US${goods[last]:,.1f}bn in {last}.")
 
-def plate_trade(ctx, fig) -> None:
-    trade = ds.load("trade/trade.csv")
-    rubros = ds.load_long("trade/exports_rubros.csv", "rubro", "usbi")
+    ax = ig.slot("trade.balance", "Trade balance")
+    bal = {y: x[y] - m[y] for y in x if y in m}
+    bars(ctx, ax, bal, signed(ctx))
+    usd = col(ctx, "trade/trade.csv", "balance")
+    gdp = col(ctx, "macro/gdp.csv", "usd_bn")
+    goods_bal = {y: v / gdp[y] * 100 for y, v in usd.items() if y in gdp}
+    line(ctx, ax, goods_bal, p.NAVY, label="goods only, customs (INDEC)",
+         lw=1.6, ms=2.6)
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper left", extra=[
+        Patch(color=p.GREEN, label="goods and services (bars)")])
+    yy = ctx.LAST_FULL_YEAR + 1
+    note(ctx, ax, 0.98, 0.04,
+         f"{yy} goods, year to date: US${usd[yy]:+,.1f}bn, not drawn\n"
+         f"until the year's GDP exists.", ha="right", va="bottom")
 
-    ax = fig.next_panel("Exports and imports, US$ billion")
-    _line(ctx, ax, trade["exports"], color=ctx.p.GREEN, label="exports")
-    _line(ctx, ax, trade["imports"], color=ctx.p.RED, label="imports")
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _legend(ctx, ax)
-    _end_label(ctx, ax, trade["exports"], fmt="{:,.0f}", color=ctx.p.GREEN)
-    _end_label(ctx, ax, trade["imports"], fmt="{:,.0f}", color=ctx.p.RED)
-    fig.mark_partial(ax, 2026, "2026: year to date")
+    ax = ig.slot("trade.destinations", "Top export destinations, goods")
+    dest = "trade/destinations.csv"
+    for c, label, colour in (("brazil", "Brazil", p.GREEN),
+                             ("china", "China", p.RED),
+                             ("usa", "United States", p.NAVY),
+                             ("chile", "Chile", p.SUN)):
+        line(ctx, ax, col(ctx, dest, c), colour, label=label, lw=2.0, ms=3)
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="upper right", ncol=2)
+    br = col(ctx, dest, "brazil")
+    note(ctx, ax, 0.02, 0.97,
+         f"UN Comtrade. Brazil: {br[FIRST]:.1f}% in {FIRST},\n"
+         f"{br[max(br)]:.1f}% in {max(br)}.")
 
-    ax = fig.next_panel("Trade balance, US$ billion")
-    _signed_bars(ctx, ax, trade["balance"])
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _headroom(ax, top=0.18, bottom=0.26)
-    best = max(trade["balance"], key=trade["balance"].get)
-    worst = min(trade["balance"], key=trade["balance"].get)
-    ctx.annotate_value(ax, best, trade["balance"][best],
-                     f"{trade['balance'][best]:,.1f}", color=ctx.p.GREEN)
-    ctx.annotate_value(ax, worst, trade["balance"][worst],
-                     f"{trade['balance'][worst]:,.1f}", color=ctx.p.RED,
-                     offset=(0, -20))
+    ax = ig.slot("trade.lens", "Lens: exports by category, US$ bn")
+    rub = ds.load_long("trade/exports_rubros.csv", "rubro", "usbi")
+    order = [("primarios", "primary products", p.GREEN),
+             ("moa", "agricultural manufactures", p.TEAL),
+             ("moi", "industrial manufactures", p.CELESTE),
+             ("combustibles", "fuel and energy", p.SUN)]
+    years = sorted(y for y in set.intersection(
+        *(set(rub[k]) for k, _, _ in order)) if FIRST <= y <= LAST)
+    bottom = {y: 0.0 for y in years}
+    for k, label, colour in order:
+        for y in years:
+            part = y > ctx.LAST_FULL_YEAR
+            ax.bar(y, rub[k][y], bottom=bottom[y], width=0.78, color=colour,
+                   label=label if y == years[0] else "_nolegend_",
+                   alpha=0.62 if part else 1.0, hatch="//" if part else None,
+                   edgecolor="white", linewidth=0.5, zorder=3)
+            bottom[y] += rub[k][y]
+    finish(ig, ax, ctx)
+    ig.headroom(ax, top=0.55)
+    legend(ctx, ax, loc="upper left", ncol=2)
+    share = {y: rub["combustibles"][y] / bottom[y] * 100 for y in years}
+    last = ctx.LAST_FULL_YEAR
+    lowy, lowv = trough(share)
+    note(ctx, ax, 0.02, 0.84,
+         f"Fuel: {lowv:.1f}% of exports in {lowy},\n{share[last]:.1f}% in "
+         f"{last}. Industrial is the\nresidual of the other three.")
 
-    ax = fig.next_panel("Exports by category, US$ billion")
-    order = [("primarios", "primary products", ctx.p.GREEN),
-             ("moa", "agricultural manufactures", ctx.p.TEAL),
-             ("moi", "industrial manufactures", ctx.p.CELESTE),
-             ("combustibles", "fuel and energy", ctx.p.SUN)]
-    years = sorted(set.intersection(*(set(rubros[k]) for k, _, _ in order)))
-    bottom = [0.0] * len(years)
-    for key, label, color in order:
-        values = [rubros[key][y] for y in years]
-        ax.bar(years, values, bottom=bottom, width=0.78, color=color,
-               label=label, zorder=2)
-        bottom = [b + v for b, v in zip(bottom, values)]
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _headroom(ax, top=0.58)
-    _legend(ctx, ax, loc="upper left", ncol=2)
-    _note(ctx, ax, 0.98, 0.74,
-         "Industrial manufactures are the residual of the other\n"
-         "three: the category's own series is served empty.",
-         ha="right")
 
-    ax = fig.next_panel("Fuel and energy, share of exports, %")
-    total = {y: sum(rubros[k][y] for k, _, _ in order) for y in years}
-    share = {y: rubros["combustibles"][y] / total[y] * 100 for y in years}
-    _bars(ctx, ax, share, color=ctx.p.SUN)
-    fig.style_axis(ax)
-    _pct_axis(ax)
-    _end_label(ctx, ax, share, fmt="{:.1f}%", color=ctx.p.NAVY)
+# ============================================================= 06 credit
+def plate_credit(ctx, ig) -> None:
+    p = ctx.p
+    cr = "macro/credit.csv"
 
-def plate_credit(ctx, fig) -> None:
-    credit = ds.load("macro/credit.csv")
-    rates = ds.load("macro/rates.csv")
-    quality = ds.load("macro/credit_quality.csv")
+    ax = ig.slot("credit.household_debt", "Household debt")
+    bis = col(ctx, "macro/household_credit.csv", "bis_q4_pct_gdp")
+    hh = col(ctx, cr, "households_pct_gdp")
+    line(ctx, ax, bis, p.NAVY, label="BIS, all lenders, year end")
+    line(ctx, ax, hh, p.CELESTE, label="BCRA, bank retail lines, December",
+         lw=1.6, ms=2.6)
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="upper right", extra=key(ctx))
+    mort = col(ctx, cr, "mortgage_pct_gdp")
+    my, mv = peak(mort)
+    ty, tv = trough(mort)
+    note(ctx, ax, 0.02, 0.97,
+         f"Mortgages: {mv:.2f}% of GDP in {my},\n"
+         f"{tv:.2f}% in {ty}.")
 
-    ax = fig.next_panel("Credit to the private sector, % of GDP")
-    _bars(ctx, ax, credit["private_pct_gdp"], color=ctx.p.CELESTE,
-         label="all private credit")
-    _bars(ctx, ax, credit["households_pct_gdp"], color=ctx.p.NAVY, width=0.42,
-         label="of which households")
-    fig.style_axis(ax)
-    _pct_axis(ax)
-    ax.set_ylim(0, max(credit["private_pct_gdp"].values()) * 1.75)
-    _legend(ctx, ax, loc="upper right")
-    _note(ctx, ax, 0.02, 0.98,
-         "The narrow bars are a part of the wide ones, not a second total.\n"
-         "Note the scale: Chile and Brazil lend 50-70% of GDP. Argentina's\n"
-         "2024-25 credit boom is large in relative terms only.")
-    _end_label(ctx, ax, credit["private_pct_gdp"], fmt="{:.1f}%", color=ctx.p.CELESTE_D)
+    ax = ig.slot("credit.lending_rate", "Personal-loan rate vs policy rate")
+    loan = col(ctx, "macro/rates.csv", "personal_loan")
+    pol = col(ctx, "macro/policy_rate.csv", "policy_avg")
+    line(ctx, ax, loan, p.RED, label="personal loans, annual average")
+    line(ctx, ax, pol, p.NAVY, label="BCRA policy rate, annual average")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="upper left")
+    note(ctx, ax, 0.02, 0.80,
+         "Nominal, % a year. No policy rate before 2016;\n"
+         "the BCRA dropped it in July 2025.")
 
-    ax = fig.next_panel("Household borrowing by type, % of GDP")
-    for key, label, color in (("cards", "credit cards", ctx.p.SUN),
-                              ("personal", "personal loans", ctx.p.CELESTE),
-                              ("mortgage", "mortgages", ctx.p.RED),
-                              ("pledge", "pledge loans", ctx.p.TEAL)):
-        _line(ctx, ax, credit[f"{key}_pct_gdp"], color=color, label=label, lw=2.0)
-    fig.style_axis(ax)
-    _pct_axis(ax, 1)
-    ax.set_ylim(0, max(credit["cards_pct_gdp"].values()) * 1.35)
-    _legend(ctx, ax, loc="upper right", ncol=2)
-    _note(ctx, ax, 0.02, 0.99,
-         "Mortgage lending did not shrink, it stopped:\n"
-         "1.56% of GDP in 2008, 0.28% in 2024.")
+    ax = ig.slot("credit.npl", "Non-performing loans")
+    npl = col(ctx, "macro/credit_quality.csv", "npl_private_pct")
+    bars(ctx, ax, npl, p.RED)
+    finish(ig, ax, ctx)
+    ax.legend(handles=[Patch(color=p.RED,
+                             label="private-sector loans, BCRA, December")],
+              loc="upper left", frameon=False, fontsize=8.4,
+              labelcolor=p.muted)
+    py, pv = peak(npl)
+    prev = npl[py - 1]
+    note(ctx, ax, 0.98, 0.97,
+         f"{prev:.2f}% in {py - 1}, {pv:.2f}% in {py}: the lending\n"
+         f"boom and its bad loans, a year apart.", ha="right")
 
-    ax = fig.next_panel("Real interest rates, % per year")
-    _line(ctx, ax, rates["deposit_30d_real"], color=ctx.p.GREEN,
-         label="paid on a 30-day deposit")
-    _line(ctx, ax, rates["personal_loan_real"], color=ctx.p.RED,
-         label="charged on a personal loan")
-    ax.axhline(0, color=ctx.p.INK, lw=0.9)
-    fig.style_axis(ax)
-    _pct_axis(ax)
-    _legend(ctx, ax, loc="lower left")
-    _note(ctx, ax, 0.02, 0.97,
-         "Nominal rates say almost nothing here: 95.9% on a deposit in\n"
-         "2023 was a 37% real loss. Saving was punished every year from\n"
-         "2017 to 2024; from 2025 borrowing is punished instead.")
+    ax = ig.slot("credit.lens", "Lens: real interest rates, % per year")
+    dep = col(ctx, "macro/rates.csv", "deposit_30d_real")
+    per = col(ctx, "macro/rates.csv", "personal_loan_real")
+    line(ctx, ax, dep, p.GREEN, label="paid on a 30-day deposit")
+    line(ctx, ax, per, p.RED, label="charged on a personal loan")
+    ax.axhline(0, color=p.muted, lw=0.9, zorder=2)
+    finish(ig, ax, ctx)
+    ax.set_xlim(FIRST - 0.6, LAST + 0.6)
+    legend(ctx, ax, loc="lower left")
+    neg = [y for y, v in full(ctx, dep).items() if v < 0]
+    dy, dv = trough(dep)
+    note(ctx, ax, 0.02, 0.97,
+         f"Deflated by the national CPI, so from {min(dep)} only.\n"
+         f"Saving lost in real terms {min(neg)}–{max(neg)}; "
+         f"{dv:.1f}% in {dy}.")
 
-    ax = fig.next_panel("Non-performing loans, % of credit to the private sector")
-    _bars(ctx, ax, quality["npl_private_pct"], color=ctx.p.RED)
-    fig.style_axis(ax)
-    _pct_axis(ax, 1)
-    ax.set_ylim(0, max(quality["npl_private_pct"].values()) * 1.45)
-    peak = max(quality["npl_private_pct"], key=quality["npl_private_pct"].get)
-    ctx.annotate_value(ax, peak, quality["npl_private_pct"][peak],
-                     f"{quality['npl_private_pct'][peak]:.2f}%", color=ctx.p.RED)
-    _note(ctx, ax, 0.02, 0.97,
-         "The credit expansion and this spike are the same\n"
-         "event seen a year apart.")
 
-def plate_markets(ctx, fig) -> None:
-    merval = ds.load("markets/merval.csv")
-    sp500 = ds.load("markets/sp500.csv")
-    fx = ds.load("macro/dollar.csv")
-    risk = ds.load("markets/country_risk.csv")
+# ============================================================ 07 markets
+def plate_markets(ctx, ig) -> None:
+    p = ctx.p
 
-    merval_usd = {y: merval["close"][y] / fx["official_eop"][y]
-                  for y in merval["close"] if y in fx["official_eop"]}
+    ax = ig.slot("markets.policy_rate", "Policy rate vs inflation")
+    ipc = col(ctx, "macro/ipc.csv", "official")
+    alt = col(ctx, "macro/ipc.csv", "alternative")
+    pol = col(ctx, "macro/policy_rate.csv", "policy_avg")
+    bad = col(ctx, "macro/policy_rate.csv", "badlar_avg")
+    line(ctx, ax, bad, p.FAINT, label="BADLAR, private banks (proxy, "
+                                      "not a policy rate)", lw=1.6, ms=2.6)
+    line(ctx, ax, pol, p.NAVY, label="BCRA policy rate, annual average")
+    line(ctx, ax, ipc, p.RED, label="inflation, INDEC (Dec/Dec)", lw=1.8)
+    line(ctx, ax, alt, p.ASTERISK, label="inflation, IPC San Luis", lw=1.8)
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper left", extra=key(ctx, True))
+    note(ctx, ax, 0.02, 0.38,
+         "No single policy rate existed before December\n"
+         "2015, and none after July 2025.")
 
-    ax = fig.next_panel("Merval in dollars against the S&P 500, 2006 = 100")
-    for series, color, label in ((merval_usd, ctx.p.CELESTE, "Merval, in US$"),
-                                 (sp500["close"], ctx.p.MUTED, "S&P 500")):
-        base = series[ds.FIRST_YEAR]
-        _line(ctx, ax, {y: v / base * 100 for y, v in series.items()},
-             color=color, label=label)
-    ax.set_yscale("log")
-    ax.axhline(100, color=ctx.p.MUTED, lw=0.8, ls=(0, (4, 3)))
-    fig.style_axis(ax)
-    ax.set_ylim(25, 1200)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _legend(ctx, ax, loc="upper left")
-    _note(ctx, ax, 0.98, 0.22,
-         "Neither index is an official statistic: BYMA publishes no open\n"
-         "history for its own index, so both closes come from a vendor.",
-         ha="right")
+    ax = ig.slot("markets.bond_10y", "Government bond yield, US$ debt")
+    ust = col(ctx, "markets/us_treasury_10y.csv", "avg")
+    embi = col(ctx, "markets/country_risk.csv", "avg_bp")
+    usd = {y: ust[y] + embi[y] / 100 for y in ust if y in embi}
+    line(ctx, ax, usd, p.CELESTE_D, label="US 10-year Treasury + EMBI+ "
+                                          "Argentina spread")
+    line(ctx, ax, ust, p.FAINT, label="US 10-year Treasury", lw=1.6, ms=2.6,
+         ls=(0, (3, 2)))
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="upper left")
+    py, pv = peak(full(ctx, usd))
+    note(ctx, ax, 0.02, 0.84,
+         f"No peso 10-year benchmark exists. The gap\n"
+         f"between the lines is country risk: {embi[py]:,.0f}bp\n"
+         f"on average in {py}.")
 
-    ax = fig.next_panel("Country risk, EMBI+ Argentina, basis points")
-    _bars(ctx, ax, risk["avg_bp"], color=ctx.p.ASTERISK, label="annual average")
-    _line(ctx, ax, risk["eop_bp"], color=ctx.p.NAVY, label="year end", lw=2.0)
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _legend(ctx, ax)
-    _end_label(ctx, ax, risk["eop_bp"], fmt="{:,.0f}", color=ctx.p.NAVY)
+    ax = ig.slot("markets.currency", "Peso against the US$ (official)")
+    fx = col(ctx, "macro/dollar.csv", "official_avg")
+    idx = dict(zip(*ctx.fx_index(fx)))
+    line(ctx, ax, idx, p.NAVY, label="official rate, annual average")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="lower left")
+    last = ctx.LAST_FULL_YEAR
+    note(ctx, ax, 0.98, 0.97,
+         f"{fx[FIRST]:.2f} pesos per dollar in {FIRST}, "
+         f"{fx[last]:,.0f} in {last}:\n"
+         f"the peso buys {idx[last]:.2f}% of the dollars it did.\n"
+         f"The parallel rate is on the prices plate.", ha="right")
 
-    ax = fig.next_panel("Merval in dollars, index points")
-    _line(ctx, ax, merval_usd, color=ctx.p.CELESTE_D)
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _headroom(ax, top=0.20)
-    peak = max(merval_usd, key=merval_usd.get)
-    ctx.annotate_value(ax, peak, merval_usd[peak], f"{merval_usd[peak]:,.0f}",
-                     color=ctx.p.NAVY)
-    _end_label(ctx, ax, merval_usd, fmt="{:,.0f}", color=ctx.p.CELESTE_D)
+    ax = ig.slot("markets.equities", "Merval in US$ against the S&P 500")
+    merval = col(ctx, "markets/merval.csv", "close")
+    eop = col(ctx, "macro/dollar.csv", "official_eop")
+    musd = {y: merval[y] / eop[y] for y in merval if y in eop}
+    mi = dict(zip(*ctx.index_2006(musd)))
+    si = dict(zip(*ctx.index_2006(col(ctx, "markets/sp500.csv", "close"))))
+    line(ctx, ax, si, p.MUTED, label="S&P 500", ls=(0, (5, 2)), lw=1.8)
+    line(ctx, ax, mi, p.CELESTE, label="Merval, at the official year-end rate")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="upper left")
+    note(ctx, ax, 0.98, 0.04,
+         "Year-end closes from a vendor (Yahoo): BYMA publishes\n"
+         "no open history. Neither is an official statistic.",
+         ha="right", va="bottom")
 
-    ax = fig.next_panel("Reserves against country risk")
-    res = ds.load("macro/reserves.csv")["eop_usbi"]
-    _line(ctx, ax, res, color=ctx.p.TEAL, label="reserves, US$ bn (left)")
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    twin = ax.twinx()
-    years, values = ds.xy(risk["eop_bp"])
-    twin.plot(years, values, color=ctx.p.RED, lw=2.0, marker="o", ms=3.4,
-              label="country risk, bp (right)")
-    twin.spines[["top", "left", "right"]].set_visible(False)
-    twin.tick_params(length=0, colors=ctx.p.MUTED)
-    twin.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    twin.grid(False)
-    handles = ax.get_legend_handles_labels()[0] + \
-        twin.get_legend_handles_labels()[0]
-    labels = ax.get_legend_handles_labels()[1] + \
-        twin.get_legend_handles_labels()[1]
-    _headroom(ax, top=0.30)
-    ax.legend(handles, labels, loc="upper center", frameon=False,
-              fontsize=9.2, labelcolor=ctx.p.MUTED)
 
-def plate_people(ctx, fig) -> None:
-    vitals = ds.load("social/vitals.csv")
-    causes = ds.load("social/causes.csv")
+# ========================================================= 08 demography
+def plate_people(ctx, ig) -> None:
+    p = ctx.p
+    pop = population(ctx)
+    births = col(ctx, "social/vitals.csv", "births")
+    deaths = col(ctx, "social/vitals.csv", "deaths")
+    natural = col(ctx, "social/vitals.csv", "natural_growth")
+    intl = "social/demography_intl.csv"
 
-    ax = fig.next_panel("Births and deaths registered, thousands")
-    births = {y: v / 1000 for y, v in vitals["births"].items()}
-    deaths = {y: v / 1000 for y, v in vitals["deaths"].items()}
-    _line(ctx, ax, births, color=ctx.p.CELESTE, label="births")
-    _line(ctx, ax, deaths, color=ctx.p.NAVY, label="deaths")
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _headroom(ax, top=0.30, bottom=0.30)
-    _legend(ctx, ax, loc="lower left", ncol=2)
-    peak = max(births, key=births.get)
-    ctx.annotate_value(ax, peak, births[peak], f"{births[peak]:,.0f}k",
-                     color=ctx.p.CELESTE_D, offset=(0, 7))
-    _end_label(ctx, ax, births, fmt="{:,.0f}k", color=ctx.p.CELESTE_D)
-    _end_label(ctx, ax, deaths, fmt="{:,.0f}k", color=ctx.p.NAVY)
-    _note(ctx, ax, 0.98, 0.99,
-         "Births fell 46.8% in ten years, from 777,012 in 2014 to\n"
-         "413,135 in 2024. The two lines are converging, not crossed.",
-         ha="right")
+    ax = ig.slot("demography.population", "Population")
+    ind = dict(zip(*ctx.index_2006(pop)))
+    wpop = col(ctx, intl, "population")
+    wi = dict(zip(*ctx.index_2006(wpop)))
+    line(ctx, ax, wi, p.FAINT, label="UN WPP via the World Bank", lw=1.6,
+         ms=2.6)
+    line(ctx, ax, ind, p.NAVY, label="INDEC projection")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="upper left", extra=key(ctx))
+    last = max(pop)
+    note(ctx, ax, 0.98, 0.04,
+         f"{pop[FIRST] / 1e6:.1f} million in {FIRST}, "
+         f"{pop[last] / 1e6:.1f} million in {last}.", ha="right",
+         va="bottom")
 
-    ax = fig.next_panel("Natural increase, births minus deaths, thousands")
-    growth = {y: v / 1000 for y, v in vitals["natural_growth"].items()}
-    _bars(ctx, ax, growth, color=ctx.p.GREEN)
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    last = max(growth)
-    ctx.annotate_value(ax, last, growth[last], f"{growth[last]:,.0f}k",
-                     color=ctx.p.NAVY)
-    _headroom(ax, top=0.30)
-    _note(ctx, ax, 0.02, 0.99,
-         "451,000 more births than deaths in 2014.\n"
-         "36,700 in 2024.")
+    ax = ig.slot("demography.fertility", "Total fertility rate")
+    tfr = col(ctx, intl, "fertility")
+    line(ctx, ax, tfr, p.PURPLE, label="World Bank / UN WPP")
+    ax.axhline(2.1, color=p.muted, lw=0.9, ls=(0, (4, 3)), zorder=2)
+    ax.text(FIRST, 2.15, "replacement, 2.1", fontsize=7.8, color=p.muted,
+            va="bottom")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="lower left")
+    last = max(tfr)
+    note(ctx, ax, 0.98, 0.97,
+         f"{tfr[FIRST]:.2f} children per woman in {FIRST},\n"
+         f"{tfr[last]:.2f} in {last}.", ha="right")
 
-    ax = fig.next_panel("Deaths from COVID-19 and from pneumonia, thousands")
-    covid = {y: v / 1000 for y, v in causes["covid"].items() if v}
-    pneumonia = {y: v / 1000 for y, v in causes["pneumonia"].items()}
-    _bars(ctx, ax, covid, color=ctx.p.RED, label="COVID-19 (ICD-10 U07)")
-    _line(ctx, ax, pneumonia, color=ctx.p.NAVY, label="pneumonia (J12-J18)", lw=2.0)
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _headroom(ax, top=0.52)
-    _legend(ctx, ax, loc="upper left")
-    ctx.annotate_value(ax, 2021, covid[2021], f"{covid[2021]:,.1f}k",
-                     color=ctx.p.RED)
-    _note(ctx, ax, 0.98, 0.99,
-         "Influenza is not on this chart because Argentina barely codes\n"
-         "it: 9 to 358 deaths a year, against 15,000-40,000 pneumonias.\n"
-         "A fatal flu is certified as the pneumonia it became.",
-         ha="right")
+    ax = ig.slot("demography.birth_death", "Crude birth and death rates")
+    cbr = dict(zip(*ctx.per_1000(births, pop)))
+    cdr = dict(zip(*ctx.per_1000(deaths, pop)))
+    line(ctx, ax, cbr, p.CELESTE, label="births (DEIS)")
+    line(ctx, ax, cdr, p.NAVY, label="deaths (DEIS)")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="upper right")
+    by, bv = peak(births)
+    last = max(births)
+    note(ctx, ax, 0.02, 0.04,
+         f"Registered births: {bv:,.0f} in {by}, {births[last]:,.0f}\n"
+         f"in {last}, down {(1 - births[last] / bv) * 100:.1f}%.",
+         va="bottom")
 
-    ax = fig.next_panel("All deaths, with the COVID-19 share, thousands")
-    total = {y: v / 1000 for y, v in causes["deaths_total"].items()}
-    other = {y: total[y] - covid.get(y, 0) for y in total}
-    years = sorted(total)
-    ax.bar(years, [other[y] for y in years], width=0.78, color=ctx.p.CELESTE,
-           label="all other causes", zorder=2)
-    ax.bar(years, [covid.get(y, 0) for y in years],
-           bottom=[other[y] for y in years], width=0.78, color=ctx.p.RED,
-           label="COVID-19", zorder=2)
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _headroom(ax, top=0.70)
-    _legend(ctx, ax, loc="upper left", ncol=2)
-    _note(ctx, ax, 0.98, 0.99,
-         "164,785 deaths in all, confirmed and probable together. The\n"
-         "cause code is truncated to three characters in the published\n"
-         "file, so the two cannot be separated here.", ha="right")
+    ax = ig.slot("demography.natural_migration",
+                 "Natural increase and net migration")
+    nat = dict(zip(*ctx.per_1000(natural, pop)))
+    bars(ctx, ax, nat, p.GREEN)
+    mig = col(ctx, intl, "net_migration")
+    mr = dict(zip(*ctx.per_1000(mig, wpop)))
+    line(ctx, ax, mr, p.SUN, label="net migration, UN WPP estimate")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="upper right", extra=[
+        Patch(color=p.GREEN, label="natural increase, DEIS (bars)")])
+    last = max(natural)
+    ny, nv = peak(natural)
+    note(ctx, ax, 0.02, 0.97,
+         f"{nv:,.0f} more births than deaths in {ny},\n"
+         f"{natural[last]:,.0f} in {last}.")
 
-def plate_violence(ctx, fig) -> None:
-    hom = ds.load("social/homicides.csv")
-    fem = ds.load("social/femicides.csv")
 
-    ax = fig.next_panel("Intentional homicide rate, per 100,000 people")
-    _line(ctx, ax, hom["rate"], color=ctx.p.NAVY)
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.1f}"))
-    _headroom(ax, top=0.22)
-    peak = max(hom["rate"], key=hom["rate"].get)
-    ctx.annotate_value(ax, peak, hom["rate"][peak], f"{hom['rate'][peak]:.2f}",
-                     color=ctx.p.RED)
-    _end_label(ctx, ax, hom["rate"], fmt="{:.2f}", color=ctx.p.NAVY)
-    _note(ctx, ax, 0.40, 0.99,
-         "Argentina's homicide rate is among the lowest in\n"
-         "South America and has fallen by half since 2014.")
+# ========================================================== 09 security
+def plate_violence(ctx, ig) -> None:
+    p = ctx.p
+    pop = population(ctx)
+    intl = "social/security_intl.csv"
+    causes = "social/causes.csv"
 
-    ax = fig.next_panel("Homicide victims, count")
-    _bars(ctx, ax, hom["count"], color=ctx.p.CELESTE)
-    fig.style_axis(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _end_label(ctx, ax, hom["count"], fmt="{:,.0f}", color=ctx.p.CELESTE_D)
+    ax = ig.slot("security.homicide", "Homicide rate")
+    snic = col(ctx, "social/homicides.csv", "rate")
+    unodc = col(ctx, intl, "homicide_per_100k")
+    line(ctx, ax, unodc, p.FAINT, label="UNODC", lw=1.6, ms=2.6)
+    line(ctx, ax, snic, p.NAVY, label="SNIC, Ministerio de Seguridad")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="lower left", extra=key(ctx))
+    hy, hv = peak(snic)
+    last = max(snic)
+    count = col(ctx, "social/homicides.csv", "count")
+    note(ctx, ax, 0.98, 0.97,
+         f"{hv:.2f} in {hy}, {snic[last]:.2f} in {last}:\n"
+         f"{count[hy]:,.0f} victims, then {count[last]:,.0f}.", ha="right")
 
-    # ---- the femicide panel ------------------------------------------
-    # Three rules this panel follows deliberately, after the same panel
-    # went wrong in the Brazilian edition of this atlas:
-    #   1. The title names exactly what is drawn — a rate, not a share.
-    #   2. Nothing here is a subset of anything else on the panel, and
-    #      the one place a containment claim could be read (the counts
-    #      below) says in words which number contains which.
-    #   3. The caveat about the 2017 methodology change sits **at 2017**,
-    #      touching the line it explains, not in a corner of the figure.
-    ax = fig.next_panel("Direct femicide victims, rate per 100,000 women")
-    _line(ctx, ax, fem["rate_per_100k_women"], color=ctx.p.PURPLE, lw=2.6)
-    fig.style_axis(ax)
-    ax.set_ylim(0, max(fem["rate_per_100k_women"].values()) * 1.75)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.2f}"))
-    _end_label(ctx, ax, fem["rate_per_100k_women"], fmt="{:.2f}", color=ctx.p.PURPLE)
-    first = min(fem["rate_per_100k_women"])
-    ctx.annotate_value(ax, first, fem["rate_per_100k_women"][first],
-                     f"{fem['rate_per_100k_women'][first]:.2f} in {first}",
-                     color=ctx.p.PURPLE, offset=(4, -20), ha="left")
-    ax.axvline(2017, color=ctx.p.FAINT, lw=1.0, ls=(0, (4, 3)), zorder=1)
-    ax.annotate(
-        "the registry's method changed in 2017;\n"
-        "readings either side are not strictly comparable",
-        xy=(2017, fem["rate_per_100k_women"][2017]),
-        textcoords="axes fraction", xytext=(0.40, 0.95),
-        fontsize=8.2, color=ctx.p.MUTED, style="italic", ha="left", va="top",
-        arrowprops=dict(arrowstyle="-", color=ctx.p.FAINT, lw=0.9,
-                        shrinkA=0, shrinkB=4),
-        bbox=dict(boxstyle="round,pad=0.4", facecolor=ctx.p.PAPER,
-                  edgecolor=ctx.p.SPINE, linewidth=0.6), zorder=8)
-    _note(ctx, ax, 0.02, 0.30,
-         "Flat for a decade at roughly one victim per 100,000\n"
-         "women, then falling in 2024 and 2025.")
+    ax = ig.slot("security.suicide", "Suicide rate")
+    sui = dict(zip(*ctx.per_100k(col(ctx, causes, "suicide"), pop)))
+    who = col(ctx, intl, "suicide_per_100k")
+    line(ctx, ax, who, p.FAINT, label="WHO, age-standardised estimate",
+         lw=1.6, ms=2.6)
+    line(ctx, ax, sui, p.PURPLE, label="DEIS deaths X60–X84, crude")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="upper right")
+    last = max(sui)
+    note(ctx, ax, 0.02, 0.97,
+         f"Registered deaths over INDEC's population:\n"
+         f"{sui[last]:.1f} per 100,000 in {last}.")
 
-    ax = fig.next_panel("Femicide victims counted, where the registry states them")
-    years = sorted(fem["direct_victims"])
-    direct = [fem["direct_victims"][y] for y in years]
-    linked = [fem["linked_victims"].get(y, 0) for y in years]
-    ax.bar(years, direct, width=0.5, color=ctx.p.PURPLE, label="direct victims",
-           zorder=2)
-    ax.bar(years, linked, bottom=direct, width=0.5, color=ctx.p.SUN,
-           label="linked victims, killed alongside them", zorder=2)
-    # The direct count is written inside its own segment and the linked
-    # count above the bar, rather than one total on top: 2025 has no
-    # published linked figure, and a single number over each bar would
-    # make that year's 200 look like the same quantity as 2023's 272.
-    for x, d, k in zip(years, direct, linked):
-        ax.text(x, d / 2, f"{d:,.0f}", ha="center", va="center",
-                fontsize=11, fontweight="bold", color="white", zorder=5,
-                gid="qa-on-data")  # written inside its own bar, on purpose
-        if k:
-            ax.text(x, d + k + 5, f"+{k:,.0f} linked", ha="center",
-                    va="bottom", fontsize=8.6, color=ctx.p.MUTED, zorder=5)
-    fig.style_axis(ax, xticks_years=False)
-    ax.set_xlim(min(years) - 1.1, max(years) + 1.1)
-    ax.set_xticks(years)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
-    _headroom(ax, top=0.55)
-    _legend(ctx, ax, loc="upper left")
-    _note(ctx, ax, 0.98, 0.99,
-         "Linked victims are additional people, not a share of the\n"
-         "figure below them. Only three years appear at all, because\n"
-         "only three reports state a count unambiguously — the rate\n"
-         "panel beside this one is complete and this one is not, and\n"
-         "interpolating would invent the years it is missing.",
+    ax = ig.slot("security.road_deaths", "Road traffic deaths")
+    road = dict(zip(*ctx.per_100k(col(ctx, causes, "transport"), pop)))
+    who = col(ctx, intl, "road_deaths_per_100k")
+    line(ctx, ax, who, p.FAINT, label="WHO estimate, road traffic", lw=1.6,
+         ms=2.6)
+    line(ctx, ax, road, p.SUN, label="DEIS deaths V01–V89, all land transport")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="upper right")
+    note(ctx, ax, 0.02, 0.04,
+         "The register codes many crash deaths as undetermined;\n"
+         "WHO models them back in. The two do not measure alike.",
+         va="bottom")
+
+    ax = ig.slot("security.lens", "Lens: direct femicide victims, per "
+                                  "100,000 women")
+    fem = col(ctx, "social/femicides.csv", "rate_per_100k_women")
+    line(ctx, ax, fem, p.PURPLE, label="Registro Nacional de Femicidios (CSJN)",
+         lw=2.6)
+    finish(ig, ax, ctx)
+    ax.set_ylim(0, max(fem.values()) * 1.6)
+    ax.axvline(2017, color=p.faint, lw=1.0, ls=(0, (4, 3)), zorder=1)
+    ax.text(2017.15, 0.04, "method changed, 2017", fontsize=7.8,
+            color=p.muted, transform=ax.get_xaxis_transform(), va="bottom")
+    legend(ctx, ax, loc="upper left")
+    d = col(ctx, "social/femicides.csv", "direct_victims")
+    k = col(ctx, "social/femicides.csv", "linked_victims")
+    counted = ", ".join(f"{y}: {d[y]:,.0f}" + (f" + {k[y]:,.0f} linked"
+                                              if y in k else "")
+                        for y in sorted(d))
+    note(ctx, ax, 0.98, 0.97,
+         "Rates either side of 2017 are not strictly comparable.\n"
+         f"Victims counted, where a report states them —\n{counted}.",
          ha="right")
 
 
-# The plates, in the order the page lists them.
-PLATES = (
-
-    ("plate_output", plate_output),
-
-    ("plate_prices", plate_prices),
-
-    ("plate_living", plate_living),
-
-    ("plate_state", plate_state),
-
-    ("plate_trade", plate_trade),
-
-    ("plate_credit", plate_credit),
-
-    ("plate_markets", plate_markets),
-
-    ("plate_people", plate_people),
-
-    ("plate_violence", plate_violence),
-
+# ========================================================== 10 spending
+SOCIAL = ("prevision", "asistencia", "asignaciones")
+COFOG = (  # national functions mapped onto the spine's seven groups
+    ("social protection", SOCIAL),
+    ("health", ("salud", "salud_obras", "salud_inssjp")),
+    ("education", ("educacion_basica", "educacion_superior")),
+    ("general public services", ("funcionamiento", "deuda")),
+    ("economic affairs", ("energia", "transporte")),
+    ("defence and public order", ("defensa_seguridad",)),
 )
+# The seventh group, "other", is what the published total holds beyond the
+# thirteen functions the gateway itemises: total minus their sum, never
+# negative in this file (0.1 to 1.8 points of GDP).
 
 
-# The plates, declared rather than described in prose inside each function.
-# `alt` is the plate's alternative text: the one thing a reader using a
-# screen reader gets instead of the figure, so it states the numbers the
-# panels show rather than naming the chart type.
+def plate_spending(ctx, ig) -> None:
+    p = ctx.p
+    sp = ds.load("fiscal/spending_by_function.csv")
+    years = sorted(y for y in sp["total"] if FIRST <= y <= LAST)
+    colours = (p.NAVY, p.TEAL, p.CELESTE, p.MUTED, p.SUN, p.PURPLE)
+    listed = [k for _, keys in COFOG for k in keys]
+    other = {y: sp["total"][y] - sum(sp[k][y] for k in listed) for y in years}
+
+    ax = ig.slot("spending.by_function", "Spending by function, stacked")
+    bottom = {y: 0.0 for y in years}
+    for (label, keys), colour in zip(COFOG, colours):
+        for y in years:
+            v = sum(sp[k][y] for k in keys)
+            ax.bar(y, v, bottom=bottom[y], width=0.78, color=colour,
+                   label=label if y == years[0] else "_nolegend_",
+                   edgecolor="white", linewidth=0.4, zorder=3)
+            bottom[y] += v
+    for y in years:
+        ax.bar(y, other[y], bottom=bottom[y], width=0.78, color=p.FAINT,
+               label="other" if y == years[0] else "_nolegend_",
+               edgecolor="white", linewidth=0.4, zorder=3)
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper left", ncol=2, extra=key(ctx, True))
+    last = max(years)
+    note(ctx, ax, 0.98, 0.60,
+         f"National government only (provinces run schools and\n"
+         f"hospitals). Functions mapped onto COFOG groups.\n"
+         f"Series ends {last}: {sp['total'][last]:.1f}% of GDP.",
+         ha="right")
+
+    ax = ig.slot("spending.social_protection",
+                 "Social protection vs everything else")
+    soc = {y: sum(sp[k][y] for k in SOCIAL) for y in years}
+    rest = {y: sp["total"][y] - soc[y] for y in years}
+    line(ctx, ax, soc, p.NAVY, label="social protection: pensions and "
+                                     "transfers")
+    line(ctx, ax, rest, p.MUTED, label="everything else")
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper left")
+    py, pv = peak(sp["prevision"])
+    note(ctx, ax, 0.98, 0.97,
+         f"Pensions alone: {sp['prevision'][FIRST]:.1f}% of GDP in "
+         f"{FIRST},\n{pv:.1f}% at the {py} peak.", ha="right")
+
+    ax = ig.slot("spending.investment", "Investment rate, whole economy")
+    gfcf = col(ctx, "macro/economy_intl.csv", "gfcf_pct_gdp")
+    line(ctx, ax, gfcf, p.CELESTE_D, label="gross fixed capital formation "
+                                           "(World Bank)")
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper right")
+    hy, hv = peak(gfcf)
+    ly, lv = trough(gfcf)
+    note(ctx, ax, 0.02, 0.06,
+         f"{hv:.1f}% of GDP in {hy}, {lv:.1f}% in {ly}.", va="bottom")
+
+    ax = ig.slot("spending.public_investment", "Public investment")
+    inv = ds.load("fiscal/public_investment.csv")
+    for k, lab in (("m1993", "1993 method"), ("m2007", "2007 method"),
+                   ("m2017", "2015 method")):
+        seg = {y: v for y, v in inv[k].items() if FIRST <= y <= LAST}
+        line(ctx, ax, seg, p.TEAL if k == "m2017" else p.ASTERISK,
+             label=f"national public sector, {lab}")
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper right")
+    m17 = inv["m2017"]
+    last = max(y for y in m17 if y <= LAST)
+    note(ctx, ax, 0.02, 0.97,
+         f"Direct investment by the nation only, not the\n"
+         f"provinces. {m17[last]:.2f}% of GDP in {last}.")
+
+
+# ============================================================= 11 world
+def plate_world(ctx, ig) -> None:
+    p = ctx.p
+    w = "macro/world.csv"
+
+    ax = ig.slot("world.gdp", "GDP at current prices")
+    gdp = col(ctx, w, "gdp_usd_bn")
+    line(ctx, ax, gdp, p.NAVY, label="World Bank, at the official rate")
+    finish(ig, ax, ctx, intervened=True)
+    legend(ctx, ax, loc="upper left", extra=key(ctx, True))
+    last = max(gdp)
+    note(ctx, ax, 0.98, 0.04,
+         f"US${gdp[last]:,.0f}bn in {last}.", ha="right", va="bottom")
+
+    ax = ig.slot("world.hdi", "Human Development Index")
+    hdi = col(ctx, "social/hdi.csv", "undp")
+    line(ctx, ax, hdi, p.GREEN, label="UNDP")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="lower right")
+    last = max(hdi)
+    note(ctx, ax, 0.02, 0.97,
+         f"{hdi[FIRST]:.3f} in {FIRST}, {hdi[last]:.3f} in {last}.\n"
+         f"0.800 and above is \"very high\".")
+
+    ax = ig.slot("world.cpi", "Corruption Perceptions Index")
+    cpi = col(ctx, "social/corruption.csv", "score")
+    line(ctx, ax, cpi, p.PURPLE, label="Transparency International, "
+                                       "2012 method")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="upper left")
+    rank = col(ctx, "social/corruption.csv", "rank")
+    hy, hv = peak(cpi)
+    last = max(cpi)
+    note(ctx, ax, 0.98, 0.04,
+         f"Higher is cleaner. {hv:.0f} in {hy}, {cpi[last]:.0f} in {last}\n"
+         f"(rank {rank[last]:.0f}). Scores before 2012 are on another\n"
+         f"scale and method, and are not drawn.", ha="right", va="bottom")
+
+    ax = ig.slot("world.reserves", "Official reserves")
+    wb = col(ctx, w, "reserves_usd_bn")
+    bcra = col(ctx, "macro/reserves.csv", "eop_usbi")
+    line(ctx, ax, bcra, p.FAINT, label="BCRA gross reserves, year end",
+         lw=1.6, ms=2.6)
+    line(ctx, ax, wb, p.TEAL, label="World Bank, total incl. gold")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="lower left")
+    ty, tv = trough(wb)
+    note(ctx, ax, 0.98, 0.04,
+         f"Low of US${tv:.1f}bn in {ty}. Gross: the BCRA's\n"
+         f"own swap and repo debts are not netted out.",
+         ha="right", va="bottom")
+
+
+# ========================================================== 12 mortality
+def plate_mortality(ctx, ig) -> None:
+    p = ctx.p
+    pop = population(ctx)
+    c = "social/causes.csv"
+    deaths = col(ctx, c, "deaths_total")
+
+    ax = ig.slot("mortality.death_rate", "Crude death rate")
+    cdr = dict(zip(*ctx.per_1000(deaths, pop)))
+    line(ctx, ax, cdr, p.NAVY, label="DEIS deaths over INDEC population")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="lower left", extra=key(ctx))
+    hy, hv = peak(cdr)
+    note(ctx, ax, 0.98, 0.04,
+         f"{hv:.2f} per 1,000 in {hy}: {deaths[hy]:,.0f} deaths.",
+         ha="right", va="bottom")
+
+    ax = ig.slot("mortality.excess_deaths", "Excess deaths")
+    base = sum(deaths[y] for y in range(2015, 2020)) / 5
+    exc = {y: (deaths[y] / base - 1) * 100 for y in deaths if y >= 2015}
+    bars(ctx, ax, exc, signed(ctx))
+    finish(ig, ax, ctx)
+    hy, hv = peak(exc)
+    note(ctx, ax, 0.02, 0.97,
+         f"All registered deaths against their 2015–19 mean,\n"
+         f"{base:,.0f}. Not adjusted for an older population.\n"
+         f"{hy}: {hv:+.1f}%.")
+
+    ax = ig.slot("mortality.covid", "COVID-19 deaths, underlying cause")
+    cov = {y: v for y, v in col(ctx, c, "covid").items() if y >= 2020}
+    rate = dict(zip(*ctx.per_100k(cov, pop)))
+    bars(ctx, ax, rate, p.RED)
+    finish(ig, ax, ctx)
+    ax.legend(handles=[Patch(color=p.RED,
+                             label="ICD-10 U07, confirmed and probable")],
+              loc="upper left", frameon=False, fontsize=8.4,
+              labelcolor=p.muted)
+    total = sum(cov.values())
+    note(ctx, ax, 0.98, 0.97,
+         f"{total:,.0f} deaths in all, {min(cov)}–{max(cov)}. The\n"
+         f"published file truncates the code, so confirmed\n"
+         f"and probable cannot be told apart.", ha="right")
+
+    ax = ig.slot("mortality.lens", "Lens: pneumonia and influenza")
+    pn = dict(zip(*ctx.per_100k(col(ctx, c, "pneumonia"), pop)))
+    fl = dict(zip(*ctx.per_100k(col(ctx, c, "influenza"), pop)))
+    line(ctx, ax, pn, p.NAVY, label="pneumonia, J12–J18")
+    line(ctx, ax, fl, p.SUN, label="influenza, J09–J11")
+    finish(ig, ax, ctx)
+    ig.headroom(ax, top=0.35)
+    legend(ctx, ax, loc="upper left")
+    flu = col(ctx, c, "influenza")
+    fy, fv = peak(flu)
+    note(ctx, ax, 0.98, 0.30,
+         f"Influenza is barely coded: {fv:,.0f} deaths in {fy}\n"
+         f"(H1N1) is its highest. A fatal flu is certified\n"
+         f"as the pneumonia it became.", ha="right")
+
+
+# ============================================================== registry
+# The plates, in page order. `alt` is what a screen-reader user gets
+# instead of the figure, so it states what the panels show.
+SRC_GDP = ("Sources: INDEC (national accounts, CPI, EPH); World Bank; "
+           "IPC San Luis")
 PLATES = [
-    dict(id="01", slug="output", builder=plate_output,
+    dict(id="01", slug="output", topic="economy", builder=plate_output,
          title="Twenty years of Argentine output",
-         subtitle="Dollar GDP, real growth, income per head, 2006-2026",
-         source="Source: INDEC, Cuentas Nacionales (base 2004), via "
-                "apis.datos.gob.ar",
-         alt="Four panels on Argentine output from 2006 to 2026. Dollar GDP "
-             "rises from US$233 billion to a peak of US$656 billion in 2023 "
-             "and ends near US$683 billion, but moves with the exchange rate "
-             "as much as with output. Real growth alternates sharply: -5.9% "
-             "in 2009, -9.9% in 2020, +10.4% in 2021, averaging close to 1% "
-             "a year. GDP per capita peaks at US$14,901 in 2015 and is "
-             "US$14,730 in 2025. An index of real output set to 100 in 2006 "
-             "ends the window only modestly above where it began."),
-    dict(id="02", slug="prices", builder=plate_prices,
+         subtitle="Growth, income per head, inflation and unemployment, "
+                  "2006–2026",
+         source="Sources: INDEC, national accounts (base 2004), IPC and EPH; "
+                "DPEyC San Luis; World Bank WDI",
+         alt="Four panels on the Argentine economy, 2006 to 2026. Real GDP "
+             "growth swings between -9.9% in 2020 and +10.4% in 2021, and "
+             "output fell in nine of the twenty years. GDP per person in "
+             "current dollars, on a log scale, peaks at US$14,898 in 2025 "
+             "after a trough of US$8,536 in 2020. Consumer price inflation "
+             "runs at 18% to 39% a year on the San Luis provincial index "
+             "while the national index was intervened, then 25% to 211% on "
+             "INDEC's restored index, peaking in 2023, before 31.5% in "
+             "2025. Urban unemployment falls from 10.1% to 6.1% in 2023, "
+             "after peaking at 11.5% in 2020."),
+    dict(id="02", slug="prices", topic="prices", builder=plate_prices,
          title="Prices, the peso and the two dollars",
-         subtitle="Inflation, the exchange rate and reserves, 2006-2026",
-         source="Sources: INDEC (national CPI, from Dec 2016); Dirección "
-                "Provincial de Estadística y Censos de San Luis (2007-2016); "
-                "BCRA; parallel rates via Ámbito Financiero",
-         alt="Four panels on Argentine prices. Annual inflation is shown in "
-             "two colours because no usable official national index exists "
-             "between 2007 and 2016, the decade INDEC was intervened: the "
-             "provincial San Luis index stands in, running 18% to 39% a "
-             "year. The national index resumes in 2017 and peaks at 211% in "
-             "2023 before falling to 31.5% in 2025 and 21.3% in 2026. The "
-             "peso goes from about 3 to the dollar to roughly 1,500, drawn "
-             "on a log scale against the parallel rate. The gap between the "
-             "two reaches nearly 100% during the second currency control "
-             "period. Central bank reserves swing between US$56 billion and "
-             "US$21.9 billion in 2023, recovering to US$49.7 billion."),
-    dict(id="03", slug="living", builder=plate_living,
+         subtitle="Inflation, the official and parallel dollar, the gap and "
+                  "reserves",
+         source="Sources: INDEC (national CPI, from Dec 2016); DPEyC San "
+                "Luis (2007–2016); BCRA; parallel rate via Ámbito Financiero",
+         alt="Four panels on Argentine prices. Annual inflation on a log "
+             "scale in two colours, because no usable national index exists "
+             "for 2007 to 2016: the provincial San Luis index stands in at "
+             "18% to 39% a year. The national index peaks at 211% in 2023 "
+             "and falls to 31.5% in 2025. The peso goes from 3.06 to the "
+             "dollar at the end of 2006 to 1,447 at the end of 2025, drawn "
+             "against the parallel blue rate. The gap between the two "
+             "reaches 104% in 2021, under the second cepo. Gross reserves "
+             "fall to US$21.9 billion in 2023 from US$57 billion in 2018."),
+    dict(id="03", slug="living", topic="people", builder=plate_living,
          title="Work, wages and who is poor",
-         subtitle="Unemployment, the minimum wage, poverty and inequality",
+         subtitle="Inequality, poverty and the minimum wage",
          source="Sources: INDEC, Encuesta Permanente de Hogares; Ministerio "
-                "de Trabajo (SMVM); via apis.datos.gob.ar",
-         alt="Four panels on Argentine living standards. Unemployment falls "
-             "from 10.1% in 2006 to 6.1% in 2023, rising to about 7% after. "
-             "The minimum wage in dollars peaks above US$600 around 2013-15 "
-             "and is US$269 in 2025, lower than in 2006. Poverty is drawn as "
-             "two lines, one per half year, with the intervened decade left "
-             "blank: it reaches 52.9% in the first half of 2024 — the half "
-             "after the December 2023 devaluation — and 38.1% in the second. "
-             "The Gini coefficient moves in a narrow band around 0.42-0.44."),
-    dict(id="04", slug="state", builder=plate_state,
+                "de Trabajo (SMVM); World Bank PIP",
+         alt="Four panels on Argentine living standards, all from the urban "
+             "household survey. The Gini coefficient, times 100, falls from "
+             "48.1 in 2006 to 41.5 in 2015 and is 42.9 in 2025. Poverty on "
+             "the national basket averages 45.5% in 2024 against 15.2% "
+             "below the World Bank's US$8.30 a day line; the official series "
+             "was withdrawn for 2007 to 2015. The minimum wage at the "
+             "official rate peaks at US$603 in 2015 and is US$269 in 2025. "
+             "Half by half, poverty reaches 52.9% in the first half of 2024, "
+             "after the December 2023 devaluation, and 38.1% in the second."),
+    dict(id="04", slug="state", topic="fiscal", builder=plate_state,
          title="What the state takes and what it spends",
-         subtitle="Primary balance, tax revenue and spending by function",
-         source="Sources: Secretaría de Hacienda, Esquema Ahorro-Inversión-"
-                "Financiamiento; Gasto Público Consolidado; via "
-                "apis.datos.gob.ar",
-         alt="Four panels on Argentine public finances. The primary balance "
-             "is drawn as three separate segments because three incompatible "
-             "methodologies cover the window; the last reaches -6.4% of GDP "
-             "in 2020 and turns to a surplus of +1.78% in 2024, the first "
-             "since 2010. Tax revenue runs between 21% and 26% of GDP, with "
-             "export duties and income tax shown as components. Primary "
-             "spending by function is stacked, dominated by pensions at 7.6% "
-             "to 9.7% of GDP; the consolidated series ends in 2023. The last "
-             "panel sets pensions against debt service, which peaks at 4.35% "
-             "of GDP in 2019."),
-    dict(id="05", slug="trade", builder=plate_trade,
+         subtitle="General government revenue, balance, debt and interest",
+         source="Sources: IMF, World Economic Outlook and Fiscal Monitor; "
+                "Secretaría de Hacienda, Esquema AIF and recursos tributarios",
+         alt="Four panels on Argentine public finances. General government "
+             "revenue rises from 28% to 35% of GDP by 2015 while spending "
+             "rises from 27% to 41.5% in 2016 and 42.5% in 2020, and both "
+             "fall to about 31% in 2024-25. The overall balance is in deficit every year from "
+             "2009 to 2023, reaching -8.7% of GDP in 2020, and the primary "
+             "balance turns to a surplus of 2.2% in 2024; the national "
+             "public sector's own primary result is drawn beside it in "
+             "three unjoined methodologies. Gross debt runs from 39% of GDP "
+             "in 2011 to 153% in 2023, then 80% in 2025. Net interest peaks "
+             "at 4.0% of GDP in 2019."),
+    dict(id="05", slug="trade", topic="trade", builder=plate_trade,
          title="What Argentina sells to the world",
-         subtitle="Exports, imports and the composition of sales, 2006-2026",
-         source="Source: INDEC, Intercambio Comercial Argentino, via "
-                "apis.datos.gob.ar",
-         alt="Four panels on Argentine trade. Exports and imports both peak "
-             "near US$88 billion and US$81 billion in 2022; the trade "
-             "balance swings from a deficit of US$8.3 billion in 2017 to a "
-             "surplus of US$18.9 billion in 2024. Exports by category are "
-             "stacked: primary products, agricultural manufactures, "
-             "industrial manufactures and fuel. Industrial manufactures are "
-             "computed as the residual because that category's own series is "
-             "served empty by the source. Fuel and energy rise as a share of "
-             "exports in the most recent years."),
-    dict(id="06", slug="credit", builder=plate_credit,
+         subtitle="Exports, imports, destinations and what is sold",
+         source="Sources: World Bank WDI (national accounts); INDEC, "
+                "Intercambio Comercial Argentino; UN Comtrade",
+         alt="Four panels on Argentine trade. Exports of goods and services "
+             "fall from 23% of GDP in 2006 to 10.7% in 2015 and are 15.6% in "
+             "2025; imports move from 17% to 15%. The balance is negative "
+             "in 2013, 2015 to 2018 and 2023. Brazil takes 14.3% to 21.2% "
+             "of goods exports, China, the United States and Chile 4% to "
+             "11% each. Exports by category are stacked in dollars: primary "
+             "products, agricultural and industrial manufactures, and fuel, "
+             "whose share falls to 3.5% in 2016 and rises to 12.7% in 2025."),
+    dict(id="06", slug="credit", topic="credit", builder=plate_credit,
          title="A banking system that barely lends",
-         subtitle="Credit, household debt and what money costs, 2006-2026",
-         source="Source: BCRA, api.bcra.gob.ar (daily balances, December "
-                "averages); system indicators via apis.datos.gob.ar",
-         alt="Four panels on Argentine credit. Credit to the private sector "
-             "stays between 9% and 15% of GDP across twenty years, against "
-             "50-70% in Chile or Brazil; households account for roughly half "
-             "of it. Mortgage lending collapses from 1.56% of GDP in 2008 to "
-             "0.28% in 2024, recovering only to 0.74% in 2025. Real interest "
-             "rates show saving punished every year from 2017 to 2024, the "
-             "real deposit rate reaching -37% in 2023, then turning positive "
-             "in 2025 while real borrowing costs rise above 30%. "
-             "Non-performing loans jump from 1.54% in 2024 to 5.54% in 2025, "
-             "the worst reading since 2006."),
-    dict(id="07", slug="markets", builder=plate_markets,
+         subtitle="Household debt, what money costs and what goes bad",
+         source="Sources: BIS total credit statistics; BCRA, "
+                "api.bcra.gob.ar and Principales Indicadores del Sistema "
+                "Financiero",
+         alt="Four panels on Argentine credit. Household debt, all lenders, "
+             "never exceeds 6.9% of GDP; mortgage lending falls from 1.56% "
+             "of GDP in 2007 to 0.28% in 2024. The nominal personal-loan "
+             "rate runs between 29% and 102% a year against a policy rate "
+             "that exists only from 2016 to mid-2025. Non-performing private "
+             "loans jump from 1.54% in 2024 to 5.54% in 2025. Real deposit "
+             "rates are negative every year from 2017 to 2024, reaching "
+             "-37.1% in 2023, and real borrowing costs pass 30% in 2025."),
+    dict(id="07", slug="markets", topic="markets", builder=plate_markets,
          title="What the market charged Argentina",
-         subtitle="The Merval in dollars, country risk and reserves",
-         source="Market references, not official statistics: Merval and "
-                "S&P 500 closes via Yahoo Finance; EMBI+ Argentina via "
-                "Ámbito Financiero",
-         alt="Four panels on Argentine markets. The Merval converted to "
-             "dollars is indexed against the S&P 500 at 2006 equals 100 on a "
-             "log scale; it outruns the American index in some periods and "
-             "gives it all back in others. Country risk, the EMBI+ spread, "
-             "sits near 400 basis points in 2017 and above 2,200 in 2022, "
-             "falling to about 570 by 2025. The last panel sets reserves "
-             "against country risk on twin axes: they move against each "
-             "other almost throughout."),
-    dict(id="08", slug="people", builder=plate_people,
-         title="Fewer births, and one bad year of deaths",
-         subtitle="Vital statistics and causes of death, 2006-2024",
-         source="Source: Ministerio de Salud, DEIS — nacidos vivos, serie "
-                "histórica de defunciones, and defunciones por causa (CIE-10)",
-         alt="Four panels on Argentine demography. Births fall from 777,012 "
-             "in 2014 to 413,135 in 2024, down 46.8% in ten years, while "
-             "deaths rise; the two lines converge without crossing. Natural "
-             "increase collapses from 451,000 a year to 36,700. COVID-19 "
-             "deaths are 53,222 in 2020 and 84,695 in 2021, against 15,000 "
-             "to 40,000 pneumonia deaths a year; influenza is excluded "
-             "because Argentina codes only 9 to 358 influenza deaths a year. "
-             "Total deaths peak at 436,799 in 2021, with COVID-19 shown as a "
-             "stacked share; the registry records 164,785 COVID-19 deaths in "
-             "all, confirmed and probable together."),
-    dict(id="09", slug="violence", builder=plate_violence,
-         title="Homicide and femicide",
-         subtitle="Two registries, two different kinds of completeness",
-         source="Sources: Ministerio de Seguridad, SNIC (homicides); Corte "
-                "Suprema de Justicia, Oficina de la Mujer — Registro "
-                "Nacional de Femicidios (femicides)",
-         alt="Four panels on lethal violence in Argentina. The intentional "
-             "homicide rate peaks at 7.62 per 100,000 in 2014 and falls to "
-             "3.61 by 2025, roughly halving, among the lowest rates in South "
-             "America; the victim count falls from 3,253 to 1,676. The "
-             "femicide rate per 100,000 women is flat near 1.0 from 2014 to "
-             "2023, then falls to 0.95 in 2024 and 0.85 in 2025; a marker at "
-             "2017 notes that the registry changed its method there and "
-             "readings either side are not strictly comparable. The final "
-             "panel shows counted victims for only the three years the "
-             "reports state them — 2023, 2024 and 2025 — with linked victims "
-             "stacked above direct victims as further people killed rather "
-             "than as part of the same count."),
+         subtitle="The policy rate, the price of dollar debt, the peso and "
+                  "the Merval",
+         source="Sources: BCRA; US Treasury; J.P. Morgan EMBI+ via Ámbito "
+                "Financiero; Merval and S&P 500 closes via Yahoo Finance "
+                "(market references, not official statistics)",
+         alt="Four panels on Argentine markets. The BCRA's policy rate, which "
+             "exists only from December 2015 to July 2025, averages 26% to "
+             "100% a year against inflation of 25% to 211%, with the BADLAR "
+             "deposit rate drawn across the whole window as a proxy. The "
+             "yield on Argentine dollar debt, the US 10-year Treasury plus "
+             "the EMBI+ spread, reaches 26% on average in 2023. The official "
+             "peso, as an index of 2006 = 100, falls to 0.25 in 2025, a "
+             "currency that buys a four-hundredth of the dollars it did. The "
+             "Merval in dollars ends 2025 about three times its 2006 level, "
+             "the S&P 500 nearly five times."),
+    dict(id="08", slug="people", topic="demography", builder=plate_people,
+         title="Fewer births, a population still growing",
+         subtitle="Population, fertility, birth and death rates",
+         source="Sources: Ministerio de Salud, DEIS (births and deaths); "
+                "INDEC (population); World Bank / UN World Population "
+                "Prospects",
+         alt="Four panels on Argentine demography. The population grows from "
+             "39.1 million in 2006 to 46.4 million in 2025, 18.6% more. "
+             "Fertility falls from 2.40 children per woman to 1.50 in 2024, "
+             "well under the 2.1 replacement line. The crude birth rate "
+             "falls from 18 per 1,000 to 8.9 in 2024 while the death rate "
+             "rises from 7.5 to 8.1, with a COVID-19 peak of 9.5 in 2021. "
+             "Natural increase falls from 451,473 more births than deaths in "
+             "2014 to 36,730 in 2024; net migration is close to zero."),
+    dict(id="09", slug="violence", topic="security", builder=plate_violence,
+         title="Homicide, suicide, the roads and femicide",
+         subtitle="Lethal violence and accidents, per 100,000 people",
+         source="Sources: Ministerio de Seguridad, SNIC; Ministerio de "
+                "Salud, DEIS; UNODC and WHO via the World Bank; CSJN, "
+                "Registro Nacional de Femicidios",
+         alt="Four panels on lethal violence in Argentina, per 100,000 "
+             "people. The homicide rate peaks at 7.62 in 2014 and falls to "
+             "3.61 in 2025, on a log scale beside UNODC's series. Registered "
+             "suicides run at 6.3 to 8.0 per 100,000, below WHO's "
+             "age-standardised estimate. Registered land-transport deaths "
+             "fall from 13.1 in 2013 to 5.2 in 2020, well under WHO's road "
+             "estimate of 13 to 15. The direct femicide rate per 100,000 "
+             "women is near 1.0 to 1.14 until 2023 and falls to 0.85 in "
+             "2025, with a method change marked at 2017."),
+    dict(id="10", slug="spending", topic="spending", builder=plate_spending,
+         title="Where the national budget goes",
+         subtitle="Spending by function, social protection, investment",
+         source="Sources: Secretaría de Política Económica, Gasto Público "
+                "Nacional por finalidad; Secretaría de Hacienda, Esquema AIF; "
+                "World Bank WDI",
+         alt="Four panels on Argentine spending. National government spending "
+             "by function, grouped like COFOG, rises from 14.5% of GDP in "
+             "2006 to 27.5% in 2020 and is 22.3% in 2023, when the series "
+             "ends. Social protection, pensions and transfers, goes from 5.2% "
+             "to 12.8% of GDP in 2020. Whole-economy investment runs between "
+             "14.2% and 19.5% of GDP. Direct investment by the national "
+             "public sector peaks at 1.24% of GDP in 2009 and falls to 0.27% "
+             "in 2025, in three methodologies drawn apart."),
+    dict(id="11", slug="world", topic="world", builder=plate_world,
+         title="Argentina among the others",
+         subtitle="Dollar GDP, human development, corruption perceptions, "
+                  "reserves",
+         source="Sources: World Bank WDI; UNDP Human Development Report; "
+                "Transparency International; BCRA",
+         alt="Four panels placing Argentina among other countries. GDP at "
+             "current prices rises from US$233 billion in 2006 to US$683 "
+             "billion in 2025, on a log scale. The Human Development Index "
+             "rises from 0.822 to 0.865 in 2023, in the very high band "
+             "throughout. Transparency International's corruption score "
+             "peaks at 45 in 2019 and is 36 in 2025, rank 104. Total "
+             "reserves fall to a low of US$23.1 billion in 2023, drawn "
+             "beside the BCRA's gross figure."),
+    dict(id="12", slug="mortality", topic="mortality",
+         builder=plate_mortality,
+         title="One bad year of deaths",
+         subtitle="Death rate, excess deaths, COVID-19, pneumonia",
+         source="Sources: Ministerio de Salud, DEIS, defunciones por causa "
+                "(CIE-10); INDEC (population)",
+         alt="Four panels on Argentine mortality. The crude death rate runs "
+             "near 7.5 per 1,000 people and peaks at 9.5 in 2021, 436,799 "
+             "deaths. Against the 2015-2019 average of 341,328, deaths were "
+             "10.2% higher in 2020 and 28.0% higher in 2021. COVID-19 deaths "
+             "are 117 per 100,000 in 2020 and 185 in 2021, 164,785 in all, "
+             "confirmed and probable together. Pneumonia kills 40 to 87 "
+             "per 100,000 a year; influenza barely appears, because a fatal "
+             "flu is certified as pneumonia."),
 ]
