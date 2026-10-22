@@ -1,0 +1,26 @@
+# General-government gross debt, % of GDP (IMF WEO GGXWDG_NGDP) — the IMF's BROAD
+# perimeter: it counts the local-government and LGFV-adjacent bodies the MOF's
+# on-budget debt excludes. Verified 2026-10-22: 2006 25.2 -> 2018 55.7 -> 2023 84.1
+# -> 2025 98.6. The several-dozen-point gap against the MOF narrow line (pending,
+# mof.gov.cn) IS the finding; two labelled lines, never spliced.
+year,gg_gross_debt_pct_gdp
+2006,25.2
+2007,28.8
+2008,26.6
+2009,33.9
+2010,33.1
+2011,33.0
+2012,33.9
+2013,36.6
+2014,39.4
+2015,40.9
+2016,50.0
+2017,53.7
+2018,55.7
+2019,59.9
+2020,70.6
+2021,72.1
+2022,77.3
+2023,84.1
+2024,90.5
+2025,98.6

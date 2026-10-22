@@ -1,0 +1,19 @@
+# Gini coefficient of disposable income, 0-100 (World Bank SI.POV.GINI, the WB's own
+# income definition) — verified 2026-10-22: 2022 = 36.0; 2006-2007 and 2009 are holes
+# in the WB series and stay holes. The WB series ends where it ends (2022); the NBS
+# Gini is a different definition again and would join as its own column, never spliced.
+year,gini
+2008,42.9
+2010,43.7
+2011,42.3
+2012,42.1
+2013,39.7
+2014,39.2
+2015,38.6
+2016,38.5
+2017,39.0
+2018,38.5
+2019,38.2
+2020,37.1
+2021,35.8
+2022,36.0
