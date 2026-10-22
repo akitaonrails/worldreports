@@ -58,24 +58,37 @@ bands:
 currency:
   code: ILS
 
-# UNVERIFIED palette (checkpoint 1). The flag is blue on white: two
-# blues (#0038B8-ish flag blue) and the paper, so primary is a darkened
-# flag blue and the siblings are cool. MUST stay distinct from the blues
-# already used by canada (RED primary but NAVY #1C3A55 / BLUE #2F6E9B),
-# south-korea (#0047A0), and the grounds of spain / united-kingdom /
-# italy / portugal — the collision check against those country.yaml
-# files is a later verification pass.
+# Palette, collision-checked pass (2026-10-22). The flag is blue on
+# white — one hue and the paper — so primary is a darkened, saturated
+# royal blue off the flag's ~#0038B8 and the siblings are cool. The
+# crowding problem is that three other atlases already sit on blue:
+# south-korea's plate blue is #0047A0, the UK's is NAVY #1B2E63 /
+# BLUE #2E5FA3 / BLUE_D #1F4377, canada carries NAVY #1C3A55 /
+# BLUE #2F6E9B (its primary is red). Israel's pair goes DARKER and more
+# saturated than all of them — #0B3D91 sits clearly below the UK's
+# #1F4377 and clearly beside korea's #0047A0 — and its second blue is
+# the near-navy ink, not another mid blue.
+# Web grounds checked: canada #1A1012 (warm black), spain #1E1210 (warm
+# black), portugal #101A14 (green black), UK #0D1220 (near-black navy),
+# south-korea #0A1E31 (near-black navy). Every existing ground is a
+# near-black; Israel's is the one SATURATED dark blue in the atlas, so
+# it reads as Israeli at a glance even beside korea's navy. Italy is
+# queued, not in the tree — its ground goes on the pending list for a
+# re-check at merge time.
 palette:
-  BLUE:    "#2A5DB0"
-  BLUE_D:  "#1C4180"
-  NAVY:    "#14273F"
-  TEAL:    "#13807A"
-  CYAN:    "#2F7E9B"
+  BLUE:    "#0B3D91"
+  BLUE_D:  "#072A66"
+  NAVY:    "#11233C"
+  TEAL:    "#137F77"
+  CYAN:    "#1E7D8C"
   PURPLE:  "#5C5FA3"
   GREEN:   "#2E7D4F"
   GOLD:    "#BE8A1E"
-  primary: "#1C4180"
-  alert:   "#B5272F"
+  primary: "#0B3D91"
+  # Oxblood rather than the bright alert reds of canada (#B5272F) and
+  # spain/UK (#A32630 / #B32438): the flag carries no warm colour, so
+  # the alert is borrowed, and it borrows a different shade.
+  alert:   "#8C2F39"
   ink:     "#1F2430"
   muted:   "#5A6072"
   faint:   "#9AA0AE"
@@ -84,25 +97,24 @@ palette:
   grid:    "#E7E4DD"
   spine:   "#C9C6BE"
   band:    "#EFECE5"
-  series:  ["#1C4180", "#2A5DB0", "#13807A", "#BE8A1E", "#5C5FA3", "#2E7D4F", "#14273F"]
+  series:  ["#0B3D91", "#137F77", "#BE8A1E", "#5C5FA3", "#1E7D8C", "#2E7D4F", "#11233C"]
   # Blue, the paper, blue — the flag's structure. The middle band is the
   # page colour, so it is drawn with an outline.
-  flag_bands: ["#1C4180", "#FBFAF7", "#1C4180"]
-  # Darkened blue ground, deliberately NOT the navy of south-korea
-  # (#0A1E31) nor canada's warm black (#1A1012). UNVERIFIED against
-  # spain/uk/italy/portugal in a later pass.
+  flag_bands: ["#0B3D91", "#FBFAF7", "#0B3D91"]
+  # The one saturated-blue ground in the atlas (see the collision note
+  # above): flag blue pushed dark enough to hold ink on it.
   web:
     mark_bearing: "0.04em"    # UNVERIFIED — א is open on the left; set in Phase B
-    ground:   "#0E2038"
-    raised:   "#142A47"
-    raised_2: "#1A3457"
-    rule:     "#234168"
-    ink:      "#EAEEF4"
-    muted:    "#A7B2C2"
-    faint:    "#7E8A9C"
-    money:    "#5A93D6"
-    world:    "#2FA8A0"
-    people:   "#D7A33F"
+    ground:   "#0B2447"
+    raised:   "#11305C"
+    raised_2: "#173B6F"
+    rule:     "#215191"
+    ink:      "#EDF1F8"
+    muted:    "#A9B7CD"
+    faint:    "#7F8FA8"
+    money:    "#6E9BE6"
+    world:    "#37A79E"
+    people:   "#D9A64B"
 
 seo:
   title:

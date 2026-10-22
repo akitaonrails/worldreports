@@ -166,23 +166,43 @@ trade:
       one line.
 
 international:
-  # Comparables layer — Israel is in all of these. UNVERIFIED until curl'd.
+  # Comparables layer — Israel is in all of these. WB verified live
+  # 2026-10-22; the rest UNVERIFIED until curl'd.
   gdp_usd.csv:
-    source: "UNVERIFIED — World Bank WDI, NY.GDP.MKTP.CD (ISO3 ISR)"
-    url: "UNVERIFIED — candidate: https://api.worldbank.org/v2/country/ISR/indicator/NY.GDP.MKTP.CD?format=json"
+    source: "World Bank WDI — NY.GDP.MKTP.CD (ISO3 ISR)"
+    url: "https://api.worldbank.org/v2/country/ISR/indicator/NY.GDP.MKTP.CD?format=json"
     official: false
-    notes: "Magnitude check per brief: ~US$510-540bn."
+    notes: >-
+      VERIFIED 2026-10-22, live JSON. Shape: JSON array [meta, [series
+      objects]] — indicator/country objects plus date,value; value in
+      current US$. Magnitudes: 2023 513.39bn, 2024 542.28bn, 2025
+      610.78bn (the 2025 jump is partly the shekel's appreciation —
+      cross-check against CBS ILS series before drawing). The brief's
+      510-540bn band matches 2023-24. lastupdated 2026-10-08.
   gdp_pc.csv:
-    source: "UNVERIFIED — World Bank, NY.GDP.PCAP.CD"
+    source: "World Bank — NY.GDP.PCAP.CD"
+    url: "https://api.worldbank.org/v2/country/ISR/indicator/NY.GDP.PCAP.CD?format=json"
     official: false
+    notes: "Shape identical to gdp_usd. UNVERIFIED endpoint variant (same API pattern as the verified indicator)."
   population.csv:
-    source: "UNVERIFIED — World Bank, SP.POP.TOTL"
+    source: "World Bank — SP.POP.TOTL"
+    url: "https://api.worldbank.org/v2/country/ISR/indicator/SP.POP.TOTL?format=json"
     official: false
+    notes: >-
+      VERIFIED 2026-10-22, live JSON. 2023 9.849mn, 2024 10.0022mn,
+      2025 10.1228mn — Israel crossed 10mn in 2024, so the brief's
+      9.8-10mn band is a half-year stale. The WB series is mid-year and
+      UN-estimated; CBS's own register (Rosh Hashanah release) gives a
+      slightly lower 2024 (9.92mn as of Sep 2024 per CBS press
+      releases — verify). Cross-check only; the series of record is
+      CBS's.
   hdi.csv:
-    source: "UNVERIFIED — UNDP HDR 2025 composite-indices complete time series"
+    source: "UNDP HDR 2025 composite-indices complete time series"
+    url: "UNVERIFIED — candidate: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
     official: false
   imf_fiscal.csv:
-    source: "UNVERIFIED — IMF DataMapper (WEO): gov gross debt, net lending"
+    source: "IMF DataMapper (WEO): gov gross debt, net lending"
+    url: "UNVERIFIED — candidate: https://www.imf.org/external/datamapper/api/v1/..."
     official: false
   oecd.csv:
     source: "UNVERIFIED — OECD SDMX API (Israel is a member): harmonised labour, inequality, migration"
