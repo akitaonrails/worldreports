@@ -50,6 +50,16 @@ bands: []
 
 currency:
   code: CNY
+  # CROSS-PHASE (not this lane's change; same class as UK's GBP finding):
+  #   * CNY has no CURRENCY_AFFIX entry in core/sitebuild.py yet, and zh-Hans
+  #     has no AFFIX form — test_the_currency_is_one_the_site_can_write[china]
+  #     and test_every_locale_can_be_formatted[china] fail until those additive
+  #     core columns exist (Canada's CAD entry is the template).
+  #   * zh-Hans is a NEW atlas locale: it joins the locale union, so
+  #     test_the_comparison_names_every_country_in_every_language now wants a
+  #     name.zh-Hans (and a zh-Hans AFFIX column) on EVERY country. That belongs
+  #     to the "site for all" phase, not here. core/numstyle.py already carries
+  #     a zh-Hans style (STYLES + 万/亿/万亿 ladder) — see DISCOVERY.md.
 
 # The flag is a red field with four small stars and one large one in gold.
 # That is not a chart palette: one hue cannot carry four panels and there is
