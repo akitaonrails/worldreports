@@ -38,22 +38,22 @@ years: {from: 2006, to: 2026}
 last_full_year: 2025
 tick_every: 2
 
-# Bands, from the current vintage of CBS/BoI quarterly real GDP.
-# UNVERIFIED until CBS quarterly series are pulled live:
-#  * 2008–09: mild for Israel on the annual numbers (growth slowed but
-#    stayed positive). Whether two consecutive negative q/q real-GDP
-#    quarters exist at end-2008/early-2009 is the two-quarter test and
-#    has NOT yet been checked. If it fails, this becomes an event label
-#    on the plates that need it, as with Canada's 2015 oil shock.
-#  * COVID 2020: qualifies — 2020 annual real GDP fell and q/q was
-#    negative in the spring round of restrictions (verify q/q signs).
-#  * 2023– : the war period. The band follows whatever the quarterly
-#    data show (negative q/q stretches after Oct 2023), recorded as the
-#    data say, with event annotations for the wars; no editorialising.
+# Bands, checked against the current vintage of the international
+# layer (IMF WEO via DataMapper, pulled live 2026-10-22); the CBS
+# quarterly series are blocked from this machine (see DISCOVERY.md),
+# so every band here carries the two-quarter q/q test as pending:
+#  * 2008–09: IMF WEO shows Israel +3.8 (2008), -2.8 (2009) — a real
+#    contraction year, band kept; q/q confirmation awaits CBS.
+#  * COVID 2020: -1.9% annual, qualifies on the annual number.
+#  * 2023– : the war period. Annual growth stayed positive (+2.0,
+#    +1.7; 2025 +3.5) while gross debt jumped 61.5 → 67.8% of GDP.
+#    Candidate band only: whether q/q contractions after Oct 2023
+#    meet the two-quarter rule needs CBS quarterly. Events annotate
+#    the data; no editorialising.
 bands:
-  - {from: 2008.75, to: 2009.4, label: "global crisis"}   # UNVERIFIED
-  - {from: 2020.0,  to: 2020.9, label: "COVID-19"}        # UNVERIFIED
-  - {from: 2023.8,  to: 2024.5, label: "war"}             # UNVERIFIED
+  - {from: 2008.6, to: 2009.5, label: "2008–09 crisis"}   # annual-verified; q/q pending CBS
+  - {from: 2020.0,  to: 2020.9, label: "COVID-19"}        # annual-verified
+  - {from: 2023.8,  to: 2024.5, label: "war"}             # CANDIDATE — q/q test pending CBS
 
 currency:
   code: ILS
@@ -133,8 +133,9 @@ seo:
   # name one scope, never mix two.
   spatial: "Israel"
 
-# Named in the dek, and must agree with SOURCES.yaml. UNVERIFIED until
-# the publisher verification passes close.
+# Named in the dek, and agrees with SOURCES.yaml (publishers verified
+# 2026-10-22; CBS itself parked-unreachable, but it remains the
+# publisher of record named in the dek — see meta.pending).
 sources:
   he: "הלשכה המרכזית לסטטיסטיקה, בנק ישראל, משרד האוצר, רשות האוכלוסין וההגירה"
   en: "the Central Bureau of Statistics, the Bank of Israel, the Ministry of Finance and the Population and Immigration Authority"
