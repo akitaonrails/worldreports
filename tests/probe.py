@@ -30,6 +30,7 @@ matplotlib.rcParams["figure.max_open_warning"] = 0
 
 from core import context, i18n, style  # noqa: E402
 from core.country import Country  # noqa: E402
+from core import render  # noqa: E402
 from core.render import load_plates  # noqa: E402
 
 
@@ -191,9 +192,7 @@ def _render(slug: str, lang: str) -> dict:
     real_save = style.Infographic.save
 
     def capture(self, path):
-        self._draw_header()
-        self._draw_footer()
-        i18n.localize(self.fig)
+        self.compose()
         captured[current["name"]] = self.fig
         return Path(path)
 
@@ -202,12 +201,7 @@ def _render(slug: str, lang: str) -> dict:
         ctx = context.Context(country)
         for plate in load_plates(country):
             current["name"] = plate.name
-            if plate.declarative:
-                fig = ctx.fig(plate.title, plate.subtitle, source=plate.source)
-                plate.draw(ctx, fig)
-                fig.save(ctx.out(plate.filename))
-            else:
-                plate.draw(ctx)
+            render.draw(ctx, plate)
     finally:
         style.Infographic.save = real_save
         i18n.set_lang("en")

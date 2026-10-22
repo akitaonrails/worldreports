@@ -1,14 +1,18 @@
 {
  "argentina/en": {},
- "argentina/es": {},
- "argentina/pt": {},
+ "argentina/es": {
+  "OVERLAP": 1
+ },
+ "argentina/pt": {
+  "OVERLAP": 2
+ },
  "brasil/en": {
   "CLIPPED": 8,
   "ONDATA": 14
  },
  "brasil/pt": {
   "CLIPPED": 8,
-  "ONDATA": 15
+  "ONDATA": 16
  },
  "france/en": {
   "CLIPPED": 4,
@@ -16,11 +20,12 @@
  },
  "france/fr": {
   "CLIPPED": 4,
-  "ONDATA": 17
+  "ONDATA": 19
  },
  "france/pt": {
   "CLIPPED": 4,
-  "ONDATA": 18
+  "ONDATA": 18,
+  "OVERLAP": 1
  },
  "south-korea/en": {
   "CLIPPED": 2,
@@ -40,7 +45,7 @@
  "usa/en": {
   "CLIPPED": 7,
   "ONDATA": 19,
-  "OVERLAP": 2
+  "OVERLAP": 3
  },
  "usa/pt": {
   "CLIPPED": 8,

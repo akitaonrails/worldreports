@@ -134,6 +134,7 @@ class Country:
     seo: dict                     # title, description, keywords, spatial
     sources: dict                 # the institutions named in the dek
     dir: Path = field(repr=False)
+    spine: bool = False           # held to PLATE_SPINE.md by test_spine
 
     # ---------------------------------------------------------- loading
     @staticmethod
@@ -142,6 +143,19 @@ class Country:
         d = (COUNTRIES_DIR / slug).resolve()
         if d.parent != COUNTRIES_DIR.resolve() or not d.is_dir():
             raise DataIsolationError(f"no such country: {slug!r}")
+        return Country.from_dir(d, slug)
+
+    @staticmethod
+    def from_dir(d: Path, slug: str | None = None) -> "Country":
+        """A country from its directory's country.yaml.
+
+        `load` is the way in for the atlas: it resolves a slug under
+        countries/ and refuses anything else. This is what it calls once
+        it has, and what a test uses to build a throwaway country in a
+        temporary directory.
+        """
+        d = Path(d).resolve()
+        slug = slug or d.name
         cfg = yaml.safe_load((d / "country.yaml").read_text(encoding="utf-8"))
         if cfg["slug"] != slug:
             raise ValueError(
@@ -179,6 +193,7 @@ class Country:
             seo=cfg["seo"],
             sources=cfg.get("sources", {}),
             dir=d,
+            spine=bool(cfg.get("spine", False)),
         )
 
     @staticmethod

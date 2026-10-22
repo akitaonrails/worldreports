@@ -162,17 +162,95 @@ What the context gives you, and why to use it rather than the equivalent:
   remembering. This is the single most load-bearing binding here: the worst
   bug in the original build drew half a year of trade as an annual total,
   which read as a 50% export collapse that never happened.
-- `ctx.fig(...)` — a figure in this country's identity. Pass a smaller
-  `right` (0.955) when a panel in the right-hand column carries a second
-  y-axis: the default margin fits a tick label and not the axis label
-  beside it, and `core.qa` fails the build when the label runs off the
-  canvas.
+- `ctx.fig(...)` — a figure in this country's identity. The default
+  `right=0.955` leaves room for the label of a second y-axis in the
+  right-hand column; `core.qa` fails the build when a label runs off the
+  canvas. Pass `topic=` to draw on the spine (below).
 - `ctx.pending(ax)` — the placeholder for a panel whose CSV is not
   committed yet. Better than an empty axes, and visible in review.
 - `ctx.p` — the palette. `ctx.p.cycle(i)` for a series without a meaning.
 - `ig.add_event`, `ig.add_band`, `ig.add_recessions`, `ig.mark_partial`,
   `ig.headroom` — annotations. Keep events sparse per panel: twenty rules
   on a line is a timeline, not a chart.
+
+#### Drawing on the spine
+
+Every country draws a chapter with the same panels in the same slots, on
+the same scales and in the same units, so the comparison viewer can wipe
+one country's plate over another's. [PLATE_SPINE.md](PLATE_SPINE.md)
+holds the decisions and `core/spine.py` the table: each topic's four
+slots, canonical or lens, with the unit, the reference y-range and
+whether it is log.
+
+A plate goes on the spine by declaring its topic and claiming its panels
+by key with `ig.slot(key, title)` instead of `ig.next_panel(title)`:
+
+```python
+def plate_economy(ctx, ig):                     # declarative builder
+    gdp = ctx.table("macro/gdp.csv")
+
+    ax = ig.slot("economy.growth", "Real GDP growth (% per year)")
+    yrs, vals = ctx.series(gdp, "real_growth")
+    ctx.bars(ax, yrs, vals, lambda v: ctx.p.GREEN if v >= 0 else ctx.p.alert)
+    ig.add_recessions(ax)                        # labelled on slot 1 only
+
+    ax = ig.slot("economy.gdp_per_person", "GDP per person (US$, current)")
+    ctx.line(ax, *ctx.series(gdp, "gdp_per_capita_usd"), ctx.p.BLUE)
+    ig.add_recessions(ax, label=False)
+
+    ax = ig.slot("economy.inflation", "Consumer prices (% per year)")
+    ctx.pending(ax)                              # only if it truly doesn't exist
+
+    ax = ig.slot("economy.unemployment", "Unemployment (% of labour force)")
+    ...
+    for a in ig.axes_flat:
+        ig.style_axis(a)
+
+PLATES = (
+    dict(id="01", slug="economy", topic="economy", builder=plate_economy,
+         title="...", subtitle="...", alt="..."),
+)
+```
+
+A function plate passes the topic itself:
+`ig = ctx.fig(title, subtitle, source=..., topic="economy")`, and then
+saves as usual.
+
+What the spine does for you, and what it holds you to:
+
+- **The frame is fixed.** A plate with a topic is 2 × 2 at 16 × 10.2 in,
+  `right=0.955`, and the country's `tick_every` must be 2. Anything else
+  raises when the figure is created.
+- **Slots go in order.** Claiming `economy.inflation` before
+  `economy.growth` raises. Each slot lands in its own place on the grid
+  (slot 3 is bottom-left whatever happened before), every canonical slot
+  must be claimed (`ctx.pending` it when the data do not exist), and a
+  lens slot, always the last, may be left out and is then hidden.
+  `next_panel` is refused on a spine plate.
+- **The scale is applied for you.** When the plate is saved, each
+  canonical panel is put on its reference range, so any `set_ylim` or
+  `headroom` you call on it is overridden. If your data leave the range
+  the axis grows until they fit, never clipping them, and the panel says
+  "scale extended" in its top-right corner. Signed slots get a zero line
+  and log slots a log axis with fixed ticks as soon as they are claimed.
+  Lens slots and pending panels are left as you drew them.
+- **The unit is the y-axis label** (pass `unit=False` if the panel says
+  it some other way). The unit strings and "scale extended" go through
+  your `i18n.json` like everything else; `core.spine.strings()` lists
+  them.
+- **Rates come from `ctx.per_100k(count, population)` and
+  `ctx.per_1000(...)`**, which match the two series by year and raise
+  when a year has a count but no population. `ctx.index_2006(series)`
+  rebases a level, and `ctx.fx_index(lc_per_usd)` turns local currency
+  per US$ into an index where up means stronger. They live in
+  `core/rates.py`.
+
+Set `spine: true` in `country.yaml` once every plate is migrated.
+`tests/test_spine.py` then draws all of them and checks that each chapter's
+plate declares the chapter's topic, that slots carry their keys in order,
+the frame, `tick_every`, that no y-axis is inverted or clips its data,
+that log slots are log, and that every canonical panel sits on its
+reference range unless it carries the marker.
 
 ### 4. `chapters.py`
 

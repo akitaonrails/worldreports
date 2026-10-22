@@ -20,8 +20,9 @@ import matplotlib.lines
 import matplotlib.patches
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
+from matplotlib import ticker as mticker
 
-from core import i18n
+from core import i18n, spine
 
 
 # ---------------------------------------------------------------- fonts
@@ -124,9 +125,32 @@ class Infographic:
 
     def __init__(self, country, title: str, subtitle: str, ncols: int = 2,
                  nrows: int = 2, figsize: tuple[float, float] = (16.0, 10.2),
-                 source: str = "", right: float = 0.975):
+                 source: str = "", right: float = 0.955,
+                 topic: str | None = None):
         self.country = country
         self.p = country.palette
+        # A plate that declares its topic is drawn on the spine: the one
+        # frame, the one time axis, panels claimed with slot(). See
+        # core/spine.py and PLATE_SPINE.md. None is a plate not migrated
+        # yet, which keeps drawing exactly as it always has.
+        self.topic = topic
+        if topic is not None:
+            spine.slots(topic)
+            frame = {"nrows": nrows, "ncols": ncols,
+                     "figsize": tuple(float(v) for v in figsize),
+                     "right": right}
+            if frame != spine.FRAME:
+                raise spine.SpineError(
+                    f"{country.slug}/{topic}: a spine plate is drawn on "
+                    f"{spine.FRAME}, not {frame}")
+            if country.tick_every != spine.TICK_EVERY:
+                raise spine.SpineError(
+                    f"{country.slug}/{topic}: a spine plate labels every "
+                    f"{spine.TICK_EVERY}nd year; country.yaml has "
+                    f"tick_every: {country.tick_every}")
+        self._next_slot = 0
+        #: Where save() wrote the plate (its English path), once it has.
+        self.saved_as: Path | None = None
         apply_rc(country)
         self.title = title
         self.subtitle = subtitle
@@ -142,7 +166,9 @@ class Infographic:
         # second axis measures. A plate with such a panel asks for the
         # room instead of hoping, and core.qa fails the build if it does
         # not. Every other margin is shared, so the plates of five
-        # countries keep lining up with each other.
+        # countries keep lining up with each other. The default is the
+        # spine's 0.955 (PLATE_SPINE.md rule 1), which has room for a
+        # right-hand axis label, so plates register at the same width.
         self.fig.subplots_adjust(left=0.055, right=right, top=0.845,
                                  bottom=0.105, wspace=0.24, hspace=0.38)
         self.axes_flat = (self.axes.ravel()
@@ -151,11 +177,73 @@ class Infographic:
 
     # ------------------------------------------------------------ panels
     def next_panel(self, label: str = ""):
+        if self.topic is not None:
+            raise spine.SpineError(
+                f"{self.country.slug}/{self.topic}: a spine plate claims its "
+                f"panels with slot(key, title), not next_panel()")
         ax = self.axes_flat[self._panel_idx]
         self._panel_idx += 1
         if label:
-            ax.set_title(label, loc="left", fontsize=12, fontweight="bold",
-                         color=self.p.ink, fontfamily=title_font())
+            self._title(ax, label)
+        return ax
+
+    def _title(self, ax, label: str) -> None:
+        ax.set_title(label, loc="left", fontsize=12, fontweight="bold",
+                     color=self.p.ink, fontfamily=title_font())
+
+    def slot(self, key: str, label: str = "", unit: bool = True):
+        """The panel for one spine slot, titled and tagged.
+
+            ax = ig.slot("economy.growth", "Real GDP growth (% per year)")
+
+        Slots are claimed in spine order. Claiming one before a canonical
+        slot that comes ahead of it fails here rather than publishing a
+        plate whose panels sit in the wrong places; a lens slot (always
+        last in its topic) may be left unclaimed. The panel is the slot's
+        own position on the grid, so slot 3 is bottom-left whatever came
+        before it.
+
+        The axes carries its key as its gid and as `ax.spine_slot`. A
+        signed slot gets its zero line now and a log slot its log scale,
+        so the plate draws onto the right axis; the reference range is
+        applied in save(), after the drawing, so it can see every value
+        and grow to hold them. `unit=False` leaves the shared unit off the
+        y-axis label, for a panel that states it some other way.
+        """
+        where = f"{self.country.slug}/{self.topic}"
+        if self.topic is None:
+            raise spine.SpineError(
+                f"{self.country.slug}: slot({key!r}) on a plate with no "
+                f"topic; pass topic= to ctx.fig or the PLATES entry")
+        s = spine.SLOTS.get(key)
+        if s is None or s.topic != self.topic:
+            raise spine.SpineError(
+                f"{where}: {key!r} is not one of this topic's slots "
+                f"{[x.key for x in spine.slots(self.topic)]}")
+        order = spine.slots(self.topic)
+        i = order.index(s)
+        if i < self._next_slot:
+            raise spine.SpineError(
+                f"{where}: {key!r} claimed after "
+                f"{order[self._next_slot - 1].key!r}; slots go in spine "
+                f"order, once each")
+        skipped = [x.key for x in order[self._next_slot:i] if x.canonical]
+        if skipped:
+            raise spine.SpineError(
+                f"{where}: {key!r} claimed before {skipped}; slots go in "
+                f"spine order — draw those first, or ctx.pending them")
+        self._next_slot = self._panel_idx = i + 1
+        ax = self.axes_flat[i]
+        ax.set_gid(key)
+        ax.spine_slot = s
+        if label:
+            self._title(ax, label)
+        if unit and s.unit:
+            ax.set_ylabel(s.unit, fontsize=8.6, color=self.p.muted)
+        if s.zero:
+            ax.axhline(0, color=self.p.muted, lw=0.9, zorder=2)
+        if s.scale == spine.LOG:
+            ax.set_yscale("log")
         return ax
 
     def style_axis(self, ax, xticks_years: bool = True,
@@ -267,7 +355,64 @@ class Infographic:
                                color=self.p.faint, ha="right", va="top")
         i18n.mark_localized(artist)
 
+    # ------------------------------------------------------------ spine
+    def apply_spine(self) -> None:
+        """Put every canonical panel on its reference scale.
+
+        Run after the plate has drawn, so the limits can see every value.
+        Data inside the reference range get exactly that range; data that
+        leave it grow the axis until they fit — they are never clipped —
+        and the panel says "scale extended". A pending panel has nothing
+        to scale and a lens slot is the country's own, so both are left
+        as drawn. Does nothing on a plate without a topic.
+        """
+        if self.topic is None:
+            return
+        where = f"{self.country.slug}/{self.topic}"
+        for i, s in enumerate(spine.slots(self.topic)):
+            ax = self.axes_flat[i]
+            if getattr(ax, "spine_slot", None) is None:
+                if s.canonical:
+                    raise spine.SpineError(
+                        f"{where}: slot {i + 1} ({s.key}) was never "
+                        f"claimed; claim it and ctx.pending it if the "
+                        f"data do not exist")
+                if spine.data_extent(ax) is not None:
+                    raise spine.SpineError(
+                        f"{where}: slot {i + 1} has data but was never "
+                        f"claimed as {s.key}")
+                ax.set_visible(False)
+                continue
+            if not s.canonical or getattr(ax, "spine_pending", False):
+                continue
+            (lo, hi), grew = spine.fit(s, spine.data_extent(ax))
+            if s.scale == spine.LOG:
+                ax.set_yscale("log")
+                ax.yaxis.set_major_locator(
+                    mticker.FixedLocator(spine.log_ticks(s, lo, hi)))
+                ax.yaxis.set_major_formatter(
+                    mticker.FuncFormatter(spine.tick_label))
+                ax.yaxis.set_minor_locator(mticker.NullLocator())
+            ax.set_ylim(lo, hi)
+            ax.spine_extended = grew
+            if grew:
+                ax.text(1.0, 1.0, spine.EXTENDED, transform=ax.transAxes,
+                        ha="right", va="bottom", fontsize=7.6,
+                        color=self.p.faint, style="italic",
+                        gid=spine.EXTENDED_GID, clip_on=False)
+
     # ------------------------------------------------------------- save
+    def compose(self) -> None:
+        """Everything save() does to the figure before writing it.
+
+        Separate so the tests can inspect exactly what would be written:
+        the spine scales, the header and footer, then the translation.
+        """
+        self.apply_spine()
+        self._draw_header()
+        self._draw_footer()
+        i18n.localize(self.fig)
+
     def save(self, path) -> Path:
         """Draw the frame, translate the finished figure, then write it.
 
@@ -275,10 +420,9 @@ class Infographic:
         cannot be half-localised. English keeps the plain filename; other
         languages get a suffix, which leaves existing links working.
         """
-        self._draw_header()
-        self._draw_footer()
-        i18n.localize(self.fig)
+        self.compose()
         path = Path(path)
+        self.saved_as = path
         if i18n.LANG != "en":
             path = path.with_name(f"{path.stem}.{i18n.LANG}{path.suffix}")
         self.fig.savefig(path, dpi=170)

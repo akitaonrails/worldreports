@@ -21,7 +21,7 @@ from pathlib import Path
 
 import pytest
 
-from core import context, i18n, sitebuild
+from core import context, i18n, render, sitebuild
 from core import country as country_mod
 from core.country import COUNTRIES_DIR, Country, DataIsolationError, within
 from core.render import load_plates
@@ -141,12 +141,7 @@ def test_drawing_plates_reads_only_this_country(country, watch_opens, tmp_path):
     i18n.set_lang("en")
     ctx = context.Context(country, out_dir=tmp_path)
     for plate in load_plates(country):
-        if plate.declarative:
-            fig = ctx.fig(plate.title, plate.subtitle, source=plate.source)
-            plate.draw(ctx, fig)
-            fig.save(ctx.out(plate.filename))
-        else:
-            plate.draw(ctx)
+        render.draw(ctx, plate)
     bad = _trespass(watch_opens, country)
     assert not bad, (f"{country.slug}'s plates read another country's files: "
                      + ", ".join(str(p) for p in sorted(set(bad))[:6]))
