@@ -1,173 +1,240 @@
-# Data provenance — Israel. SKELETON (discovery pass, checkpoint 1).
+# Data provenance — Israel. Discovery pass complete 2026-10-22.
 #
-# Written BEFORE any CSV, per SOURCING_A_COUNTRY.md §3. Every endpoint
-# below is a lead and is marked UNVERIFIED until curl'd live with its
-# payload shape recorded in DISCOVERY.md; verification passes amend this
-# file in place and drop the markers. Nothing here is curated; no CSV
-# exists yet.
+# Written BEFORE any CSV, per SOURCING_A_COUNTRY.md §3. No CSV is staged
+# yet; every entry below names the publisher and the endpoint curl'd
+# live TODAY (2026-10-22) with the payload shape, or is parked under
+# meta.pending with the reason. The fetch swarm works from this file.
 #
-# Retrieved: 2026-10-22 (discovery pass in progress).
+# Israel sits IN the international comparables layer (WB ISO3=ISR, IMF
+# WEO, UNDP, OECD membership), and the OECD SDMX API carries
+# Israel-specific datasets (DSD_LFS@DF_IALFS_*), a harmonised layer the
+# way Eurostat is for EU countries.
 #
-# Israel is IN the international comparables layer (WB ISO3=ISR, IMF,
-# UNDP, OECD membership), unlike Taiwan; the OECD API is a harmonised
-# layer here the way Eurostat is for the EU countries.
+# The blocking finding of this pass: cbs.gov.il and data.cbs.gov.il are
+# unreachable from scripted clients on this machine (TCP reset after TLS,
+# and error pages served under HTTP 200 — an "endpoints that lie" case).
+# The domestic statistical spine therefore goes to the pending list
+# whole, and this pass maps every fallback that IS verified.
 
 meta:
   pending:
-    # Dead ends and unresolved questions. None blocks the lane; each is
-    # here with its reason and gets revisited in a later pass.
-    - "CBS API: whether the JSON DataHub (data.cbs.gov.il) requires a
-      free application key, and which series IDs exist in English vs
-      Hebrew-only. UNVERIFIED."
-    - "Bank of Israel data portal (boi.org.il) machine-readable format —
-      Excel downloads vs a JSON/CSV API. UNVERIFIED."
-    - "TASE index via Yahoo: which symbol resolves (^TA125.TA vs
-      ^TA35.TA vs TA125.TA.TA). UNVERIFIED. stooq expected JS-walled
-      from this machine — to be confirmed, then parked."
-    - "PIBA (population.gov.il / piba.org.il?) open-data endpoints for
-      olim, foreign workers, asylum. UNVERIFIED which is machine-readable."
-    - "Israel Police / Ministry of National Security annual crime
-      publications: machine-readable table vs PDF-only. UNVERIFIED."
+    - "CBS Israel (cbs.gov.il): www.cbs.gov.il and cbs.gov.il reset the
+      connection after the TLS handshake completes (real CBS cert,
+      DigiCert, TLSv1.2) for every path tried; data.cbs.gov.il answers
+      403 at the root, serves a Hebrew 'Oops, something is wrong' error
+      page under HTTP 200 on /en/help and /reader, and resets on /api,
+      /Query, /en. The API key flow (pilot_api) is only reachable via a
+      browser. Re-probe with the key or from a residential/browserside
+      route. Everything CBS-only is parked: national accounts (GDP
+      annual + quarterly — the q/q signs the bands need), CPI, LFS,
+      population incl. the Rosh Hashanah release, vital stats, causes
+      of death, income distribution, trade."
+    - "Bank of Israel beyond FX: the redesigned portal is a JS SPA;
+      PublicApi is live only for GetExchangeRates (verified).
+      GetInterestRates/GetCPI/GetMaccam are 404; several wrong paths
+      return a Radware bot-challenge loader under HTTP 200 — another
+      lying endpoint. Old BoI file URLs advertised on data.gov.il are
+      dead (404): meshulav_luah_heb.xls (CPI composite), yaz0106.zip
+      (daily FX history), pribmash/mashfix.xls (mortgage rates), and
+      dataset 381 points at the retired www.bankisrael.gov.il/series
+      catalogue. Policy rate + FX history + reserves need the BoI MSIB
+      portal or hand curation from the monetary-committee pages."
+    - "Ministry of Finance / Accountant General: agf.gov.il does not
+      resolve (NXDOMAIN); no MoF organisation on data.gov.il; budgets.
+      gov.il does not resolve. mof.gov.il resolves (gov.il MoF pages)
+      but no machine-readable endpoint verified this pass. IMF WEO
+      general-government balance/debt is the verified harmonised
+      fallback; Israel's own D7 debt definition stays parked."
+    - "OECD inequality (IDD/WISE): REST is live and the data-explorer
+      reference is DSD_WISE_IDD@DF_IDD (agency OECD.WISE.INE); the exact
+      flow version + key were not resolved this pass."
+    - "CBS death-certificate homicide (the §4a second count) — blocked
+      with all of CBS."
+    - "PIBA/ASO asylum statistics (applications / decisions / persons
+      present) — no dataset under population_authority on data.gov.il;
+      ASO (Asylum Seekers Unit) publishes on gov.il, endpoint pending."
+    - "Police crime file covers 2021–2025 only; earlier years not on
+      data.gov.il this pass. Homicide as its own crime-type code needs
+      the dictionary mapping (verified present in the dictionary
+      resource)."
+    - "TASE TA-35 index symbol: ^TA35.TA is 404 on Yahoo; ^TA125.TA
+      verified instead and is the main index anyway. stooq is
+      JS-walled from this machine (browser challenge under HTTP 200)."
+    - "Italy's web ground (palette re-check at merge time — italy is
+      queued, not in the tree)."
 
 macro:
-  # Planned from CBS national accounts. UNVERIFIED.
   gdp.csv:
-    source: "UNVERIFIED — CBS Israel (cbs.gov.il), national accounts"
-    url: "UNVERIFIED — candidate: https://data.cbs.gov.il/... (API v2?)"
+    source: "CBS Israel — national accounts (blocked, see meta.pending)"
+    official: true
     notes: >-
-      UNVERIFIED. Need annual + quarterly real GDP (recession bands
-      depend on q/q signs), current-price GDP, and the unit (CBS
-      publishes new sheqels, ILS — watch for old-shekel legacy tables).
-      CBS releases annual revisions; record revision policy.
+      PARKED at CBS. Harmonised fallbacks meanwhile: IMF WEO real GDP
+      growth and WB GDP US$ (both verified below, official: false);
+      never spliced with each other or with CBS.
+  gdp_growth_imf.csv:
+    source: "IMF DataMapper (WEO via datamapper API) — NGDP_RPCH"
+    url: "https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/ISR"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py   # to be written by the swarm
+    notes: >-
+      VERIFIED 2026-10-22. JSON {values:{<INDICATOR>:{<ISO3>:{year:
+      value}}}}; the /ISR path segment does NOT filter — the response
+      carries every country, filter client-side. Israel: 2008 +3.8,
+      2009 -2.8, 2020 -1.9, 2023 +2.0, 2024 +1.7, 2025 +3.5, with WEO
+      projections in the same object through 2031 — projections must
+      live in their own columns. The 2009 negative year is what makes
+      the 2008–09 band defensible on annual data; the war-period band
+      still needs CBS q/q.
   cpi.csv:
-    source: "UNVERIFIED — CBS Israel, CPI (index 2022=100 rebasing to check)"
-    notes: >-
-      UNVERIFIED. CPI is published monthly, English UI exists. Check
-      the index base year and whether a 12-month-average column is
-      needed for the annual plate.
+    source: "CBS Israel — CPI (blocked); BoI composite index file 404"
+    official: true
+    notes: "PARKED (meta.pending). Magnitude sense from IMF PCPIP_IG (not yet pulled)."
 
 markets:
-  # Planned from Bank of Israel. UNVERIFIED.
-  rates.csv:
-    source: "UNVERIFIED — Bank of Israel, policy rate (Monetary Fund decision)"
-    url: "UNVERIFIED — candidate: https://boi.org.il/... data portal"
-    notes: >-
-      UNVERIFIED. Policy rate series; BoI portal is bilingual. Record
-      year-end and annual-average columns.
   usdils.csv:
-    source: "UNVERIFIED — Bank of Israel, USD/ILS representative rate + exchange-rate index"
+    source: "Bank of Israel — PublicApi representative exchange rates"
+    url: "https://www.boi.org.il/currency.xml"   # 301 -> next line
+    alt_url: "https://boi.org.il/PublicApi/GetExchangeRates"
     notes: >-
-      UNVERIFIED. Direction must be stated explicitly (ILS per USD —
-      a rising line is a weaker sheqel). The shekel index (REER/NEER)
-      panel comes from the same portal.
-  reserves.csv:
-    source: "UNVERIFIED — Bank of Israel, foreign exchange reserves"
-    notes: "UNVERIFIED. Level series; cross-check against WB FI.RES.TOTL.CD."
-  ta35.csv:
-    source: "UNVERIFIED — market index via a redistributor (Yahoo?)"
+      VERIFIED 2026-10-22, live JSON: {exchangeRates:[{key:"USD",
+      currentExchangeRate:3.107, currentChange, unit, lastUpdate}]},
+      updated intraday (2026-10-22T12:22Z at capture). ILS per 1
+      foreign unit; JPY carries unit=100 (rate is per 100 yen) — the
+      fetcher must divide by unit. This is a SNAPSHOT of the
+      representative rate, not history; the daily-history ZIP is dead
+      (404), so the annual plate needs the BoI MSIB portal or WB
+      PA.NUS.FCRF annual averages as stopgap. Direction on the plate:
+      ILS per USD, a RISING line is a weaker sheqel.
+  rates.csv:
+    source: "Bank of Israel — policy rate (Monetary Committee decisions)"
+    notes: >-
+      PARKED: PublicApi has no rate endpoint and the portal is JS-only.
+      cbs.gov.il is unreachable, so the plate runs hand-curated from
+      committee announcements until BoI/MSIB is mapped. Unofficial
+      stopgap: IMF WEO BCIFIS (not verified this pass).
+  ta125.csv:
+    source: "Tel Aviv Stock Exchange TA-125 close, redistributed by Yahoo Finance"
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/%5ETA125.TA?range=max&interval=1mo"
     official: false
     notes: >-
-      UNVERIFIED. TASE TA-125 (or TA-35) year-end closes; no official
-      publisher takes this, so official: false regardless. Symbol to be
-      verified live.
+      VERIFIED 2026-10-22 (interval=1y is rejected; 1mo is the coarse
+      valid stride and the fetcher derives year-ends from it). Max
+      range back to 1992, 409 monthly closes. Year-end closes: 2006
+      958.3, 2010 1203.8, 2015 1246.2, 2020 1624.1, 2024 2500.6, 2025
+      3995.6 (the 2025 rise is the data saying it — record, do not
+      editorialise). A market index: official:false, labelled on the
+      plate. ^TA35.TA 404 — symbol parked.
 
 fiscal:
-  # Planned from MoF / Accountant General. UNVERIFIED.
-  budget.csv:
-    source: "UNVERIFIED — Ministry of Finance / Accountant General (agf.gov.il)"
+  imf_gov.csv:
+    source: "IMF DataMapper (WEO) — general-government gross debt and related"
+    url: "https://www.imf.org/external/datamapper/api/v1/GG_DEBT_GDP/ISR"
+    official: false
     notes: >-
-      UNVERIFIED. Verify that the Israeli fiscal year is the calendar
-      year (it is by law since the 1990s — confirm against the data's
-      own keying before claiming it on panels). Cash vs accrual: expect
-      two publishers for balance (cash from AGF, general-government from
-      CBS/IMF) — never splice.
-  debt.csv:
-    source: "UNVERIFIED — MoF Debt Management / CBS government debt"
-    notes: >-
-      UNVERIFIED. Expect gross D7/GDP headline definition (the
-      Maastricht-style public debt Israel publishes) beside the IMF
-      general-government series in international/. Two columns.
+      VERIFIED 2026-10-22. ISR gross debt %GDP: 2015 63.1, 2019 59.1,
+      2020 71.1, 2022 60.5, 2023 61.5, 2024 67.8 (war spending — the
+      data says it). Indicator ids found by scanning the indicator
+      endpoint: GG_DEBT_GDP, NGDP_RDQ3, DEBT, PS_DEBT_GDP, NFPS_DEBT_
+      GDP. Israel's own D7 public-debt definition (MoF/Accountant
+      General) is a DIFFERENT definition and is parked; when it lands
+      it gets its own column beside this one, never a splice.
 
 social:
-  labour.csv:
-    source: "UNVERIFIED — CBS Labour Force Survey (HCS)"
+  labour_oecd.csv:
+    source: "OECD SDMX REST — Israel LFS (OECD.SDD.TPS, DSD_LFS@DF_IALFS_*)"
+    url: "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_LFS@DF_IALFS_INDIC,1.0/ISR........?lastNObservations=2"
+    official: false
     notes: >-
-      UNVERIFIED. Survey-based; note the HUC definition and the
-      ultra-Orthodox/Arab sampling-frame history if documented.
-      Unemployment rate annual averages; LFS vs administrative
-      (National Insurance Institute registered unemployed) is a
-      survey-vs-administrative pair — two series if both are staged.
+      VERIFIED 2026-10-22, live: 1,059 series for ISR, generic
+      SDMX-XML Series/Obs (ObsValue + ObsDimension), quarterly
+      observations to 2026-Q2 and monthly to 2026-08 in one payload.
+      Key quirk: nine key segments (ISR + eight empty dimensions,
+      'ISR........'); response_format is NOT a valid parameter — use
+      the Accept header or default XML; dimensionAtObservation
+      accepts only DSD dimensions (REF_AREA, MEASURE, UNIT_MEASURE,
+      TRANSFORMATION, ADJUSTMENT, SEX, AGE, ACTIVITY, FREQ,
+      TIME_PERIOD). This is the harmonised layer beside the CBS LFS,
+      which is parked. Survey-vs-administrative note kept for the
+      plate: OECD here IS the LFS definition, not the NII register.
   income.csv:
-    source: "UNVERIFIED — CBS Income and Expenditure / Household Survey; income distribution tables"
+    source: "CBS household survey (blocked); OECD IDD for the harmonised Gini"
+    official: true
     notes: >-
-      UNVERIFIED. Inequality: CBS household survey Gini vs OECD
-      harmonised Gini are two definitions (survey income vs fiscal);
-      two columns, both labelled, per SOURCING §4.
+      PARKED both sides this pass: CBS blocked; OECD IDD reference
+      DSD_WISE_IDD@DF_IDD agency OECD.WISE.INE (data-explorer
+      confirmed, flow version not resolved). Two definitions, two
+      columns, per SOURCING §4.
 
 migration:
-  # The §4a chapter. Israel's definition is its own: olim are immigrants
-  # under the Law of Return (1950/1952) — a quasi-citizenship category,
-  # NOT the same legal object as an ordinary immigrant visa. Name it
-  # precisely; never add olim and foreign workers or asylum seekers into
-  # one "immigration" line.
-  olim.csv:
-    source: "UNVERIFIED — CBS (aliyah entries) / Jewish Agency count; stocks from CBS population register"
+  olim_flow.csv:
+    source: "Ministry of Aliyah and Integration — new olim, open data"
+    url: "https://data.gov.il/api/3/action/package_show?id=new-olim-by-years"
     notes: >-
-      UNVERIFIED. Flow vs stock separated; olim ≠ arrivals of all types;
-      olim with children under 15 vs head-of-household definitions
-      differ between CBS and the Jewish Agency — pick one publisher per
-      row and say which.
-  foreign_workers.csv:
-    source: "UNVERIFIED — PIBA / Population and Immigration Authority"
+      VERIFIED 2026-10-22, CKAN datastore live: person-level PUF with
+      year_aliya, month_aliya, age, gender (Hebrew values זכר/נקבה),
+      erez_moza (country of origin), yeshuv_klita (absorption
+      settlement), machoz, mikzoa; rows through 2025-09. Sibling
+      packages new-olim-by-month, new-olim-by-cities, and 1989–2015
+      cuts (age, profession) exist. THIS is the Law-of-Return flow —
+      olim are immigrants by the Law of Return (1950/1952), a legal
+      category that is not an ordinary visa and must never be summed
+      with work permits or asylum figures into one "immigration" line.
+      Hebrew cell values stay UTF-8 in the CSV; map them to codes in
+      the fetcher so plates can label in any language.
+  permit_issuance.csv:
+    source: "Population and Immigration Authority (PIBA) — visa/permit statistics"
+    url: "https://data.gov.il/api/3/action/package_show?id=stats_rish"
     notes: >-
-      UNVERIFIED. Permit stock vs permits issued in a year is the
-      migr_resfirst vs migr_resvalid confusion — two columns if both
-      exist.
+      VERIFIED 2026-10-22, CKAN datastore live: monthly issuance with
+      Hebrew columns (שנת רישום, אשרה visa class, תת-אשרה subclass,
+      מין, קבוצת גיל, ארץ דרכון passport country) and three count
+      columns חדשים/הארכות/תיקונים — new permits vs extensions vs
+      amendments. That split is §4a's permit-not-person trap in
+      concrete form: only חדשים is a flow of first issuances. Rows
+      from 2019 at least; stocks (permits in force) parked.
   asylum.csv:
-    source: "UNVERIFIED — PIBA / ASO (Asylum Seekers' unit): applications, decisions, present"
-    notes: >-
-      UNVERIFIED. §4a: four numbers, never one line called "asylum".
+    source: "PIBA / Asylum Seekers Unit"
+    notes: "PARKED (meta.pending). Four numbers, never one line (§4a)."
   population.csv:
-    source: "UNVERIFIED — CBS population, incl. the annual Rosh Hashanah press release (preliminary + final)"
+    source: "CBS Israel population register + Rosh Hashanah release (blocked)"
+    official: true
     notes: >-
-      UNVERIFIED. The Rosh Hashanah release is preliminary; the final
-      register number follows. Two vintages of the SAME year differ —
-      use one vintage for change within the series and record which.
-      Magnitude check: ~10.0-10.1 mn by end-2024 (brief said 9.8-10;
-      verify live).
+      PARKED at CBS; the Rosh Hashanah preliminary vs final register
+      vintage trap is recorded for when it lands. Verified stopgap:
+      WB SP.POP.TOTL (official:false) below.
+    crosscheck_url: "https://api.worldbank.org/v2/country/ISR/indicator/SP.POP.TOTL?format=json"
+    crosscheck: "VERIFIED 2026-10-22: 2023 9.849mn, 2024 10.0022mn, 2025 10.1228mn."
 
 demography:
   births_deaths.csv:
-    source: "UNVERIFIED — CBS vital statistics (from population register)"
-    notes: "UNVERIFIED. Births, deaths, crude rates, TFR."
+    source: "CBS vital statistics (blocked)"
+    official: true
+    notes: "PARKED. WB SP.DYN.* indicators share the verified API pattern (indicator not pulled this pass)."
   causes.csv:
-    source: "UNVERIFIED — CBS causes of death (ICD-10 chapters)"
-    notes: >-
-      UNVERIFIED. Check whether Israel publishes underlying-cause only
-      or also multiple-cause. ICD code follows the certifying physician
-      (§ SOURCING note on police deaths applies: state what the series
-      misses).
+    source: "CBS causes of death, ICD-10 (blocked)"
+    official: true
+    notes: "PARKED with CBS."
 
 security:
-  homicide.csv:
-    source: "UNVERIFIED — Israel Police / Ministry of National Security, annual publication"
+  crime_cases.csv:
+    source: "Israel Police — crime records, open data"
+    url: "https://data.gov.il/api/3/action/package_show?id=crime_records_data"
     notes: >-
-      UNVERIFIED. §4a second count: police-recorded homicides at place
-      of occurrence vs CBS death-certificate assault deaths are two
-      series on two definitions; both belong, never joined.
-
-trade:
-  partners.csv:
-    source: "UNVERIFIED — CBS foreign trade (goods, CIF/FOB), customs-based"
+      VERIFIED 2026-10-22, CKAN datastore live: one dictionary CSV of
+      crime groups/types (StatisticCrimeGroupCode/Name,
+      StatisticCrimeTypeCode/Name, CrimeName, SensitivityFlag) plus
+      one CSV per year 2021–2025 of CASES by region × quarter × crime
+      type. Counts are recorded-crime files, and only 2021–2025;
+      the 2006–2020 half of the window is not there. Homicide lives in
+      this taxonomy as a crime type — pull via the dictionary codes.
+  homicide_cbs.csv:
+    source: "CBS death certificates — assault deaths (blocked)"
+    official: true
     notes: >-
-      UNVERIFIED. Goods at customs value vs BoP (incl. services, huge
-      in Israel's tech export economy) are two definitions — the BoP
-      series lives with BoI/CBS balance of payments; two panels, never
-      one line.
+      PARKED with CBS. The police count is place-of-occurrence and
+      CBS's is residence-based; two columns when both land (§4a).
 
 international:
-  # Comparables layer — Israel is in all of these. WB verified live
-  # 2026-10-22; the rest UNVERIFIED until curl'd.
   gdp_usd.csv:
     source: "World Bank WDI — NY.GDP.MKTP.CD (ISO3 ISR)"
     url: "https://api.worldbank.org/v2/country/ISR/indicator/NY.GDP.MKTP.CD?format=json"
@@ -183,32 +250,35 @@ international:
     source: "World Bank — NY.GDP.PCAP.CD"
     url: "https://api.worldbank.org/v2/country/ISR/indicator/NY.GDP.PCAP.CD?format=json"
     official: false
-    notes: "Shape identical to gdp_usd. UNVERIFIED endpoint variant (same API pattern as the verified indicator)."
+    notes: "Shape identical to gdp_usd. Same verified API pattern (indicator not individually pulled)."
   population.csv:
     source: "World Bank — SP.POP.TOTL"
     url: "https://api.worldbank.org/v2/country/ISR/indicator/SP.POP.TOTL?format=json"
     official: false
     notes: >-
-      VERIFIED 2026-10-22, live JSON. 2023 9.849mn, 2024 10.0022mn,
-      2025 10.1228mn — Israel crossed 10mn in 2024, so the brief's
-      9.8-10mn band is a half-year stale. The WB series is mid-year and
-      UN-estimated; CBS's own register (Rosh Hashanah release) gives a
-      slightly lower 2024 (9.92mn as of Sep 2024 per CBS press
-      releases — verify). Cross-check only; the series of record is
-      CBS's.
+      VERIFIED 2026-10-22. 2023 9.849mn, 2024 10.0022mn, 2025
+      10.1228mn — Israel crossed 10mn in 2024, so the brief's
+      9.8-10mn band is half a year stale. Cross-check only; the
+      series of record is CBS's (parked).
   hdi.csv:
-    source: "UNDP HDR 2025 composite-indices complete time series"
-    url: "UNVERIFIED — candidate: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
-    official: false
-  imf_fiscal.csv:
-    source: "IMF DataMapper (WEO): gov gross debt, net lending"
-    url: "UNVERIFIED — candidate: https://www.imf.org/external/datamapper/api/v1/..."
-    official: false
-  oecd.csv:
-    source: "UNVERIFIED — OECD SDMX API (Israel is a member): harmonised labour, inequality, migration"
+    source: "UNDP HDR 2025 — composite indices complete time series"
+    url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
     official: false
     notes: >-
-      UNVERIFIED. OECD migration tables give a harmonised view of the
-      immigration stock (foreign-born) beside Israel's own olim
-      register — exactly the citizenship-vs-birth-country cut §4a asks
-      for.
+      VERIFIED 2026-10-22 (2.0MB CSV, 200). ISR row: Israel, Very
+      High human development, rank 27, HDI 0.90x in the recent years
+      (row read at capture). One vintage throughout; HDR recomputes
+      the whole back-series at each methodology change.
+  imf_gov.csv: see fiscal/ — one entry, drawn from WEO.
+  oecd_layer.csv:
+    source: "OECD SDMX REST — agency OECD.SDD.TPS (Israel member)"
+    url: "https://sdmx.oecd.org/public/rest/dataflow/OECD.SDD.TPS"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-22: the agency's dataflow list returns ~800KB
+      of flow IDs (grep DSD_*@DF_* for names; Israel-specific flows
+      exist, e.g. DSD_LFS@DF_IALFS_INDIC / _EMP / _LF). Base https://
+      sdmx.oecd.org/public/rest; structure queries take NO query
+      parameters. Migration stock (foreign-born) beside the olim
+      register is the §4a citizenship-vs-birth cut to pull when the
+      EMN/PIP flow version is resolved.
