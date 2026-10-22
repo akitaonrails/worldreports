@@ -1,0 +1,764 @@
+# Data provenance — every planned series for Italy.
+#
+# Written 2026-10-22 BEFORE the CSVs, as the research pass prescribes; the
+# fetch swarm then stages each `*_from_*` sidecar under data/. Nothing here
+# is curated yet, and no plate may read a sidecar.
+#
+# Sources verified live 2026-10-22 (payload shapes and spot values in the
+# discovery report). The pending block under `meta` is for publishers that
+# exist but could not be staged this session (walled, unreachable, or
+# document-only) — the page's sources table ignores `meta`.
+#
+# Corrected in consolidation (2026-10-22) to what the six fetchers
+# actually do: start years, vintages, keys, units for the sidecars without
+# a `#` header, and the series ISTAT could not serve. There is one entry
+# per staged sidecar and every `refreshed_by` exists. Series a fetcher
+# knows how to pull but could not stage are in `meta.pending`, not here.
+# DATA_NOTES.md carries the cross-file judgement calls.
+#
+# ISTAT access pattern, shared by every istat.it entry below:
+#   base: https://esploradati.istat.it/SDMXWS/rest/data/{FLOW}/{KEY}
+#   SDMX 2.1 GenericData by default; `Accept: text/csv` returns CSV.
+#   Quirks the fetcher must handle (all observed 2026-10-22):
+#   - "NoRecordsFound" comes back as HTTP 404 with a plain-text body — a
+#     404 here means the KEY matched nothing, not that the flow is gone.
+#   - A short key is HTTP 422 "Not enough key values in query, expecting
+#     N" — keys must name every dimension, dot for wildcard.
+#   - National-accounts and labour flows carry an EDITION dimension with
+#     every vintage stacked: pin the latest edition or each quarter
+#     repeats once per vintage (2026M9 vs 2026M10 differ visibly — Q1-2025
+#     growth was revised 0.338 -> 0.393 between them).
+#   - Total codes differ per codelist: TOTAL, ALL, WORLD and 99 are all
+#     used as totals in different flows (in 25_74, MARITAL_STATUS=99 IS
+#     the total: the 99/99 cell reads 369,944 births for 2024, exactly
+#     ISTAT's published figure).
+#   - Unkeyed national flows are heavy (births: 22MB for two years; causes
+#     of death: ~29MB for one) and the server throttles after repeated
+#     large pulls — key tightly and cache.
+#   - The old base sdmx.istat.it 302s to a dead end; esploradati is the
+#     only working host.
+
+meta:
+  pending:
+    - name: budget execution and debt stock on national definitions
+      publisher: MEF — Ragioneria Generale dello Stato / Dipartimento del Tesoro (BDAP)
+      url: https://bdap-operatorepubblico.mef.gov.it/
+      official: true
+      notes: >-
+        bdap-operatorepubblico.mef.gov.it never established a connection
+        from this machine on 2026-10-22 (curl exit 6, as Spain's IGAE did);
+        rgs.mef.gov.it and tesoro.it answer but are document portals
+        (301s to HTML index pages, no machine endpoint found). The fiscal
+        plates are therefore built on the Eurostat EDP transmission
+        (gov_10dd_edpt1, gov_10q_ggdebt), which Italy reports under
+        obligation — the same aggregates RGS computes, on the Maastricht
+        definition. If a clean RGS/Tesoro endpoint is verified later, add
+        it BESIDE the EDP series (national vs harmonised debt differ by
+        consolidation), never spliced.
+    - name: crime statistics, publisher-direct
+      publisher: Ministero dell'Interno (Dipartimento di Pubblica Sicurezza, SDI)
+      url: https://www.interno.gov.it/it/stampa-e-comunicazione/dati-e-statistiche/crimine-italia-analisi-e-dati-pubblica-sicurezza
+      official: true
+      notes: >-
+        The site is live (2026-10-22) but the crime pages are document-
+        oriented; no clean machine endpoint was found today. NOT blocking:
+        the same SDI police-record data is published by ISTAT as flow
+        73_67 "Delitti denunciati dalle forze di polizia all'autorità
+        giudiziaria" (staged below), which carries homicides
+        (TYPE_CRIME=INTENHOM, verified 0.6 per 100k in 2024). The
+        publisher-direct series is the one to hand-check the ISTAT
+        transmission against when the security chapter is built.
+    - name: merchandise trade by partner and product
+      publisher: ISTAT — Coeweb (foreign trade)
+      url: https://www.coeweb.istat.it/
+      official: true
+      notes: >-
+        www.coeweb.istat.it never established a connection from this
+        machine on 2026-10-22 (not a 403 — no connection). The trade
+        chapter's levels come from the national accounts (Eurostat nama
+        P6/P7, staged below) and the World Bank openness series; the
+        partner/product composition panels wait for the build phase.
+        Customs-value goods and national-accounts goods-and-services are
+        two different numbers; see SOURCING §4 before drawing either.
+    - name: FTSE MIB daily closes from stooq
+      publisher: stooq.com (redistributor)
+      url: https://stooq.com/q/d/l/?s=%5Eftsemib&i=d
+      official: false
+      notes: >-
+        JavaScript verification page served under HTTP 200 on 2026-10-22 —
+        the same wall that blocked ^IBEX (Spain) and ^TSX (Canada).
+        Staged from Yahoo instead (markets/ftsemib_from_yahoo.csv); stooq
+        stays here as the alternative if Yahoo ever fails.
+    - name: Banca d'Italia new statistics portal API
+      publisher: Banca d'Italia — statistiche.bancaditalia.it
+      url: https://statistiche.bancaditalia.it/
+      official: true
+      notes: >-
+        The 2023+ portal is an Angular SPA over an undocumented relative
+        /api/ whose endpoints live in lazy-loaded JS chunks. The verified
+        machine path today is the legacy Base Dati Statistica inquiry app
+        (see credit/ entries). Reversing the SPA's /api/ is fetcher-swarm
+        work if a cleaner route is wanted.
+    - name: Transparency International CPI
+      publisher: Transparency International
+      official: false
+      notes: >-
+        Curated by hand with the 2012 methodology break, as France does —
+        left for the build phase.
+    - name: ISTAT series not staged — esploradati.istat.it throttling
+      publisher: ISTAT — I.Stat SDMX (esploradati.istat.it)
+      url: https://esploradati.istat.it/SDMXWS/rest/data/
+      official: true
+      notes: >-
+        The host stopped answering at about 10:35 on 2026-10-22 (connection
+        timeouts, almost certainly throttling after the discovery and fetch
+        pulls); `curl -s -m 20 https://esploradati.istat.it/` still timed
+        out at consolidation. fetch_istat.py wrote its 11 sidecars from
+        cache and reports six series PENDING, each with its key already
+        pinned in the fetcher.
+        (1) NIC bases 1995 and 2010 and ISTAT's published annual-average
+        rate (167_747, key A.IT.2+10+40.4+8.00): nic_from_istat.csv has
+        base 2015 for 2016-2025 and the base-2025 running mean for 2026
+        only. Economy slot 3 is still covered by Eurostat HICP 2006+, and
+        NIC rates 2017-2025 can be computed within base 2015.
+        (2) The 73_67 attempted, mafia and infant homicide columns
+        (A.IT.CRIMEN.ATTEMPHOM+MAFIAHOM+INFANTHOM.9.YRDUR). Lens only.
+        (3) Life tables 26_295 (A.IT.LIFEXP..Y0), to be
+        social/lifexp_from_istat.csv. No spine slot; Eurostat
+        demo_mlexpec is the harmonised alternative (not staged).
+        (4) Total fertility by mother's citizenship,
+        25_326_DF_DCIS_FECONDITA1_5 (A.IT.TOTFERR..TOTAL), to be
+        social/fertility_from_istat.csv. Eurostat demo_find TFR 2006-2024
+        is staged in social/demography_from_estat.csv, so demography
+        slot 2 is covered; only the Italian/foreign-mother split waits.
+        (5) The stock of valid non-EU residence permits, 29_348
+        (A.IT.RESPER.9.999.ALL..TOTAL.99), to be
+        migration/permits_stock_from_istat.csv. Eurostat migr_resfirst
+        (first permits, a flow) is staged and carries the migration lens;
+        the harmonised stock twin migr_resvalid is not staged.
+        (6) Citizenship acquisitions by process, 29_849
+        (A.IT.ACQCITIZ.9.WORLD..TOTAL), to be
+        migration/citizenship_acquisitions_from_istat.csv. Eurostat
+        migr_acq totals are staged in naturalisation_from_estat.csv; only
+        the marriage/residence/transmission split waits.
+        Re-run once `curl -s -m 20 https://esploradati.istat.it/` answers:
+        `python3 -I countries/italy/fetch/fetch_istat.py` from the repo
+        root. Every query already answered is read from cache/ with no
+        network; live requests are spaced 3 s apart; the run stops trying
+        after the first connection-level failure instead of hammering the
+        host. Add the four new sidecars to this manifest when they land,
+        and drop the PENDING comment lines from the two partial files.
+    - name: statutory national minimum wage
+      publisher: none — Italy has no statutory minimum wage
+      official: true
+      notes: >-
+        Not a gap. Italian pay floors are set by sector collective
+        agreements (CCNL), not by statute, so there is no national minimum
+        wage series to fetch, and Eurostat earn_mw_cur has no Italy row for
+        the same reason. People slot 3 is drawn as ctx.pending with that
+        statement, as PLATE_SPINE.md prescribes for Italy and Switzerland.
+
+macro:
+  gdp_from_istat.csv:
+    source: ISTAT — I.Stat SDMX, flow 163_156 (Conto economico delle risorse e degli impieghi)
+    url: https://esploradati.istat.it/SDMXWS/rest/data/163_156/Q.IT.B1GQ_B_W2_S1.V.N.?startPeriod=2006
+    refreshed_by: fetch/fetch_istat.py
+    notes: >-
+      Quarterly GDP, Italy, in quarterly LEVELS (millions of euro, not
+      annualised rates — the annual level is the SUM of the raw quarters,
+      as in Spain; € million in the file). Key dims: DATA_TYPE_AGGR=B1GQ_B_W2_S1 (GDP), VALUATION
+      V=current prices / L_2020=chained volumes, ADJUSTMENT N=raw / W=
+      working-day / Y=seasonally-and-calendar adjusted, and EDITION which
+      MUST be pinned to the latest vintage (see header). Verified
+      2026-10-22, edition 2026M10: raw 2025 quarters sum to €2,265,002.6mn
+      against Eurostat's €2,265,002.5mn for the same year — the same
+      transmission, to the decimal. Growth rates: VALUATION GO1/G1 = q/q
+      SA, GO4/G4 = y/y SA.
+  gdp_from_estat.csv:
+    source: Eurostat — nama_10_gdp (ESA 2010, Italy's transmission)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_gdp?geo=IT&na_item=B1GQ
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      GDP at current prices (CP_MEUR, written as €bn) and real growth
+      (CLV_PCH_PRE, % per year). Equal to the ISTAT quarterly sum within
+      €5mn every year 2006-2025. 2026 blank. Italy computes this (ISTAT's national accounts) and
+      transmits it; Eurostat is the authoritative publication channel.
+      The ISTAT twin is macro/gdp_from_istat.csv — same quantity, national
+      release, kept as a separate column set, never spliced.
+  nic_from_istat.csv:
+    source: ISTAT — CPI/NIC, flows 167_747_DCSP_NIC2B2025_1 (annual means 1996-2025, base 2015) and 167_745_DF_DCSP_NIC1B2025_1 (monthly from 2026, base 2025)
+    url: https://esploradati.istat.it/SDMXWS/rest/data/167_747_DCSP_NIC2B2025_1/A.IT.40.4.00?startPeriod=2006
+    refreshed_by: fetch/fetch_istat.py
+    notes: >-
+      The NIC (consumer prices for the whole community), the CPI Italians
+      read in the news — NOT the HICP. General index: ECOICOP_2=00,
+      REF_AREA=IT, DATA_TYPE=40, MEASURE 4=index / 8=rate. BASE CHANGE
+      mid-window-edge: ISTAT rebased the NIC to base 2025 with the January
+      2026 release; the historical flows carry 1996-2025 on base 2015 and
+      the new ones start 2026 on base 2025 — a seam to annotate, as with
+      Spain's IPC (same base change, same year). Verified 2026-10-22:
+      general index 2024 = 120.8, 2025 = 122.6 (base 2015), i.e. +1.5%,
+      matching ISTAT's published media annua. AS STAGED, base 2015 covers
+      2016-2025 ONLY: 2006-2015 are blank because those years are
+      published on bases 1995 and 2010 (DATA_TYPE 2/10), whose query and
+      the published-rate column are meta.pending (ISTAT throttling). 2026
+      is the base-2025 mean of the months published so far (9; count in
+      `months`), from 167_745 key M.IT.85..00. Rates computed inside base
+      2015 match ISTAT's published ones (2017 1.2, 2022 8.1, 2023 5.7,
+      2024 1.0, 2025 1.5). Never compute a rate across the 2025/2026
+      base seam from these columns.
+  hicp_from_estat.csv:
+    source: Eurostat — prc_hicp_aind (HICP annual rate of change)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_aind?geo=IT&coicop=CP00&unit=RCH_A_AVG
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      The harmonised consumer-price rate. NOT the same series as ISTAT's
+      NIC: different basket and owner-occupier treatment (2024: HICP 1.1
+      vs NIC 1.5 — the two differ by tenths, permanently; 2022 HICP 8.7
+      vs NIC 8.1). Annual average rate, %. Two columns, both labelled.
+  unemployment_from_estat.csv:
+    source: Eurostat — une_rt_a (LFS unemployment rate, 15-74)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/une_rt_a?geo=IT&sex=T&age=Y15-74&unit=PC_ACT
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      The harmonised LFS rate. STARTS 2009 for Italy — 2006-2008 are blank
+      in the source, carried as blanks, exactly as Spain (the ISTAT
+      old-regulation RFL is the only 2006-2008 coverage; see meta.pending
+      on labour continuity). 2013 reads 12.4, 2024 6.5, 2025 6.1.
+      Superseded for 2006-2008 by the backcast ISTAT flow
+      (unemployment_from_istat.csv), which is one series from 2006-Q1.
+  unemployment_from_istat.csv:
+    source: ISTAT — Rilevazione sulle forze di lavoro, flow 151_884 (tasso di disoccupazione, trimestrale destagionalizzato)
+    url: https://esploradati.istat.it/SDMXWS/rest/data/151_884/Q.IT.UNEM_R.9.Y15-74.?startPeriod=2006
+    refreshed_by: fetch/fetch_istat.py
+    notes: >-
+      National unemployment rate, quarterly seasonally adjusted, SEX=9
+      (total), AGE=Y15-74; the annual figure is the MEAN of the four
+      quarters. Carries an EDITION dimension (14 vintages seen in a
+      two-year pull) — pin the latest. Verified 2026-10-22, edition
+      2026M9G11: 2024 quarters 7.10 / 6.66 / 6.30 / 6.23, mean 6.6 against
+      Eurostat's annual 6.5. Employment rate twin: flow 150_883.
+      RESOLVED at fetch (the discovery's pending item on labour
+      continuity): the latest edition of the current-regulation flow is
+      BACKCAST and starts 2006-Q1, so 2006-2025 is one series on the
+      post-2021 (Reg. EU 2019/1700) definitions. No old-regulation splice
+      and no second column are needed. Within 0.1 point of Eurostat
+      une_rt_a every year 2009-2025, and the only coverage for 2006-2008.
+      2026 has two quarters and is blank (count in `quarters`).
+
+fiscal:
+  debt_from_estat.csv:
+    source: Eurostat — gov_10dd_edpt1 (EDP notification debt) and gov_10q_ggdebt
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10dd_edpt1?geo=IT&na_item=GD&unit=PC_GDP&sector=S13
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Maastricht gross debt, general government, % of GDP (annual) and €
+      (quarterly, read at Q4). This is the EDP/ESA definition:
+      consolidated, all levels of government. Verified 2026-10-22: 2020
+      154.7%, 2024 134.3%, 2025 136.7%; stock 2025-Q4 €3,097.1bn — Italy
+      crossed €3tn during 2025. The MEF/Tesoro's own "debito pubblico" is
+      the same EDP aggregate domestically (see meta.pending); the
+      Tesoro's "debito dello Stato" would be the STATE only and a smaller
+      number — one definition per column if it ever arrives.
+  deficit_from_estat.csv:
+    source: Eurostat — gov_10dd_edpt1 (B9) and gov_10a_main (D41PAY)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10dd_edpt1?geo=IT&na_item=B9&unit=PC_GDP&sector=S13
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Net lending/borrowing % GDP; primary = deficit + interest, computed
+      here (what the budget would be if the debt were free — the plate's
+      story, since Italy has run primary surpluses almost every year of
+      the window). Verified: 2009 −5.1 (Italy's crisis deficits were far
+      smaller than Spain's −11.2 — the state did not recapitalise its
+      banks in the window), 2011 −3.5, 2020 −9.4, 2024 −3.4, 2025 −3.1.
+      Columns deficit, primary, interest (D41PAY), all % of GDP. The
+      2021-2023 deficits (−8.9, −8.1, −7.1) carry the building-bonus
+      (Superbonus) tax credits, which ESA records as expenditure when the
+      works are done; confirm against the EDP notification notes before
+      annotating.
+  revenue_from_estat.csv:
+    source: Eurostat — gov_10a_main (TR, TE)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10a_main?geo=IT&sector=S13&na_item=TR&unit=PC_GDP
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Total revenue and total expenditure of general government, % of GDP,
+      national-accounts basis. Verified: revenue 2024 46.9%, 2025 48.0%.
+      The pair brackets the deficit file.
+  tax_burden_from_estat.csv:
+    source: Eurostat — gov_10a_taxag (D2+D5+D91+D61 net of D995)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10a_taxag?geo=IT&na_item=D2_D5_D91_D61_M_D995&unit=PC_GDP&sector=S13_S212
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Eurostat's harmonised taxes-and-social-contributions ratio
+      (na_item=D2_D5_D91_D61_M_D995, sector=S13_S212 — the working key
+      from Spain's fetcher; na_item=TR returns EMPTY here). Verified: 2024
+      42.3%, which is the figure MEF itself announced for 2024. National
+      "pressione fiscale" counts differently; if an ISTAT/MEF twin is
+      added later it goes in its own column.
+  spending_by_function_from_estat.csv:
+    source: Eurostat — gov_10a_exp (COFOG divisions, TE, % GDP)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10a_exp?geo=IT&sector=S13&na_item=TE&unit=PC_GDP
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Spending by COFOG division. GF01 carries debt interest, which is why
+      it is not simply "administration". defence_order = GF02+GF03 and
+      other = GF05+GF06+GF08, summed ONLY in years where every part is
+      published (consolidation fix: the first draft zero-filled a missing
+      division with .get(y, 0); no effect on today's data, since all parts
+      run 1995-2024, but a hole is now a hole). COFOG runs to 2024; 2025
+      and 2026 are blank. Verified: GF10 (social protection) 2024 21.3% of
+      GDP. "other" jumps to 4.3/5.1/6.1 in 2021-2023 (GF06 housing and
+      community amenities: the building bonuses) and falls back to 2.6
+      in 2024.
+  investment_from_estat.csv:
+    source: Eurostat — nama_10_gdp (P51G) and gov_10a_main (P51G)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Gross fixed capital formation, whole economy (€bn and % GDP) and
+      general government (% GDP): three concepts, kept apart. Columns
+      gfcf_eurbn, gfcf_pct_gdp, gov_gfcf_pct_gdp.
+
+trade:
+  trade_from_estat.csv:
+    source: Eurostat — nama_10_gdp (P6 exports, P7 imports)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Exports and imports of goods AND services, national-accounts basis,
+      €bn (columns exports_eurbn, imports_eurbn; 2026 blank). Their sum
+      over GDP equals WB openness to ±0.05 point through 2009 and runs
+      0.2-1.0 point below it afterwards (WB on an older vintage). Not the
+      customs-value goods trade: the partner/product
+      composition chapter waits on Coeweb (meta.pending) and is drawn on
+      the other definition, labelled.
+
+markets:
+  policy_rate_from_ecb.csv:
+    source: ECB Data Portal — FM (DFR and MRO, daily, year-end)
+    url: https://data-api.ecb.europa.eu/service/data/FM/D.U2.EUR.4F.KR.DFR.LEV
+    refreshed_by: fetch/fetch_ecb.py
+    notes: >-
+      Italy has no monetary policy of its own; the policy rate is the
+      ECB's. The deposit facility rate is the one that has steered
+      money-market rates since 2014 — through the negative-rate period the
+      MRO sat at zero while the DFR went to −0.50 — so the DFR is drawn
+      and the MRO kept as a second column, never spliced into one "policy
+      rate" line. Same construct as France's and Spain's files. Verified
+      2026-10-22: DFR 2025 year-end 2.00, and the ECB has since RAISED —
+      the series reads 2.50 from 2026. CSV served via ?format=csvdata.
+      Year-end levels, %. MRO is blank in 2006-2007 (the fixed-rate MRO
+      series starts Oct 2008); the 2026 cell is the live reading on the
+      fetch date, not a year-end.
+  eurusd_from_ecb.csv:
+    source: ECB Data Portal — EXR (USD per EUR reference rate, daily)
+    url: https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A
+    refreshed_by: fetch/fetch_ecb.py
+    notes: >-
+      Annual mean and year-end of the daily ECB reference rate. USD per
+      EUR: a FALLING line is a weaker euro (already the spine's "up =
+      stronger" direction once indexed 2006 = 100). Columns avg,
+      avg_months, eop; 2026 is 10 months and its eop is the last fixing
+      (2026-10-21: 1.1234).
+  yield_10y_from_estat.csv:
+    source: Eurostat — irt_lt_mcby_a (Maastricht criterion bond yield)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/irt_lt_mcby_a?geo=IT
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Annual average of the 10-year benchmark government bond yield used
+      for the convergence criterion — the BTP. Verified: 2012 5.49% (the
+      spread crisis in one number), 2022 3.16, 2025 3.59. Equal to the
+      mean of the ECB IRS monthly series M.IT.L.L40.CI.0000.EUR.N.Z to
+      0.01 point every year 2006-2025 (checked by hand in consolidation).
+      2026 blank (incomplete year). The spread over
+      Germany it implies is the plate's story but is computed on the
+      plate, not here.
+  ftsemib_from_yahoo.csv:
+    source: Yahoo Finance (redistributor) — FTSEMIB.MI, year-end closes from monthly bars
+    url: https://query1.finance.yahoo.com/v8/finance/chart/FTSEMIB.MI
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: >-
+      Nobody official publishes an index close. PRICE index — it excludes
+      dividends, and the FTSE MIB's dividend yield is among the highest in
+      Europe, so a price-only chart understates Milan against total-return
+      indices; the plate must say so. Monthly close = last trading day of
+      the month, so December is the year-end value; the file keeps only
+      the December close per year (2005-2025) plus the 2026 cell, which is
+      the live bar on the fetch date (48,813.77), not a year-end. Index
+      points, in EUR; the spine's US$ index needs the ECB rate and a
+      staged S&P 500, neither of which this fetcher writes. stooq's ^ftsemib is the
+      fallback and is JS-walled (see meta.pending).
+
+credit:
+  household_debt_from_bdi.csv:
+    source: "Banca d'Italia — Base Dati Statistica (Conti finanziari: household + NPISH debt / disposable income)"
+    url: https://infostat.bancaditalia.it/inquiry/
+    refreshed_by: fetch/fetch_bdi.py
+    notes: >-
+      Households+NPISH LOAN liabilities (F41 short-term + F42 long-term,
+      financial accounts, quarterly stocks, CFI_FA.Q.S1M.IT.F41/F42...)
+      read at Q4, €bn, divided by gross disposable income of
+      households+NPISH. BdI publishes no disposable income, so the
+      denominator is Eurostat nasa_10_nf_tr B6G S14_S15 (ISTAT's
+      transmission), carried as gdi_estat_eurbn, and the ratio column is
+      COMPUTED and named debt_pct_gdi_computed. 2024: 55.9 here vs 56.1
+      in the BdI Financial Stability Report and 55.4 in Eurostat
+      tec00104. The 2026 cell is the Q2 stock with no ratio. The spine's
+      credit slot 1 is % of GDP on BIS WS_TC (not staged; BIS 2024-Q4
+      36.0, Eurostat tipspd22 36.1, these loans over Eurostat GDP 36.1).
+      The Base Dati Statistica is a query app, but its AJAX backend IS a
+      machine endpoint, verified live 2026-10-22: POST
+      https://infostat.bancaditalia.it/inquiry/home?calltype=asin&service=GETINQUIRYSCOPE
+      returns the session cookie; each series then comes from POST
+      ...&service=PROSPETTODATI with CUBEIDS=<series code>, 30 rows a page
+      NEWEST-FIRST, further pages by re-posting the returned TABLEDATA as
+      TABLEREQUEST with rowsPageIndex = a ROW offset (not a page number);
+      the fetcher walks to numTotRows and asserts the count. A bad call
+      returns an HTML "Risorsa Protetta" page under HTTP 500, or the
+      literal JSON null under HTTP 200 — assert on payload shape, never
+      on status. Fetcher: fetch/fetch_bdi.py.
+  npl_from_bdi.csv:
+    source: Banca d'Italia — Base Dati Statistica (sofferenze e crediti, banks' balance-sheet quality)
+    url: https://infostat.bancaditalia.it/inquiry/
+    refreshed_by: fetch/fetch_bdi.py
+    notes: >-
+      Two NPL measures, never spliced. PRIMARY: npl_gross_ratio_fsi, the
+      IMF FSI gross non-performing loans ÷ total loans (SDDS_FS.Q.3700001.
+      NPLL.902), %, quarterly, read at Q4, from 2011 (2011-2014 predate
+      the 2015 EBA non-performing-exposure definition; annotate the
+      seam). 2025-Q2 2.6 against 2.7 in the BdI Financial Stability
+      Report (a slightly narrower bank set). BESIDE IT: bad loans
+      (sofferenze) on bank balance sheets, residents, GROSS — not net of
+      provisions, as the discovery said — € million monthly stocks
+      (BAM_BSIB...SBI143...), DISCONTINUED after 2024-03, and
+      bad_loans_ratio_computed = sofferenze ÷ loans to residents at the
+      SAME month. In the 2024 row, bad_loans_period is 2024-03 and the
+      ratio divides by March loans, while loans_period/loans_eur_mn are
+      December: read the period columns. Stocks, never summed months.
+  lending_rate_from_bdi.csv:
+    source: Banca d'Italia — Base Dati Statistica (TUB/TAE lending rates, new business to households)
+    url: https://infostat.bancaditalia.it/inquiry/
+    refreshed_by: fetch/fetch_bdi.py
+    notes: >-
+      MIR harmonised bank interest rates, %, monthly: new-business house
+      purchase (BAM_MIR...MIR5411...110.212) as annual mean (house_new_avg,
+      count in `months`) and December value (house_new_last), new consumer
+      credit (consumer_new_avg) and all household loans outstanding
+      (hh_outstanding_avg). 1995/2003+ at source; 2026 is 8 months. The
+      series beside the ECB rate they both follow.
+
+social:
+  gini_from_estat.csv:
+    source: Eurostat — ilc_di12 (EU-SILC Gini of equivalised disposable income)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ilc_di12?geo=IT&age=TOTAL&statinfo=GINI_HND
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      EU-SILC Gini. NOTE the dimension is statinfo=GINI_HND, not indic_il
+      (the indic_il query returns HTTP 400 "Dimension INDIC_IL is not
+      defined"). Verified: 2020 32.5, 2024 32.2, 2025 31.0. COVERAGE: the
+      current ilc_di12 (and tessi190) carry Italy from survey year 2014
+      only; 2006-2013 are blank in the source, not a fetch failure. The
+      World Bank series (social/gini_from_wb.csv) is the only 2006-2013
+      coverage, on its own income definition. ISTAT
+      publishes the same survey nationally (Condizioni di vita); the World
+      Bank's harmonised Gini for Italy is ALSO EU-SILC-derived (2023: WB
+      34.3 vs Eurostat 31.5) — three cuts of one survey, not three
+      measurements.
+  poverty_from_estat.csv:
+    source: Eurostat — ilc_li02 (at-risk-of-poverty rate, 60% of median)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ilc_li02?geo=IT&unit=PC&sex=T&age=TOTAL&statinfo=MED_EI&rskpovth=B_60
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Share below 60% of the national median equivalised income. A
+      relative threshold: it does not fall in a recession where everyone's
+      income falls together, and that is a property of the measure, not a
+      finding about poverty. Verified: 2024 18.9%, 2025 18.6%. Survey
+      year on the x-axis (income year is one earlier); 2006-2025.
+  poverty_abs_from_istat.csv:
+    source: ISTAT — flow 34_727 "Povertà nuove serie" (absolute poverty incidence)
+    url: https://esploradati.istat.it/SDMXWS/rest/data/34_727/A.2.INCID_POVASS_FAM.ALL.TOT.HH.TOTAL.99.ALL.9.TOTAL?detail=dataonly
+    refreshed_by: fetch/fetch_istat.py
+    notes: >-
+      Italy's distinctive ABSOLUTE poverty measure (a fixed basket, not a
+      relative threshold) — the national headline the SILC rate is not.
+      Flow 34_727 is the CURRENT series and carries 2025 already; flow
+      34_201 "Indicatori di povertà assoluta" is the interrupted old one
+      (verified ending 2013; 34_728 is explicitly "serie interrotte
+      1997-2021"). The basket was revised with the new series — a
+      definitional break to annotate, two columns, never spliced. Quirk:
+      REF_AREA uses terse codes (national appears as '2'); map against the
+      codelist at fetch time. Key verified working 2026-10-22: 12 dims,
+      INCID_POVASS_FAM (households) and INCID_POVASS_INDIV (individuals).
+      AS STAGED: household incidence only, % — abs_hh (absolute) and
+      rel_hh (relative, national line) — covering 2014-2025; the new
+      series starts 2014, so 2006-2013 are blank. Individual incidence is
+      not staged.
+  demography_from_estat.csv:
+    source: Eurostat — demo_gind (JAN, LBIRTH, DEATH) and demo_find (TOTFERRT)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Population on 1 January, live births, deaths, total fertility rate —
+      the harmonised cut, drawn beside ISTAT's own, never spliced.
+      Verified: population 1-Jan-2025 58,943,464 and 1-Jan-2026
+      58,942,828 (the decline has nearly stopped, on net migration);
+      births 2024 369,944 — exactly ISTAT's figure, same transmission;
+      deaths 2024 653,109; TFR 2024 1.18, the record low. Columns population
+      (persons, 1 January), births, deaths (counts), tfr (children per
+      woman); deaths run to 2025
+      (651,830), TFR to 2024. Population, births and deaths equal ISTAT's
+      on every overlapping year. Crude rates computed from these use the
+      1-January population, not Eurostat's annual average.
+  population_from_istat.csv:
+    source: ISTAT — flow 22_289 (Popolazione residente al 1° gennaio)
+    url: https://esploradati.istat.it/SDMXWS/rest/data/22_289/A.IT.JAN.9.TOTAL.99?startPeriod=2006
+    refreshed_by: fetch/fetch_istat.py
+    notes: >-
+      Resident population at 1 January, national (REF_AREA=IT; the flow
+      also carries every comune — unkeyed it is 5MB for two years). ISTAT
+      re-based the resident-population series twice inside the window
+      (post-2011 census and again for the permanent census, 2018 onward):
+      the "Popolazione residente ricostruita" flows (164_*) are the
+      intercensal reconstructions. One vintage throughout — check at fetch
+      which reconstruction 22_289 currently carries and annotate the seam.
+  vital_from_istat.csv:
+    source: ISTAT — flows 25_74 (Nati vivi) and 26_29_DF_DCIS_DECESSI_2 (Morti)
+    url: https://esploradati.istat.it/SDMXWS/rest/data/25_74/A.IT.LBIRTH.TOTAL.TOTAL.TOTAL.ALL.99.99.ALL.ALL.WORLD.ALL?startPeriod=2006
+    refreshed_by: fetch/fetch_istat.py
+    notes: >-
+      Annual births and deaths, national. Births key VERIFIED against the
+      published figure: the MARITAL_STATUS=99/99, CITIZEN_FOREIN_OFBIRTH=
+      WORLD cell reads 2024 = 369,944 exactly (and 2025 = 355,772,
+      provisional). Deaths: the flow's 9 dims and payload shape are
+      verified (9.6MB for a two-year unkeyed pull), but the national-total
+      keyed query timed out repeatedly late in the session (server
+      throttling) — pin it from the DSD at fetch time; Eurostat demo_gind
+      DEATH (2024: 653,109) is the verified cross-check.
+  causes_of_death_from_istat.csv:
+    source: ISTAT — flow 39_494_DF_DCIS_CMORTE1_RES_1 (Mortalità per territorio di residenza, causa)
+    url: https://esploradati.istat.it/SDMXWS/rest/data/39_494_DF_DCIS_CMORTE1_RES_1/
+    refreshed_by: fetch/fetch_istat.py
+    notes: >-
+      Deaths by cause, territory of RESIDENCE (the 39_493 twin is by
+      territory of EVENT — a different count, never mixed), 13 dims,
+      cause on UNDERLY_DEATH_EUSL (the 91-item European shortlist, which
+      carries the assault codes — the death-certificate homicide count
+      that pairs with the police count in security/). REF_AREA=IT exists;
+      DATA_TYPE DEATH (counts) / MRATE / STMRATE. VERY heavy: ~29MB for a
+      single year unkeyed — the fetcher queries per cause with tight keys.
+      ICD codes follow whoever certifies the death; see SOURCING §4. Bulk
+      alternative: DF_BULK_CAUSESOFDE (Short_list) if the keyed route
+      proves fragile. AS STAGED: long format (year, code, cause, deaths),
+      91 shortlist codes, 2006-2023, deaths (counts), both sexes, all
+      ages, national (key A.IT.DEATH.TOTAL.9.99.99.YEAR.ALL.TOTAL.ALL.WORLD.).
+      Codes nest — never sum the column. Useful codes: 99 all causes,
+      17_2 suicide, 17_1_1 transport accidents (all modes, not road only),
+      17_3 assault, 20 COVID-19 (2020+). All-causes here (certificates)
+      is not the register deaths count: 2023 662,652 vs 671,065.
+
+  gini_from_wb.csv:
+    source: World Bank — SI.POV.GINI
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      The Bank's harmonised Gini for Italy is EU-SILC-derived — the same
+      survey as the Eurostat series through a different income definition
+      (verified 2023: WB 34.3 vs Eurostat 31.5). Two cuts of one survey,
+      not two measurements; both drawn, both labelled. 2005-2023; the
+      only coverage of 2006-2013, which Eurostat no longer publishes for
+      Italy.
+
+security:
+  homicide_police_from_istat.csv:
+    source: ISTAT — flow 73_67 (Delitti denunciati dalle forze di polizia all'autorità giudiziaria; source data Ministero dell'Interno SDI)
+    url: https://esploradati.istat.it/SDMXWS/rest/data/73_67/A.IT..INTENHOM..?startPeriod=2006
+    refreshed_by: fetch/fetch_istat.py
+    notes: >-
+      Police-recorded crime, national (REF_AREA=IT; provinces carry the
+      bulk — 22MB for two years unkeyed). TYPE_CRIME carries INTENHOM
+      (omicidi volontari consumati — completed intentional homicides),
+      ATTEMPHOM (attempted), INFANTHOM, MAFIAHOM (mafia homicides — a
+      subset drawn as a subset, SOURCING §"a subset drawn as a peer");
+      DATA_TYPE CRIMEN = counts, CRIMET = per-100k rates. Verified
+      2026-10-22: INTENHOM rate 2022-2024 = 0.6 per 100k. This is the
+      Min Interno SDI record via ISTAT (the ministry's own portal has no
+      machine endpoint today; meta.pending). The key has SIX parts —
+      FREQ.REF_AREA.DATA_TYPE.TYPE_CRIME.Y_KNOWN_OFFENDER_IDEN.
+      REFERENCE_PERIOD_CRIME — and the staged cells are offender status 9
+      (all) and YRDUR (offences recorded in the year). AS STAGED:
+      intenhom (count) and intenhom_per100k (ISTAT's own rate, ONE
+      decimal) for 2006-2024; 2024 326 offences, 0.6. The attempted,
+      mafia and infant columns are meta.pending (ISTAT throttling).
+  homicide_vital_from_istat.csv:
+    source: ISTAT — from causes_of_death (39_494, assault codes X85-Y09 in the European shortlist)
+    refreshed_by: fetch/fetch_istat.py
+    notes: >-
+      The death-certificate count of homicide, counted at the victim's
+      residence, against the police count at the place of occurrence —
+      the two disagree in both directions and neither is wrong
+      (SOURCING §4). Two columns, two lines, both labelled. AS STAGED:
+      shortlist code 17_3, counts, 2006-2023 (2024 not yet published).
+      Measured: certificates run 15-30% BELOW the police count in every
+      year (2006 475 vs 621; 2023 239 vs 341, −30%). See DATA_NOTES.
+
+migration:
+  immigration_from_estat.csv:
+    source: Eurostat — migr_imm1ctz (by citizenship) and migr_imm3ctb (by country of birth)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_imm1ctz?geo=IT&agedef=REACH&age=TOTAL&sex=T&citizen=TOTAL&unit=NR
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Immigration FLOW, both definitions. ITALY-SPECIFIC FINDING
+      (verified 2026-10-22): the TOTALS are identical on the two cuts for
+      every year 2008-2024 (e.g. 2024 = 451,583 on both) — Italy
+      transmits one flow series under both definitions, and there is NO
+      EM/EMCR-style splice like Spain's (no break flags; smooth 2020-21:
+      247,526 -> 318,366). The citizenship-vs-birth contrast therefore
+      lives in the SPLITS (citizen=IT/EU27_2020_FOR/NEU27_2020_FOR), not
+      the totals; the non-EU split is present from 2020 (2024: 352,461).
+      Draw the splits; do not promise a totals gap that is not there.
+      migr_imm1ctz alone runs back to 1998; migr_imm3ctb starts 2008.
+  emigration_from_estat.csv:
+    source: Eurostat — migr_emi1ctz (by citizenship)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Emigration flow, by citizenship (total, national, eu27, non_eu27),
+      to 2024 (2024: 188,903); the EU/non-EU split exists from 2020 and
+      the national split from 2008. Register-based
+      departures are known to be under-measured across Europe (leaving
+      needs no paperwork; AIRE registrations lag); published as its own
+      series beside immigration, never as a pre-computed net.
+  stock_from_estat.csv:
+    source: Eurostat — migr_pop1ctz (by citizenship) and migr_pop3ctb (by country of birth)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_pop1ctz?geo=IT&age=TOTAL&sex=T&citizen=FOR_STLS&unit=NR
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Resident population on 1 January on BOTH definitions. ITALY QUIRK
+      (verified 2026-10-22): the foreign-citizen aggregate code here is
+      FOR_STLS, not FOR — citizen=FOR returns well-formed and EMPTY (the
+      endpoint's silent-truncation trap, same shape as Spain's unit=NR).
+      FOR_STLS 1-Jan-2025 = 5,371,251, matching ISTAT's 29_7 to the unit;
+      EU27_2020_FOR 1,373,870 + NEU27_2020_FOR 3,996,856 + stateless 525.
+      The country-of-birth twin DOES use FOR: migr_pop3ctb FOR 1-Jan-2025
+      = 6,928,045. Stock by citizenship can fall while arrivals rise —
+      the naturalisation gap is the finding (see migr_acq).
+  asylum_from_estat.csv:
+    source: Eurostat — migr_asyappctza (asylum applicants)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_asyappctza?geo=IT&sex=T&age=TOTAL&citizen=TOTAL&unit=PER&applicant=TOTAL
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Applications (unit=PER mandatory — with unit=NR the cube returns
+      well-formed and EMPTY, Spain's trap, confirmed for IT). Starts 2008;
+      runs THROUGH 2025 already (2024: 158,605; 2025: 135,485).
+      Applications are not arrivals, grants or people present — the four
+      differ by an order of magnitude at the edges (SOURCING §4a).
+  permits_from_estat.csv:
+    source: Eurostat — migr_resfirst (first residence permits, unit=PER)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      First permits ISSUED in the year — administrative events, not
+      arrivals: a status change issues a new first permit without a new
+      arrival. Starts 2008; 2024: 346,411; 2025: 433,099 already present.
+      unit=PER mandatory (as above).
+  naturalisation_from_estat.csv:
+    source: Eurostat — migr_acq (acquisitions of citizenship)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_acq?geo=IT&sex=T&age=TOTAL&citizen=TOTAL&agedef=REACH&unit=NR
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      People who became Italian in the year (2024: 217,448; the 2013-2016
+      wave peaks at 201,591 in 2016). This is the series that makes the
+      citizenship-cut stock fall while arrivals rise; drawn beside the
+      stocks, not inside them.
+  migration_flows_from_istat.csv:
+    source: ISTAT — flow 28_185 (Migrazioni / trasferimenti di residenza), subflows DF_DCIS_MIGRAZIONI_2/3 (immigrati) and _5/6 (emigrati)
+    url: https://esploradati.istat.it/SDMXWS/rest/data/28_185_DF_DCIS_MIGRAZIONI_2/
+    refreshed_by: fetch/fetch_istat.py
+    notes: >-
+      The national twin of the Eurostat flow files: anagraphic
+      registrations for change of residence from/to abroad
+      (CHANGE_OF_RESIDENCE=FREIGN), by citizenship, sex, age. Shape
+      verified 2026-10-22. Register-based like the harmonised series.
+      Keys: immigration A.ITTOT.TREG.FREIGN.TOTAL+IT+FOR.9.TOTAL.ITTOT.
+      X1033.X1033 (subflow _2), emigration A.IT.TDEREG.FREIGN... (subflow
+      _5) — the national total is REF_AREA=ITTOT in the immigration
+      subflow and IT in the emigration one, and X1033 ('world') is the
+      geographic total. Columns: immigration, emigration, each split
+      italian/foreign (IT+FOR = total, asserted every year), and balance
+      (= immigration − emigration, computed). 2006-2025; 2025 is here and
+      not yet in Eurostat. Equal to Eurostat migr_imm1ctz/migr_emi1ctz
+      to the person in 2006-2007 and 2011-2024; in 2008-2010 Eurostat is
+      higher (immigration +40,318 / +21,081 / +11,112; emigration
+      +19,276 / +15,676 / +11,270). See DATA_NOTES; never spliced.
+  foreign_residents_from_istat.csv:
+    source: ISTAT — flow 29_7 (Stranieri residenti al 1° gennaio)
+    url: https://esploradati.istat.it/SDMXWS/rest/data/29_7/A.IT...TOTAL?detail=dataonly
+    refreshed_by: fetch/fetch_istat.py
+    notes: >-
+      Foreign-citizen residents at 1 January, national. Key verified
+      2026-10-22: dims FREQ.REF_AREA.DATA_TYPE(JAN).SEX.AGE — the wildcard
+      form A.IT...TOTAL works; 1-Jan-2025 = 5,371,251 (5,559,527 at
+      1-Jan-2026), matching Eurostat's FOR_STLS exactly. AS STAGED: the
+      flow carries the permanent-census basis only, 1-Jan-2019 to
+      1-Jan-2026, with male/female columns; 2006-2018 are blank. Eurostat
+      stock_from_estat.csv carries 2006-2025 and equals it on 2019-2025. The full unkeyed
+      flow is too heavy to pull today (province-level) — always key.
+      Citizenship detail: 29_317.
+
+international:
+  gdp_usd_from_wb.csv:
+    source: World Bank — NY.GDP.MKTP.CD
+    url: https://api.worldbank.org/v2/country/ITA/indicator/NY.GDP.MKTP.CD
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      GDP in current US$ (units, not bn) — the comparables layer and a magnitude check on
+      the national accounts (verified 2024: US$2,383bn against €2,211bn —
+      consistent at the 2024 exchange rate), never spliced into them. The
+      euro's exchange rate moves this series as much as Italy does.
+  gdp_pc_from_wb.csv:
+    source: World Bank — NY.GDP.PCAP.CD
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Current US$ per person, harmonised across countries. WB 2024-25
+      GDP is 0.4% below Eurostat × the ECB mean rate (older national-
+      accounts vintage; equal within 0.2% in 2006-2023).
+  population_from_wb.csv:
+    source: World Bank — SP.POP.TOTL
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Cross-check only, MID-YEAR (the others are 1 January). The
+      population series of record is ISTAT's reconstructed resident
+      population at 1 January, carried 2006-2026 by Eurostat demo_gind
+      (social/demography_from_estat.csv) on one vintage; ISTAT's own flow
+      22_289 holds only the permanent-census years 2019-2026 and equals
+      it. WB runs 35-245k above it before 2014 and 13-200k below after.
+  reserves_from_wb.csv:
+    source: World Bank — FI.RES.TOTL.CD (IMF IFS)
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Total reserves including gold, current US$ (units, not bn). The
+      2025 jump (US$290.5bn → 434.0bn) is the gold price on Italy's
+      ~2,450 t, not a purchase. A eurozone member's
+      reserves are a small, semi-dormant number — the ECB holds the
+      union's real buffer — and the plate should say why it is small
+      rather than let it read as fragility.
+  openness_from_wb.csv:
+    source: World Bank — NE.TRD.GNFS.ZS
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Exports plus imports of goods and services as a share of GDP,
+      national-accounts basis — not the customs-value trade the pending
+      Coeweb chapter will draw.
+  hdi_from_undp.csv:
+    source: UNDP — Human Development Report 2025, composite indices complete time series
+    url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      One file, one vintage, every year (verified 2026-10-22: Italy HDI
+      2023 = 0.915). The HDR recomputes the whole back-series at each
+      methodology change, so a trend assembled from successive reports is
+      partly an artefact of the reports. NOTE: the file is NOT UTF-8
+      (Latin-1, a 0xf4 byte trips strict decoding) — the fetcher decodes
+      latin-1.
