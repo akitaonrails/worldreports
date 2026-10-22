@@ -26,6 +26,9 @@ default_locale: en
 years: {from: 2006, to: 2026}
 last_full_year: 2025
 tick_every: 2
+# On the plate spine (PLATE_SPINE.md): every plate declares its topic and
+# claims its panels by slot, on the shared frame and reference scales.
+spine: true
 
 # Bands drawn behind the data. Spain's window holds a slump in three
 # movements, and the dating is genuinely argued about, so the bands follow

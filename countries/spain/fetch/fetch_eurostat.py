@@ -172,12 +172,15 @@ def main() -> None:
     parts = {c: annual("gov_10a_exp", geo=GEO, na_item="TE", unit="PC_GDP",
                        sector="S13", cofog99=c, freq="A")
              for c in ("GF02", "GF03", "GF05", "GF06", "GF08")}
-    cofog["defence_order"] = {
-        y: parts["GF02"].get(y, 0) + parts["GF03"].get(y, 0)
-        for y in parts["GF02"]}
-    cofog["other"] = {
-        y: sum(parts[c].get(y, 0) for c in ("GF05", "GF06", "GF08"))
-        for y in parts["GF05"]}
+    # A summed line exists only in years where EVERY part is published: a
+    # division Eurostat has not released yet is a hole, never a zero, so a
+    # missing GF03 must not quietly turn "defence + public order" into
+    # defence alone.
+    def summed(codes):
+        common = set.intersection(*(set(parts[c]) for c in codes))
+        return {y: sum(parts[c][y] for c in codes) for y in common}
+    cofog["defence_order"] = summed(("GF02", "GF03"))
+    cofog["other"] = summed(("GF05", "GF06", "GF08"))
     cofog["total"] = annual("gov_10a_exp", geo=GEO, na_item="TE",
                             unit="PC_GDP", sector="S13", cofog99="TOTAL",
                             freq="A")
@@ -198,9 +201,31 @@ def main() -> None:
                      unit="CP_MEUR", freq="A")
     imports = annual("nama_10_gdp", geo=GEO, na_item="P7",
                      unit="CP_MEUR", freq="A")
+    # The goods/services split of the same accounts (P61/P62, P71/P72).
+    # Spain's surplus is a services surplus — tourism — on top of a goods
+    # account that is in deficit most years; the split is what says so.
+    split = {}
+    for item, col in (("P61", "exports_goods_eurbn"),
+                      ("P62", "exports_services_eurbn"),
+                      ("P71", "imports_goods_eurbn"),
+                      ("P72", "imports_services_eurbn")):
+        series = annual("nama_10_gdp", geo=GEO, na_item=item,
+                        unit="CP_MEUR", freq="A")
+        if not series:
+            raise RuntimeError(f"nama_10_gdp {item}: empty result")
+        split[col] = {y: v / 1000 for y, v in series.items()}
+    # The parts must add up to the totals they split, or one of the codes
+    # means something other than what this file says it means.
+    for y in exports:
+        if y in split["exports_goods_eurbn"] and y in split["exports_services_eurbn"]:
+            parts = (split["exports_goods_eurbn"][y]
+                     + split["exports_services_eurbn"][y])
+            if abs(parts - exports[y] / 1000) > 0.05:
+                raise RuntimeError(f"P61+P62 != P6 in {y}")
     write("trade/trade_from_estat.csv",
           rows(years, {"exports_eurbn": {y: v / 1000 for y, v in exports.items()},
-                       "imports_eurbn": {y: v / 1000 for y, v in imports.items()}},
+                       "imports_eurbn": {y: v / 1000 for y, v in imports.items()},
+                       **split},
                dec=2))
 
     # ---- labour market ------------------------------------------------
@@ -218,6 +243,30 @@ def main() -> None:
     y10 = annual("irt_lt_mcby_a", geo=GEO, freq="A")
     write("markets/yield_10y_from_estat.csv", rows(years, {"yield_10y": y10},
                                                    dec=2))
+
+    # ---- the statutory minimum wage (SMI), harmonised ------------------
+    # earn_mw_cur is half-yearly: the rate in force on 1 January (S1) and
+    # on 1 July (S2), in euro per month on a TWELVE-month basis. Spain pays
+    # the SMI in fourteen instalments, so this is the BOE monthly figure
+    # times 14/12 (2024: 1,134 x 14/12 = 1,323). The decree is often
+    # approved in February and back-dated to 1 January, which is why S1
+    # can still show the previous year's rate (2022, 2023): S2 is the
+    # year's own decree.
+    mw = fetch("earn_mw_cur", geo=GEO, currency="EUR", freq="S")
+    t = mw["id"].index("time")
+    halves = {"S1": {}, "S2": {}}
+    for key, value in decode(mw).items():
+        year, _, half = key[t].partition("-")
+        if half in halves:
+            halves[half][int(year)] = value
+    if not halves["S2"]:
+        raise RuntimeError("earn_mw_cur: empty result")
+    if round(halves["S2"].get(2024, 0)) != 1323:
+        raise RuntimeError("earn_mw_cur 2024-S2 is not the 1,323 the BOE "
+                           "decree implies (1,134 x 14 / 12)")
+    write("social/minimum_wage_from_estat.csv",
+          rows(years, {"eur_month_jan": halves["S1"],
+                       "eur_month_jul": halves["S2"]}, dec=2))
 
     # ---- inequality and poverty, EU-SILC ------------------------------
     gini = annual("ilc_di12", geo=GEO, age="TOTAL", statinfo="GINI_HND",

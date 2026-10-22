@@ -1,12 +1,12 @@
 # Spain — handoff
 
-Updated 2026-10-22 (second session, the build). Branch `spain`. The country
-is **built and the full suite is green**: `python3 -m pytest` → 733 passed,
-`node --test tests/js/*.test.js` → 20/20, layout QA **zero faults in all
-three languages** (no baseline entry needed). Twelve plates, all twelve
-spine topics, drawn in es/en/pt. **Do not merge to `main` yet** — merging
-is a product decision, not a test result (see Canada's HANDOFF for the same
-note).
+Updated 2026-10-22 (third session, the plate spine). Spain is **on
+`main`** (merged with the build session) and this pass redraws it on the
+plate spine on branch `spine-spain`, off `plate-spine`. The old "do not
+merge" note is obsolete: merging the spine branch is the next step, once
+the shared spine work lands. Every plate declares its topic and claims its
+slots in spine order; see PLATE_SPINE.md and the spine section of
+DATA_NOTES.md for the conversions and the populations behind them.
 
 Read [`../../ADDING_A_COUNTRY.md`](../../ADDING_A_COUNTRY.md) and
 [`../../SOURCING_A_COUNTRY.md`](../../SOURCING_A_COUNTRY.md) first. They
@@ -18,29 +18,30 @@ are not background reading; they are the specification.
 
 Everything the research pass queued. `plates.py` (declarative PLATES, alt
 text on each), `chapters.py` (12 cards, unique topics, headline strip),
-`ui.json` (es/en/pt), `events.py`, `i18n.json` (244 entries, strict render
-clean), `countries/spain/tests/test_plates.py` (22 fact tests), the curated
-CSVs (37 files, every one diffed from its sidecar with the spot values
-asserted at curation time), SOURCES.yaml with curated + sidecar entries,
+`ui.json` (es/en/pt), `events.py`, `i18n.json` (311 entries after the
+spine pass, stale ones pruned, strict render clean),
+`countries/spain/tests/test_plates.py` (46 tests after the spine pass,
+including hand recomputations of the per-1,000 and per-100,000 rates),
+the curated CSVs (47 files), SOURCES.yaml with curated + sidecar entries,
 `output/` committed (36 plates + 36 thumbs), `provenance.json` (12 plates
-read 37 files).
+read 42 files).
 
-### The plates, as built
+### The plates, on the spine (slot 1 · 2 · 3 · 4)
 
-| # | slug | Panels |
+| # | topic | slots |
 |---|------|--------|
-| 01 | economy | GDP €bn (Eurostat bars + INE line, both drawn); real growth; GDP/person US$ (WB); IPC vs HICP vs the 2% aim |
-| 02 | fiscal | revenue vs expenditure; deficit + primary (computed, labelled); Maastricht debt; interest vs the harmonised tax take |
-| 03 | spending | COFOG stack; social protection vs the rest; whole-economy investment (the brick years, 30.1%); public investment |
-| 04 | trade | exports vs imports (ESA 2010 goods+services); the balance (surplus since 2011); openness (WB); partners/products **pending** (DataComex) |
-| 05 | markets | ECB DFR + MRO (MRO blank before Oct 2008, as in France); the 10y Maastricht yield (5.85% in 2012); EUR/USD; IBEX 35 via Yahoo (official: false, price index, 2026 = live reading) |
-| 06 | people | EPA unemployment + Eurostat LFS (hole before 2009 visible); employment level; Gini two cuts of one survey (inverted axis); AROP-60 with the relative-threshold note |
-| 07 | world | GDP US$; GDP/person US$; HDI one vintage; reserves with the eurozone note |
-| 08 | demography | population (ECP, the 2012–16 decline annotated); births vs deaths (crossover 2015, COVID 494k); TFR (1.10 in 2024); natural increase vs net migration, two methodologies never joined |
-| 09 | security | homicide by death certificate (ECM, counts and computed rate); **police count pending** (Interior portal walled); violent deaths in context (suicide > traffic > homicide) |
-| 10 | mortality | all deaths; tumours vs circulatory (crossover only in 2024); COVID certified, identified vs suspected stacked; excess over the 2015–19 mean (computed, labelled) |
-| 11 | credit | Euribor 12m vs TEDR new housing; household debt 141%→75% of income; NPL ratio (computed, Dec stocks, 13.6% in Dec 2013, the 2014 reporting change annotated); loan stock Q4 |
-| 12 | migration | **the 2021 seam panel**: Eurostat split at 2021, INE EM to 2021, INE EMCR from 2021, 528,856 vs 887,960 annotated; arrivals vs departures; the stock on both definitions with the naturalisation gap shaded; the year's paperwork (applications / decisions / positive / permits / naturalisations, five labelled series) |
+| 01 | economy | real growth (Eurostat) · GDP per person, US$, log (WB) · IPC + HICP vs the 2% target · EPA unemployment + Eurostat LFS |
+| 02 | fiscal | revenue and expenditure · balance (bars) + primary · Maastricht debt · interest paid (D41PAY) |
+| 03 | spending | COFOG stack · social protection vs the rest · GFCF, whole economy · government GFCF |
+| 04 | trade | exports and imports % of GDP (openness in the note) · balance % of GDP with goods and services lines · top destinations, % of goods exports (Comext) · lens: products, % of goods exports (Comext) |
+| 05 | markets | ECB DFR + MRO vs Spanish IPC · 10y Maastricht yield · euro vs US$, index 2006 = 100, log · IBEX 35 in US$ vs S&P 500, index 2006 = 100, log |
+| 06 | people | Gini, Eurostat + WB, not inverted · AROP-60 + WB US$8.30 · SMI in US$ a month · lens: employment |
+| 07 | world | GDP US$ bn, log (€ level in the note) · HDI · TI CPI 2012–2025 · reserves US$ bn, log |
+| 08 | demography | population index 2006 = 100 · TFR · births and deaths per 1,000 · natural increase + net migration per 1,000, seam kept |
+| 09 | security | homicide per 100k (INE + UNODC, log) · suicide per 100k (INE + WHO) · road deaths per 100k (INE + WHO) · lens: the three side by side; police count pending |
+| 10 | mortality | crude death rate · excess deaths % over 2015–19 · COVID per 100k, identified + suspected · lens: tumours vs circulatory per 100k |
+| 11 | credit | household debt % of GDP (BIS) · TEDR + Euribor vs DFR · NPL ratio · lens: BIS debt service ratio |
+| 12 | migration | **the seam panel**: immigration and emigration per 1,000, Eurostat split at 2021, INE EM 2021 · net migration per 1,000, same seam · foreign-born and foreign-citizen shares · lens: permits, asylum, naturalisations per 1,000 |
 
 ### One core/ change, flagged (the documented extension point)
 
@@ -90,22 +91,27 @@ first positive 2011.
 
 ## What is left (the pending rule, none blocking)
 
-1. **Ministerio del Interior crime statistics** (security plate's third
-   panel is `ctx.pending`): the portal serves its 403 error page under HTTP
+1. **Ministerio del Interior crime statistics** (no longer a pending
+   panel — the security slots are homicide, suicide and road deaths from
+   the death certificates; the lens says the police count is pending): the portal serves its 403 error page under HTTP
    200 to every automated client. Curate by hand from the Balance de
    Criminalidad; pair with the ECM count, which the plate already draws.
-2. **DataComex** (trade plate's fourth panel): customs goods by partner and
-   product — a different universe from the national-accounts series the
-   plate carries; never mix the two.
+2. **DataComex** national-concept totals: the partner and product panels
+   are now drawn from Eurostat Comext (same declarations, community
+   concept). DataComex would go beside them, never into them.
 3. **IGAE/Tesoro** national-definition fiscal series, beside (never in) the
    EDP columns, if a clean endpoint verifies.
-4. **Transparency International CPI** — curated by hand with the 2012
-   break, as France does.
+4. **Transparency International CPI** — now fetched (2012–2025, CPI 2025
+   spreadsheet). The pre-2012 0–10 scores are deliberately not drawn.
 5. A refresh pass when 2025 completes: `make C=spain fetch`, diff sidecars,
    bump nothing until the annual totals exist.
 
 ## State of the branch
 
-`spain` is `main` + the research pass + this build. Nothing outside
-`countries/spain/` changed except the one additive CURRENCY_AFFIX entry
-above. The suite is green on the whole repo, Canada included.
+The research pass and the build are on `main`. `spine-spain` adds the
+spine redraw on top of `plate-spine`, touching nothing outside
+`countries/spain/`. New fetch code: `fetch/fetch_comext.py` (Comext
+destinations and products, cross-checked against UN Comtrade), the
+S&P 500 in `fetch_markets.py`, the SMI and the goods/services split in
+`fetch_eurostat.py` (plus the COFOG zero-fill fix), TI's CPI in
+`fetch_comparables.py`, and the ECP 1 July population in `fetch_ine.py`.

@@ -146,11 +146,89 @@ modernised in 2021; INE back-computed the headline rates, so the staged
 series is continuous, but a plate that makes too much of a 2021 step in
 any EPA breakdown should check the vintage note first.
 
+## The plate spine (2026-10-22): units, populations, judgement calls
+
+Every plate is on the spine (`spine: true`): same slots, units and
+reference scales as every other country. What that took for Spain:
+
+**One population, mid-year.** Every rate the plates compute divides a
+year's count by INE's Estadística Continua de Población **at 1 July of
+the same year** (`social/population.csv`, `population_jul`, ECP320
+FK_Periodo 21). That is the population INE divides by for its own tasas
+brutas. The old security plate divided by the 1 January level, which runs
+about half a year's growth behind (1 Jan 2024: 48,619,695; 1 Jul 2024:
+48,821,936). The 1 January level is still what the demography plate
+quotes as a level and indexes (2006 = 100).
+
+| panel | count | rate |
+|---|---|---|
+| demography 3 | MNP births, deaths | per 1,000 |
+| demography 4 | births − deaths; Eurostat immigration − emigration | per 1,000 |
+| security 1–3 | ECM X85–Y09, suicide, road traffic | per 100,000 |
+| mortality 1 | MNP deaths | per 1,000 |
+| mortality 3–4 | ECM COVID (identified, suspected), tumours, circulatory | per 100,000 |
+| migration 1–2, 4 | Eurostat flows; INE EM 2021; permits, asylum, acquisitions | per 1,000 |
+
+Spot check, pinned in the tests: 324 homicides in 2024 ÷ 48,821,936 ×
+100,000 = 0.664. The World Bank's mid-year population (48,848,840 for
+2024) agrees with the ECP to 0.06%.
+
+**Homicide** is computed, not taken from an INE published rate: INE's
+tasas por causa are not staged, and the computed rate on INE's own
+denominator reproduces them. UNODC's harmonised series rides beside it.
+Suicide's WHO line is age-standardised and the INE line crude, and the
+legend says so; they agree within a few tenths.
+
+**Excess deaths** are drawn from 2015, the first baseline year, rather
+than across the whole window: a bar for 2008 against a 2015–19 baseline
+measures ageing, not excess. Not age-standardised, and the panel says so.
+
+**Trade** slot 1 is P6 and P7 ÷ nominal GDP, all Eurostat national
+accounts, same year (2024: 37.2% and 32.9%; the World Bank's 37.1% and
+32.9% agree). Openness (their sum) moved from its own panel into the note.
+The balance carries the goods (P61−P71) and services (P62−P72) balances
+as lines: the surplus is a services surplus over a goods deficit every
+year of the window. Destinations and products are **customs goods**,
+Eurostat Comext DS-045409 on the community concept — a different basis
+from the national accounts above them, and the panels say so.
+
+**Markets.** The euro index is US$ per euro rebased to 2006 = 100 (it
+already rises when the euro strengthens, so it is not inverted). The
+IBEX is converted to US$ at the **year-end** ECB rate (it is a year-end
+close) and rebased; the S&P 500 beside it is also a price index.
+
+**Minimum wage.** Eurostat's earn_mw_cur, the rate in force on 1 July,
+€ per month on a twelve-month basis (the SMI is paid in fourteen: 2024
+€1,134 × 14 ÷ 12 = €1,323), times the year's average ECB US$ rate. July,
+not January, because the decree is usually approved in February and
+back-dated: January still shows the old rate in 2022 and 2023.
+
+**Household debt** on the spine is BIS total credit, % of GDP, Q4 (85.0%
+in 2009, 42.9% in 2025). The Banco de España's own measure, % of gross
+disposable income (141% in 2008), is in the note; the two have different
+denominators and are not drawn on one axis. The € loan stock is no longer
+drawn.
+
+**Gini.** Eurostat's ilc_di12 for Spain starts in 2014 (re-checked against
+the live API); the World Bank's EU-SILC-derived line covers 2006–2023.
+The axis is no longer inverted.
+
+**Corruption Perceptions Index**, 2012–2025 from TI's CPI 2025 results
+spreadsheet (55 in 2025, the lowest on the current method). The 0–10
+scores before 2012 are not drawn: TI says they are not comparable.
+
+**COFOG zero-fill, fixed.** `fetch_eurostat.py` built defence + public
+order and "other" with `.get(y, 0)`, so a division Eurostat had not yet
+published would have become a zero inside a sum. It now sums only years
+where every part is published. Re-run from cache: every sidecar is
+byte-identical, so no published number moved.
+
 ## What is not here yet
 
-Crime (Interior portal walled — see HANDOFF), IGAE/Tesoro national fiscal
-series (unreachable this session; the EDP fallback is in use and is the
-same aggregate Spain transmits), merchandise trade by partner and product
-(DataComex, not probed), and Transparency International's CPI (curated by
-hand with the 2012 break, as France does). All four are in the pending
-block of `SOURCES.yaml` or the HANDOFF.
+Crime as the police record it (Interior portal walled — see HANDOFF),
+IGAE/Tesoro national fiscal series (unreachable; the EDP fallback is in
+use and is the same aggregate Spain transmits), DataComex's
+national-concept customs totals (no machine endpoint; Comext carries the
+same declarations and is drawn), and TI's pre-2012 scores (not
+comparable). All are in the pending block of `SOURCES.yaml` or the
+HANDOFF.

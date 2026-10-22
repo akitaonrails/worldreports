@@ -27,20 +27,32 @@ Spain's reserves read small and dormant next to a non-euro country: the
 ECB holds the monetary union's real buffer. That is a fact about the
 institutional setup, not about Spain's solvency — the plate says so.
 
-Transparency International's CPI is not here. It is published as a PDF
-and a spreadsheet per year with no stable machine endpoint, and its
-methodology break in 2012 means the pre-2012 scores are not on the same
-scale — so it is curated by hand with the break in the CSV, as France's
-is.
+  Transparency International  Corruption Perceptions Index, 2012 onward,
+                from the CPI 2025 results spreadsheet ("CPI Timeseries
+                2012 - 2025" sheet)
+
+TI publishes each edition as a spreadsheet at a URL whose spelling
+changes from year to year (CPI2024-Results-and-trends.xlsx, then
+CPI2025_Results.xlsx), so the edition is pinned here and bumped by hand.
+The file is strict OOXML, which openpyxl cannot read, so it is read as
+the zip of XML it is: shared strings resolved by index, cells matched by
+their column reference against the header row — a row omits its empty
+cells, so position means nothing — and the score header matched without
+regard to case, because the 2012 and 2013 columns say "CPI Score" and
+every later one "CPI score". Scores before 2012 were on a 0-10 scale
+computed another way; TI says only 2012 onward are comparable, and they
+are not fetched.
 """
 from __future__ import annotations
 
 import csv
 import io
 import json
+import re
 import sys
 import time
 import urllib.request
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -51,6 +63,9 @@ WB = ("https://api.worldbank.org/v2/country/ESP/indicator/{code}"
 HDR = ("https://hdr.undp.org/sites/default/files/2025_HDR/"
        "HDR25_Composite_indices_complete_time_series.csv")
 ISO3 = "ESP"
+# The newest CPI edition and its spreadsheet. Bump both together.
+CPI_EDITION = 2025
+CPI = "https://images.transparencycdn.org/images/CPI2025_Results.xlsx"
 # hdr.undp.org answers 403 to the default urllib User-Agent.
 HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64)"}
 
@@ -134,6 +149,61 @@ def hdr_hdi() -> dict[int, float]:
     return out
 
 
+def ti_cpi() -> dict[int, float]:
+    """Spain's CPI score by year, 2012 to the pinned edition."""
+    CACHE.mkdir(exist_ok=True)
+    cache_file = CACHE / f"cpi{CPI_EDITION}.xlsx"
+    if not cache_file.exists():
+        req = urllib.request.Request(CPI, headers=HEADERS)
+        with urllib.request.urlopen(req, timeout=120) as r:
+            raw = r.read()
+        if not raw.startswith(b"PK"):
+            raise RuntimeError("CPI spreadsheet: not a zip (an error page?)")
+        cache_file.write_bytes(raw)
+    with zipfile.ZipFile(cache_file) as z:
+        strings = ["".join(re.findall(r"<t[^>]*>(.*?)</t>", si, re.S))
+                   for si in re.findall(r"<si>(.*?)</si>",
+                                        z.read("xl/sharedStrings.xml")
+                                        .decode(), re.S)]
+        book = z.read("xl/workbook.xml").decode()
+        rels = z.read("xl/_rels/workbook.xml.rels").decode()
+        rid = re.search(r'<sheet [^>]*name="CPI Timeseries[^"]*"[^>]*'
+                        r'r:id="([^"]+)"', book).group(1)
+        target = re.search(rf'Id="{rid}"[^>]*Target="([^"]+)"', rels) or \
+            re.search(rf'Target="([^"]+)"[^>]*Id="{rid}"', rels)
+        sheet = z.read("xl/" + target.group(1).lstrip("/").removeprefix("xl/")
+                       ).decode()
+
+    def cells(row: str) -> dict[str, str]:
+        out = {}
+        for m in re.finditer(r'<c r="([A-Z]+)\d+"([^>]*?)(?:/>|>(.*?)</c>)',
+                             row, re.S):
+            ref, attrs, body = m.groups()
+            v = re.search(r"<v>(.*?)</v>", body or "")
+            value = v.group(1) if v else ""
+            if 't="s"' in attrs and value:
+                value = strings[int(value)]
+            out[ref] = value
+        return out
+
+    rows = [cells(r) for r in re.findall(r"<row[^>]*>(.*?)</row>", sheet,
+                                          re.S)]
+    header = next(r for r in rows if "Country / Territory" in r.values())
+    spain = next(r for r in rows if r.get("A") == "Spain")
+    out = {}
+    for ref, label in header.items():
+        m = re.fullmatch(r"cpi score (\d{4})", label.strip().lower())
+        if m and spain.get(ref):
+            out[int(m.group(1))] = float(spain[ref])
+    # Spot values from TI's country page: 65 in 2012, 56 in 2024 (the
+    # CPI 2024 edition says the same), 55 in 2025.
+    if (out.get(2012), out.get(2024), out.get(2025)) != (65, 56, 55):
+        raise RuntimeError(f"CPI spot values do not match: {out}")
+    if sorted(out) != list(range(2012, CPI_EDITION + 1)):
+        raise RuntimeError(f"CPI years {sorted(out)}: a column was missed")
+    return out
+
+
 def write(rel: str, column: str, series: dict[int, float], dec: int) -> None:
     if not series:
         print(f"  !! {rel}: nothing fetched", file=sys.stderr)
@@ -153,6 +223,7 @@ def main() -> None:
     for rel, code, column, dec in WANTED:
         write(rel, column, wb_series(code), dec)
     write("international/hdi_from_undp.csv", "hdi", hdr_hdi(), 3)
+    write("international/cpi_from_ti.csv", "score", ti_cpi(), 0)
     print("Done. Diff the sidecars before adopting.")
 
 

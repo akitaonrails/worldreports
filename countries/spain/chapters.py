@@ -51,14 +51,19 @@ def build(ctx) -> list[dict]:
                               pt="A economia"),
             "blurb": ctx.text(
                 en="A €1.7 trillion economy that fell twice before COVID — "
-                   "2008-09 and the 2011-13 double dip — and outgrew the "
-                   "euro area after it.",
+                   "2008-09 and the 2011-13 double dip — fell hardest of all "
+                   "in 2020, and has outgrown the euro area since; "
+                   "unemployment peaked at one worker in four.",
                 es="Una economía de 1,7 billones de euros que cayó dos "
                    "veces antes de la COVID — 2008-09 y la doble caída de "
-                   "2011-13 — y superó a la eurozona después.",
-                pt="Uma economia de € 1,7 bilhão que caiu duas vezes antes "
-                   "da COVID — 2008-09 e o duplo mergulho de 2011-13 — e "
-                   "cresceu mais que a zona do euro depois."),
+                   "2011-13 —, cayó más que ninguna en 2020 y desde entonces "
+                   "crece más que la eurozona; el paro llegó a uno de cada "
+                   "cuatro activos.",
+                pt="Uma economia de € 1,7 trilhão que caiu duas vezes antes "
+                   "da COVID — 2008-09 e o duplo mergulho de 2011-13 —, caiu "
+                   "mais que todas em 2020 e desde então cresce mais que a "
+                   "zona do euro; o desemprego chegou a um trabalhador em "
+                   "cada quatro."),
             "spark": ctx.col("macro/gdp.csv", "real_growth"),
             "stats": [
                 ctx.stat({"en": "GDP", "es": "PIB", "pt": "PIB"},
@@ -70,6 +75,9 @@ def build(ctx) -> list[dict]:
                 ctx.stat({"en": "Inflation (IPC)", "es": "Inflación (IPC)",
                           "pt": "Inflação (IPC)"},
                          ctx.col("macro/inflation.csv", "ipc"), "pct"),
+                ctx.stat({"en": "Unemployment (EPA)", "es": "Paro (EPA)",
+                          "pt": "Desemprego (EPA)"},
+                         ctx.col("macro/unemployment.csv", "epa"), "pct"),
             ],
         },
         {
@@ -79,15 +87,18 @@ def build(ctx) -> list[dict]:
                               es="Las cuentas públicas",
                               pt="As contas públicas"),
             "blurb": ctx.text(
-                en="Every year of the window closed in deficit; 2012 "
-                   "carries the bank bailout inside it. The debt tripled "
-                   "while the interest bill halved.",
-                es="Todos los años del período cerraron en déficit; 2012 "
-                   "lleva el rescate bancario dentro. La deuda se triplicó "
-                   "mientras la factura de intereses caía a la mitad.",
-                pt="Todos os anos do período fecharam em déficit; 2012 "
-                   "carrega o resgate bancário dentro. A dívida triplicou "
-                   "enquanto a fatura de juros caiu pela metade."),
+                en="Small surpluses in 2006-07, then a deficit every year "
+                   "since; 2012 carries the bank bailout inside it. The "
+                   "debt nearly tripled while the interest bill fell back "
+                   "from its 2013 peak.",
+                es="Pequeños superávits en 2006-07 y déficit todos los años "
+                   "desde entonces; 2012 lleva dentro el rescate bancario. "
+                   "La deuda casi se triplicó mientras la factura de "
+                   "intereses bajaba desde su máximo de 2013.",
+                pt="Pequenos superávits em 2006-07 e déficit todos os anos "
+                   "desde então; 2012 carrega o resgate bancário. A dívida "
+                   "quase triplicou enquanto a fatura de juros recuava do "
+                   "pico de 2013."),
             "spark": ctx.col("fiscal/deficit.csv", "deficit"),
             "stats": [
                 ctx.stat({"en": "Balance", "es": "Saldo", "pt": "Saldo"},
@@ -142,15 +153,19 @@ def build(ctx) -> list[dict]:
             "title": ctx.text(en="Foreign Trade", es="Comercio exterior",
                               pt="Comércio exterior"),
             "blurb": ctx.text(
-                en="Goods and services on the national-accounts basis: in "
-                   "surplus every year since 2011, on tourism and the "
-                   "post-crisis export turn.",
-                es="Bienes y servicios en base de contabilidad nacional: "
-                   "en superávit todos los años desde 2011, por el turismo "
-                   "y el giro exportador.",
-                pt="Bens e serviços na base de contas nacionais: em "
-                   "superávit todos os anos desde 2011, pelo turismo e pela "
-                   "virada exportadora."),
+                en="In surplus every year since 2011 — a services surplus, "
+                   "tourism mostly, over a goods deficit. France still "
+                   "takes one goods export in seven, and food now outsells "
+                   "cars.",
+                es="En superávit todos los años desde 2011: un superávit de "
+                   "servicios, sobre todo turismo, sobre un déficit de "
+                   "bienes. Francia aún recibe una de cada siete "
+                   "exportaciones de bienes y los alimentos ya venden más "
+                   "que los coches.",
+                pt="Em superávit todos os anos desde 2011: um superávit de "
+                   "serviços, sobretudo turismo, sobre um déficit de bens. "
+                   "A França ainda recebe uma em cada sete exportações de "
+                   "bens, e os alimentos já vendem mais que os carros."),
             "spark": ctx.col("trade/trade.csv", "exports_eurbn"),
             "stats": [
                 ctx.stat({"en": "Exports", "es": "Exportaciones",
@@ -209,19 +224,24 @@ def build(ctx) -> list[dict]:
             "title": ctx.text(en="People", es="Las personas",
                               pt="As pessoas"),
             "blurb": ctx.text(
-                en="The labour market that lost one worker in four in 2013 "
-                   "— and the twelve-year rebuild that followed.",
-                es="El mercado laboral que perdió a un trabajador de cada "
-                   "cuatro en 2013 — y los doce años de reconstrucción que "
-                   "siguieron.",
-                pt="O mercado de trabalho que perdeu um trabalhador em "
-                   "cada quatro em 2013 — e os doze anos de reconstrução "
-                   "que se seguiram."),
-            "spark": ctx.col("macro/unemployment.csv", "epa"),
+                en="One person in five below the relative poverty line "
+                   "through boom and bust, a minimum wage that doubled in "
+                   "euros, and the jobs the slump destroyed, rebuilt.",
+                es="Una persona de cada cinco bajo el umbral relativo de "
+                   "pobreza en la bonanza y en la crisis, un salario mínimo "
+                   "que se duplicó en euros y el empleo que destruyó la "
+                   "crisis, reconstruido.",
+                pt="Uma pessoa em cada cinco abaixo da linha relativa de "
+                   "pobreza na bonança e na crise, um salário mínimo que "
+                   "dobrou em euros e os empregos que a crise destruiu, "
+                   "reconstruídos."),
+            "spark": ctx.col("social/poverty.csv", "arop60"),
             "stats": [
-                ctx.stat({"en": "Unemployment (EPA)", "es": "Paro (EPA)",
-                          "pt": "Desemprego (EPA)"},
-                         ctx.col("macro/unemployment.csv", "epa"), "pct"),
+                ctx.stat({"en": "Minimum wage, € a month (×12)",
+                          "es": "Salario mínimo, € al mes (×12)",
+                          "pt": "Salário mínimo, € por mês (×12)"},
+                         ctx.col("social/minimum_wage.csv", "eur_month_jul"),
+                         "count", kind="level"),
                 ctx.stat({"en": "Employment", "es": "Ocupación",
                           "pt": "Emprego"},
                          [(y, v / 1000) for y, v in
@@ -241,15 +261,19 @@ def build(ctx) -> list[dict]:
                               pt="A Espanha no mundo"),
             "blurb": ctx.text(
                 en="The comparables layer: GDP in dollars moves with the "
-                   "euro as much as with Spain, and the reserves are small "
-                   "because the euro area's buffer sits at the ECB.",
+                   "euro as much as with Spain, the corruption score is the "
+                   "lowest on TI's current method, and the reserves are "
+                   "small because the euro area's buffer sits at the ECB.",
                 es="La capa de comparables: el PIB en dólares se mueve con "
-                   "el euro tanto como con España, y las reservas son "
-                   "pequeñas porque el colchón de la eurozona está en el "
-                   "BCE.",
+                   "el euro tanto como con España, la puntuación de "
+                   "corrupción es la peor con el método actual de TI y las "
+                   "reservas son pequeñas porque el colchón de la eurozona "
+                   "está en el BCE.",
                 pt="A camada de comparáveis: o PIB em dólares se move com "
-                   "o euro tanto quanto com a Espanha, e as reservas são "
-                   "pequenas porque o colchão da zona do euro está no BCE."),
+                   "o euro tanto quanto com a Espanha, a pontuação de "
+                   "corrupção é a pior no método atual da TI e as reservas "
+                   "são pequenas porque o colchão da zona do euro está no "
+                   "BCE."),
             "spark": ctx.col("international/hdi.csv", "hdi"),
             "spark_level": True,
             "stats": [
@@ -260,6 +284,11 @@ def build(ctx) -> list[dict]:
                          "count"),
                 ctx.stat({"en": "HDI", "es": "IDH", "pt": "IDH"},
                          ctx.col("international/hdi.csv", "hdi"), "dec3",
+                         kind="level"),
+                ctx.stat({"en": "Corruption Perceptions Index",
+                          "es": "Índice de Percepción de la Corrupción",
+                          "pt": "Índice de Percepção da Corrupção"},
+                         ctx.col("international/cpi.csv", "score"), "count",
                          kind="level"),
                 ctx.stat({"en": "Reserves incl. gold",
                           "es": "Reservas incl. oro",
@@ -310,16 +339,21 @@ def build(ctx) -> list[dict]:
                               pt="Segurança"),
             "blurb": ctx.text(
                 en="One of Europe's lowest homicide rates, on the death "
-                   "certificates; the police count is pending — the "
-                   "ministry's portal blocks automated access.",
+                   "certificates; suicide is the largest violent death, and "
+                   "road deaths fell by more than half. The police count "
+                   "is pending — the ministry's portal blocks automated "
+                   "access.",
                 es="Una de las tasas de homicidio más bajas de Europa, "
-                   "según los certificados de defunción; el cómputo "
-                   "policial está pendiente — el portal del ministerio "
-                   "bloquea el acceso automatizado.",
+                   "según los certificados de defunción; el suicidio es la "
+                   "primera muerte violenta y los muertos en carretera se "
+                   "redujeron a menos de la mitad. El cómputo policial está "
+                   "pendiente: el portal del ministerio bloquea el acceso "
+                   "automatizado.",
                 pt="Uma das taxas de homicídio mais baixas da Europa, "
-                   "segundo as certidões de óbito; a contagem policial está "
-                   "pendente — o portal do ministério bloqueia o acesso "
-                   "automatizado."),
+                   "segundo as certidões de óbito; o suicídio é a principal "
+                   "morte violenta e as mortes no trânsito caíram a menos "
+                   "da metade. A contagem policial está pendente: o portal "
+                   "do ministério bloqueia o acesso automatizado."),
             "spark": ctx.col("social/homicides.csv", "ecm_deaths"),
             "stats": [
                 ctx.stat({"en": "Homicides (death certificates)",

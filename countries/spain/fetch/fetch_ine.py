@@ -16,7 +16,8 @@ flows:
               rebase)
   EPA648630   EPA unemployment rate, national, annual average
   ECP320      Estadística Continua de Población: resident population,
-              national total, quarterly grid (1 January = FK_Periodo 19)
+              national total, quarterly grid (1 January = FK_Periodo 19,
+              1 July = 21: the mid-year denominator of every crude rate)
   MNP17451    births, national, monthly (MNP, by mother's residence)
   MNP89585    deaths, national, monthly (MNP, by residence)
   ECM table   Defunciones según la Causa de Muerte, lista reducida,
@@ -69,6 +70,7 @@ BASE = "https://servicios.ine.es/wstempus/js/ES"
 Y0, Y1 = 2006, 2026
 
 Q1 = 19          # FK_Periodo for the first quarter (ECP: 1 January)
+Q3_START = 21    # FK_Periodo for the third quarter (ECP: 1 July)
 ANNUAL = 28      # FK_Periodo for annual figures
 MONTHS = set(range(1, 13))
 QUARTERS = {19, 20, 21, 22}
@@ -199,12 +201,23 @@ def main() -> None:
         print("  !! EPA employment 2024 off the expected ~21.8mn",
               file=sys.stderr)
 
-    # ---- Population: ECP resident total at 1 January -------------------
+    # ---- Population: ECP resident total at 1 January and 1 July ---------
+    # The ECP grid is quarterly: 1 January (19), 1 April (20), 1 July (21),
+    # 1 October (22). 1 January is the level the demography plate quotes;
+    # 1 July is the mid-year population INE itself divides by for its
+    # crude rates (tasas brutas), so every rate the plates compute from a
+    # year's count uses it — not the 1 January figure, which runs about
+    # half a year's growth behind.
     ecp = serie("ECP320", nult=250)
     pop = {x["Anyo"]: x["Valor"] for x in ecp
            if x["FK_Periodo"] == Q1 and Y0 <= x["Anyo"] <= Y1}
-    write("social/population_from_ine.csv", "year,population", [pop],
-          ["{:.0f}"])
+    pop_jul = {x["Anyo"]: x["Valor"] for x in ecp
+               if x["FK_Periodo"] == Q3_START and Y0 <= x["Anyo"] <= Y1}
+    write("social/population_from_ine.csv", "year,population,population_jul",
+          [pop, pop_jul], ["{:.0f}", "{:.0f}"])
+    if abs(pop_jul.get(2024, 0) - 48_821_936) > 1:
+        print("  !! ECP 1-Jul-2024 off the published 48,821,936",
+              file=sys.stderr)
     if abs(pop.get(2025, 0) - 49_128_297) > 300_000:
         print("  !! ECP 1-Jan-2025 off the published 49.13mn",
               file=sys.stderr)

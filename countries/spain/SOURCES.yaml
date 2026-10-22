@@ -10,11 +10,11 @@ meta:
     url: https://www.igae.pap.hacienda.gob.es/
     official: true
     notes: Both sites timed out from this machine on 2026-10-22 (connection never established; not a 403). The fiscal plates are therefore built on the Eurostat EDP transmission (gov_10dd_edpt1, gov_10q_ggdebt), which Spain reports under obligation — the same numbers IGAE computes, on the Maastricht definition. If a clean IGAE machine endpoint is verified later, add it BESIDE the EDP series (national vs harmonised definitions of the debt differ by consolidation), never spliced.
-  - name: merchandise trade by partner and product
+  - name: merchandise trade by partner and product, national concept
     publisher: DataComex (Secretaría de Estado de Comercio)
     url: https://datacomex.comercio.es/
     official: true
-    notes: Spain's customs trade portal, not probed this session. The World Bank openness series (international/) is staged as the comparables layer; the partner/product chapter waits for the build phase. Customs-value goods and balance-of-payments goods-and-services are two different numbers; see SOURCING §4 before drawing either.
+    notes: Spain's customs trade portal is an interactive query builder with no documented machine endpoint. The partner and product panels are drawn from the same declarations as Eurostat publishes them in Comext (trade/destinations.csv, trade/export_products.csv, community concept); DataComex's national-concept totals run a few per cent lower and would go beside them, never into them.
   - name: IBEX 35 daily closes from stooq
     publisher: stooq.com (redistributor)
     url: https://stooq.com/q/d/l/?s=%5Eibex&i=d
@@ -152,13 +152,13 @@ fiscal:
 trade:
   trade.csv:
     refreshed_by: fetch/fetch_eurostat.py
-    notes: Curated from the sidecar below, unchanged. NATIONAL-ACCOUNTS goods AND services (ESA 2010 P6/P7) — not customs-value goods; the pending DataComex chapter will be a different basis and a different file.
+    notes: Curated from the sidecar below, unchanged. NATIONAL-ACCOUNTS goods AND services (ESA 2010 P6/P7), split into goods (P61/P71) and services (P62/P72) — not customs-value goods, which are destinations.csv and export_products.csv, a different basis.
     source: Eurostat — nama_10_gdp
   trade_from_estat.csv:
     source: Eurostat — nama_10_gdp (P6 exports, P7 imports, goods and services)
     url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_gdp?geo=ES&na_item=P6
     refreshed_by: fetch/fetch_eurostat.py
-    notes: Exports and imports of goods and services at current prices, €bn. Spain runs a surplus on this basis (tourism); the customs goods-only basis shows a deficit. The two are different universes and are never mixed — the customs chapter is pending (DataComex, meta.pending).
+    notes: Exports and imports of goods and services at current prices, €bn, with the goods (P61/P71) and services (P62/P72) split; the fetcher checks P61+P62 = P6. Spain runs a surplus on this basis (tourism); the goods account alone is in deficit.
   trade_from_wb.csv:
     source: 'World Bank — World Development Indicators (NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS)'
     url: 'https://api.worldbank.org/v2/country/ESP/indicator/NE.EXP.GNFS.ZS?format=json'
@@ -169,6 +169,41 @@ trade:
       basis, % of GDP — not a customs goods series. The trade balance is
       their difference and is not stored. Columns: exports_pct_gdp,
       imports_pct_gdp.
+  destinations.csv:
+    source: Eurostat — Comext DS-045409 (customs goods exports by partner)
+    refreshed_by: fetch/fetch_comext.py
+    notes: >-
+      Curated from the sidecar below, unchanged, keeping year, destination,
+      share and the €bn behind it. Share of the year's goods exports to the
+      world (partner WORLD), community concept. Customs goods only — a
+      different universe from trade.csv's national-accounts goods and
+      services. Cross-checked against UN Comtrade (France 2023: 15.6% here,
+      15.0% there; the denominators differ by concept).
+  export_products.csv:
+    source: Eurostat — Comext DS-045409 (customs goods exports by HS chapter)
+    refreshed_by: fetch/fetch_comext.py
+    notes: >-
+      Curated from the sidecar below, unchanged. Shares of goods exports by
+      group: vehicles HS 87, agrifood HS 01-24 summed, machinery HS 84+85,
+      fuels HS 27, pharma HS 30. A group is written only in a year where
+      every chapter in it is published.
+  destinations_from_comext.csv:
+    source: Eurostat — Comext DS-045409, reporter ES, flow export, VALUE_IN_EUROS, annual
+    url: https://ec.europa.eu/eurostat/api/comext/dissemination/statistics/1.0/data/DS-045409?format=JSON&reporter=ES&product=TOTAL&flow=2&indicators=VALUE_IN_EUROS&freq=A
+    refreshed_by: fetch/fetch_comext.py
+    notes: >-
+      Seven named destinations (France, Germany, Italy, Portugal, the UK,
+      the US, Morocco) and the world total. Spot values asserted (2024:
+      €396.1bn to the world, €58.8bn to France) and France's 2023 share
+      checked against UN Comtrade within one point. The national-concept
+      DataComex total runs a few per cent lower.
+  export_products_from_comext.csv:
+    source: Eurostat — Comext DS-045409, reporter ES, partner WORLD, HS2 chapters
+    url: https://ec.europa.eu/eurostat/api/comext/dissemination/statistics/1.0/data/DS-045409?format=JSON&reporter=ES&partner=WORLD&flow=2&indicators=VALUE_IN_EUROS&freq=A
+    refreshed_by: fetch/fetch_comext.py
+    notes: >-
+      Spot values asserted (2024: vehicles €58.6bn, fuels €30.1bn); the
+      product TOTAL is checked equal to the partner WORLD total.
 markets:
   policy_rate.csv:
     refreshed_by: fetch/fetch_ecb.py
@@ -217,6 +252,22 @@ markets:
     refreshed_by: fetch/fetch_markets.py
     official: false
     notes: Nobody official publishes an index close. PRICE index — it excludes dividends, and the IBEX's dividend yield is among the highest in Europe, so a price-only chart understates Madrid against total- return indices; the plate must say so. Monthly close = last trading day of the month, so December is the year-end value; the current year is a live reading, labelled as such. stooq's ^ibex is the fallback and is JS-walled (see meta.pending).
+  sp500.csv:
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged, from 2005. The S&P 500
+      price index in US$ — the yardstick the spine draws dashed beside the
+      IBEX in dollars. 2026 is a live reading.
+    source: S&P Dow Jones Indices via Yahoo Finance (redistributor)
+  sp500_from_yahoo.csv:
+    source: Yahoo Finance (redistributor) — ^GSPC, monthly closes
+    url: https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: >-
+      Year-end close = December's monthly close, read in the exchange's own
+      time zone. Spot value asserted: 903.25 at the end of 2008.
 credit:
   household_loans_from_bde.csv:
     source: Banco de España — CFEE, series DMZ10S800H0.Q
@@ -271,6 +322,21 @@ credit:
       published and _quarters says how many, so the running year reads
       as one quarter, not a year. Wider than bank-loan series: every
       lender and debt securities are in it.
+  household_credit.csv:
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Curated from household_credit_from_bis.csv, Q4 column only, 2006 on;
+      the running year (one quarter) is left out. The spine's household-
+      debt series, % of GDP.
+    source: BIS — total credit statistics (WS_TC)
+  debt_service.csv:
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Curated from debt_service_from_bis.csv, Q4 column only, 2006 on. The
+      credit plate's lens.
+    source: BIS — debt service ratios (WS_DSR)
 social:
   gini.csv:
     refreshed_by: fetch/fetch_eurostat.py, fetch/fetch_comparables.py
@@ -278,11 +344,11 @@ social:
     source: INE / Eurostat / World Bank
   poverty.csv:
     refreshed_by: fetch/fetch_eurostat.py
-    notes: Curated from the sidecar below, unchanged. A relative threshold — a property of the measure.
+    notes: Curated from the sidecar below, unchanged. A relative threshold — a property of the measure. wb_830 is the World Bank's US$8.30-a-day line from poverty_from_wb.csv, beside it, never spliced.
     source: INE / Eurostat / World Bank
   population.csv:
     refreshed_by: fetch/fetch_ine.py
-    notes: Curated from the sidecar below, unchanged. ECP at 1 January, one vintage back to 1971; 2026 is a genuine level reading.
+    notes: Curated from the sidecar below, unchanged. ECP at 1 January (population), one vintage back to 1971; 2026 is a genuine level reading. population_jul is the ECP at 1 July, the mid-year denominator of every rate the plates compute (the INE's own crude rates use it).
     source: INE / Eurostat / World Bank
   demography.csv:
     refreshed_by: fetch/fetch_ine.py, fetch/fetch_eurostat.py
@@ -361,6 +427,31 @@ social:
       ending 2021 and 2019 respectively in this release; later years are
       blank, not zero. Columns: homicide_per_100k, suicide_per_100k,
       road_deaths_per_100k.
+  minimum_wage.csv:
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Curated from the sidecar below, unchanged. € per month on a twelve-
+      month basis: the SMI is paid in fourteen instalments, so this is the
+      BOE figure times 14/12. eur_month_jul (in force on 1 July) is drawn,
+      because the decree is often approved in February and back-dated.
+      Converted to US$ on the plate at the annual average ECB rate.
+    source: Eurostat — earn_mw_cur
+  security.csv:
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Curated from security_from_wb.csv, unchanged, 2006 on. The
+      harmonised comparators drawn beside INE's death-certificate rates:
+      UNODC homicide, WHO suicide (age-standardised) and WHO road deaths,
+      per 100,000.
+    source: UNODC and WHO via the World Bank
+  minimum_wage_from_estat.csv:
+    source: Eurostat — earn_mw_cur (monthly minimum wages, EUR, half-yearly)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/earn_mw_cur?geo=ES&currency=EUR
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      The rate in force on 1 January (S1) and 1 July (S2). Spot value
+      asserted: 2024 S2 = 1,323 = the BOE's €1,134 x 14 / 12.
 migration:
   immigration.csv:
     refreshed_by: fetch/fetch_eurostat.py
@@ -487,3 +578,20 @@ international:
     refreshed_by: fetch/fetch_comparables.py
     official: false
     notes: The Bank's harmonised Gini for Spain is EU-SILC-derived — the same survey as the Eurostat series through a different income definition. Two cuts of one survey, not two measurements.
+  cpi.csv:
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. Score out of 100, 2012
+      onward; earlier editions used a 0-10 scale computed differently and
+      TI says they are not comparable, so they are not drawn.
+    source: Transparency International — Corruption Perceptions Index
+  cpi_from_ti.csv:
+    source: Transparency International — CPI 2025 results spreadsheet, "CPI Timeseries 2012 - 2025" sheet
+    url: https://images.transparencycdn.org/images/CPI2025_Results.xlsx
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Spot values asserted (65 in 2012, 56 in 2024, 55 in 2025) and
+      checked against the CPI 2024 edition's spreadsheet, which agrees for
+      every shared year.

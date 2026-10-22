@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Refresh the IBEX 35 closes for plate 05 into a sidecar CSV.
+"""Refresh the IBEX 35 and S&P 500 closes for plate 05 into sidecar CSVs.
 
 Usage:  python3 -I countries/spain/fetch/fetch_markets.py
 
   ^IBEX  IBEX 35  (Bolsas y Mercados Españoles, price index)
+  ^GSPC  S&P 500  (S&P Dow Jones Indices, price index) — the yardstick the
+         spine draws dashed beside every country's index, in US$
 
 Nobody official publishes an index close, so this comes from a
 redistributor and is marked official: false in SOURCES.yaml. stooq's
@@ -20,7 +22,7 @@ Monthly bars are requested rather than daily: Yahoo's monthly close IS the
 last trading day's close of that month, which is exactly the year-end
 value, and it keeps the payload small enough to be polite.
 
-Output: data/markets/ibex_from_yahoo.csv
+Output: data/markets/ibex_from_yahoo.csv, data/markets/sp500_from_yahoo.csv
 """
 from __future__ import annotations
 
@@ -39,20 +41,20 @@ CHART = ("https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
 # A browser UA is required: the endpoint answers 429 to the default urllib one.
 HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64)"}
 
-SYMBOL = "%5EIBEX"
+SYMBOLS = {"ibex": "%5EIBEX", "sp500": "%5EGSPC"}
 Y0, Y1 = 2005, 2026   # 2005 leaves room for any rebasing the plate wants
 
 
-def fetch() -> dict[int, tuple[str, float]]:
+def fetch(name: str) -> dict[int, tuple[str, float]]:
     """{year: (iso date, close)} for the last observation of each year."""
     CACHE.mkdir(exist_ok=True)
-    cache_file = CACHE / "yahoo_ibex.json"
+    cache_file = CACHE / f"yahoo_{name}.json"
     if cache_file.exists():
         payload = json.loads(cache_file.read_text())
     else:
         p1 = int(datetime(Y0, 1, 1, tzinfo=timezone.utc).timestamp())
         p2 = int(datetime(Y1, 12, 31, tzinfo=timezone.utc).timestamp())
-        url = CHART.format(symbol=SYMBOL, p1=p1, p2=p2)
+        url = CHART.format(symbol=SYMBOLS[name], p1=p1, p2=p2)
         last = None
         for attempt in range(4):
             try:
@@ -67,7 +69,7 @@ def fetch() -> dict[int, tuple[str, float]]:
                 last = e
                 time.sleep(3 * (attempt + 1))
         else:
-            raise RuntimeError(f"yahoo ibex: {last}")
+            raise RuntimeError(f"yahoo {name}: {last}")
     return year_ends(payload)
 
 
@@ -96,19 +98,29 @@ def year_ends(payload: dict) -> dict[int, tuple[str, float]]:
     return out
 
 
+# One known year-end close per index, read off the exchange's own record,
+# so a payload that shifted a month (see year_ends) cannot pass.
+SPOT = {"ibex": (2007, 15182.30), "sp500": (2008, 903.25)}
+
+
 def main() -> None:
-    print("Fetching IBEX 35 closes...")
-    series = fetch()
     DATA.mkdir(parents=True, exist_ok=True)
-    lines = ["year,close"]
-    for y in range(Y0, Y1 + 1):
-        hit = series.get(y)
-        lines.append(f"{y},{hit[1]:.2f}" if hit else f"{y},")
-    (DATA / "ibex_from_yahoo.csv").write_text("\n".join(lines) + "\n")
-    latest = max(series)
-    print(f"  -> data/markets/ibex_from_yahoo.csv "
-          f"(latest bar {series[latest][0]}: {series[latest][1]:,.2f})")
-    print("Done. Diff the sidecar before adopting.")
+    for name in SYMBOLS:
+        print(f"Fetching {name} closes...")
+        series = fetch(name)
+        year, close = SPOT[name]
+        if abs(series[year][1] - close) > 0.05:
+            raise RuntimeError(f"{name} {year} close is {series[year][1]}, "
+                               f"not {close}")
+        lines = ["year,close"]
+        for y in range(Y0, Y1 + 1):
+            hit = series.get(y)
+            lines.append(f"{y},{hit[1]:.2f}" if hit else f"{y},")
+        (DATA / f"{name}_from_yahoo.csv").write_text("\n".join(lines) + "\n")
+        latest = max(series)
+        print(f"  -> data/markets/{name}_from_yahoo.csv "
+              f"(latest bar {series[latest][0]}: {series[latest][1]:,.2f})")
+    print("Done. Diff the sidecars before adopting.")
 
 
 if __name__ == "__main__":
