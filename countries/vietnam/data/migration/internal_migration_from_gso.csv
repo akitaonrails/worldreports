@@ -1,0 +1,1426 @@
+# NSO V02.21-23 "Tỷ suất nhập cư, xuất cư và di cư thuần phân theo địa phương chia theo Tỉnh/Thành phố, Tỷ suất và Năm" — unit: ‰; NSO updated 2026-08-20; https://pxweb.nso.gov.vn/pxweb/vi/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/V02.21-23.px/
+# INTERNAL migration between provinces, NOT international: in-migration, out-migration and net migration rates, per mille (‰).
+# Years 2005, 2007-2025. Long format: one row per place and year; level = national / region / province; place is the NSO label (NFC).
+# The provinces are the pre-2025 63-province map plus Hà Tây (merged into Hà Nội in 2008); the 2025 merger to 34 provinces will re-key every provincial table.
+# Blank = not published. status: final / preliminary (Sơ bộ). Official: true.
+year,status,place,level,in_migration_per_mille,out_migration_per_mille,net_migration_per_mille
+2005,final,CẢ NƯỚC,national,5,5,
+2005,final,Đồng bằng sông Hồng,region,2.5,3.1,-0.6
+2005,final,Hà Nội,province,13.8,5.2,8.7
+2005,final,Hà Tây,province,2.2,4.3,-2.1
+2005,final,Vĩnh Phúc,province,2.5,3.8,-1.3
+2005,final,Bắc Ninh,province,5.3,7.7,-2.5
+2005,final,Quảng Ninh,province,3.6,5.3,-1.8
+2005,final,Hải Dương,province,3.1,7.3,-4.3
+2005,final,Hải Phòng,province,4.1,2.9,1.3
+2005,final,Hưng Yên,province,6.8,5.8,1
+2005,final,Thái Bình,province,5.8,6.7,-0.9
+2005,final,Hà Nam,province,2.3,8,-5.7
+2005,final,Nam Định,province,1.9,6.8,-4.9
+2005,final,Ninh Bình,province,3.6,6.2,-2.6
+2005,final,Trung du và miền núi phía Bắc,region,1.9,2.3,-0.4
+2005,final,Hà Giang,province,0.6,0.9,-0.3
+2005,final,Cao Bằng,province,4.2,4,0.2
+2005,final,Bắc Kạn,province,4.3,5,-0.7
+2005,final,Tuyên Quang,province,2.8,3.4,-0.6
+2005,final,Lào Cai,province,1.2,2.4,-1.2
+2005,final,Yên Bái,province,2.3,3.8,-1.6
+2005,final,Thái Nguyên,province,5.9,5.8,0.1
+2005,final,Lạng Sơn,province,1.2,3,-1.8
+2005,final,Bắc Giang,province,2.4,4.9,-2.5
+2005,final,Phú Thọ,province,2.6,3.5,-0.9
+2005,final,Điện Biên,province,2.6,0.9,1.7
+2005,final,Lai Châu,province,1.1,3.3,-2.2
+2005,final,Sơn La,province,1.4,1.7,-0.3
+2005,final,Hòa Bình,province,3.7,2.9,0.8
+2005,final,Bắc Trung Bộ và duyên hải miền Trung,region,2,4.6,-2.6
+2005,final,Thanh Hóa,province,2.3,6.1,-3.7
+2005,final,Nghệ An,province,2.7,4.5,-1.8
+2005,final,Hà Tĩnh,province,6.4,5.1,1.3
+2005,final,Quảng Bình,province,2.6,3.4,-0.8
+2005,final,Quảng Trị,province,2.3,5.6,-3.3
+2005,final,Huế,province,4.8,8.4,-3.6
+2005,final,Đà Nẵng,province,8.6,4.7,3.8
+2005,final,Quảng Nam,province,2.2,6.5,-4.3
+2005,final,Quảng Ngãi,province,0.6,5.5,-4.9
+2005,final,Bình Định,province,1.6,5.7,-4.1
+2005,final,Phú Yên,province,2.7,1.5,1.2
+2005,final,Khánh Hòa,province,2.6,5.3,-2.7
+2005,final,Ninh Thuận,province,1.1,1.6,-0.5
+2005,final,Bình Thuận,province,3.1,4.2,-1.1
+2005,final,Tây Nguyên,region,4.7,4.9,-0.2
+2005,final,Kon Tum,province,4.7,4.2,0.4
+2005,final,Gia Lai,province,2.9,3.4,-0.6
+2005,final,Đắk Lắk,province,4.3,7.5,-3.2
+2005,final,Đắk Nông,province,11.4,1.5,9.9
+2005,final,Lâm Đồng,province,7.6,5.5,2.1
+2005,final,Đông Nam Bộ,region,10.3,3.1,7.2
+2005,final,Bình Phước,province,4.6,6.6,-2
+2005,final,Tây Ninh,province,2.6,6.8,-4.2
+2005,final,Bình Dương,province,27.2,9.2,18
+2005,final,Đồng Nai,province,3,6,-3.1
+2005,final,Bà Rịa - Vũng Tàu,province,8.7,6.1,2.6
+2005,final,TP. Hồ Chí Minh,province,19.1,5,14
+2005,final,Đồng bằng sông Cửu Long,region,0.8,2.6,-1.8
+2005,final,Long An,province,2.6,6.5,-3.9
+2005,final,Tiền Giang,province,5.2,5.3,-0.1
+2005,final,Bến Tre,province,2,6.6,-4.6
+2005,final,Trà Vinh,province,2,2.7,-0.7
+2005,final,Vĩnh Long,province,2.4,4.5,-2.1
+2005,final,Đồng Tháp,province,2.3,5.7,-3.4
+2005,final,An Giang,province,1.4,3.5,-2.1
+2005,final,Kiên Giang,province,3.4,3.4,0
+2005,final,Cần Thơ,province,5.1,5.5,-0.5
+2005,final,Hậu Giang,province,2.4,4,-1.6
+2005,final,Sóc Trăng,province,2.5,4.3,-1.8
+2005,final,Bạc Liêu,province,1.8,2.6,-0.8
+2005,final,Cà Mau,province,1.8,2.1,-0.3
+2007,final,CẢ NƯỚC,national,7.5,7.5,
+2007,final,Đồng bằng sông Hồng,region,3.4,3.9,-0.4
+2007,final,Hà Nội,province,14.8,10.5,4.3
+2007,final,Hà Tây,province,2.8,7.1,-4.3
+2007,final,Vĩnh Phúc,province,2.4,6.3,-3.9
+2007,final,Bắc Ninh,province,12.4,7.3,5.1
+2007,final,Quảng Ninh,province,3.5,8.5,-5
+2007,final,Hải Dương,province,3.1,5.9,-2.8
+2007,final,Hải Phòng,province,4.5,2.7,1.8
+2007,final,Hưng Yên,province,6.7,4.9,1.8
+2007,final,Thái Bình,province,9.7,14.2,-4.5
+2007,final,Hà Nam,province,2.8,11.6,-8.8
+2007,final,Nam Định,province,3.9,7.1,-3.2
+2007,final,Ninh Bình,province,6.4,9.1,-2.7
+2007,final,Trung du và miền núi phía Bắc,region,2.8,3.7,-0.9
+2007,final,Hà Giang,province,0.9,2.2,-1.2
+2007,final,Cao Bằng,province,5.9,7,-1.1
+2007,final,Bắc Kạn,province,5,4.2,0.7
+2007,final,Tuyên Quang,province,2.6,6,-3.3
+2007,final,Lào Cai,province,1.8,6.6,-4.9
+2007,final,Yên Bái,province,3.8,3.2,0.6
+2007,final,Thái Nguyên,province,6.1,5.6,0.4
+2007,final,Lạng Sơn,province,1.3,5.4,-4
+2007,final,Bắc Giang,province,3.4,6.4,-2.9
+2007,final,Phú Thọ,province,4.6,4.8,-0.2
+2007,final,Điện Biên,province,5.3,3.7,1.5
+2007,final,Lai Châu,province,4.4,4.4,0
+2007,final,Sơn La,province,2.3,2.1,0.2
+2007,final,Hòa Bình,province,4,4.4,-0.4
+2007,final,Bắc Trung Bộ và duyên hải miền Trung,region,3.5,6.1,-2.6
+2007,final,Thanh Hóa,province,4.9,8.8,-3.8
+2007,final,Nghệ An,province,5.5,5.7,-0.1
+2007,final,Hà Tĩnh,province,3.6,10.6,-7
+2007,final,Quảng Bình,province,3.3,5.7,-2.4
+2007,final,Quảng Trị,province,2.4,11.5,-9.1
+2007,final,Huế,province,4.9,7.5,-2.7
+2007,final,Đà Nẵng,province,13.6,6,7.6
+2007,final,Quảng Nam,province,2.6,7.1,-4.5
+2007,final,Quảng Ngãi,province,4.2,7.8,-3.6
+2007,final,Bình Định,province,4.2,7.5,-3.3
+2007,final,Phú Yên,province,2.9,3.5,-0.6
+2007,final,Khánh Hòa,province,2.1,5.1,-3
+2007,final,Ninh Thuận,province,1.9,4.6,-2.7
+2007,final,Bình Thuận,province,0.8,9,-8.3
+2007,final,Tây Nguyên,region,5.9,6.1,-0.2
+2007,final,Kon Tum,province,4.2,5.7,-1.5
+2007,final,Gia Lai,province,7.1,6,1
+2007,final,Đắk Lắk,province,6.1,9.7,-3.6
+2007,final,Đắk Nông,province,9.4,4.5,4.9
+2007,final,Lâm Đồng,province,6.8,4.5,2.3
+2007,final,Đông Nam Bộ,region,16.8,5.5,11.3
+2007,final,Bình Phước,province,6.8,12.1,-5.3
+2007,final,Tây Ninh,province,3.3,8.2,-5
+2007,final,Bình Dương,province,60.7,19.6,41.1
+2007,final,Đồng Nai,province,11.2,10.6,0.6
+2007,final,Bà Rịa - Vũng Tàu,province,9.1,8.8,0.3
+2007,final,TP. Hồ Chí Minh,province,30.8,8.6,22.2
+2007,final,Đồng bằng sông Cửu Long,region,1.4,6.1,-4.7
+2007,final,Long An,province,4.6,10.2,-5.6
+2007,final,Tiền Giang,province,5.1,8.9,-3.9
+2007,final,Bến Tre,province,3.4,10.1,-6.7
+2007,final,Trà Vinh,province,3.7,8,-4.3
+2007,final,Vĩnh Long,province,2.6,7.7,-5.2
+2007,final,Đồng Tháp,province,2.3,8.6,-6.3
+2007,final,An Giang,province,1.8,4.6,-2.8
+2007,final,Kiên Giang,province,4.8,6.1,-1.3
+2007,final,Cần Thơ,province,6.4,7,-0.6
+2007,final,Hậu Giang,province,3.3,12.6,-9.3
+2007,final,Sóc Trăng,province,1.6,8.4,-6.8
+2007,final,Bạc Liêu,province,1.6,6.6,-5
+2007,final,Cà Mau,province,0.6,7.2,-6.6
+2008,final,CẢ NƯỚC,national,6,6,
+2008,final,Đồng bằng sông Hồng,region,2.5,3.1,-0.6
+2008,final,Hà Nội,province,10.7,6.8,3.9
+2008,final,Hà Tây,province,,,
+2008,final,Vĩnh Phúc,province,3.8,7.2,-3.4
+2008,final,Bắc Ninh,province,6.2,8.3,-2.1
+2008,final,Quảng Ninh,province,2.6,6.6,-4.1
+2008,final,Hải Dương,province,4.5,5.3,-0.8
+2008,final,Hải Phòng,province,3.9,2.1,1.8
+2008,final,Hưng Yên,province,3.9,5.1,-1.2
+2008,final,Thái Bình,province,4.8,5.9,-1.1
+2008,final,Hà Nam,province,4.9,5.3,-0.5
+2008,final,Nam Định,province,0.7,8.3,-7.6
+2008,final,Ninh Bình,province,4.6,6.2,-1.6
+2008,final,Trung du và miền núi phía Bắc,region,2.2,2.8,-0.6
+2008,final,Hà Giang,province,0.9,2.1,-1.2
+2008,final,Cao Bằng,province,5.2,1.5,3.6
+2008,final,Bắc Kạn,province,2.6,3.8,-1.2
+2008,final,Tuyên Quang,province,3.9,4.4,-0.5
+2008,final,Lào Cai,province,1.4,2.3,-0.9
+2008,final,Yên Bái,province,3.6,2.6,1
+2008,final,Thái Nguyên,province,4.3,5.4,-1.1
+2008,final,Lạng Sơn,province,2.5,5.5,-3.1
+2008,final,Bắc Giang,province,3.3,4.3,-1
+2008,final,Phú Thọ,province,2.6,3.6,-1.1
+2008,final,Điện Biên,province,2.9,3.7,-0.8
+2008,final,Lai Châu,province,3.9,8.1,-4.2
+2008,final,Sơn La,province,0.8,2.4,-1.6
+2008,final,Hòa Bình,province,2.6,3.1,-0.6
+2008,final,Bắc Trung Bộ và duyên hải miền Trung,region,2.6,4.5,-1.9
+2008,final,Thanh Hóa,province,5.3,7.6,-2.3
+2008,final,Nghệ An,province,2.6,4.5,-1.9
+2008,final,Hà Tĩnh,province,6.7,6.4,0.3
+2008,final,Quảng Bình,province,1.5,6.9,-5.4
+2008,final,Quảng Trị,province,2.6,3.6,-1
+2008,final,Huế,province,3.1,8.8,-5.8
+2008,final,Đà Nẵng,province,12,5.5,6.5
+2008,final,Quảng Nam,province,1.8,6.1,-4.3
+2008,final,Quảng Ngãi,province,2.7,5.4,-2.7
+2008,final,Bình Định,province,2.5,4.3,-1.8
+2008,final,Phú Yên,province,2.4,6.7,-4.3
+2008,final,Khánh Hòa,province,3.5,3.9,-0.4
+2008,final,Ninh Thuận,province,3.1,2.6,0.4
+2008,final,Bình Thuận,province,1.9,5.3,-3.4
+2008,final,Tây Nguyên,region,4.9,6.4,-1.5
+2008,final,Kon Tum,province,9.5,2.4,7.2
+2008,final,Gia Lai,province,5.5,6,-0.4
+2008,final,Đắk Lắk,province,3.7,7.1,-3.4
+2008,final,Đắk Nông,province,8.9,3,5.9
+2008,final,Lâm Đồng,province,7.1,12.3,-5.3
+2008,final,Đông Nam Bộ,region,14.2,4.8,9.4
+2008,final,Bình Phước,province,5.5,9.1,-3.6
+2008,final,Tây Ninh,province,1.5,6.8,-5.3
+2008,final,Bình Dương,province,42.3,15.2,27.1
+2008,final,Đồng Nai,province,12.3,9.7,2.5
+2008,final,Bà Rịa - Vũng Tàu,province,5.4,7.6,-2.3
+2008,final,TP. Hồ Chí Minh,province,21.2,6.6,14.6
+2008,final,Đồng bằng sông Cửu Long,region,1.6,4.8,-3.2
+2008,final,Long An,province,3.8,8.7,-5
+2008,final,Tiền Giang,province,6.5,7.2,-0.7
+2008,final,Bến Tre,province,3.4,7.3,-3.9
+2008,final,Trà Vinh,province,7.1,2.7,4.4
+2008,final,Vĩnh Long,province,1.9,5.8,-3.9
+2008,final,Đồng Tháp,province,2,5.1,-3.1
+2008,final,An Giang,province,2.1,5,-2.9
+2008,final,Kiên Giang,province,3.3,4,-0.6
+2008,final,Cần Thơ,province,4.4,7.3,-2.8
+2008,final,Hậu Giang,province,6.3,10.4,-4.1
+2008,final,Sóc Trăng,province,4,4.2,-0.2
+2008,final,Bạc Liêu,province,1.4,3.1,-1.7
+2008,final,Cà Mau,province,1.2,6.5,-5.3
+2009,final,CẢ NƯỚC,national,8.7,8.7,
+2009,final,Đồng bằng sông Hồng,region,3.2,3.7,-0.5
+2009,final,Hà Nội,province,13.1,3.2,9.9
+2009,final,Hà Tây,province,,,
+2009,final,Vĩnh Phúc,province,4.5,10.2,-5.7
+2009,final,Bắc Ninh,province,6.4,8.9,-2.5
+2009,final,Quảng Ninh,province,5.7,4.9,0.8
+2009,final,Hải Dương,province,4.3,8.6,-4.3
+2009,final,Hải Phòng,province,5.6,3.8,1.8
+2009,final,Hưng Yên,province,5.4,9.4,-4
+2009,final,Thái Bình,province,1.6,13,-11.4
+2009,final,Hà Nam,province,2.4,13.1,-10.7
+2009,final,Nam Định,province,2.2,12.9,-10.6
+2009,final,Ninh Bình,province,3.5,12.5,-9
+2009,final,Trung du và miền núi phía Bắc,region,1.8,5.4,-3.6
+2009,final,Hà Giang,province,2.2,3.1,-0.9
+2009,final,Cao Bằng,province,3.7,6.5,-2.8
+2009,final,Bắc Kạn,province,4.7,7.1,-2.4
+2009,final,Tuyên Quang,province,2.4,8.2,-5.9
+2009,final,Lào Cai,province,3.9,4.5,-0.6
+2009,final,Yên Bái,province,2.1,6.3,-4.1
+2009,final,Thái Nguyên,province,6,7.9,-1.9
+2009,final,Lạng Sơn,province,2.6,7.3,-4.7
+2009,final,Bắc Giang,province,1.6,10.3,-8.7
+2009,final,Phú Thọ,province,2.3,9.6,-7.3
+2009,final,Điện Biên,province,3.2,3.9,-0.6
+2009,final,Lai Châu,province,9.8,2.9,6.9
+2009,final,Sơn La,province,2.8,2.3,0.5
+2009,final,Hòa Bình,province,3,6.3,-3.3
+2009,final,Bắc Trung Bộ và duyên hải miền Trung,region,1.3,9,-7.7
+2009,final,Thanh Hóa,province,1.3,14.9,-13.6
+2009,final,Nghệ An,province,2.1,11.4,-9.3
+2009,final,Hà Tĩnh,province,2.3,15.2,-12.9
+2009,final,Quảng Bình,province,1.9,11.5,-9.6
+2009,final,Quảng Trị,province,2.4,10.2,-7.8
+2009,final,Huế,province,5.4,9.9,-4.5
+2009,final,Đà Nẵng,province,20.1,4.8,15.3
+2009,final,Quảng Nam,province,2.4,10.4,-8
+2009,final,Quảng Ngãi,province,1.5,11.4,-10
+2009,final,Bình Định,province,2.7,10.8,-8
+2009,final,Phú Yên,province,2,7.6,-5.5
+2009,final,Khánh Hòa,province,4.1,5.6,-1.5
+2009,final,Ninh Thuận,province,2.2,8.8,-6.6
+2009,final,Bình Thuận,province,3,7.6,-4.6
+2009,final,Tây Nguyên,region,7.3,5.5,1.8
+2009,final,Kon Tum,province,9.3,3.9,5.4
+2009,final,Gia Lai,province,7,4.9,2.1
+2009,final,Đắk Lắk,province,6.1,8.3,-2.2
+2009,final,Đắk Nông,province,18.9,5.7,13.2
+2009,final,Lâm Đồng,province,9.8,8.4,1.4
+2009,final,Đông Nam Bộ,region,25.3,1.9,23.4
+2009,final,Bình Phước,province,9.2,9.3,-0.1
+2009,final,Tây Ninh,province,3.5,7.4,-3.9
+2009,final,Bình Dương,province,73.2,5.1,68.1
+2009,final,Đồng Nai,province,20.8,7.6,13.2
+2009,final,Bà Rịa - Vũng Tàu,province,12.5,8.2,4.3
+2009,final,TP. Hồ Chí Minh,province,31.3,4.2,27.1
+2009,final,Đồng bằng sông Cửu Long,region,0.9,9.3,-8.4
+2009,final,Long An,province,5.9,9.9,-3.9
+2009,final,Tiền Giang,province,3.1,11.7,-8.6
+2009,final,Bến Tre,province,2.3,15.7,-13.4
+2009,final,Trà Vinh,province,2.3,14.5,-12.1
+2009,final,Vĩnh Long,province,4.5,14.9,-10.4
+2009,final,Đồng Tháp,province,2.5,11.5,-9.1
+2009,final,An Giang,province,1.8,11,-9.2
+2009,final,Kiên Giang,province,2.5,9.3,-6.7
+2009,final,Cần Thơ,province,10.2,9.5,0.6
+2009,final,Hậu Giang,province,3.3,10.8,-7.5
+2009,final,Sóc Trăng,province,1.9,11.4,-9.5
+2009,final,Bạc Liêu,province,1.5,10.8,-9.3
+2009,final,Cà Mau,province,1.4,12.8,-11.4
+2010,final,CẢ NƯỚC,national,9.7,9.7,
+2010,final,Đồng bằng sông Hồng,region,3.5,3,0.5
+2010,final,Hà Nội,province,10.8,4.9,5.9
+2010,final,Hà Tây,province,,,
+2010,final,Vĩnh Phúc,province,4.8,7.2,-2.4
+2010,final,Bắc Ninh,province,9.8,7.6,2.2
+2010,final,Quảng Ninh,province,3.7,5.4,-1.7
+2010,final,Hải Dương,province,5,7.2,-2.2
+2010,final,Hải Phòng,province,7,3.8,3.2
+2010,final,Hưng Yên,province,6.5,6.7,-0.2
+2010,final,Thái Bình,province,2.7,11.1,-8.4
+2010,final,Hà Nam,province,4.1,8.7,-4.6
+2010,final,Nam Định,province,4.1,8.4,-4.3
+2010,final,Ninh Bình,province,5.9,9.2,-3.3
+2010,final,Trung du và miền núi phía Bắc,region,2.3,6.2,-3.9
+2010,final,Hà Giang,province,1.9,19,-17.1
+2010,final,Cao Bằng,province,4.7,9.6,-4.9
+2010,final,Bắc Kạn,province,4.6,6.3,-1.7
+2010,final,Tuyên Quang,province,2.8,4.7,-1.9
+2010,final,Lào Cai,province,3.7,3.8,-0.1
+2010,final,Yên Bái,province,3.4,4.1,-0.7
+2010,final,Thái Nguyên,province,11.5,6.9,4.6
+2010,final,Lạng Sơn,province,3,8.2,-5.2
+2010,final,Bắc Giang,province,3,10,-7
+2010,final,Phú Thọ,province,2.4,14.2,-11.8
+2010,final,Điện Biên,province,3.6,1.3,2.3
+2010,final,Lai Châu,province,3.5,2.5,1
+2010,final,Sơn La,province,2,2.4,-0.4
+2010,final,Hòa Bình,province,3.8,5.8,-2
+2010,final,Bắc Trung Bộ và duyên hải miền Trung,region,3.1,8.8,-5.7
+2010,final,Thanh Hóa,province,6.8,13,-6.2
+2010,final,Nghệ An,province,2.7,10.3,-7.6
+2010,final,Hà Tĩnh,province,4.7,14.4,-9.7
+2010,final,Quảng Bình,province,2.4,13.4,-11
+2010,final,Quảng Trị,province,5.6,11.4,-5.8
+2010,final,Huế,province,8.3,10.3,-2
+2010,final,Đà Nẵng,province,29.8,3.4,26.4
+2010,final,Quảng Nam,province,4.9,14.6,-9.7
+2010,final,Quảng Ngãi,province,2.3,12,-9.7
+2010,final,Bình Định,province,6,9.9,-3.9
+2010,final,Phú Yên,province,2.5,8.4,-5.9
+2010,final,Khánh Hòa,province,3.7,11.9,-8.2
+2010,final,Ninh Thuận,province,2.9,17.1,-14.2
+2010,final,Bình Thuận,province,4.2,9.6,-5.4
+2010,final,Tây Nguyên,region,5.7,6.1,-0.4
+2010,final,Kon Tum,province,6.7,4.1,2.6
+2010,final,Gia Lai,province,3.7,5.9,-2.2
+2010,final,Đắk Lắk,province,6.9,8.8,-1.9
+2010,final,Đắk Nông,province,7.3,3.2,4.1
+2010,final,Lâm Đồng,province,8.6,7.5,1.1
+2010,final,Đông Nam Bộ,region,24.8,4.9,19.9
+2010,final,Bình Phước,province,10.3,17.2,-6.9
+2010,final,Tây Ninh,province,3.3,7.2,-3.9
+2010,final,Bình Dương,province,89.6,15,74.6
+2010,final,Đồng Nai,province,27.2,10.8,16.4
+2010,final,Bà Rịa - Vũng Tàu,province,13.3,8.9,4.4
+2010,final,TP. Hồ Chí Minh,province,26.2,7.8,18.4
+2010,final,Đồng bằng sông Cửu Long,region,1.8,10.2,-8.4
+2010,final,Long An,province,5.5,9,-3.5
+2010,final,Tiền Giang,province,9,9.2,-0.2
+2010,final,Bến Tre,province,2.2,15.1,-12.9
+2010,final,Trà Vinh,province,5,9.1,-4.1
+2010,final,Vĩnh Long,province,4.2,17.6,-13.4
+2010,final,Đồng Tháp,province,4.1,10.7,-6.6
+2010,final,An Giang,province,3.6,11.9,-8.3
+2010,final,Kiên Giang,province,5.8,14.5,-8.7
+2010,final,Cần Thơ,province,9.8,11.5,-1.7
+2010,final,Hậu Giang,province,4,10.9,-6.9
+2010,final,Sóc Trăng,province,2.8,12.7,-9.9
+2010,final,Bạc Liêu,province,2.6,13.2,-10.6
+2010,final,Cà Mau,province,2.5,29.7,-27.2
+2011,final,CẢ NƯỚC,national,10.4,10.4,
+2011,final,Đồng bằng sông Hồng,region,4.5,3.6,0.9
+2011,final,Hà Nội,province,11,6.4,4.7
+2011,final,Hà Tây,province,,,
+2011,final,Vĩnh Phúc,province,4.3,16,-11.7
+2011,final,Bắc Ninh,province,13.4,6.5,7
+2011,final,Quảng Ninh,province,3.6,5.5,-1.9
+2011,final,Hải Dương,province,7.8,5.5,2.3
+2011,final,Hải Phòng,province,7.1,5,2.1
+2011,final,Hưng Yên,province,8,6.1,1.8
+2011,final,Thái Bình,province,2.3,9.4,-7.1
+2011,final,Hà Nam,province,6.6,10.5,-4
+2011,final,Nam Định,province,6.1,7.4,-1.3
+2011,final,Ninh Bình,province,10.2,8.5,1.7
+2011,final,Trung du và miền núi phía Bắc,region,2.8,6.1,-3.3
+2011,final,Hà Giang,province,2.4,3.6,-1.3
+2011,final,Cao Bằng,province,4.6,10.1,-5.5
+2011,final,Bắc Kạn,province,4.8,6.7,-1.8
+2011,final,Tuyên Quang,province,3.7,13.5,-9.8
+2011,final,Lào Cai,province,3.4,2.4,1
+2011,final,Yên Bái,province,4.4,7.4,-3
+2011,final,Thái Nguyên,province,7.7,9.7,-2
+2011,final,Lạng Sơn,province,6.2,8.1,-1.9
+2011,final,Bắc Giang,province,5.5,10.4,-4.9
+2011,final,Phú Thọ,province,4.5,13.7,-9.2
+2011,final,Điện Biên,province,3.9,2.1,1.8
+2011,final,Lai Châu,province,3.5,4.1,-0.6
+2011,final,Sơn La,province,2.7,1.8,0.8
+2011,final,Hòa Bình,province,5.6,7.8,-2.2
+2011,final,Bắc Trung Bộ và duyên hải miền Trung,region,4.7,8.7,-4
+2011,final,Thanh Hóa,province,9.8,14.5,-4.6
+2011,final,Nghệ An,province,4.8,11.8,-7
+2011,final,Hà Tĩnh,province,6.2,12.4,-6.2
+2011,final,Quảng Bình,province,4,10.3,-6.3
+2011,final,Quảng Trị,province,4.9,10,-5.1
+2011,final,Huế,province,13.5,8.6,4.9
+2011,final,Đà Nẵng,province,22.8,7.9,14.9
+2011,final,Quảng Nam,province,8.8,11.1,-2.3
+2011,final,Quảng Ngãi,province,5.4,13.3,-7.9
+2011,final,Bình Định,province,6.6,10,-3.4
+2011,final,Phú Yên,province,6.1,14,-7.9
+2011,final,Khánh Hòa,province,5,8.4,-3.4
+2011,final,Ninh Thuận,province,3.8,15.8,-12
+2011,final,Bình Thuận,province,2.1,8.5,-6.4
+2011,final,Tây Nguyên,region,6,8.4,-2.4
+2011,final,Kon Tum,province,8.8,9.8,-1
+2011,final,Gia Lai,province,4.9,6.9,-1.9
+2011,final,Đắk Lắk,province,7.7,12.3,-4.6
+2011,final,Đắk Nông,province,5.7,10.7,-5
+2011,final,Lâm Đồng,province,9.2,8.3,1
+2011,final,Đông Nam Bộ,region,23.4,8.6,14.8
+2011,final,Bình Phước,province,10.9,11.7,-0.8
+2011,final,Tây Ninh,province,5.8,7.5,-1.7
+2011,final,Bình Dương,province,64.8,22.1,42.7
+2011,final,Đồng Nai,province,31.4,9.3,22.1
+2011,final,Bà Rịa - Vũng Tàu,province,16.5,10.8,5.7
+2011,final,TP. Hồ Chí Minh,province,25,13.5,11.5
+2011,final,Đồng bằng sông Cửu Long,region,3.1,9.6,-6.5
+2011,final,Long An,province,3.8,7.7,-3.9
+2011,final,Tiền Giang,province,8.5,9.5,-1
+2011,final,Bến Tre,province,5.8,15.5,-9.8
+2011,final,Trà Vinh,province,11.4,12.7,-1.3
+2011,final,Vĩnh Long,province,7.6,11.5,-3.9
+2011,final,Đồng Tháp,province,5.8,11.1,-5.4
+2011,final,An Giang,province,3.9,16,-12.2
+2011,final,Kiên Giang,province,7.3,15.2,-7.8
+2011,final,Cần Thơ,province,6.9,11,-4.1
+2011,final,Hậu Giang,province,7.7,5.4,2.3
+2011,final,Sóc Trăng,province,3.1,14.8,-11.7
+2011,final,Bạc Liêu,province,3,9.6,-6.6
+2011,final,Cà Mau,province,4.2,16.3,-12.1
+2012,final,CẢ NƯỚC,national,7.2,7.2,
+2012,final,Đồng bằng sông Hồng,region,2.7,2.5,0.2
+2012,final,Hà Nội,province,6.1,3.3,2.8
+2012,final,Hà Tây,province,,,
+2012,final,Vĩnh Phúc,province,2.9,4,-1.1
+2012,final,Bắc Ninh,province,12.7,5.5,7.2
+2012,final,Quảng Ninh,province,2,4.8,-2.8
+2012,final,Hải Dương,province,5.6,4.8,0.8
+2012,final,Hải Phòng,province,6,2.1,3.9
+2012,final,Hưng Yên,province,7,9.6,-2.6
+2012,final,Thái Bình,province,1.2,9.1,-7.9
+2012,final,Hà Nam,province,1.4,5.6,-4.2
+2012,final,Nam Định,province,2.3,7.8,-5.5
+2012,final,Ninh Bình,province,10.2,6.4,3.8
+2012,final,Trung du và miền núi phía Bắc,region,1.6,4.2,-2.6
+2012,final,Hà Giang,province,1.3,1.7,-0.4
+2012,final,Cao Bằng,province,4.4,15.6,-11.2
+2012,final,Bắc Kạn,province,3.1,4.6,-1.5
+2012,final,Tuyên Quang,province,2.1,3.5,-1.4
+2012,final,Lào Cai,province,2.9,3,-0.1
+2012,final,Yên Bái,province,1.8,4.6,-2.8
+2012,final,Thái Nguyên,province,4.7,7.2,-2.5
+2012,final,Lạng Sơn,province,3.5,7.8,-4.3
+2012,final,Bắc Giang,province,3.2,6.8,-3.6
+2012,final,Phú Thọ,province,3.1,5,-1.9
+2012,final,Điện Biên,province,3.4,3.6,-0.2
+2012,final,Lai Châu,province,3.9,3.4,0.5
+2012,final,Sơn La,province,1.3,3.4,-2.1
+2012,final,Hòa Bình,province,2.1,5.8,-3.7
+2012,final,Bắc Trung Bộ và duyên hải miền Trung,region,2.1,6.5,-4.4
+2012,final,Thanh Hóa,province,5.1,10.3,-5.2
+2012,final,Nghệ An,province,1,10.5,-9.6
+2012,final,Hà Tĩnh,province,3.7,12.8,-9.1
+2012,final,Quảng Bình,province,7.6,7.6,0
+2012,final,Quảng Trị,province,3.6,8.4,-4.8
+2012,final,Huế,province,5,7.7,-2.7
+2012,final,Đà Nẵng,province,17.5,6.3,11.2
+2012,final,Quảng Nam,province,3.3,6.9,-3.6
+2012,final,Quảng Ngãi,province,1.8,7.6,-5.8
+2012,final,Bình Định,province,2.8,9.8,-7
+2012,final,Phú Yên,province,3.2,6.2,-3
+2012,final,Khánh Hòa,province,3.1,5.5,-2.4
+2012,final,Ninh Thuận,province,3.6,4.5,-0.9
+2012,final,Bình Thuận,province,2.3,6.1,-3.8
+2012,final,Tây Nguyên,region,8.7,5,3.7
+2012,final,Kon Tum,province,11.8,5.3,6.5
+2012,final,Gia Lai,province,4.9,5.3,-0.4
+2012,final,Đắk Lắk,province,8.4,7.8,0.6
+2012,final,Đắk Nông,province,42.3,6.1,36.2
+2012,final,Lâm Đồng,province,6.8,8.9,-2.1
+2012,final,Đông Nam Bộ,region,15.5,3.8,11.7
+2012,final,Bình Phước,province,6.7,8.9,-2.2
+2012,final,Tây Ninh,province,3.9,3.9,0
+2012,final,Bình Dương,province,59.1,10.2,48.9
+2012,final,Đồng Nai,province,18.5,6,12.5
+2012,final,Bà Rịa - Vũng Tàu,province,10.5,7.7,2.8
+2012,final,TP. Hồ Chí Minh,province,14.8,7.2,7.6
+2012,final,Đồng bằng sông Cửu Long,region,1.5,6.5,-5
+2012,final,Long An,province,4.7,7.5,-2.8
+2012,final,Tiền Giang,province,8.1,9.4,-1.3
+2012,final,Bến Tre,province,2.5,10.8,-8.3
+2012,final,Trà Vinh,province,4,8.7,-4.7
+2012,final,Vĩnh Long,province,8,9.3,-1.3
+2012,final,Đồng Tháp,province,2.5,8.8,-6.3
+2012,final,An Giang,province,2.2,11.2,-9
+2012,final,Kiên Giang,province,4.4,8.8,-4.4
+2012,final,Cần Thơ,province,8.9,7.1,1.8
+2012,final,Hậu Giang,province,7.7,11.6,-3.9
+2012,final,Sóc Trăng,province,2,10.2,-8.2
+2012,final,Bạc Liêu,province,2.4,10.7,-8.3
+2012,final,Cà Mau,province,2.4,8.2,-5.8
+2013,final,CẢ NƯỚC,national,8.8,8.8,
+2013,final,Đồng bằng sông Hồng,region,3.6,3.9,-0.3
+2013,final,Hà Nội,province,7.7,7.4,0.3
+2013,final,Hà Tây,province,,,
+2013,final,Vĩnh Phúc,province,6.4,6.8,-0.5
+2013,final,Bắc Ninh,province,19.4,6.1,13.4
+2013,final,Quảng Ninh,province,4.5,10.4,-5.9
+2013,final,Hải Dương,province,5.6,8.5,-2.9
+2013,final,Hải Phòng,province,6.6,4,2.5
+2013,final,Hưng Yên,province,10.9,6.5,4.5
+2013,final,Thái Bình,province,2.2,8.6,-6.5
+2013,final,Hà Nam,province,6.1,6.2,-0.1
+2013,final,Nam Định,province,3.5,8.4,-4.9
+2013,final,Ninh Bình,province,11.9,11.1,0.8
+2013,final,Trung du và miền núi phía Bắc,region,2.7,5,-2.3
+2013,final,Hà Giang,province,2.8,2.6,0.2
+2013,final,Cao Bằng,province,8.1,8.6,-0.4
+2013,final,Bắc Kạn,province,4.7,11.7,-6.9
+2013,final,Tuyên Quang,province,3.3,5.1,-1.8
+2013,final,Lào Cai,province,4.4,5.1,-0.7
+2013,final,Yên Bái,province,4,7.4,-3.5
+2013,final,Thái Nguyên,province,4.1,8.5,-4.4
+2013,final,Lạng Sơn,province,6.1,6.3,-0.2
+2013,final,Bắc Giang,province,4.6,9.2,-4.5
+2013,final,Phú Thọ,province,6.7,7,-0.4
+2013,final,Điện Biên,province,4.7,4.5,0.2
+2013,final,Lai Châu,province,5,4.7,0.3
+2013,final,Sơn La,province,2.6,2.6,0
+2013,final,Hòa Bình,province,2.7,10.9,-8.1
+2013,final,Bắc Trung Bộ và duyên hải miền Trung,region,5,6.7,-1.7
+2013,final,Thanh Hóa,province,13.3,11,2.3
+2013,final,Nghệ An,province,6.8,12.5,-5.7
+2013,final,Hà Tĩnh,province,6.9,11,-4.1
+2013,final,Quảng Bình,province,6.5,14.5,-8
+2013,final,Quảng Trị,province,5.3,10.2,-4.9
+2013,final,Huế,province,6.8,7.1,-0.3
+2013,final,Đà Nẵng,province,15.5,9.7,5.8
+2013,final,Quảng Nam,province,6.2,7.7,-1.5
+2013,final,Quảng Ngãi,province,4.2,6,-1.9
+2013,final,Bình Định,province,3.7,7.5,-3.8
+2013,final,Phú Yên,province,3.9,6.3,-2.4
+2013,final,Khánh Hòa,province,3.4,4.7,-1.2
+2013,final,Ninh Thuận,province,7.4,3.1,4.3
+2013,final,Bình Thuận,province,5.3,8.5,-3.2
+2013,final,Tây Nguyên,region,8.3,6.1,2.2
+2013,final,Kon Tum,province,13.3,5.9,7.4
+2013,final,Gia Lai,province,8,8.1,-0.1
+2013,final,Đắk Lắk,province,9.7,8.5,1.2
+2013,final,Đắk Nông,province,18.4,6.7,11.7
+2013,final,Lâm Đồng,province,8,8.4,-0.4
+2013,final,Đông Nam Bộ,region,15.7,7.4,8.3
+2013,final,Bình Phước,province,7.1,9.2,-2.1
+2013,final,Tây Ninh,province,3.6,6.3,-2.7
+2013,final,Bình Dương,province,54.5,19.9,34.5
+2013,final,Đồng Nai,province,14.6,7.9,6.7
+2013,final,Bà Rịa - Vũng Tàu,province,10.8,6.9,4
+2013,final,TP. Hồ Chí Minh,province,16.5,10.3,6.2
+2013,final,Đồng bằng sông Cửu Long,region,2.7,7,-4.3
+2013,final,Long An,province,4.7,6.8,-2.1
+2013,final,Tiền Giang,province,9.8,6.5,3.3
+2013,final,Bến Tre,province,5.3,9.2,-3.9
+2013,final,Trà Vinh,province,9.5,7.3,2.2
+2013,final,Vĩnh Long,province,9.9,7.2,2.7
+2013,final,Đồng Tháp,province,3.8,9.5,-5.7
+2013,final,An Giang,province,3.1,11.3,-8.2
+2013,final,Kiên Giang,province,4.1,10.8,-6.7
+2013,final,Cần Thơ,province,9.6,13.6,-4
+2013,final,Hậu Giang,province,6.7,10.8,-4.1
+2013,final,Sóc Trăng,province,3.2,9.5,-6.3
+2013,final,Bạc Liêu,province,2.5,16.4,-13.9
+2013,final,Cà Mau,province,2.9,11.4,-8.5
+2014,final,CẢ NƯỚC,national,9.2,9.2,
+2014,final,Đồng bằng sông Hồng,region,3.1,3.6,-0.5
+2014,final,Hà Nội,province,7.5,7.8,-0.4
+2014,final,Hà Tây,province,,,
+2014,final,Vĩnh Phúc,province,4.9,4.5,0.4
+2014,final,Bắc Ninh,province,15.4,5.4,10.1
+2014,final,Quảng Ninh,province,3.8,7.8,-3.9
+2014,final,Hải Dương,province,4,5.6,-1.6
+2014,final,Hải Phòng,province,4,3.4,0.6
+2014,final,Hưng Yên,province,7.4,5.2,2.2
+2014,final,Thái Bình,province,4.7,8.6,-3.9
+2014,final,Hà Nam,province,6.7,8.7,-2
+2014,final,Nam Định,province,4.6,8.3,-3.7
+2014,final,Ninh Bình,province,7.9,7.5,0.4
+2014,final,Trung du và miền núi phía Bắc,region,2.3,4.3,-2
+2014,final,Hà Giang,province,1.4,2.1,-0.6
+2014,final,Cao Bằng,province,3.3,8.2,-5
+2014,final,Bắc Kạn,province,4,10.1,-6
+2014,final,Tuyên Quang,province,3.9,6.4,-2.4
+2014,final,Lào Cai,province,2,4.1,-2
+2014,final,Yên Bái,province,4.4,5.7,-1.4
+2014,final,Thái Nguyên,province,6.5,7.8,-1.3
+2014,final,Lạng Sơn,province,2,7.1,-5.1
+2014,final,Bắc Giang,province,4.8,5.8,-0.9
+2014,final,Phú Thọ,province,5.2,7.7,-2.5
+2014,final,Điện Biên,province,4.4,2.7,1.7
+2014,final,Lai Châu,province,3.8,3.8,0
+2014,final,Sơn La,province,2,3,-1
+2014,final,Hòa Bình,province,3.4,8.4,-5
+2014,final,Bắc Trung Bộ và duyên hải miền Trung,region,5.3,7.1,-1.8
+2014,final,Thanh Hóa,province,5.7,10.1,-4.4
+2014,final,Nghệ An,province,19.4,10.1,9.3
+2014,final,Hà Tĩnh,province,10.9,14.9,-4
+2014,final,Quảng Bình,province,5.8,11.4,-5.7
+2014,final,Quảng Trị,province,6.2,10.9,-4.7
+2014,final,Huế,province,7.1,11.6,-4.5
+2014,final,Đà Nẵng,province,14,13.8,0.2
+2014,final,Quảng Nam,province,4.6,6.7,-2.1
+2014,final,Quảng Ngãi,province,3.6,8.4,-4.9
+2014,final,Bình Định,province,4.4,8.2,-3.9
+2014,final,Phú Yên,province,3.9,7.7,-3.8
+2014,final,Khánh Hòa,province,3.5,7.4,-3.8
+2014,final,Ninh Thuận,province,4,6.8,-2.8
+2014,final,Bình Thuận,province,2.4,6.9,-4.5
+2014,final,Tây Nguyên,region,7.7,6.1,1.6
+2014,final,Kon Tum,province,6.7,7.6,-0.9
+2014,final,Gia Lai,province,5.2,7.1,-1.8
+2014,final,Đắk Lắk,province,3.7,6.1,-2.4
+2014,final,Đắk Nông,province,42.7,7.1,35.6
+2014,final,Lâm Đồng,province,6,9.1,-3.1
+2014,final,Đông Nam Bộ,region,18.5,7.3,11.2
+2014,final,Bình Phước,province,8,12,-4
+2014,final,Tây Ninh,province,5.7,6.5,-0.8
+2014,final,Bình Dương,province,70.2,18.2,52
+2014,final,Đồng Nai,province,23.6,11.7,11.9
+2014,final,Bà Rịa - Vũng Tàu,province,15,7.8,7.2
+2014,final,TP. Hồ Chí Minh,province,16.9,11.4,5.5
+2014,final,Đồng bằng sông Cửu Long,region,2.2,8.9,-6.7
+2014,final,Long An,province,6.2,8.8,-2.7
+2014,final,Tiền Giang,province,7.6,7.3,0.3
+2014,final,Bến Tre,province,7.4,13.9,-6.5
+2014,final,Trà Vinh,province,7.4,12.4,-5
+2014,final,Vĩnh Long,province,5.6,10.6,-4.9
+2014,final,Đồng Tháp,province,3.2,9.6,-6.4
+2014,final,An Giang,province,4.3,12.7,-8.4
+2014,final,Kiên Giang,province,3,9.6,-6.7
+2014,final,Cần Thơ,province,8.2,11.4,-3.2
+2014,final,Hậu Giang,province,4.5,18,-13.5
+2014,final,Sóc Trăng,province,3.4,12,-8.6
+2014,final,Bạc Liêu,province,2.5,16.6,-14.1
+2014,final,Cà Mau,province,2.8,16.4,-13.6
+2015,final,CẢ NƯỚC,national,5.5,5.5,
+2015,final,Đồng bằng sông Hồng,region,1.8,1.8,0
+2015,final,Hà Nội,province,4.7,4.1,0.6
+2015,final,Hà Tây,province,,,
+2015,final,Vĩnh Phúc,province,2.8,4.3,-1.4
+2015,final,Bắc Ninh,province,16,3.2,12.8
+2015,final,Quảng Ninh,province,1.7,3.6,-2
+2015,final,Hải Dương,province,1.4,2.4,-1
+2015,final,Hải Phòng,province,2.9,1.4,1.4
+2015,final,Hưng Yên,province,3.5,4.6,-1.1
+2015,final,Thái Bình,province,0.5,4.7,-4.2
+2015,final,Hà Nam,province,2.6,5.9,-3.2
+2015,final,Nam Định,province,0.6,3.7,-3
+2015,final,Ninh Bình,province,5.6,4.5,1.1
+2015,final,Trung du và miền núi phía Bắc,region,1.1,3,-1.9
+2015,final,Hà Giang,province,1.1,2.7,-1.5
+2015,final,Cao Bằng,province,4,4,-0.1
+2015,final,Bắc Kạn,province,2.2,2.5,-0.3
+2015,final,Tuyên Quang,province,1.4,3.8,-2.4
+2015,final,Lào Cai,province,1.9,4.8,-2.9
+2015,final,Yên Bái,province,2.2,3.3,-1.1
+2015,final,Thái Nguyên,province,3.5,4.9,-1.4
+2015,final,Lạng Sơn,province,2.4,5.3,-2.9
+2015,final,Bắc Giang,province,3.1,4.2,-1.1
+2015,final,Phú Thọ,province,2.7,3.4,-0.8
+2015,final,Điện Biên,province,2,1.4,0.6
+2015,final,Lai Châu,province,1.6,16.7,-15.1
+2015,final,Sơn La,province,0.6,1.9,-1.3
+2015,final,Hòa Bình,province,1.8,3.4,-1.6
+2015,final,Bắc Trung Bộ và duyên hải miền Trung,region,2.6,4.4,-1.8
+2015,final,Thanh Hóa,province,3.5,7.2,-3.7
+2015,final,Nghệ An,province,10.1,5.4,4.7
+2015,final,Hà Tĩnh,province,3.9,8.2,-4.3
+2015,final,Quảng Bình,province,3.2,6.6,-3.4
+2015,final,Quảng Trị,province,4.7,7.4,-2.6
+2015,final,Huế,province,3,8.4,-5.4
+2015,final,Đà Nẵng,province,11.6,6.7,4.9
+2015,final,Quảng Nam,province,2.5,6.3,-3.8
+2015,final,Quảng Ngãi,province,1.5,3.1,-1.6
+2015,final,Bình Định,province,2.3,3.3,-1.1
+2015,final,Phú Yên,province,1.4,9.3,-7.9
+2015,final,Khánh Hòa,province,1.6,4.9,-3.3
+2015,final,Ninh Thuận,province,1.8,5.3,-3.5
+2015,final,Bình Thuận,province,1,3.1,-2.1
+2015,final,Tây Nguyên,region,2.3,3.4,-1.1
+2015,final,Kon Tum,province,3.9,1.9,2
+2015,final,Gia Lai,province,1.7,2.3,-0.6
+2015,final,Đắk Lắk,province,2.5,4.5,-2
+2015,final,Đắk Nông,province,3.8,4.9,-1.1
+2015,final,Lâm Đồng,province,3.9,5.3,-1.4
+2015,final,Đông Nam Bộ,region,12.8,3.1,9.7
+2015,final,Bình Phước,province,3.1,3.6,-0.5
+2015,final,Tây Ninh,province,1.8,4.2,-2.4
+2015,final,Bình Dương,province,52,10,42
+2015,final,Đồng Nai,province,20.4,6.2,14.1
+2015,final,Bà Rịa - Vũng Tàu,province,6,5.3,0.7
+2015,final,TP. Hồ Chí Minh,province,10.4,5.7,4.6
+2015,final,Đồng bằng sông Cửu Long,region,1.1,6.5,-5.4
+2015,final,Long An,province,4.5,6.5,-2
+2015,final,Tiền Giang,province,4.3,5.3,-1
+2015,final,Bến Tre,province,3.7,7.4,-3.7
+2015,final,Trà Vinh,province,2.8,5.5,-2.7
+2015,final,Vĩnh Long,province,2.5,7.7,-5.2
+2015,final,Đồng Tháp,province,1.8,9.1,-7.3
+2015,final,An Giang,province,2.1,11.8,-9.6
+2015,final,Kiên Giang,province,2,9.9,-7.9
+2015,final,Cần Thơ,province,3.1,7.7,-4.6
+2015,final,Hậu Giang,province,1.8,6.1,-4.2
+2015,final,Sóc Trăng,province,1,6.2,-5.2
+2015,final,Bạc Liêu,province,1.3,7.6,-6.3
+2015,final,Cà Mau,province,0.5,7.7,-7.2
+2016,final,CẢ NƯỚC,national,4.6,4.6,
+2016,final,Đồng bằng sông Hồng,region,1.7,1.2,0.5
+2016,final,Hà Nội,province,4.6,2.6,2
+2016,final,Hà Tây,province,,,
+2016,final,Vĩnh Phúc,province,2.4,2.4,0
+2016,final,Bắc Ninh,province,11,3.6,7.5
+2016,final,Quảng Ninh,province,1.1,2.2,-1.1
+2016,final,Hải Dương,province,1.2,2.6,-1.4
+2016,final,Hải Phòng,province,1.4,1.8,-0.4
+2016,final,Hưng Yên,province,3.9,3.1,0.9
+2016,final,Thái Bình,province,1.6,2.9,-1.3
+2016,final,Hà Nam,province,3,4.8,-1.9
+2016,final,Nam Định,province,0.7,3.9,-3.2
+2016,final,Ninh Bình,province,3.4,2.6,0.8
+2016,final,Trung du và miền núi phía Bắc,region,0.8,3.3,-2.5
+2016,final,Hà Giang,province,0.2,2.7,-2.5
+2016,final,Cao Bằng,province,3.3,4.2,-0.8
+2016,final,Bắc Kạn,province,1,4.4,-3.4
+2016,final,Tuyên Quang,province,1.4,3.3,-1.9
+2016,final,Lào Cai,province,1.4,3.5,-2.1
+2016,final,Yên Bái,province,1.4,3.3,-1.9
+2016,final,Thái Nguyên,province,2.9,3.7,-0.7
+2016,final,Lạng Sơn,province,1.4,3.6,-2.1
+2016,final,Bắc Giang,province,1.8,7,-5.2
+2016,final,Phú Thọ,province,1.7,3.8,-2.2
+2016,final,Điện Biên,province,1.1,1.7,-0.6
+2016,final,Lai Châu,province,1,16.1,-15.1
+2016,final,Sơn La,province,0.6,2,-1.3
+2016,final,Hòa Bình,province,2.5,2.2,0.3
+2016,final,Bắc Trung Bộ và duyên hải miền Trung,region,1.9,3,-1.1
+2016,final,Thanh Hóa,province,3.2,3.9,-0.7
+2016,final,Nghệ An,province,4.5,3,1.5
+2016,final,Hà Tĩnh,province,3.5,5.1,-1.7
+2016,final,Quảng Bình,province,2,5.3,-3.3
+2016,final,Quảng Trị,province,2.5,9.2,-6.7
+2016,final,Huế,province,3.2,9.7,-6.5
+2016,final,Đà Nẵng,province,12.3,5.8,6.5
+2016,final,Quảng Nam,province,4.3,5.1,-0.8
+2016,final,Quảng Ngãi,province,1.4,2.8,-1.4
+2016,final,Bình Định,province,1.5,4.2,-2.7
+2016,final,Phú Yên,province,1,2.8,-1.8
+2016,final,Khánh Hòa,province,1.5,3.7,-2.2
+2016,final,Ninh Thuận,province,0.9,4.9,-3.9
+2016,final,Bình Thuận,province,1.3,1.5,-0.1
+2016,final,Tây Nguyên,region,2,4.4,-2.4
+2016,final,Kon Tum,province,1.5,6.1,-4.7
+2016,final,Gia Lai,province,1.7,3.5,-1.8
+2016,final,Đắk Lắk,province,2.7,4.9,-2.2
+2016,final,Đắk Nông,province,1.5,6.2,-4.8
+2016,final,Lâm Đồng,province,2.9,4.4,-1.5
+2016,final,Đông Nam Bộ,region,10.8,2.4,8.4
+2016,final,Bình Phước,province,7.3,4.3,3
+2016,final,Tây Ninh,province,3,3.8,-0.7
+2016,final,Bình Dương,province,32.3,8.8,23.5
+2016,final,Đồng Nai,province,16.5,5.3,11.2
+2016,final,Bà Rịa - Vũng Tàu,province,4.6,3.5,1.1
+2016,final,TP. Hồ Chí Minh,province,10.7,4.1,6.6
+2016,final,Đồng bằng sông Cửu Long,region,1.1,5.7,-4.6
+2016,final,Long An,province,3.8,6.3,-2.5
+2016,final,Tiền Giang,province,5.3,3.2,2.1
+2016,final,Bến Tre,province,2.3,6.3,-3.9
+2016,final,Trà Vinh,province,1.4,3.9,-2.5
+2016,final,Vĩnh Long,province,4.3,3.5,0.8
+2016,final,Đồng Tháp,province,1.2,7.6,-6.4
+2016,final,An Giang,province,1.3,10.4,-9.1
+2016,final,Kiên Giang,province,1.9,11,-9.1
+2016,final,Cần Thơ,province,3.6,6.3,-2.7
+2016,final,Hậu Giang,province,1.3,3.8,-2.6
+2016,final,Sóc Trăng,province,1.2,6.6,-5.4
+2016,final,Bạc Liêu,province,0.7,7.5,-6.9
+2016,final,Cà Mau,province,0.9,9.1,-8.2
+2017,final,CẢ NƯỚC,national,3.7,3.7,
+2017,final,Đồng bằng sông Hồng,region,1.3,1.3,0
+2017,final,Hà Nội,province,3,3.3,-0.3
+2017,final,Hà Tây,province,,,
+2017,final,Vĩnh Phúc,province,1.7,1.4,0.3
+2017,final,Bắc Ninh,province,9.7,4.2,5.5
+2017,final,Quảng Ninh,province,1.1,1.7,-0.7
+2017,final,Hải Dương,province,1.4,2.1,-0.6
+2017,final,Hải Phòng,province,2.2,0.8,1.4
+2017,final,Hưng Yên,province,3.2,1.6,1.6
+2017,final,Thái Bình,province,1.1,2.5,-1.3
+2017,final,Hà Nam,province,1.1,6,-4.9
+2017,final,Nam Định,province,1.9,3,-1.1
+2017,final,Ninh Bình,province,3.9,3,0.9
+2017,final,Trung du và miền núi phía Bắc,region,0.7,1.8,-1.1
+2017,final,Hà Giang,province,0.1,1.8,-1.7
+2017,final,Cao Bằng,province,1.7,4.8,-3.2
+2017,final,Bắc Kạn,province,1.6,4.1,-2.5
+2017,final,Tuyên Quang,province,1.2,2.5,-1.3
+2017,final,Lào Cai,province,2.6,2.7,-0.2
+2017,final,Yên Bái,province,1.3,2.7,-1.4
+2017,final,Thái Nguyên,province,2.8,3.1,-0.3
+2017,final,Lạng Sơn,province,1.3,4,-2.7
+2017,final,Bắc Giang,province,1.3,2.5,-1.2
+2017,final,Phú Thọ,province,1.1,1,0
+2017,final,Điện Biên,province,1.3,3.2,-1.9
+2017,final,Lai Châu,province,2,3.1,-1.1
+2017,final,Sơn La,province,0.4,1.3,-0.9
+2017,final,Hòa Bình,province,1.7,2.2,-0.4
+2017,final,Bắc Trung Bộ và duyên hải miền Trung,region,2.4,2.6,-0.2
+2017,final,Thanh Hóa,province,3.1,4.8,-1.7
+2017,final,Nghệ An,province,8.9,2.7,6.2
+2017,final,Hà Tĩnh,province,1.2,4.9,-3.6
+2017,final,Quảng Bình,province,1.6,3.3,-1.7
+2017,final,Quảng Trị,province,2.6,2.4,0.2
+2017,final,Huế,province,2.1,2.7,-0.6
+2017,final,Đà Nẵng,province,7,2.7,4.3
+2017,final,Quảng Nam,province,1.5,3,-1.5
+2017,final,Quảng Ngãi,province,0.8,7.9,-7.1
+2017,final,Bình Định,province,2,2.5,-0.5
+2017,final,Phú Yên,province,1.4,2.9,-1.6
+2017,final,Khánh Hòa,province,1.4,0.8,0.7
+2017,final,Ninh Thuận,province,1.4,3,-1.6
+2017,final,Bình Thuận,province,1.1,2.5,-1.5
+2017,final,Tây Nguyên,region,1.9,2.6,-0.7
+2017,final,Kon Tum,province,2.5,1.1,1.3
+2017,final,Gia Lai,province,1.3,4.1,-2.8
+2017,final,Đắk Lắk,province,2.3,3,-0.6
+2017,final,Đắk Nông,province,2.1,4.4,-2.3
+2017,final,Lâm Đồng,province,3.5,2.1,1.4
+2017,final,Đông Nam Bộ,region,7.9,2.4,5.6
+2017,final,Bình Phước,province,2.1,4.7,-2.7
+2017,final,Tây Ninh,province,0.6,1.5,-0.8
+2017,final,Bình Dương,province,30.6,6.7,23.9
+2017,final,Đồng Nai,province,4.5,3.9,0.6
+2017,final,Bà Rịa - Vũng Tàu,province,2.6,2.2,0.4
+2017,final,TP. Hồ Chí Minh,province,8.5,3.2,5.3
+2017,final,Đồng bằng sông Cửu Long,region,0.6,4.6,-4
+2017,final,Long An,province,1.3,4,-2.7
+2017,final,Tiền Giang,province,3.7,3.5,0.3
+2017,final,Bến Tre,province,2.5,4,-1.5
+2017,final,Trà Vinh,province,2,3.1,-1.1
+2017,final,Vĩnh Long,province,3.9,7.8,-3.9
+2017,final,Đồng Tháp,province,0.7,7,-6.3
+2017,final,An Giang,province,1.3,5,-3.7
+2017,final,Kiên Giang,province,2.1,10.8,-8.7
+2017,final,Cần Thơ,province,7.3,2.6,4.7
+2017,final,Hậu Giang,province,0.3,8.9,-8.6
+2017,final,Sóc Trăng,province,0.7,8.3,-7.7
+2017,final,Bạc Liêu,province,0.4,4.4,-4
+2017,final,Cà Mau,province,0.1,9.4,-9.3
+2018,final,CẢ NƯỚC,national,,,
+2018,final,Đồng bằng sông Hồng,region,2.1,1.4,0.8
+2018,final,Hà Nội,province,4.7,2.6,2.1
+2018,final,Hà Tây,province,,,
+2018,final,Vĩnh Phúc,province,2,1.2,0.8
+2018,final,Bắc Ninh,province,11.1,2,9.1
+2018,final,Quảng Ninh,province,1.4,3.2,-1.8
+2018,final,Hải Dương,province,3.8,1.5,2.3
+2018,final,Hải Phòng,province,1.6,1.6,0
+2018,final,Hưng Yên,province,3.4,1.8,1.5
+2018,final,Thái Bình,province,1,3.9,-2.9
+2018,final,Hà Nam,province,1.6,5.6,-4
+2018,final,Nam Định,province,2.4,5.7,-3.3
+2018,final,Ninh Bình,province,4.8,5.5,-0.6
+2018,final,Trung du và miền núi phía Bắc,region,0.7,2.8,-2.1
+2018,final,Hà Giang,province,0.1,3.4,-3.3
+2018,final,Cao Bằng,province,1.9,3.6,-1.6
+2018,final,Bắc Kạn,province,1.2,3,-1.8
+2018,final,Tuyên Quang,province,1.5,4.6,-3.1
+2018,final,Lào Cai,province,0.5,1.9,-1.4
+2018,final,Yên Bái,province,2.1,3.6,-1.5
+2018,final,Thái Nguyên,province,3,2.9,0.1
+2018,final,Lạng Sơn,province,2.2,3,-0.8
+2018,final,Bắc Giang,province,1.6,2.8,-1.2
+2018,final,Phú Thọ,province,1.1,3.9,-2.9
+2018,final,Điện Biên,province,0.8,1.4,-0.5
+2018,final,Lai Châu,province,1.7,1.8,-0.1
+2018,final,Sơn La,province,0.5,6,-5.5
+2018,final,Hòa Bình,province,1.6,5.3,-3.7
+2018,final,Bắc Trung Bộ và duyên hải miền Trung,region,1.1,3.3,-2.2
+2018,final,Thanh Hóa,province,1.9,4.2,-2.3
+2018,final,Nghệ An,province,1.3,4.9,-3.6
+2018,final,Hà Tĩnh,province,1.9,5.5,-3.6
+2018,final,Quảng Bình,province,1.8,4.9,-3.1
+2018,final,Quảng Trị,province,2.4,4.9,-2.6
+2018,final,Huế,province,1,6.1,-5
+2018,final,Đà Nẵng,province,6.6,1.9,4.7
+2018,final,Quảng Nam,province,1.6,2.8,-1.2
+2018,final,Quảng Ngãi,province,1.9,5.2,-3.3
+2018,final,Bình Định,province,0.6,2.3,-1.7
+2018,final,Phú Yên,province,0.7,4.2,-3.4
+2018,final,Khánh Hòa,province,0.5,1.3,-0.9
+2018,final,Ninh Thuận,province,1.2,2.3,-1
+2018,final,Bình Thuận,province,1.4,3,-1.6
+2018,final,Tây Nguyên,region,1.3,3.2,-1.9
+2018,final,Kon Tum,province,0.7,2.7,-2
+2018,final,Gia Lai,province,0.8,2.2,-1.4
+2018,final,Đắk Lắk,province,1.2,4,-2.8
+2018,final,Đắk Nông,province,2.6,5.3,-2.8
+2018,final,Lâm Đồng,province,3.3,4,-0.7
+2018,final,Đông Nam Bộ,region,11.8,1.9,9.9
+2018,final,Bình Phước,province,2.2,3,-0.7
+2018,final,Tây Ninh,province,1.1,1.9,-0.8
+2018,final,Bình Dương,province,53.6,5.7,47.9
+2018,final,Đồng Nai,province,6.8,1.8,5
+2018,final,Bà Rịa - Vũng Tàu,province,2.4,3.1,-0.7
+2018,final,TP. Hồ Chí Minh,province,9.3,3.2,6.1
+2018,final,Đồng bằng sông Cửu Long,region,1,6.8,-5.8
+2018,final,Long An,province,2.2,7.1,-4.9
+2018,final,Tiền Giang,province,4.4,5.1,-0.8
+2018,final,Bến Tre,province,2.6,6.8,-4.3
+2018,final,Trà Vinh,province,1.2,12.4,-11.2
+2018,final,Vĩnh Long,province,3.2,4,-0.8
+2018,final,Đồng Tháp,province,2.5,6.2,-3.7
+2018,final,An Giang,province,2.1,11.9,-9.9
+2018,final,Kiên Giang,province,0.9,6.8,-5.9
+2018,final,Cần Thơ,province,4.4,6.3,-1.8
+2018,final,Hậu Giang,province,2.7,6.4,-3.7
+2018,final,Sóc Trăng,province,0.5,15,-14.5
+2018,final,Bạc Liêu,province,0.2,6.9,-6.7
+2018,final,Cà Mau,province,1.1,7.7,-6.6
+2019,final,CẢ NƯỚC,national,,,
+2019,final,Đồng bằng sông Hồng,region,3.3,1.8,1.5
+2019,final,Hà Nội,province,8.8,2.5,6.3
+2019,final,Hà Tây,province,,,
+2019,final,Vĩnh Phúc,province,2.5,4.8,-2.3
+2019,final,Bắc Ninh,province,21.4,4.3,17.1
+2019,final,Quảng Ninh,province,2.4,3.8,-1.4
+2019,final,Hải Dương,province,2.5,4.7,-2.3
+2019,final,Hải Phòng,province,2.7,2.7,0
+2019,final,Hưng Yên,province,4.5,5,-0.5
+2019,final,Thái Bình,province,1.7,7.1,-5.4
+2019,final,Hà Nam,province,3.3,6.7,-3.4
+2019,final,Nam Định,province,1.6,9.3,-7.6
+2019,final,Ninh Bình,province,2.6,6.5,-3.9
+2019,final,Trung du và miền núi phía Bắc,region,1,4.6,-3.6
+2019,final,Hà Giang,province,1,4.8,-3.7
+2019,final,Cao Bằng,province,1.8,7.5,-5.7
+2019,final,Bắc Kạn,province,1.6,9.6,-8
+2019,final,Tuyên Quang,province,1.6,9.3,-7.6
+2019,final,Lào Cai,province,2.2,3.7,-1.5
+2019,final,Yên Bái,province,1.6,6.1,-4.5
+2019,final,Thái Nguyên,province,6.9,4.9,2
+2019,final,Lạng Sơn,province,1.3,8.7,-7.3
+2019,final,Bắc Giang,province,2.5,5.5,-3.1
+2019,final,Phú Thọ,province,1.3,5.7,-4.4
+2019,final,Điện Biên,province,1.1,3.6,-2.5
+2019,final,Lai Châu,province,2.9,2.8,0.1
+2019,final,Sơn La,province,0.7,3.9,-3.2
+2019,final,Hòa Bình,province,1.6,7,-5.4
+2019,final,Bắc Trung Bộ và duyên hải miền Trung,region,1,5.9,-4.9
+2019,final,Thanh Hóa,province,1.1,8.5,-7.5
+2019,final,Nghệ An,province,1,7,-6.1
+2019,final,Hà Tĩnh,province,2.5,8.1,-5.6
+2019,final,Quảng Bình,province,1.9,7.3,-5.5
+2019,final,Quảng Trị,province,2.3,9.5,-7.3
+2019,final,Huế,province,3.1,7.4,-4.4
+2019,final,Đà Nẵng,province,16.7,3,13.7
+2019,final,Quảng Nam,province,1.6,7.7,-6
+2019,final,Quảng Ngãi,province,1.3,9.6,-8.3
+2019,final,Bình Định,province,1.4,8.3,-6.9
+2019,final,Phú Yên,province,1.1,7.4,-6.3
+2019,final,Khánh Hòa,province,1.9,3.9,-1.9
+2019,final,Ninh Thuận,province,1.3,7.7,-6.4
+2019,final,Bình Thuận,province,1.4,5.6,-4.1
+2019,final,Tây Nguyên,region,2.2,4.6,-2.4
+2019,final,Kon Tum,province,2.7,4.1,-1.4
+2019,final,Gia Lai,province,1.9,4.3,-2.4
+2019,final,Đắk Lắk,province,2,6.2,-4.2
+2019,final,Đắk Nông,province,6.5,5.6,0.9
+2019,final,Lâm Đồng,province,3.8,5.6,-1.8
+2019,final,Đông Nam Bộ,region,16.1,1.5,14.6
+2019,final,Bình Phước,province,5,6.7,-1.7
+2019,final,Tây Ninh,province,2.9,4.5,-1.5
+2019,final,Bình Dương,province,43.4,3.4,40.1
+2019,final,Đồng Nai,province,13.3,4.6,8.7
+2019,final,Bà Rịa - Vũng Tàu,province,7.6,5.8,1.8
+2019,final,TP. Hồ Chí Minh,province,18.3,3.1,15.2
+2019,final,Đồng bằng sông Cửu Long,region,1,9,-8
+2019,final,Long An,province,9.5,6,3.5
+2019,final,Tiền Giang,province,2.7,7.7,-5
+2019,final,Bến Tre,province,2.5,9.6,-7.1
+2019,final,Trà Vinh,province,1.7,10.6,-8.9
+2019,final,Vĩnh Long,province,3.3,10.9,-7.7
+2019,final,Đồng Tháp,province,1.6,12.8,-11.2
+2019,final,An Giang,province,1.2,15.6,-14.4
+2019,final,Kiên Giang,province,2.8,11.3,-8.5
+2019,final,Cần Thơ,province,9,7.2,1.8
+2019,final,Hậu Giang,province,2.3,14.6,-12.2
+2019,final,Sóc Trăng,province,1.2,16.2,-15
+2019,final,Bạc Liêu,province,1.4,11.8,-10.4
+2019,final,Cà Mau,province,1.3,13.8,-12.5
+2020,final,CẢ NƯỚC,national,,,
+2020,final,Đồng bằng sông Hồng,region,4.8,1.8,3
+2020,final,Hà Nội,province,6.258759764,2.525262527,3.733497237
+2020,final,Hà Tây,province,,,
+2020,final,Vĩnh Phúc,province,2.15879611,2.802325449,-0.6435293387
+2020,final,Bắc Ninh,province,40.91946175,5.093236769,35.82622498
+2020,final,Quảng Ninh,province,0.9463149428,3.75549664,-2.809181697
+2020,final,Hải Dương,province,2.458525431,2.956867947,-0.498342516
+2020,final,Hải Phòng,province,2.547096096,1.487966866,1.05912923
+2020,final,Hưng Yên,province,8.6511854,4.584789126,4.066396273
+2020,final,Thái Bình,province,0.6584665486,5.048793636,-4.390327088
+2020,final,Hà Nam,province,6.39997716,4.805930804,1.594046356
+2020,final,Nam Định,province,1.957605935,6.062245136,-4.104639201
+2020,final,Ninh Bình,province,1.803994871,2.280092197,-0.4760973267
+2020,final,Trung du và miền núi phía Bắc,region,0.7,6,-5.3
+2020,final,Hà Giang,province,0.7095956362,5.444149302,-4.734553666
+2020,final,Cao Bằng,province,2.192626744,11.5184465,-9.325819754
+2020,final,Bắc Kạn,province,0.9474671367,4.991927193,-4.044460057
+2020,final,Tuyên Quang,province,1.435836999,12.07981504,-10.64397804
+2020,final,Lào Cai,province,0.8214628315,3.258560202,-2.437097371
+2020,final,Yên Bái,province,2.168189182,7.326222948,-5.158033766
+2020,final,Thái Nguyên,province,1.012229011,5.591546791,-4.57931778
+2020,final,Lạng Sơn,province,1.68929617,13.05036222,-11.36106605
+2020,final,Bắc Giang,province,3.497604666,4.465180865,-0.9675761994
+2020,final,Phú Thọ,province,1.250434274,3.283251625,-2.032817351
+2020,final,Điện Biên,province,0.3138012791,4.102661168,-3.788859889
+2020,final,Lai Châu,province,0.9392843133,4.465414288,-3.526129974
+2020,final,Sơn La,province,0.2431658752,7.094344347,-6.851178472
+2020,final,Hòa Bình,province,0.745807648,12.06809259,-11.32228495
+2020,final,Bắc Trung Bộ và duyên hải miền Trung,region,1,7.2,-6.2
+2020,final,Thanh Hóa,province,1.250518155,10.14389433,-8.893376171
+2020,final,Nghệ An,province,0.8561010187,10.04816097,-9.19205995
+2020,final,Hà Tĩnh,province,1.286269935,6.748976383,-5.462706448
+2020,final,Quảng Bình,province,1.023903513,6.627119429,-5.603215916
+2020,final,Quảng Trị,province,4.388598956,10.58691289,-6.19831393
+2020,final,Huế,province,1.957421156,7.348851563,-5.391430407
+2020,final,Đà Nẵng,province,13.70378107,2.67042685,11.03335422
+2020,final,Quảng Nam,province,1.406194303,7.066888766,-5.660694463
+2020,final,Quảng Ngãi,province,2.333594181,6.799368683,-4.465774502
+2020,final,Bình Định,province,0.8178496718,10.51217664,-9.694326973
+2020,final,Phú Yên,province,1.030031529,12.01470676,-10.98467523
+2020,final,Khánh Hòa,province,1.047200027,2.548104985,-1.500904957
+2020,final,Ninh Thuận,province,1.277414759,5.327127769,-4.04971301
+2020,final,Bình Thuận,province,0.997684094,10.34000779,-9.342323694
+2020,final,Tây Nguyên,region,1.6,7.9,-6.3
+2020,final,Kon Tum,province,1.01194721,9.274349521,-8.262402311
+2020,final,Gia Lai,province,1.416385575,6.314470706,-4.898085131
+2020,final,Đắk Lắk,province,0.8575792411,10.50251229,-9.644933051
+2020,final,Đắk Nông,province,3.108046565,10.65844246,-7.550395896
+2020,final,Lâm Đồng,province,4.438549449,6.039185365,-1.600635916
+2020,final,Đông Nam Bộ,region,20.4,1.7,18.7
+2020,final,Bình Phước,province,4.284340299,6.298372192,-2.014031893
+2020,final,Tây Ninh,province,5.976215539,6.529202529,-0.5529869898
+2020,final,Bình Dương,province,62.65907923,4.060364159,58.59871507
+2020,final,Đồng Nai,province,12.21160993,3.977397156,8.234212777
+2020,final,Bà Rịa - Vũng Tàu,province,7.48299852,4.276992648,3.206005871
+2020,final,TP. Hồ Chí Minh,province,21.91220838,3.944877433,17.96733095
+2020,final,Đồng bằng sông Cửu Long,region,1.2,11.8,-10.5
+2020,final,Long An,province,9.139327116,8.024282921,1.115044195
+2020,final,Tiền Giang,province,4.120592441,7.54550791,-3.424915469
+2020,final,Bến Tre,province,3.244790133,13.51969508,-10.27490495
+2020,final,Trà Vinh,province,0.7796333905,22.27307568,-21.49344229
+2020,final,Vĩnh Long,province,4.655855899,11.98546056,-7.329604656
+2020,final,Đồng Tháp,province,2.426038207,10.09833643,-7.672298224
+2020,final,An Giang,province,1.830354683,17.98796844,-16.15761376
+2020,final,Kiên Giang,province,1.342108204,12.48066529,-11.13855709
+2020,final,Cần Thơ,province,14.44429551,16.63958651,-2.195290995
+2020,final,Hậu Giang,province,1.321707869,25.07766773,-23.75595986
+2020,final,Sóc Trăng,province,1.015936441,20.31702993,-19.30109349
+2020,final,Bạc Liêu,province,3.262395834,16.60584889,-13.34345306
+2020,final,Cà Mau,province,0.6765865403,15.82550349,-15.14891695
+2021,final,CẢ NƯỚC,national,,,
+2021,final,Đồng bằng sông Hồng,region,4.8,1.3,3.560318009
+2021,final,Hà Nội,province,7.681242445,1.749292279,5.931950166
+2021,final,Hà Tây,province,,,
+2021,final,Vĩnh Phúc,province,2.307197668,2.141724182,0.1654734857
+2021,final,Bắc Ninh,province,45.65747559,3.925996772,41.73147882
+2021,final,Quảng Ninh,province,0.3680704527,3.442098528,-3.074028076
+2021,final,Hải Dương,province,1.008930571,3.029967779,-2.021037208
+2021,final,Hải Phòng,province,5.926730493,2.028820257,3.897910236
+2021,final,Hưng Yên,province,3.635735588,3.701796458,-0.06606086992
+2021,final,Thái Bình,province,0.7083190453,6.22014951,-5.511830464
+2021,final,Hà Nam,province,3.006774356,4.520156677,-1.513382321
+2021,final,Nam Định,province,1.036752172,9.363673151,-8.326920979
+2021,final,Ninh Bình,province,2.390627512,4.691158569,-2.300531057
+2021,final,Trung du và miền núi phía Bắc,region,0.9,6,-5.047971546
+2021,final,Hà Giang,province,0.3209180089,7.894583019,-7.57366501
+2021,final,Cao Bằng,province,2.496930777,7.288695816,-4.791765039
+2021,final,Bắc Kạn,province,1.420626864,13.4305106,-12.00988373
+2021,final,Tuyên Quang,province,3.287279961,12.20425,-8.916970041
+2021,final,Lào Cai,province,0.6939247748,6.749513059,-6.055588284
+2021,final,Yên Bái,province,1.540891732,8.07727457,-6.536382838
+2021,final,Thái Nguyên,province,1.739305206,4.47194694,-2.732641734
+2021,final,Lạng Sơn,province,0.8620689655,13.77266922,-12.91060026
+2021,final,Bắc Giang,province,4.161358441,3.532530944,0.6288274978
+2021,final,Phú Thọ,province,1.678400435,2.408258605,-0.7298581697
+2021,final,Điện Biên,province,0.6928193873,7.357774193,-6.664954805
+2021,final,Lai Châu,province,0.8078415615,3.872141097,-3.064299536
+2021,final,Sơn La,province,0.2730825368,5.084200449,-4.811117912
+2021,final,Hòa Bình,province,2,12.35326612,-10.4
+2021,final,Bắc Trung Bộ và duyên hải miền Trung,region,1.4,4.8,-3.439760344
+2021,final,Thanh Hóa,province,0.6904867502,7.852311786,-7.161825036
+2021,final,Nghệ An,province,1.381296241,7.567740045,-6.186443804
+2021,final,Hà Tĩnh,province,2.738884862,7.932401055,-5.193516193
+2021,final,Quảng Bình,province,2.660582778,5.40280597,-2.742223191
+2021,final,Quảng Trị,province,3.477743712,6.648580915,-3.170837203
+2021,final,Huế,province,6.022396119,3.878408855,2.143987264
+2021,final,Đà Nẵng,province,18.92897192,5.414806508,13.51416541
+2021,final,Quảng Nam,province,3.461769512,8.136436503,-4.674666991
+2021,final,Quảng Ngãi,province,2.48697017,5.472981375,-2.986011205
+2021,final,Bình Định,province,2.333127054,7.037673984,-4.704546931
+2021,final,Phú Yên,province,2.336058348,5.24279232,-2.906733972
+2021,final,Khánh Hòa,province,0.6697195934,2.688607956,-2.018888363
+2021,final,Ninh Thuận,province,2.039261726,3.766356932,-1.727095206
+2021,final,Bình Thuận,province,0.5559377966,5.910283309,-5.354345513
+2021,final,Tây Nguyên,region,1.4,5.4,-3.991445265
+2021,final,Kon Tum,province,1.403313815,5.835862148,-4.432548332
+2021,final,Gia Lai,province,0.4876756924,5.889572137,-5.401896445
+2021,final,Đắk Lắk,province,1.184162666,6.888119863,-5.703957197
+2021,final,Đắk Nông,province,4.610496309,8.123996365,-3.513500056
+2021,final,Lâm Đồng,province,2.071720706,1.986036541,0.08568416511
+2021,final,Đông Nam Bộ,region,17.9,2.2,15.7
+2021,final,Bình Phước,province,1.952704664,4.173930899,-2.221226235
+2021,final,Tây Ninh,province,7.35039897,3.625135643,3.725263327
+2021,final,Bình Dương,province,35.62803145,4.874956088,30.75307536
+2021,final,Đồng Nai,province,9.5,8.8,0.6
+2021,final,Bà Rịa - Vũng Tàu,province,4.851660251,3.929131198,0.9225290536
+2021,final,TP. Hồ Chí Minh,province,25.4,3.58735426,21.8
+2021,final,Đồng bằng sông Cửu Long,region,1.3,13.8,-12.5
+2021,final,Long An,province,8.670596446,6.540451942,2.130144504
+2021,final,Tiền Giang,province,3.710529465,8.729849294,-5.01931983
+2021,final,Bến Tre,province,3.035166529,8.388425751,-5.353259223
+2021,final,Trà Vinh,province,1.64096427,12.84968707,-11.2087228
+2021,final,Vĩnh Long,province,3.102351686,10.28102601,-7.178674323
+2021,final,Đồng Tháp,province,1.793663993,25.48207097,-23.68840697
+2021,final,An Giang,province,2.934343202,25.78789975,-22.85355655
+2021,final,Kiên Giang,province,1.455875439,16.86054065,-15.40466521
+2021,final,Cần Thơ,province,12.45620864,13.3617763,-0.9055676631
+2021,final,Hậu Giang,province,1.079273771,18.80940526,-17.73013149
+2021,final,Sóc Trăng,province,0.9325503424,21.8,-20.9
+2021,final,Bạc Liêu,province,0.3071360876,17.9126154,-17.60547931
+2021,final,Cà Mau,province,0.8232422505,20.21611382,-19.39287157
+2022,final,CẢ NƯỚC,national,,,
+2022,final,Đồng bằng sông Hồng,region,3.657364565,1.25985269,2.397511875
+2022,final,Hà Nội,province,4.789738643,2.842128958,1.947609684
+2022,final,Hà Tây,province,,,
+2022,final,Vĩnh Phúc,province,1.445108675,1.875009502,-0.4299008272
+2022,final,Bắc Ninh,province,39.35450793,2.980976313,36.37353162
+2022,final,Quảng Ninh,province,1.047193729,5.137654584,-4.090460855
+2022,final,Hải Dương,province,1.862446921,4.804656013,-2.942209093
+2022,final,Hải Phòng,province,2.526829079,1.077525617,1.449303462
+2022,final,Hưng Yên,province,3.493071865,1.236215065,2.2568568
+2022,final,Thái Bình,province,0.9634807963,3.293372102,-2.329891306
+2022,final,Hà Nam,province,1.500464868,2.937643258,-1.43717839
+2022,final,Nam Định,province,2.113005397,4.646963235,-2.533957838
+2022,final,Ninh Bình,province,4.207744424,2.073177114,2.13456731
+2022,final,Trung du và miền núi phía Bắc,region,0.4838301679,5.020703857,-4.536873689
+2022,final,Hà Giang,province,0.5062205845,10.77770988,-10.27148929
+2022,final,Cao Bằng,province,2.742353377,7.554089976,-4.811736599
+2022,final,Bắc Kạn,province,1.511108052,4.401923456,-2.890815404
+2022,final,Tuyên Quang,province,0.7035694507,7.653677692,-6.950108241
+2022,final,Lào Cai,province,0.6428559171,6.400838485,-5.757982568
+2022,final,Yên Bái,province,1.597116803,8.166502722,-6.569385919
+2022,final,Thái Nguyên,province,0.7765854906,3.206841261,-2.430255771
+2022,final,Lạng Sơn,province,1.279069767,6.339737108,-5.060667341
+2022,final,Bắc Giang,province,1.281386731,4.19509274,-2.913706009
+2022,final,Phú Thọ,province,0.8717264264,2.931623331,-2.059896905
+2022,final,Điện Biên,province,0.273711463,3.645192661,-3.371481198
+2022,final,Lai Châu,province,0.8586613765,5.583413877,-4.7247525
+2022,final,Sơn La,province,0.5488026694,4.666390697,-4.117588028
+2022,final,Hòa Bình,province,1.493784603,7.260002089,-5.766217487
+2022,final,Bắc Trung Bộ và duyên hải miền Trung,region,1.44917339,4.329218437,-2.880045047
+2022,final,Thanh Hóa,province,2.083232916,6.761112005,-4.677879089
+2022,final,Nghệ An,province,1.176358895,5.145123822,-3.968764927
+2022,final,Hà Tĩnh,province,2.144897513,5.509276161,-3.364378647
+2022,final,Quảng Bình,province,3.611322657,3.52917145,0.08215120707
+2022,final,Quảng Trị,province,4.650959055,7.65460567,-3.003646615
+2022,final,Huế,province,5.250620035,4.755641531,0.4949785043
+2022,final,Đà Nẵng,province,10.41381177,4.618241008,5.795570767
+2022,final,Quảng Nam,province,4.474487176,3.135732318,1.338754858
+2022,final,Quảng Ngãi,province,2.678256172,5.400444857,-2.722188685
+2022,final,Bình Định,province,1.622025226,7.792423668,-6.170398442
+2022,final,Phú Yên,province,1.537763,12.04099623,-10.50323323
+2022,final,Khánh Hòa,province,0.7857915984,3.936211453,-3.150419854
+2022,final,Ninh Thuận,province,1.168754616,3.419877636,-2.251123021
+2022,final,Bình Thuận,province,0.4917431488,4.174979947,-3.683236799
+2022,final,Tây Nguyên,region,0.9491313044,4.291629777,-3.342498473
+2022,final,Kon Tum,province,0.586473189,2.150986996,-1.564513807
+2022,final,Gia Lai,province,0.5367734777,3.994981553,-3.458208075
+2022,final,Đắk Lắk,province,1.750577172,7.653612353,-5.903035181
+2022,final,Đắk Nông,province,1.689782038,4.231262632,-2.541480594
+2022,final,Lâm Đồng,province,1.811569351,2.50662667,-0.6950573194
+2022,final,Đông Nam Bộ,region,10.30858495,2.420775643,7.887809303
+2022,final,Bình Phước,province,3.618722188,2.365485066,1.253237121
+2022,final,Tây Ninh,province,5.671927104,1.722988042,3.948939062
+2022,final,Bình Dương,province,26.36447596,4.20805442,22.15642154
+2022,final,Đồng Nai,province,7.753565974,3.151093582,4.602472392
+2022,final,Bà Rịa - Vũng Tàu,province,3.421269333,4.316562757,-0.8952934245
+2022,final,TP. Hồ Chí Minh,province,10.892549,3.665641786,7.226907215
+2022,final,Đồng bằng sông Cửu Long,region,1.444069884,5.21116589,-3.767096006
+2022,final,Long An,province,6.132003401,4.420407587,1.711595814
+2022,final,Tiền Giang,province,3.537961315,3.608312053,-0.07035073814
+2022,final,Bến Tre,province,3.68125607,4.655545735,-0.9742896649
+2022,final,Trà Vinh,province,1.076457264,10.22733705,-9.150879785
+2022,final,Vĩnh Long,province,4.836773601,6.292120727,-1.455347126
+2022,final,Đồng Tháp,province,1.286448319,8.499882821,-7.213434502
+2022,final,An Giang,province,1.689745163,9.93992725,-8.250182087
+2022,final,Kiên Giang,province,2.36402267,4.484106277,-2.120083607
+2022,final,Cần Thơ,province,16.1714473,5.012198255,11.15924905
+2022,final,Hậu Giang,province,5.799941406,7.794059931,-1.994118525
+2022,final,Sóc Trăng,province,0.7239963927,15.26629413,-14.54229774
+2022,final,Bạc Liêu,province,0.522045501,6.663179082,-6.141133581
+2022,final,Cà Mau,province,0.5673818129,12.88516576,-12.31778395
+2023,final,CẢ NƯỚC,national,,,
+2023,final,Đồng bằng sông Hồng,region,3.997516088,0.8602557937,3.137260295
+2023,final,Hà Nội,province,5.850822288,1.961854033,3.888968255
+2023,final,Hà Tây,province,,,
+2023,final,Vĩnh Phúc,province,2.530814192,3.510132891,-0.9793186991
+2023,final,Bắc Ninh,province,39.92515547,3.473771111,36.45138436
+2023,final,Quảng Ninh,province,0.5340520539,0.9778727856,-0.4438207316
+2023,final,Hải Dương,province,1.915760238,2.013329272,-0.09756903396
+2023,final,Hải Phòng,province,2.797689383,1.33541374,1.462275643
+2023,final,Hưng Yên,province,3.337551974,1.797203244,1.540348731
+2023,final,Thái Bình,province,0.5160981905,4.583787979,-4.067689788
+2023,final,Hà Nam,province,1.879999635,3.141323008,-1.261323374
+2023,final,Nam Định,province,2.430213253,6.351522884,-3.92130963
+2023,final,Ninh Bình,province,3.199389035,3.885328473,-0.6859394379
+2023,final,Trung du và miền núi phía Bắc,region,0.3592094179,5.478156104,-5.118946686
+2023,final,Hà Giang,province,0.2084695278,9.861515052,-9.653045525
+2023,final,Cao Bằng,province,2.121274546,9.724828192,-7.603553645
+2023,final,Bắc Kạn,province,0.8262409145,10.15406598,-9.327825061
+2023,final,Tuyên Quang,province,0.3109565348,8.282183689,-7.971227154
+2023,final,Lào Cai,province,0.4742640113,3.341997772,-2.867733761
+2023,final,Yên Bái,province,1.454142163,6.386563822,-4.932421658
+2023,final,Thái Nguyên,province,1.30056737,3.487508679,-2.18694131
+2023,final,Lạng Sơn,province,0.9778763345,15.32887227,-14.35099594
+2023,final,Bắc Giang,province,1.998413103,3.563651808,-1.565238706
+2023,final,Phú Thọ,province,0.7387315284,3.836766171,-3.098034643
+2023,final,Điện Biên,province,0.5876873947,4.326076212,-3.738388818
+2023,final,Lai Châu,province,0.9103808531,2.235141957,-1.324761104
+2023,final,Sơn La,province,0.2547010989,4.281773962,-4.027072863
+2023,final,Hòa Bình,province,0.9912480054,9.947018312,-8.955770307
+2023,final,Bắc Trung Bộ và duyên hải miền Trung,region,1.221922354,3.496764818,-2.274842463
+2023,final,Thanh Hóa,province,1.037289838,5.616710289,-4.579420452
+2023,final,Nghệ An,province,0.7820306088,4.106620877,-3.324590269
+2023,final,Hà Tĩnh,province,2.602139742,6.531447511,-3.929307769
+2023,final,Quảng Bình,province,3.032446066,5.193893937,-2.161447871
+2023,final,Quảng Trị,province,2.090599917,6.310658485,-4.220058568
+2023,final,Huế,province,8.302842668,2.740685145,5.562157523
+2023,final,Đà Nẵng,province,15.77765626,2.472538476,13.30511779
+2023,final,Quảng Nam,province,1.917562736,7.741320986,-5.82375825
+2023,final,Quảng Ngãi,province,2.92190938,6.435003308,-3.513093928
+2023,final,Bình Định,province,1.287169974,5.749583266,-4.462413292
+2023,final,Phú Yên,province,1.208583588,3.728095141,-2.519511553
+2023,final,Khánh Hòa,province,0.2997798417,1.390179053,-1.090399211
+2023,final,Ninh Thuận,province,1.736365736,2.60117702,-0.864811284
+2023,final,Bình Thuận,province,0.5138300571,6.566587558,-6.052757501
+2023,final,Tây Nguyên,region,1.215179236,3.883659409,-2.668480173
+2023,final,Kon Tum,province,0.5444293882,1.48043575,-0.9360063614
+2023,final,Gia Lai,province,1.43770383,4.522209008,-3.084505177
+2023,final,Đắk Lắk,province,1.515210239,4.343463017,-2.828252779
+2023,final,Đắk Nông,province,1.069273088,6.858559181,-5.789286092
+2023,final,Lâm Đồng,province,1.819005892,2.942287355,-1.123281462
+2023,final,Đông Nam Bộ,region,9.565392309,2.19686449,7.368527819
+2023,final,Bình Phước,province,5.889429394,3.586605076,2.302824318
+2023,final,Tây Ninh,province,4.045502594,2.460308795,1.585193799
+2023,final,Bình Dương,province,28.11620794,5.101035587,23.01517236
+2023,final,Đồng Nai,province,5.408383086,2.907900577,2.500482509
+2023,final,Bà Rịa - Vũng Tàu,province,5.044427283,6.531277316,-1.486850034
+2023,final,TP. Hồ Chí Minh,province,10.62871833,3.7988498,6.829868533
+2023,final,Đồng bằng sông Cửu Long,region,1.317115586,6.115835788,-4.798720203
+2023,final,Long An,province,7.470275821,5.659124069,1.811151752
+2023,final,Tiền Giang,province,2.475433243,4.740443378,-2.265010135
+2023,final,Bến Tre,province,3.265889615,5.202556712,-1.936667097
+2023,final,Trà Vinh,province,1.403786553,11.51005766,-10.10627111
+2023,final,Vĩnh Long,province,3.3353927,7.822336574,-4.486943873
+2023,final,Đồng Tháp,province,3.32681449,7.373536016,-4.046721526
+2023,final,An Giang,province,1.205833371,8.470515651,-7.26468228
+2023,final,Kiên Giang,province,1.147874963,8.164073586,-7.016198623
+2023,final,Cần Thơ,province,8.23735355,3.968266668,4.269086883
+2023,final,Hậu Giang,province,1.453811151,9.887019287,-8.433208136
+2023,final,Sóc Trăng,province,2.517113172,13.31099266,-10.79387948
+2023,final,Bạc Liêu,province,4.385969689,10.82279136,-6.43682167
+2023,final,Cà Mau,province,0.4402322225,11.31763672,-10.8774045
+2024,final,CẢ NƯỚC,national,,,
+2024,final,Đồng bằng sông Hồng,region,3.199820701,2.063075684,1.136745016
+2024,final,Hà Nội,province,5.912685008,4.47312847,1.439556538
+2024,final,Hà Tây,province,,,
+2024,final,Vĩnh Phúc,province,4.912938997,3.965906454,0.9470325425
+2024,final,Bắc Ninh,province,24.25940342,6.126105321,18.1332981
+2024,final,Quảng Ninh,province,1.622171814,3.53783105,-1.915659236
+2024,final,Hải Dương,province,3.35910119,3.859731526,-0.5006303363
+2024,final,Hải Phòng,province,4.673139689,2.527895932,2.145243757
+2024,final,Hưng Yên,province,6.883836096,5.158830477,1.725005619
+2024,final,Thái Bình,province,3.528892178,6.417238742,-2.888346564
+2024,final,Hà Nam,province,7.154391385,7.362110506,-0.2077191216
+2024,final,Nam Định,province,1.966195154,7.38151786,-5.415322706
+2024,final,Ninh Bình,province,4.62596599,6.153798908,-1.527832918
+2024,final,Trung du và miền núi phía Bắc,region,1.732003237,4.34165149,-2.609648253
+2024,final,Hà Giang,province,2.68196827,7.583612284,-4.901644013
+2024,final,Cao Bằng,province,3.841710312,8.226489621,-4.384779309
+2024,final,Bắc Kạn,province,3.847056226,9.758235793,-5.911179567
+2024,final,Tuyên Quang,province,3.7516443,7.492156124,-3.740511824
+2024,final,Lào Cai,province,1.21647784,6.130068944,-4.913591104
+2024,final,Yên Bái,province,2.09892248,4.521934619,-2.423012139
+2024,final,Thái Nguyên,province,3.749010451,4.006405198,-0.2573947474
+2024,final,Lạng Sơn,province,6.418614015,8.499989822,-2.081375807
+2024,final,Bắc Giang,province,6.352399857,6.021832199,0.3305676586
+2024,final,Phú Thọ,province,2.253725338,3.500018999,-1.246293661
+2024,final,Điện Biên,province,2.152320336,5.120715822,-2.968395485
+2024,final,Lai Châu,province,1.947286871,6.784627405,-4.837340535
+2024,final,Sơn La,province,1.49320829,7.317948335,-5.9
+2024,final,Hòa Bình,province,3.974385416,5.653671192,-1.679285776
+2024,final,Bắc Trung Bộ và duyên hải miền Trung,region,2.410173596,4.356999598,-1.946826002
+2024,final,Thanh Hóa,province,3.265081492,6.778812951,-3.513731458
+2024,final,Nghệ An,province,3.810555619,4.506686647,-0.696131028
+2024,final,Hà Tĩnh,province,4.894154354,5.768984445,-0.8748300908
+2024,final,Quảng Bình,province,5.403551668,5.19580731,0.2077443583
+2024,final,Quảng Trị,province,5.380152952,4.659403833,0.7207491189
+2024,final,Huế,province,4.219642746,7.269364126,-3.04972138
+2024,final,Đà Nẵng,province,18.96083107,7.320867576,11.63996349
+2024,final,Quảng Nam,province,3.681893231,7.555173634,-3.873280403
+2024,final,Quảng Ngãi,province,2.773655586,7.548086581,-4.774430995
+2024,final,Bình Định,province,2.741919158,7.474683929,-4.73276477
+2024,final,Phú Yên,province,2.461695637,6.719981089,-4.258285453
+2024,final,Khánh Hòa,province,1.930702282,4.528127643,-2.597425361
+2024,final,Ninh Thuận,province,4.643669722,6.263360348,-1.619690626
+2024,final,Bình Thuận,province,1.049691894,7.813574139,-6.763882245
+2024,final,Tây Nguyên,region,2.654312434,4.512494481,-1.858182046
+2024,final,Kon Tum,province,2.456100872,4.958189762,-2.502088891
+2024,final,Gia Lai,province,2.090935228,5.197663907,-3.106728679
+2024,final,Đắk Lắk,province,3.864180567,5.314686236,-1.450505669
+2024,final,Đắk Nông,province,4.201753329,8.166310906,-3.964557577
+2024,final,Lâm Đồng,province,4.320654929,3.926785128,0.3938698014
+2024,final,Đông Nam Bộ,region,11.51322427,3.802553093,7.710671173
+2024,final,Bình Phước,province,7.28778207,7.934774314,-0.6469922438
+2024,final,Tây Ninh,province,2.678798503,3.2290291,-0.550230597
+2024,final,Bình Dương,province,27.70120997,6.995838636,20.70537133
+2024,final,Đồng Nai,province,6.647265587,5.264106966,1.38315862
+2024,final,Bà Rịa - Vũng Tàu,province,5.755044112,6.684177832,-0.9291337207
+2024,final,TP. Hồ Chí Minh,province,15.085374,5.997133918,9.08824008
+2024,final,Đồng bằng sông Cửu Long,region,2.034338359,7.075433309,-5.04109495
+2024,final,Long An,province,9.422012475,4.834805421,4.587207054
+2024,final,Tiền Giang,province,3.628912983,9.334467618,-5.705554635
+2024,final,Bến Tre,province,4.254595157,7.663527687,-3.40893253
+2024,final,Trà Vinh,province,2.861843483,12.8075657,-9.945722217
+2024,final,Vĩnh Long,province,5.064357814,6.869156873,-1.804799059
+2024,final,Đồng Tháp,province,3.866261897,7.4500111,-3.583749203
+2024,final,An Giang,province,3.613559115,13.37212658,-9.758567462
+2024,final,Kiên Giang,province,3.563381345,9.800445218,-6.237063873
+2024,final,Cần Thơ,province,15.24358331,6.689664448,8.553918866
+2024,final,Hậu Giang,province,1.604670269,12.89407894,-11.28940868
+2024,final,Sóc Trăng,province,2.225137534,16.72750284,-14.50236531
+2024,final,Bạc Liêu,province,3.226576018,9.83497717,-6.608401152
+2024,final,Cà Mau,province,1.384297789,12.35533698,-10.97103919
+2025,preliminary,CẢ NƯỚC,national,,,
+2025,preliminary,Đồng bằng sông Hồng,region,4,0.9,3.098069676
+2025,preliminary,Hà Nội,province,2.828163253,1.790476566,1.037686687
+2025,preliminary,Hà Tây,province,,,
+2025,preliminary,Vĩnh Phúc,province,1.677855563,3.038423516,-1.360567954
+2025,preliminary,Bắc Ninh,province,45.71855522,2.067717839,43.65083738
+2025,preliminary,Quảng Ninh,province,0.7341263211,2.081674117,-1.347547796
+2025,preliminary,Hải Dương,province,2.496574909,2.755064209,-0.2584893
+2025,preliminary,Hải Phòng,province,3.021295051,0.9738313422,2.047463709
+2025,preliminary,Hưng Yên,province,8.726788942,3.411743523,5.315045419
+2025,preliminary,Thái Bình,province,1.063874875,4.714510148,-3.650635273
+2025,preliminary,Hà Nam,province,1.241554932,1.288823729,-0.04726879756
+2025,preliminary,Nam Định,province,0.3274505777,2.713883945,-2.386433368
+2025,preliminary,Ninh Bình,province,2.028031618,0.6116844672,1.416347151
+2025,preliminary,Trung du và miền núi phía Bắc,region,0.6,5.4,-4.78930127
+2025,preliminary,Hà Giang,province,1.391725474,6.280162373,-4.888436898
+2025,preliminary,Cao Bằng,province,2.722821839,14.81775169,-12.09492985
+2025,preliminary,Bắc Kạn,province,0.9023152218,13.91357081,-13.01125559
+2025,preliminary,Tuyên Quang,province,0.1649762865,6.674499758,-6.509523472
+2025,preliminary,Lào Cai,province,0.4942397449,6.037338279,-5.543098534
+2025,preliminary,Yên Bái,province,0.5731281069,7.516130726,-6.943002619
+2025,preliminary,Thái Nguyên,province,1.446004594,3.981404718,-2.535400124
+2025,preliminary,Lạng Sơn,province,1.510606381,11.54933686,-10.03873048
+2025,preliminary,Bắc Giang,province,2.480848093,2.572114665,-0.09126657161
+2025,preliminary,Phú Thọ,province,0.5516469221,2.197857256,-1.646210333
+2025,preliminary,Điện Biên,province,0.2648207381,4.893524337,-4.628703599
+2025,preliminary,Lai Châu,province,0.6268916784,6.981629712,-6.354738034
+2025,preliminary,Sơn La,province,1.383828107,7.1117296,-5.727901493
+2025,preliminary,Hòa Bình,province,2.231645267,7.326071898,-5.094426631
+2025,preliminary,Bắc Trung Bộ và duyên hải miền Trung,region,0.9,3.5,-2.557236052
+2025,preliminary,Thanh Hóa,province,2.189048027,4.969248092,-2.780200065
+2025,preliminary,Nghệ An,province,0.2297801529,5.701987512,-5.472207359
+2025,preliminary,Hà Tĩnh,province,0.4567305355,2.434773892,-1.978043356
+2025,preliminary,Quảng Bình,province,0.764891293,4.639845697,-3.874954404
+2025,preliminary,Quảng Trị,province,1.24205944,8.44948014,-7.2074207
+2025,preliminary,Huế,province,5.812576037,4.683645816,1.128930222
+2025,preliminary,Đà Nẵng,province,14.74274781,1.487796195,13.25495162
+2025,preliminary,Quảng Nam,province,0.9518516448,6.966320664,-6.01446902
+2025,preliminary,Quảng Ngãi,province,1.737682338,3.078900593,-1.341218256
+2025,preliminary,Bình Định,province,1.225063781,6.499067823,-5.274004042
+2025,preliminary,Phú Yên,province,0.8002498619,5.048158531,-4.247908669
+2025,preliminary,Khánh Hòa,province,0.6161296386,2.494306821,-1.878177182
+2025,preliminary,Ninh Thuận,province,1.705402163,3.485066118,-1.779663955
+2025,preliminary,Bình Thuận,province,0.2950108937,4.556286293,-4.261275399
+2025,preliminary,Tây Nguyên,region,1.3,3.2,-1.939125128
+2025,preliminary,Kon Tum,province,0.3513455645,3.447979248,-3.096633683
+2025,preliminary,Gia Lai,province,1.14241539,3.887701772,-2.745286382
+2025,preliminary,Đắk Lắk,province,0.8832637104,3.586330113,-2.703066403
+2025,preliminary,Đắk Nông,province,4.207708361,4.170409015,0.03729934592
+2025,preliminary,Lâm Đồng,province,2.449077797,2.834495864,-0.3854180672
+2025,preliminary,Đông Nam Bộ,region,10.6,1.3,9.336046321
+2025,preliminary,Bình Phước,province,9.321708438,6.105991526,3.215716912
+2025,preliminary,Tây Ninh,province,2.170505092,4.996899706,-2.826394614
+2025,preliminary,Bình Dương,province,32.70628295,2.238739717,30.46754323
+2025,preliminary,Đồng Nai,province,5.52508236,2.762740099,2.762342261
+2025,preliminary,Bà Rịa - Vũng Tàu,province,1.981536782,4.610846623,-2.629309841
+2025,preliminary,TP. Hồ Chí Minh,province,11.81503245,2.855340939,8.959691513
+2025,preliminary,Đồng bằng sông Cửu Long,region,0.8,8,-7.168178337
+2025,preliminary,Long An,province,5.892552634,5.122946843,0.769605791
+2025,preliminary,Tiền Giang,province,1.796174055,10.27685752,-8.480683465
+2025,preliminary,Bến Tre,province,1.67938037,7.559371179,-5.879990809
+2025,preliminary,Trà Vinh,province,1.19017633,8.462155286,-7.271978956
+2025,preliminary,Vĩnh Long,province,2.486868424,7.595374762,-5.108506338
+2025,preliminary,Đồng Tháp,province,1.446125394,6.780902428,-5.334777034
+2025,preliminary,An Giang,province,1.453049942,11.86673969,-10.41368975
+2025,preliminary,Kiên Giang,province,0.7851060875,10.34007695,-9.554970863
+2025,preliminary,Cần Thơ,province,9.830104391,6.421491326,3.408613065
+2025,preliminary,Hậu Giang,province,1.279108342,11.83389661,-10.55478826
+2025,preliminary,Sóc Trăng,province,0.616146584,17.23746233,-16.62131575
+2025,preliminary,Bạc Liêu,province,0.9706241302,13.02839929,-12.05777516
+2025,preliminary,Cà Mau,province,0.6609592957,10.31046344,-9.649504147

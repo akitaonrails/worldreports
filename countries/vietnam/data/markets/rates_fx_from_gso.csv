@@ -1,0 +1,41 @@
+# NSO V03.21 (Lãi suất, tỷ giá trung tâm), source of record the State Bank
+# of Vietnam. Annual averages, % a year: VND and USD deposit rates by tenor,
+# VND and USD lending rates (short; medium and long). Central rate in VND per
+# US$ (a managed reference; banks trade within a band around it, +/-5% since
+# October 2022). THE USD DEPOSIT RATES ARE 0 AND THAT IS REAL: the SBV has
+# capped them at 0% since late 2015. The central rate is blank for 2015-2017
+# in the table. No policy rate here (SOURCES.yaml meta.pending).
+#
+# V03.21 "Lãi suất, tỷ giá trung tâm chia theo Chỉ tiêu và Năm" — unit on the table page: %/năm, đồng; NSO updated 2026-08-15; https://pxweb.nso.gov.vn/pxweb/vi/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/V03.21.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   deposit_vnd_demand = V03.21: Lãi suất tiền gửi bình quân bằng đồng Việt Nam Không kỳ hạn
+#   deposit_vnd_3m = V03.21: Lãi suất tiền gửi bình quân bằng đồng Việt Nam Kỳ hạn 3 tháng
+#   deposit_vnd_6m = V03.21: Lãi suất tiền gửi bình quân bằng đồng Việt Nam Kỳ hạn 6 tháng
+#   deposit_vnd_12m = V03.21: Lãi suất tiền gửi bình quân bằng đồng Việt Nam Kỳ hạn 12 tháng
+#   deposit_vnd_12_24m = V03.21: Lãi suất tiền gửi bình quân bằng đồng Việt Nam Kỳ hạn từ trên 12 tháng đến 24 tháng
+#   deposit_vnd_over_24m = V03.21: Lãi suất tiền gửi bình quân bằng đồng Việt Nam Kỳ hạn trên 24 tháng
+#   deposit_usd_demand = V03.21: Lãi suất tiền gửi bình quân bằng đô la Mỹ Không kỳ hạn
+#   deposit_usd_3m = V03.21: Lãi suất tiền gửi bình quân bằng đô la Mỹ Kỳ hạn 3 tháng
+#   deposit_usd_6m = V03.21: Lãi suất tiền gửi bình quân bằng đô la Mỹ Kỳ hạn 6 tháng
+#   deposit_usd_12m = V03.21: Lãi suất tiền gửi bình quân bằng đô la Mỹ Kỳ hạn 12 tháng
+#   deposit_usd_12_24m = V03.21: Lãi suất tiền gửi bình quân bằng đô la Mỹ Kỳ hạn từ trên 12 tháng đến 24 tháng
+#   deposit_usd_over_24m = V03.21: Lãi suất tiền gửi bình quân bằng đô la Mỹ Kỳ hạn trên 24 tháng
+#   lending_vnd_short = V03.21: Lãi suất cho vay bình quân bằng đồng Việt Nam Ngắn hạn
+#   lending_vnd_medium_long = V03.21: Lãi suất cho vay bình quân bằng đồng Việt Nam Trung hạn và dài hạn
+#   lending_usd_short = V03.21: Lãi suất cho vay bình quân bằng đô la Mỹ Ngắn hạn
+#   lending_usd_medium_long = V03.21: Lãi suất cho vay bình quân bằng đô la Mỹ Trung hạn và dài hạn
+#   central_rate_vnd_per_usd = V03.21: Tỷ giá trung tâm của đồng Việt Nam so với đồng đô la Mỹ
+year,status,deposit_vnd_demand,deposit_vnd_3m,deposit_vnd_6m,deposit_vnd_12m,deposit_vnd_12_24m,deposit_vnd_over_24m,deposit_usd_demand,deposit_usd_3m,deposit_usd_6m,deposit_usd_12m,deposit_usd_12_24m,deposit_usd_over_24m,lending_vnd_short,lending_vnd_medium_long,lending_usd_short,lending_usd_medium_long,central_rate_vnd_per_usd
+2015,final,0.7,5.04,5.8,6.58,6.85,7.08,0.15,0.59,0.61,0.61,0.63,0.63,8.66,10.1,3.85,5.26,
+2016,final,0.64,5.25,6.06,6.81,7.01,7.1,0,0,0,0,0,0,8.39,9.73,3.23,4.16,
+2017,final,0.59,5.29,6.23,6.93,7.1,7.02,0,0,0,0,0,0,8.9,9.99,3.32,4.43,
+2018,final,0.54,5.28,6.46,7.09,7.37,7.15,0,0,0,0,0,0,8.76,10.12,3.65,4.81,22605.96
+2019,final,0.52,5.32,6.83,7.29,7.57,7.39,0,0,0,0,0,0,9.24,10.52,4.06,5.25,23054.17
+2020,final,0.24,4.25,6.19,6.81,6.99,6.9,0,0,0,0,0,0,9.13,10.25,3.87,5.31,23208.78
+2021,final,0.1425,3.59,5.1375,5.88,6.0775,6.115,0,0,0,0,0,0,8.1775,9.23,3.55,4.355,23160.69
+2022,final,0.23,4.2,6.03,6.68,6.84,6.72,0,0,0,0,0,0,8.94,9.92,4.16,4.61,23277.35
+2023,final,0.34,4.7,6.74,6.96,7.4,7.11,0,0,0,0,0,0,9.3,11,5.34,6.43,23797.44
+2024,final,0.18,2.95,4.33,4.91,5.63,5.45,0,0,0,0,0,0,6.19,8.42,4.38,4.65,24170.41
+2025,preliminary,0.16,3.75,5.06,5.13,5.89,6.11,0,0,0,0,0,0,6.23,8.3,4.57,6.02,24977.2

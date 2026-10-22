@@ -1,0 +1,41 @@
+# NSO V02.24: life expectancy at birth, years, national, by sex, urban/rural
+# and region. Years 2005, 2009-2025 (2006-2008 absent).
+# FLAG: 2021 and 2022 are IDENTICAL to the hundredth (73.64), a probable
+# CARRIED VALUE rather than a COVID-year measurement; annotate it and do not
+# read a 2021-2022 plateau into it. WHO and World Bank figures are modelled,
+# disagree with this and with each other, and belong in their own files.
+#
+# V02.24 "Tuổi thọ trung bình tính từ lúc sinh phân theo giới tính, thành thị, nông thôn và theo vùng chia theo Giới tính, thành thị, nông thôn và vùng và Năm" — unit on the table page: Tuổi; NSO updated 2026-08-20; https://pxweb.nso.gov.vn/pxweb/vi/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/V02.24.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   life_expectancy_national_years = V02.24: CẢ NƯỚC
+#   life_expectancy_male_years = V02.24: Nam
+#   life_expectancy_female_years = V02.24: Nữ
+#   life_expectancy_urban_years = V02.24: Thành thị
+#   life_expectancy_rural_years = V02.24: Nông thôn
+#   life_expectancy_red_river_delta_years = V02.24: Đồng bằng sông Hồng
+#   life_expectancy_northern_midlands_mountains_years = V02.24: Trung du và miền núi phía Bắc
+#   life_expectancy_north_central_coast_years = V02.24: Bắc Trung Bộ và duyên hải miền Trung
+#   life_expectancy_central_highlands_years = V02.24: Tây Nguyên
+#   life_expectancy_southeast_years = V02.24: Đông Nam Bộ
+#   life_expectancy_mekong_delta_years = V02.24: Đồng bằng sông Cửu Long
+year,status,life_expectancy_national_years,life_expectancy_male_years,life_expectancy_female_years,life_expectancy_urban_years,life_expectancy_rural_years,life_expectancy_red_river_delta_years,life_expectancy_northern_midlands_mountains_years,life_expectancy_north_central_coast_years,life_expectancy_central_highlands_years,life_expectancy_southeast_years,life_expectancy_mekong_delta_years
+2005,final,72.2,,,,,74.6,69.4,70.7,68.7,75,73.4
+2009,final,72.8,,,,,74.2,70,72.4,69.1,75.3,73.8
+2010,final,72.9,70.3,75.7,,,74.3,70,72.4,69.3,75.5,74.1
+2011,final,73,70.42222601,75.77958519,,,74.2,70.5,72.4,70,75.6,74.3
+2012,final,73,70.44544339,75.8,,,74.3,70.3,72.4,69.4,75.7,74.4
+2013,final,73.1,70.5,75.9,,,74.3,70.4,72.5,69.5,75.7,74.4
+2014,final,73.2,70.6,76,,,74.5,70.7,72.6,69.5,75.9,74.6
+2015,final,73.3,70.7,76.1,,,74.5,70.8,72.7,69.9,76,74.7
+2016,final,73.4,70.8,76.1,,,74.6,70.9,72.8,70.1,76,74.7
+2017,final,73.5,70.9,76.2,,,74.7,71,72.9,70.2,76.1,74.8
+2018,final,73.5,70.9,76.2,76.10492193,72.42001045,74.7,71,72.9,70.3,76.2,74.9
+2019,final,73.6,71,76.3,76.19986088,72.57277024,74.8,71.1,73,70.3,75.7,75
+2020,final,73.7,71,76.4,76.23662991,72.68997734,74.8,71.4,73.2,71,76.2,74.9
+2021,final,73.64203908,71.14176272,76.44484888,76.71912517,73.67352862,75.1647632,71.20175433,73.4203938,71.07055746,76.10547971,75.0408146
+2022,final,73.64203908,71.14176272,76.44484888,76.82790655,73.67352862,75.1647632,71.20175433,73.4203938,71.07055746,76.10547971,75.0408146
+2023,final,74.50086974,72.11749939,77.17262789,76.80532007,74.31825622,75.721346,72.64911401,74.06506717,71.96114207,76.31955726,75.57672376
+2024,final,74.69803979,72.26281274,77.27938047,76.81106447,74.36045439,75.908652,72.75933343,74.26728316,72.19777511,76.46098296,75.74637363
+2025,preliminary,74.69803979,72.31162099,77.31523681,76.69043216,74.40265257,76,72.75933343,73.9,73.5,76.46098296,75.74637363

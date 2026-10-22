@@ -1,0 +1,26 @@
+# Source: World Bank, World Development Indicators (API v2, lastupdated 2026-10-08). official: false. A redistributor. NY.GDP.MKTP.CD, NY.GDP.PCAP.CD, NY.GDP.MKTP.KD.ZG.
+# Units: current US$ (level, per person); real growth in % per year.
+# BREAK: the NSO's 2010 GDP revaluation. 2006-2009 are on the OLD scale (*_old_scale), 2010+ on the revised scale; 2009->2010 reads +39% in a year of 6.4% real growth.
+# The two scales are separate columns and are never joined; for a continuous level use the IMF's back-cast (gdp_usd_from_imf.csv), labelled as the IMF's.
+# Real growth is computed within each scale by the source and is one column.
+year,gdp_usd_old_scale,gdp_usd,gdp_per_person_usd_old_scale,gdp_per_person_usd,real_growth_pct
+2006,66371664817,,807.8,,6.98
+2007,77414425532,,925.6,,7.13
+2008,99130304099,,1163.8,,5.66
+2009,106014659565,,1226.2,,5.40
+2010,,147201173197,,1683.2,6.42
+2011,,172595049184,,1950.9,6.41
+2012,,195590661129,,2185.1,5.50
+2013,,213708811665,,2359.5,5.55
+2014,,233451469643,,2546.4,6.42
+2015,,239258328382,,2577.6,6.99
+2016,,257096001178,,2735.1,6.69
+2017,,281353605987,,2956.1,6.94
+2018,,310106478395,,3222.3,7.47
+2019,,334365270497,,3440.9,7.36
+2020,,346615738538,,3534.0,2.87
+2021,,366474752771,,3704.2,2.55
+2022,,413445230669,,4147.7,8.54
+2023,,433805036898,,4322.8,4.98
+2024,,476324572784,,4716.7,7.04
+2025,,514697215165,,5066.0,8.02

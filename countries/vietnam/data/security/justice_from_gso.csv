@@ -1,0 +1,71 @@
+# NSO V14.77 (Hoạt động tư pháp), source of record the Supreme People's
+# Procuracy and Supreme People's Court: cases and defendants PROSECUTED
+# (khởi tố), indicted (truy tố) and tried (xét xử), counts; legal aid, persons;
+# civil-judgment completion rates, %; lawyers per 10,000 people. 2011-2025.
+# These count what the justice system processed, not what happened: a rise is
+# enforcement as much as crime. The 2025 fall is preliminary and unexplained.
+# prosecuted_*_<group> (V14.78): prosecutions by Penal Code chapter, cases and
+# defendants, 2025 ONLY (the 2025 row); its national total is asserted equal
+# to V14.77. No homicide row exists in any NSO table.
+#
+# V14.77 "Hoạt động tư pháp chia theo Phân tổ và Năm" — unit on the table page: not stated; NSO updated 2026-08-27; https://pxweb.nso.gov.vn/pxweb/vi/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/V14.77.px/
+# V14.78 "Số vụ án và số bị can đã bị khởi tố phân theo nhóm tội danh năm 2025 chia theo Phân tổ, Năm và Chỉ tiêu" — unit on the table page: not stated; NSO updated 9999-12-31; https://pxweb.nso.gov.vn/pxweb/vi/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/V14.78.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   cases_prosecuted = V14.77: Số vụ án đã khởi tố (Vụ)
+#   defendants_prosecuted = V14.77: Số bị can đã khởi tố (Người)
+#   female_defendants_prosecuted = V14.77: Trong đó: Số nữ bị can đã khởi tố (Người)
+#   cases_indicted = V14.77: Số vụ án đã truy tố (Vụ)
+#   defendants_indicted = V14.77: Số bị can đã truy tố (Người)
+#   female_defendants_indicted = V14.77: Trong đó: Số nữ bị can đã truy tố (Người)
+#   cases_tried = V14.77: Số vụ án đã xét xử (Vụ)
+#   defendants_tried = V14.77: Số bị cáo đã xét xử (Người)
+#   female_defendants_tried = V14.77: Trong đó: Số nữ bị cáo đã xét xử (Người)
+#   legal_aid_persons = V14.77: Số lượt người được trợ giúp pháp lý (Lượt người)(*)
+#   female_legal_aid_persons = V14.77: Trong đó: Số nữ được trợ giúp pháp lý (Lượt người)
+#   civil_judgments_cases_completed_pct = V14.77: Kết quả thi hành án dân sự: Tỷ lệ thi hành xong về việc (%)
+#   civil_judgments_money_completed_pct = V14.77: Kết quả thi hành án dân sự: Tỷ lệ thi hành xong về tiền (%)
+#   lawyers_per_10k = V14.77: Số luật sư bình quân 10.000 người dân (Người)
+#   prosecuted_cases_all = V14.78: CẢ NƯỚC / Số vụ án đã bị khởi tố (Vụ)
+#   prosecuted_defendants_all = V14.78: CẢ NƯỚC / Số bị can đã bị khởi tố (Người)
+#   prosecuted_cases_national_security = V14.78: Các tội xâm phạm an ninh quốc gia / Số vụ án đã bị khởi tố (Vụ)
+#   prosecuted_defendants_national_security = V14.78: Các tội xâm phạm an ninh quốc gia / Số bị can đã bị khởi tố (Người)
+#   prosecuted_cases_life_health_dignity = V14.78: Các tội xâm phạm tính mạng, sức khỏe, nhân phẩm, danh dự của con người / Số vụ án đã bị khởi tố (Vụ)
+#   prosecuted_defendants_life_health_dignity = V14.78: Các tội xâm phạm tính mạng, sức khỏe, nhân phẩm, danh dự của con người / Số bị can đã bị khởi tố (Người)
+#   prosecuted_cases_freedoms_democratic_rights = V14.78: Các tội xâm phạm quyền tự do của con người, quyền tự do, dân chủ của công dân / Số vụ án đã bị khởi tố (Vụ)
+#   prosecuted_defendants_freedoms_democratic_rights = V14.78: Các tội xâm phạm quyền tự do của con người, quyền tự do, dân chủ của công dân / Số bị can đã bị khởi tố (Người)
+#   prosecuted_cases_property = V14.78: Các tội xâm phạm sở hữu / Số vụ án đã bị khởi tố (Vụ)
+#   prosecuted_defendants_property = V14.78: Các tội xâm phạm sở hữu / Số bị can đã bị khởi tố (Người)
+#   prosecuted_cases_marriage_family = V14.78: Các tội xâm phạm chế độ hôn nhân và gia đình / Số vụ án đã bị khởi tố (Vụ)
+#   prosecuted_defendants_marriage_family = V14.78: Các tội xâm phạm chế độ hôn nhân và gia đình / Số bị can đã bị khởi tố (Người)
+#   prosecuted_cases_economic_management = V14.78: Các tội xâm phạm trật tự quản lý kinh tế / Số vụ án đã bị khởi tố (Vụ)
+#   prosecuted_defendants_economic_management = V14.78: Các tội xâm phạm trật tự quản lý kinh tế / Số bị can đã bị khởi tố (Người)
+#   prosecuted_cases_environment = V14.78: Các tội xâm phạm về môi trường / Số vụ án đã bị khởi tố (Vụ)
+#   prosecuted_defendants_environment = V14.78: Các tội xâm phạm về môi trường / Số bị can đã bị khởi tố (Người)
+#   prosecuted_cases_drugs = V14.78: Các tội phạm về ma túy / Số vụ án đã bị khởi tố (Vụ)
+#   prosecuted_defendants_drugs = V14.78: Các tội phạm về ma túy / Số bị can đã bị khởi tố (Người)
+#   prosecuted_cases_public_safety_order = V14.78: Các tội xâm phạm an toàn công cộng, trật tự công cộng / Số vụ án đã bị khởi tố (Vụ)
+#   prosecuted_defendants_public_safety_order = V14.78: Các tội xâm phạm an toàn công cộng, trật tự công cộng / Số bị can đã bị khởi tố (Người)
+#   prosecuted_cases_administrative_order = V14.78: Các tội xâm phạm trật tự quản lý hành chính / Số vụ án đã bị khởi tố (Vụ)
+#   prosecuted_defendants_administrative_order = V14.78: Các tội xâm phạm trật tự quản lý hành chính / Số bị can đã bị khởi tố (Người)
+#   prosecuted_cases_official_duty = V14.78: Các tội xâm phạm về chức vụ / Số vụ án đã bị khởi tố (Vụ)
+#   prosecuted_defendants_official_duty = V14.78: Các tội xâm phạm về chức vụ / Số bị can đã bị khởi tố (Người)
+#   prosecuted_cases_judicial_activity = V14.78: Các tội xâm phạm hoạt động tư pháp / Số vụ án đã bị khởi tố (Vụ)
+#   prosecuted_defendants_judicial_activity = V14.78: Các tội xâm phạm hoạt động tư pháp / Số bị can đã bị khởi tố (Người)
+year,status,cases_prosecuted,defendants_prosecuted,female_defendants_prosecuted,cases_indicted,defendants_indicted,female_defendants_indicted,cases_tried,defendants_tried,female_defendants_tried,legal_aid_persons,female_legal_aid_persons,civil_judgments_cases_completed_pct,civil_judgments_money_completed_pct,lawyers_per_10k,prosecuted_cases_all,prosecuted_defendants_all,prosecuted_cases_national_security,prosecuted_defendants_national_security,prosecuted_cases_life_health_dignity,prosecuted_defendants_life_health_dignity,prosecuted_cases_freedoms_democratic_rights,prosecuted_defendants_freedoms_democratic_rights,prosecuted_cases_property,prosecuted_defendants_property,prosecuted_cases_marriage_family,prosecuted_defendants_marriage_family,prosecuted_cases_economic_management,prosecuted_defendants_economic_management,prosecuted_cases_environment,prosecuted_defendants_environment,prosecuted_cases_drugs,prosecuted_defendants_drugs,prosecuted_cases_public_safety_order,prosecuted_defendants_public_safety_order,prosecuted_cases_administrative_order,prosecuted_defendants_administrative_order,prosecuted_cases_official_duty,prosecuted_defendants_official_duty,prosecuted_cases_judicial_activity,prosecuted_defendants_judicial_activity
+2011,final,71665,114194,8405,60473,106687,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2012,final,74134,120401,10136,66870,120253,11879,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2013,final,76220,122439,9596,67592,121141,11628,67779,119889,7338,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2014,final,68863,110213,12175,59788,108031,11672,66676,119257,6779,129164,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,
+2015,final,72922,110548,12419,61147,107218,11746,61067,107071,5656,140041,64327,,,1.1,,,,,,,,,,,,,,,,,,,,,,,,,,
+2016,final,69957,99726,10986,58892,98711,11462,60309,100421,5226,90724,42839,78.5,33.74,1.2,,,,,,,,,,,,,,,,,,,,,,,,,,
+2017,final,69895,98697,10215,57807,96550,9810,57871,94715,4591,85955,40047,79.3,38.31,1.3,,,,,,,,,,,,,,,,,,,,,,,,,,
+2018,final,75216,103660,11181,57425,96070,10527,58425,98183,5125,50547,20036,80.3,38.35,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2019,final,78462,110013,11887,62345,105188,10916,62452,104053,5247,37126,13481,78.6,35.46,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2020,final,84969,124692,11686,66456,116476,10978,64002,110430,5486,24566,8000,81.41,40.1,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2021,final,83148,127687,11978,68897,123827,11832,66599,115579,5705,22799,6703,75.82,31.21,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2022,final,88733,136422,13681,68105,125551,11759,69085,128341,6288,27577,8125,82.5,45.42,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2023,final,98262,154107,14257,77634,147515,11649,76502,142225,6223,33716,9116,83.24,46.44,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2024,final,100504,165880,16289,81440,156746,14059,81125,154723,6428,38225,9611,83.85516162,51.45921378,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2025,preliminary,79791,143905,12806,67427,138386,9695,72734,144167,5635,32252,7656,84.25,56.1,,79791,143905,22,36,9526,14838,129,402,24311,23280,17,24,3013,7245,385,513,24123,45736,16048,46562,1443,2713,728,2330,46,226

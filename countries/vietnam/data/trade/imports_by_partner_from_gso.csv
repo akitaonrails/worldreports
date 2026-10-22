@@ -1,0 +1,2023 @@
+# NSO V09.12 "Trị giá nhập khẩu hàng hoá phân theo khối nước, phân theo nước và vùng lãnh thổ chia theo Khối nước, nước và vùng lãnh thổ chủ yếu và Năm" — unit: Triệu đô la Mỹ; NSO updated 9999-12-31; https://pxweb.nso.gov.vn/pxweb/vi/Xu%E1%BA%A5t%20nh%E1%BA%ADp%20kh%E1%BA%A9u/Xu%E1%BA%A5t%20nh%E1%BA%ADp%20kh%E1%BA%A9u/V09.12.px/
+# Merchandise imports by partner, US$ millions, customs basis. Long format: one row per partner and year.
+# kind: total / bloc / country. The blocs (ASEAN, APEC, EU, OPEC) OVERLAP each other and the countries: never stack or sum them.
+# partner is the NSO label as published (NFC). partner_iso3 is this fetcher's mapping (the NSO publishes no codes): China is
+# "CHND Trung Hoa" and Hong Kong "ĐKHC Hồng Công (TQ)"; match on the ISO3, never on the name.
+# Blank value = not published for that partner-year. The TỔNG SỐ rows are asserted equal to V09.01 every year.
+# status: final / preliminary (Sơ bộ), parsed off the year label. Official: true.
+year,status,partner,partner_iso3,kind,imports_usd_mn
+1995,final,TỔNG SỐ,,total,8155.4
+1995,final,ASEAN,,bloc,2270.1
+1995,final,APEC,,bloc,6493.6
+1995,final,EU,,bloc,710.4
+1995,final,OPEC,,bloc,213.7
+1995,final,Bru-nây,BRN,country,
+1995,final,Cam-pu-chia,KHM,country,23.5
+1995,final,In-đô-nê-xi-a,IDN,country,190
+1995,final,Lào,LAO,country,84
+1995,final,Ma-lai-xi-a,MYS,country,190.5
+1995,final,My-an-ma,MMR,country,
+1995,final,Phi-li-pin,PHL,country,24.7
+1995,final,Xin-ga-po,SGP,country,1425.2
+1995,final,Thái Lan,THA,country,439.8
+1995,final,Đài Loan,TWN,country,901.3
+1995,final,Hàn Quốc,KOR,country,1253.6
+1995,final,ĐKHC Hồng Công (TQ),HKG,country,419
+1995,final,Nhật Bản,JPN,country,915.7
+1995,final,CHND Trung Hoa,CHN,country,329.7
+1995,final,Ấn Độ,IND,country,61.5
+1995,final,Pa-ki-xtan,PAK,country,14.6
+1995,final,A-rập Xê-út,SAU,country,5.9
+1995,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,14.9
+1995,final,Cô-Oét,KWT,country,
+1995,final,I-xra-en,ISR,country,1.1
+1995,final,Qua-ta,QAT,country,0.3
+1995,final,Síp,CYP,country,6.2
+1995,final,Thổ Nhĩ Kỳ,TUR,country,5.8
+1995,final,Ba Lan,POL,country,22
+1995,final,Bê-la-rút,BLR,country,2.3
+1995,final,Bun-ga-ri,BGR,country,4
+1995,final,Hung-ga-ri,HUN,country,19.3
+1995,final,Liên Bang Nga,RUS,country,144.8
+1995,final,Ru-ma-ni,ROU,country,
+1995,final,Cộng hòa Séc,CZE,country,4
+1995,final,Slô-va-ki-a,SVK,country,3.1
+1995,final,U-crai-na,UKR,country,5.9
+1995,final,Đan Mạch,DNK,country,
+1995,final,Ai-len,IRL,country,
+1995,final,Vương quốc Anh,GBR,country,50.7
+1995,final,Na Uy,NOR,country,1.1
+1995,final,Phần Lan,FIN,country,11.7
+1995,final,Thụy Điển,SWE,country,22.6
+1995,final,Bồ Đào Nha,PRT,country,
+1995,final,Hy Lạp,GRC,country,
+1995,final,I-ta-li-a,ITA,country,53.6
+1995,final,Tây Ban Nha,ESP,country,
+1995,final,Áo,AUT,country,15.3
+1995,final,CHLB Đức,DEU,country,175.5
+1995,final,Bỉ,BEL,country,21.7
+1995,final,Hà Lan,NLD,country,36.3
+1995,final,Pháp,FRA,country,276.6
+1995,final,Thụy Sĩ,CHE,country,74.6
+1995,final,Ca-na-đa,CAN,country,24.9
+1995,final,Hoa Kỳ,USA,country,130.4
+1995,final,Ác-hen-ti-na,ARG,country,2.3
+1995,final,Bra-xin,BRA,country,9.8
+1995,final,Chi-lê,CHL,country,
+1995,final,Mê-hi-cô,MEX,country,0.2
+1995,final,Pê-ru,PER,country,
+1995,final,Tuy-ni-di,TUN,country,
+1995,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,
+1995,final,Nam Phi,ZAF,country,2.6
+1995,final,Niu Di-Lân,NZL,country,3.3
+1995,final,Ô-xtrây-li-a,AUS,country,100.6
+1996,final,TỔNG SỐ,,total,11143.6
+1996,final,ASEAN,,bloc,2905.53
+1996,final,APEC,,bloc,8959.066
+1996,final,EU,,bloc,1153.205
+1996,final,OPEC,,bloc,207.159
+1996,final,Bru-nây,BRN,country,
+1996,final,Cam-pu-chia,KHM,country,17.86
+1996,final,In-đô-nê-xi-a,IDN,country,148.987
+1996,final,Lào,LAO,country,68.089
+1996,final,Ma-lai-xi-a,MYS,country,200.29
+1996,final,My-an-ma,MMR,country,0.6
+1996,final,Phi-li-pin,PHL,country,28.939
+1996,final,Xin-ga-po,SGP,country,2032.599
+1996,final,Thái Lan,THA,country,494.539
+1996,final,Đài Loan,TWN,country,1263.222
+1996,final,Hàn Quốc,KOR,country,1781.42
+1996,final,ĐKHC Hồng Công (TQ),HKG,country,795.391
+1996,final,Nhật Bản,JPN,country,1260.342
+1996,final,CHND Trung Hoa,CHN,country,328.982
+1996,final,Ấn Độ,IND,country,88.447
+1996,final,Pa-ki-xtan,PAK,country,4.7
+1996,final,A-rập Xê-út,SAU,country,24.8
+1996,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,2.7
+1996,final,Cô-Oét,KWT,country,27.6
+1996,final,I-xra-en,ISR,country,6.1
+1996,final,Qua-ta,QAT,country,2.7
+1996,final,Síp,CYP,country,1.7
+1996,final,Thổ Nhĩ Kỳ,TUR,country,16.5
+1996,final,Ba Lan,POL,country,24.477
+1996,final,Bê-la-rút,BLR,country,2.7
+1996,final,Bun-ga-ri,BGR,country,1.446
+1996,final,Hung-ga-ri,HUN,country,10.808
+1996,final,Liên Bang Nga,RUS,country,186.509
+1996,final,Ru-ma-ni,ROU,country,0.2
+1996,final,Cộng hòa Séc,CZE,country,6.794
+1996,final,Slô-va-ki-a,SVK,country,3.383
+1996,final,U-crai-na,UKR,country,6.314
+1996,final,Đan Mạch,DNK,country,32.4
+1996,final,Ai-len,IRL,country,2.4
+1996,final,Vương quốc Anh,GBR,country,83.68
+1996,final,Na Uy,NOR,country,7.341
+1996,final,Phần Lan,FIN,country,17.278
+1996,final,Thụy Điển,SWE,country,60.49
+1996,final,Bồ Đào Nha,PRT,country,0.4
+1996,final,Hy Lạp,GRC,country,0.2
+1996,final,I-ta-li-a,ITA,country,111.273
+1996,final,Tây Ban Nha,ESP,country,8.1
+1996,final,Áo,AUT,country,13.335
+1996,final,CHLB Đức,DEU,country,288.201
+1996,final,Bỉ,BEL,country,59.945
+1996,final,Hà Lan,NLD,country,51.381
+1996,final,Pháp,FRA,country,416.782
+1996,final,Thụy Sĩ,CHE,country,141.293
+1996,final,Ca-na-đa,CAN,country,35.058
+1996,final,Hoa Kỳ,USA,country,245.789
+1996,final,Ác-hen-ti-na,ARG,country,0.905
+1996,final,Bra-xin,BRA,country,4.765
+1996,final,Chi-lê,CHL,country,
+1996,final,Mê-hi-cô,MEX,country,2.674
+1996,final,Pê-ru,PER,country,
+1996,final,Tuy-ni-di,TUN,country,
+1996,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,
+1996,final,Nam Phi,ZAF,country,2.472
+1996,final,Niu Di-Lân,NZL,country,20.644
+1996,final,Ô-xtrây-li-a,AUS,country,132.835
+1997,final,TỔNG SỐ,,total,11592.3
+1997,final,ASEAN,,bloc,3220.49
+1997,final,APEC,,bloc,9391.503
+1997,final,EU,,bloc,1335.212
+1997,final,OPEC,,bloc,317.71
+1997,final,Bru-nây,BRN,country,
+1997,final,Cam-pu-chia,KHM,country,24.679
+1997,final,In-đô-nê-xi-a,IDN,country,199.971
+1997,final,Lào,LAO,country,52.676
+1997,final,Ma-lai-xi-a,MYS,country,226.79
+1997,final,My-an-ma,MMR,country,1.4
+1997,final,Phi-li-pin,PHL,country,36.33
+1997,final,Xin-ga-po,SGP,country,2127.957
+1997,final,Thái Lan,THA,country,575.166
+1997,final,Đài Loan,TWN,country,1484.658
+1997,final,Hàn Quốc,KOR,country,1564.486
+1997,final,ĐKHC Hồng Công (TQ),HKG,country,598.88
+1997,final,Nhật Bản,JPN,country,1509.284
+1997,final,CHND Trung Hoa,CHN,country,404.371
+1997,final,Ấn Độ,IND,country,84.762
+1997,final,Pa-ki-xtan,PAK,country,12.5
+1997,final,A-rập Xê-út,SAU,country,22.2
+1997,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,4.5
+1997,final,Cô-Oét,KWT,country,84.1
+1997,final,I-xra-en,ISR,country,5.2
+1997,final,Qua-ta,QAT,country,1.2
+1997,final,Síp,CYP,country,1.4
+1997,final,Thổ Nhĩ Kỳ,TUR,country,36.7
+1997,final,Ba Lan,POL,country,17.648
+1997,final,Bê-la-rút,BLR,country,3.7
+1997,final,Bun-ga-ri,BGR,country,1.135
+1997,final,Hung-ga-ri,HUN,country,19.017
+1997,final,Liên Bang Nga,RUS,country,158.014
+1997,final,Ru-ma-ni,ROU,country,1
+1997,final,Cộng hòa Séc,CZE,country,7.684
+1997,final,Slô-va-ki-a,SVK,country,1.661
+1997,final,U-crai-na,UKR,country,30.776
+1997,final,Đan Mạch,DNK,country,21.8
+1997,final,Ai-len,IRL,country,5.9
+1997,final,Vương quốc Anh,GBR,country,103.933
+1997,final,Na Uy,NOR,country,2.535
+1997,final,Phần Lan,FIN,country,25.964
+1997,final,Thụy Điển,SWE,country,65.055
+1997,final,Bồ Đào Nha,PRT,country,1.1
+1997,final,Hy Lạp,GRC,country,0.5
+1997,final,I-ta-li-a,ITA,country,102.17
+1997,final,Tây Ban Nha,ESP,country,28.1
+1997,final,Áo,AUT,country,15.053
+1997,final,CHLB Đức,DEU,country,280.813
+1997,final,Bỉ,BEL,country,79.964
+1997,final,Hà Lan,NLD,country,51.5
+1997,final,Pháp,FRA,country,550.752
+1997,final,Thụy Sĩ,CHE,country,144.617
+1997,final,Ca-na-đa,CAN,country,36.881
+1997,final,Hoa Kỳ,USA,country,251.509
+1997,final,Ác-hen-ti-na,ARG,country,3.3
+1997,final,Bra-xin,BRA,country,3.185
+1997,final,Chi-lê,CHL,country,
+1997,final,Mê-hi-cô,MEX,country,1.485
+1997,final,Pê-ru,PER,country,
+1997,final,Tuy-ni-di,TUN,country,
+1997,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,
+1997,final,Nam Phi,ZAF,country,13.04
+1997,final,Niu Di-Lân,NZL,country,22.322
+1997,final,Ô-xtrây-li-a,AUS,country,192.609
+1998,final,TỔNG SỐ,,total,11499.6
+1998,final,ASEAN,,bloc,3344.4
+1998,final,APEC,,bloc,9444.498
+1998,final,EU,,bloc,1246.276
+1998,final,OPEC,,bloc,337.155
+1998,final,Bru-nây,BRN,country,
+1998,final,Cam-pu-chia,KHM,country,42.06
+1998,final,In-đô-nê-xi-a,IDN,country,256.492
+1998,final,Lào,LAO,country,131.417
+1998,final,Ma-lai-xi-a,MYS,country,248.957
+1998,final,My-an-ma,MMR,country,1.5
+1998,final,Phi-li-pin,PHL,country,67.676
+1998,final,Xin-ga-po,SGP,country,1963.966
+1998,final,Thái Lan,THA,country,673.507
+1998,final,Đài Loan,TWN,country,1377.608
+1998,final,Hàn Quốc,KOR,country,1420.86
+1998,final,ĐKHC Hồng Công (TQ),HKG,country,557.344
+1998,final,Nhật Bản,JPN,country,1481.663
+1998,final,CHND Trung Hoa,CHN,country,514.991
+1998,final,Ấn Độ,IND,country,108.658
+1998,final,Pa-ki-xtan,PAK,country,6.7
+1998,final,A-rập Xê-út,SAU,country,17.1
+1998,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,5.8
+1998,final,Cô-Oét,KWT,country,43.2
+1998,final,I-xra-en,ISR,country,12.3
+1998,final,Qua-ta,QAT,country,8.4
+1998,final,Síp,CYP,country,0.7
+1998,final,Thổ Nhĩ Kỳ,TUR,country,3
+1998,final,Ba Lan,POL,country,11.618
+1998,final,Bê-la-rút,BLR,country,6.7
+1998,final,Bun-ga-ri,BGR,country,0.905
+1998,final,Hung-ga-ri,HUN,country,22.203
+1998,final,Liên Bang Nga,RUS,country,216.304
+1998,final,Ru-ma-ni,ROU,country,1.1
+1998,final,Cộng hòa Séc,CZE,country,6.92
+1998,final,Slô-va-ki-a,SVK,country,1.523
+1998,final,U-crai-na,UKR,country,24.385
+1998,final,Đan Mạch,DNK,country,38.4
+1998,final,Ai-len,IRL,country,5.7
+1998,final,Vương quốc Anh,GBR,country,96.367
+1998,final,Na Uy,NOR,country,5.372
+1998,final,Phần Lan,FIN,country,24.103
+1998,final,Thụy Điển,SWE,country,77.797
+1998,final,Bồ Đào Nha,PRT,country,2.5
+1998,final,Hy Lạp,GRC,country,0.3
+1998,final,I-ta-li-a,ITA,country,87.093
+1998,final,Tây Ban Nha,ESP,country,23.9
+1998,final,Áo,AUT,country,21.526
+1998,final,CHLB Đức,DEU,country,359.949
+1998,final,Bỉ,BEL,country,69.503
+1998,final,Hà Lan,NLD,country,53.956
+1998,final,Pháp,FRA,country,379.826
+1998,final,Thụy Sĩ,CHE,country,93.742
+1998,final,Ca-na-đa,CAN,country,41.258
+1998,final,Hoa Kỳ,USA,country,324.912
+1998,final,Ác-hen-ti-na,ARG,country,4.735
+1998,final,Bra-xin,BRA,country,8.923
+1998,final,Chi-lê,CHL,country,
+1998,final,Mê-hi-cô,MEX,country,3.294
+1998,final,Pê-ru,PER,country,
+1998,final,Tuy-ni-di,TUN,country,
+1998,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,
+1998,final,Nam Phi,ZAF,country,2.636
+1998,final,Niu Di-Lân,NZL,country,40.49
+1998,final,Ô-xtrây-li-a,AUS,country,253.893
+1999,final,TỔNG SỐ,,total,11742.1
+1999,final,ASEAN,,bloc,3290.9
+1999,final,APEC,,bloc,9578.8
+1999,final,EU,,bloc,1094.9
+1999,final,OPEC,,bloc,396.8
+1999,final,Bru-nây,BRN,country,
+1999,final,Cam-pu-chia,KHM,country,12.7
+1999,final,In-đô-nê-xi-a,IDN,country,286.8
+1999,final,Lào,LAO,country,197.4
+1999,final,Ma-lai-xi-a,MYS,country,305
+1999,final,My-an-ma,MMR,country,1.2
+1999,final,Phi-li-pin,PHL,country,47.5
+1999,final,Xin-ga-po,SGP,country,1878.5
+1999,final,Thái Lan,THA,country,561.8
+1999,final,Đài Loan,TWN,country,1566.4
+1999,final,Hàn Quốc,KOR,country,1485.8
+1999,final,ĐKHC Hồng Công (TQ),HKG,country,504.7
+1999,final,Nhật Bản,JPN,country,1618.3
+1999,final,CHND Trung Hoa,CHN,country,673.1
+1999,final,Ấn Độ,IND,country,137.9
+1999,final,Pa-ki-xtan,PAK,country,5.2
+1999,final,A-rập Xê-út,SAU,country,18
+1999,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,11.4
+1999,final,Cô-Oét,KWT,country,48.6
+1999,final,I-xra-en,ISR,country,17.4
+1999,final,Qua-ta,QAT,country,11.7
+1999,final,Síp,CYP,country,0.6
+1999,final,Thổ Nhĩ Kỳ,TUR,country,4.8
+1999,final,Ba Lan,POL,country,13.7
+1999,final,Bê-la-rút,BLR,country,5.6
+1999,final,Bun-ga-ri,BGR,country,1.9
+1999,final,Hung-ga-ri,HUN,country,13.9
+1999,final,Liên Bang Nga,RUS,country,245.6
+1999,final,Ru-ma-ni,ROU,country,0.7
+1999,final,Cộng hòa Séc,CZE,country,6.5
+1999,final,Slô-va-ki-a,SVK,country,6.9
+1999,final,U-crai-na,UKR,country,45.5
+1999,final,Đan Mạch,DNK,country,26.5
+1999,final,Ai-len,IRL,country,11.9
+1999,final,Vương quốc Anh,GBR,country,109.2
+1999,final,Na Uy,NOR,country,1.7
+1999,final,Phần Lan,FIN,country,19.1
+1999,final,Thụy Điển,SWE,country,58.1
+1999,final,Bồ Đào Nha,PRT,country,3.4
+1999,final,Hy Lạp,GRC,country,1.1
+1999,final,I-ta-li-a,ITA,country,95.7
+1999,final,Tây Ban Nha,ESP,country,31
+1999,final,Áo,AUT,country,27.3
+1999,final,CHLB Đức,DEU,country,268.7
+1999,final,Bỉ,BEL,country,85.2
+1999,final,Hà Lan,NLD,country,48.5
+1999,final,Pháp,FRA,country,309.3
+1999,final,Thụy Sĩ,CHE,country,101.8
+1999,final,Ca-na-đa,CAN,country,49.5
+1999,final,Hoa Kỳ,USA,country,322.7
+1999,final,Ác-hen-ti-na,ARG,country,26.4
+1999,final,Bra-xin,BRA,country,8.2
+1999,final,Chi-lê,CHL,country,
+1999,final,Mê-hi-cô,MEX,country,6.4
+1999,final,Pê-ru,PER,country,
+1999,final,Tuy-ni-di,TUN,country,
+1999,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,
+1999,final,Nam Phi,ZAF,country,4.3
+1999,final,Niu Di-Lân,NZL,country,55.2
+1999,final,Ô-xtrây-li-a,AUS,country,215.7
+2000,final,TỔNG SỐ,,total,15636.5
+2000,final,ASEAN,,bloc,4449
+2000,final,APEC,,bloc,13242.9
+2000,final,EU,,bloc,1317.4
+2000,final,OPEC,,bloc,525.9
+2000,final,Bru-nây,BRN,country,
+2000,final,Cam-pu-chia,KHM,country,37.3
+2000,final,In-đô-nê-xi-a,IDN,country,345.4
+2000,final,Lào,LAO,country,105.7
+2000,final,Ma-lai-xi-a,MYS,country,388.9
+2000,final,My-an-ma,MMR,country,3.6
+2000,final,Phi-li-pin,PHL,country,62.9
+2000,final,Xin-ga-po,SGP,country,2694.3
+2000,final,Thái Lan,THA,country,810.9
+2000,final,Đài Loan,TWN,country,1879.9
+2000,final,Hàn Quốc,KOR,country,1753.6
+2000,final,ĐKHC Hồng Công (TQ),HKG,country,598.1
+2000,final,Nhật Bản,JPN,country,2300.9
+2000,final,CHND Trung Hoa,CHN,country,1401.1
+2000,final,Ấn Độ,IND,country,178.4
+2000,final,Pa-ki-xtan,PAK,country,16.1
+2000,final,A-rập Xê-út,SAU,country,14
+2000,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,8.8
+2000,final,Cô-Oét,KWT,country,112.5
+2000,final,I-xra-en,ISR,country,7.3
+2000,final,Qua-ta,QAT,country,10.3
+2000,final,Síp,CYP,country,4.6
+2000,final,Thổ Nhĩ Kỳ,TUR,country,2
+2000,final,Ba Lan,POL,country,18.4
+2000,final,Bê-la-rút,BLR,country,15.8
+2000,final,Bun-ga-ri,BGR,country,4.5
+2000,final,Hung-ga-ri,HUN,country,15.2
+2000,final,Liên Bang Nga,RUS,country,240.5
+2000,final,Ru-ma-ni,ROU,country,2
+2000,final,Cộng hòa Séc,CZE,country,6.3
+2000,final,Slô-va-ki-a,SVK,country,2.9
+2000,final,U-crai-na,UKR,country,85.9
+2000,final,Đan Mạch,DNK,country,27.8
+2000,final,Ai-len,IRL,country,8.9
+2000,final,Vương quốc Anh,GBR,country,149.9
+2000,final,Na Uy,NOR,country,7.5
+2000,final,Phần Lan,FIN,country,14
+2000,final,Thụy Điển,SWE,country,43.7
+2000,final,Bồ Đào Nha,PRT,country,2.9
+2000,final,Hy Lạp,GRC,country,2.5
+2000,final,I-ta-li-a,ITA,country,170.3
+2000,final,Tây Ban Nha,ESP,country,59
+2000,final,Áo,AUT,country,31.6
+2000,final,CHLB Đức,DEU,country,295.2
+2000,final,Bỉ,BEL,country,92
+2000,final,Hà Lan,NLD,country,84.6
+2000,final,Pháp,FRA,country,334.2
+2000,final,Thụy Sĩ,CHE,country,103.9
+2000,final,Ca-na-đa,CAN,country,37.6
+2000,final,Hoa Kỳ,USA,country,363.4
+2000,final,Ác-hen-ti-na,ARG,country,29.4
+2000,final,Bra-xin,BRA,country,10.7
+2000,final,Chi-lê,CHL,country,3.6
+2000,final,Mê-hi-cô,MEX,country,2.5
+2000,final,Pê-ru,PER,country,4.5
+2000,final,Tuy-ni-di,TUN,country,8.3
+2000,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,1.1
+2000,final,Nam Phi,ZAF,country,4.2
+2000,final,Niu Di-Lân,NZL,country,61.3
+2000,final,Ô-xtrây-li-a,AUS,country,293.5
+2001,final,TỔNG SỐ,,total,16218
+2001,final,ASEAN,,bloc,4172.3
+2001,final,APEC,,bloc,13185.9
+2001,final,EU,,bloc,1506.3
+2001,final,OPEC,,bloc,435.8
+2001,final,Bru-nây,BRN,country,
+2001,final,Cam-pu-chia,KHM,country,22.8
+2001,final,In-đô-nê-xi-a,IDN,country,288.9
+2001,final,Lào,LAO,country,68
+2001,final,Ma-lai-xi-a,MYS,country,464.4
+2001,final,My-an-ma,MMR,country,4
+2001,final,Phi-li-pin,PHL,country,53.5
+2001,final,Xin-ga-po,SGP,country,2478.3
+2001,final,Thái Lan,THA,country,792.3
+2001,final,Đài Loan,TWN,country,2008.7
+2001,final,Hàn Quốc,KOR,country,1886.8
+2001,final,ĐKHC Hồng Công (TQ),HKG,country,537.6
+2001,final,Nhật Bản,JPN,country,2183.1
+2001,final,CHND Trung Hoa,CHN,country,1606.2
+2001,final,Ấn Độ,IND,country,228
+2001,final,Pa-ki-xtan,PAK,country,14.3
+2001,final,A-rập Xê-út,SAU,country,23.2
+2001,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,10.1
+2001,final,Cô-Oét,KWT,country,45.7
+2001,final,I-xra-en,ISR,country,14.3
+2001,final,Qua-ta,QAT,country,39.6
+2001,final,Síp,CYP,country,10.5
+2001,final,Thổ Nhĩ Kỳ,TUR,country,8
+2001,final,Ba Lan,POL,country,18.2
+2001,final,Bê-la-rút,BLR,country,6.1
+2001,final,Bun-ga-ri,BGR,country,2.8
+2001,final,Hung-ga-ri,HUN,country,14.7
+2001,final,Liên Bang Nga,RUS,country,376.4
+2001,final,Ru-ma-ni,ROU,country,3.1
+2001,final,Cộng hòa Séc,CZE,country,7.6
+2001,final,Slô-va-ki-a,SVK,country,1.8
+2001,final,U-crai-na,UKR,country,94.8
+2001,final,Đan Mạch,DNK,country,65.5
+2001,final,Ai-len,IRL,country,5.3
+2001,final,Vương quốc Anh,GBR,country,171.6
+2001,final,Na Uy,NOR,country,5.369
+2001,final,Phần Lan,FIN,country,19.5
+2001,final,Thụy Điển,SWE,country,73.6
+2001,final,Bồ Đào Nha,PRT,country,7
+2001,final,Hy Lạp,GRC,country,0.9
+2001,final,I-ta-li-a,ITA,country,196.8
+2001,final,Tây Ban Nha,ESP,country,46.9
+2001,final,Áo,AUT,country,34.7
+2001,final,CHLB Đức,DEU,country,396.7
+2001,final,Bỉ,BEL,country,72.2
+2001,final,Hà Lan,NLD,country,114.6
+2001,final,Pháp,FRA,country,300.4
+2001,final,Thụy Sĩ,CHE,country,94.7
+2001,final,Ca-na-đa,CAN,country,56.8
+2001,final,Hoa Kỳ,USA,country,410.8
+2001,final,Ác-hen-ti-na,ARG,country,58.7
+2001,final,Bra-xin,BRA,country,12.6
+2001,final,Chi-lê,CHL,country,3.1
+2001,final,Mê-hi-cô,MEX,country,5.7
+2001,final,Pê-ru,PER,country,9.6
+2001,final,Tuy-ni-di,TUN,country,4.3
+2001,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,5.8
+2001,final,Nam Phi,ZAF,country,5.1
+2001,final,Niu Di-Lân,NZL,country,141.9
+2001,final,Ô-xtrây-li-a,AUS,country,266.4
+2002,final,TỔNG SỐ,,total,19745.6
+2002,final,ASEAN,,bloc,4769.2
+2002,final,APEC,,bloc,16296.8
+2002,final,EU,,bloc,1840.6
+2002,final,OPEC,,bloc,628.6
+2002,final,Bru-nây,BRN,country,
+2002,final,Cam-pu-chia,KHM,country,65.4
+2002,final,In-đô-nê-xi-a,IDN,country,362.6
+2002,final,Lào,LAO,country,62.6
+2002,final,Ma-lai-xi-a,MYS,country,683.3
+2002,final,My-an-ma,MMR,country,5.9
+2002,final,Phi-li-pin,PHL,country,100.6
+2002,final,Xin-ga-po,SGP,country,2533.5
+2002,final,Thái Lan,THA,country,955.2
+2002,final,Đài Loan,TWN,country,2525.3
+2002,final,Hàn Quốc,KOR,country,2279.6
+2002,final,ĐKHC Hồng Công (TQ),HKG,country,804.8
+2002,final,Nhật Bản,JPN,country,2504.7
+2002,final,CHND Trung Hoa,CHN,country,2158.8
+2002,final,Ấn Độ,IND,country,324.7
+2002,final,Pa-ki-xtan,PAK,country,27.6
+2002,final,A-rập Xê-út,SAU,country,28.8
+2002,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,28.3
+2002,final,Cô-Oét,KWT,country,151.1
+2002,final,I-xra-en,ISR,country,16.9
+2002,final,Qua-ta,QAT,country,31.3
+2002,final,Síp,CYP,country,3.2
+2002,final,Thổ Nhĩ Kỳ,TUR,country,15.6
+2002,final,Ba Lan,POL,country,14.2
+2002,final,Bê-la-rút,BLR,country,11.1
+2002,final,Bun-ga-ri,BGR,country,2.3
+2002,final,Hung-ga-ri,HUN,country,14
+2002,final,Liên Bang Nga,RUS,country,500.6
+2002,final,Ru-ma-ni,ROU,country,1.8
+2002,final,Cộng hòa Séc,CZE,country,8.8
+2002,final,Slô-va-ki-a,SVK,country,1.7
+2002,final,U-crai-na,UKR,country,239
+2002,final,Đan Mạch,DNK,country,75.3
+2002,final,Ai-len,IRL,country,12.2
+2002,final,Vương quốc Anh,GBR,country,166.5
+2002,final,Na Uy,NOR,country,5.6
+2002,final,Phần Lan,FIN,country,35.4
+2002,final,Thụy Điển,SWE,country,62.5
+2002,final,Bồ Đào Nha,PRT,country,3.5
+2002,final,Hy Lạp,GRC,country,2.8
+2002,final,I-ta-li-a,ITA,country,276.8
+2002,final,Tây Ban Nha,ESP,country,67.2
+2002,final,Áo,AUT,country,71.6
+2002,final,CHLB Đức,DEU,country,558.1
+2002,final,Bỉ,BEL,country,94.7
+2002,final,Hà Lan,NLD,country,114.3
+2002,final,Pháp,FRA,country,299.2
+2002,final,Thụy Sĩ,CHE,country,129.9
+2002,final,Ca-na-đa,CAN,country,63.7
+2002,final,Hoa Kỳ,USA,country,458.3
+2002,final,Ác-hen-ti-na,ARG,country,90
+2002,final,Bra-xin,BRA,country,29.1
+2002,final,Chi-lê,CHL,country,9.1
+2002,final,Mê-hi-cô,MEX,country,6.5
+2002,final,Pê-ru,PER,country,3.5
+2002,final,Tuy-ni-di,TUN,country,6
+2002,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,2.9
+2002,final,Nam Phi,ZAF,country,24.8
+2002,final,Niu Di-Lân,NZL,country,60.4
+2002,final,Ô-xtrây-li-a,AUS,country,286.3
+2003,final,TỔNG SỐ,,total,25255.8
+2003,final,ASEAN,,bloc,5949.3
+2003,final,APEC,,bloc,20560.1
+2003,final,EU,,bloc,2477.7
+2003,final,OPEC,,bloc,878
+2003,final,Bru-nây,BRN,country,
+2003,final,Cam-pu-chia,KHM,country,94.7
+2003,final,In-đô-nê-xi-a,IDN,country,551.5
+2003,final,Lào,LAO,country,60.7
+2003,final,Ma-lai-xi-a,MYS,country,925
+2003,final,My-an-ma,MMR,country,18.3
+2003,final,Phi-li-pin,PHL,country,140.9
+2003,final,Xin-ga-po,SGP,country,2875.8
+2003,final,Thái Lan,THA,country,1282.2
+2003,final,Đài Loan,TWN,country,2915.5
+2003,final,Hàn Quốc,KOR,country,2625.4
+2003,final,ĐKHC Hồng Công (TQ),HKG,country,990.9
+2003,final,Nhật Bản,JPN,country,2982.1
+2003,final,CHND Trung Hoa,CHN,country,3138.6
+2003,final,Ấn Độ,IND,country,457.1
+2003,final,Pa-ki-xtan,PAK,country,17.4
+2003,final,A-rập Xê-út,SAU,country,38.4
+2003,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,53.5
+2003,final,Cô-Oét,KWT,country,172.5
+2003,final,I-xra-en,ISR,country,21.6
+2003,final,Qua-ta,QAT,country,26.5
+2003,final,Síp,CYP,country,4.2
+2003,final,Thổ Nhĩ Kỳ,TUR,country,24.8
+2003,final,Ba Lan,POL,country,38
+2003,final,Bê-la-rút,BLR,country,6.2
+2003,final,Bun-ga-ri,BGR,country,7.2
+2003,final,Hung-ga-ri,HUN,country,19
+2003,final,Liên Bang Nga,RUS,country,491.8
+2003,final,Ru-ma-ni,ROU,country,22.7
+2003,final,Cộng hòa Séc,CZE,country,14.2
+2003,final,Slô-va-ki-a,SVK,country,1.4
+2003,final,U-crai-na,UKR,country,224.1
+2003,final,Đan Mạch,DNK,country,72
+2003,final,Ai-len,IRL,country,15.7
+2003,final,Vương quốc Anh,GBR,country,219.8
+2003,final,Na Uy,NOR,country,6.7
+2003,final,Phần Lan,FIN,country,33.5
+2003,final,Thụy Điển,SWE,country,114.2
+2003,final,Bồ Đào Nha,PRT,country,3.2
+2003,final,Hy Lạp,GRC,country,1.1
+2003,final,I-ta-li-a,ITA,country,373.9
+2003,final,Tây Ban Nha,ESP,country,78.7
+2003,final,Áo,AUT,country,43.8
+2003,final,CHLB Đức,DEU,country,614.6
+2003,final,Bỉ,BEL,country,167.8
+2003,final,Hà Lan,NLD,country,324.9
+2003,final,Pháp,FRA,country,411
+2003,final,Thụy Sĩ,CHE,country,292.3
+2003,final,Ca-na-đa,CAN,country,76.6
+2003,final,Hoa Kỳ,USA,country,1143.3
+2003,final,Ác-hen-ti-na,ARG,country,165.4
+2003,final,Bra-xin,BRA,country,33.4
+2003,final,Chi-lê,CHL,country,19.9
+2003,final,Mê-hi-cô,MEX,country,11.2
+2003,final,Pê-ru,PER,country,11.2
+2003,final,Tuy-ni-di,TUN,country,6.2
+2003,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,5.1
+2003,final,Nam Phi,ZAF,country,78.5
+2003,final,Niu Di-Lân,NZL,country,90.1
+2003,final,Ô-xtrây-li-a,AUS,country,278
+2004,final,TỔNG SỐ,,total,31968.8
+2004,final,ASEAN,,bloc,7768.5
+2004,final,APEC,,bloc,26386
+2004,final,EU,,bloc,2681.8
+2004,final,OPEC,,bloc,1122
+2004,final,Bru-nây,BRN,country,
+2004,final,Cam-pu-chia,KHM,country,130.6
+2004,final,In-đô-nê-xi-a,IDN,country,663.3
+2004,final,Lào,LAO,country,74.3
+2004,final,Ma-lai-xi-a,MYS,country,1215.3
+2004,final,My-an-ma,MMR,country,19.3
+2004,final,Phi-li-pin,PHL,country,188.4
+2004,final,Xin-ga-po,SGP,country,3618.4
+2004,final,Thái Lan,THA,country,1858.6
+2004,final,Đài Loan,TWN,country,3698.3
+2004,final,Hàn Quốc,KOR,country,3359.4
+2004,final,ĐKHC Hồng Công (TQ),HKG,country,1074.3
+2004,final,Nhật Bản,JPN,country,3552.6
+2004,final,CHND Trung Hoa,CHN,country,4595.1
+2004,final,Ấn Độ,IND,country,593.5
+2004,final,Pa-ki-xtan,PAK,country,30.2
+2004,final,A-rập Xê-út,SAU,country,65.7
+2004,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,54
+2004,final,Cô-Oét,KWT,country,256.5
+2004,final,I-xra-en,ISR,country,34.9
+2004,final,Qua-ta,QAT,country,25.6
+2004,final,Síp,CYP,country,8.6
+2004,final,Thổ Nhĩ Kỳ,TUR,country,31.4
+2004,final,Ba Lan,POL,country,38.9
+2004,final,Bê-la-rút,BLR,country,11.2
+2004,final,Bun-ga-ri,BGR,country,2.7
+2004,final,Hung-ga-ri,HUN,country,16.4
+2004,final,Liên Bang Nga,RUS,country,671.5
+2004,final,Ru-ma-ni,ROU,country,12.1
+2004,final,Cộng hòa Séc,CZE,country,14.4
+2004,final,Slô-va-ki-a,SVK,country,3.1
+2004,final,U-crai-na,UKR,country,240.6
+2004,final,Đan Mạch,DNK,country,77.2
+2004,final,Ai-len,IRL,country,14.9
+2004,final,Vương quốc Anh,GBR,country,227.7
+2004,final,Na Uy,NOR,country,18.4
+2004,final,Phần Lan,FIN,country,53.6
+2004,final,Thụy Điển,SWE,country,125.1
+2004,final,Bồ Đào Nha,PRT,country,4.2
+2004,final,Hy Lạp,GRC,country,2
+2004,final,I-ta-li-a,ITA,country,309.7
+2004,final,Tây Ban Nha,ESP,country,94.1
+2004,final,Áo,AUT,country,57.1
+2004,final,CHLB Đức,DEU,country,694.3
+2004,final,Bỉ,BEL,country,137.6
+2004,final,Hà Lan,NLD,country,179.4
+2004,final,Pháp,FRA,country,617.4
+2004,final,Thụy Sĩ,CHE,country,686.8
+2004,final,Ca-na-đa,CAN,country,96.8
+2004,final,Hoa Kỳ,USA,country,1133.9
+2004,final,Ác-hen-ti-na,ARG,country,172.2
+2004,final,Bra-xin,BRA,country,46.6
+2004,final,Chi-lê,CHL,country,43.5
+2004,final,Mê-hi-cô,MEX,country,13
+2004,final,Pê-ru,PER,country,17
+2004,final,Tuy-ni-di,TUN,country,5.7
+2004,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,8.4
+2004,final,Nam Phi,ZAF,country,90.5
+2004,final,Niu Di-Lân,NZL,country,109.2
+2004,final,Ô-xtrây-li-a,AUS,country,458.8
+2005,final,TỔNG SỐ,,total,36761.1
+2005,final,ASEAN,,bloc,9326.3
+2005,final,APEC,,bloc,30686.8
+2005,final,EU,,bloc,2581.2
+2005,final,OPEC,,bloc,1301
+2005,final,Bru-nây,BRN,country,
+2005,final,Cam-pu-chia,KHM,country,160.2
+2005,final,In-đô-nê-xi-a,IDN,country,700
+2005,final,Lào,LAO,country,97.5
+2005,final,Ma-lai-xi-a,MYS,country,1256.5
+2005,final,My-an-ma,MMR,country,45.8
+2005,final,Phi-li-pin,PHL,country,209.9
+2005,final,Xin-ga-po,SGP,country,4482.3
+2005,final,Thái Lan,THA,country,2374.1
+2005,final,Đài Loan,TWN,country,4304.2
+2005,final,Hàn Quốc,KOR,country,3594.1
+2005,final,ĐKHC Hồng Công (TQ),HKG,country,1235
+2005,final,Nhật Bản,JPN,country,4074.1
+2005,final,CHND Trung Hoa,CHN,country,5899.7
+2005,final,Ấn Độ,IND,country,596
+2005,final,Pa-ki-xtan,PAK,country,38.3
+2005,final,A-rập Xê-út,SAU,country,91.3
+2005,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,69.2
+2005,final,Cô-Oét,KWT,country,358.7
+2005,final,I-xra-en,ISR,country,36.2
+2005,final,Qua-ta,QAT,country,29
+2005,final,Síp,CYP,country,10.7
+2005,final,Thổ Nhĩ Kỳ,TUR,country,43
+2005,final,Ba Lan,POL,country,42.9
+2005,final,Bê-la-rút,BLR,country,23
+2005,final,Bun-ga-ri,BGR,country,5.7
+2005,final,Hung-ga-ri,HUN,country,18.5
+2005,final,Liên Bang Nga,RUS,country,766.6
+2005,final,Ru-ma-ni,ROU,country,10.4
+2005,final,Cộng hòa Séc,CZE,country,15.9
+2005,final,Slô-va-ki-a,SVK,country,2.1
+2005,final,U-crai-na,UKR,country,191.5
+2005,final,Đan Mạch,DNK,country,70.2
+2005,final,Ai-len,IRL,country,22.2
+2005,final,Vương quốc Anh,GBR,country,182.4
+2005,final,Na Uy,NOR,country,15.8
+2005,final,Phần Lan,FIN,country,42.7
+2005,final,Thụy Điển,SWE,country,139.3
+2005,final,Bồ Đào Nha,PRT,country,11.9
+2005,final,Hy Lạp,GRC,country,4.9
+2005,final,I-ta-li-a,ITA,country,288.1
+2005,final,Tây Ban Nha,ESP,country,76.7
+2005,final,Áo,AUT,country,51
+2005,final,CHLB Đức,DEU,country,661.9
+2005,final,Bỉ,BEL,country,171.2
+2005,final,Hà Lan,NLD,country,312.1
+2005,final,Pháp,FRA,country,447.7
+2005,final,Thụy Sĩ,CHE,country,893.4
+2005,final,Ca-na-đa,CAN,country,173.6
+2005,final,Hoa Kỳ,USA,country,862.9
+2005,final,Ác-hen-ti-na,ARG,country,271.2
+2005,final,Bra-xin,BRA,country,75.6
+2005,final,Chi-lê,CHL,country,77.5
+2005,final,Mê-hi-cô,MEX,country,7.9
+2005,final,Pê-ru,PER,country,31.9
+2005,final,Tuy-ni-di,TUN,country,5.1
+2005,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,12.8
+2005,final,Nam Phi,ZAF,country,108
+2005,final,Niu Di-Lân,NZL,country,118.7
+2005,final,Ô-xtrây-li-a,AUS,country,498.5
+2006,final,TỔNG SỐ,,total,44891.1
+2006,final,ASEAN,,bloc,12546.6
+2006,final,APEC,,bloc,37467.7
+2006,final,EU,,bloc,3129.2
+2006,final,OPEC,,bloc,1408.8
+2006,final,Bru-nây,BRN,country,
+2006,final,Cam-pu-chia,KHM,country,169.5
+2006,final,In-đô-nê-xi-a,IDN,country,1012.8
+2006,final,Lào,LAO,country,166.6
+2006,final,Ma-lai-xi-a,MYS,country,1482
+2006,final,My-an-ma,MMR,country,64.6
+2006,final,Phi-li-pin,PHL,country,342.6
+2006,final,Xin-ga-po,SGP,country,6273.9
+2006,final,Thái Lan,THA,country,3034.4
+2006,final,Đài Loan,TWN,country,4824.9
+2006,final,Hàn Quốc,KOR,country,3908.4
+2006,final,ĐKHC Hồng Công (TQ),HKG,country,1440.8
+2006,final,Nhật Bản,JPN,country,4702.1
+2006,final,CHND Trung Hoa,CHN,country,7391.3
+2006,final,Ấn Độ,IND,country,880.3
+2006,final,Pa-ki-xtan,PAK,country,32.5
+2006,final,A-rập Xê-út,SAU,country,102.3
+2006,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,44
+2006,final,Cô-Oét,KWT,country,144.9
+2006,final,I-xra-en,ISR,country,41.3
+2006,final,Qua-ta,QAT,country,19.7
+2006,final,Síp,CYP,country,6.9
+2006,final,Thổ Nhĩ Kỳ,TUR,country,28.3
+2006,final,Ba Lan,POL,country,57.8
+2006,final,Bê-la-rút,BLR,country,22.7
+2006,final,Bun-ga-ri,BGR,country,7.4
+2006,final,Hung-ga-ri,HUN,country,25.6
+2006,final,Liên Bang Nga,RUS,country,455.8
+2006,final,Ru-ma-ni,ROU,country,7.3
+2006,final,Cộng hòa Séc,CZE,country,22
+2006,final,Slô-va-ki-a,SVK,country,2.6
+2006,final,U-crai-na,UKR,country,118.1
+2006,final,Đan Mạch,DNK,country,111.2
+2006,final,Ai-len,IRL,country,22.1
+2006,final,Vương quốc Anh,GBR,country,202.1
+2006,final,Na Uy,NOR,country,23.5
+2006,final,Phần Lan,FIN,country,82.3
+2006,final,Thụy Điển,SWE,country,164.2
+2006,final,Bồ Đào Nha,PRT,country,10.8
+2006,final,Hy Lạp,GRC,country,1.9
+2006,final,I-ta-li-a,ITA,country,335.3
+2006,final,Tây Ban Nha,ESP,country,96.8
+2006,final,Áo,AUT,country,56.2
+2006,final,CHLB Đức,DEU,country,914.5
+2006,final,Bỉ,BEL,country,225.4
+2006,final,Hà Lan,NLD,country,360.8
+2006,final,Pháp,FRA,country,421.1
+2006,final,Thụy Sĩ,CHE,country,1357.1
+2006,final,Ca-na-đa,CAN,country,178.6
+2006,final,Hoa Kỳ,USA,country,987
+2006,final,Ác-hen-ti-na,ARG,country,240.8
+2006,final,Bra-xin,BRA,country,146.6
+2006,final,Chi-lê,CHL,country,104.7
+2006,final,Mê-hi-cô,MEX,country,18.6
+2006,final,Pê-ru,PER,country,39
+2006,final,Tuy-ni-di,TUN,country,9.9
+2006,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,14.2
+2006,final,Nam Phi,ZAF,country,54
+2006,final,Niu Di-Lân,NZL,country,159.7
+2006,final,Ô-xtrây-li-a,AUS,country,1099.7
+2007,final,TỔNG SỐ,,total,62764.7
+2007,final,ASEAN,,bloc,15908.2
+2007,final,APEC,,bloc,52637.9
+2007,final,EU,,bloc,5142.4
+2007,final,OPEC,,bloc,1758.6
+2007,final,Bru-nây,BRN,country,
+2007,final,Cam-pu-chia,KHM,country,205.5
+2007,final,In-đô-nê-xi-a,IDN,country,1353.9
+2007,final,Lào,LAO,country,211.3
+2007,final,Ma-lai-xi-a,MYS,country,2289.9
+2007,final,My-an-ma,MMR,country,75.4
+2007,final,Phi-li-pin,PHL,country,414.2
+2007,final,Xin-ga-po,SGP,country,7613.7
+2007,final,Thái Lan,THA,country,3744.2
+2007,final,Đài Loan,TWN,country,6946.7
+2007,final,Hàn Quốc,KOR,country,5340.4
+2007,final,ĐKHC Hồng Công (TQ),HKG,country,1950.7
+2007,final,Nhật Bản,JPN,country,6188.9
+2007,final,CHND Trung Hoa,CHN,country,12710
+2007,final,Ấn Độ,IND,country,1357
+2007,final,Pa-ki-xtan,PAK,country,53.1
+2007,final,A-rập Xê-út,SAU,country,131.2
+2007,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,110.2
+2007,final,Cô-Oét,KWT,country,21.8
+2007,final,I-xra-en,ISR,country,82.8
+2007,final,Qua-ta,QAT,country,67.3
+2007,final,Síp,CYP,country,8.1
+2007,final,Thổ Nhĩ Kỳ,TUR,country,41.6
+2007,final,Ba Lan,POL,country,109.6
+2007,final,Bê-la-rút,BLR,country,65.1
+2007,final,Bun-ga-ri,BGR,country,10.3
+2007,final,Hung-ga-ri,HUN,country,28.9
+2007,final,Liên Bang Nga,RUS,country,552.2
+2007,final,Ru-ma-ni,ROU,country,9
+2007,final,Cộng hòa Séc,CZE,country,23.1
+2007,final,Slô-va-ki-a,SVK,country,2.3
+2007,final,U-crai-na,UKR,country,38.5
+2007,final,Đan Mạch,DNK,country,170.6
+2007,final,Ai-len,IRL,country,40.9
+2007,final,Vương quốc Anh,GBR,country,237
+2007,final,Na Uy,NOR,country,24.6
+2007,final,Phần Lan,FIN,country,78.5
+2007,final,Thụy Điển,SWE,country,209.9
+2007,final,Bồ Đào Nha,PRT,country,10.2
+2007,final,Hy Lạp,GRC,country,6.9
+2007,final,I-ta-li-a,ITA,country,686.1
+2007,final,Tây Ban Nha,ESP,country,139.4
+2007,final,Áo,AUT,country,63.8
+2007,final,CHLB Đức,DEU,country,1308.5
+2007,final,Bỉ,BEL,country,312.2
+2007,final,Hà Lan,NLD,country,510.3
+2007,final,Pháp,FRA,country,1155.4
+2007,final,Thụy Sĩ,CHE,country,1016.2
+2007,final,Ca-na-đa,CAN,country,287.2
+2007,final,Hoa Kỳ,USA,country,1700.5
+2007,final,Ác-hen-ti-na,ARG,country,409.4
+2007,final,Bra-xin,BRA,country,230.7
+2007,final,Chi-lê,CHL,country,110.1
+2007,final,Mê-hi-cô,MEX,country,58.7
+2007,final,Pê-ru,PER,country,48
+2007,final,Tuy-ni-di,TUN,country,1.4
+2007,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,36.3
+2007,final,Nam Phi,ZAF,country,73.2
+2007,final,Niu Di-Lân,NZL,country,246.4
+2007,final,Ô-xtrây-li-a,AUS,country,1059.4
+2008,final,TỔNG SỐ,,total,80713.8
+2008,final,ASEAN,,bloc,19567.7
+2008,final,APEC,,bloc,67232.2
+2008,final,EU,,bloc,5581.5
+2008,final,OPEC,,bloc,2346.9
+2008,final,Bru-nây,BRN,country,
+2008,final,Cam-pu-chia,KHM,country,214.3
+2008,final,In-đô-nê-xi-a,IDN,country,1728.9
+2008,final,Lào,LAO,country,278.7
+2008,final,Ma-lai-xi-a,MYS,country,2596.1
+2008,final,My-an-ma,MMR,country,75.6
+2008,final,Phi-li-pin,PHL,country,389.1
+2008,final,Xin-ga-po,SGP,country,9378
+2008,final,Thái Lan,THA,country,4905.6
+2008,final,Đài Loan,TWN,country,8362.6
+2008,final,Hàn Quốc,KOR,country,7255.2
+2008,final,ĐKHC Hồng Công (TQ),HKG,country,2633.3
+2008,final,Nhật Bản,JPN,country,8240.3
+2008,final,CHND Trung Hoa,CHN,country,15973.6
+2008,final,Ấn Độ,IND,country,2094.3
+2008,final,Pa-ki-xtan,PAK,country,54.7
+2008,final,A-rập Xê-út,SAU,country,173.2
+2008,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,132.4
+2008,final,Cô-Oét,KWT,country,77
+2008,final,I-xra-en,ISR,country,76.9
+2008,final,Qua-ta,QAT,country,71.5
+2008,final,Síp,CYP,country,15.8
+2008,final,Thổ Nhĩ Kỳ,TUR,country,111
+2008,final,Ba Lan,POL,country,116
+2008,final,Bê-la-rút,BLR,country,96.5
+2008,final,Bun-ga-ri,BGR,country,16
+2008,final,Hung-ga-ri,HUN,country,43
+2008,final,Liên Bang Nga,RUS,country,969.6
+2008,final,Ru-ma-ni,ROU,country,12.7
+2008,final,Cộng hòa Séc,CZE,country,23
+2008,final,Slô-va-ki-a,SVK,country,4.4
+2008,final,U-crai-na,UKR,country,289.6
+2008,final,Đan Mạch,DNK,country,146.4
+2008,final,Ai-len,IRL,country,43.6
+2008,final,Vương quốc Anh,GBR,country,386.3
+2008,final,Na Uy,NOR,country,76.8
+2008,final,Phần Lan,FIN,country,105.2
+2008,final,Thụy Điển,SWE,country,230.1
+2008,final,Bồ Đào Nha,PRT,country,15.1
+2008,final,Hy Lạp,GRC,country,28.1
+2008,final,I-ta-li-a,ITA,country,668.3
+2008,final,Tây Ban Nha,ESP,country,199.8
+2008,final,Áo,AUT,country,92.6
+2008,final,CHLB Đức,DEU,country,1479.9
+2008,final,Bỉ,BEL,country,348.3
+2008,final,Hà Lan,NLD,country,710.5
+2008,final,Pháp,FRA,country,816.5
+2008,final,Thụy Sĩ,CHE,country,1898.6
+2008,final,Ca-na-đa,CAN,country,297.8
+2008,final,Hoa Kỳ,USA,country,2646.6
+2008,final,Ác-hen-ti-na,ARG,country,379.1
+2008,final,Bra-xin,BRA,country,373.9
+2008,final,Chi-lê,CHL,country,104.4
+2008,final,Mê-hi-cô,MEX,country,61.6
+2008,final,Pê-ru,PER,country,71.1
+2008,final,Tuy-ni-di,TUN,country,65.3
+2008,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,100.2
+2008,final,Nam Phi,ZAF,country,137.3
+2008,final,Niu Di-Lân,NZL,country,237.2
+2008,final,Ô-xtrây-li-a,AUS,country,1357.9
+2009,final,TỔNG SỐ,,total,69948.8
+2009,final,ASEAN,,bloc,16461.3
+2009,final,APEC,,bloc,58925.1
+2009,final,EU,,bloc,5343.3
+2009,final,OPEC,,bloc,710.5
+2009,final,Bru-nây,BRN,country,
+2009,final,Cam-pu-chia,KHM,country,197.1
+2009,final,In-đô-nê-xi-a,IDN,country,1452.7
+2009,final,Lào,LAO,country,254.2
+2009,final,Ma-lai-xi-a,MYS,country,2561.3
+2009,final,My-an-ma,MMR,country,59.1
+2009,final,Phi-li-pin,PHL,country,450.7
+2009,final,Xin-ga-po,SGP,country,7015.2
+2009,final,Thái Lan,THA,country,4471.1
+2009,final,Đài Loan,TWN,country,6112.9
+2009,final,Hàn Quốc,KOR,country,6707.6
+2009,final,ĐKHC Hồng Công (TQ),HKG,country,2120.9
+2009,final,Nhật Bản,JPN,country,6836.4
+2009,final,CHND Trung Hoa,CHN,country,15411.3
+2009,final,Ấn Độ,IND,country,1536.1
+2009,final,Pa-ki-xtan,PAK,country,83.5
+2009,final,A-rập Xê-út,SAU,country,268.3
+2009,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,189.8
+2009,final,Cô-Oét,KWT,country,21.2
+2009,final,I-xra-en,ISR,country,115.5
+2009,final,Qua-ta,QAT,country,114.4
+2009,final,Síp,CYP,country,12.4
+2009,final,Thổ Nhĩ Kỳ,TUR,country,141
+2009,final,Ba Lan,POL,country,74.4
+2009,final,Bê-la-rút,BLR,country,63.1
+2009,final,Bun-ga-ri,BGR,country,27.3
+2009,final,Hung-ga-ri,HUN,country,66.7
+2009,final,Liên Bang Nga,RUS,country,1288.1
+2009,final,Ru-ma-ni,ROU,country,14.2
+2009,final,Cộng hòa Séc,CZE,country,24.6
+2009,final,Slô-va-ki-a,SVK,country,3.8
+2009,final,U-crai-na,UKR,country,309.4
+2009,final,Đan Mạch,DNK,country,106.1
+2009,final,Ai-len,IRL,country,50.3
+2009,final,Vương quốc Anh,GBR,country,342.5
+2009,final,Na Uy,NOR,country,72.4
+2009,final,Phần Lan,FIN,country,126.6
+2009,final,Thụy Điển,SWE,country,375.1
+2009,final,Bồ Đào Nha,PRT,country,12.4
+2009,final,Hy Lạp,GRC,country,7.3
+2009,final,I-ta-li-a,ITA,country,618.2
+2009,final,Tây Ban Nha,ESP,country,141.4
+2009,final,Áo,AUT,country,110.4
+2009,final,CHLB Đức,DEU,country,1421.5
+2009,final,Bỉ,BEL,country,300.9
+2009,final,Hà Lan,NLD,country,701.4
+2009,final,Pháp,FRA,country,753.9
+2009,final,Thụy Sĩ,CHE,country,436.1
+2009,final,Ca-na-đa,CAN,country,235.8
+2009,final,Hoa Kỳ,USA,country,2710.5
+2009,final,Ác-hen-ti-na,ARG,country,580.2
+2009,final,Bra-xin,BRA,country,346.8
+2009,final,Chi-lê,CHL,country,105.4
+2009,final,Mê-hi-cô,MEX,country,111.2
+2009,final,Pê-ru,PER,country,70.6
+2009,final,Tuy-ni-di,TUN,country,5.9
+2009,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,74.2
+2009,final,Nam Phi,ZAF,country,104
+2009,final,Niu Di-Lân,NZL,country,207.4
+2009,final,Ô-xtrây-li-a,AUS,country,1045.9
+2010,final,TỔNG SỐ,,total,84838.6
+2010,final,ASEAN,,bloc,16407.5
+2010,final,APEC,,bloc,69924.6
+2010,final,EU,,bloc,6361.7
+2010,final,OPEC,,bloc,1440
+2010,final,Bru-nây,BRN,country,10
+2010,final,Cam-pu-chia,KHM,country,276.6
+2010,final,In-đô-nê-xi-a,IDN,country,1909.2
+2010,final,Lào,LAO,country,291.7
+2010,final,Ma-lai-xi-a,MYS,country,3413.4
+2010,final,My-an-ma,MMR,country,102.8
+2010,final,Phi-li-pin,PHL,country,700.3
+2010,final,Xin-ga-po,SGP,country,4101.1
+2010,final,Thái Lan,THA,country,5602.3
+2010,final,Đài Loan,TWN,country,6976.9
+2010,final,Hàn Quốc,KOR,country,9757.6
+2010,final,ĐKHC Hồng Công (TQ),HKG,country,860.4
+2010,final,Nhật Bản,JPN,country,9016.1
+2010,final,CHND Trung Hoa,CHN,country,20203.6
+2010,final,Ấn Độ,IND,country,1762
+2010,final,Pa-ki-xtan,PAK,country,109.6
+2010,final,A-rập Xê-út,SAU,country,601.5
+2010,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,223.3
+2010,final,Cô-Oét,KWT,country,372.8
+2010,final,I-xra-en,ISR,country,124.9
+2010,final,Qua-ta,QAT,country,83.3
+2010,final,Síp,CYP,country,10.7
+2010,final,Thổ Nhĩ Kỳ,TUR,country,107.7
+2010,final,Ba Lan,POL,country,105.6
+2010,final,Bê-la-rút,BLR,country,85.7
+2010,final,Bun-ga-ri,BGR,country,49.2
+2010,final,Hung-ga-ri,HUN,country,106.3
+2010,final,Liên Bang Nga,RUS,country,999.1
+2010,final,Ru-ma-ni,ROU,country,32.1
+2010,final,Cộng hòa Séc,CZE,country,70.3
+2010,final,Slô-va-ki-a,SVK,country,15.7
+2010,final,U-crai-na,UKR,country,140
+2010,final,Đan Mạch,DNK,country,116.4
+2010,final,Ai-len,IRL,country,110.5
+2010,final,Vương quốc Anh,GBR,country,511.1
+2010,final,Na Uy,NOR,country,129.5
+2010,final,Phần Lan,FIN,country,122.3
+2010,final,Thụy Điển,SWE,country,317
+2010,final,Bồ Đào Nha,PRT,country,13.4
+2010,final,Hy Lạp,GRC,country,5.8
+2010,final,I-ta-li-a,ITA,country,822.5
+2010,final,Tây Ban Nha,ESP,country,230.6
+2010,final,Áo,AUT,country,123.4
+2010,final,CHLB Đức,DEU,country,1742.4
+2010,final,Bỉ,BEL,country,320.2
+2010,final,Hà Lan,NLD,country,527.8
+2010,final,Pháp,FRA,country,969
+2010,final,Thụy Sĩ,CHE,country,1006.6
+2010,final,Ca-na-đa,CAN,country,349.3
+2010,final,Hoa Kỳ,USA,country,3766.9
+2010,final,Ác-hen-ti-na,ARG,country,826.3
+2010,final,Bra-xin,BRA,country,543.6
+2010,final,Chi-lê,CHL,country,291.2
+2010,final,Mê-hi-cô,MEX,country,89.1
+2010,final,Pê-ru,PER,country,69
+2010,final,Tuy-ni-di,TUN,country,5.2
+2010,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,129.5
+2010,final,Nam Phi,ZAF,country,165.1
+2010,final,Niu Di-Lân,NZL,country,353
+2010,final,Ô-xtrây-li-a,AUS,country,1443.6
+2011,final,TỔNG SỐ,,total,106749.8
+2011,final,ASEAN,,bloc,20910.2
+2011,final,APEC,,bloc,86518.6
+2011,final,EU,,bloc,7745.8
+2011,final,OPEC,,bloc,2282.2
+2011,final,Bru-nây,BRN,country,189.2
+2011,final,Cam-pu-chia,KHM,country,429.6
+2011,final,In-đô-nê-xi-a,IDN,country,2247.6
+2011,final,Lào,LAO,country,460
+2011,final,Ma-lai-xi-a,MYS,country,3919.7
+2011,final,My-an-ma,MMR,country,84.8
+2011,final,Phi-li-pin,PHL,country,805.1
+2011,final,Xin-ga-po,SGP,country,6390.6
+2011,final,Thái Lan,THA,country,6383.6
+2011,final,Đài Loan,TWN,country,8556.8
+2011,final,Hàn Quốc,KOR,country,13175.9
+2011,final,ĐKHC Hồng Công (TQ),HKG,country,969.7
+2011,final,Nhật Bản,JPN,country,10400.7
+2011,final,CHND Trung Hoa,CHN,country,24866.4
+2011,final,Ấn Độ,IND,country,2346.4
+2011,final,Pa-ki-xtan,PAK,country,156
+2011,final,A-rập Xê-út,SAU,country,783.5
+2011,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,384.6
+2011,final,Cô-Oét,KWT,country,807.9
+2011,final,I-xra-en,ISR,country,205.2
+2011,final,Qua-ta,QAT,country,178.4
+2011,final,Síp,CYP,country,10.8
+2011,final,Thổ Nhĩ Kỳ,TUR,country,80.2
+2011,final,Ba Lan,POL,country,124.3
+2011,final,Bê-la-rút,BLR,country,199.3
+2011,final,Bun-ga-ri,BGR,country,42.2
+2011,final,Hung-ga-ri,HUN,country,117
+2011,final,Liên Bang Nga,RUS,country,694
+2011,final,Ru-ma-ni,ROU,country,29
+2011,final,Cộng hòa Séc,CZE,country,36.5
+2011,final,Slô-va-ki-a,SVK,country,13.5
+2011,final,U-crai-na,UKR,country,105.2
+2011,final,Đan Mạch,DNK,country,149.6
+2011,final,Ai-len,IRL,country,267.3
+2011,final,Vương quốc Anh,GBR,country,646.1
+2011,final,Na Uy,NOR,country,166
+2011,final,Phần Lan,FIN,country,124
+2011,final,Thụy Điển,SWE,country,258.2
+2011,final,Bồ Đào Nha,PRT,country,17.2
+2011,final,Hy Lạp,GRC,country,11.9
+2011,final,I-ta-li-a,ITA,country,998.8
+2011,final,Tây Ban Nha,ESP,country,262.2
+2011,final,Áo,AUT,country,165.4
+2011,final,CHLB Đức,DEU,country,2198.6
+2011,final,Bỉ,BEL,country,346.9
+2011,final,Hà Lan,NLD,country,669.4
+2011,final,Pháp,FRA,country,1205
+2011,final,Thụy Sĩ,CHE,country,1771
+2011,final,Ca-na-đa,CAN,country,342.1
+2011,final,Hoa Kỳ,USA,country,4529.2
+2011,final,Ác-hen-ti-na,ARG,country,858.9
+2011,final,Bra-xin,BRA,country,938.3
+2011,final,Chi-lê,CHL,country,335.7
+2011,final,Mê-hi-cô,MEX,country,91.3
+2011,final,Pê-ru,PER,country,89.9
+2011,final,Tuy-ni-di,TUN,country,4.2
+2011,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,174.5
+2011,final,Nam Phi,ZAF,country,223.8
+2011,final,Niu Di-Lân,NZL,country,383.9
+2011,final,Ô-xtrây-li-a,AUS,country,2123.3
+2012,final,TỔNG SỐ,,total,113780.4
+2012,final,ASEAN,,bloc,20820.3
+2012,final,APEC,,bloc,94259.8
+2012,final,EU,,bloc,8791
+2012,final,OPEC,,bloc,2314.6
+2012,final,Bru-nây,BRN,country,610.6
+2012,final,Cam-pu-chia,KHM,country,542.6
+2012,final,In-đô-nê-xi-a,IDN,country,2247.4
+2012,final,Lào,LAO,country,450.9
+2012,final,Ma-lai-xi-a,MYS,country,3412
+2012,final,My-an-ma,MMR,country,109.5
+2012,final,Phi-li-pin,PHL,country,964.5
+2012,final,Xin-ga-po,SGP,country,6691
+2012,final,Thái Lan,THA,country,5791.9
+2012,final,Đài Loan,TWN,country,8534.2
+2012,final,Hàn Quốc,KOR,country,15535.4
+2012,final,ĐKHC Hồng Công (TQ),HKG,country,969.5
+2012,final,Nhật Bản,JPN,country,11602.1
+2012,final,CHND Trung Hoa,CHN,country,29035
+2012,final,Ấn Độ,IND,country,2160.5
+2012,final,Pa-ki-xtan,PAK,country,215.9
+2012,final,A-rập Xê-út,SAU,country,886.5
+2012,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,303.8
+2012,final,Cô-Oét,KWT,country,708.7
+2012,final,I-xra-en,ISR,country,158.9
+2012,final,Qua-ta,QAT,country,233.5
+2012,final,Síp,CYP,country,11.2
+2012,final,Thổ Nhĩ Kỳ,TUR,country,90.1
+2012,final,Ba Lan,POL,country,163.7
+2012,final,Bê-la-rút,BLR,country,167.2
+2012,final,Bun-ga-ri,BGR,country,21.7
+2012,final,Hung-ga-ri,HUN,country,63.4
+2012,final,Liên Bang Nga,RUS,country,829.4
+2012,final,Ru-ma-ni,ROU,country,21.9
+2012,final,Cộng hòa Séc,CZE,country,62.1
+2012,final,Slô-va-ki-a,SVK,country,16.5
+2012,final,U-crai-na,UKR,country,92.4
+2012,final,Đan Mạch,DNK,country,191.9
+2012,final,Ai-len,IRL,country,647
+2012,final,Vương quốc Anh,GBR,country,542.1
+2012,final,Na Uy,NOR,country,131.3
+2012,final,Phần Lan,FIN,country,204.3
+2012,final,Thụy Điển,SWE,country,241.2
+2012,final,Bồ Đào Nha,PRT,country,12.4
+2012,final,Hy Lạp,GRC,country,22.5
+2012,final,I-ta-li-a,ITA,country,972.1
+2012,final,Tây Ban Nha,ESP,country,283.7
+2012,final,Áo,AUT,country,157.5
+2012,final,CHLB Đức,DEU,country,2377.3
+2012,final,Bỉ,BEL,country,411.5
+2012,final,Hà Lan,NLD,country,704.1
+2012,final,Pháp,FRA,country,1589.1
+2012,final,Thụy Sĩ,CHE,country,398.1
+2012,final,Ca-na-đa,CAN,country,455.7
+2012,final,Hoa Kỳ,USA,country,4826.4
+2012,final,Ác-hen-ti-na,ARG,country,915.5
+2012,final,Bra-xin,BRA,country,1019.3
+2012,final,Chi-lê,CHL,country,370.1
+2012,final,Mê-hi-cô,MEX,country,111.8
+2012,final,Pê-ru,PER,country,96.6
+2012,final,Tuy-ni-di,TUN,country,7.6
+2012,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,135.9
+2012,final,Nam Phi,ZAF,country,111.1
+2012,final,Niu Di-Lân,NZL,country,384.9
+2012,final,Ô-xtrây-li-a,AUS,country,1772.2
+2013,final,TỔNG SỐ,,total,132032.6
+2013,final,ASEAN,,bloc,21287.1
+2013,final,APEC,,bloc,108579
+2013,final,EU,,bloc,9425.6
+2013,final,OPEC,,bloc,2622.8
+2013,final,Bru-nây,BRN,country,607
+2013,final,Cam-pu-chia,KHM,country,503.6
+2013,final,In-đô-nê-xi-a,IDN,country,2367.4
+2013,final,Lào,LAO,country,668.7
+2013,final,Ma-lai-xi-a,MYS,country,4095.9
+2013,final,My-an-ma,MMR,country,123.5
+2013,final,Phi-li-pin,PHL,country,952.3
+2013,final,Xin-ga-po,SGP,country,5685.2
+2013,final,Thái Lan,THA,country,6283.4
+2013,final,Đài Loan,TWN,country,9402
+2013,final,Hàn Quốc,KOR,country,20677.9
+2013,final,ĐKHC Hồng Công (TQ),HKG,country,1049
+2013,final,Nhật Bản,JPN,country,11558.3
+2013,final,CHND Trung Hoa,CHN,country,36886.5
+2013,final,Ấn Độ,IND,country,2879.3
+2013,final,Pa-ki-xtan,PAK,country,143.1
+2013,final,A-rập Xê-út,SAU,country,1238.8
+2013,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,326.2
+2013,final,Cô-Oét,KWT,country,704.8
+2013,final,I-xra-en,ISR,country,204.4
+2013,final,Qua-ta,QAT,country,253.2
+2013,final,Síp,CYP,country,11.1
+2013,final,Thổ Nhĩ Kỳ,TUR,country,96.1
+2013,final,Ba Lan,POL,country,150.6
+2013,final,Bê-la-rút,BLR,country,138.2
+2013,final,Bun-ga-ri,BGR,country,26.3
+2013,final,Hung-ga-ri,HUN,country,87.6
+2013,final,Liên Bang Nga,RUS,country,855.1
+2013,final,Ru-ma-ni,ROU,country,46.7
+2013,final,Cộng hòa Séc,CZE,country,57.3
+2013,final,Slô-va-ki-a,SVK,country,15.4
+2013,final,U-crai-na,UKR,country,146
+2013,final,Đan Mạch,DNK,country,186.9
+2013,final,Ai-len,IRL,country,958.3
+2013,final,Vương quốc Anh,GBR,country,570.5
+2013,final,Na Uy,NOR,country,131.1
+2013,final,Phần Lan,FIN,country,149.5
+2013,final,Thụy Điển,SWE,country,225.6
+2013,final,Bồ Đào Nha,PRT,country,32.8
+2013,final,Hy Lạp,GRC,country,17.8
+2013,final,I-ta-li-a,ITA,country,1172.7
+2013,final,Tây Ban Nha,ESP,country,311.5
+2013,final,Áo,AUT,country,196.6
+2013,final,CHLB Đức,DEU,country,2954
+2013,final,Bỉ,BEL,country,500.8
+2013,final,Hà Lan,NLD,country,675.2
+2013,final,Pháp,FRA,country,992.8
+2013,final,Thụy Sĩ,CHE,country,409.7
+2013,final,Ca-na-đa,CAN,country,406.4
+2013,final,Hoa Kỳ,USA,country,5223.8
+2013,final,Ác-hen-ti-na,ARG,country,1241.6
+2013,final,Bra-xin,BRA,country,1294.5
+2013,final,Chi-lê,CHL,country,314.8
+2013,final,Mê-hi-cô,MEX,country,114.3
+2013,final,Pê-ru,PER,country,42.8
+2013,final,Tuy-ni-di,TUN,country,6.6
+2013,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,255.3
+2013,final,Nam Phi,ZAF,country,154.7
+2013,final,Niu Di-Lân,NZL,country,454.8
+2013,final,Ô-xtrây-li-a,AUS,country,1586
+2014,final,TỔNG SỐ,,total,147849.1
+2014,final,ASEAN,,bloc,22918.5
+2014,final,APEC,,bloc,122467.5
+2014,final,EU,,bloc,8842.7
+2014,final,OPEC,,bloc,2801.3
+2014,final,Bru-nây,BRN,country,102.3
+2014,final,Cam-pu-chia,KHM,country,623.4
+2014,final,In-đô-nê-xi-a,IDN,country,2488.5
+2014,final,Lào,LAO,country,802.1
+2014,final,Ma-lai-xi-a,MYS,country,4203.6
+2014,final,My-an-ma,MMR,country,134.6
+2014,final,Phi-li-pin,PHL,country,674.9
+2014,final,Xin-ga-po,SGP,country,6834.7
+2014,final,Thái Lan,THA,country,7053.3
+2014,final,Đài Loan,TWN,country,11063.6
+2014,final,Hàn Quốc,KOR,country,21728.5
+2014,final,ĐKHC Hồng Công (TQ),HKG,country,1036.9
+2014,final,Nhật Bản,JPN,country,12857
+2014,final,CHND Trung Hoa,CHN,country,43647.6
+2014,final,Ấn Độ,IND,country,3111
+2014,final,Pa-ki-xtan,PAK,country,144.4
+2014,final,A-rập Xê-út,SAU,country,1336.9
+2014,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,466.1
+2014,final,Cô-Oét,KWT,country,611.1
+2014,final,I-xra-en,ISR,country,570.1
+2014,final,Qua-ta,QAT,country,220.3
+2014,final,Síp,CYP,country,17.7
+2014,final,Thổ Nhĩ Kỳ,TUR,country,129
+2014,final,Ba Lan,POL,country,150.6
+2014,final,Bê-la-rút,BLR,country,93.1
+2014,final,Bun-ga-ri,BGR,country,39.4
+2014,final,Hung-ga-ri,HUN,country,120.5
+2014,final,Liên Bang Nga,RUS,country,826.7
+2014,final,Ru-ma-ni,ROU,country,51.3
+2014,final,Cộng hòa Séc,CZE,country,74.9
+2014,final,Slô-va-ki-a,SVK,country,28.3
+2014,final,U-crai-na,UKR,country,116.4
+2014,final,Đan Mạch,DNK,country,176.6
+2014,final,Ai-len,IRL,country,211.6
+2014,final,Vương quốc Anh,GBR,country,644.5
+2014,final,Na Uy,NOR,country,189.9
+2014,final,Phần Lan,FIN,country,159.5
+2014,final,Thụy Điển,SWE,country,255.9
+2014,final,Bồ Đào Nha,PRT,country,73.4
+2014,final,Hy Lạp,GRC,country,22.1
+2014,final,I-ta-li-a,ITA,country,1332.4
+2014,final,Tây Ban Nha,ESP,country,352.3
+2014,final,Áo,AUT,country,225.3
+2014,final,CHLB Đức,DEU,country,2606.6
+2014,final,Bỉ,BEL,country,519.5
+2014,final,Hà Lan,NLD,country,549.9
+2014,final,Pháp,FRA,country,1111.4
+2014,final,Thụy Sĩ,CHE,country,367.3
+2014,final,Ca-na-đa,CAN,country,385.2
+2014,final,Hoa Kỳ,USA,country,6287
+2014,final,Ác-hen-ti-na,ARG,country,1715.3
+2014,final,Bra-xin,BRA,country,1849.3
+2014,final,Chi-lê,CHL,country,367.5
+2014,final,Mê-hi-cô,MEX,country,262.7
+2014,final,Pê-ru,PER,country,98
+2014,final,Tuy-ni-di,TUN,country,6
+2014,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,250.3
+2014,final,Nam Phi,ZAF,country,144.6
+2014,final,Niu Di-Lân,NZL,country,478.3
+2014,final,Ô-xtrây-li-a,AUS,country,2054.7
+2015,final,TỔNG SỐ,,total,165775.873
+2015,final,ASEAN,,bloc,23785.895
+2015,final,APEC,,bloc,137971.046
+2015,final,EU,,bloc,10450.282
+2015,final,OPEC,,bloc,2104.187
+2015,final,Bru-nây,BRN,country,48.10850416
+2015,final,Cam-pu-chia,KHM,country,949.4838662
+2015,final,In-đô-nê-xi-a,IDN,country,2740.336313
+2015,final,Lào,LAO,country,588.3225762
+2015,final,Ma-lai-xi-a,MYS,country,4188.027594
+2015,final,My-an-ma,MMR,country,58.92042704
+2015,final,Phi-li-pin,PHL,country,898.9359757
+2015,final,Xin-ga-po,SGP,country,6038.258946
+2015,final,Thái Lan,THA,country,8275.500442
+2015,final,Đài Loan,TWN,country,10951.27
+2015,final,Hàn Quốc,KOR,country,27578.526
+2015,final,ĐKHC Hồng Công (TQ),HKG,country,1320.362
+2015,final,Nhật Bản,JPN,country,14225.051
+2015,final,CHND Trung Hoa,CHN,country,49458.014
+2015,final,Ấn Độ,IND,country,2655.163
+2015,final,Pa-ki-xtan,PAK,country,159.968
+2015,final,A-rập Xê-út,SAU,country,1105.81
+2015,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,521.548
+2015,final,Cô-Oét,KWT,country,130.606
+2015,final,I-xra-en,ISR,country,1161.387
+2015,final,Qua-ta,QAT,country,187.567
+2015,final,Síp,CYP,country,25.298
+2015,final,Thổ Nhĩ Kỳ,TUR,country,147.338
+2015,final,Ba Lan,POL,country,175.4
+2015,final,Bê-la-rút,BLR,country,120.125
+2015,final,Bun-ga-ri,BGR,country,61.575
+2015,final,Hung-ga-ri,HUN,country,129.373
+2015,final,Liên Bang Nga,RUS,country,748.249
+2015,final,Ru-ma-ni,ROU,country,73.423
+2015,final,Cộng hòa Séc,CZE,country,75.55
+2015,final,Slô-va-ki-a,SVK,country,18.091
+2015,final,U-crai-na,UKR,country,74.543
+2015,final,Đan Mạch,DNK,country,243.99
+2015,final,Ai-len,IRL,country,286.235
+2015,final,Vương quốc Anh,GBR,country,737.498
+2015,final,Na Uy,NOR,country,202.615
+2015,final,Phần Lan,FIN,country,204.418
+2015,final,Thụy Điển,SWE,country,239.247
+2015,final,Bồ Đào Nha,PRT,country,67.904
+2015,final,Hy Lạp,GRC,country,28.51
+2015,final,I-ta-li-a,ITA,country,1451.477
+2015,final,Tây Ban Nha,ESP,country,399.79
+2015,final,Áo,AUT,country,412.102
+2015,final,CHLB Đức,DEU,country,3219.225
+2015,final,Bỉ,BEL,country,494.242
+2015,final,Hà Lan,NLD,country,690.108
+2015,final,Pháp,FRA,country,1281.385
+2015,final,Thụy Sĩ,CHE,country,437.04
+2015,final,Ca-na-đa,CAN,country,448.3
+2015,final,Hoa Kỳ,USA,country,7785.008
+2015,final,Ác-hen-ti-na,ARG,country,2163.189
+2015,final,Bra-xin,BRA,country,2437.061
+2015,final,Chi-lê,CHL,country,290.519
+2015,final,Mê-hi-cô,MEX,country,476.979
+2015,final,Pê-ru,PER,country,59.99
+2015,final,Tuy-ni-di,TUN,country,5.776
+2015,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,450.392
+2015,final,Nam Phi,ZAF,country,115.022
+2015,final,Niu Di-Lân,NZL,country,377.8
+2015,final,Ô-xtrây-li-a,AUS,country,2039.7
+2016,final,TỔNG SỐ,,total,174978.374
+2016,final,ASEAN,,bloc,24085.90306
+2016,final,APEC,,bloc,146836.3667
+2016,final,EU,,bloc,11169.61234
+2016,final,OPEC,,bloc,2169.483678
+2016,final,Bru-nây,BRN,country,70.50947054
+2016,final,Cam-pu-chia,KHM,country,728.8280298
+2016,final,In-đô-nê-xi-a,IDN,country,2992.477587
+2016,final,Lào,LAO,country,347.1125063
+2016,final,Ma-lai-xi-a,MYS,country,5174.313152
+2016,final,My-an-ma,MMR,country,88.82748914
+2016,final,Phi-li-pin,PHL,country,1060.165373
+2016,final,Xin-ga-po,SGP,country,4768.529249
+2016,final,Thái Lan,THA,country,8855.140203
+2016,final,Đài Loan,TWN,country,11241.77915
+2016,final,Hàn Quốc,KOR,country,32193.12148
+2016,final,ĐKHC Hồng Công (TQ),HKG,country,1500.283905
+2016,final,Nhật Bản,JPN,country,15098.32265
+2016,final,CHND Trung Hoa,CHN,country,50018.80334
+2016,final,Ấn Độ,IND,country,2745.534609
+2016,final,Pa-ki-xtan,PAK,country,128.8420061
+2016,final,A-rập Xê-út,SAU,country,1165.277421
+2016,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,450.3689267
+2016,final,Cô-Oét,KWT,country,110.359431
+2016,final,I-xra-en,ISR,country,688.2686183
+2016,final,Qua-ta,QAT,country,181.2830419
+2016,final,Síp,CYP,country,35.56708436
+2016,final,Thổ Nhĩ Kỳ,TUR,country,171.3836443
+2016,final,Ba Lan,POL,country,191.7451668
+2016,final,Bê-la-rút,BLR,country,92.01732421
+2016,final,Bun-ga-ri,BGR,country,171.0265378
+2016,final,Hung-ga-ri,HUN,country,173.1600702
+2016,final,Liên Bang Nga,RUS,country,1136.832983
+2016,final,Ru-ma-ni,ROU,country,168.3912601
+2016,final,Cộng hòa Séc,CZE,country,104.5878708
+2016,final,Slô-va-ki-a,SVK,country,32.31280204
+2016,final,U-crai-na,UKR,country,75.94491607
+2016,final,Đan Mạch,DNK,country,331.7635297
+2016,final,Ai-len,IRL,country,1026.830841
+2016,final,Vương quốc Anh,GBR,country,724.3666871
+2016,final,Na Uy,NOR,country,263.6977339
+2016,final,Phần Lan,FIN,country,224.8366025
+2016,final,Thụy Điển,SWE,country,311.0648611
+2016,final,Bồ Đào Nha,PRT,country,50.6165896
+2016,final,Hy Lạp,GRC,country,50.39820995
+2016,final,I-ta-li-a,ITA,country,1427.00219
+2016,final,Tây Ban Nha,ESP,country,451.3899365
+2016,final,Áo,AUT,country,350.978465
+2016,final,CHLB Đức,DEU,country,2861.35971
+2016,final,Bỉ,BEL,country,475.977031
+2016,final,Hà Lan,NLD,country,676.890745
+2016,final,Pháp,FRA,country,1159.792576
+2016,final,Thụy Sĩ,CHE,country,505.8730794
+2016,final,Ca-na-đa,CAN,country,395.4707658
+2016,final,Hoa Kỳ,USA,country,8701.602144
+2016,final,Ác-hen-ti-na,ARG,country,2672.225009
+2016,final,Bra-xin,BRA,country,1722.310359
+2016,final,Chi-lê,CHL,country,231.7380911
+2016,final,Mê-hi-cô,MEX,country,483.9371233
+2016,final,Pê-ru,PER,country,76.49039565
+2016,final,Tuy-ni-di,TUN,country,8.67131751
+2016,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,702.9608068
+2016,final,Nam Phi,ZAF,country,149.4979701
+2016,final,Niu Di-Lân,NZL,country,356.8517672
+2016,final,Ô-xtrây-li-a,AUS,country,2442.138404
+2017,final,TỔNG SỐ,,total,213215.324
+2017,final,ASEAN,,bloc,28363.29
+2017,final,APEC,,bloc,180055
+2017,final,EU,,bloc,12201.794
+2017,final,OPEC,,bloc,2748.831
+2017,final,Bru-nây,BRN,country,51.656
+2017,final,Cam-pu-chia,KHM,country,1032.588
+2017,final,In-đô-nê-xi-a,IDN,country,3656.305
+2017,final,Lào,LAO,country,370.609
+2017,final,Ma-lai-xi-a,MYS,country,5945.356
+2017,final,My-an-ma,MMR,country,127.543
+2017,final,Phi-li-pin,PHL,country,1158.332
+2017,final,Xin-ga-po,SGP,country,5318.587
+2017,final,Thái Lan,THA,country,10702.329
+2017,final,Đài Loan,TWN,country,12709.685
+2017,final,Hàn Quốc,KOR,country,46943.334
+2017,final,ĐKHC Hồng Công (TQ),HKG,country,1664.884
+2017,final,Nhật Bản,JPN,country,16916.806
+2017,final,CHND Trung Hoa,CHN,country,58532.584
+2017,final,Ấn Độ,IND,country,3954.592
+2017,final,Pa-ki-xtan,PAK,country,130.32
+2017,final,A-rập Xê-út,SAU,country,1308.62
+2017,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,569.834
+2017,final,Cô-Oét,KWT,country,287.977
+2017,final,I-xra-en,ISR,country,344.962
+2017,final,Qua-ta,QAT,country,138.253
+2017,final,Síp,CYP,country,44.557
+2017,final,Thổ Nhĩ Kỳ,TUR,country,222.985
+2017,final,Ba Lan,POL,country,229.592
+2017,final,Bê-la-rút,BLR,country,94.34
+2017,final,Bun-ga-ri,BGR,country,71.116
+2017,final,Hung-ga-ri,HUN,country,147.902
+2017,final,Liên Bang Nga,RUS,country,1392.33
+2017,final,Ru-ma-ni,ROU,country,85.373
+2017,final,Cộng hòa Séc,CZE,country,112.922
+2017,final,Slô-va-ki-a,SVK,country,35.614
+2017,final,U-crai-na,UKR,country,109.498
+2017,final,Đan Mạch,DNK,country,321.435
+2017,final,Ai-len,IRL,country,1381.464
+2017,final,Vương quốc Anh,GBR,country,747.14
+2017,final,Na Uy,NOR,country,238.403
+2017,final,Phần Lan,FIN,country,292.768
+2017,final,Thụy Điển,SWE,country,340.942
+2017,final,Bồ Đào Nha,PRT,country,62.028
+2017,final,Hy Lạp,GRC,country,65.564
+2017,final,I-ta-li-a,ITA,country,1650.004
+2017,final,Tây Ban Nha,ESP,country,501.78
+2017,final,Áo,AUT,country,303.079
+2017,final,CHLB Đức,DEU,country,3203.719
+2017,final,Bỉ,BEL,country,447.44
+2017,final,Hà Lan,NLD,country,670.42
+2017,final,Pháp,FRA,country,1319.237
+2017,final,Thụy Sĩ,CHE,country,598.881
+2017,final,Ca-na-đa,CAN,country,799.306
+2017,final,Hoa Kỳ,USA,country,9336.712
+2017,final,Ác-hen-ti-na,ARG,country,2552.952
+2017,final,Bra-xin,BRA,country,1837.885
+2017,final,Chi-lê,CHL,country,282.885
+2017,final,Mê-hi-cô,MEX,country,787.52
+2017,final,Pê-ru,PER,country,117.133
+2017,final,Tuy-ni-di,TUN,country,10.9
+2017,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,904.7
+2017,final,Nam Phi,ZAF,country,242.306
+2017,final,Niu Di-Lân,NZL,country,502.212
+2017,final,Ô-xtrây-li-a,AUS,country,3200.104
+2018,final,TỔNG SỐ,,total,237241.5519
+2018,final,ASEAN,,bloc,31879.94567
+2018,final,APEC,,bloc,199039.1218
+2018,final,EU,,bloc,13949.71058
+2018,final,OPEC,,bloc,5300.342683
+2018,final,Bru-nây,BRN,country,36.6688248
+2018,final,Cam-pu-chia,KHM,country,972.0836069
+2018,final,In-đô-nê-xi-a,IDN,country,4938.360317
+2018,final,Lào,LAO,country,438.4561483
+2018,final,Ma-lai-xi-a,MYS,country,7454.017595
+2018,final,My-an-ma,MMR,country,160.9285425
+2018,final,Phi-li-pin,PHL,country,1256.702027
+2018,final,Xin-ga-po,SGP,country,4576.660842
+2018,final,Thái Lan,THA,country,12046.06777
+2018,final,Đài Loan,TWN,country,13243.29228
+2018,final,Hàn Quốc,KOR,country,47629.30435
+2018,final,ĐKHC Hồng Công (TQ),HKG,country,1551.955048
+2018,final,Nhật Bản,JPN,country,19108.14839
+2018,final,CHND Trung Hoa,CHN,country,65573.22503
+2018,final,Ấn Độ,IND,country,4149.887261
+2018,final,Pa-ki-xtan,PAK,country,172.5815703
+2018,final,A-rập Xê-út,SAU,country,1482.411177
+2018,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,468.6001185
+2018,final,Cô-Oét,KWT,country,2603.845521
+2018,final,I-xra-en,ISR,country,420.6565445
+2018,final,Qua-ta,QAT,country,291.2545808
+2018,final,Síp,CYP,country,49.3460344
+2018,final,Thổ Nhĩ Kỳ,TUR,country,285.7106366
+2018,final,Ba Lan,POL,country,266.6144714
+2018,final,Bê-la-rút,BLR,country,81.4813298
+2018,final,Bun-ga-ri,BGR,country,52.5324942
+2018,final,Hung-ga-ri,HUN,country,244.3305556
+2018,final,Liên Bang Nga,RUS,country,2136.900011
+2018,final,Ru-ma-ni,ROU,country,71.4743732
+2018,final,Cộng hòa Séc,CZE,country,141.7338431
+2018,final,Slô-va-ki-a,SVK,country,43.2379401
+2018,final,U-crai-na,UKR,country,145.8495525
+2018,final,Đan Mạch,DNK,country,323.7702379
+2018,final,Ai-len,IRL,country,1792.201829
+2018,final,Vương quốc Anh,GBR,country,976.4710305
+2018,final,Na Uy,NOR,country,288.3657858
+2018,final,Phần Lan,FIN,country,234.9947954
+2018,final,Thụy Điển,SWE,country,344.5724041
+2018,final,Bồ Đào Nha,PRT,country,115.593668
+2018,final,Hy Lạp,GRC,country,69.0111894
+2018,final,I-ta-li-a,ITA,country,1772.538448
+2018,final,Tây Ban Nha,ESP,country,514.2516861
+2018,final,Áo,AUT,country,291.0227742
+2018,final,CHLB Đức,DEU,country,3828.247132
+2018,final,Bỉ,BEL,country,470.8461001
+2018,final,Hà Lan,NLD,country,764.4255053
+2018,final,Pháp,FRA,country,1380.052915
+2018,final,Thụy Sĩ,CHE,country,684.2549313
+2018,final,Ca-na-đa,CAN,country,857.1355265
+2018,final,Hoa Kỳ,USA,country,12747.6059
+2018,final,Ác-hen-ti-na,ARG,country,2452.493674
+2018,final,Bra-xin,BRA,country,2386.679513
+2018,final,Chi-lê,CHL,country,306.7612302
+2018,final,Mê-hi-cô,MEX,country,1124.619153
+2018,final,Pê-ru,PER,country,83.5953933
+2018,final,Tuy-ni-di,TUN,country,10.6866961
+2018,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,798.1601743
+2018,final,Nam Phi,ZAF,country,387.211544
+2018,final,Niu Di-Lân,NZL,country,532.0058181
+2018,final,Ô-xtrây-li-a,AUS,country,3779.072621
+2019,final,TỔNG SỐ,,total,253696.499
+2019,final,ASEAN,,bloc,32260.61741
+2019,final,APEC,,bloc,212550.3111
+2019,final,EU,,bloc,14097.24588
+2019,final,OPEC,,bloc,5780.439317
+2019,final,Bru-nây,BRN,country,192.1402102
+2019,final,Cam-pu-chia,KHM,country,903.5366656
+2019,final,In-đô-nê-xi-a,IDN,country,5723.101274
+2019,final,Lào,LAO,country,462.3649891
+2019,final,Ma-lai-xi-a,MYS,country,7336.696339
+2019,final,My-an-ma,MMR,country,234.4882669
+2019,final,Phi-li-pin,PHL,country,1578.121906
+2019,final,Xin-ga-po,SGP,country,4166.975704
+2019,final,Thái Lan,THA,country,11663.19205
+2019,final,Đài Loan,TWN,country,15162.5147
+2019,final,Hàn Quốc,KOR,country,47058.0267
+2019,final,ĐKHC Hồng Công (TQ),HKG,country,1317.960359
+2019,final,Nhật Bản,JPN,country,19621.14482
+2019,final,CHND Trung Hoa,CHN,country,75508.20206
+2019,final,Ấn Độ,IND,country,4528.281105
+2019,final,Pa-ki-xtan,PAK,country,160.0470703
+2019,final,A-rập Xê-út,SAU,country,1204.743198
+2019,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,395.6374855
+2019,final,Cô-Oét,KWT,country,3545.431392
+2019,final,I-xra-en,ISR,country,381.9292841
+2019,final,Qua-ta,QAT,country,179.87654
+2019,final,Síp,CYP,country,44.78655282
+2019,final,Thổ Nhĩ Kỳ,TUR,country,352.2918416
+2019,final,Ba Lan,POL,country,298.9423177
+2019,final,Bê-la-rút,BLR,country,90.59069516
+2019,final,Bun-ga-ri,BGR,country,49.7940708
+2019,final,Hung-ga-ri,HUN,country,337.8177295
+2019,final,Liên Bang Nga,RUS,country,1830.344247
+2019,final,Ru-ma-ni,ROU,country,67.43697283
+2019,final,Cộng hòa Séc,CZE,country,122.9042968
+2019,final,Slô-va-ki-a,SVK,country,44.52933759
+2019,final,U-crai-na,UKR,country,121.8482267
+2019,final,Đan Mạch,DNK,country,243.9807251
+2019,final,Ai-len,IRL,country,2497.459145
+2019,final,Vương quốc Anh,GBR,country,871.8445273
+2019,final,Na Uy,NOR,country,312.6230943
+2019,final,Phần Lan,FIN,country,247.7949777
+2019,final,Thụy Điển,SWE,country,372.8039747
+2019,final,Bồ Đào Nha,PRT,country,104.4660652
+2019,final,Hy Lạp,GRC,country,103.8206251
+2019,final,I-ta-li-a,ITA,country,1877.814271
+2019,final,Tây Ban Nha,ESP,country,540.0142408
+2019,final,Áo,AUT,country,339.4503897
+2019,final,CHLB Đức,DEU,country,3722.667751
+2019,final,Bỉ,BEL,country,559.4285105
+2019,final,Hà Lan,NLD,country,661.1673108
+2019,final,Pháp,FRA,country,1618.868449
+2019,final,Thụy Sĩ,CHE,country,719.8059121
+2019,final,Ca-na-đa,CAN,country,853.6101675
+2019,final,Hoa Kỳ,USA,country,14434.02601
+2019,final,Ác-hen-ti-na,ARG,country,3233.62046
+2019,final,Bra-xin,BRA,country,2746.525732
+2019,final,Chi-lê,CHL,country,288.918637
+2019,final,Mê-hi-cô,MEX,country,641.7649762
+2019,final,Pê-ru,PER,country,81.40645449
+2019,final,Tuy-ni-di,TUN,country,14.7803172
+2019,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,703.3427862
+2019,final,Nam Phi,ZAF,country,329.2980624
+2019,final,Niu Di-Lân,NZL,country,552.9732608
+2019,final,Ô-xtrây-li-a,AUS,country,4480.639168
+2020,final,TỔNG SỐ,,total,262791.046
+2020,final,ASEAN,,bloc,30484.88765
+2020,final,APEC,,bloc,220538.4302
+2020,final,EU,,bloc,14660.2655
+2020,final,OPEC,,bloc,5311.742885
+2020,final,Bru-nây,BRN,country,265.5535359
+2020,final,Cam-pu-chia,KHM,country,1179.785773
+2020,final,In-đô-nê-xi-a,IDN,country,5381.803107
+2020,final,Lào,LAO,country,458.1598332
+2020,final,Ma-lai-xi-a,MYS,country,6576.260321
+2020,final,My-an-ma,MMR,country,219.9141631
+2020,final,Phi-li-pin,PHL,country,1754.476938
+2020,final,Xin-ga-po,SGP,country,3681.883399
+2020,final,Thái Lan,THA,country,10967.05059
+2020,final,Đài Loan,TWN,country,16702.77513
+2020,final,Hàn Quốc,KOR,country,46926.008
+2020,final,ĐKHC Hồng Công (TQ),HKG,country,1113.512376
+2020,final,Nhật Bản,JPN,country,20369.14119
+2020,final,CHND Trung Hoa,CHN,country,84195.6984
+2020,final,Ấn Độ,IND,country,4436.518288
+2020,final,Pa-ki-xtan,PAK,country,117.5490858
+2020,final,A-rập Xê-út,SAU,country,1150.910945
+2020,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,416.6311295
+2020,final,Cô-Oét,KWT,country,3168.07814
+2020,final,I-xra-en,ISR,country,893.2008588
+2020,final,Qua-ta,QAT,country,174.417387
+2020,final,Síp,CYP,country,61.31039101
+2020,final,Thổ Nhĩ Kỳ,TUR,country,275.9804723
+2020,final,Ba Lan,POL,country,340.6067483
+2020,final,Bê-la-rút,BLR,country,77.45537537
+2020,final,Bun-ga-ri,BGR,country,60.51249608
+2020,final,Hung-ga-ri,HUN,country,371.833443
+2020,final,Liên Bang Nga,RUS,country,2002.982142
+2020,final,Ru-ma-ni,ROU,country,68.19450537
+2020,final,Cộng hòa Séc,CZE,country,130.2627321
+2020,final,Slô-va-ki-a,SVK,country,47.05641017
+2020,final,U-crai-na,UKR,country,193.5275653
+2020,final,Đan Mạch,DNK,country,203.6853882
+2020,final,Ai-len,IRL,country,4060.578407
+2020,final,Vương quốc Anh,GBR,country,691.9352871
+2020,final,Na Uy,NOR,country,311.6652907
+2020,final,Phần Lan,FIN,country,196.6423774
+2020,final,Thụy Điển,SWE,country,352.4293762
+2020,final,Bồ Đào Nha,PRT,country,94.77095486
+2020,final,Hy Lạp,GRC,country,77.69214596
+2020,final,I-ta-li-a,ITA,country,1511.122328
+2020,final,Tây Ban Nha,ESP,country,526.4656872
+2020,final,Áo,AUT,country,298.2451797
+2020,final,CHLB Đức,DEU,country,3353.118869
+2020,final,Bỉ,BEL,country,473.8239531
+2020,final,Hà Lan,NLD,country,656.9892122
+2020,final,Pháp,FRA,country,1526.745108
+2020,final,Thụy Sĩ,CHE,country,594.3134999
+2020,final,Ca-na-đa,CAN,country,726.3795797
+2020,final,Hoa Kỳ,USA,country,13712.30125
+2020,final,Ác-hen-ti-na,ARG,country,3384.700767
+2020,final,Bra-xin,BRA,country,2903.571782
+2020,final,Chi-lê,CHL,country,265.5547533
+2020,final,Mê-hi-cô,MEX,country,523.00354
+2020,final,Pê-ru,PER,country,87.4340612
+2020,final,Tuy-ni-di,TUN,country,10.65752077
+2020,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,644.378241
+2020,final,Nam Phi,ZAF,country,707.5561687
+2020,final,Niu Di-Lân,NZL,country,557.7845847
+2020,final,Ô-xtrây-li-a,AUS,country,4685.533524
+2021,final,TỔNG SỐ,,total,332969.6892
+2021,final,ASEAN,,bloc,41197.75913
+2021,final,APEC,,bloc,274726.9436
+2021,final,EU,,bloc,16862.45916
+2021,final,OPEC,,bloc,7823.732863
+2021,final,Bru-nây,BRN,country,258.1499496
+2021,final,Cam-pu-chia,KHM,country,4710.754455
+2021,final,In-đô-nê-xi-a,IDN,country,7614.787723
+2021,final,Lào,LAO,country,777.9780593
+2021,final,Ma-lai-xi-a,MYS,country,8164.95188
+2021,final,My-an-ma,MMR,country,382.6507549
+2021,final,Phi-li-pin,PHL,country,2406.468181
+2021,final,Xin-ga-po,SGP,country,4289.182703
+2021,final,Thái Lan,THA,country,12592.83543
+2021,final,Đài Loan,TWN,country,20779.69653
+2021,final,Hàn Quốc,KOR,country,56213.3085
+2021,final,ĐKHC Hồng Công (TQ),HKG,country,1633.383111
+2021,final,Nhật Bản,JPN,country,22805.92101
+2021,final,CHND Trung Hoa,CHN,country,110075.433
+2021,final,Ấn Độ,IND,country,6964.341548
+2021,final,Pa-ki-xtan,PAK,country,196.3495093
+2021,final,A-rập Xê-út,SAU,country,1649.200852
+2021,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,575.8697299
+2021,final,Cô-Oét,KWT,country,4709.952835
+2021,final,I-xra-en,ISR,country,1109.713939
+2021,final,Qua-ta,QAT,country,315.5440874
+2021,final,Síp,CYP,country,46.84835859
+2021,final,Thổ Nhĩ Kỳ,TUR,country,387.2683331
+2021,final,Ba Lan,POL,country,510.0884977
+2021,final,Bê-la-rút,BLR,country,109.5261194
+2021,final,Bun-ga-ri,BGR,country,112.4372538
+2021,final,Hung-ga-ri,HUN,country,532.1711673
+2021,final,Liên Bang Nga,RUS,country,2335.800818
+2021,final,Ru-ma-ni,ROU,country,134.5153556
+2021,final,Cộng hòa Séc,CZE,country,153.9077395
+2021,final,Slô-va-ki-a,SVK,country,68.22015411
+2021,final,U-crai-na,UKR,country,369.3034254
+2021,final,Đan Mạch,DNK,country,233.7999184
+2021,final,Ai-len,IRL,country,4438.391321
+2021,final,Vương quốc Anh,GBR,country,861.173765
+2021,final,Na Uy,NOR,country,352.3773087
+2021,final,Phần Lan,FIN,country,245.1262658
+2021,final,Thụy Điển,SWE,country,321.6957866
+2021,final,Bồ Đào Nha,PRT,country,125.6205217
+2021,final,Hy Lạp,GRC,country,88.19895365
+2021,final,I-ta-li-a,ITA,country,1726.513861
+2021,final,Tây Ban Nha,ESP,country,578.786891
+2021,final,Áo,AUT,country,332.2738154
+2021,final,CHLB Đức,DEU,country,3951.898291
+2021,final,Bỉ,BEL,country,685.6432994
+2021,final,Hà Lan,NLD,country,686.9601303
+2021,final,Pháp,FRA,country,1596.907771
+2021,final,Thụy Sĩ,CHE,country,623.2762095
+2021,final,Ca-na-đa,CAN,country,759.9216643
+2021,final,Hoa Kỳ,USA,country,15270.74691
+2021,final,Ác-hen-ti-na,ARG,country,3672.500861
+2021,final,Bra-xin,BRA,country,4106.123257
+2021,final,Chi-lê,CHL,country,322.087824
+2021,final,Mê-hi-cô,MEX,country,499.4155475
+2021,final,Pê-ru,PER,country,73.80514375
+2021,final,Tuy-ni-di,TUN,country,11.08018649
+2021,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,1046.745395
+2021,final,Nam Phi,ZAF,country,426.5496953
+2021,final,Niu Di-Lân,NZL,country,635.6773633
+2021,final,Ô-xtrây-li-a,AUS,country,7967.625647
+2022,final,TỔNG SỐ,,total,359780.1
+2022,final,ASEAN,,bloc,47312.16039
+2022,final,APEC,,bloc,298512.2246
+2022,final,EU,,bloc,15423.64871
+2022,final,OPEC,,bloc,10207.56594
+2022,final,Bru-nây,BRN,country,634.9051126
+2022,final,Cam-pu-chia,KHM,country,4823.141148
+2022,final,In-đô-nê-xi-a,IDN,country,9627.784368
+2022,final,Lào,LAO,country,1047.444991
+2022,final,Ma-lai-xi-a,MYS,country,9126.61682
+2022,final,My-an-ma,MMR,country,369.601539
+2022,final,Phi-li-pin,PHL,country,2713.076753
+2022,final,Xin-ga-po,SGP,country,4847.72498
+2022,final,Thái Lan,THA,country,14121.86468
+2022,final,Đài Loan,TWN,country,22632.93818
+2022,final,Hàn Quốc,KOR,country,62167.60038
+2022,final,ĐKHC Hồng Công (TQ),HKG,country,1910.567883
+2022,final,Nhật Bản,JPN,country,23406.54305
+2022,final,CHND Trung Hoa,CHN,country,117830.9328
+2022,final,Ấn Độ,IND,country,7103.961984
+2022,final,Pa-ki-xtan,PAK,country,303.5616257
+2022,final,A-rập Xê-út,SAU,country,1917.284712
+2022,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,582.6000476
+2022,final,Cô-Oét,KWT,country,6562.291508
+2022,final,I-xra-en,ISR,country,1442.213647
+2022,final,Qua-ta,QAT,country,295.3443395
+2022,final,Síp,CYP,country,45.80390641
+2022,final,Thổ Nhĩ Kỳ,TUR,country,419.9476974
+2022,final,Ba Lan,POL,country,375.261884
+2022,final,Bê-la-rút,BLR,country,53.77585166
+2022,final,Bun-ga-ri,BGR,country,62.79848863
+2022,final,Hung-ga-ri,HUN,country,612.9471465
+2022,final,Liên Bang Nga,RUS,country,1994.558775
+2022,final,Ru-ma-ni,ROU,country,102.5995387
+2022,final,Cộng hòa Séc,CZE,country,160.7498864
+2022,final,Slô-va-ki-a,SVK,country,68.02703464
+2022,final,U-crai-na,UKR,country,178.5674735
+2022,final,Đan Mạch,DNK,country,226.433914
+2022,final,Ai-len,IRL,country,3347.269705
+2022,final,Vương quốc Anh,GBR,country,780.1184573
+2022,final,Na Uy,NOR,country,419.4423124
+2022,final,Phần Lan,FIN,country,208.4028681
+2022,final,Thụy Điển,SWE,country,353.4708734
+2022,final,Bồ Đào Nha,PRT,country,98.41596333
+2022,final,Hy Lạp,GRC,country,78.53341387
+2022,final,I-ta-li-a,ITA,country,1788.579575
+2022,final,Tây Ban Nha,ESP,country,572.8436458
+2022,final,Áo,AUT,country,334.4476008
+2022,final,CHLB Đức,DEU,country,3623.926349
+2022,final,Bỉ,BEL,country,754.9073467
+2022,final,Hà Lan,NLD,country,668.8603356
+2022,final,Pháp,FRA,country,1647.023841
+2022,final,Thụy Sĩ,CHE,country,622.6837754
+2022,final,Ca-na-đa,CAN,country,711.7148728
+2022,final,Hoa Kỳ,USA,country,14480.52073
+2022,final,Ác-hen-ti-na,ARG,country,4043.399058
+2022,final,Bra-xin,BRA,country,4547.580525
+2022,final,Chi-lê,CHL,country,432.4357405
+2022,final,Mê-hi-cô,MEX,country,888.8125539
+2022,final,Pê-ru,PER,country,69.41011909
+2022,final,Tuy-ni-di,TUN,country,14.19091206
+2022,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,694.1647042
+2022,final,Nam Phi,ZAF,country,399.3841811
+2022,final,Niu Di-Lân,NZL,country,714.5787638
+2022,final,Ô-xtrây-li-a,AUS,country,10134.15155
+2023,final,TỔNG SỐ,,total,326606.9
+2023,final,ASEAN,,bloc,41013.114
+2023,final,APEC,,bloc,267659.8802
+2023,final,EU,,bloc,14937.17139
+2023,final,OPEC,,bloc,9267.156946
+2023,final,Bru-nây,BRN,country,175.2507166
+2023,final,Cam-pu-chia,KHM,country,3669.428357
+2023,final,In-đô-nê-xi-a,IDN,country,8732.346389
+2023,final,Lào,LAO,country,1097.116308
+2023,final,Ma-lai-xi-a,MYS,country,7811.616489
+2023,final,My-an-ma,MMR,country,250.9655878
+2023,final,Phi-li-pin,PHL,country,2653.662284
+2023,final,Xin-ga-po,SGP,country,4722.281724
+2023,final,Thái Lan,THA,country,11900.44657
+2023,final,Đài Loan,TWN,country,18421.67619
+2023,final,Hàn Quốc,KOR,country,52463.86374
+2023,final,ĐKHC Hồng Công (TQ),HKG,country,1625.815799
+2023,final,Nhật Bản,JPN,country,21662.95391
+2023,final,CHND Trung Hoa,CHN,country,110656.4217
+2023,final,Ấn Độ,IND,country,5863.051033
+2023,final,Pa-ki-xtan,PAK,country,318.7652281
+2023,final,A-rập Xê-út,SAU,country,1553.58515
+2023,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,682.0960289
+2023,final,Cô-Oét,KWT,country,5857.086277
+2023,final,I-xra-en,ISR,country,2053.249526
+2023,final,Qua-ta,QAT,country,285.5776657
+2023,final,Síp,CYP,country,45.81680792
+2023,final,Thổ Nhĩ Kỳ,TUR,country,468.9192332
+2023,final,Ba Lan,POL,country,373.6050499
+2023,final,Bê-la-rút,BLR,country,41.05263638
+2023,final,Bun-ga-ri,BGR,country,70.93678259
+2023,final,Hung-ga-ri,HUN,country,429.7084994
+2023,final,Liên Bang Nga,RUS,country,1889.64244
+2023,final,Ru-ma-ni,ROU,country,148.5438048
+2023,final,Cộng hòa Séc,CZE,country,176.9197528
+2023,final,Slô-va-ki-a,SVK,country,65.22779674
+2023,final,U-crai-na,UKR,country,219.7041124
+2023,final,Đan Mạch,DNK,country,210.1604196
+2023,final,Ai-len,IRL,country,3104.837727
+2023,final,Vương quốc Anh,GBR,country,794.0411233
+2023,final,Na Uy,NOR,country,430.2211505
+2023,final,Phần Lan,FIN,country,179.9005505
+2023,final,Thụy Điển,SWE,country,342.0133036
+2023,final,Bồ Đào Nha,PRT,country,120.565417
+2023,final,Hy Lạp,GRC,country,93.90000013
+2023,final,I-ta-li-a,ITA,country,1626.707416
+2023,final,Tây Ban Nha,ESP,country,625.1972883
+2023,final,Áo,AUT,country,393.2251237
+2023,final,CHLB Đức,DEU,country,3690.855967
+2023,final,Bỉ,BEL,country,615.1773893
+2023,final,Hà Lan,NLD,country,666.8385227
+2023,final,Pháp,FRA,country,1636.510282
+2023,final,Thụy Sĩ,CHE,country,626.1682389
+2023,final,Ca-na-đa,CAN,country,626.0010315
+2023,final,Hoa Kỳ,USA,country,13820.07108
+2023,final,Ác-hen-ti-na,ARG,country,2470.291363
+2023,final,Bra-xin,BRA,country,4674.020259
+2023,final,Chi-lê,CHL,country,375.2006299
+2023,final,Mê-hi-cô,MEX,country,833.2746547
+2023,final,Pê-ru,PER,country,47.02317653
+2023,final,Tuy-ni-di,TUN,country,12.61318513
+2023,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,1025.407212
+2023,final,Nam Phi,ZAF,country,404.0405367
+2023,final,Niu Di-Lân,NZL,country,680.3649618
+2023,final,Ô-xtrây-li-a,AUS,country,8527.260129
+2024,final,TỔNG SỐ,,total,381303.7
+2024,final,ASEAN,,bloc,47022.69893
+2024,final,APEC,,bloc,313963.2794
+2024,final,EU,,bloc,16808.49292
+2024,final,OPEC,,bloc,11010.80619
+2024,final,Bru-nây,BRN,country,526.8956065
+2024,final,Cam-pu-chia,KHM,country,4781.017493
+2024,final,In-đô-nê-xi-a,IDN,country,10519.61998
+2024,final,Lào,LAO,country,1497.312542
+2024,final,Ma-lai-xi-a,MYS,country,9072.033293
+2024,final,My-an-ma,MMR,country,291.8305273
+2024,final,Phi-li-pin,PHL,country,2477.12667
+2024,final,Xin-ga-po,SGP,country,5363.373767
+2024,final,Thái Lan,THA,country,12493.48906
+2024,final,Đài Loan,TWN,country,22750.94865
+2024,final,Hàn Quốc,KOR,country,55985.47608
+2024,final,ĐKHC Hồng Công (TQ),HKG,country,1105.104906
+2024,final,Nhật Bản,JPN,country,21610.13557
+2024,final,CHND Trung Hoa,CHN,country,144207.7131
+2024,final,Ấn Độ,IND,country,5836.66376
+2024,final,Pa-ki-xtan,PAK,country,327.6636221
+2024,final,A-rập Xê-út,SAU,country,1463.613631
+2024,final,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,851.3738452
+2024,final,Cô-Oét,KWT,country,7252.1872
+2024,final,I-xra-en,ISR,country,2452.156314
+2024,final,Qua-ta,QAT,country,579.7547456
+2024,final,Síp,CYP,country,45.47284522
+2024,final,Thổ Nhĩ Kỳ,TUR,country,442.7871988
+2024,final,Ba Lan,POL,country,387.7363447
+2024,final,Bê-la-rút,BLR,country,31.8473839
+2024,final,Bun-ga-ri,BGR,country,76.01063648
+2024,final,Hung-ga-ri,HUN,country,226.0051615
+2024,final,Liên Bang Nga,RUS,country,2248.941318
+2024,final,Ru-ma-ni,ROU,country,155.5466943
+2024,final,Cộng hòa Séc,CZE,country,229.6876972
+2024,final,Slô-va-ki-a,SVK,country,59.3803774
+2024,final,U-crai-na,UKR,country,474.6287682
+2024,final,Đan Mạch,DNK,country,231.9046112
+2024,final,Ai-len,IRL,country,3662.770489
+2024,final,Vương quốc Anh,GBR,country,891.0903734
+2024,final,Na Uy,NOR,country,516.9698002
+2024,final,Phần Lan,FIN,country,217.953262
+2024,final,Thụy Điển,SWE,country,425.7695343
+2024,final,Bồ Đào Nha,PRT,country,169.2588143
+2024,final,Hy Lạp,GRC,country,112.5050028
+2024,final,I-ta-li-a,ITA,country,1975.135536
+2024,final,Tây Ban Nha,ESP,country,716.264372
+2024,final,Áo,AUT,country,455.5058138
+2024,final,CHLB Đức,DEU,country,3795.08674
+2024,final,Bỉ,BEL,country,671.8762335
+2024,final,Hà Lan,NLD,country,784.135899
+2024,final,Pháp,FRA,country,2066.402694
+2024,final,Thụy Sĩ,CHE,country,628.4831655
+2024,final,Ca-na-đa,CAN,country,863.8661514
+2024,final,Hoa Kỳ,USA,country,15112.65793
+2024,final,Ác-hen-ti-na,ARG,country,3584.434482
+2024,final,Bra-xin,BRA,country,5371.731929
+2024,final,Chi-lê,CHL,country,326.5448084
+2024,final,Mê-hi-cô,MEX,country,949.1487028
+2024,final,Pê-ru,PER,country,73.9724217
+2024,final,Tuy-ni-di,TUN,country,14.4874954
+2024,final,Cốt-đi-voa (Bờ biển Ngà),CIV,country,878.974994
+2024,final,Nam Phi,ZAF,country,946.2103196
+2024,final,Niu Di-Lân,NZL,country,604.4237192
+2024,final,Ô-xtrây-li-a,AUS,country,7627.281291
+2025,preliminary,TỔNG SỐ,,total,454926.4
+2025,preliminary,ASEAN,,bloc,52587.92843
+2025,preliminary,APEC,,bloc,
+2025,preliminary,EU,,bloc,17626.39634
+2025,preliminary,OPEC,,bloc,
+2025,preliminary,Bru-nây,BRN,country,526.150549
+2025,preliminary,Cam-pu-chia,KHM,country,5657.388118
+2025,preliminary,In-đô-nê-xi-a,IDN,country,11518.98432
+2025,preliminary,Lào,LAO,country,1906.693548
+2025,preliminary,Ma-lai-xi-a,MYS,country,11004.04671
+2025,preliminary,My-an-ma,MMR,country,249.252816
+2025,preliminary,Phi-li-pin,PHL,country,2382.04719
+2025,preliminary,Xin-ga-po,SGP,country,6061.582966
+2025,preliminary,Thái Lan,THA,country,13281.08599
+2025,preliminary,Đài Loan,TWN,country,33025.59252
+2025,preliminary,Hàn Quốc,KOR,country,60545.88878
+2025,preliminary,ĐKHC Hồng Công (TQ),HKG,country,852.765624
+2025,preliminary,Nhật Bản,JPN,country,24676.85888
+2025,preliminary,CHND Trung Hoa,CHN,country,185995.1475
+2025,preliminary,Ấn Độ,IND,country,6111.805294
+2025,preliminary,Pa-ki-xtan,PAK,country,203.241761
+2025,preliminary,A-rập Xê-út,SAU,country,1227.574025
+2025,preliminary,Các Tiểu vương quốc Ả-rập Thống nhất,ARE,country,633.213732
+2025,preliminary,Cô-Oét,KWT,country,6339.599819
+2025,preliminary,I-xra-en,ISR,country,2762.891854
+2025,preliminary,Qua-ta,QAT,country,330.252353
+2025,preliminary,Síp,CYP,country,31.856459
+2025,preliminary,Thổ Nhĩ Kỳ,TUR,country,475.417736
+2025,preliminary,Ba Lan,POL,country,472.681805
+2025,preliminary,Bê-la-rút,BLR,country,54.162611
+2025,preliminary,Bun-ga-ri,BGR,country,77.507335
+2025,preliminary,Hung-ga-ri,HUN,country,240.977677
+2025,preliminary,Liên Bang Nga,RUS,country,2509.233611
+2025,preliminary,Ru-ma-ni,ROU,country,152.966824
+2025,preliminary,Cộng hòa Séc,CZE,country,263.496006
+2025,preliminary,Slô-va-ki-a,SVK,country,70.808814
+2025,preliminary,U-crai-na,UKR,country,299.137902
+2025,preliminary,Đan Mạch,DNK,country,294.433435
+2025,preliminary,Ai-len,IRL,country,3291.246993
+2025,preliminary,Vương quốc Anh,GBR,country,991.219177
+2025,preliminary,Na Uy,NOR,country,640.679985
+2025,preliminary,Phần Lan,FIN,country,214.306679
+2025,preliminary,Thụy Điển,SWE,country,516.909067
+2025,preliminary,Bồ Đào Nha,PRT,country,154.788825
+2025,preliminary,Hy Lạp,GRC,country,121.691824
+2025,preliminary,I-ta-li-a,ITA,country,2040.074946
+2025,preliminary,Tây Ban Nha,ESP,country,824.742824
+2025,preliminary,Áo,AUT,country,484.92127
+2025,preliminary,CHLB Đức,DEU,country,4132.043683
+2025,preliminary,Bỉ,BEL,country,777.943149
+2025,preliminary,Hà Lan,NLD,country,825.172502
+2025,preliminary,Pháp,FRA,country,2272.00254
+2025,preliminary,Thụy Sĩ,CHE,country,858.666646
+2025,preliminary,Ca-na-đa,CAN,country,1068.850426
+2025,preliminary,Hoa Kỳ,USA,country,19283.12816
+2025,preliminary,Ác-hen-ti-na,ARG,country,3395.142349
+2025,preliminary,Bra-xin,BRA,country,5031.228198
+2025,preliminary,Chi-lê,CHL,country,353.793276
+2025,preliminary,Mê-hi-cô,MEX,country,1142.40479
+2025,preliminary,Pê-ru,PER,country,81.251674
+2025,preliminary,Tuy-ni-di,TUN,country,17.350757
+2025,preliminary,Cốt-đi-voa (Bờ biển Ngà),CIV,country,1284.737319
+2025,preliminary,Nam Phi,ZAF,country,477.724615
+2025,preliminary,Niu Di-Lân,NZL,country,784.408821
+2025,preliminary,Ô-xtrây-li-a,AUS,country,7189.592408

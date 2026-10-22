@@ -1,0 +1,77 @@
+# official: false. Asian Development Bank, Key Indicators Database (kidb.adb.org SDMX v5, economy VIE), a redistributor.
+# Balance of payments (SBV via ADB), USD mn, calendar years. BPM5 before
+# 2014, BPM6 from 2014 (flagged B). Financial-account sign convention is
+# ADB's as published. %-of-GDP before 2010 uses the old GDP scale.
+# break_flags lists column:OBS_STATUS for every non-normal observation (B = time-series break). Blank = not published.
+# current_account_mn_usd: BCA_BP6_USD "Current account" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# goods_balance_mn_usd: BG_BP6_USD "Balance on goods" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# goods_exports_mn_usd: BXG_BP6_USD "Balance on goods-Exports" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# goods_imports_mn_usd: BMG_BP6_USD "Balance on goods-Imports" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# services_balance_mn_usd: BS_BP6_USD "Balance on services" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# services_credit_mn_usd: BXS_BP6_USD "Balance on services-Credit" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# services_debit_mn_usd: BMS_BP6_USD "Balance on services-Debit" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# primary_income_balance_mn_usd: BIP_BP6_USD "Balance on primary income" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# primary_income_credit_mn_usd: BXIP_BP6_USD "Balance on primary income-Credit" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# primary_income_debit_mn_usd: BMIP_BP6_USD "Balance on primary income-Debit" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# secondary_income_balance_mn_usd: BIS_BP6_USD "Balance on secondary income" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# secondary_income_credit_mn_usd: BXIS_BP6_USD "Balance on secondary income-Credit" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# secondary_income_debit_mn_usd: BMIS_BP6_USD "Balance on secondary income-Debit" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# capital_account_mn_usd: BK_BP6_USD "Capital account" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# financial_account_mn_usd: BF_BP6_USD "Financial account" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# direct_investment_mn_usd: BFD_BP6_USD "Direct investment" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# portfolio_investment_mn_usd: BFP_BP6_USD "Portfolio investment" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# other_investment_mn_usd: BFO_BP6_USD "Other investment" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# net_errors_omissions_mn_usd: BOP_BP6_USD "Net errors and omissions" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# overall_balance_mn_usd: BO_BP6_FY_USD "Overall balance" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# reserves_related_items_mn_usd: BTRUE_BP6_FY_USD "Reserves and related items" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# current_account_pct_gdp: BCA_BP6_XGDP_PS "BOP-Current account balance (%)" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# goods_balance_pct_gdp: BG_BP6_XGDP_PS "BOP-Balance on goods (%)" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# services_balance_pct_gdp: BOP_BAL_ON_SVC "BOP-Balance on services (%)" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+# overall_balance_pct_gdp: BO_BP6_FY_XGDP_PS "BOP-Overall balance (%)" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+year,current_account_mn_usd,goods_balance_mn_usd,goods_exports_mn_usd,goods_imports_mn_usd,services_balance_mn_usd,services_credit_mn_usd,services_debit_mn_usd,primary_income_balance_mn_usd,primary_income_credit_mn_usd,primary_income_debit_mn_usd,secondary_income_balance_mn_usd,secondary_income_credit_mn_usd,secondary_income_debit_mn_usd,capital_account_mn_usd,financial_account_mn_usd,direct_investment_mn_usd,portfolio_investment_mn_usd,other_investment_mn_usd,net_errors_omissions_mn_usd,overall_balance_mn_usd,reserves_related_items_mn_usd,current_account_pct_gdp,goods_balance_pct_gdp,services_balance_pct_gdp,overall_balance_pct_gdp,break_flags
+2005,-561,-2439,32447,-34886,-296,4176,-4472,-1206,364,-1570,3380,,,,3087,1889,865,333,-395,2131,-2131,-1,-4.2,-0.5,3.7,
+2006,-164,-2776,39826,-42602,-8,5100,-5108,-1429,668,-2097,4049,,,,3088,2315,1313,-540,1398,4322,-4322,-0.2,-4.2,0,6.5,
+2007,-7091.72,-10438,48561,-58999,-893.72,6030,-6923.72,-2190,1166,-3356,6430,6779,-349,,18011,6797,6243,4971,-720.28,10199,-10199,-9.2,-13.5,-1.2,13.2,
+2008,-10823,-12783,62685,-75468,-950,7006,-7956,-4401,1357,-5758,7311,7715,-404,,12341,9279,-578,3640,-1045,473,-473,-10.9,-12.9,-1,0.5,
+2009,-6607.765,-7606.825,57096,-64702.825,-2420.94,5766,-8186.94,-3028,753,-3781,6448,6801,-353,,6755,6900,-71,-74,-9022.235,-8875,8875,-6.2,-7.2,-2.3,-8.4,
+2010,-4276.168,-5136.168,72237,-77373.168,-2461,7460,-9921,-4564,456,-5020,7885,8222,-337,,6201,7100,2370,-3269,-3689.832,-1765,1765,-2.9,-3.5,-1.7,-1.2,
+2011,232.7,-450,96906,-97356,-3168.3,8691.1,-11859.4,-4834,395,-5229,8685,9213,-528,,6490,6569,1460,-1539,-5573.7,1149,-1149,0.1,-0.3,-1.8,0.7,
+2012,9266.6,8713.6,114529,-105815,-1430,9620,-11050,-6229,295,-6524,8212,8667,-455,,8729,7168,1990,-429,-6128.6,11867,-11867,4.7,4.5,-0.7,6.1,
+2013,7744,8713,132032,-123319,-3110,10710,-13820,-7336,281,-7617,9477,10027,-550,,-283.18,6944,1460,-8687.18,-6903.82,557,-557,3.6,4.1,-1.5,0.3,
+2014,8617,12126,150217,138091,-3950,11050,15000,-8844,323,9167,9285,10022,737,,5571,8050,93,-2572,-5813,8375,-8375,3.7,5.2,-1.7,3.6,current_account_mn_usd:B;current_account_pct_gdp:B;direct_investment_mn_usd:B;financial_account_mn_usd:B;goods_balance_mn_usd:B;goods_balance_pct_gdp:B;goods_exports_mn_usd:B;goods_imports_mn_usd:B;net_errors_omissions_mn_usd:B;other_investment_mn_usd:B;overall_balance_mn_usd:B;overall_balance_pct_gdp:B;portfolio_investment_mn_usd:B;primary_income_balance_mn_usd:B;primary_income_credit_mn_usd:B;primary_income_debit_mn_usd:B;reserves_related_items_mn_usd:B;secondary_income_balance_mn_usd:B;secondary_income_credit_mn_usd:B;secondary_income_debit_mn_usd:B;services_balance_mn_usd:B;services_balance_pct_gdp:B;services_credit_mn_usd:B;services_debit_mn_usd:B
+2015,-1642.784,7182.216,162017,154834.784,-4123,12580,16703,-12203,399,12602,7501,8586,1085,,966.6115353,10700,-65,-9668.388465,-5355.827535,-6032,6032,-0.686615143,3.001866508,-1.723241909,-2.521124229,
+2016,878,10876,176581,165705,-3839,13961,17800,-14144,650,14794,7985,9125,1140,,10726.42022,11600,228,-1101.579776,-3214.307224,8390,-8390,0.341506673,4.230326396,-1.493216535,3.263372422,
+2017,-1627,10646,215119,204473,-3806,14878,18684,-16994,745,17739.16,8528,10031,1503,,19691,13620,1819,4252,-5520,12544,-12544,-0.578275824,3.783850291,-1.352746027,4.458446182,
+2018,6933,16182,243697,227515,-2288,18060,20348,-15817.7,1615,17433,8857,10869,2012,,8466,14902,3021,-9457,-9368,6031,-6031,2.235683745,5.218207754,-0.737811107,1.944815904,
+2019,12475,20972,264267,243295,-945,20422,21367,-16795,2237,19032,9243,11609,2366,,18971,15670,2998,303,-8192,23254,-23254,3.730949823,6.272182741,-0.282625057,6.954669915,
+2020,14883,30708,282629,251921,-10464,9843,20307,-14817,1428,16245,9456,11427,1971,0,8484.55767,15420,-1256,-5679.44233,-6735.55767,16632,-16632,4.293920738,8.859619567,-3.018987207,4.798527831,
+2021,-4551.536,19300.464,336167,316866.536,-15425,7757,23182,-18749,982,19731,10322,13568,3246,0,30837.24178,15283,281,15273.24178,-11995.70578,14290,-14290,-1.242026714,5.266725756,-4.2091861,3.89946641,
+2022,1340.6,29399.6,371715,342315.4,-13966,14424,28390,-19728,2321,22049,5635,12287,6652,0,9470,15226,1512,-7268,-33555.6,-22745,22745,0.324336446,7.112756805,-3.378847383,-5.502784171,
+2023,27590.184,44028.184,354721,310692.816,-7030,21387,28417,-22463,4551,27014,13055,16112,3057,0,-2838,20050,-1189,-21699,-19144.184,5608,-5608,6.362748354,10.15362041,-1.62123315,1.293296658,
+2024,30384.568,43231.568,405935,362703.432,-10059,25498,35557,-15693,5542,21235,12905,16998,4093,0,-7909,19690,-5713,-21886,-31642.568,-9167,9167,6.380421197,9.07814825,-2.112278075,-1.924968,
+2025,33135.288,41893.288,475059,433165.712,-10230,30307,40537,-14399,5388,19787,15871,19766,3895,0,-3410,21290,-4931,-19769,-25863.288,3862,-3862,6.44189186,8.144550637,-1.988832985,0.750818474,

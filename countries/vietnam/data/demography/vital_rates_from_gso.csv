@@ -1,0 +1,61 @@
+# NSO, from the annual Population Change and Family Planning survey (not
+# civil registration). V02.11: crude birth rate, crude death rate and rate of
+# natural increase, per mille (‰), total/urban/rural. V02.15: total fertility
+# rate, children per woman, FULL PRECISION from the HTML JSON-stat door (the
+# JSON API rounds every year to "2"). V02.17: infant and under-5 mortality,
+# deaths per 1,000 live births, by sex and urban/rural. 2001-2025.
+#
+# V02.11 "Tỷ suất sinh thô, tỷ suất chết thô và tỷ lệ tăng tự nhiên của dân số phân theo thành thị, nông thôn chia theo Thành thị/nông thôn, Năm và Tỷ suất" — unit on the table page: ‰; NSO updated 2026-08-20; https://pxweb.nso.gov.vn/pxweb/vi/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/V02.11.px/
+# V02.15 "Tổng tỷ suất sinh phân theo thành thị, nông thôn chia theo Năm và Phân tổ" — unit on the table page: Số con/phụ nữ; NSO updated 2026-08-20; https://pxweb.nso.gov.vn/pxweb/vi/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/V02.15.px/
+# V02.17 "Tỷ suất chết của trẻ em phân theo giới tính và theo thành thị, nông thôn chia theo Tỷ suất, Năm và Phân tổ" — unit on the table page: ‰; NSO updated 2026-08-20; https://pxweb.nso.gov.vn/pxweb/vi/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/V02.17.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   cbr_total_per_mille = V02.11: TỔNG SỐ
+#   cbr_urban_per_mille = V02.11: Thành thị
+#   cbr_rural_per_mille = V02.11: Nông thôn
+#   cdr_total_per_mille = V02.11: TỔNG SỐ
+#   cdr_urban_per_mille = V02.11: Thành thị
+#   cdr_rural_per_mille = V02.11: Nông thôn
+#   natural_increase_total_per_mille = V02.11: TỔNG SỐ
+#   natural_increase_urban_per_mille = V02.11: Thành thị
+#   natural_increase_rural_per_mille = V02.11: Nông thôn
+#   tfr_total = V02.15: Tổng số
+#   tfr_urban = V02.15: Thành thị
+#   tfr_rural = V02.15: Nông thôn
+#   imr_total_per_1000_live_births = V02.17: Tổng số
+#   imr_male_per_1000_live_births = V02.17: Nam
+#   imr_female_per_1000_live_births = V02.17: Nữ
+#   imr_urban_per_1000_live_births = V02.17: Thành thị
+#   imr_rural_per_1000_live_births = V02.17: Nông thôn
+#   u5mr_total_per_1000_live_births = V02.17: Tổng số
+#   u5mr_male_per_1000_live_births = V02.17: Nam
+#   u5mr_female_per_1000_live_births = V02.17: Nữ
+#   u5mr_urban_per_1000_live_births = V02.17: Thành thị
+#   u5mr_rural_per_1000_live_births = V02.17: Nông thôn
+year,status,cbr_total_per_mille,cbr_urban_per_mille,cbr_rural_per_mille,cdr_total_per_mille,cdr_urban_per_mille,cdr_rural_per_mille,natural_increase_total_per_mille,natural_increase_urban_per_mille,natural_increase_rural_per_mille,tfr_total,tfr_urban,tfr_rural,imr_total_per_1000_live_births,imr_male_per_1000_live_births,imr_female_per_1000_live_births,imr_urban_per_1000_live_births,imr_rural_per_1000_live_births,u5mr_total_per_1000_live_births,u5mr_male_per_1000_live_births,u5mr_female_per_1000_live_births,u5mr_urban_per_1000_live_births,u5mr_rural_per_1000_live_births
+2001,final,18.6,15.4,19.7,5.1,3.9,5.4,13.5,11.6,14.2,2.25,1.86,2.38,29.5,32.9,26,20.4,32.5,45.3,56.5,33.4,30.9,50.1
+2002,final,19,16.9,19.6,5.8,4.5,6.3,13.2,12.4,13.3,2.28,1.93,2.39,26,29,22.8,17,28.8,39.6,49.8,28.8,25.6,44.1
+2003,final,17.5,15,18.9,5.8,4.7,6,11.7,10.3,12.9,2.12,1.7,2.3,21,23.6,18.3,13,21,31.8,40.4,22.6,19.5,31.8
+2004,final,19.2,16.7,19.9,5.4,4.5,5.8,13.8,12.2,14.1,2.23,1.87,2.38,18.1,20.4,15.7,11.1,20.5,27.3,35,19,16.6,31
+2005,final,18.6,15.6,19.9,5.3,4.2,5.8,13.3,11.4,14.1,2.11,1.73,2.28,17.8,20.1,15.4,9.7,20.4,26.8,34.5,18.7,14.5,30.9
+2006,final,17.4,15.3,18.2,5.3,4.8,5.5,12.1,10.5,12.7,2.09,1.72,2.25,16,18.1,13.8,10,18,24.1,31.1,16.6,14.9,27.1
+2007,final,16.9,15.9,17.4,5.3,4.7,5.6,11.6,11.2,11.8,2.07,1.7,2.22,16,18.1,13.8,9.8,18.8,24.1,31.1,16.6,14.6,28.3
+2008,final,16.7,15.8,17.3,5.3,4.8,5.5,11.4,11,11.8,2.08,1.83,2.22,15,17,12.9,10,15,22.5,29.2,15.4,14.9,22.5
+2009,final,17.6,17.3,17.8,6.8,5.5,7.4,10.8,11.8,10.4,2.03,1.81,2.14,16,18.1,13.8,9.4,18.7,24.1,31.1,16.6,14,28.2
+2010,final,17.07224304,16.39366497,17.36145899,6.8,5.4944,7.34499,10.27224304,10.89926497,10.1,2,1.77,2.11,15.8,17.9,13.6,9.2,18.2,23.8,30.7,16.3,13.7,27.4
+2011,final,16.62613522,15.28018226,17.21867207,6.9,5.780470418,7.392857143,9.726135217,9.49971184,9.825814923,1.99,1.7,2.12,15.5,17.5,13.4,8.5,18.1,23.3,30.2,16,12.8,27.2
+2012,final,16.93612054,16,17.4,7,5.9,7.5,9.936120537,10.1,9.9,2.05,1.8,2.17,15.4,17.5,13.3,8.9,18.3,23.2,30.1,15.9,13.4,27.6
+2013,final,17.04627552,16.2,17.5,7.114511314,6.2,7.5,9.931764205,10,10,2.1,1.86,2.21,15.3,17.4,13.2,8.9,18.3,23.1,29.9,15.8,13.3,27.5
+2014,final,17.22652892,16.70827071,17.47918001,6.85,6.048226983,7.240864669,10.3,10.66004373,10.3,2.09,1.85,2.21,14.9,16.9,12.9,8.7,17.8,22.4,29.1,15.4,13.1,26.9
+2015,final,16.19644085,15.30096541,16.65198287,6.81,5.828523023,7.309292325,9.386440846,9.472442385,9.4,2.1,1.82,2.25,14.7,16.7,12.7,8.6,17.6,22.1,28.7,15.1,12.9,26.5
+2016,final,15.95600841,15.52809684,16.1798501,6.83,6.184903824,7.167451541,9.2,9.343193021,9.012398564,2.09,1.86,2.21,14.5,16.4,12.5,8.5,17.5,21.8,28.3,14.9,12.9,26.4
+2017,final,14.9,14,15.4,6.84,6,7.3,8.1,8,8.1,2.04,1.77,2.19,14.4,16.3,12.3,8.4,17.3,21.5,28,14.7,12.7,26
+2018,final,14.55156079,13.41563437,15.17830617,6.82,5.369265308,7.620440287,7.8,8.046369061,7.557865887,2.05,1.75,2.22,14.2,16.1,12.2,8.3,17.1,21.4,27.8,14.5,12.6,25.7
+2019,final,16.27592539,16.19311094,16.31940517,6.322646296,5.14762964,6.939561261,9.953279091,11.0454813,9.379843911,2.09,1.83,2.26,14,15.8,12,8.2,16.7,21,27.3,14.2,12.3,25.1
+2020,final,16.3,15.94,16.6,6.06,4.98,6.7,10.24,10.9,9.9,2.12,1.88,2.29,13.9,15.7,11.9,8.1,16.4,22.3,27.2,14.1,12.2,24.6
+2021,final,15.74342752,13.8,16.6,6.376432601,5.1,6.7,9.3,8.7,9.9,2.11,1.64,2.4,13.64523134,15.47663702,11.71687946,7.2,13.8,20.47255199,26.70691695,13.86412514,10.8,20.6
+2022,final,15.2,14.20949897,15.7676937,6.1,4.950032555,6.81150383,9.1,9.2,8.956189867,2.010284016,1.721155217,2.238725265,12.09137496,13.74928105,10.34556511,6.960680844,12.79367944,18.92961686,24.99926461,12.49579025,10.50775937,19.68740464
+2023,final,14.2,13.5,14.1,5.7,4.7,6.3,8.5,8.8,7.8,1.957949831,1.698142351,2.066961277,11.6,13.20304044,9.9119153,7,12.2,17.35348852,22.85128601,11.52582318,10.56680274,18.26861664
+2024,final,13.5,12.8,13.9,5.6,4.6,6.3,7.9,8.2,7.6,1.91,1.67,2.08,11.3,12.86954322,9.647158331,6.99,12.1,16.89592446,22.28563169,11.18283479,10.5517863,18.11609529
+2025,preliminary,13.7,12.88854751,13.9,6.1,4.967780133,6.7,7.6,7.9,7.2,1.928136196,1.703978416,2.125403283,11.19923518,12.75752725,9.558231034,7.2,12,16.74223658,22.09563816,11.06763091,10.8671315,17.96357393

@@ -1,0 +1,105 @@
+# NSO V03.13-14 (Thu ngân sách Nhà nước) and V03.15 (as % of GDP).
+# Keyed on CALENDAR year, which IS Vietnam's budget year (1 January - 31
+# December under the Law on the State Budget); there is no April fiscal year
+# here. STATE BUDGET (ngân sách nhà nước: central plus local), cash basis,
+# source of record the Ministry of Finance. Not general government (ADB GFS)
+# and never spliced with it. Values in bn VND (tỷ đồng); _share_pct is the
+# head's share of the total; _pct_gdp is the NSO's own ratio to current GDP
+# (revalued scale), published for 2018-2025 only. "Ước tính 2025" is an
+# ESTIMATE, not the final accounts (quyết toán).
+#
+# V03.13-14 "Thu ngân sách Nhà nước chia theo Chỉ tiêu, Loại thu và Năm" — unit on the table page: not stated; NSO updated 2026-08-15; https://pxweb.nso.gov.vn/pxweb/vi/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/V03.13-14.px/
+# V03.15 "Tỷ lệ thu ngân sách Nhà nước so với tổng sản phẩm trong nước chia theo Chỉ tiêu, Loại thu và Năm" — unit on the table page: %; NSO updated 2026-08-15; https://pxweb.nso.gov.vn/pxweb/vi/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/V03.15.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   rev_total_vnd_bn = V03.13-14: TỔNG THU(*)
+#   rev_total_share_pct = V03.13-14: TỔNG THU(*)
+#   rev_total_pct_gdp = V03.15: TỔNG THU(*)
+#   rev_domestic_ex_crude_vnd_bn = V03.13-14: Thu trong nước (Không kể thu từ dầu thô)
+#   rev_domestic_ex_crude_share_pct = V03.13-14: Thu trong nước (Không kể thu từ dầu thô)
+#   rev_domestic_ex_crude_pct_gdp = V03.15: Thu trong nước (Không kể thu từ dầu thô)
+#   rev_soe_vnd_bn = V03.13-14: Thu từ doanh nghiệp Nhà nước(**)
+#   rev_soe_share_pct = V03.13-14: Thu từ doanh nghiệp Nhà nước(**)
+#   rev_soe_pct_gdp = V03.15: Thu từ doanh nghiệp Nhà nước(**)
+#   rev_fdi_firms_vnd_bn = V03.13-14: Thu từ doanh nghiệp có vốn đầu tư nước ngoài
+#   rev_fdi_firms_share_pct = V03.13-14: Thu từ doanh nghiệp có vốn đầu tư nước ngoài
+#   rev_fdi_firms_pct_gdp = V03.15: Thu từ doanh nghiệp có vốn đầu tư nước ngoài
+#   rev_nonstate_sector_vnd_bn = V03.13-14: Thu từ khu vực công, thương nghiệp, dịch vụ ngoài quốc doanh
+#   rev_nonstate_sector_share_pct = V03.13-14: Thu từ khu vực công, thương nghiệp, dịch vụ ngoài quốc doanh
+#   rev_nonstate_sector_pct_gdp = V03.15: Thu từ khu vực công, thương nghiệp, dịch vụ ngoài quốc doanh
+#   rev_pit_vnd_bn = V03.13-14: Thuế thu nhập cá nhân
+#   rev_pit_share_pct = V03.13-14: Thuế thu nhập cá nhân
+#   rev_pit_pct_gdp = V03.15: Thuế thu nhập cá nhân
+#   rev_lottery_vnd_bn = V03.13-14: Thu xổ số kiến thiết
+#   rev_lottery_share_pct = V03.13-14: Thu xổ số kiến thiết
+#   rev_lottery_pct_gdp = V03.15: Thu xổ số kiến thiết
+#   rev_fuel_fee_vnd_bn = V03.13-14: Thu phí xăng dầu
+#   rev_fuel_fee_share_pct = V03.13-14: Thu phí xăng dầu
+#   rev_fuel_fee_pct_gdp = V03.15: Thu phí xăng dầu
+#   rev_env_protection_tax_vnd_bn = V03.13-14: Thuế bảo vệ môi trường
+#   rev_env_protection_tax_share_pct = V03.13-14: Thuế bảo vệ môi trường
+#   rev_env_protection_tax_pct_gdp = V03.15: Thuế bảo vệ môi trường
+#   rev_fees_charges_vnd_bn = V03.13-14: Thu phí, lệ phí
+#   rev_fees_charges_share_pct = V03.13-14: Thu phí, lệ phí
+#   rev_fees_charges_pct_gdp = V03.15: Thu phí, lệ phí
+#   rev_of_which_registration_fee_vnd_bn = V03.13-14: Trong đó: Lệ phí trước bạ
+#   rev_of_which_registration_fee_share_pct = V03.13-14: Trong đó: Lệ phí trước bạ
+#   rev_of_which_registration_fee_pct_gdp = V03.15: Trong đó: Lệ phí trước bạ
+#   rev_land_housing_vnd_bn = V03.13-14: Các khoản thu về nhà đất
+#   rev_land_housing_share_pct = V03.13-14: Các khoản thu về nhà đất
+#   rev_land_housing_pct_gdp = V03.15: Các khoản thu về nhà đất
+#   rev_agri_land_use_tax_vnd_bn = V03.13-14: Thuế sử dụng đất nông nghiệp
+#   rev_agri_land_use_tax_share_pct = V03.13-14: Thuế sử dụng đất nông nghiệp
+#   rev_agri_land_use_tax_pct_gdp = V03.15: Thuế sử dụng đất nông nghiệp
+#   rev_other_vnd_bn = V03.13-14: Các khoản thu khác
+#   rev_other_share_pct = V03.13-14: Các khoản thu khác
+#   rev_other_pct_gdp = V03.15: Các khoản thu khác
+#   rev_crude_oil_vnd_bn = V03.13-14: Thu từ dầu thô
+#   rev_crude_oil_share_pct = V03.13-14: Thu từ dầu thô
+#   rev_crude_oil_pct_gdp = V03.15: Thu từ dầu thô
+#   rev_trade_net_vnd_bn = V03.13-14: Thu cân đối ngân sách từ hoạt động xuất nhập khẩu
+#   rev_trade_net_share_pct = V03.13-14: Thu cân đối ngân sách từ hoạt động xuất nhập khẩu
+#   rev_trade_net_pct_gdp = V03.15: Thu cân đối ngân sách từ hoạt động xuất nhập khẩu
+#   rev_trade_duties_excise_vnd_bn = V03.13-14: Thuế xuất, nhập khẩu, thuế tiêu thụ đặc biệt hàng nhập khẩu; Thu chênh lệch giá hàng nhập khẩu
+#   rev_trade_duties_excise_share_pct = V03.13-14: Thuế xuất, nhập khẩu, thuế tiêu thụ đặc biệt hàng nhập khẩu; Thu chênh lệch giá hàng nhập khẩu
+#   rev_trade_duties_excise_pct_gdp = V03.15: Thuế xuất, nhập khẩu, thuế tiêu thụ đặc biệt hàng nhập khẩu; Thu chênh lệch giá hàng nhập khẩu
+#   rev_import_vat_vnd_bn = V03.13-14: Thuế giá trị gia tăng hàng nhập khẩu
+#   rev_import_vat_share_pct = V03.13-14: Thuế giá trị gia tăng hàng nhập khẩu
+#   rev_import_vat_pct_gdp = V03.15: Thuế giá trị gia tăng hàng nhập khẩu
+#   rev_trade_gross_vnd_bn = V03.13-14: Tổng số thu từ hoạt động xuất, nhập khẩu
+#   rev_trade_gross_share_pct = V03.13-14: Tổng số thu từ hoạt động xuất, nhập khẩu
+#   rev_trade_gross_pct_gdp = V03.15: Tổng số thu từ hoạt động xuất, nhập khẩu
+#   rev_vat_refunds_vnd_bn = V03.13-14: Hoàn thuế giá trị gia tăng
+#   rev_vat_refunds_share_pct = V03.13-14: Hoàn thuế giá trị gia tăng
+#   rev_vat_refunds_pct_gdp = V03.15: Hoàn thuế giá trị gia tăng
+#   rev_aid_vnd_bn = V03.13-14: Thu viện trợ
+#   rev_aid_share_pct = V03.13-14: Thu viện trợ
+#   rev_aid_pct_gdp = V03.15: Thu viện trợ
+# Dropped, blank in every year of the published table: rev_lottery_pct_gdp, rev_fuel_fee_pct_gdp, rev_trade_duties_excise_pct_gdp, rev_import_vat_pct_gdp.
+year,status,rev_total_vnd_bn,rev_total_share_pct,rev_total_pct_gdp,rev_domestic_ex_crude_vnd_bn,rev_domestic_ex_crude_share_pct,rev_domestic_ex_crude_pct_gdp,rev_soe_vnd_bn,rev_soe_share_pct,rev_soe_pct_gdp,rev_fdi_firms_vnd_bn,rev_fdi_firms_share_pct,rev_fdi_firms_pct_gdp,rev_nonstate_sector_vnd_bn,rev_nonstate_sector_share_pct,rev_nonstate_sector_pct_gdp,rev_pit_vnd_bn,rev_pit_share_pct,rev_pit_pct_gdp,rev_lottery_vnd_bn,rev_lottery_share_pct,rev_fuel_fee_vnd_bn,rev_fuel_fee_share_pct,rev_env_protection_tax_vnd_bn,rev_env_protection_tax_share_pct,rev_env_protection_tax_pct_gdp,rev_fees_charges_vnd_bn,rev_fees_charges_share_pct,rev_fees_charges_pct_gdp,rev_of_which_registration_fee_vnd_bn,rev_of_which_registration_fee_share_pct,rev_of_which_registration_fee_pct_gdp,rev_land_housing_vnd_bn,rev_land_housing_share_pct,rev_land_housing_pct_gdp,rev_agri_land_use_tax_vnd_bn,rev_agri_land_use_tax_share_pct,rev_agri_land_use_tax_pct_gdp,rev_other_vnd_bn,rev_other_share_pct,rev_other_pct_gdp,rev_crude_oil_vnd_bn,rev_crude_oil_share_pct,rev_crude_oil_pct_gdp,rev_trade_net_vnd_bn,rev_trade_net_share_pct,rev_trade_net_pct_gdp,rev_trade_duties_excise_vnd_bn,rev_trade_duties_excise_share_pct,rev_import_vat_vnd_bn,rev_import_vat_share_pct,rev_trade_gross_vnd_bn,rev_trade_gross_share_pct,rev_trade_gross_pct_gdp,rev_vat_refunds_vnd_bn,rev_vat_refunds_share_pct,rev_vat_refunds_pct_gdp,rev_aid_vnd_bn,rev_aid_share_pct,rev_aid_pct_gdp
+2000,final,90749,100,,46233,50.95,,19692,21.7,,4735,5.22,,5802,6.39,,1831,2.02,,1969,2.17,2192,2.41,,,,2713,2.99,,934,1.03,,2823,3.11,,1776,1.96,,1766,1.95,,23534,25.93,,18954,20.89,,13568,14.95,5386,5.94,,,,,,,2028,2.23,
+2002,final,123860,100,,63530,51.29,,25066,20.24,,7276,5.87,,7764,6.27,,2338,1.89,,3029,2.45,2995,2.42,,,,3021,2.44,,1332,1.07,,5486,4.43,,772,0.62,,4451,3.59,,26510,21.4,,31571,25.49,,22083,17.83,9488,7.66,,,,,,,2249,1.82,
+2003,final,152274,100,,78687,51.67,,28748,18.88,,9942,6.53,,10361,6.8,,2951,1.94,,3657,2.4,3204,2.1,,,,3279,2.15,,1817,1.19,,10546,6.93,,151,0.1,,4031,2.65,,36773,24.15,,33845,22.23,,21507,14.12,12338,8.1,,,,,,,2969,1.95,
+2004,final,190928,100,,104576,54.77,,32177,16.85,,15109,7.91,,13261,6.95,,3521,1.84,,4570,2.39,3583,1.88,,,,4182,2.19,,2607,1.37,,17463,9.15,,130,0.07,,7973,4.18,,48562,25.43,,34913,18.29,,21654,11.34,13259,6.94,,,,,,,2877,1.51,
+2005,final,228287,100,,119826,52.5,,39079,17.12,,19081,8.36,,16938,7.42,,4234,1.85,,,,3943,1.73,,,,4192,1.84,,2797,1.23,,17757,7.78,,132,0.06,,11673,5.11,,66558,29.16,,38114,16.69,,23660,10.36,14454,6.33,,,,,,,3789,1.65,
+2006,final,279472,100,,145404,52.03,,46344,16.58,,25838,9.25,,22091,7.9,,5179,1.85,,6142,2.2,3969,1.42,,,,4986,1.784078548,,3363,1.2,,20536,7.35,,111,0.04,,6845,2.45,,83346,29.82,,42825,15.32,,26280,9.4,16545,5.92,,,,,,,7897,2.83,
+2007,final,315915,100,,174298,55.17,,50371,15.94,,31388,9.94,,31178,9.87,,7422,2.35,,,,4457,1.41,,,,4059,1.284839276,,5690,1.8,,33925,10.74,,113,0.04,,5695,1.8,,76980,24.37,,60381,19.11,,38385,12.15,21996,6.96,,,,,,,4256,1.35,
+2008,final,430549,100,,240076,55.76,,71835,16.68,,43953,10.21,,43527,10.11,,12940,3.01,,,,4517,1.05,,,,7773,1.805369424,,7363,1.71,,39072,9.07,,97,0.02,,8999,2.09,,89603,20.81,,91457,21.24,,60474,14.04,30983,7.2,,,,,,,9413,2.19,
+2009,final,454786,100,,280112,61.59,,84049,18.48,,50785,11.17,,47903,10.53,,14318,3.15,,,,8962,1.97,,,,9363,2.058770499,,9670,2.13,,43677,9.6,,67,0.01,,11318,2.49,,61137,13.44,,105629,23.23,,76996,16.93,28633,6.3,,,,,,,7908,1.74,
+2010,final,599974,100,,388576,64.76547317,,112143,18.69130996,,64915,10.81963552,,70023,11.67100574,,26311,4.385356699,,,,10521,1.79,10521,1.753575988,,22632,3.77216346,,12611,2.101924417,,55849,9.31207019,,56,0.009333737795,,26161,4.360355615,,69179,11.53033298,,130351,21.72610813,,74068,12.59,56283,9.56,,,,,,,11868,1.978085717,
+2011,final,721804,100,,443731,61.47,,126418,17.51,,77076,10.68,,84503,11.71,,38458,5.33,,,,,,11201,1.55,,10341,1.43266039,,15700,2.18,,60633,8.4,,72,0.01,,19329,2.67,,110205,15.27,,155765,21.58,,81405,11.28,74360,10.3,,,,,,,12103,1.68,
+2012,final,734883,100,,477106,64.92,,142838,19.43,,82546,11.23,,92086,12.53,,44959,6.12,,,,,,12676,1.72,,11281,1.535074291,,11816,1.61,,54236,7.38,,69,0.01,,24599,3.35,,140106,19.07,,107404,14.61,,71276,9.7,36128,4.92,,,,,,,10267,1.4,
+2013,final,828348,100,,567403,68.5,,189076,22.83,,111241,13.43,,105456,12.73,,46548,5.62,,,,,,11849,1.43,,14283,1.724275305,,13595,1.64,,54313,6.56,,69,0.01,,20973,2.53,,120436,14.54,,129385,15.62,,78253,9.45,51132,6.17,,,,,,,11124,1.34,
+2014,final,877697,100,,593560,67.63,,188062,21.43,,123802,14.11,,112196,12.78,,47851,5.45,,,,,,12087,1.38,,32128,3.660488756,,16090,1.83,,55617,6.34,,61,0.01,,21816,2.48,,100082,11.4,,173005,19.71,,95603,10.89,77402,8.82,,,,,,,11050,1.26,
+2015,final,1020589,100,,771932,75.64,,159907,15.67,,140979,13.81,,129582,12.7,,56723,5.56,,,,,,27020,2.65,,47786,4.68,,22405,2.2,,85965,8.42,,58,0.01,,123970,12.15,,67510,6.61,,169303,16.59,,99315,9.95,69988,7.01,,,,,,,11844,1.16,
+2016,final,1131498,100,,910909,80.51,,152975,13.52,,162934,14.4,,157082,13.88,,65235,5.77,,,,,,43142,3.81,,49187,4.35,,27304,2.41,,123854,10.95,,60,0.01,,156500,13.83,,40186,3.55,,172025,15.2,,,,,,271027,23.95,,-99002,-8.75,,8378,0.74,
+2017,final,1293627,100,,1039192,80.33,,147238,11.38,,172166,13.31,,181001,13.99,,78775,6.09,,,,,,44665,3.45,,63535,4.91,,27613,2.13,,154568,11.95,,39,0,,197244,15.25,,49583,3.83,,197273,15.25,,,,,,296415,22.91,,-99142,-7.66,,7580,0.59,
+2018,final,1431662,100,20.42592944,1155293,80.69593242,16.48289421,153324,10.70951104,2.187517169,190309,13.2928722,2.715192696,209624,14.64200349,2.990765301,94364,6.591220553,1.346318059,,,,,47050,3.286390223,0.671275748,69940,4.885231291,0.9978538962,32409,2.263732641,0.4623884318,180779,12.62721229,2.579225472,27,0.001885920001,0.0003852166886,209903,14.66149133,2.994745873,66049,4.613449264,0.9423398912,202540,14.14719396,2.889695856,,,,,314323,21.95511231,4.484535748,-111783,-7.807918349,-1.594839893,7780,0.5434243557,0.1109994754
+2019,final,1553611,100,20.15791652,1277988,82.25920131,16.58174113,165055,10.62395928,2.141568843,212199,13.65843831,2.753256592,238228,15.33382552,3.090979748,109406,7.042045918,1.419529737,,,,,63075,4.059896589,0.8183905653,81201,5.226597906,1.053573243,40190,2.586876638,0.5214604331,193337,12.44436349,2.508524403,20,0.001287323532,0.000259497603,215488,13.87013866,2.795930973,56251,3.6206618,0.7298499832,214239,13.78974531,2.779725348,,,,,347282,22.35321454,4.505942328,-133043,-8.563469234,-1.72621698,5133,0.3303915845,0.0666000598
+2020,final,1510579,100,18.77805159,1293729,85.64457734,16.08238292,148183,9.809682248,1.842067193,209090,13.84171235,2.599203886,247134,16.36021684,3.072129959,115150,7.62290486,1.431433007,,,,,60631,4.013758963,0.7537057286,69932,4.629483132,0.8693267308,34823,2.305274997,0.4328857282,212970,14.0985675,2.647436279,6,0.00039719869,7.458617492e-05,230639,15.26825145,2.867080133,34598,2.290380046,0.4300887467,177444,11.74675406,2.205811537,,,,,314463,20.81738194,3.909098721,-137019,-9.070627885,-1.703287184,4808,0.3182885503,0.05976838817
+2021,final,1591410.685,100,18.75010445,1313281,82.52307291,15.47316237,163896.1749,10.2987982,1.931035419,217259.0205,13.65197698,2.559759944,289878.2806,18.21517747,3.415364802,127660.5574,8.0218487,1.50410501,,,,,58592.10842,3.681771711,0.6903360415,73036.04435,4.589390094,0.8605154364,38165.852,2.398240276,0.4496725567,228275.3543,14.344214,2.689555108,10.239,0.0006433914322,0.0001206365656,154683.4595,9.719895748,1.822490605,44637.57329,2.804905968,0.5259227989,216307.1335,13.6,2.54854475,,,,,377105.3686,23.69629487,4.44308004,-160798.2351,-10.10413193,-1.89453529,17184.97837,1.079858174,0.2024745356
+2022,final,1820310,100,18.91944344,1447915,79.54222083,15.04894548,174448,9.583422604,1.813130219,243447,13.37393081,2.530273276,307613,16.8989348,3.197184411,162790,8.942982239,1.691962467,,,,,43067,2.365915696,0.4476180819,88740,4.87499382,0.9223216984,47654,2.617905741,0.495293196,255386,14.02980811,2.65436161,9,0.0004944212799,9.35417544e-05,172424,9.472232752,1.792093718,78137,4.292510616,0.8121191182,285898,15.70600612,2.971488944,,,,,436627,23.98640891,4.538095067,-150729,-8.280402789,-1.566606122,8360,0.4592624333,0.08688989631
+2023,final,1770776,100,17.1602471,1483781,83.79269879,14.37903416,179278,10.12426191,1.73734836,238795,13.48533073,2.314116074,335317,18.93616132,3.249492073,157034,8.86808947,1.521786066,,,,,37267,2.10455755,0.3611472759,79618,4.496220866,0.7715626106,34646,1.956543346,0.3357476727,202468,11.43385725,1.962078156,10,0.0005647241661,9.690806232e-05,254004,14.34421971,2.461503546,61971,3.49965213,0.600548953,219651,12.41,2.12859528,,,,,368593,20.81533746,3.571963342,-148942,-8.411114675,-1.443368062,5373,0.3034262945,0.05206870189
+2024,final,2057544,100,17.87563165,1723643,83.77186588,14.97475017,180215,8.758743434,1.565680714,260871,12.67875681,2.266407865,391948,19.04931316,3.405185053,186350,9.056914457,1.618980668,,,,,40333,1.960249696,0.3504070151,95870,4.659438632,0.8329040869,41875,2.035193415,0.3638036783,293931,14.28552682,2.553628155,8,0.0003888130703,6.950279227e-05,274125,13.32292286,2.381556617,58646,2.850291415,0.5095075945,272006,13.219936,2.363147064,,,,,427433,20.77394214,3.713473376,-155427,-7.554006135,-1.350326312,3249,0.1579067082,0.02822682151
+2025,estimate,2681469,100,20.87140795,2308437,86.08852088,17.96788639,192061,7.162529196,1.494920688,323862,12.07778274,2.520803306,502615,18.74401681,3.912140214,235080,8.766836387,1.829762187,,,,,42486,1.584430027,0.3306928546,110271,4.11233544,0.8583023059,51559,1.922789337,0.4013132065,579943,21.62780923,4.514028296,6,0.0002237579476,0.0001,322119,12.01278105,2.50723654,48304,1.80140065,0.3759776785,318783,11.88837164,2.481270542,,,,,469499,17.50902211,3.654379432,-150716,-5.620650472,-1.173108889,5945,0.2217068331,0.04627333758

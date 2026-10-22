@@ -1,0 +1,130 @@
+# Vietnam. The first country in the atlas whose statistical office does not
+# publish to OECD or Eurostat standards, and the first whose comparables
+# layer (World Bank, ADB, IMF, UN) carries chapters the national publishers
+# cannot. Every number that comes from that layer is flagged official: false
+# in SOURCES.yaml; this file only names who the dek credits.
+#
+# The `vi` locale is new to the atlas. It needs AFFIX/CURRENCY_AFFIX columns
+# in core/sitebuild.py (VND: no decimals, the đồng sign ₫ written after the
+# number, "nghìn tỷ" for trillions), a `vi` entry in site/ui.json, and a
+# `vi` name in every other country's country.yaml — all Phase B work, none
+# of it done here. The plate fonts already cover Vietnamese: Liberation Sans
+# and Noto Sans (regular and bold) carry all 90 precomposed letters of
+# U+1EA0–U+1EF9 plus đ/Đ, ơ, ư and ₫ (checked 2026-10-22). Matplotlib does
+# not stack combining marks, so every string must stay NFC; the NSO's own
+# labels already are.
+slug: vietnam
+flag_emoji: "🇻🇳"
+# The endonym, as Brazil and Korea do. Two words with a stacked diacritic
+# (ệ), so the wordmark is set at the two-word size.
+wordmark: Việt Nam
+name:
+  en: "Vietnam"
+  fr: "Viêt Nam"
+  pt: "Vietnã"
+  es: "Vietnam"
+  ko: "베트남"
+  vi: "Việt Nam"
+
+locales:
+  - {code: vi, html_lang: vi,    og_locale: vi_VN, endonym: Tiếng Việt}
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual totals
+# are complete. The NSO marks its 2025 figures "Sơ bộ" (preliminary) or, for
+# GDP and the budget, "Ước tính" (estimate); they are complete-year figures
+# on a provisional footing, so 2025 is the last full year and the plates
+# label it provisional. 2026 exists only in monthly and quarterly press
+# releases; the NSO's PX-Web tables stop at 2025.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+
+# No bands. Vietnam had no recession in this window on any definition the
+# atlas can apply. Annual real GDP growth never fell below zero (NSO V03.01,
+# pulled 2026-10-22: lowest 2.55% in 2021 and 2.87% in 2020; 5.66% and 5.40%
+# in 2008–09). The NSO publishes no seasonally adjusted quarter-on-quarter
+# series, so the two-quarter rule every other country is banded on cannot
+# be applied to an official number. The only year-on-year quarterly
+# contraction is 2021 Q3, the Delta lockdown in the south (the NSO's first
+# estimate was −6.17% y/y, from its press release, not a table). That
+# quarter, the 2008 inflation shock (CPI +23% for the year), the 2011
+# stabilisation and the 2022 bond-market and property crisis belong in
+# events.py as events. They are not bands.
+bands: []
+
+currency:
+  code: VND
+
+# Red field and a yellow star. The flag's red (#DA251D) is pulled toward a
+# deep lacquer scarlet that holds on newsprint and stays clear of Canada's
+# #B5272F, Spain's #A32630 and Portugal's #AE3A2C. The star's yellow (#FFCD00)
+# cannot survive on the paper, so it is darkened to a marigold gold. The
+# supporting hues are cool (jade, teal, blue) so they stay apart from the red
+# in greyscale. Greyscale order: red darkest, gold light, the cool hues
+# between.
+palette:
+  RED:     "#A8261B"
+  RED_D:   "#7C1A12"
+  GOLD:    "#C08A14"
+  GOLD_D:  "#8F660E"
+  JADE:    "#2E7D5B"
+  TEAL:    "#13807A"
+  BLUE:    "#2F6E9B"
+  NAVY:    "#1C3A55"
+  PURPLE:  "#6E5BA6"
+  primary: "#A8261B"
+  alert:   "#A8261B"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#A8261B", "#2F6E9B", "#C08A14", "#2E7D5B", "#6E5BA6", "#13807A", "#1F2430"]
+  # Red, the star, red: the star laid flat as the middle band. Gold is not
+  # the paper, so no outline is drawn.
+  flag_bands: ["#A8261B", "#C08A14", "#A8261B"]
+  # A gold-tinted near-black. Canada's chrome is a red-black and Spain's is
+  # warm brown, so a red ground would collide with one and brown with the
+  # other. Olive-black keeps the red accent from sitting on a red page.
+  web:
+    # V is a diagonal that already overhangs its own box, so it needs less
+    # bearing than a stem letter. The two-word clamp is the one the USA and
+    # the UK use.
+    mark_bearing: "0.03em"
+    mark_size: "clamp(2.5rem, 7.5vw, 5.4rem)"
+    ground:   "#15130B"
+    raised:   "#1E1B11"
+    raised_2: "#282417"
+    rule:     "#3A3522"
+    ink:      "#F2EEE2"
+    muted:    "#B9B096"
+    faint:    "#7E7760"
+    money:    "#E8705F"
+    world:    "#46A9A2"
+    people:   "#E0B23E"
+
+seo:
+  title:
+    vi: "Việt Nam — các bảng dữ liệu chính thức, 2006–2026"
+    en: "Vietnam — plates of official data, 2006–2026"
+    pt: "Vietnã — pranchas de dados oficiais, 2006–2026"
+  description:
+    vi: "Các bảng dữ liệu về kinh tế, ngân sách, thương mại, thị trường, lao động, dân số, di cư, tử vong, tín dụng và an ninh của Việt Nam, xây dựng từ số liệu của Cục Thống kê và các tổ chức quốc tế, ghi rõ nguồn nào là chính thức."
+    en: "Data plates on Vietnam's economy, state budget, trade, markets, work, population, migration, mortality, credit and public safety, built from the National Statistics Office and the international bodies that carry what it does not, each marked official or not."
+    pt: "Pranchas de dados sobre a economia, o orçamento, o comércio, os mercados, o trabalho, a população, a migração, a mortalidade, o crédito e a segurança do Vietnã, construídas a partir do Escritório Nacional de Estatística e dos organismos internacionais, cada série marcada como oficial ou não."
+  keywords: [Vietnam, Việt Nam, Cục Thống kê, GSO, NSO, State Bank of Vietnam, World Bank, ADB, official statistics]
+  # The NSO's "Cả nước" (whole country). No series here is regional, and
+  # nothing mixes a provincial aggregate with the national figure.
+  spatial: "Vietnam"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+sources:
+  vi: "Cục Thống kê (Bộ Tài chính), Ngân hàng Nhà nước Việt Nam (qua Cục Thống kê), Ngân hàng Thế giới, Ngân hàng Phát triển châu Á, IMF, UNDP, WHO và Liên Hợp Quốc"
+  en: "the National Statistics Office (GSO, Ministry of Finance), the State Bank of Vietnam (via the NSO), the World Bank, the Asian Development Bank, the IMF, UNDP, the WHO and the UN"
+  pt: "o Escritório Nacional de Estatística (GSO, Ministério das Finanças), o Banco do Estado do Vietnã (via GSO), o Banco Mundial, o Banco Asiático de Desenvolvimento, o FMI, o PNUD, a OMS e a ONU"

@@ -1,0 +1,55 @@
+# NSO V09.01: merchandise trade, CUSTOMS basis (source of record Vietnam
+# Customs), US$ millions; _index_prev100 is the growth index, previous year =
+# 100 (balance index as published). Goods only. The BoP basis (V03.20, FOB)
+# is a different series in international/bop_from_gso.csv.
+#
+# V09.01 "Tổng mức lưu chuyển hàng hoá xuất, nhập khẩu chia theo Giá trị và chỉ số phát triển, Năm và Xuất, nhập khẩu" — unit on the table page: not stated; NSO updated 9999-12-31; https://pxweb.nso.gov.vn/pxweb/vi/Xu%E1%BA%A5t%20nh%E1%BA%ADp%20kh%E1%BA%A9u/Xu%E1%BA%A5t%20nh%E1%BA%ADp%20kh%E1%BA%A9u/V09.01.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   total_usd_mn = V09.01: Tổng số
+#   exports_usd_mn = V09.01: Xuất khẩu
+#   imports_usd_mn = V09.01: Nhập khẩu
+#   balance_usd_mn = V09.01: Cân đối (*)
+#   total_index_prev100 = V09.01: Tổng số (Chỉ số phát triển (Năm trước = 100) - %)
+#   exports_index_prev100 = V09.01: Xuất khẩu (Chỉ số phát triển (Năm trước = 100) - %)
+#   imports_index_prev100 = V09.01: Nhập khẩu (Chỉ số phát triển (Năm trước = 100) - %)
+#   balance_index_prev100 = V09.01: Cân đối (*) (Chỉ số phát triển (Năm trước = 100) - %)
+# Dropped, blank in every year of the published table: balance_index_prev100.
+year,status,total_usd_mn,exports_usd_mn,imports_usd_mn,balance_usd_mn,total_index_prev100,exports_index_prev100,imports_index_prev100
+1990,final,5156.4,2404,2752.4,-348.4,,,
+1991,final,4425.2,2087.1,2338.1,-251,85.8,86.8,84.9
+1992,final,5121.5,2580.7,2540.8,39.9,115.7,123.7,108.7
+1993,final,6909.1,2985.2,3923.9,-938.7,134.9,115.7,154.4
+1994,final,9880.1,4054.3,5825.8,-1771.5,143,135.8,148.5
+1995,final,13604.3,5448.9,8155.4,-2706.5,137.7,134.4,140
+1996,final,18399.4,7255.8,11143.6,-3887.8,135.2,133.2,136.6
+1997,final,20777.3,9185,11592.3,-2407.3,112.9,126.6,104
+1998,final,20859.9,9360.3,11499.6,-2139.3,100.4,101.9,99.2
+1999,final,23283.5,11541.4,11742.1,-200.7,111.6,123.3,102.1
+2000,final,30119.2,14482.7,15636.5,-1153.8,129.4,125.5,133.2
+2001,final,31247.1,15029.2,16217.9,-1188.7,103.7,103.8,103.7
+2002,final,36451.7,16706.1,19745.6,-3039.5,116.7,111.2,121.8
+2003,final,45405.1,20149.3,25255.8,-5106.5,124.6,120.6,127.9
+2004,final,58453.8,26485,31968.8,-5483.8,128.7,131.4,126.6
+2005,final,69208.2,32447.1,36761.1,-4314,118.4,122.5,115
+2006,final,84717.3,39826.2,44891.1,-5064.9,122.4,122.7,122.1
+2007,final,111326.1,48561.4,62764.7,-14203.3,131.4,121.9,139.8
+2008,final,143398.9,62685.1,80713.8,-18028.7,128.8,129.1,128.6
+2009,final,127045.1,57096.3,69948.8,-12852.5,88.6,91.1,86.7
+2010,final,157075.3,72236.7,84838.6,-12601.9,123.6,126.5,121.3
+2011,final,203655.5,96905.7,106749.8,-9844.1,129.7,134.2,125.8
+2012,final,228309.6,114529.2,113780.4,748.8,112.1,118.2,106.6
+2013,final,264065.5,132032.9,132032.6,0.3,115.7,115.3,116
+2014,final,298066.2,150217.1,147849.1,2368,112.9,113.8,112
+2015,final,327792.6,162016.7,165775.9,-3759.2,110,107.9,112.1
+2016,final,351559.2,176580.8,174978.4,1602.4,107.3,109,105.6
+2017,final,428333.9,215118.6,213215.3,1903.3,121.8,121.8,121.9
+2018,final,480938.4,243696.8,237241.6,6455.2,112.3,113.3,111.3
+2019,final,517963.7,264267.2,253696.5,10570.7,107.7,108.4,106.9
+2020,final,545419.9,282628.9,262791,19837.9,105.3,106.9,103.6
+2021,final,669136.5,336166.8,332969.7,3197.1,122.7,118.9,126.7
+2022,final,731495.5,371715.4,359780.1,11935.3,109.3,110.6,108.1
+2023,final,681327.9,354721,326606.9,28114.1,93.1,95.4,90.8
+2024,final,787239.1,405935.4,381303.7,24631.7,115.5,114.4,116.7
+2025,preliminary,929924.2,474997.8,454926.4,20071.4,118.1,117,119.3

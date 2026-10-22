@@ -1,0 +1,48 @@
+# NSO V14.38: income Gini coefficient (0-1 scale) from the VHLSS, national,
+# urban/rural and six regions; survey years 2002-2018 biennial, then annual.
+# UNDOCUMENTED STEP: the national Gini falls from 0.423 (2019) to 0.375
+# (2020), five points in a year, with no footnote in the table; a VHLSS
+# income-module or weighting change is the likely cause, unverified. Every
+# column is therefore split into _2002_2019 and _2020_on and the two segments
+# are never joined. The World Bank's SI.POV.GINI is a consumption Gini on a
+# 0-100 scale, a different quantity in its own file.
+#
+# V14.38 "Hệ số bất bình đẳng trong phân phối thu nhập (hệ số GINI) chia theo Phân tổ và Năm" — unit on the table page: not stated; NSO updated 2026-08-21; https://pxweb.nso.gov.vn/pxweb/vi/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/V14.38.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   gini_national_2002_2019 = V14.38: CẢ NƯỚC
+#   gini_national_2020_on = V14.38: CẢ NƯỚC
+#   gini_urban_2002_2019 = V14.38: Thành thị
+#   gini_urban_2020_on = V14.38: Thành thị
+#   gini_rural_2002_2019 = V14.38: Nông thôn
+#   gini_rural_2020_on = V14.38: Nông thôn
+#   gini_red_river_delta_2002_2019 = V14.38: Đồng bằng sông Hồng
+#   gini_red_river_delta_2020_on = V14.38: Đồng bằng sông Hồng
+#   gini_northern_midlands_mountains_2002_2019 = V14.38: Trung du và miền núi phía Bắc
+#   gini_northern_midlands_mountains_2020_on = V14.38: Trung du và miền núi phía Bắc
+#   gini_north_central_coast_2002_2019 = V14.38: Bắc Trung Bộ và Duyên hải miền Trung
+#   gini_north_central_coast_2020_on = V14.38: Bắc Trung Bộ và Duyên hải miền Trung
+#   gini_central_highlands_2002_2019 = V14.38: Tây Nguyên
+#   gini_central_highlands_2020_on = V14.38: Tây Nguyên
+#   gini_southeast_2002_2019 = V14.38: Đông Nam Bộ
+#   gini_southeast_2020_on = V14.38: Đông Nam Bộ
+#   gini_mekong_delta_2002_2019 = V14.38: Đồng bằng sông Cửu Long
+#   gini_mekong_delta_2020_on = V14.38: Đồng bằng sông Cửu Long
+year,status,gini_national_2002_2019,gini_national_2020_on,gini_urban_2002_2019,gini_urban_2020_on,gini_rural_2002_2019,gini_rural_2020_on,gini_red_river_delta_2002_2019,gini_red_river_delta_2020_on,gini_northern_midlands_mountains_2002_2019,gini_northern_midlands_mountains_2020_on,gini_north_central_coast_2002_2019,gini_north_central_coast_2020_on,gini_central_highlands_2002_2019,gini_central_highlands_2020_on,gini_southeast_2002_2019,gini_southeast_2020_on,gini_mekong_delta_2002_2019,gini_mekong_delta_2020_on
+2002,final,0.42,,0.41,,0.36,,,,,,,,,,,,,
+2004,final,0.42,,0.41,,0.37,,,,,,,,,,,,,
+2006,final,0.424,,0.393,,0.378,,,,,,,,,,,,,
+2008,final,0.434,,0.404,,0.385,,0.411,,0.401,,0.381,,0.405,,0.41,,0.395,
+2010,final,0.433,,0.402,,0.395,,0.408,,0.406,,0.385,,0.408,,0.414,,0.398,
+2012,final,0.424,,0.385,,0.399,,0.393,,0.411,,0.384,,0.397,,0.391,,0.403,
+2014,final,0.43,,0.397,,0.398,,0.407,,0.416,,0.385,,0.408,,0.397,,0.395,
+2016,final,0.431,,0.391,,0.408,,0.401,,0.433,,0.393,,0.439,,0.387,,0.405,
+2018,final,0.425,,0.373,,0.408,,0.39,,0.444,,0.383,,0.44,,0.375,,0.4,
+2019,final,0.42303412,,0.37305581,,0.41489565,,0.38677752,,0.43774779,,0.38937056,,0.44274821,,0.37524988,,0.39528595,
+2020,final,,0.37475739,,0.32963276,,0.37307323,,0.32717505,,0.42023455,,0.35404088,,0.40626495,,0.29123967,,0.36765862
+2021,final,,0.37425315,,0.33538314,,0.37417864,,0.32651585,,0.42805049,,0.34686683,,0.41815074,,0.32193629,,0.35215536
+2022,final,,0.37549185,,0.3536374,,0.36440412,,0.33286723,,0.40800691,,0.35146385,,0.39920018,,0.34598833,,0.35162393
+2023,final,,0.37329122,,0.34515422,,0.36936903,,0.33536,,0.41079,,0.35407,,0.40443,,0.34116,,0.34511
+2024,final,,0.37245,,0.33901871,,0.36909648,,0.33583,,0.40098,,0.35323,,0.40544,,0.33786,,0.35068
+2025,final,,0.32286477,,0.29328,,0.32145,,0.28835,,0.38509,,0.30102,,0.31198,,0.26819,,0.30681
