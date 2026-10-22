@@ -187,6 +187,19 @@ fiscal:
       primary_balance_pct_gdp, gross_debt_pct_gdp.
 
 trade:
+  trade_na.csv:
+    source: 'INSEE national accounts via Eurostat — nama_10_gdp, P6 and P7, % of GDP'
+    url: 'https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_gdp?geo=FR&na_item=P6&unit=PC_GDP'
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Exports and imports of goods AND services at current prices, % of
+      GDP, and their difference: the spine's trade basis (trade slots 1
+      and 2). Adopted from trade_na_from_estat.csv after review; spot value
+      2022 exports 36.6% asserted by the fetcher, and identical to the
+      World Bank's NE.EXP.GNFS.ZS / NE.IMP.GNFS.ZS (trade_from_wb.csv) to
+      within 0.4 pt in every year (the WDI vintage lags a revision). The customs goods series stays in trade.csv.
+      Columns: exports_pct_gdp, imports_pct_gdp, balance_pct_gdp.
+    compiled: spine redraw 2026-10-22
   trade.csv:
     source: Douanes/DGDDI — Le chiffre du commerce extérieur, FAB/FAB, données brutes
     url: https://lekiosque.finances.gouv.fr/fichiers/Etudes/thematiques/Data_Analyse_An_A2025.XLS
@@ -255,6 +268,17 @@ trade:
       imports_pct_gdp.
 
 markets:
+  bond_yields.csv:
+    source: 'Eurostat — irt_lt_mcby_a, EMU convergence-criterion long-term interest rates'
+    url: 'https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/irt_lt_mcby_a?geo=FR'
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Ten-year benchmark government bond yields, % a year, annual average
+      of monthly secondary-market yields, as the national central banks
+      report them for the Maastricht convergence criterion. fr_10y is the
+      OAT, de_10y the Bund, drawn beside it for reference. Spot values
+      2023 (2.99 and 2.43) asserted by the fetcher. Columns: fr_10y, de_10y.
+    compiled: spine redraw 2026-10-22
   cac40.csv:
     source: Euronext Paris — CAC 40 (^FCHI) year-end closes
     url: https://query1.finance.yahoo.com/v8/finance/chart/%5EFCHI
@@ -273,6 +297,70 @@ markets:
     notes: price index, excludes dividends; 2026 = latest close
 
 social:
+  vital_rates.csv:
+    source: 'INSEE population estimates and vital statistics via Eurostat — demo_gind'
+    url: 'https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?geo=FR'
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      France including the overseas departments, Mayotte from 2014.
+      pop_avg is the average population of the year (AVG), the denominator
+      of every rate the France plates compute; pop_jan is 1 January (JAN).
+      birth_rate, death_rate, natural_rate and net_migration_rate are the
+      crude rates per 1,000 as Eurostat publishes them (GBIRTHRT, GDEATHRT,
+      NATGROWRT, CNMIGRATRT); net migration includes the statistical
+      adjustment. Checked: death_rate equals INSEE's all-cause deaths
+      (all_cause_deaths.csv) over pop_avg to 0.1 in every year, and the
+      World Bank's SP.DYN.CDRT.IN to 0.1. Columns: pop_avg, pop_jan,
+      birth_rate, death_rate, natural_rate, net_migration_rate.
+    compiled: spine redraw 2026-10-22
+  causes.csv:
+    source: 'Inserm-CépiDc causes of death via Eurostat (hlth_cd_acdr2, hlth_cd_aro); ONISR road deaths via Eurostat CARE (tran_sf_roadus)'
+    url: 'https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/hlth_cd_acdr2?geo=FR'
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      suicide (X60-X84, Y87.0) and transport accidents (V01-Y85): crude
+      death rates per 100,000 residents and the counts behind them, 2011
+      onwards (the ICD-10 shortlist series). road_killed is people killed
+      within 30 days in road accidents (ONISR's return to the CARE
+      database, metropolitan France) and road_per_million Eurostat's
+      published rate per million inhabitants, which the plate divides by
+      ten. Spot values (suicides 2019, 8,861; road deaths 2019, 3,238)
+      asserted by the fetcher. Columns: suicide_rate, suicide_count,
+      transport_rate, transport_count, road_killed, road_per_million.
+    compiled: spine redraw 2026-10-22
+  security_wb.csv:
+    source: 'World Bank WDI — VC.IHR.PSRC.P5 (UNODC), SH.STA.SUIC.P5 and SH.STA.TRAF.P5 (WHO)'
+    url: 'https://api.worldbank.org/v2/country/FRA/indicator/VC.IHR.PSRC.P5?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Adopted from security_from_wb.csv. Per 100,000: UNODC intentional
+      homicide, WHO suicide (age-standardised) and WHO road-traffic deaths
+      (estimates, to 2021 and 2019). The harmonised lines beside the
+      national ones. Columns: homicide_unodc, suicide_who, road_who.
+    compiled: spine redraw 2026-10-22
+  population_wb.csv:
+    source: 'World Bank WDI — SP.POP.TOTL and SP.POP.TOTL.FE.IN (UN WPP / INSEE)'
+    url: 'https://api.worldbank.org/v2/country/FRA/indicator/SP.POP.TOTL.FE.IN?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Adopted from demography_from_wb.csv. Mid-year population, total and
+      female; the female count is the denominator of women killed by a
+      partner per 100,000 women. Cross-checked against Eurostat demo_pjan
+      (1 January, sex F): within 0.7% in every year (mid-year against 1 January). Columns: population,
+      population_female.
+    compiled: spine redraw 2026-10-22
+  poverty_wb.csv:
+    source: 'World Bank Poverty and Inequality Platform — SI.POV.UMIC'
+    url: 'https://api.worldbank.org/v2/country/FRA/indicator/SI.POV.UMIC?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Adopted from poverty_from_wb.csv. Share of people below US$8.30 a
+      day at 2021 PPP, drawn beside the national relative lines. Columns:
+      poverty_830_pct.
+    compiled: spine redraw 2026-10-22
   hdi.csv:
     source: UNDP — Human Development Report 2025, complete time series (single vintage)
     url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
@@ -497,6 +585,20 @@ social:
       road_deaths_per_100k.
 
 credit:
+  npl.csv:
+    source: 'ECB Supervisory Banking Statistics (SUP); IMF Financial Soundness Indicators via the World Bank (FB.AST.NPER.ZS)'
+    url: 'https://data-api.ecb.europa.eu/service/data/SUP/Q.FR.W0._Z.I7000._T.SII._Z._Z._Z.PCT.C'
+    refreshed_by: fetch/fetch_ecb.py, fetch/fetch_worldbank.py
+    official: false
+    notes: >-
+      Non-performing loans as % of gross loans at the year end, two
+      definitions in two columns, never spliced. npl_fsi_pct: IMF FSI, all
+      deposit takers, 2008-2024 (World Bank redistribution, hence
+      official false). npl_ssm_pct: ECB supervisory statistics,
+      significant institutions, loans including cash balances at central
+      banks, Q4 reading, from 2015. They agree to within 0.5 pt where both
+      exist (2019: 2.51 against 2.49). Columns: npl_fsi_pct, npl_ssm_pct.
+    compiled: spine redraw 2026-10-22
   lending_rates.csv:
     source: >-
       European Central Bank Data Portal — dataflow MIR (MFI interest rate
@@ -613,6 +715,18 @@ credit:
     compiled: sub-agent research 2026-10-21
 
 international:
+  world_wb.csv:
+    source: 'World Bank WDI — NY.GDP.MKTP.CD, NY.GDP.PCAP.CD, FI.RES.TOTL.CD'
+    url: 'https://api.worldbank.org/v2/country/FRA/indicator/NY.GDP.MKTP.CD?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Adopted from world_from_wb.csv. GDP and reserves in current US$
+      billion, GDP per person in US$: the harmonised series every country
+      on the spine draws (economy slot 2, world slot 1). GDP per person
+      agrees with INSEE's GDP at the ECB average rate (gdp.csv) to within
+      1%. Columns: gdp_usd_bn, gdp_per_person_usd, reserves_usd_bn.
+    compiled: spine redraw 2026-10-22
   wef.csv:
     source: World Economic Forum — Global Competitiveness Report, editions 2006-07 to 2019
     url: https://www.weforum.org/publications/
@@ -645,3 +759,26 @@ international:
       series for the world chapter, not the national accounts; spot-
       checked and cross-checked in the fetcher. Columns: gdp_usd,
       gdp_per_person_usd, reserves_usd.
+
+migration:
+  migration.csv:
+    source: 'Eurostat migration statistics for France — migr_imm1ctz, migr_emi1ctz, migr_pop3ctb, migr_pop1ctz, migr_asyappctza, migr_resfirst, migr_acq'
+    url: 'https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_imm1ctz?geo=FR'
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Reported by INSEE (flows and stocks) and the Ministère de
+      l'Intérieur (asylum, permits, citizenship) under Regulation
+      862/2007. immigration and emigration count everyone who moved,
+      French citizens included, 2006-2024. foreign_born and pop_by_birth
+      are 1 January stocks by country of birth (2007 onwards for the
+      foreign-born); nationals and pop_by_citizenship the same by
+      citizenship, so foreign citizens = total - nationals. Eurostat's
+      "born abroad" includes French citizens born abroad and is wider than
+      INSEE's "immigrés". asylum_first_time = first-time applicants,
+      first_permits = first residence permits, citizenship_acquired =
+      acquisitions. Spot values (immigration 2022, 490,655; born abroad
+      2025, 9,633,730) asserted by the fetcher. Columns: immigration,
+      emigration, foreign_born, pop_by_birth, nationals,
+      pop_by_citizenship, asylum_first_time, first_permits,
+      citizenship_acquired.
+    compiled: spine redraw 2026-10-22

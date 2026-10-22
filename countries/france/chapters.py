@@ -54,10 +54,10 @@ def build(ctx) -> list[dict]:
         {
             "id": "01_economy", "topic": "economy", "n": "01", "family": MONEY,
             "title": ctx.text(en="The French Economy", fr="L'Économie Française", pt="A Economia Francesa"),
-            "blurb": ctx.text(en="Nominal size, real growth, income per person and inflation "
-                "— the four numbers the rest depend on.", fr="Taille nominale, croissance réelle, revenu par habitant et "
-                "inflation — les quatre chiffres dont dépend le reste.", pt="Tamanho nominal, crescimento real, renda por pessoa e "
-                "inflação — os quatro números dos quais o resto depende."),
+            "blurb": ctx.text(en="Real growth, income per person, inflation and "
+                "unemployment — the four numbers the rest depend on.", fr="Croissance réelle, revenu par habitant, inflation et "
+                "chômage — les quatre chiffres dont dépend le reste.", pt="Crescimento real, renda por pessoa, inflação e "
+                "desemprego — os quatro números dos quais o resto depende."),
             "spark": ctx.col("macro/gdp.csv", "nominal_eurbn"),
             "stats": [
                 ctx.stat({"en": "GDP", "fr": "PIB", "pt": "PIB"},
@@ -66,15 +66,17 @@ def build(ctx) -> list[dict]:
                      ctx.col("macro/gdp.csv", "real_growth"), "pct_s"),
                 ctx.stat({"en": "Inflation", "fr": "Inflation", "pt": "Inflação"},
                      ctx.col("macro/inflation.csv", "ipc"), "pct"),
+                ctx.stat({"en": "Unemployment", "fr": "Chômage", "pt": "Desemprego"},
+                     ctx.col("macro/unemployment.csv", "value"), "pct"),
             ],
         },
         {
             "id": "02_fiscal", "topic": "fiscal", "n": "02", "family": MONEY,
             "title": ctx.text(en="Taxes, Deficit & Debt", fr="Prélèvements, Déficit et Dette", pt="Impostos, Déficit e Dívida"),
-            "blurb": ctx.text(en="The heaviest tax take in the EU, a deficit that never "
-                "closes, and what that does to the debt stock.", fr="Les prélèvements les plus lourds de l'UE, un déficit qui ne "
-                "se referme jamais, et ce que cela fait au stock de dette.", pt="A maior carga tributária da UE, um déficit que nunca fecha, "
-                "e o que isso faz com o estoque da dívida."),
+            "blurb": ctx.text(en="Revenue against spending, the heaviest tax take in the "
+                "EU, a deficit that never closes, and what the debt costs.", fr="Recettes face aux dépenses, les prélèvements les plus lourds "
+                "de l'UE, un déficit qui ne se referme jamais, et ce que coûte la dette.", pt="Receitas contra despesas, a maior carga tributária da UE, "
+                "um déficit que nunca fecha, e quanto custa a dívida."),
             "spark": ctx.col("fiscal/debt.csv", "gross"),
             "spark_level": True,
             "stats": [
@@ -116,29 +118,29 @@ def build(ctx) -> list[dict]:
                 "de aeronáutica e luxo que o amenizam."),
             "spark": ctx.col("trade/trade.csv", "balance"),
             "stats": [
-                ctx.stat({"en": "Exports", "fr": "Exportations", "pt": "Exportações"},
-                     ctx.col("trade/trade.csv", "exports"), "money_bn"),
-                ctx.stat({"en": "Imports", "fr": "Importations", "pt": "Importações"},
-                     ctx.col("trade/trade.csv", "imports"), "money_bn"),
-                ctx.stat({"en": "Balance", "fr": "Solde", "pt": "Saldo"},
+                ctx.stat({"en": "Exports, goods and services", "fr": "Exportations, biens et services", "pt": "Exportações, bens e serviços"},
+                     ctx.col("trade/trade_na.csv", "exports_pct_gdp"), "pct_gdp"),
+                ctx.stat({"en": "Balance, goods and services", "fr": "Solde, biens et services", "pt": "Saldo, bens e serviços"},
+                     ctx.col("trade/trade_na.csv", "balance_pct_gdp"), "pct_gdp_s"),
+                ctx.stat({"en": "Goods balance (customs)", "fr": "Solde des biens (douanes)", "pt": "Saldo de bens (alfândega)"},
                      ctx.col("trade/trade.csv", "balance"), "money_bn"),
             ],
         },
         {
             "id": "05_markets", "topic": "markets", "n": "05", "family": MONEY,
             "title": ctx.text(en="Money & Markets", fr="Monnaie et Marchés", pt="Moeda e Mercados"),
-            "blurb": ctx.text(en="The CAC 40 beside the S&P 500, the euro against the dollar, "
-                "and eight years of negative rates.", fr="Le CAC 40 face au S&P 500, l'euro face au dollar, et huit "
-                "années de taux négatifs.", pt="O CAC 40 ao lado do S&P 500, o euro contra o dólar, e oito "
-                "anos de juros negativos."),
+            "blurb": ctx.text(en="Eight years of negative rates, the OAT against the Bund, "
+                "the euro against the dollar, and the CAC 40 beside the S&P 500.", fr="Huit années de taux négatifs, l'OAT face au Bund, l'euro "
+                "face au dollar, et le CAC 40 face au S&P 500.", pt="Oito anos de juros negativos, a OAT contra o Bund, o euro "
+                "contra o dólar, e o CAC 40 ao lado do S&P 500."),
             "spark": ctx.col("markets/cac40.csv", "close"),
             "spark_level": True,
             "stats": [
                 ctx.stat({"en": "CAC 40", "fr": "CAC 40", "pt": "CAC 40"},
                      ctx.col("markets/cac40.csv", "close"), "count",
                      kind="level"),
-                ctx.stat({"en": "US$ per €", "fr": "$US par €", "pt": "US$ por €"},
-                     ctx.col("macro/eurusd.csv", "eop"), "dec2", kind="level"),
+                ctx.stat({"en": "10-year OAT", "fr": "OAT à 10 ans", "pt": "OAT de 10 anos"},
+                     ctx.col("markets/bond_yields.csv", "fr_10y"), "pct2"),
                 ctx.stat({"en": "ECB rate", "fr": "Taux BCE", "pt": "Juros do BCE"},
                      ctx.col("macro/policy_rate.csv", "dfr"), "pct2",
                      kind="level"),
@@ -146,28 +148,29 @@ def build(ctx) -> list[dict]:
         },
         {
             "id": "06_people", "topic": "people", "n": "06", "family": PEOPLE,
-            "title": ctx.text(en="Development, Jobs & Poverty", fr="Développement, Emploi et Pauvreté", pt="Desenvolvimento, Trabalho e Pobreza"),
-            "blurb": ctx.text(en="Human development, inequality, unemployment, the minimum "
-                "wage and a poverty rate that will not fall.", fr="Développement humain, inégalités, chômage, salaire minimum "
-                "et un taux de pauvreté qui ne baisse pas.", pt="Desenvolvimento humano, desigualdade, desemprego, salário "
-                "mínimo e uma taxa de pobreza que não cai."),
-            "spark": ctx.col("macro/unemployment.csv", "value"),
+            "title": ctx.text(en="Inequality, Poverty & the Minimum Wage", fr="Inégalités, Pauvreté et Salaire Minimum", pt="Desigualdade, Pobreza e Salário Mínimo"),
+            "blurb": ctx.text(en="Inequality, a poverty rate that will not fall, and the "
+                "SMIC in dollars and in real euros.", fr="Les inégalités, un taux de pauvreté qui ne baisse pas, et "
+                "le SMIC en dollars et en euros constants.", pt="A desigualdade, uma taxa de pobreza que não cai, e o "
+                "SMIC em dólares e em euros reais."),
+            "spark": ctx.col("social/poverty.csv", "rate60"),
             "stats": [
-                ctx.stat({"en": "Unemployment", "fr": "Chômage", "pt": "Desemprego"},
-                     ctx.col("macro/unemployment.csv", "value"), "pct"),
-                ctx.stat({"en": "HDI", "fr": "IDH", "pt": "IDH"},
-                     ctx.col("social/hdi.csv", "value"), "dec3"),
                 ctx.stat({"en": "Poverty rate", "fr": "Taux de pauvreté", "pt": "Taxa de pobreza"},
                      ctx.col("social/poverty.csv", "rate60"), "pct"),
+                ctx.stat({"en": "Gini", "fr": "Gini", "pt": "Gini"},
+                     ctx.col("social/gini.csv", "insee"), "dec3"),
+                ctx.stat({"en": "SMIC, gross a month", "fr": "SMIC brut mensuel", "pt": "SMIC bruto mensal"},
+                     ctx.col("macro/smic.csv", "monthly_eur"), "money",
+                     kind="level"),
             ],
         },
         {
             "id": "07_world", "topic": "world", "n": "07", "family": WORLD,
             "title": ctx.text(en="France in the World", fr="La France dans le Monde", pt="A França no Mundo"),
-            "blurb": ctx.text(en="How the outside world scores France, how open its economy "
-                "is, and the gold behind its reserves.", fr="Comment le monde évalue la France, le degré d'ouverture de "
-                "son économie, et l'or derrière ses réserves.", pt="Como o mundo avalia a França, quão aberta é sua economia, e "
-                "o ouro por trás de suas reservas."),
+            "blurb": ctx.text(en="The size of the economy in dollars, human development, "
+                "how clean France is judged to be, and the gold behind its reserves.", fr="La taille de l'économie en dollars, le développement humain, "
+                "la perception de la corruption, et l'or derrière les réserves.", pt="O tamanho da economia em dólares, o desenvolvimento humano, "
+                "a percepção de corrupção, e o ouro por trás das reservas."),
             "spark": ctx.col("macro/reserves.csv", "eop_usdbn"),
             "spark_level": True,
             "stats": [
@@ -175,8 +178,8 @@ def build(ctx) -> list[dict]:
                      ctx.col("macro/reserves.csv", "eop_usdbn"), "usd_bn"),
                 ctx.stat({"en": "Corruption index", "fr": "Indice de corruption", "pt": "Índice de corrupção"},
                      ctx.col("international/cpi.csv", "score"), "score100"),
-                ctx.stat({"en": "Competitiveness", "fr": "Compétitivité", "pt": "Competitividade"},
-                     ctx.col("international/wef.csv", "rank"), "rank"),
+                ctx.stat({"en": "HDI", "fr": "IDH", "pt": "IDH"},
+                     ctx.col("social/hdi.csv", "value"), "dec3"),
             ],
         },
         {
@@ -193,9 +196,8 @@ def build(ctx) -> list[dict]:
                 ctx.stat({"en": "Fertility rate", "fr": "Fécondité", "pt": "Taxa de fecundidade"},
                      [p for p in ctx.col("social/population.csv", "tfr")
                       if p[0] <= ctx.LAST_FULL_YEAR], "dec2"),
-                ctx.stat({"en": "Births", "fr": "Naissances", "pt": "Nascimentos"},
-                     [p for p in ctx.col("social/population.csv", "births")
-                      if p[0] <= ctx.LAST_FULL_YEAR], "count"),
+                ctx.stat({"en": "Births per 1,000", "fr": "Naissances pour 1 000", "pt": "Nascimentos por 1.000"},
+                     ctx.col("social/vital_rates.csv", "birth_rate"), "dec2"),
                 ctx.stat({"en": "Population", "fr": "Population", "pt": "População"},
                      ctx.col("social/population.csv", "pop_mn"), "pop_mn",
                      year=2026, kind="projection"),
@@ -204,18 +206,16 @@ def build(ctx) -> list[dict]:
         {
             "id": "09_security", "topic": "security", "n": "09", "family": PEOPLE,
             "title": ctx.text(en="Violence", fr="Violences", pt="Violência"),
-            "blurb": ctx.text(en="Homicides counted two incompatible ways, femicides, and "
-                "recorded violence that reflects reporting as much as crime.", fr="Les homicides comptés de deux façons incompatibles, les "
-                "féminicides, et des violences enregistrées qui reflètent "
-                "autant le dépôt de plainte que la délinquance.", pt="Homicídios contados de duas formas incompatíveis, "
-                "feminicídios, e violências registradas que refletem tanto a "
-                "denúncia quanto o crime."),
+            "blurb": ctx.text(en="Homicides counted two incompatible ways, suicide, the "
+                "roads, and the women killed by a partner.", fr="Les homicides comptés de deux façons incompatibles, le "
+                "suicide, la route, et les femmes tuées par leur conjoint.", pt="Homicídios contados de duas formas incompatíveis, o "
+                "suicídio, o trânsito, e as mulheres mortas pelo parceiro."),
             "spark": ctx.col("social/homicides.csv", "ssmsi_rate"),
             "stats": [
                 ctx.stat({"en": "Homicide rate", "fr": "Taux d'homicides", "pt": "Taxa de homicídios"},
                      ctx.col("social/homicides.csv", "ssmsi_rate"), "per100k"),
-                ctx.stat({"en": "Homicides", "fr": "Homicides", "pt": "Homicídios"},
-                     ctx.col("social/homicides.csv", "ssmsi_count"), "count"),
+                ctx.stat({"en": "Suicide rate", "fr": "Taux de suicide", "pt": "Taxa de suicídio"},
+                     ctx.col("social/causes.csv", "suicide_rate"), "per100k"),
                 ctx.stat({"en": "Killed by a partner", "fr": "Tuées par leur conjoint", "pt": "Mortas pelo companheiro"},
                      ctx.col("social/violence.csv", "women_killed_by_partner"),
                      "count"),
@@ -224,16 +224,14 @@ def build(ctx) -> list[dict]:
         {
             "id": "10_mortality", "topic": "mortality", "n": "10", "family": PEOPLE,
             "title": ctx.text(en="Mortality", fr="Mortalité", pt="Mortalidade"),
-            "blurb": ctx.text(en="COVID-19 and influenza deaths counted three different ways, "
-                "against twenty years of all-cause mortality.", fr="Les morts du COVID-19 et de la grippe comptés de trois "
-                "façons différentes, face à vingt ans de mortalité toutes "
-                "causes.", pt="Mortes por COVID-19 e gripe contadas de três formas "
-                "diferentes, contra vinte anos de mortalidade por todas as "
-                "causas."),
+            "blurb": ctx.text(en="The death rate, excess deaths, and COVID-19 and influenza "
+                "counted three different ways.", fr="Le taux de mortalité, la surmortalité, et les morts du "
+                "COVID-19 et de la grippe comptés de trois façons.", pt="A taxa de mortalidade, o excesso de mortes, e as mortes "
+                "por COVID-19 e gripe contadas de três formas."),
             "spark": ctx.col("social/all_cause_deaths.csv", "insee"),
             "stats": [
-                ctx.stat({"en": "All deaths", "fr": "Décès", "pt": "Óbitos"},
-                     ctx.col("social/all_cause_deaths.csv", "insee"), "count"),
+                ctx.stat({"en": "Deaths per 1,000", "fr": "Décès pour 1 000", "pt": "Óbitos por 1.000"},
+                     ctx.col("social/vital_rates.csv", "death_rate"), "dec2"),
                 # The CépiDc column, not the surveillance one: it is the only
                 # COVID count that still has a recent year, and it is the one
                 # that means "COVID was the underlying cause".
@@ -254,7 +252,7 @@ def build(ctx) -> list[dict]:
                 "por que um choque de juros deixou o estoque quase "
                 "intacto."),
             "spark": ctx.col("credit/household_debt.csv",
-                         "hh_debt_pct_gdi_ecb_nco_q4"),
+                         "hh_debt_pct_gdp_bis_q4"),
             "stats": [
                 # A point-in-time rate, not an annual average: this is the
                 # one a borrower would be quoted today.
@@ -263,11 +261,38 @@ def build(ctx) -> list[dict]:
                      "pct2", kind="level"),
                 ctx.stat({"en": "Household debt", "fr": "Dette des ménages", "pt": "Dívida das famílias"},
                      ctx.col("credit/household_debt.csv",
-                         "hh_debt_pct_gdi_ecb_nco_q4"),
-                     "pct", kind="level"),
+                         "hh_debt_pct_gdp_bis_q4"),
+                     "pct_gdp", kind="level"),
                 ctx.stat({"en": "Over-indebtedness filings", "fr": "Dossiers de surendettement", "pt": "Pedidos de superendividamento"},
                      ctx.col("credit/overindebtedness.csv",
                          "dossiers_deposes_published"), "count"),
+            ],
+        },
+        {
+            "id": "12_migration", "topic": "migration", "n": "12", "family": PEOPLE,
+            "title": ctx.text(en="Migration", fr="Migrations", pt="Migração"),
+            "blurb": ctx.text(en="Who arrives and who leaves, the share of residents born "
+                "abroad, and the permits, asylum claims and naturalisations "
+                "behind them.", fr="Qui arrive et qui part, la part des résidents nés à "
+                "l'étranger, et les titres de séjour, demandes d'asile et "
+                "naturalisations.", pt="Quem chega e quem sai, a parcela de residentes nascidos no "
+                "exterior, e as autorizações, pedidos de asilo e "
+                "naturalizações."),
+            "spark": ctx.col("social/vital_rates.csv", "net_migration_rate"),
+            "stats": [
+                ctx.stat({"en": "Immigrants", "fr": "Immigrants", "pt": "Imigrantes"},
+                     ctx.col("migration/migration.csv", "immigration"), "count"),
+                ctx.stat({"en": "Born abroad", "fr": "Nés à l'étranger", "pt": "Nascidos no exterior"},
+                     [(y, f / t * 100) for (y, f), (y2, t)
+                      in zip(ctx.col("migration/migration.csv", "foreign_born"),
+                             [p for p in ctx.col("migration/migration.csv",
+                                                 "pop_by_birth")
+                              if p[0] in {q[0] for q in ctx.col(
+                                  "migration/migration.csv", "foreign_born")}])
+                      if y == y2], "pct", kind="level"),
+                ctx.stat({"en": "First-time asylum applicants", "fr": "Primo-demandeurs d'asile", "pt": "Solicitantes de asilo"},
+                     ctx.col("migration/migration.csv", "asylum_first_time"),
+                     "count"),
             ],
         },
     ]
