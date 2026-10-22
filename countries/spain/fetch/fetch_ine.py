@@ -165,8 +165,13 @@ def main() -> None:
 
     # ---- IPC: linked index, annual mean, and the rate of that mean -----
     ipc_m = serie("IPC290751", nult=300)
-    idx = {y: t / n for y, (t, n) in sum_periods(ipc_m, MONTHS).items()
-           if n == 12}
+    # The 2006 rate needs the 2005 mean, so the index mean is computed one
+    # year beyond the window before the rate is taken.
+    bym: dict[int, list[float]] = {}
+    for x in ipc_m:
+        if x["FK_Periodo"] in MONTHS and 2005 <= x["Anyo"] <= Y1:
+            bym.setdefault(x["Anyo"], []).append(x["Valor"])
+    idx = {y: sum(vs) / 12 for y, vs in bym.items() if len(vs) == 12}
     rate = {y: (idx[y] / idx[y - 1] - 1) * 100
             for y in idx if y - 1 in idx}
     write("macro/ipc_from_ine.csv", "year,ipc_index_avg,ipc_rate",
@@ -181,6 +186,19 @@ def main() -> None:
     if abs(epa.get(2024, 0) - 11.4) > 0.3:
         print("  !! EPA 2024 off the official ~11.4%", file=sys.stderr)
 
+    # ---- EPA employment level: quarterly, thousands, mean of four -----
+    emp_q = serie("EPA387796", nult=120)
+    by_yq: dict[int, list[float]] = {}
+    for x in emp_q:
+        if x["FK_Periodo"] in QUARTERS and Y0 <= x["Anyo"] <= Y1:
+            by_yq.setdefault(x["Anyo"], []).append(x["Valor"])
+    emp = {y: sum(vs) / len(vs) for y, vs in by_yq.items() if len(vs) == 4}
+    write("macro/employment_from_ine.csv", "year,employed_thousands_avg",
+          [emp], ["{:.1f}"])
+    if abs(emp.get(2024, 0) - 21_800) > 600:
+        print("  !! EPA employment 2024 off the expected ~21.8mn",
+              file=sys.stderr)
+
     # ---- Population: ECP resident total at 1 January -------------------
     ecp = serie("ECP320", nult=250)
     pop = {x["Anyo"]: x["Valor"] for x in ecp
@@ -192,30 +210,40 @@ def main() -> None:
               file=sys.stderr)
 
     # ---- Vital statistics: monthly births and deaths summed ------------
+    # The definitive MNP ends well before the running year, so there is no
+    # partial year to flag; a blank means the publisher has not covered it.
     births = sum_periods(serie("MNP17451", nult=300), MONTHS)
     deaths = sum_periods(serie("MNP89585", nult=300), MONTHS)
     b_tot = {y: t for y, (t, n) in births.items() if n == 12}
-    b_m = {y: n for y, (t, n) in births.items() if n != 12}
     d_tot = {y: t for y, (t, n) in deaths.items() if n == 12}
-    d_m = {y: n for y, (t, n) in deaths.items() if n != 12}
-    write("social/vital_from_ine.csv",
-          "year,births,births_months,deaths,deaths_months",
-          [b_tot, b_m, d_tot, d_m], ["{:.0f}", "{:.0f}", "{:.0f}", "{:.0f}"])
+    write("social/vital_from_ine.csv", "year,births,deaths",
+          [b_tot, d_tot], ["{:.0f}", "{:.0f}"])
 
     # ---- Causes of death: the reduced list, national totals ------------
     # SERIES_TABLA pages from the national both-sex totals first; six
     # pages cover the whole reduced list (102 causes × 3 sexes ≈ 306).
+    # The cause name ends at ". Total. Todas las edades." — splitting at
+    # the first "." instead mangles chapter names ("II.Tumores" → "II")
+    # and collapses "COVID-19. Virus identificado" with "...no
+    # identificado" into one key, silently keeping only the first.
     codes: dict[str, str] = {}
     for page in range(1, 7):
         for s in get(f"SERIES_TABLA/9936?page={page}"):
             name = s["Nombre"]
             if ("Total Nacional" in name and ". Total. Todas las edades."
                     in name):
-                cause = name.split(".")[0].strip()
-                codes.setdefault(cause, s["COD"])
+                cause = name.split(". Total. Todas las edades.")[0].strip()
+                # Adjacent SERIES_TABLA pages repeat their boundary rows;
+                # the same name with the same code is a page overlap, the
+                # same name with a different code is a real collision.
+                if cause in codes and codes[cause] != s["COD"]:
+                    raise AssertionError(f"cause name collision: {cause}")
+                codes[cause] = s["COD"]
         time.sleep(0.3)
     if "Agresiones (homicidio)" not in codes:
         raise RuntimeError("ECM: assault cause not found in series list")
+    if "COVID-19. Virus no identificado (sospechoso)" not in codes:
+        raise RuntimeError("ECM: COVID unidentified-cause row missing")
     causes: dict[str, dict[int, float]] = {}
     for cause, cod in sorted(codes.items()):
         try:
@@ -223,10 +251,11 @@ def main() -> None:
         except RuntimeError as e:
             print(f"  !! {cause}: {e}", file=sys.stderr)
         time.sleep(0.2)
-    # long format is kinder here: one row per year × cause
+    # long format is kinder here: one row per year × cause, year-major so
+    # the data-hygiene tests read the years as ordered
     lines = ["year,cause,deaths"]
-    for cause in sorted(causes):
-        for y in range(Y0, Y1 + 1):
+    for y in range(Y0, Y1 + 1):
+        for cause in sorted(causes):
             v = causes[cause].get(y)
             if v is not None:
                 lines.append(f"{y},{json.dumps(cause, ensure_ascii=False)},{v:.0f}")

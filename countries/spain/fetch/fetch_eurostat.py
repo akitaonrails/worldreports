@@ -193,6 +193,16 @@ def main() -> None:
                        "gfcf_pct_gdp": gfcf_pct,
                        "gov_gfcf_pct_gdp": gov_gfcf}, dec=2))
 
+    # ---- trade in the national accounts (the customs chapter is pending)
+    exports = annual("nama_10_gdp", geo=GEO, na_item="P6",
+                     unit="CP_MEUR", freq="A")
+    imports = annual("nama_10_gdp", geo=GEO, na_item="P7",
+                     unit="CP_MEUR", freq="A")
+    write("trade/trade_from_estat.csv",
+          rows(years, {"exports_eurbn": {y: v / 1000 for y, v in exports.items()},
+                       "imports_eurbn": {y: v / 1000 for y, v in imports.items()}},
+               dec=2))
+
     # ---- labour market ------------------------------------------------
     unemp = annual("une_rt_a", geo=GEO, unit="PC_ACT", sex="T",
                    age="Y15-74", freq="A")
@@ -243,15 +253,22 @@ def main() -> None:
           rows(years, {**stock, **stock_birth}, dec=0))
 
     # Asylum: unit=PER — with unit=NR the cube comes back silently empty.
+    # Applications are not decisions are not grants: the three columns are
+    # three different questions and are drawn as three labelled series.
     asy = annual("migr_asyappctza", geo=GEO, unit="PER", citizen="TOTAL",
                  applicant="TOTAL", sex="T", age="TOTAL", freq="A")
     asy_first = annual("migr_asyappctza", geo=GEO, unit="PER",
                        citizen="TOTAL", applicant="FRST", sex="T",
                        age="TOTAL", freq="A")
+    dec_total = annual("migr_asydcfsta", geo=GEO, unit="PER", citizen="TOTAL",
+                       decision="TOTAL", sex="T", age="TOTAL", freq="A")
+    dec_pos = annual("migr_asydcfsta", geo=GEO, unit="PER", citizen="TOTAL",
+                     decision="POS", sex="T", age="TOTAL", freq="A")
     if not asy:
         raise RuntimeError("migr_asyappctza: empty result")
     write("migration/asylum_from_estat.csv",
-          rows(years, {"applications": asy, "first_time": asy_first},
+          rows(years, {"applications": asy, "first_time": asy_first,
+                       "decisions": dec_total, "positive": dec_pos},
                dec=0))
 
     # First residence permits: unit=PER, same empty-cube trap.

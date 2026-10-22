@@ -12,6 +12,7 @@ the BIEST application carries, by series code, with no key:
                  income, four-quarter accumulation (quarterly)
   D_MEADU000     Doubtful loans to other resident sectors (monthly, € th.)
   D_MEE60000     Total credit to other resident sectors (monthly, € th.)
+  DMZ10S800H0.Q  MFI loans to households+NPISH, stock (quarterly, € mn)
 
 Three things this endpoint will do to you if nobody writes them down:
 
@@ -37,6 +38,7 @@ onward), so pre/post-2014 levels are not strictly one definition.
 Outputs: data/markets/euribor_from_bde.csv,
          data/markets/mortgage_rate_from_bde.csv,
          data/credit/household_debt_from_bde.csv,
+         data/credit/household_loans_from_bde.csv,
          data/credit/npl_from_bde.csv
 """
 from __future__ import annotations
@@ -62,6 +64,7 @@ SERIES = {
     "hh_debt_pct": "DMZ10E000H0.Q",
     "doubtful": "D_MEADU000",
     "credit_total": "D_MEE60000",
+    "hh_loans": "DMZ10S800H0.Q",
 }
 
 
@@ -171,6 +174,14 @@ def main() -> None:
     write("credit/household_debt_from_bde.csv",
           "year,debt_pct_income_avg,debt_pct_income_q4",
           [annual_mean(debt["hh_debt_pct"]), q4(debt["hh_debt_pct"])])
+
+    # The household loan STOCK (MFI loans to hogares e ISFLSH, millions of
+    # euro, quarterly) — read at Q4, like every stock here.
+    stock = fetch(["hh_loans"])
+    write("credit/household_loans_from_bde.csv",
+          "year,loans_eurbn_q4",
+          [{y: v / 1000 for y, v in q4(stock["hh_loans"]).items()}],
+          fmt="{:.1f}")
 
     npl = fetch(["doubtful", "credit_total"])
     # Both are STOCKS in thousands of euro: a year is its December reading,

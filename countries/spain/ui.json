@@ -1,0 +1,128 @@
+{
+ "es": {
+  "line": "{n} planchas de datos oficiales, {window}",
+  "dek": "Cada cifra viene del organismo que la publica — el INE, Eurostat, el Banco de España y el BCE, la IGAE y el Tesoro Público (vía Eurostat), el Ministerio del Interior — y cada plancha se regenera desde los CSV versionados, así que los gráficos y los números de esta página no pueden divergir.",
+  "notes": [
+   "2026 es un año incompleto. Los totales y promedios anuales de esta página llegan hasta 2025; las lecturas genuinamente actuales — un tipo de interés, un cierre bursátil — aparecen marcadas como <em>último punto</em>.",
+   "España no tiene política monetaria propia: el tipo oficial es el del BCE, y la facilidad de depósito es la que guía el mercado desde 2014.",
+   "La inmigración cambió de metodología en 2021 (de la EM a la EMCR). El INE publica 2021 con ambas — 528.856 y 887.960 — y la plancha dibuja la costura en lugar de unir las dos en una sola línea.",
+   "El IPC se publica hoy en base 2025; la serie enlazada hace comparables los niveles, pero ningún nivel es el índice que nadie citó en su momento.",
+   "El cómputo policial de homicidios está pendiente: el portal de estadística criminal del Ministerio del Interior responde a todo cliente automatizado con una página de error servida como HTTP 200. Las planchas muestran el recuento por certificado de defunción, que es una cosa distinta y lo dice.",
+   "Las planchas se dibujan en los tres idiomas, igual que esta página."
+  ],
+  "colophon": [
+   {
+    "term": "Cuentas nacionales, IPC, EPA, población y demografía",
+    "detail": "INE — CNTR, IPC (base 2025), EPA, Estadística Continua de Población, MNP, ECM"
+   },
+   {
+    "term": "Cuentas públicas, migración, desigualdad",
+    "detail": "Eurostat — notificación EDP, gov_10a_*, la suite migratoria armonizada, EU-SILC"
+   },
+   {
+    "term": "Tipos de interés, crédito y morosidad",
+    "detail": "Banco de España — cuentas financieras y estadísticas de tipos (API bierest)"
+   },
+   {
+    "term": "El tipo oficial y el tipo de cambio",
+    "detail": "BCE — Data Portal (facilidad de depósito, tipo de referencia USD/EUR)"
+   },
+   {
+    "term": "Comparables internacionales",
+    "detail": "World Bank WDI · PNUD Informe de Desarrollo Humano 2025 · IMF IFS vía el Banco Mundial"
+   },
+   {
+    "term": "IBEX 35",
+    "detail": "Yahoo Finance — un redistribuidor; ninguna fuente oficial publica el cierre de un índice"
+   },
+   {
+    "term": "Pendiente por ahora",
+    "detail": "Ministerio del Interior — criminalidad registrada (portal bloqueado al acceso automatizado); DataComex — comercio de aduanas por socio y producto"
+   }
+  ]
+ },
+ "en": {
+  "line": "{n} plates of official data, {window}",
+  "dek": "Every number here comes from the source that publishes it — INE, Eurostat, the Banco de España and the ECB, IGAE and the Tesoro Público (via Eurostat), the Ministerio del Interior — and every plate is regenerated from committed CSVs, so the charts and the numbers on this page cannot drift apart.",
+  "notes": [
+   "2026 is a partial year. Annual totals and averages on this page stop at 2025; readings that are genuinely current — a policy rate, an index close — are marked <em>latest</em>.",
+   "Spain has no monetary policy of its own: the policy rate is the ECB's, and the deposit facility rate is the one that has steered money markets since 2014.",
+   "Immigration measurement changed methodology in 2021 (EM to EMCR). The INE publishes 2021 on both — 528,856 and 887,960 — and the plate draws the seam rather than joining the two into one line.",
+   "The CPI is published today in base 2025; the linked series makes the levels comparable, but no level is the index anyone quoted at the time.",
+   "The police homicide count is pending: the interior ministry's crime portal answers every automated client with an error page served as HTTP 200. The plates show the death-certificate count, which is a different thing and says so.",
+   "The plates are drawn in all three languages, and so is this page."
+  ],
+  "colophon": [
+   {
+    "term": "National accounts, CPI, labour, population and vital statistics",
+    "detail": "INE — CNTR, IPC (base 2025), EPA, Estadística Continua de Población, MNP, ECM"
+   },
+   {
+    "term": "Public finances, migration, inequality",
+    "detail": "Eurostat — the EDP notification, gov_10a_*, the harmonised migration suite, EU-SILC"
+   },
+   {
+    "term": "Interest rates, credit and doubtful loans",
+    "detail": "Banco de España — financial accounts and interest-rate statistics (bierest API)"
+   },
+   {
+    "term": "The policy rate and the exchange rate",
+    "detail": "ECB — Data Portal (deposit facility, USD/EUR reference rate)"
+   },
+   {
+    "term": "International comparables",
+    "detail": "World Bank WDI · UNDP Human Development Report 2025 · IMF IFS via the World Bank"
+   },
+   {
+    "term": "IBEX 35",
+    "detail": "Yahoo Finance — a redistributor; nobody official publishes an index close"
+   },
+   {
+    "term": "Absent for now",
+    "detail": "Ministerio del Interior — recorded crime (portal blocks automated access); DataComex — customs trade by partner and product"
+   }
+  ]
+ },
+ "pt": {
+  "line": "{n} pranchas de dados oficiais, {window}",
+  "dek": "Cada número vem do organismo que o publica — o INE, a Eurostat, o Banco de España e o BCE, a IGAE e o Tesoro Público (via Eurostat), o Ministério do Interior — e cada prancha é regenerada a partir de CSVs versionados, de modo que os gráficos e os números desta página não podem divergir.",
+  "notes": [
+   "2026 é um ano incompleto. Os totais e médias anuais desta página param em 2025; leituras genuinamente correntes — uma taxa de juro, um fechamento de bolsa — aparecem marcadas como <em>último ponto</em>.",
+   "A Espanha não tem política monetária própria: a taxa oficial é a do BCE, e a facilidade de depósito é a que guia o mercado desde 2014.",
+   "A medição da imigração mudou de metodologia em 2021 (da EM para a EMCR). O INE publica 2021 nas duas — 528.856 e 887.960 — e a prancha desenha a emenda em vez de unir as duas numa linha só.",
+   "O IPC é publicado hoje em base 2025; a série encadeada torna os níveis comparáveis, mas nenhum nível é o índice que alguém citou à época.",
+   "A contagem policial de homicídios está pendente: o portal de criminalidade do Ministério do Interior responde a todo cliente automatizado com uma página de erro servida como HTTP 200. As pranchas mostram a contagem por certidão de óbito, que é outra coisa e o diz.",
+   "As pranchas são desenhadas nos três idiomas, assim como esta página."
+  ],
+  "colophon": [
+   {
+    "term": "Contas nacionais, IPC, trabalho, população e estatísticas vitais",
+    "detail": "INE — CNTR, IPC (base 2025), EPA, Estatística Contínua de População, MNP, ECM"
+   },
+   {
+    "term": "Finanças públicas, migração, desigualdade",
+    "detail": "Eurostat — notificação EDP, gov_10a_*, a suíte harmonizada de migração, EU-SILC"
+   },
+   {
+    "term": "Taxas de juro, crédito e créditos duvidosos",
+    "detail": "Banco de España — contas financeiras e estatísticas de taxas (API bierest)"
+   },
+   {
+    "term": "A taxa oficial e o câmbio",
+    "detail": "BCE — Data Portal (facilidade de depósito, taxa de referência USD/EUR)"
+   },
+   {
+    "term": "Comparáveis internacionais",
+    "detail": "World Bank WDI · Relatório de Desenvolvimento Humano 2025 do PNUD · IMF IFS via Banco Mundial"
+   },
+   {
+    "term": "IBEX 35",
+    "detail": "Yahoo Finance — um redistribuidor; nenhuma fonte oficial publica o fechamento de um índice"
+   },
+   {
+    "term": "Ausente por ora",
+    "detail": "Ministério do Interior — criminalidade registrada (portal bloqueado ao acesso automatizado); DataComex — comércio aduaneiro por parceiro e produto"
+   }
+  ]
+ }
+}

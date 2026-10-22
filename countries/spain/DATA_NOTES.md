@@ -96,7 +96,24 @@ when identity encoding is requested, and unknown paths answer with an
 HTML 404 page under HTTP 200.
 
 Household debt reads as % of gross disposable income (households + NPISH,
-the standard Spanish pairing): 138% at the 2010 peak, 75% by 2025.
+the standard Spanish pairing): the peak is **141% in 2008** on the annual
+mean (the research pass said ~138% in 2010, reading the Q4 column — the
+plate and this note follow the mean), 75% by 2025.
+
+## The ECM cause names are not a parseable key
+
+The first version of `fetch_ine.py` split the ECM series names at the
+first ".", which mangled chapter names ("II.Tumores" → "II") and collapsed
+"COVID-19. Virus identificado" with "…no identificado (sospechoso)" into
+one key — silently keeping only the identified count. The fetcher now
+splits at the dimension boundary (". Total. Todas las edades.") and asserts
+both COVID rows exist; it also treats adjacent SERIES_TABLA pages repeating
+their boundary rows as overlaps, not collisions. A rerun without the
+assert silently drops a cause.
+
+The vital-statistics sidecar dropped its `*_months` coverage columns: the
+definitive MNP ends well before the running year, so there is no partial
+year to flag and the shared data tests refuse an entirely empty column.
 
 ## Two debts, both correct
 

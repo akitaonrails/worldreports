@@ -1,0 +1,69 @@
+{
+ "01-economy": [
+  "macro/gdp.csv",
+  "macro/inflation.csv"
+ ],
+ "02-fiscal": [
+  "fiscal/debt.csv",
+  "fiscal/deficit.csv",
+  "fiscal/revenue.csv",
+  "fiscal/tax_burden.csv"
+ ],
+ "03-spending": [
+  "fiscal/investment.csv",
+  "fiscal/spending_by_function.csv"
+ ],
+ "04-trade": [
+  "international/openness.csv",
+  "trade/trade.csv"
+ ],
+ "05-markets": [
+  "markets/eurusd.csv",
+  "markets/ibex.csv",
+  "markets/policy_rate.csv",
+  "markets/yield_10y.csv"
+ ],
+ "06-people": [
+  "macro/employment.csv",
+  "macro/unemployment.csv",
+  "social/gini.csv",
+  "social/poverty.csv"
+ ],
+ "07-world": [
+  "international/gdp_usd.csv",
+  "international/hdi.csv",
+  "international/reserves.csv",
+  "macro/gdp.csv"
+ ],
+ "08-demography": [
+  "migration/migration_flows_emcr_ine.csv",
+  "migration/migration_flows_ine.csv",
+  "social/demography.csv",
+  "social/population.csv"
+ ],
+ "09-security": [
+  "social/causes_of_death.csv",
+  "social/homicides.csv",
+  "social/population.csv"
+ ],
+ "10-mortality": [
+  "social/causes_of_death.csv",
+  "social/demography.csv"
+ ],
+ "11-credit": [
+  "credit/household_debt.csv",
+  "credit/household_loans.csv",
+  "credit/lending_rates.csv",
+  "credit/npl.csv"
+ ],
+ "12-migration": [
+  "migration/asylum.csv",
+  "migration/emigration.csv",
+  "migration/immigration.csv",
+  "migration/migration_flows_emcr_ine.csv",
+  "migration/migration_flows_ine.csv",
+  "migration/naturalisation.csv",
+  "migration/permits.csv",
+  "migration/stock.csv"
+ ]
+}
