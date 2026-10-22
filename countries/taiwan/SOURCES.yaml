@@ -62,25 +62,40 @@ trade:
 
 markets:
   rates.csv:
-    source: UNVERIFIED — Central Bank of the Republic of China (Taiwan) — discount rate (policy rate)
-    url: UNVERIFIED — https://www.cbc.gov.tw open data (interest rate: 貼現率)
-    notes: The CBC calls its policy rate the discount rate; no OMO target-rate series like Canada's.
-  usdtwd.csv:
-    source: UNVERIFIED — CBC — USD/TWD daily, and Bank of Taiwan daily rate (official? verify which is the official fix)
-    url: UNVERIFIED
-    notes: Two publishers for one idea (CBC fix vs Bank of Taiwan spot); keep both columns until break is measured.
-  stock_index.csv:
-    source: UNVERIFIED — Yahoo Finance ^TWII (TWSE Capitalization-Weighted Stock Index year-ends)
-    url: UNVERIFIED — https://query1.finance.yahoo.com/v8/finance/chart/%5ETWII
-    official: false
+    source: Central Bank of the Republic of China (Taiwan) — statistics database cpx.cbc.gov.tw
+    url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EG2AM01
+    verified: 2026-10-23
     notes: >-
-      Market redistributor, official: false per §5. stooq is JS-walled
-      from this machine (recorded in discovery). TWSE's own site is the
-      first candidate for an official close — verify.
+      VERIFIED. Monthly since 1988M01, period-end values. The CBC's policy
+      rate is the 重貼現率, the rediscount rate — it does not call it a
+      discount rate and there is no OMO target-rate series like Canada's;
+      the CBC steers with the rediscount rate plus NCD/CB repurchase
+      tenders. Also EG28D01 (rate on adjustment dates). The old
+      www.cbc.gov.tw/opendata/* JSON API is dead (302 to the homepage).
+  usdtwd.csv:
+    source: CBC — cpx.cbc.gov.tw (EG51M01; BP01Y01 annual)
+    url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EG51M01
+    verified: 2026-10-23
+    notes: >-
+      VERIFIED. Monthly since 1992M01; columns include the interbank
+      closing rate and the daily average, both TWD per USD. Take the
+      interbank close as the official fix. Other-currency spot rates are
+      a separate file, EG52M01 — USD is not inside it. 2006-1991 has no
+      monthly file here; BP01Y01 (annual) covers the window's start.
+  stock_index.csv:
+    source: CBC — cpx.cbc.gov.tw (EG27Y01, stock trading and index, annual)
+    url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EG27Y01
+    verified: 2026-10-23
+    notes: >-
+      VERIFIED. The CBC Monthly Report of Financial Statistics carries the
+      TWSE capitalization-weighted index annually since 1987 — an official
+      series, so Yahoo ^TWII is now the cross-check, not the source
+      (keep official: false there if used at all). stooq is JS-walled from
+      this machine.
 
 people:
   labour.csv:
-    source: UNVERIFIED — Statistics Office (ex-DGBAS) — labour force survey: employment rate, unemployment, sector shares
+    source: UNVERIFIED — Statistics Office (ex-DGBAS) — labour force survey (employment rate, unemployment, sector shares)
     url: UNVERIFIED — https://stat.gov.tw Ch. 030
     notes: No OECD membership (verify — Taiwan is not an OECD member); national LFS is the spine.
   income_inequality.csv:
@@ -90,12 +105,16 @@ people:
 
 world:
   reserves.csv:
-    source: UNVERIFIED — CBC — foreign exchange reserves (among the world's largest, ~US$570-600bn; verify)
-    url: UNVERIFIED — https://www.cbc.gov.tw open data
+    source: CBC — cpx.cbc.gov.tw (EF07M01, key monthly financial indicators)
+    url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EF07M01
+    verified: 2026-10-23
     notes: >-
-      The key world-chapter series and a fully national one; IMF IFS does
-      not carry Taiwan, so the CBC IS the comparable. Rank panel must be
-      built against other countries' own central banks, not an IMF table.
+      VERIFIED. EF07M01 carries 外匯存底 (foreign exchange reserves, mn
+      USD) monthly from 1992M01, plus the domestic-bank NPL ratio and CPI
+      y/y in the same table. Taiwan's reserves run ~US$600bn — among the
+      world's largest. IMF IFS does not carry Taiwan, so the CBC IS the
+      comparable; any ranking panel must be built against other
+      countries' own central banks, not an IMF table.
   ranking.csv:
     source: UNVERIFIED — WTO; possible ADB "Taipei,China" series (verify ADB coverage)
     url: UNVERIFIED
@@ -104,6 +123,21 @@ world:
       HDI does not apply (no UNDP for Taiwan) — record in DATA_NOTES.md
       that the world chapter's human-development panel has no source and
       the chapter is built from trade/financial standing instead.
+
+credit:
+  household_credit.csv:
+    source: CBC — cpx.cbc.gov.tw (EF99Y01 consumer and construction loans; EF07M01 NPL)
+    url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EF99Y01
+    verified: 2026-10-23
+    notes: >-
+      VERIFIED. EF99Y01: consumer loans and building loans outstanding,
+      with construction loans standing in for household housing credit
+      (CBC definition: 消費者貸款 includes credit cards/overdraft;
+      建築貸款 is developers' construction credit — check which column
+      is household mortgage before drawing; five-bank new-housing-loan
+      detail is EH45M01). EF07M01 carries the bank NPL ratio (逾放比率).
+      No BIS/IMF cross-country series for Taiwan; the CBC is both the
+      national and the comparable source.
 
 demography:
   population.csv:
@@ -134,12 +168,6 @@ mortality:
     source: UNVERIFIED — Ministry of Health and Welfare, Health Promotion Administration — deaths by ICD-10 cause
     url: UNVERIFIED — BTC open data / HPA annual report
     notes: MOH also publishes the annual cause-of-death statistics; verify which carries the long series.
-
-credit:
-  household_credit.csv:
-    source: UNVERIFIED — CBC — household loans, housing loans, NPL ratio
-    url: UNVERIFIED — https://www.cbc.gov.tw open data (金融統計)
-    notes: No BIS/IMF cross-country series for Taiwan; CBC is both the national and the comparable source.
 
 migration:
   stocks_flows.csv:
