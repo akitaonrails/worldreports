@@ -109,12 +109,19 @@ a { color: inherit; }
 .dek { grid-area: dek; }
 
 /* wide: the standfirst sits beside the wordmark rather than under it. The
-   first column is sized to the wordmark instead of taking a fixed fraction,
-   which otherwise leaves a few hundred px of dead air in the middle. */
+   first column is sized to its content instead of taking a fixed fraction,
+   which otherwise leaves a few hundred px of dead air in the middle.
+   fit-content, not max-content, because that column holds the masthead
+   line as well as the wordmark: a country whose line is a sentence rather
+   than a label — Argentina's runs to 115 characters — sized the column to
+   the whole unwrapped sentence, left the dek a column one word wide, and
+   the dek, forty lines tall and aligned to the end of its area, then
+   overflowed upward across the flag rule and the two switchers. The cap
+   lets the line wrap and guarantees the dek half the masthead. */
 @media (min-width: 960px) {
   .masthead__inner {
     grid-template-areas: "top top" "mark dek" "line dek";
-    grid-template-columns: max-content minmax(0, 1fr);
+    grid-template-columns: fit-content(50%) minmax(0, 1fr);
     align-items: end;
   }
   .dek { align-self: end; justify-self: end; margin-bottom: .4rem; }
@@ -496,11 +503,17 @@ a { color: inherit; }
 .headline__list {
   display: grid; gap: 1px;
   grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-  background: var(--rule); border: 1px solid var(--rule);
   list-style: none; margin: 0; padding: 0;
 }
+/* Bordered cells over a real gap, not a ruled background behind them.
+   The lattice trick — one background showing through 1px gaps — draws
+   the empty tail of the last row as a bright block, and how many cells
+   that is depends on the viewport and on how many figures the country
+   declares: six fit a row and Korea's ten do not. Same reason the atlas
+   grid on the home page is built this way. */
 .headline__item {
   background: var(--ground); padding: 1rem 1.1rem 1.1rem;
+  border: 1px solid var(--rule);
   display: flex; flex-direction: column; gap: .2rem;
 }
 .headline__v {

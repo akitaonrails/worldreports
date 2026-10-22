@@ -308,17 +308,24 @@ def _label(ch: Chrome, s: dict) -> str:
 def _asof(ch: Chrome, s: dict) -> str:
     """When a figure is from.
 
-    A level is a current reading and carries no year; a projection says so;
-    everything else is the year's own total.
+    A level is a current reading and carries no year; a projection says
+    so; a cumulative total carries the window it was summed over, because
+    it belongs to no single year; everything else is the year's own total.
+
+    Note the `or ""`: a total's `year` key is present and holds None, so
+    `.get("year", "")` returns None and the page printed "None · total".
     """
     kind = s.get("asof")
+    year = s.get("year") or ""
     if kind == "level":
         return ch.t("card.latest")
     if kind == "projection":
-        return f'{s.get("year", "")} · {ch.t("card.projected")}'
+        return f'{year} · {ch.t("card.projected")}'.lstrip(" ·")
     if kind == "total":
-        return f'{s.get("year", "")} · {ch.t("card.total")}'
-    return str(s.get("year", ""))
+        span = s.get("span") or []
+        window = f"{span[0]}–{span[1]}" if len(span) == 2 else year
+        return f'{window} · {ch.t("card.total")}'.lstrip(" ·")
+    return str(year)
 
 
 def _spark(ch: Chrome, sp: dict) -> str:

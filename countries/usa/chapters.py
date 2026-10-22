@@ -15,6 +15,39 @@ from __future__ import annotations
 MONEY, WORLD, PEOPLE = "money", "world", "people"
 
 
+def headline(ctx) -> list[dict]:
+    """The figures the page leads with, above the plates.
+
+    Six readings that frame everything below, computed from this country's
+    CSVs at build time rather than typed in, so a refetch moves them
+    instead of leaving the page quietly describing last year.
+
+    `kind` is the load-bearing argument. An annual total or average is a
+    flow: it stops at the last complete year, because the running year's
+    partial figure is not comparable with the ones before it. A stock or a
+    population estimate is a level, read at a moment and genuinely
+    current. The year is printed under each figure by the page, from the
+    row it was actually read from, so the labels do not repeat it.
+    """
+    return [
+        ctx.stat({"en": 'GDP', "pt": 'PIB'},
+                 ctx.col("macro/gdp.csv", "nominal_usdbn"), "money_bn"),
+        ctx.stat({"en": 'GDP per person, US$', "pt": 'PIB por pessoa, US$'},
+                 ctx.col("macro/gdp.csv", "gdp_per_capita_usd"), "count"),
+        ctx.stat({"en": 'Population', "pt": 'População'},
+                 ctx.col("macro/gdp.csv", "population_mn"), "pop_mn", kind="level"),
+        ctx.stat({"en": 'Inflation (CPI)', "pt": 'Inflação (CPI)'},
+                 ctx.col("macro/cpi.csv", "value"), "pct"),
+        ctx.stat({"en": 'Unemployment', "pt": 'Desemprego'},
+                 ctx.col("macro/unemployment.csv", "value"), "pct"),
+        # Keyed on the fiscal year, not the calendar year: the American
+        # budget tables are published that way and the column is named so.
+        ctx.stat({"en": 'Gross federal debt', "pt": 'Dívida federal bruta'},
+                 ctx.col("fiscal/debt.csv", "gross_pct_gdp", key="fiscal_year"),
+                 "pct_gdp", kind="level"),
+    ]
+
+
 def build(ctx) -> list[dict]:
     return [
         {

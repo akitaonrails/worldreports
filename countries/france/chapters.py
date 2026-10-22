@@ -15,6 +15,40 @@ from __future__ import annotations
 MONEY, WORLD, PEOPLE = "money", "world", "people"
 
 
+def headline(ctx) -> list[dict]:
+    """The figures the page leads with, above the plates.
+
+    Six readings that frame everything below, computed from this country's
+    CSVs at build time rather than typed in, so a refetch moves them
+    instead of leaving the page quietly describing last year.
+
+    `kind` is the load-bearing argument. An annual total or average is a
+    flow: it stops at the last complete year, because the running year's
+    partial figure is not comparable with the ones before it. A stock or a
+    population estimate is a level, read at a moment and genuinely
+    current. The year is printed under each figure by the page, from the
+    row it was actually read from, so the labels do not repeat it.
+    """
+    return [
+        ctx.stat({"fr": 'PIB', "en": 'GDP', "pt": 'PIB'},
+                 ctx.col("macro/gdp.csv", "nominal_eurbn"), "money_bn"),
+        ctx.stat({"fr": 'PIB par habitant, US$', "en": 'GDP per person, US$',
+                  "pt": 'PIB por pessoa, US$'},
+                 ctx.col("macro/gdp.csv", "gdp_per_capita_usd"), "count"),
+        ctx.stat({"fr": 'Population', "en": 'Population', "pt": 'População'},
+                 ctx.col("macro/gdp.csv", "population_mn"), "pop_mn", kind="level"),
+        ctx.stat({"fr": 'Inflation (IPC)', "en": 'Inflation (CPI)',
+                  "pt": 'Inflação (IPC)'},
+                 ctx.col("macro/inflation.csv", "ipc"), "pct"),
+        ctx.stat({"fr": 'Chômage', "en": 'Unemployment',
+                  "pt": 'Desemprego'},
+                 ctx.col("macro/unemployment.csv", "value"), "pct"),
+        ctx.stat({"fr": 'Dette publique brute', "en": 'Gross public debt',
+                  "pt": 'Dívida pública bruta'},
+                 ctx.col("fiscal/debt.csv", "gross"), "pct_gdp", kind="level"),
+    ]
+
+
 def build(ctx) -> list[dict]:
     chapters = [
         {

@@ -3,6 +3,10 @@
 Instructions to myself, written while merging five independent atlases into
 one tree. Read the first section even when only refreshing a number.
 
+This is the **mechanics**: the files, the APIs, the build loop.
+[SOURCING_A_COUNTRY.md](SOURCING_A_COUNTRY.md) is what comes first — how to
+decide what the plates are and which institution publishes each number.
+
 ---
 
 ## The rule that outranks every other

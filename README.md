@@ -87,7 +87,11 @@ So the rule is mechanical, not a convention:
   country at all — in code; a comment may explain one.
 
 Adding a country is therefore a directory, not an edit to anything shared.
-See **[ADDING_A_COUNTRY.md](ADDING_A_COUNTRY.md)**.
+**[ADDING_A_COUNTRY.md](ADDING_A_COUNTRY.md)** is the mechanics;
+**[SOURCING_A_COUNTRY.md](SOURCING_A_COUNTRY.md)** is the research that
+comes first — which eleven questions an atlas answers, which institution
+answers each of them, and the traps that have already produced a wrong
+published chart here.
 
 ## Where the numbers come from
 

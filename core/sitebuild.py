@@ -222,10 +222,16 @@ class SiteContext:
             # instead would quietly report one year as the whole total.
             if not pairs:
                 return None
+            years = [y for y, _ in pairs]
             return {
                 "label": self.text(**label),
                 "value": self.render(sum(v for _, v in pairs), spec),
                 "year": None,
+                # A total has no year but it does have a window, and a
+                # cumulative count published without one is unreadable:
+                # "COVID-19 deaths recorded · total" could be a year or a
+                # decade. The page prints the span instead of the year.
+                "span": [min(years), max(years)],
                 "asof": "total",
             }
         if kind == "flow" and year is None:
