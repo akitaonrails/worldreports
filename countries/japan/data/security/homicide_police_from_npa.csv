@@ -1,0 +1,29 @@
+# National Police Agency, 犯罪統計資料 (confirmed annual editions), table 1
+# 刑法犯 罪種別 認知・検挙件数・検挙人員, row 殺人. OFFENCES recorded by the
+# police, calendar year, place of occurrence, all persons in Japan.
+# 殺人 INCLUDES ATTEMPTS AND PREPARATION (未遂・予備): it is NOT the number
+# of people killed. MHLW counts 211 homicide deaths (他殺) in 2025 against
+# 976 recorded 殺人 here — two definitions, two lines, never spliced.
+# cleared = 検挙件数 (offences cleared, may include earlier years' cases);
+# persons_cleared = 検挙人員. Each year from the newest edition carrying it.
+year,satsujin_recorded_incl_attempts,satsujin_cleared,satsujin_persons_cleared
+2006,1309,1267,1241
+2007,1199,1157,1161
+2008,1301,1237,1211
+2009,1095,1074,1036
+2010,1068,1029,999
+2011,1052,1029,971
+2012,1032,963,899
+2013,938,950,906
+2014,1054,1010,967
+2015,933,938,913
+2016,895,901,816
+2017,920,930,874
+2018,915,886,836
+2019,950,945,924
+2020,929,913,878
+2021,874,883,848
+2022,853,817,785
+2023,912,872,808
+2024,970,937,923
+2025,976,961,895

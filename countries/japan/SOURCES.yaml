@@ -1,0 +1,957 @@
+# Data provenance — every planned series for Japan.
+#
+# Written 2026-10-22 BEFORE any CSV exists, as the research pass prescribes;
+# the fetch swarm then stages each `*_from_*` sidecar under data/. Nothing
+# here is curated yet.
+#
+# CORRECTED at consolidation (2026-10-22) to what the eleven fetchers
+# actually read and write: every entry below has a sidecar and every
+# sidecar an entry. Where a note gives a unit, it is the SIDECAR's unit
+# (most yen series are converted to ¥ billion by the fetcher; the
+# published unit is named beside it). DATA_NOTES.md carries the
+# cross-file caveats; where DISCOVERY.md disagrees with this file, this
+# file is right.
+#
+# Every endpoint below was curled live on 2026-10-22 and the payload shape
+# recorded in the notes. The pending block under `meta` is for publishers
+# that exist but could not be reached or staged this session — the page's
+# sources table ignores `meta`.
+#
+# THE e-STAT TRAP, which almost every Statistics Bureau / MHLW / ISA / NPA
+# entry depends on. e-Stat (www.e-stat.go.jp) is the national portal for
+# nearly every ministry's statistics. Its API (api.e-stat.go.jp/rest/3.0)
+# REQUIRES a registered application ID: without one, every call returns
+# HTTP 200 with {"RESULT":{"STATUS":100,"ERROR_MSG":"認証に失敗しました。
+# アプリケーションIDを確認して下さい。"}} — an auth failure dressed as a
+# success. No appId exists on this machine and none was registered (that
+# is a person's decision: registration needs an email account at
+# https://www.e-stat.go.jp/mypage/user/preregister). It is NOT needed for
+# v1: e-Stat's FILE layer is anonymous —
+#   https://www.e-stat.go.jp/stat-search/file-download?statInfId={12 digits}&fileKind={0|1|4}
+# (0 = Excel, 1 = CSV, 4 = Excel "report" layout) returns the file with a
+# content-disposition filename, and the listing pages
+#   https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&lid={lid}
+# are scrapeable HTML from which statInfIds are read. statInfIds are
+# per-edition (a new one each release), so fetchers resolve them from the
+# listing page at fetch time and assert the table number and title they
+# expect; the ids written below are today's, for the record.
+#
+# Other cross-cutting quirks every Japanese fetcher must handle:
+#   - Shift_JIS (cp932) is the default encoding of CSVs and many HTML
+#     pages (customs, MOF, stat.go.jp CSVs, e-Stat CSV downloads); xlsx
+#     is UTF-8 inside. Decode explicitly; never trust the header.
+#   - Japanese era dates (wareki): 昭和/平成/令和 year labels, often with
+#     the era written once and the year number alone after it (MHLW long
+#     series), or "S49.9.24"/"H18.1.4"/"R8.9.30" (MOF JGB CSV). R1 = 2019,
+#     H1 = 1989, S1 = 1926. Convert with an explicit table and assert a
+#     known date.
+#   - Units are Japanese myriads: 万人 (10,000 persons — the LFS), 億円
+#     (100 million yen — BoJ, MOF), 千円 (1,000 yen — customs, MOF
+#     settlement tables), 10億円 (¥bn — national accounts). An
+#     order-of-magnitude error is one misread header away.
+#   - Fiscal year = April–March, keyed on the STARTING year
+#     (`fiscal_year: 2024` = Apr 2024 – Mar 2025), as Canada/UK/USA.
+#
+# NOTES FOR PHASE B (recorded, not acted on — the brief forbids it here):
+#   - `ja` is a NEW locale. core/sitebuild.py AFFIX needs a `ja` column
+#     for every spec (en/fr/pt/es/ko today), CURRENCY_AFFIX needs JPY
+#     (no decimals; ¥ prefix in en/pt, 兆円/億円 suffix units in ja), and
+#     site/ui.json needs `ja` chrome. test_every_locale_can_be_formatted and
+#     test_the_currency_is_one_the_site_can_write fail until then — intended.
+#   - core/style.py's script-font table has `ko` but no `ja`: add
+#     "ja": ["Noto Sans CJK JP", ...]. matplotlib on this machine sees
+#     "Noto Sans CJK JP" and "Noto Serif CJK JP" (verified), so JP is the
+#     native face here, not a fallback.
+#   - Every OTHER country's country.yaml needs a `name.ja` entry once a
+#     page publishes in ja (test_the_comparison_names_every_country_in_
+#     every_language) — e.g. フランス, ブラジル, アルゼンチン, 韓国, 米国,
+#     カナダ, スペイン, 英国, イタリア, ポルトガル.
+#   - Wordmark 日本 with mark_bearing 0 (CJK em box, Hangul precedent).
+
+meta:
+  pending:
+    - name: e-Stat API (database layer)
+      publisher: Statistics Bureau of Japan / National Statistics Center — e-Stat API v3
+      url: https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData
+      official: true
+      notes: >-
+        Needs an application ID (appId). Verified 2026-10-22: getStatsList
+        and getStatsData without one, and with appId= empty, both answer
+        HTTP 200 with RESULT.STATUS 100 "認証に失敗しました。アプリケーション
+        IDを確認して下さい。" (authentication failed, check the application
+        ID). Registration is free but needs a person's email account; it
+        was not done. Every series in this manifest is reachable through
+        the anonymous FILE layer instead (see header), so nothing blocks.
+        With an appId, the DB tables (e.g. 人口動態統計 year-series and the
+        普通貿易統計 by-partner cube) would replace several per-year file
+        loops. A fetcher that ever uses the API must treat STATUS != 0 as
+        failure regardless of the HTTP code.
+    - name: BoJ policy-rate target (the decided rate, not the market rate)
+      publisher: Bank of Japan — Statements on Monetary Policy
+      url: https://www.boj.or.jp/en/mopo/mpmdeci/index.htm
+      official: true
+      notes: >-
+        The Time-Series API carries the REALISED uncollateralised overnight
+        call rate (FM01/FM02) and the basic loan rate (IR01), but no series
+        for the policy target, and the target itself changed kind three
+        times inside the window: an overnight-call target to 2013, the
+        monetary base (QQE) April 2013 – Sept 2016, the −0.1% rate on the
+        Policy-Rate Balance plus yield-curve control Jan 2016 – Mar 2024,
+        then an overnight-call target again (0–0.1% Mar-2024, 0.25%
+        Jul-2024, 0.5% Jan-2025, and — read off the realised call rate,
+        unverified against the statements — about 0.75% from Dec-2025 and
+        1.0% from mid-2026). Hand-curate the decision dates and levels from
+        the statements at build time; draw the realised rate as the line
+        and the regimes as annotated segments, never as one series.
+        Consolidation read of the staged data (still unverified against the
+        statements): the daily call rate (FM01) steps to ~0.727 on
+        2025-12-22, ~0.978 on 2026-06-17 and ~1.227 on 2026-09-24, and the
+        basic loan rate (IR01, = target + 0.25 since 2024) reads 1.0 from
+        Dec-2025, 1.25 from Jun-2026 and 1.5 from Sep-2026 — i.e. targets of
+        0.75%, 1.0% and 1.25%. The discovery list stopped at 1.0%. The
+        Sep-2026 monthly call-rate average (1.043) straddles the hike.
+    - name: Monthly Labour Survey (wages, real wage index)
+      publisher: MHLW — 毎月勤労統計調査 (toukei 00450071)
+      url: https://www.e-stat.go.jp/stat-search/files?page=1&toukei=00450071&tstat=000001011791
+      official: true
+      notes: >-
+        Listing verified live; the long-series file statInfId was not
+        pinned this session (the tree is five levels deep). Known break to
+        annotate: the 2019 irregular-sampling scandal — large Tokyo
+        establishments were sampled at one third from 2004 without
+        reweighting; MHLW re-estimated only from 2012, so pre-2012 levels
+        are not comparable with the corrected series. Two segments, never
+        a splice.
+    - name: asylum applications and recognitions, national count
+      publisher: Immigration Services Agency — annual press release 我が国における難民庇護の状況等
+      url: https://www.moj.go.jp/isa/refugee/index.html
+      official: true
+      notes: >-
+        ISA publishes asylum numbers as an annual press-release PDF, not as
+        an e-Stat table; the release URL was not located from the refugee
+        index page or the press index (/isa/publications/press/index.html)
+        at discovery or consolidation. Staged instead: the UNHCR Refugee
+        Data Finder API (migration/asylum_from_unhcr.csv). Hand-curate the
+        ISA figures (applications, first-instance recognitions,
+        complementary protection from Dec-2023, humanitarian permission to
+        stay) when the migration plate is built — four numbers, never one.
+        This is now NEEDED, not optional: UNHCR's 2024 final-level
+        "recognized" is 1,857, which looks like ISA's refugee recognitions
+        (~190) PLUS complementary protection (~1,661, mostly Ukrainians)
+        folded into one cell; 2025 drops back to 187. Unverified against
+        the ISA release — do not draw UNHCR's 2024 recognitions as refugee
+        status until it is checked.
+    - name: Japanese nationals living abroad (the emigration side)
+      publisher: MOFA — 海外在留邦人数調査統計
+      url: https://www.mofa.go.jp/mofaj/toko/page22_003338.html
+      official: true
+      notes: >-
+        HTTP 403 from this machine on 2026-10-22. Japan has no emigration
+        register: ISA's 出国日本人 counts departures (mostly travel), not
+        emigrants. MOFA's annual count of Japanese residing abroad (stock,
+        1 October) is the only national measure of the other side. Retry
+        with a browser UA from another network or hand-curate.
+    - name: Transparency International CPI
+      publisher: Transparency International
+      url: https://www.transparency.org/en/cpi
+      official: false
+      notes: Hand-curated at build phase, France/Canada pattern.
+
+macro:
+  gdp_from_esri.csv:
+    source: Cabinet Office ESRI — Quarterly Estimates (QE), 2026 Apr–Jun second preliminary, gaku-mcy / gaku-mfy / gaku-jcy
+    url: https://www.esri.cao.go.jp/jp/sna/data/data_list/sokuhou/files/2026/qe262_2/tables/gaku-mcy2622.csv
+    refreshed_by: fetch/fetch_esri.py
+    notes: >-
+      Expenditure-side GDP, 2020 benchmark (2020-base chained yen, 2008
+      SNA), ¥ BILLIONS (10億円), Shift_JIS CSV with a five-row bilingual
+      header; row labels "2024/1-12." (calendar) and fiscal-year twins in
+      gaku-mfy. Verified: nominal CY2024 = ¥636,893.3bn, CY2025 =
+      ¥666,440.7bn, CY2006 = ¥540,566.0bn. Real (gaku-jcy) is chained 2020
+      yen. THE RELEASE DIRECTORY MOVES every QE (qe262_2 = 2026 Q2 second
+      preliminary, published 2026-09-08; the file suffix 2622 changes
+      with it): resolve the current menu from
+      https://www.esri.cao.go.jp/jp/sna/sokuhou/sokuhou_top.html, never
+      hardcode. The 2020 benchmark revision (late 2025) raised nominal
+      levels against the 2015-base vintage; never mix vintages. Calendar
+      and fiscal-year totals are separate files and separate columns.
+      SIDECAR (consolidation): 1994–2025, ¥bn; *_cy columns from
+      gaku-mcy/gaku-jcy and *_fy columns (FY keyed on its starting year)
+      from gaku-mfy/gaku-jfy; nominal CY expenditure components
+      (consumption, residential, non-residential, government consumption,
+      public investment, exports, imports) and GNI. The fetcher asserts the
+      spot values above and that ESRI CY2024 ÷ BoJ's 151.50 lands within
+      1.5% of the World Bank (it is +0.33%).
+  gdp_quarterly_from_esri.csv:
+    source: Cabinet Office ESRI — QE real seasonally adjusted series, gaku-jk
+    url: https://www.esri.cao.go.jp/jp/sna/data/data_list/sokuhou/files/2026/qe262_2/tables/gaku-jk2622.csv
+    refreshed_by: fetch/fetch_esri.py
+    notes: >-
+      Real GDP, SA, chained 2020 yen, ¥bn, 1994 Q1 – 2026 Q2. ANNUALISED:
+      the header says "＊年率で表示している" — the quarterly levels are at
+      annual rates (2026 Q2 = ¥598,950.5bn), so the annual figure is the
+      MEAN of four quarters, never the sum. Quarter labels "2007/ 1- 3."
+      carry the year only on Q1 rows ("4- 6.", "7- 9.", "10-12." follow).
+      This is the series the bands in country.yaml were dated from
+      (q/q sign, today's vintage). Raw (non-SA) twins are gaku-jg/gaku-mg.
+      SIDECAR (consolidation): real (gaku-jk) and nominal (gaku-mk) SA
+      levels at annual rates, plus ESRI's PUBLISHED q/q % changes
+      (ritu-jk, ritu-mk) and published annualised real rate (nritu-jk) —
+      not computed here. Quarter labels written YYYY-Qn. The 2024 H1 band
+      rests on −0.1 / −0.1 published (−0.4 / −0.5 annualised).
+  cpi_from_stat.csv:
+    source: Statistics Bureau of Japan (MIC) — Consumer Price Index, 2020-base and 2025-base national long series (e-Stat 中分類指数 and 前年同月比)
+    url: https://www.e-stat.go.jp/stat-search/file-download?statInfId=000032103842&fileKind=1
+    refreshed_by: fetch/fetch_stat.py
+    notes: >-
+      CORRECTED at consolidation: the sidecar is built from e-Stat's long
+      monthly series on EACH base (2020=100: index statInfId 000032103842,
+      published 12-month rates 000032103932; 2025=100: 000040482943 and
+      000040482953 — ids are per edition and resolved from the listing on
+      every run), 2006-01 → 2026-08. The *_yoy_pct columns are the
+      PUBLISHED rates, not computed. stat.go.jp's three-decimal files
+      (zmi2020aa / zmi2025aa) are only the month-by-month check. Columns
+      all / core (ex fresh food) / corecore (ex fresh food and energy) per
+      base. The 2025-base rates before 2026 repeat the 2020-base published
+      rates (240 of 240 months identical); 3 months of 2026 differ, so a
+      rate line stays on one base. What discovery recorded follows.
+      Monthly index, Shift_JIS CSV, one column per item (col 1 総合 all
+      items, 生鮮食品を除く総合 "core" ex-fresh-food, 持家の帰属家賃を除く
+      総合 ex-imputed-rent). Three files, verified: zmi2020aa.csv (2020=100,
+      3 decimals, 2020-01 → 2026-08); zmi2025aa.csv (2025=100, from
+      2025-01 → 2026-08 — the CPI was REBASED to 2025 in 2026; both bases
+      are being published in parallel); and the long rounded series
+      zmi2020s.csv from 1970-01 via e-Stat
+      (file-download?statInfId=000032103842&fileKind=1). Annual-average
+      check from the 2020-base file: 2022 +2.5%, 2023 +3.3%, 2024 +2.7%,
+      2025 +3.2% (computed from the rounded index; the official annual
+      rates are computed from unrounded indices and can differ by a tenth
+      — take the published rate where it is published). The rebase seam
+      is annotated; rates are taken within one base, never across the seam.
+      Headline vs "core" (ex fresh food, the BoJ's reference) are two
+      columns.
+  cpi_tokyo_from_stat.csv:
+    source: Statistics Bureau of Japan — CPI, Tokyo ku-area (preliminary), 2025 base, e-Stat long series
+    url: https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040482965&fileKind=1
+    refreshed_by: fetch/fetch_stat.py
+    notes: >-
+      CORRECTED at consolidation: from the e-Stat 2025-base Tokyo long
+      series (index 000040482965, published rates 000040482975), checked
+      against stat.go.jp's tmi2025aa.csv; 2006-01 → 2026-09. Same columns
+      as the national file, 2025 base only; before 2026 its rates repeat
+      the rates first published on the 2020 base. Runs one month ahead
+      (2026-09 present on 2026-10-22, national stops at 2026-08). Tokyo
+      only — a leading indicator, never drawn as the national rate.
+
+fiscal:
+  tax_revenue_from_mof.csv:
+    source: MOF — 一般会計税収の推移 (general-account tax revenue since FY1979)
+    url: https://www.mof.go.jp/tax_policy/summary/condition/zeisyu.xls
+    refreshed_by: fetch/fetch_mof.py
+    notes: >-
+      Legacy .xls, published in ¥100 MILLION (億円); the SIDECAR is ¥
+      BILLION (÷10). FISCAL years keyed by era year and Western year (both
+      in the sheet, asserted to agree), FY1979–FY2025. Columns:
+      general-account tax revenue, income tax, corporation tax, consumption
+      tax (blank before FY1989). Verified FY2006 = 490,691 (¥49.1tn),
+      FY2024 = 752,321 (¥75.2tn), FY2025 = 842,226. RESOLVED at fetch:
+      FY2025 IS the settlement — the fetcher reads the 令和7年度決算概要
+      予算決算比較表 PDF (pdftotext) and asserts zeisyu's last row equals
+      its settlement 税収. Equals general_account_from_mof.csv
+      tax_settlement in every overlapping year. Read with an in-fetcher
+      BIFF8 reader (no xlrd). NATIONAL general account only — not local
+      taxes, not social contributions, not general government.
+  general_account_from_mof.csv:
+    source: MOF — 財政統計 第1表 明治初年度以降一般会計歳入歳出予算決算 (and 第2表 from FY1963)
+    url: https://www.mof.go.jp/policy/budget/reference/statistics/01.xlsx
+    refreshed_by: fetch/fetch_mof.py
+    notes: >-
+      Budget and settlement of the general account by fiscal year. The
+      statistics page (…/statistics/data.htm) lists 01.xlsx … 35.xlsx with
+      a table number each (第1表 … 第34表; 19a/19b split one table); the
+      file number is not the table number everywhere, so the fetcher picks
+      the link by its 第N表 label and asserts the title and unit cells.
+      CORRECTED at consolidation — three tables, three units: 第1表 totals
+      in ¥1,000 (千円); 第4表 一般会計歳入主要科目別決算 (tax incl. stamp
+      revenue, 公債金 bond revenue) in ¥ MILLION (百万円), not ¥1,000;
+      第20表 主要経費別 (国債費 debt service, 社会保障関係費) in 千円. The
+      SIDECAR converts all to ¥ BILLION. bond_dependency_pct = bond revenue
+      ÷ settled expenditure, computed. FY2025 has budget columns only (its
+      settlement is not yet in the statistics tables); FY2005's settlement
+      is missing from table 1 itself. Settlement (決算) and budget (予算)
+      are different columns; plates draw settlement and label FY.
+  gg_accounts_from_esri.csv:
+    source: Cabinet Office ESRI — Annual national accounts FY2024 (2020 base), table 6(2) 一般政府の部門別勘定
+    url: https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s6_2_jp.xlsx
+    refreshed_by: fetch/fetch_esri.py
+    notes: >-
+      General government sector accounts, FISCAL years 1994–2024, ¥bn,
+      two sheets (経常・資本取引 current and capital transactions;
+      金融資産・負債 financial transactions). Each fiscal year spans
+      several columns — central government, local government, social
+      security funds, consolidation and general government — so the
+      fetcher maps the column header block before reading; verified that
+      net lending/borrowing (純貸出/純借入) is present. The FY2025 annual
+      estimate is due December 2026 (2025_kaku_top.html is 404 today).
+      This is the national-accounts deficit; MOF's general account is a
+      different (narrower, cash) object. Two files, never spliced.
+      SIDECAR (consolidation): table 6-2 is the GFS layout (IMF GFSM 2014),
+      FY1994–FY2024, ¥bn. gg_* = consolidated general government: revenue,
+      taxes, social contributions, expense (incl. consumption of fixed
+      capital), interest, social benefits, net operating balance, net
+      acquisition of non-financial assets, net lending (= NOB − NANFA; the
+      financial account's own net-lending row differs by a statistical
+      discrepancy and is not used), and END-YEAR balance-sheet stocks at
+      market value (financial assets, liabilities, net financial worth;
+      social-security pension entitlements are not recorded as
+      liabilities). central/local/ssf net lending are the unconsolidated
+      subsectors. FY2024 net lending −1.4% of FY GDP (IMF CY2024 −1.7).
+  cofog_from_esri.csv:
+    source: Cabinet Office ESRI — Annual national accounts FY2024, table 7 一般政府の機能別支出 (COFOG)
+    url: https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s7_jp.xlsx
+    refreshed_by: fetch/fetch_esri.py
+    notes: >-
+      General-government expenditure by function, ONE SHEET PER FISCAL
+      YEAR named in wareki (平成１７ … 令和６ = FY2005 … FY2024), ¥bn.
+      Table 8 (2024s8_jp.xlsx) is final consumption by function — a
+      subset, not the same thing. Social protection dominates (ageing);
+      the spending plate says so. SIDECAR (consolidation): FY2005–FY2024,
+      ten COFOG divisions. ESRI PUBLISHES NO TOTAL COLUMN: each function's
+      figure is the sum of the seven published transaction columns (final
+      consumption, subsidies, social benefits other than in kind, other
+      current transfers, GFCF, inventories, capital transfers), computed
+      by the fetcher, which asserts the ten functions add to ESRI's 合計
+      row in every column. Interest and net land purchases are not in the
+      table and GFCF is, so total_expenditure is a different aggregate
+      from the GFS expense in gg_accounts_from_esri.csv.
+  central_debt_from_mof.csv:
+    source: MOF — 国債及び借入金並びに政府保証債務現在高, 最近5年間の推移
+    url: https://www.mof.go.jp/jgbs/reference/gbb/suii.xls
+    refreshed_by: fetch/fetch_mof.py
+    notes: >-
+      Central-government debt at FACE value, quarter-ends, published in
+      ¥100 MILLION; the SIDECAR is ¥ BILLION. CORRECTED at consolidation:
+      total = 内国債 (JGBs: general bonds, FILP bonds, other) + 借入金
+      borrowings + 政府短期証券 financing bills, and it EXCLUDES
+      government-guaranteed debt (政府保証債務), which is a contingent
+      liability in its own column — not "plus guaranteed debt" as first
+      written. general_bonds and filp_bonds are parts of jgb. Verified
+      June 2026 total = 13,466,833 (¥1,346.7tn), Dec-2006 ¥832.3tn.
+      HISTORY RESOLVED (no longer pending): the live suii.xls carries five
+      years (Sept 2021 → June 2026); 2006–2021 come from MOF's own earlier
+      editions in the National Diet Library web archive (WARP captures
+      20160205, 20190501 and 20230501 of suii.xls, and for 2006–2010 the
+      per-quarter HTML pages of the 20110328 capture). Every quarter is
+      taken from the newest edition carrying it, overlaps are asserted to
+      agree (they do, to 0 億円), and an `edition` column names the source
+      of each row. CENTRAL government — the third of Japan's debts; see
+      the IMF and flow-of-funds entries.
+  gg_liabilities_from_boj.csv:
+    source: Bank of Japan — Flow of Funds (2008 SNA), General government, stocks (L900 − L700 liabilities; L300, L200, A900, L700)
+    url: https://www.stat-search.boj.or.jp/api/v1/getDataCode?format=json&lang=en&db=FF&code=FOF_FFAS420L900,FOF_FFAS420L700,FOF_FFAS420A900,FOF_FFAS420L300,FOF_FFAS420L200&startDate=200601
+    refreshed_by: fetch/fetch_boj.py
+    notes: >-
+      CORRECTED at consolidation — the discovery note was wrong.
+      FOF_FFAS420L900 "Liabilities/Total/General government" is NOT the
+      government's liabilities: a flow-of-funds liabilities column closes
+      on L700 "Difference between financial assets and liabilities", so
+      L900 equals total financial ASSETS (A900) to the unit every quarter
+      (2025 Q4: 9,486,308 both — the ¥948.6tn first recorded here as the
+      debt is the asset side). Liabilities proper = L900 − L700 =
+      13,992,259 (¥1,399.2tn) at 2025 Q4. Verified independently at
+      consolidation against the API: the nine general-government liability
+      instruments (L200 loans, L300 debt securities, L334 equity, L340
+      derivatives, L500 deposits money, L510 trade credits, L520 accounts
+      payable, L550 other external, L600 others) sum to exactly L900 − L700
+      in 2006 Q4, 2016 Q4 and 2025 Q4. Published in ¥100 MILLION; SIDECAR
+      in ¥ BILLION, one row per year at its December quarter (running year
+      at its latest quarter, asof_quarter), columns gg_liabilities,
+      debt_securities (L300) and loans (L200) as parts, gg_financial_assets
+      (A900) and net_financial_position (L700). The annual end-March twin
+      FOF_FFYS420L900 is asserted to equal the March quarter. Securities at
+      MARKET value and the flow-of-funds consolidation: 2024 ¥1,443.6tn =
+      227% of CY GDP, against MOF's face-value central debt (207%) and the
+      IMF gross general-government debt (213.6%). Three debts, three files;
+      the plate never draws one as if it were another.
+
+markets:
+  rates_from_boj.csv:
+    source: Bank of Japan — Time-Series Data Search API, FM02 STRACLUCON / FM01 STRDCLUCON / IR01 MADR1M
+    url: https://www.stat-search.boj.or.jp/api/v1/getDataCode?format=csv&lang=en&db=FM02&code=STRACLUCON&startDate=200601
+    refreshed_by: fetch/fetch_boj.py
+    notes: >-
+      The BoJ API (anonymous, no key; manual at
+      https://www.stat-search.boj.or.jp/info/api_manual_en.pdf; ≤250
+      series and ≤60,000 data points per request, NEXTPOSITION for paging,
+      "excessive access may be restricted") returns JSON or CSV: an 11-line
+      STATUS/PARAMETER preamble, then rows SERIES_CODE, NAME (quoted,
+      contains commas — use a CSV parser), UNIT, FREQUENCY, CATEGORY,
+      LAST_UPDATE, SURVEY_DATES, VALUES. STATUS 200 + MESSAGEID M181000I
+      is success; assert it. Verified STRACLUCON (uncollateralised
+      overnight call, monthly average, % p.a.): Dec-2006 0.255, Dec-2016
+      −0.044 (negative-rate era), Mar-2024 0.022, Aug-2024 0.227, Feb-2025
+      0.478, Dec-2025 0.557, Sep-2026 1.043. This is the REALISED rate;
+      the decided target is meta.pending. MADR1M is the basic loan rate
+      (the old official discount rate). SIDECAR: calendar years,
+      call_rate_avg (mean of the monthly averages), call_rate_dec, and the
+      basic loan rate; FM01 STRDCLUCON (daily) is fetched only to check
+      that its monthly means reproduce FM02, never written.
+  usdjpy_from_boj.csv:
+    source: Bank of Japan — FM08 FXERM07 (USD/JPY 17:00 JST, monthly average), FXERM06 (end of month)
+    url: https://www.stat-search.boj.or.jp/api/v1/getDataCode?format=json&lang=en&db=FM08&code=FXERM07&startDate=200601
+    refreshed_by: fetch/fetch_boj.py
+    notes: >-
+      Yen per U.S. dollar, Tokyo market. Verified annual means of the
+      monthly averages: 2006 116.28, 2011 79.78, 2012 79.79, 2015 121.02,
+      2022 131.37, 2024 151.50, 2025 149.65; last value Sep-2026 156.23.
+      Direction: YEN PER DOLLAR, so a RISING line is a WEAKER yen (same
+      direction as Canada's USDCAD, opposite to the UK's USD-per-GBP).
+      Daily twin FXERD04.
+  reer_from_boj.csv:
+    source: Bank of Japan — FM09 FX180110002 (real effective exchange rate, CY2020=100)
+    url: https://www.stat-search.boj.or.jp/api/v1/getDataCode?format=csv&lang=en&db=FM09&code=FX180110001,FX180110002&startDate=200601
+    refreshed_by: fetch/fetch_boj.py
+    notes: >-
+      Nominal (FX180110001) and real (FX180110002) effective rates,
+      monthly, CY2020=100. The pre-2010 series (FXCP7JP/FXCP8JP, March
+      1973=100) is discontinued and on another base — not spliced.
+  monetary_base_from_boj.csv:
+    source: Bank of Japan — MD01 MABS1AN11 (monetary base, average amounts outstanding)
+    url: https://www.stat-search.boj.or.jp/api/v1/getDataCode?format=csv&lang=en&db=MD01&code=MABS1AN11,MABS1AN113&startDate=200601
+    refreshed_by: fetch/fetch_boj.py
+    notes: >-
+      Published in ¥100 MILLION, monthly; the SIDECAR is ¥ BILLION, one
+      row per year at its December reading (running year at its latest
+      month, asof_month). Current-account balances (MABS1AN113) are the
+      QQE story. The monetary base WAS the operating target April 2013 –
+      Sept 2016; annotate the regime, do not read it as a policy rate.
+  jgb_from_mof.csv:
+    source: MOF — 国債金利情報 (JGB constant-maturity yields), jgbcm_all.csv + jgbcm.csv
+    url: https://www.mof.go.jp/jgbs/reference/interest_rate/data/jgbcm_all.csv
+    refreshed_by: fetch/fetch_mof.py
+    notes: >-
+      Daily yields 1–40 years, % p.a., Shift_JIS, ~1.2MB, from S49.9.24
+      (1974-09-24). Dates are WAREKI strings (S49.9.24, H18.1.4,
+      R8.9.30); tenors not yet issued are "-". The archive file ends at the
+      previous month (R8.9.30 today); the running month is in
+      .../interest_rate/jgbcm.csv, which ends with a Japanese cache-busting
+      advice row that must be skipped. Verified 10y: 2006-01-04 1.446,
+      2016-07-01 −0.262 (YCC era), 2026-09-30 3.057. The plate draws
+      annual means of the daily series and labels the YCC band
+      (2016-09 → 2024-03).
+  nikkei_from_yahoo.csv:
+    source: Nikkei Inc. (Nikkei Stock Average), redistributed by Yahoo Finance (^N225)
+    url: https://query1.finance.yahoo.com/v8/finance/chart/%5EN225?interval=1mo&range=30y
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: >-
+      Monthly closes, JPY, 1996-11 → 2026-10 once the JST offset is
+      applied (the first bar, stamped 1996-10-31 15:00 UTC, is November;
+      the running month is a live reading flagged partial=1). Needs a
+      plain User-Agent; a
+      long browser UA got an empty body). TIMESTAMP TRAP: bars are stamped
+      at JST midnight (meta.gmtoffset 32400), i.e. 15:00 UTC on the LAST
+      day of the previous month — labelled in UTC every month shifts back
+      by one and "December" is really January. Apply gmtoffset before
+      labelling. Verified year-ends (JST): 2007 15,307.8 · 2008 8,859.6 ·
+      2012 10,395.2 · 2019 23,656.6 · 2023 33,464.2 · 2024 39,894.5 ·
+      2025 50,339.5; latest 2026-10 62,907.8. Price index, not total
+      return. stooq ^nkx is JS-walled (796-byte verification page under
+      HTTP 200, verified) as for ^TSX/^IBEX.
+
+trade:
+  trade_from_customs.csv:
+    source: Japan Customs (MOF) — 普通貿易統計, 輸出入総額の推移 (d41ca annual, d41ma monthly)
+    url: https://www.customs.go.jp/toukei/suii/html/data/d41ca.csv
+    refreshed_by: fetch/fetch_customs.py
+    notes: >-
+      Goods exports and imports, customs basis, ¥ THOUSAND (千円),
+      Shift_JIS, 4-line header, values with trailing spaces. Verified CY
+      2006 X 75,246,173,392 / M 67,344,293,072; 2024 X ¥107.09tn / M
+      ¥112.72tn; 2025 X ¥110.40tn / M ¥113.33tn. THE MONTHLY FILE
+      ZERO-FILLS THE FUTURE: d41ma.csv carries 2026/09 … 2026/12 as
+      "0 ,0" — a presence test would count twelve months in October.
+      2026 has 8 real months today; the fetcher counts non-zero months
+      (zeros must be strictly trailing) and the plate says "2026: 8 of 12
+      months". Customs value goods only (exports FOB, imports CIF) — NOT
+      the BoP series below; never spliced. SIDECAR: ¥ BILLION (÷1,000,000
+      from 千円); full years in the annual columns, the running year ONLY
+      in *_ytd columns with its month count. Cross-check: 2024 exports at
+      the WB annual rate = US$707.5bn vs WB/WTO TX.VAL.MRCH.CD.WT
+      US$707.0bn (+0.07%).
+  trade_partners_from_customs.csv:
+    source: Japan Customs — 国別・地域別 輸出 (d52caNNN) / 輸入 (d62caNNN) annual series by commodity
+    url: https://www.customs.go.jp/toukei/suii/html/data/d52ca001.csv
+    refreshed_by: fetch/fetch_customs.py
+    notes: >-
+      One file per partner and direction, index on
+      https://www.customs.go.jp/toukei/suii/html/time.htm: 001 USA,
+      002 EU, 003 Asia, 004 China, 005 Korea, 006 ASEAN, 007 Middle East,
+      008 Russia (d52 = exports, d62 = imports; d42caNNN are region
+      totals). Column 1 総額 is the partner total; the rest are the
+      press-release commodity groups (food … transport equipment), with
+      "-" for suppressed/zero cells. Verified exports to the USA 2024
+      ¥21.29tn → 2025 ¥20.37tn; to China 2024 ¥18.86tn, 2025 ¥18.78tn.
+      CORRECTED at consolidation: the EU line is the membership OF THE
+      TIME, not today's composition — EU28 (UK included) through 2019,
+      EU27 from 2020 (2019 exports ¥8,955.3bn = the 2019 press release's
+      EU28 figure). 2019→2020 is a definitional drop plus COVID, never
+      read as a fall; annotate the seam. The other aggregates (Asia, ASEAN,
+      Middle East) carry no composition note in the files. SIDECAR: ¥
+      BILLION, 2006–2025 (full years only; partner files have no running
+      year), column 総額 per partner and direction; '-' → blank. File
+      names are read from time.htm by their Japanese labels.
+  current_account_from_boj.csv:
+    source: Bank of Japan / MOF — Balance of Payments (BPM6), BP01 BPBP6JYNCB
+    url: https://www.stat-search.boj.or.jp/api/v1/getDataCode?format=json&lang=en&db=BP01&code=BPBP6JYNCB&startDate=200601
+    refreshed_by: fetch/fetch_boj.py
+    notes: >-
+      Current account net balance, monthly, ¥100 MILLION; verified CY2024
+      sum ¥29.28tn, CY2025 ¥32.24tn. Primary income (overseas investment
+      returns) is now the whole surplus while the goods balance is in
+      deficit — the trade plate shows both, labelled. BoP basis includes
+      services; never spliced with customs. SIDECAR: ¥ BILLION, monthly
+      net balances summed to calendar years for current account, goods
+      (TB), services (SN), primary (PIN) and secondary income (SIN),
+      checked to add up within ¥1bn; a part-year is blank with `months`.
+
+social:
+  labour_from_stat.csv:
+    source: Statistics Bureau of Japan — Labour Force Survey, 長期時系列表2 (annual averages)
+    url: https://www.e-stat.go.jp/stat-search/file-download?statInfId=000001082681&fileKind=0
+    refreshed_by: fetch/fetch_stat.py
+    notes: >-
+      lt02.xlsx (listing: https://www.e-stat.go.jp/stat-search/files?tclass=000001226526&cycle=0,
+      table 2-1), 1953–2025, units 万人 (TEN THOUSAND persons) and %, by
+      sex. Verified unemployment rate 2006 4.1, 2009 5.1, 2011 4.6, 2024
+      2.5, 2025 2.5; labour force 2025 = 7,004 (70.04mn). Breaks to
+      annotate: 2011 values (marked *) are supplementary estimates because
+      Iwate, Miyagi and Fukushima could not be surveyed March–August 2011;
+      the benchmark population is switched to each new census (every five
+      years since 1982) and a second sheet "長期02 (既公表値)" keeps the
+      previously published values — use one vintage. Fiscal-year twin:
+      statInfId 000040104500 (table 2-2). Monthly SA: 000031831358.
+      SIDECAR (consolidation): sheet 長期02 only (the 既公表値 sheet is not
+      used), 2006–2025; COUNTS IN THOUSANDS (published 万人 × 10), rates
+      the published %, aged 15+; `benchmark_census` names the census each
+      year rests on (2005–09: 2010; 2010–14: 2015; 2015 on: 2020) and
+      `supplementary` flags 2011. Cross-check: LFS 2025 15+ population
+      109,730k vs 2025 census 15+ 109,624k.
+  poverty_from_mhlw.csv:
+    source: MHLW — Comprehensive Survey of Living Conditions 2025 (国民生活基礎調査), 表11 貧困率の年次推移 (09.xlsx)
+    url: https://www.mhlw.go.jp/toukei/saikin/hw/k-tyosa/k-tyosa25/index.html
+    refreshed_by: fetch/fetch_mhlw.py
+    notes: >-
+      CORRECTED at consolidation: read from the edition's xlsx (09.xlsx,
+      表11, linked from the k-tyosa25 index; the edition is resolved from
+      /toukei/list/20-21kekka.html), not the 03.pdf summary. SIDECAR keyed
+      on the INCOME year with survey_year beside it, 2006–2024 survey
+      years only; poverty_rate, child_poverty, median_income and
+      poverty_line (万円, nominal), each as *_old (旧基準) and *_new
+      (新基準, OECD 2015 terms) — both exist for 2018 only. What discovery
+      recorded follows.
+      Relative poverty rate (50% of median equivalised disposable income)
+      and child poverty, every THREE years (large-scale survey), income
+      year = survey year − 1. Verified: 2024 income year 15.0% (−0.4 pt on
+      2021), child 11.0%. The 2018 point exists on TWO income definitions
+      (old 15.4 / new OECD 2015 definition 15.7) — two columns, the seam
+      annotated. A PDF table: the fetcher extracts and asserts the 2024
+      value; hand-curation is acceptable.
+  gini_from_oecd.csv:
+    source: OECD Income Distribution Database (DF_IDD), REF_AREA=JPN
+    url: https://sdmx.oecd.org/public/rest/data/OECD.WISE.INE,DSD_WISE_IDD@DF_IDD,/JPN.A.INC_DISP_GINI+PR_INC_DISP......?startPeriod=2006&format=csvfilewithlabels
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Verified on METH2012 / total population: Gini 2018 0.334, 2021
+      0.338; poverty (50% line) 2018 15.7, 2021 15.4. Built from the same
+      MHLW survey, triennial — holes between survey years stay holes.
+      Earlier years are on METH2011; one methodology per line. SIDECAR:
+      gini_meth2011 / gini_meth2012 and poverty50_pct_* as separate
+      columns, overlapping in 2018 (Gini 0.334 both; poverty 15.4 / 15.7
+      = MHLW old / new). Year = income year, same as poverty_from_mhlw.
+  gini_from_wb.csv:
+    source: World Bank — SI.POV.GINI
+    url: https://api.worldbank.org/v2/country/JPN/indicator/SI.POV.GINI?format=json
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Sparse: non-null 2008–2020 only (2020 = 32.3). Kept as the
+      cross-country comparable; the national figure is MHLW's.
+
+demography:
+  population_from_stat.csv:
+    source: Statistics Bureau of Japan — Population Estimates (人口推計), long series 2000–2020 and annual 1 October estimates
+    url: https://www.e-stat.go.jp/stat-search/file-download?statInfId=000013168601&fileKind=4
+    refreshed_by: fetch/fetch_stat.py
+    notes: >-
+      Total and JAPANESE population on 1 October, THOUSANDS, by sex.
+      Long series (intercensally adjusted) verified: 2006 127,901 · 2010
+      128,057 (census) · 2015 127,095 (census) · 2020 126,146 (census).
+      2021–2024 from the annual releases, e.g.
+      https://www.stat.go.jp/data/jinsui/2024np/zuhyou/05k2024-1.xlsx
+      (2024 = 123,802; −550k, the 14th consecutive fall). THE RE-BASING
+      TRAP: the 2025 Census (published 2026-09-29) counts 122,973k on
+      1 Oct 2025, while the estimates still run on the 2020-census base
+      (the monthly release of 2026-10-20 is "2026年5月令和2年国勢調査を基準
+      とする確定値"; 1 Oct 2026 provisional 122.69mn). The 2021–2025
+      estimates will be intercensally revised onto the 2025 census later;
+      until then 2025 has two numbers on two bases and growth across
+      the seam is not growth. There is no 2025np annual release page
+      (404) — census years are replaced by the census. Foreign residents
+      = total − Japanese on this definition (≥3 months' residence).
+      SIDECAR (consolidation): 2006–2024, thousands, total / male / female
+      / japanese / foreign (computed) with a `basis` column (census,
+      intercensal_adjusted, estimate_2020_census_base). 2025 IS ABSENT ON
+      PURPOSE — take it from census_from_stat.csv and mark the seam.
+      japanese_k is THE denominator for every MHLW vital-statistics rate
+      (MHLW's published death rate 2024, 13.3, = deaths ÷ japanese_k).
+  census_from_stat.csv:
+    source: Statistics Bureau of Japan — 2020 and 2025 Population Census, basic tabulation table 2-3, imputed reference tables (不詳補完値)
+    url: https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040506655&fileKind=0
+    refreshed_by: fetch/fetch_stat.py
+    notes: >-
+      CORRECTED at consolidation: the sidecar is read from e-Stat table 2-3
+      of the 2025 release (statInfId 000040506655; 2020 re-tabulated on the
+      same method, 000040317622), the IMPUTED reference tables in which
+      unknown nationality and age are assigned statistically — these are
+      the official summary's figures. The raw tables leave unknowns
+      unassigned (raw 2025 Japanese ≈ 117.4mn). PERSONS, not thousands;
+      foreign = total − Japanese, computed; age groups 0–14 / 15–64 / 65+
+      and Japanese 65+. Two rows (2020, 2025). The 2025 Japanese count
+      (119,131,935) is the only 2025 denominator for per-100k rates on
+      MHLW counts until the estimates are re-based. Summary PDF:
+      https://www.stat.go.jp/data/kokusei/2025/kekka/pdf/summary_01.pdf.
+      Verified: total 122,973k (1 Oct 2025; −3,174k / −2.5% on 2020),
+      Japanese 119,132k, FOREIGN 3,840k (3.1%, +39.8% on 2020). Tables on
+      e-Stat lid 000001491012. The census is the benchmark the estimates
+      will be re-based on.
+  vital_from_mhlw.csv:
+    source: MHLW — Vital Statistics 2025 final (人口動態統計 確定数), 第2表/第3表 人口動態総覧の年次推移
+    url: https://www.mhlw.go.jp/toukei/saikin/hw/jinkou/kakutei25/xls/06_hyoR07.xlsx
+    refreshed_by: fetch/fetch_mhlw.py
+    notes: >-
+      CORRECTED at consolidation: the long series comes from the NEWEST
+      final edition's own 第2表/第3表 (人口動態総覧の年次推移, back to 1899,
+      already revised), resolved from /toukei/list/81-1a.html — not from
+      kakutei24's 19_R06zu_kakutei.xlsx. It includes MHLW's 2019-03-29
+      re-tabulation of 2006 and 2009–2017 (prefectural under-reporting),
+      so some years differ from their first editions. SIDECAR 2006–2025:
+      births, deaths, natural change, infant deaths, marriages, divorces,
+      the published crude rates (per 1,000 JAPANESE population), infant
+      mortality per 1,000 births, TFR. Cross-check: deaths within ±2.5% of
+      the Statistics Bureau's Oct–Sep all-resident deaths every year
+      (2015–2024 summed −0.06%); births 2–5% below it (foreign parents).
+      What discovery recorded follows.
+      Verified 2025: births 671,270 · deaths 1,589,533 · natural change
+      −918,263 · TFR 1.14 (2024: 686,173 / 1,605,378 / 1.15). Long series
+      (births and TFR from 1947, deaths by age band) in
+      kakutei24/xls/19_R06zu_kakutei.xlsx, labelled in WAREKI with the era
+      written once (昭和22年, 23, …, 令和元年, 2, …); verified 2006 (平成18)
+      births 1,092,674, TFR 1.32. SCOPE: Japanese nationals in Japan
+      (日本における日本人) — births to foreign parents are excluded, which
+      is a different population from the total-population estimates. The
+      2025 edition promises its 年次推移 tables in November 2026.
+  life_expectancy_from_mhlw.csv:
+    source: MHLW — Abridged Life Tables 2025 (簡易生命表), year series 参考資料2, plus census-year abridged and complete tables
+    url: https://www.mhlw.go.jp/toukei/saikin/hw/life/life25/xls/life25-13.xlsx
+    refreshed_by: fetch/fetch_mhlw.py
+    notes: >-
+      CORRECTED at consolidation: the year series is life25-13.xlsx
+      (参考資料2), not life25-12. The ministry's own series uses the
+      COMPLETE table in census years, so the fetcher reads the abridged
+      values for 2010/2015/2020 from those years' own abridged editions
+      (life10 hyo.xls / life15-12.xls / life20-12.xlsx) and writes the
+      complete values in separate *_complete columns. SIDECAR 2006–2025:
+      e0 and e65 by sex. Cross-check vs World Bank e0 2019/2023 exact.
+      What discovery recorded follows.
+      Verified 2025 life expectancy at birth: men 81.35, women 87.33
+      (female +0.20 on 2024). Annual abridged tables; the complete life
+      tables (完全生命表) are census-year only and differ slightly — one
+      kind per line. Year series in 参考資料2 (dl/life25-…pdf) and one page
+      per year (life06 … life25).
+  projection_from_ipss.csv:
+    source: IPSS — Population Projections for Japan (2023), 2021–2070
+    url: https://www.ipss.go.jp/pp-zenkoku/j/zenkoku2023/pp_zenkoku2023.asp
+    refreshed_by: fetch/fetch_ipss.py
+    notes: >-
+      Page verified (2020-census base, nine variants: three fertility ×
+      three mortality; total population including foreigners resident
+      ≥3 months). Medium-fertility/medium-mortality is the headline
+      variant; `kind: projection` on every card. A 2025-census-based
+      projection will supersede it — one vintage per line. RESOLVED at
+      fetch: the edition is read off IPSS's Mainmenu.asp, and the tables
+      are the edition's xlsx files found by title — 推計結果比較表 表10-1
+      総人口, 表10-7 65歳以上人口割合, 表10-12 出生数, 表10-13 死亡数 (all
+      nine variants side by side) and 仮定値表 表1 (TFR). SIDECAR 2020–2070:
+      pop_* in THOUSANDS (all residents incl. foreigners), share65_*,
+      births/deaths for the variants that move them, tfr_*; `kind` = base
+      (2020 census) or projection. Spots asserted: 2070 medium 86,996k,
+      65+ 38.7%, TFR 1.36; 2021–2024 medium within 0.05% of the Statistics
+      Bureau estimates.
+
+mortality:
+  causes_from_mhlw.csv:
+    source: MHLW — Vital Statistics final, 第8表 死因簡単分類別にみた性別死亡数 (per-year editions)
+    url: https://www.mhlw.go.jp/toukei/saikin/hw/jinkou/kakutei25/xls/06_hyoR07.xlsx
+    refreshed_by: fetch/fetch_mhlw.py
+    notes: >-
+      Deaths by the abridged cause list (死因簡単分類), each year's edition
+      a separate file whose NAME CHURNS: kakutei06/xls/hyo.xls, kakutei08
+      split files, kakutei10–18 hyo.xls, kakutei20–22 hyo.xlsx, kakutei24
+      16_hyoR06.xlsx, kakutei25 06_hyoR07.xlsx (all pages verified 200).
+      Each edition carries the current and the previous year, so
+      overlapping years are a revision check. Verified 2025: malignant
+      neoplasms (02100) 378,829 · heart disease (09200) 220,539 · senility
+      (18100) 214,712 · cerebrovascular (09300) 100,361 · pneumonia
+      (10200) 84,021 · accidents (20100) 45,068 · suicide (20200) 18,537
+      · homicide (20300) 211 · COVID-19 (22201) 21,496 (2024: 35,865).
+      Japanese nationals in Japan only. "Senility" (老衰) is a large,
+      rising certified cause that most countries barely use — the plate
+      says so rather than letting it read as a disease. ICD-10 throughout
+      the window; the 2017 ICD-10 (2013 version) adoption is annotated.
+      CORRECTED at consolidation: the TABLE NUMBER moves too (第7表 → 第9表
+      → 第8表), so the sheet is found by its title 死因簡単分類別にみた性別
+      死亡数; 2008's file is 02.xls; pre-2019 editions are .xls and are
+      converted with LibreOffice (soffice). The 2017 break: 10601
+      aspiration pneumonia split out of 10200 pneumonia (−22k that year
+      for coding alone) — own column, blank before 2017. COVID-19: the
+      2020–2022 editions publish only 22200 (special-purpose U-codes,
+      COVID in practice: 3,466 / 16,784 / 47,661); 22201 新型コロナ is split
+      out only from the 2023 edition — two columns, never joined.
+      all_causes (the edition's own total) and all_causes_revised (第2表,
+      after the 2019 re-tabulation) are both kept; causes for re-tabulated
+      years are NOT revised (gap up to −410 in 2016, unallocated). MHLW '-'
+      = 0; a code absent from an edition is blank.
+
+security:
+  homicide_police_from_npa.csv:
+    source: National Police Agency — 犯罪統計 (crime statistics), 刑法犯 罪種別 認知・検挙件数, 殺人
+    url: https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040410682&fileKind=1
+    refreshed_by: fetch/fetch_npa.py
+    notes: >-
+      One CSV per year (Shift_JIS, ~228KB, table 1 = recorded and cleared
+      offences by type vs previous year), linked from the year index
+      https://www.npa.go.jp/publications/statistics/sousa/statistics.html
+      → /toukei/keiji35/new_hanzaiNN.htm → e-Stat lid (2025:
+      000001476775). Verified 2025 殺人 recorded = 976 (2024: 970),
+      cleared 961. THE JAPANESE 殺人 COUNT INCLUDES ATTEMPTS AND
+      PREPARATION (未遂・予備), so it is several times the number of
+      deaths: compare MHLW's 211 homicide deaths in 2025. Two publishers,
+      two definitions, both correct — two lines, never spliced (SOURCING
+      §4). CORRECTED at consolidation: the confirmed editions are CSV only
+      from 2020; 2008–2019 are PDF-only on e-Stat (2008–2012 and 2017–2018
+      as corrected 訂正版 reissues), 2006 a PDF on npa.go.jp, all parsed
+      with pdfplumber and accepted only when current − previous equals the
+      printed difference. 2007 has no reachable edition (empty listing)
+      and comes from the 2008 edition's previous-year column; every year
+      is taken from the newer edition where two carry it. SIDECAR
+      2006–2025: recorded (incl. attempts), cleared, persons cleared.
+      Police 殺人 / MHLW 他殺 deaths = 4.6× in 2025.
+  homicide_deaths_from_mhlw.csv:
+    source: MHLW — Vital Statistics, cause 20300 他殺 (assault)
+    url: https://www.mhlw.go.jp/toukei/saikin/hw/jinkou/kakutei25/xls/06_hyoR07.xlsx
+    refreshed_by: fetch/fetch_mhlw.py
+    notes: >-
+      Deaths certified as homicide, Japanese nationals in Japan, by year
+      of death, total / male / female. Verified 2025 = 211, 2024 = 222.
+      Read from the same per-year cause table as causes_from_mhlw.csv
+      (its number moves; found by title). A rate per 100k must divide by
+      the JAPANESE population (population_from_stat japanese_k; 2025 from
+      the census), not the total: 2023 = 229 ÷ 121.19mn = 0.19, against
+      the World Bank/UNODC 0.23.
+  homicide_rate_from_wb.csv:
+    source: World Bank — VC.IHR.PSRC.P5 (UNODC intentional homicides per 100,000)
+    url: https://api.worldbank.org/v2/country/JPN/indicator/VC.IHR.PSRC.P5?format=json
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Verified 2006 0.48 → 2023 0.23 (non-null to 2023). The comparable;
+      on UNODC's definition, not either national one.
+
+credit:
+  household_debt_from_boj.csv:
+    source: Bank of Japan — Flow of Funds, Households, Liabilities/Loans (FOF_FFAS430L200), housing loans (L241), consumer credit (L242)
+    url: https://www.stat-search.boj.or.jp/api/v1/getDataCode?format=json&lang=en&db=FF&code=FOF_FFAS430L200,FOF_FFAS430L241,FOF_FFAS430L242&startDate=200601
+    refreshed_by: fetch/fetch_boj.py
+    notes: >-
+      SIDECAR: ¥ BILLION (published ¥100 MILLION ÷ 10), one row per year
+      at its December (Q4) stock, running year at its latest quarter
+      (asof_quarter); housing loans and consumer credit are parts of
+      loans. Loans 2024 Q4 = 59.2% of CY GDP; BIS WS_TC households+NPISH
+      (market value, 4-quarter GDP) 61.8% (checked live at consolidation,
+      not staged). Quarterly stocks, ¥100 MILLION; the FF database metadata is 8.7MB
+      (34,714 rows) — fetch by code, never the whole DB. Verified 2025 Q4
+      household loans 3,884,339 (¥388.4tn), of which private housing
+      loans 2,209,066; 2006 Q4 3,147,719. Stocks — never summed across
+      quarters. The debt-to-income ratio needs household disposable
+      income from the ESRI annual accounts (household sector table, FY)
+      — the ratio's two halves are on different period conventions
+      (quarter-end stock vs fiscal-year flow) and the plate says which.
+
+international:
+  gdp_usd_from_wb.csv:
+    source: World Bank — NY.GDP.MKTP.CD
+    url: https://api.worldbank.org/v2/country/JPN/indicator/NY.GDP.MKTP.CD?format=json&date=2006:2025
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Verified (lastupdated 2026-10-08): 2006 US$4.648tn, 2020 5.189tn,
+      2024 4.190tn, 2025 4.435tn. Agrees with ESRI ¥636.9tn at the 2024
+      average ¥151.5/USD (≈US$4.20tn). Comparable layer, not spliced.
+  gdp_pc_from_wb.csv:
+    source: World Bank — NY.GDP.PCAP.CD
+    url: https://api.worldbank.org/v2/country/JPN/indicator/NY.GDP.PCAP.CD?format=json
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: Verified 2024 US$33,797, 2025 US$35,951.
+  population_from_wb.csv:
+    source: World Bank — SP.POP.TOTL
+    url: https://api.worldbank.org/v2/country/JPN/indicator/SP.POP.TOTL?format=json
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Verified 2024 123,975,371 (mid-year) vs the Statistics Bureau's
+      123,802k on 1 October; 2025 123,366,734 (pre-census vintage).
+      Cross-check only.
+  reserves_from_mof.csv:
+    source: MOF — 外貨準備等の状況 (International Reserves/Foreign Currency Liquidity), historical.csv
+    url: https://www.mof.go.jp/policy/international_policy/reference/official_reserve_assets/historical.csv
+    refreshed_by: fetch/fetch_mof.py
+    notes: >-
+      Monthly, US$ MILLIONS, from April 2000, Shift_JIS, IMF template
+      layout; the year is written only on the first month of each year
+      (forward-fill it). Col 4 = official reserve assets total. Verified
+      Dec-2006 895,320 · Dec-2024 1,230,715 (= WB 1,230.67bn) · Dec-2025
+      1,369,775 · Sep-2026 1,178,396. Year-end stocks. The national
+      publisher; WB FI.RES.TOTL.CD (reserves_from_wb.csv) is the
+      comparable.
+  reserves_from_wb.csv:
+    source: World Bank — FI.RES.TOTL.CD (IMF IFS)
+    url: https://api.worldbank.org/v2/country/JPN/indicator/FI.RES.TOTL.CD?format=json
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+  openness_from_wb.csv:
+    source: World Bank — NE.TRD.GNFS.ZS
+    url: https://api.worldbank.org/v2/country/JPN/indicator/NE.TRD.GNFS.ZS?format=json
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: Verified non-null to 2024 (44.9%); 2025 blank and stays blank.
+  hdi_from_undp.csv:
+    source: UNDP — Human Development Report 2025, composite indices complete time series
+    url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Latin-1 CSV, send a browser UA. Verified JPN hdi_2006 0.903,
+      hdi_2023 0.925, rank 23. One vintage throughout.
+  gg_fiscal_from_imf.csv:
+    source: IMF DataMapper (WEO) — GGXWDG_NGDP (gross debt), GGXCNL_NGDP (net lending), NGDPD
+    url: https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP/JPN
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      General government, % of GDP, 1980–2031 (years after 2025 are
+      PROJECTIONS — `kind: projection`, drawn dashed). Verified gross debt
+      2006 152.1 · 2020 228.8 · 2024 213.6 · 2025 204.8; net lending 2020
+      −9.0, 2024 −1.7, 2025 −0.7. NOTE: the brief's ">250% of GDP" does
+      not hold on this vintage — older WEO vintages on the 2015-base GDP
+      put 2020 near 258%; the 2020-base benchmark raised nominal GDP and
+      inflation has grown the denominator since. The plate quotes the
+      vintage. GGR_NGDP / GGX_NGDP answered with no `values` for JPN today
+      (empty, not an error) — revenue/expenditure come from ESRI instead.
+      SIDECAR: 1980–2031; observed years in gross_debt_pct_gdp /
+      net_lending_pct_gdp / gdp_usd_bn, years after 2025 ONLY in the
+      matching *_proj columns, so a projection can never be drawn as
+      observed.
+
+migration:
+  foreign_residents_from_isa.csv:
+    source: Immigration Services Agency — 在留外国人統計 (statistics on foreign residents), semi-annual
+    url: https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040472260&fileKind=0
+    refreshed_by: fetch/fetch_isa.py
+    notes: >-
+      Stock at end-June and end-December by nationality × status of
+      residence; period index (lids) on
+      https://www.moj.go.jp/isa/policies/statistics/toukei_ichiran_touroku.html
+      (labels in FULL-WIDTH digits — NFKC-normalise; end-2025 lid
+      000001486479, table 25-12-01-1). Verified end-2025 在留外国人 =
+      4,125,395. DEFINITION: mid- to long-term residents (zairyu-card
+      holders) plus special permanent residents — it EXCLUDES short-term
+      visitors, diplomats and the undocumented; table 25-12-01-2
+      (総在留外国人) is the broader total. HARD BREAK July 2012: the alien
+      registration system (登録外国人統計) was abolished and the residence
+      card started; pre-2012 "registered foreigners" is a different
+      definition (it included some short-stayers) — two segments, never
+      one line. Three stocks for one idea, all different and all correct:
+      ISA 4.13mn (end-2025), Census 3.84mn (1 Oct 2025), estimates'
+      total − Japanese. Citizenship-based throughout: Japan publishes no
+      country-of-birth cut, so the Eurostat citizenship/birth contrast is
+      not available — the plate says so. SIDECAR (consolidation): persons
+      at 31 December, 2006–2025, from each end-December edition's table 1
+      / 1-2 (YY-12-01-1; 22-12-01 and 23-12-01 in those years) and, for
+      2006–2011, the abolished 登録外国人統計 table 1 in registered_*
+      columns. The two regimes NEVER share a row (foreign_residents blank
+      to 2011, registered_* blank from 2012). foreign_residents_all_statuses
+      = 総在留外国人. Nationality columns: 韓国・朝鮮 (residents_korea_incl_
+      north) and 韓国 (residents_korea_south, from 2015) are different
+      scopes from different editions, never joined. ISA end-2025 ÷ Census
+      foreign 1 Oct 2025 = 1.074.
+  entrants_from_isa.csv:
+    source: Immigration Services Agency — 出入国管理統計 (immigration control statistics), annual, table 25-00-05 新規入国外国人 by status
+    url: https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040476160&fileKind=4
+    refreshed_by: fetch/fetch_isa.py
+    notes: >-
+      New entrants (first entry, excluding re-entry) by nationality ×
+      status of residence. Year index on
+      https://www.moj.go.jp/isa/policies/statistics/toukei_ichiran_nyukan.html
+      (CORRECTED: the 2025 lid is 000001486941, not …942; the
+      foreign-national tables sit under tclass1=000001012481, the
+      procedures tables under …482). The table numbers move: new entrants
+      are YY-00-07 and all entrants YY-00-06 through 2021, YY-00-05 and
+      YY-00-04 from 2022; picked by title. SIDECAR 2006–2025: entrants_all
+      (incl. re-entry), new_entrants, new_entrants_short_stay and
+      new_entrants_non_short_stay (computed = new − short stay).
+      Verified 2025 total new entrants 39,184,525, of which 短期滞在
+      (temporary visitors — tourists) 38,458,105 → NON-short-stay new
+      entrants 726,420. Only the latter is migration; a chart of the
+      headline total is a tourism chart. 2021–2022 are the border-closure
+      collapse (151,726 in 2021). Departures (25-00-06) are events, not
+      emigrants. An entry is an event, not a person.
+  naturalisation_from_moj.csv:
+    source: MOJ Civil Affairs Bureau — 帰化許可申請者数、帰化許可者数及び帰化不許可者数の推移
+    url: https://www.moj.go.jp/content/001458302.pdf
+    refreshed_by: fetch/fetch_isa.py
+    notes: >-
+      PDF table from 1952, page https://www.moj.go.jp/MINJI/toukei_t_minj03.html.
+      Verified 2025: applications 14,103, granted 9,258 (Korea/North Korea
+      2,017, China 3,533, other 3,708), refused 666; 2006 granted 14,108.
+      The flow that moves people from the foreign-resident stock to the
+      Japanese count without anybody moving — drawn beside the stock.
+      SIDECAR 2006–2025: applications, granted (with former nationality:
+      韓国・朝鮮 as one category, China, other), refused — decisions on
+      different cohorts, not one cohort's outcome. Grants 2023–2025 are
+      cross-checked against the by-nationality PDF (001458303.pdf).
+  asylum_from_unhcr.csv:
+    source: UNHCR Refugee Data Finder API — asylum-applications and asylum-decisions, coa=JPN
+    url: https://api.unhcr.org/population/v1/asylum-applications/?coa=JPN&yearFrom=2006&yearTo=2025&cf_type=ISO
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      JSON, items per year × procedure × app_type (N = new, A = appeal) ×
+      dec_level (FI first instance, AR appeal/review). Verified 2022 new
+      first-instance applications 3,772, appeals 4,461; 2023 new 13,823.
+      decisions endpoint returns recognised / complementary ("other") /
+      rejected / closed. Applications, decisions, recognitions and people
+      present are four numbers, never one line; the national ISA count is
+      meta.pending. CORRECTED at consolidation — a BREAK IN 2021: from 2021
+      UNHCR reports positive decisions for Japan only at level FA (final,
+      all instances combined), written to decisions_final_recognized /
+      decisions_final_other; the FI and appeal recognized/other cells are
+      blank from 2021 (the API's 0 there is a convention, not an outcome)
+      and FI/appeal *_total from then count negative and closed decisions
+      only. Blank = no row in the API, not zero. 2024 final recognized =
+      1,857 against 187 in 2025 and 289 in 2023: almost certainly ISA's
+      refugee recognitions (~190) plus complementary protection (~1,661)
+      in one cell — unverified, see meta.pending.
+      Decisions endpoint: https://api.unhcr.org/population/v1/asylum-decisions/?coa=JPN&yearFrom=2006&yearTo=2025&cf_type=ISO

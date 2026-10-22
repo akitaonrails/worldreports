@@ -1,0 +1,31 @@
+# Bank of Japan, Flow of Funds (2008 SNA), general government, stocks at quarter-end.
+# gg_liabilities = all liability instruments = FOF_FFAS420L900 minus FOF_FFAS420L700. L900 ("Liabilities/Total") is NOT
+# the debt: it closes on L700, the difference between financial assets and liabilities, and equals total financial
+# assets (A900, written here as gg_financial_assets). net_financial_position is L700 (negative = net debtor).
+# debt_securities (L300) and loans (L200) are PARTS of gg_liabilities. Published in 100 million yen; converted here to
+# YEN BILLION (divided by 10). Each year is its December (Q4) stock; the running year is its latest quarter (asof_quarter).
+# Securities are at MARKET value and general government is consolidated as the flow of funds defines it, so this is a
+# different object from the MOF central-government face-value debt (central_debt_from_mof.csv) and the IMF gross
+# general-government debt. Three debts, three files: none is spliced onto another.
+year,gg_liabilities_bn,debt_securities_bn,loans_bn,gg_financial_assets_bn,net_financial_position_bn,asof_quarter
+2006,944542.8,695184.0,186842.9,581454.6,-363088.2,2006Q4
+2007,946887.8,707733.9,177528.9,575792.7,-371095.1,2007Q4
+2008,968752.2,736613.6,169355.4,530052.0,-438700.2,2008Q4
+2009,994361.2,768759.1,167601.0,520556.8,-473804.4,2009Q4
+2010,1051188.5,827449.4,165686.2,523475.3,-527713.2,2010Q4
+2011,1098680.4,879943.7,162546.4,522506.0,-576174.4,2011Q4
+2012,1142220.2,920913.9,163126.5,544105.6,-598114.6,2012Q4
+2013,1182115.1,957447.0,164168.5,594306.2,-587808.9,2013Q4
+2014,1220177.3,995701.5,163808.2,617178.2,-602999.1,2014Q4
+2015,1239981.2,1013451.6,162955.0,612976.6,-627004.6,2015Q4
+2016,1277865.6,1055253.4,160296.0,618691.5,-659174.1,2016Q4
+2017,1290204.7,1067047.4,158497.3,633888.8,-656315.9,2017Q4
+2018,1306996.8,1081838.0,155713.9,616125.6,-690871.2,2018Q4
+2019,1332530.8,1110463.5,153402.1,643818.7,-688712.1,2019Q4
+2020,1407941.6,1177741.4,151725.5,692149.8,-715791.8,2020Q4
+2021,1424152.1,1179883.7,148943.7,716233.5,-707918.6,2021Q4
+2022,1416080.6,1171137.2,152014.4,732277.6,-683803.0,2022Q4
+2023,1448491.2,1202670.2,152088.1,810099.0,-638392.2,2023Q4
+2024,1443623.6,1194627.1,148662.8,892587.5,-551036.1,2024Q4
+2025,1399225.9,1149319.0,145249.3,948630.8,-450595.1,2025Q4
+2026,1370867.3,1129468.3,144316.1,990324.5,-380542.8,2026Q2

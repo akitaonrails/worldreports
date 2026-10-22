@@ -1,0 +1,150 @@
+# Japan. The first country in the atlas whose fiscal year, statistical
+# portal and script all differ from the precedent at once: the fiscal year
+# runs April–March (the `fiscal_year` convention Canada, the UK and the USA
+# already use), the national statistics portal e-Stat gates its API behind
+# an application ID but serves its files anonymously, and `ja` is a new
+# CJK locale (Noto Sans CJK JP is installed; core.style has no `ja` entry
+# yet — see the Phase B notes in SOURCES.yaml's header).
+slug: japan
+flag_emoji: "🇯🇵"
+wordmark: 日本
+name:
+  en: "Japan"
+  fr: "Japon"
+  pt: "Japão"
+  es: "Japón"
+  ko: "일본"
+  ja: "日本"
+
+# ja first: the country's own language. `ja`, not `jp` — `jp` is the
+# country code, `ja` the ISO 639-1 language. English stays the fallback,
+# as on every other page.
+locales:
+  - {code: ja, html_lang: ja,    og_locale: ja_JP, endonym: 日本語}
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete. A flow for a year still running is not comparable
+# with the ones before it: plotted on the same line it draws a collapse
+# that never happened, so plates dash or hatch anything past it. Fiscal
+# years key on their starting year (FY2025 = April 2025 – March 2026, which
+# is also complete).
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+
+# Bands drawn behind the data, dated off the quarter-on-quarter sign of
+# real GDP (Cabinet Office ESRI, QE 2026 Apr–Jun second preliminary,
+# released 2026-09-08, 2020-base chained yen, seasonally adjusted —
+# gaku-jk2622.csv, pulled live and computed during the research pass, not
+# from memory), cross-read against ESRI's own business-cycle reference
+# dates (景気基準日付):
+#   2008 Q2 – 2009 Q1: four consecutive negatives (−0.5, −1.1, −2.4,
+#     −4.4). ESRI dates the contraction Feb 2008 – Mar 2009. Agreed.
+#   2010 Q4 – 2011 Q2: three consecutive negatives (−0.9, −1.4, −0.6). It
+#     meets the two-quarter rule in this vintage, so it is banded; the
+#     Tōhoku earthquake (2011-03-11) falls inside it and is an EVENT on the
+#     plates, not the band's label — the run starts a quarter before the
+#     earthquake. ESRI does not date a recession here; say so in the notes.
+#   2012 Q2 – Q4: three consecutive negatives (−0.9, −0.4, −0.1). ESRI
+#     dates Mar – Nov 2012. Agreed.
+#   2020 Q1 – Q2: banded as the pandemic, by atlas precedent. In this
+#     vintage only 2020 Q2 is negative (−7.2, the deepest quarter in the
+#     series); 2019 Q4 was −2.9 (the October 2019 consumption-tax rise and
+#     Typhoon Hagibis) and 2020 Q1 +0.3, so the sign run is broken. ESRI
+#     dates the whole contraction Oct 2018 – May 2020.
+#   2024 Q1 – Q2: two consecutive negatives, −0.09 and −0.12. It meets the
+#     rule, so it is banded the way the UK's late-2023 dip is, however
+#     small it looks — but it is inside revision noise and the next vintage
+#     may remove it. Re-check on every refresh.
+# Not banded, on the same evidence: 2014 Q2 (−1.4, the April 2014
+# consumption-tax rise — single quarter), 2015 Q4, 2016 Q2, 2018 Q1,
+# 2018 Q3, 2021 Q3, 2022 Q1, 2022 Q3, 2023 Q3 (−1.3) and 2025 Q3 — all
+# single quarters.
+bands:
+  - {from: 2008.25, to: 2009.25, label: "2008–09 crisis"}
+  - {from: 2010.75, to: 2011.5,  label: "2010–11 contraction"}
+  - {from: 2012.25, to: 2013.0,  label: "2012 recession"}
+  - {from: 2020.0,  to: 2020.5,  label: "COVID-19"}
+  - {from: 2024.0,  to: 2024.5,  label: "2024 H1 dip"}
+
+# NOTE for the build phase: JPY has no entry in core.sitebuild's
+# CURRENCY_AFFIX yet, and `ja` has no column in AFFIX. Both are additive
+# core/ changes (Korea's KRW entry is the template: no decimals, the
+# symbol prefix in en/pt, a suffix unit in ja — 兆円 for money_tn,
+# 億円 for 100-million-yen tables). Required before chapters.py renders.
+currency:
+  code: JPY
+
+# The Hinomaru is a single red disc (#BC002D) on white, which is not a
+# chart palette at all: one hue, and the field is the paper. The red is
+# darkened toward beni so it holds on newsprint and stays apart from
+# Canada's #B5272F and the UK's #B32438; everything else is a cool sibling
+# — indigo (ai-iro), a slate blue, a teal — chosen to stay apart in
+# greyscale.
+palette:
+  RED:     "#9E1B32"
+  RED_D:   "#731426"
+  INDIGO:  "#26456E"
+  NAVY:    "#26456E"
+  BLUE:    "#3A6EA5"
+  BLUE_D:  "#2A5280"
+  GREEN:   "#3C7A4E"
+  GREEN_D: "#2A5C39"
+  GOLD:    "#B8892A"
+  PURPLE:  "#6A5596"
+  TEAL:    "#2A7F86"
+  primary: "#9E1B32"
+  alert:   "#9E1B32"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#9E1B32", "#26456E", "#2A7F86", "#B8892A", "#6A5596", "#3C7A4E", "#1F2430"]
+  # The paper, the disc, the paper: the flag laid flat as a rule. The
+  # outer bands are the page colour, so they are drawn with an outline;
+  # the red sits in the middle where the disc does.
+  flag_bands: ["#FBFAF7", "#9E1B32", "#FBFAF7"]
+  # A cool sumi near-black with a violet cast — not Canada's or Spain's
+  # warm red-black, not the UK's or Korea's navy, not Italy's or
+  # Portugal's green-black. The three family accents have to stay apart
+  # from each other and from the page, and a red accent on a red ground is
+  # the one pair that cannot.
+  web:
+    # 日本 — CJK glyphs are centred in a fixed em box. Nudging one would
+    # pull the wordmark off the margin, not onto it (Hangul precedent).
+    mark_bearing: "0"
+    ground:   "#15121A"
+    raised:   "#1E1A25"
+    raised_2: "#272230"
+    rule:     "#3A3345"
+    ink:      "#EEEAF0"
+    muted:    "#ABA2B4"
+    faint:    "#7A7184"
+    money:    "#E46F78"
+    world:    "#4FA9B0"
+    people:   "#D6A646"
+
+seo:
+  title:
+    ja: "日本 — 公的データの図版集、2006–2026年"
+    en: "Japan — plates of official data, 2006–2026"
+    pt: "Japão — pranchas de dados oficiais, 2006–2026"
+  description:
+    ja: "日本の経済、財政、貿易、市場、雇用、人口、出入国と在留外国人、死因、家計の債務、治安を、公的統計だけから作成し、版管理されたCSVから再生成する図版集。"
+    en: "Data plates on Japan's economy, public finances, trade, markets, work, demography, migration, mortality, credit and crime, built only from official sources and regenerated from committed CSVs."
+    pt: "Pranchas de dados sobre a economia, as contas públicas, o comércio, os mercados, o trabalho, a demografia, a migração, a mortalidade, o crédito e o crime do Japão, construídas apenas a partir de fontes oficiais."
+  keywords: [Japan, 日本, e-Stat, Statistics Bureau of Japan, Bank of Japan, Cabinet Office ESRI, Ministry of Finance, MHLW, Immigration Services Agency, official statistics]
+  spatial: "Japan"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+sources:
+  ja: "総務省統計局（e-Stat）、内閣府経済社会総合研究所、日本銀行、財務省・税関、厚生労働省、警察庁、出入国在留管理庁・法務省、比較にはIMF・世界銀行・国連開発計画"
+  en: "the Statistics Bureau of Japan (e-Stat), the Cabinet Office (ESRI), the Bank of Japan, the Ministry of Finance and Japan Customs, the Ministry of Health, Labour and Welfare, the National Police Agency, the Immigration Services Agency and the Ministry of Justice, and the IMF, World Bank and UNDP for comparisons"
+  pt: "o Statistics Bureau of Japan (e-Stat), o Cabinet Office (ESRI), o Banco do Japão, o Ministério das Finanças e a Alfândega do Japão, o Ministério da Saúde, Trabalho e Bem-Estar, a Agência Nacional de Polícia, a Agência de Imigração e o Ministério da Justiça, além de FMI, Banco Mundial e PNUD para comparações"

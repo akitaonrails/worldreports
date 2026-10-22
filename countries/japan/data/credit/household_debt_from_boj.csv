@@ -1,0 +1,27 @@
+# Bank of Japan, Flow of Funds (2008 SNA), households, liabilities, stocks: loans (FOF_FFAS430L200),
+# of which housing loans (L241) and consumer credit (L242). Housing and consumer credit are PARTS of loans, not additions.
+# Published in 100 million yen; converted here to YEN BILLION (divided by 10).
+# Each year is its December (Q4) quarter-end stock; the running year is its latest quarter (asof_quarter). Stocks, never summed.
+# A debt-to-income ratio needs ESRI household disposable income (fiscal-year flow): different period conventions, say so.
+year,household_loans_bn,housing_loans_bn,consumer_credit_bn,asof_quarter
+2006,314771.9,134799.7,58610.7,2006Q4
+2007,311700.6,139242.2,54290.7,2007Q4
+2008,306071.8,142392.8,49395.3,2008Q4
+2009,302283.5,146417.0,45035.3,2009Q4
+2010,297503.0,149059.8,40445.4,2010Q4
+2011,295018.2,151437.6,37974.8,2011Q4
+2012,294265.6,153718.4,36362.8,2012Q4
+2013,298949.7,157164.0,38781.1,2013Q4
+2014,301913.6,159963.9,39876.1,2014Q4
+2015,306686.3,163370.7,41365.1,2015Q4
+2016,311353.0,167523.1,42200.9,2016Q4
+2017,318356.1,171473.6,44693.9,2017Q4
+2018,325490.6,178007.4,45989.8,2018Q4
+2019,332115.4,183007.6,46866.6,2019Q4
+2020,346132.9,188817.7,46405.1,2020Q4
+2021,355414.7,195401.4,47559.6,2021Q4
+2022,361654.0,201891.2,48729.1,2022Q4
+2023,367915.1,207603.8,51518.0,2023Q4
+2024,376844.0,214312.7,56291.4,2024Q4
+2025,388433.9,220906.6,60712.0,2025Q4
+2026,396686.8,224628.0,64932.0,2026Q2

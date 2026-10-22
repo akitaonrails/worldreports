@@ -1,0 +1,35 @@
+# Immigration Services Agency, 在留外国人統計 (table 1 / 1-2 of each
+# end-December edition) and, before the July 2012 break, 登録外国人統計
+# (table 1). PERSONS, stock at 31 December of `year`.
+# foreign_residents = 在留外国人: mid/long-term residents (residence-card
+# holders) + special permanent residents. Excludes short-term visitors,
+# diplomats and the undocumented. foreign_residents_all_statuses =
+# 総在留外国人, every foreign national with a status (incl. short stay).
+# residents_* = 在留外国人 by NATIONALITY (citizenship, not birth); Japan
+# publishes no country-of-birth cut. residents_korea_incl_north (韓国・朝鮮)
+# and residents_korea_south (韓国) are different scopes from different
+# editions; never join them. China excludes Taiwan in this era.
+# registered_* = 外国人登録者, 2006-2011: the ABOLISHED alien-registration
+# regime, a different definition. HARD BREAK July 2012: the two regimes
+# never share a row and must never be drawn as one line.
+year,foreign_residents,foreign_residents_all_statuses,permanent_residents,special_permanent_residents,residents_china,residents_vietnam,residents_korea_south,residents_korea_incl_north,residents_philippines,residents_brazil,residents_nepal,residents_indonesia,registered_foreigners,registered_permanent_residents,registered_special_permanent_residents
+2006,,,,,,,,,,,,,2084919,394477,443044
+2007,,,,,,,,,,,,,2152973,439757,430229
+2008,,,,,,,,,,,,,2217426,492056,420305
+2009,,,,,,,,,,,,,2186121,533472,409565
+2010,,,,,,,,,,,,,2134151,565089,399106
+2011,,,,,,,,,,,,,2078508,598440,389085
+2012,2033656,2249720,624501,381364,652595,52367,,530048,202985,190609,24071,25532,,,
+2013,2066445,2325608,655315,373221,649078,72256,,519740,209183,181317,31537,27214,,,
+2014,2121831,2476103,677019,358409,654777,99865,,501230,217585,175410,42346,30210,,,
+2015,2232189,2688288,700500,348626,665847,146956,457772,,229595,173437,54775,35910,,,
+2016,2382822,2913314,727111,338950,695522,199990,453096,,243662,180923,67470,42850,,,
+2017,2561848,3179313,749191,329822,730890,262405,450663,,260553,191362,80038,49982,,,
+2018,2731093,3423060,771568,321416,764720,330835,449634,,271289,201865,88951,56346,,,
+2019,2933137,3651154,793164,312501,813675,411968,446364,,282798,211677,96824,66860,,,
+2020,2887116,2928940,807517,304430,778112,448053,426908,,279660,208538,95982,66832,,,
+2021,2760635,2795450,831157,296416,716606,432934,409855,,276615,204879,97109,59820,,,
+2022,3075213,3510854,863936,288980,761563,489312,411312,,298740,209430,139393,98865,,,
+2023,3410992,4178291,891569,281218,821838,565026,410156,,322046,211840,176336,149101,,,
+2024,3768977,4709955,918116,274023,873286,634361,409238,,341518,211907,233043,199824,,,
+2025,4125395,5134267,947125,266896,930428,681100,407341,,356579,210014,300992,266069,,,

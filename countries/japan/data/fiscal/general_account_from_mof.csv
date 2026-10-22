@@ -1,0 +1,30 @@
+# Ministry of Finance, 財政統計: national GENERAL ACCOUNT only (not special accounts, not local government, not general government).
+# fiscal_year is the STARTING year of the April-March fiscal year. All amounts converted to YEN BILLION.
+# *_budget = 予算額 after supplementary budgets, *_settlement = 決算額 (table 1, published in 千円 = ¥ thousand).
+# tax_settlement (租税及印紙収入, taxes plus stamp revenue) and bond_revenue_settlement (公債金, new JGB issuance
+# booked as revenue) are table 4 (published in 百万円 = ¥ million). debt_service_settlement (国債費) and
+# social_security_settlement (社会保障関係費) are table 20 (千円). bond_dependency_pct = bond revenue / settled expenditure.
+# Settlement columns are blank for years whose accounts are not yet in the statistics tables; budget columns are
+# budgets, never outturns, and the plates draw settlement. FY2005's settlement is missing from table 1 itself.
+fiscal_year,revenue_budget_bn,revenue_settlement_bn,expenditure_budget_bn,expenditure_settlement_bn,tax_settlement_bn,bond_revenue_settlement_bn,debt_service_settlement_bn,social_security_settlement_bn,bond_dependency_pct
+2006,83458.3,84412.7,83458.3,81445.5,49069.1,27470.0,18036.9,20555.0,33.7
+2007,83804.2,84553.5,83804.2,81842.6,51018.2,25382.0,19290.4,21141.0,31.0
+2008,88911.2,89208.2,88911.2,84697.4,44267.3,33168.0,19166.5,22561.7,39.2
+2009,102558.2,107114.2,102558.2,100973.4,38733.1,51955.0,18444.8,28716.2,51.5
+2010,96728.4,100534.6,96728.4,95312.3,41486.8,42303.0,19543.9,28248.9,44.4
+2011,107510.5,109979.5,107510.5,100715.4,42832.6,42798.0,19627.7,29777.7,42.5
+2012,100536.6,107762.0,100536.6,97087.2,43931.4,47465.0,21010.7,29197.6,48.9
+2013,98077.0,106044.7,98077.0,100188.9,46952.9,40851.0,21293.5,29232.0,40.8
+2014,99000.3,104679.1,99000.3,98813.5,53970.7,38492.9,22185.7,30170.9,39.0
+2015,99663.3,102175.3,99663.3,98230.3,56285.4,34918.3,22463.5,31397.7,35.5
+2016,100222.0,102774.0,100222.0,97541.8,55468.6,38034.6,22085.6,32208.2,39.0
+2017,99109.5,103644.0,99109.5,98115.6,58787.5,33554.6,22520.8,32521.1,34.2
+2018,101358.1,105697.4,101358.1,98974.7,60356.4,34395.4,22528.6,32569.1,34.8
+2019,104651.7,109162.4,104651.7,101366.5,58441.5,36581.9,22285.7,33500.7,36.1
+2020,175687.8,184578.8,175687.8,147597.4,60821.6,108553.9,22325.6,42997.9,73.5
+2021,142599.2,169403.1,142599.2,144649.5,67037.9,57655.0,24589.3,50161.0,39.9
+2022,139219.6,153729.5,139219.6,132385.5,71137.4,50478.9,23869.7,43868.0,38.1
+2023,127580.4,140201.6,127580.4,127578.8,72076.1,34998.0,25501.1,36222.1,27.4
+2024,126515.0,135980.9,126515.0,123024.0,75232.1,37139.0,25689.4,35779.2,30.2
+2025,133501.2,,133501.2,,,,,,
+2026,125422.8,,125422.8,,,,,,
