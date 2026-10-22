@@ -20,9 +20,11 @@ default_locale: en
 # that never happened, so plates dash or hatch anything past it.
 years: {from: 2006, to: 2026}
 last_full_year: 2025
-# Label every Nth year on the x-axis. Twenty-one years of annual ticks do
-# not fit, so each country labels the stride its own plates were drawn with.
-tick_every: 3
+# Label every second year on the x-axis, as every spine country does
+# (PLATE_SPINE.md rule 2), so the gridlines register in the comparison.
+tick_every: 2
+# Every plate is drawn on the plate spine; tests/test_spine.py holds it there.
+spine: true
 
 # National Bureau of Economic Research business-cycle dates, which are the
 # official US recession dates: December 2007 to June 2009, and February to

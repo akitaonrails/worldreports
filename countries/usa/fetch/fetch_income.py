@@ -34,15 +34,31 @@ published chart. It is recorded at 1 January and 31 December of each year
 because three of the four changes took effect on 24 July, mid-year, and a
 single annual figure would have to pick one and hide the other.
 
+The Gini index is Census table H-4, household money income, all races,
+from the same CPS ASEC. It carries two method breaks inside this atlas's
+window, and each is printed twice in the table, once on each basis:
+2013, when the income questions were redesigned, and 2017, when the
+processing system was replaced. The series is therefore written as three
+columns, one per basis, which overlap in the break year and are drawn as
+three segments; joining them would turn two changes of method into two
+jumps in inequality. It goes to a sidecar, gini_from_census.csv, and
+fetch/curate.py accepts it.
+
 Outputs:
   data/social/income.csv        year,median_household_income,...
   data/social/poverty.csv       year,opm_*,spm_*
   data/social/minimum_wage.csv  year,federal_min_jan1,federal_min_dec31,...
+  data/social/gini_from_census.csv  year,gini_to_2013,gini_2013_2017,
+                                    gini_from_2017   (Gini x 100)
+
+Usage:  python3 countries/usa/fetch/fetch_income.py [--gini]
+        --gini refreshes only the Gini sidecar.
 """
 from __future__ import annotations
 
 import csv
 import re
+import sys
 from pathlib import Path
 
 import openpyxl
@@ -55,6 +71,8 @@ CACHE.mkdir(parents=True, exist_ok=True)
 
 H08 = ("https://www2.census.gov/programs-surveys/cps/tables/time-series/"
        "historical-income-households/h08.xlsx")
+H04 = ("https://www2.census.gov/programs-surveys/cps/tables/time-series/"
+       "historical-income-households/h04.xlsx")
 P60 = "https://www2.census.gov/programs-surveys/demo/tables/p60/{r}/{f}"
 
 # The P60 report number is not a year and is not derivable from one: p60-290
@@ -277,13 +295,68 @@ def minimum_wage() -> None:
           f"{MIN_WAGE[-1][1]} — {YEAR_TO - 2009} years")
 
 
+def gini() -> None:
+    """Table H-4, all races, as three segments split at the method breaks.
+
+    Rows run newest first. A break year appears twice: the first of the two
+    rows (the one with the higher footnote number) is on the newer basis,
+    the second on the older one.
+    """
+    path = download("h04.xlsx", H04)
+    if path is None:
+        return
+    rows = sheet(path)
+    head = next(i for i, r in enumerate(rows) if cell(r[0]) == "Year")
+    if cell(rows[head][1]) != "All races":
+        raise ValueError(f"h04: column 1 is {rows[head][1]!r}, not All races")
+    seen: dict[int, list[float]] = {}
+    for r in rows[head + 1:]:
+        y = year_of(r[0])
+        v = number(r[1])
+        if y is None or v is None:
+            continue
+        seen.setdefault(y, []).append(v)
+    # 2013 and 2017 are the two breaks; every other year has one row.
+    doubled = sorted(y for y, v in seen.items() if len(v) > 1 and y >= YEAR_FROM)
+    if doubled != [2013, 2017]:
+        raise ValueError(f"h04: expected breaks in 2013 and 2017, found {doubled}")
+    # Spot values read off the published table (2026 release).
+    for y, i, want in ((2006, 0, 0.470), (2013, 1, 0.476), (2013, 0, 0.482),
+                       (2017, 1, 0.482), (2017, 0, 0.489), (2025, 0, 0.490)):
+        if abs(seen[y][i] - want) > 0.0005:
+            raise ValueError(f"h04: {y} reads {seen[y][i]}, expected {want}")
+    out = [["year", "gini_to_2013", "gini_2013_2017", "gini_from_2017"]]
+    for y in range(YEAR_FROM, YEAR_TO + 1):
+        v = seen.get(y)
+        a = b = c = None
+        if v:
+            if y < 2013:
+                a = v[0]
+            elif y == 2013:
+                a, b = v[1], v[0]
+            elif y < 2017:
+                b = v[0]
+            elif y == 2017:
+                b, c = v[1], v[0]
+            else:
+                c = v[0]
+        out.append([y] + [fmt(None if x is None else x * 100, 1)
+                          for x in (a, b, c)])
+    write_csv(DATA / "social" / "gini_from_census.csv", out)
+
+
 def main() -> None:
+    if "--gini" in sys.argv:
+        print("Fetching the Census Gini index (table H-4)...")
+        gini()
+        return
     print("Fetching income, poverty and the minimum wage...")
     income()
     release = p60_release()
     if release is not None:
         poverty(release)
     minimum_wage()
+    gini()
     print("Done.")
 
 

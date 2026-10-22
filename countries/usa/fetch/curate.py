@@ -51,6 +51,30 @@ COPIES = (
     ("fiscal/spending_from_omb.csv", "fiscal/spending.csv"),
 )
 
+# The series the plate spine draws (PLATE_SPINE.md): the harmonised layer
+# fetch_harmonised.py stages, and the national gaps the spine asked to be
+# filled. Each has exactly one publisher, so accepting it is a copy. The
+# curated name drops the `_from_<source>` suffix, and where that would
+# collide with a national file already here it says what it is instead.
+SPINE_COPIES = (
+    ("international/world_from_wb.csv", "international/world.csv"),
+    ("international/corruption_from_ti.csv", "international/corruption.csv"),
+    ("fiscal/general_government_from_imf.csv", "fiscal/general_government.csv"),
+    ("fiscal/interest_from_oecd.csv", "fiscal/interest.csv"),
+    ("fiscal/cofog_from_oecd.csv", "fiscal/cofog.csv"),
+    ("fiscal/public_investment_from_oecd.csv", "fiscal/public_investment.csv"),
+    ("macro/economy_from_wb.csv", "macro/economy_wdi.csv"),
+    ("social/demography_from_wb.csv", "social/demography_wdi.csv"),
+    ("social/security_from_wb.csv", "social/security_intl.csv"),
+    ("social/poverty_from_wb.csv", "social/poverty_intl.csv"),
+    ("social/population_july1_from_census.csv", "social/population_july1.csv"),
+    ("social/components_from_census.csv", "social/components.csv"),
+    ("social/gini_from_census.csv", "social/gini.csv"),
+    ("social/death_rates_from_cdc.csv", "social/death_rates.csv"),
+    ("social/road_deaths_from_fars.csv", "social/road_deaths.csv"),
+    ("credit/household_credit_from_bis.csv", "credit/household_credit.csv"),
+)
+
 # The year OMB's current edition stops publishing actuals. Beyond it the
 # Monthly Treasury Statement is the only source, and it is read from the
 # sidecar rather than assumed: a new OMB edition moves this on its own.
@@ -135,7 +159,7 @@ def main() -> None:
     print("Curating committed CSVs from sidecars"
           + (" (dry run)" if dry else "") + "...")
     changed = False
-    for src, dst in COPIES:
+    for src, dst in COPIES + SPINE_COPIES:
         rows = [r for r in csv.reader((DATA / src).open(newline=""))]
         if not rows:
             print(f"  !! {src} is empty — {dst} left alone")
