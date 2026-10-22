@@ -6,22 +6,28 @@ the per-file caveats; this file carries the ones that cross files.
 
 ---
 
-## Why seven chapters are missing
+## The seven national chapters, and the Statistics Canada outage
 
-Statistics Canada's data platform (`www150.statcan.gc.ca`) has served an
-outage page under HTTP 200 — not an error code, an HTML apology — for every
-WDS endpoint since at least 2026-10-22 02:40Z. StatCan publishes the
-national accounts, the CPI, the labour force survey, population estimates,
-causes of death, the homicide survey, household credit and merchandise
-trade: chapters 01, 04, 06, 08, 09, 10 and 11 of the spine. They are absent
-rather than approximated, and they will slot into their spine numbers when
-the platform returns — nothing here gets renumbered. The candidate table
-PIDs are in `HANDOFF.md`, each still to be verified against a live API.
+Statistics Canada's data platform (`www150.statcan.gc.ca`) served an
+outage page under HTTP 200 — not an error code, an HTML apology — for
+every WDS endpoint from at least 2026-10-22 02:40Z. It answered a probe
+again the same day, but no fetcher was written against it during this
+lane. The chapters StatCan publishes — the economy, trade, people,
+demography, security, mortality and credit — are therefore built from the
+harmonised international versions of the same statistics: World Bank WDI
+(national accounts, CPI, UN population components, UNODC homicide), the
+IMF (WEO debt, GFS/COFOG, IMTS trade, financial soundness), the OECD
+(income distribution, minimum wages, cause-of-death registrations,
+general-government investment), UN DESA, WHO and the BIS. Every panel
+names its publisher on its face, the harmonised series stays canonical,
+and `HANDOFF.md` maps the slots that take a labelled Statistics Canada
+line beside it once a fetcher exists. No StatCan number is typed into
+`plates.py`.
 
-A corollary trap for the fetcher that will be written then: the outage page
-arrives under HTTP 200, so a fetcher must check the payload shape before
-caching, or it caches an error page that survives the retry that would have
-fixed it. The existing fetchers already do.
+A standing trap for that fetcher: the outage page arrived under HTTP 200,
+so it must check the payload shape before caching, or it caches an error
+page that survives the retry that would have fixed it. The existing
+fetchers already do.
 
 ## The un-banded 2015 contraction
 
@@ -47,18 +53,21 @@ All three are correct and all three get quoted as "Canada's debt":
 
 The net figure is low because it nets off the assets of the Canada and
 Quebec Pension Plans, which most G7 members do not hold in that form. The
-net series is therefore never drawn alone: the World plate shows net and
-gross together, and the fiscal plate keeps the two federal measures on
-their own panel.
+net series is therefore never drawn alone: the fiscal debt panel draws
+general-government gross and net together, with the federal accumulated
+deficit beside them and a note saying none of the three is "the" debt.
 
 ## The fiscal-year convention
 
 Everything in `fiscal/` is the **federal** government on fiscal years,
 April to March, and `fiscal_year` holds the *starting* year: 2024 is
-2024-04-01 to 2025-03-31. The World plate is the opposite convention —
-general government, calendar years — which is what makes it comparable
-across the G7 and incomparable with the fiscal plates. Both say so on their
-faces.
+2024-04-01 to 2025-03-31. The IMF's general-government lines in the same
+panels are **calendar** years — that is what makes them comparable across
+the G7 and not with the federal line. To keep both honest on one axis,
+federal points are plotted at their fiscal midpoint, a quarter-year right
+of the start year (`FY_SHIFT` in `plates.py`), and the recession bands
+fall where they actually fell against either convention. Every line is
+labelled with the basis it is on.
 
 The actuarial split in `transactions_pct_gdp.csv` exists only from 2008-09:
 net actuarial losses became a separate expense line in 2019-20 with only
@@ -78,11 +87,16 @@ with a single indicative rate published at 16:30, computed differently.
 January to April 2017 exists on both, which is what makes the break
 measurable rather than asserted. The noon series begins in May 2007, so
 2007 is an eight-month window and 2017 a four-month one — both are left
-blank, with the coverage in the `*_months` columns, because either
-presented as an annual average lands inside the plausible range and nothing
-downstream would catch it. **2006 and 2007 are still holes** pending
-StatCan table 33-10-0163 (annual average exchange rates). The direction is
-CAD per USD: a rising line is a weaker Canadian dollar.
+blank on the Bank of Canada segments, with the coverage in the `*_months`
+columns, because either presented as an annual average lands inside the
+plausible range and nothing downstream would catch it. **2006 and 2007
+are covered by the Federal Reserve's H.10 cross rate**
+(`markets/usdcad_h10.csv`, fetch/fetch_spine.py): the only annual averages
+that span the start of the window, and the currency slot indexes all
+three series on that H.10 2006 average (=100) so the base year is never
+borrowed from a segment that does not cover it. The panel draws the index
+rising = a *stronger* Canadian dollar — inverted from the C$-per-US$
+quotes underneath, and the panel title says so.
 
 The policy rate comes from the monthly static table
 (`STATIC_ATABLE_V39079`), not from `V39079` itself, which Valet carries
@@ -110,22 +124,50 @@ non-permanent residents who never appear in the admissions file at all.
 
 ## The comparables layer
 
-The World Bank and UNDP series are harmonised cross-country readings, kept
-as comparables and magnitude checks, marked `official: false` and never
-spliced into a national series. The World Bank's Gini is derived from the
-Canadian Income Survey under its own income definition and is not
-Statistics Canada's own Gini; it is staged but not drawn while the People
-chapter is absent. The HDI is one vintage throughout — the Human
-Development Report recomputes the whole back-series at each methodology
-change, so a trend assembled from successive annual reports would be partly
-an artefact of the reports.
+The World Bank and UNDP series are harmonised cross-country readings,
+marked `official: false`. While Statistics Canada is offline they stand in
+as the national readings for the seven chapters above — never spliced
+into a StatCan line when one arrives, and every panel names the publisher.
+The World Bank's Gini is derived from the Canadian Income Survey under the
+Bank's own income definition and is not Statistics Canada's own Gini; the
+people plate draws it beside the OECD's reading, two labelled lines, and
+neither is presented as Canada's official figure. The HDI is one vintage
+throughout — the Human Development Report recomputes the whole back-series
+at each methodology change, so a trend assembled from successive annual
+reports would be partly an artefact of the reports.
+
+## Conversions, and the numbers the plates compute
+
+- The migration and demography rates are per 1,000 people: IRCC flows and
+  the UN net-migration estimate divided by the World Bank mid-year
+  population (`international/population.csv`, SP.POP.TOTL) — mid-year
+  because it is the one population vintage every numerator can share.
+  Admissions are calendar-year counts; the panel's partial-year rule
+  drops the running year rather than drawing it.
+- The minimum-wage panel converts the OECD employment-weighted average of
+  the provincial minimums: annual C$ ÷ 12, at the H.10 annual average
+  rate. Canada has no single national minimum; the panel says so.
+- Equities are converted monthly, not annually: each month's TSX close is
+  turned into US$ at that month's H.10 average before the annual mean of
+  month-end closes is taken, which is why the 2014–15 currency slide sits
+  inside the US$ index.
+- Excess deaths are raw registrations against the 2015–2019 mean of
+  deaths, with no population or age adjustment — and the panel's footnote
+  says so, because a country adding a million people a year would print a
+  positive excess with no mortality event at all.
 
 ## What is still pending even so
 
-- The S&P/TSX composite. Nobody official publishes a stock index; stooq,
-  the usual redistributor, was behind a JavaScript proof-of-work wall when
-  tried, so the panel is pending rather than hand-typed from memory.
-- Transparency International's CPI. No stable machine endpoint, and the
-  2012 methodology break means pre-2012 scores are not on the same scale.
-  The World plate has four panels without it; it stays out rather than
-  being compiled from memory.
+- The Statistics Canada national lines mapped in `HANDOFF.md`: one fetcher
+  and one PR per chapter group now that the platform answers again.
+- The S&P/TSX composite has no official publisher, so the markets plate
+  draws the Yahoo redistributor feed — annual mean of month-end closes,
+  labelled *not an official statistic* on the panel itself rather than
+  left out. A revision at Yahoo moves a plate; that is the price, and the
+  sidecar file is what a diff would catch.
+- Transparency International's CPI is drawn on the world plate from 2012
+  only: the older 0–10 scores are not on the current 0–100 scale and no
+  pre-2012 point has been conjured to lengthen the line.
+- IRCC's admissions-by-principal-province file (ODP-PR-PT_IMMCAT) is
+  declared in `fetch/fetch_ircc.py` but was never fetched; no plate asks
+  for it.

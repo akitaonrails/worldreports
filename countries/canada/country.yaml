@@ -24,6 +24,9 @@ default_locale: en
 years: {from: 2006, to: 2026}
 last_full_year: 2025
 tick_every: 2
+# On the plate spine (PLATE_SPINE.md): every plate declares its topic and
+# draws its panels in the shared slots, units and scales.
+spine: true
 
 # Canada had two unambiguous contractions in this window. The 2015 oil
 # shock met the two-quarter definition and is argued about to this day —
