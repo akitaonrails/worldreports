@@ -31,4 +31,9 @@ MARKS = {
     "covid": (2020.1, "COVID-19"),
     "reform": (2023.95, "Tax reform approved"),
     "vat": (2026.05, "VAT test phase"),
+    # the marks the spine plates draw with ig.add_event
+    "reserves_sold": (2008.75, "2008: BCB sold reserves"),
+    "h1n1": (2009, "H1N1"),
+    "reclassified": (2019, "2019: deaths reclassified\nas undetermined intent"),
+    "emergency_aid": (2020.1, "emergency aid"),
 }

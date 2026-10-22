@@ -23,6 +23,8 @@ last_full_year: 2025
 # Label every Nth year on the x-axis. Twenty-one years of annual ticks do
 # not fit, so each country labels the stride its own plates were drawn with.
 tick_every: 2
+# Every plate is drawn on the shared plate spine (PLATE_SPINE.md).
+spine: true
 
 bands:
   - {from: 2014.0, to: 2016.9, label: "2014–16 recession"}
