@@ -1,0 +1,40 @@
+# Eurostat gov_10a_taxag, Switzerland: total taxes and social contributions
+# after deduction of amounts assessed but unlikely to be collected
+# (D2_D5_D91_D61_M_D995), general government plus EU institutions (S13_S212),
+# % of GDP. RATIO DENOMINATOR: Eurostat's Swiss GDP, which for 2023+ is the
+# PREVIOUS BFS vintage (pre-2026-08-25 revision; 2024 CHF 854.0bn vs BFS
+# 860.9bn). Never mix with BFS-vintage ratios. Beside EFV's Fiskalquote (26.7%
+# in 2024) and the extended ratio (37.3%), never spliced: the gap to the
+# extended ratio is compulsory health insurance and BVG pension contributions,
+# which are not taxes in the national accounts.
+year,tax_burden_pct_gdp
+1995,25.2
+1996,25.7
+1997,25.3
+1998,26.1
+1999,26.3
+2000,27.3
+2001,26.7
+2002,27.3
+2003,26.6
+2004,26.3
+2005,26.3
+2006,26.1
+2007,25.7
+2008,26.2
+2009,26.8
+2010,26.1
+2011,26.7
+2012,26.4
+2013,26.5
+2014,26.5
+2015,27.2
+2016,27.3
+2017,27.8
+2018,27.5
+2019,27.8
+2020,28.6
+2021,27.6
+2022,27.0
+2023,27.5
+2024,27.8

@@ -1,0 +1,873 @@
+# Data provenance — every planned series for Switzerland.
+#
+# Written 2026-10-22 BEFORE any CSV exists, as the research pass prescribes;
+# the fetch swarm then staged each `*_from_*` sidecar under data/, and the
+# consolidation pass (same day) corrected this file to what the eight
+# fetchers actually do. Nothing here is curated yet. Every endpoint below
+# was curled live on 2026-10-22. The `meta` block is for publishers that
+# exist but could not be staged this session; the page's sources table
+# ignores it. DATA_NOTES.md carries the cross-file judgement calls.
+#
+# YEARS: every series here is on the CALENDAR year. The Swiss fiscal year
+# is the calendar year; nothing is keyed on an April fiscal year (an early
+# brief said otherwise; it was wrong, and the fetchers were checked).
+#
+# FIVE SWISS TRAPS, which several entries repeat:
+#
+# 1. VINTAGES OF GDP. The BFS annual national accounts were revised on
+#    2026-08-25; Eurostat nama_10_gdp CH and the World Bank still carry the
+#    previous vintage. They agree to the decimal through 2022 and part from
+#    2023: 2023 CHF 837.2bn (BFS) vs 834.2bn, 2024 860.9bn vs 854.0bn, 2025
+#    881.6bn vs 867.5bn. (fetch_bfs.py asserts equality 2006–2022.)
+#    Every ratio Eurostat publishes for CH (household debt % GDP, government
+#    ratios) is on the OLD denominator. Never divide a BFS numerator by a
+#    Eurostat denominator or the reverse.
+# 2. GOLD IN TRADE. Switzerland refines most of the world's gold. Foreign-
+#    trade "Total 1" (konjunkturelles Total) excludes gold bars, other
+#    precious metals, gems, art and antiques; "Total 2" (Generaltotal)
+#    includes them. In 2025 non-monetary gold was CHF 149.6bn of 461.0bn
+#    goods receipts in the balance of payments. One total per line, named.
+#    The BoP foreign-trade receipts equal the customs Total 2 to the franc
+#    (2025 461,014.1 CHF mn), but the BoP GOLD line is not the customs gold
+#    line: customs SITC 971 exports 2025 = 163.8bn vs BoP gold receipts
+#    149.6bn. Never equate them.
+# 3. IMMIGRATION INCLUDES CHANGES OF STATUS. BFS (and therefore Eurostat
+#    migr_imm1ctz CH) counts "Einwanderung inkl. Änderung des
+#    Bevölkerungstyps": a person who has been in the NON-permanent resident
+#    population (asylum seekers, S-status, L permits) for 12 months moves
+#    into the permanent population and is counted as an immigrant then. The
+#    2023 peak (263,081) is largely Ukrainians with S status crossing the
+#    12-month line, not 263k arrivals that year. 65,260 S-status holders
+#    were in the PERMANENT population at end-2025. EUROSTAT IS NOT ONE
+#    DEFINITION: migr_imm1ctz CH equals BFS (type changes included) in
+#    2000–2010 and 2023–2024, but EXCLUDES the type changes in 2011–2022
+#    (lower by exactly BFS's component, e.g. 2015 153,627 vs 188,515). Two
+#    seams inside the harmonised series.
+# 4. ASSISTED SUICIDE. BFS counts assisted suicide (Exit, Dignitas) as its
+#    own series from 2003. Until 2008 the SAME deaths are also inside
+#    "Suizid" in the cause-of-death table; from 2009 they are coded to the
+#    underlying disease instead. Never add the two series. A suicide line
+#    across 2008/09 falls (1,313 → 1,105) for a reason that is
+#    classification.
+# 5. FISCAL "DEBT" HAS FOUR NUMBERS, all correct, for the same general
+#    government in 2024: Maastricht debt 23.7% GDP (EFV), GFS gross debt
+#    30.0% (EFV), GFS total liabilities 40.4% (EFV) = IMF GGXWDG 40.4%, and
+#    Eurostat financial-accounts liabilities 40.9% (old GDP vintage). And the
+#    tax ratio has two: 26.7% (EFV fiscalquote) vs 37.3% "extended" that
+#    adds mandatory health-insurance premiums and occupational pension
+#    contributions, which in Switzerland are compulsory but not taxes.
+#
+# GEOGRAPHY: Switzerland = the 26 cantons (BFS). BAZG trade covers the
+# Swiss–Liechtenstein customs territory (certain). Liechtenstein shares the
+# franc, but whether each SNB cube (bank credit, BoP, reserves) includes it
+# is NOT confirmed from the SNB's notes — an open question (meta.pending).
+# Until it is answered, an SNB panel names the SNB as its scope and claims
+# neither "Switzerland only" nor "incl. Liechtenstein".
+
+meta:
+  pending:
+    - name: asylum, permits and the foreign-population register, primary publisher
+      publisher: SEM — Staatssekretariat für Migration
+      url: https://www.sem.admin.ch/sem/de/home/publiservice/statistik/asylstatistik.html
+      official: true
+      notes: >-
+        Reachable (HTTP 200) on 2026-10-22, but the yearly archive pages
+        (…/asylstatistik/archiv/2025.html) now carry only a PDF commentary
+        (stat-jahr-2025-kommentar-d.pdf); the monthly/annual xlsx tables
+        are no longer linked as static files, and SEM's eight opendata.swiss
+        datasets all point at the 2019 archive (stale). Staged instead: the
+        Eurostat migr_* asylum and permit tables for CH (SEM is their
+        reporting body) and BFS STATPOP by permit type. SEM's register
+        (ZEMIS) foreign-population count differs from BFS STATPOP by
+        definition (SEM: "faktenblatt-unterschiede-statistiken-d.pdf",
+        linked from auslaenderstatistik.html) — two publishers, never one
+        line. Hand-curate SEM annual asylum totals at build if needed.
+    - name: registered unemployment RATE (SECO), direct
+      publisher: SECO — amstat
+      url: https://www.amstat.ch/
+      official: true
+      notes: >-
+        The legacy https://www.amstat.ch/v2/index.jsp answers 404. SECO's
+        registered-unemployed COUNTS (annual means, 2000–2025) are staged
+        via the BFS table je-d-03.03.00.01 (verified), and SECO's real-time
+        database carries ur_nsa/ur_sa sheets (verified present, not yet
+        parsed). Rate from amstat directly is pending.
+    - name: household arrears in the credit system (no delinquency register)
+      publisher: none — Switzerland has no published household arrears series from the banks or the SNB
+      url: https://data.snb.ch/
+      official: true
+      notes: >-
+        No SNB cube carries household loan delinquency or NPLs (searched the
+        186-cube catalogue). The credit chapter's "servicing" panel uses the
+        BFS SILC payment-arrears table (social/arrears_from_bfs.csv, survey,
+        2013–2024) instead, and says it is a survey of people, not a
+        register of loans. A bank-wide NPL ratio (all loans, not households)
+        exists as the IMF FSI via WB FB.AST.NPER.ZS (see the spine-gaps
+        entry); it is not staged yet.
+    - name: Liechtenstein inside the SNB series? (scope question, open)
+      publisher: SNB
+      url: https://data.snb.ch/
+      official: true
+      notes: >-
+        BAZG trade is the Swiss–Liechtenstein customs area, certainly. For
+        the SNB cubes staged here (bakredsekbrm bank credit, bopcurra BoP,
+        snbimfra reserves, frsek* financial accounts) the research pass and
+        the fetch swarm assumed "currency area incl. Liechtenstein", but no
+        SNB note was found that says so per cube (searched 2026-10-22).
+        Read each cube's methodological notes before a panel claims a
+        scope; until then panels name the SNB as the scope.
+    - name: spine slots that exist at a harmonised publisher but are not yet fetched
+      publisher: BIS / Eurostat / World Bank (UNODC, IMF FSI, PIP)
+      url: https://stats.bis.org/api/v2/data/dataflow/BIS/WS_TC/2.0/Q.CH.H.A.M.770.A
+      official: true
+      notes: >-
+        Probed live 2026-10-22, all answer for CH: BIS WS_TC household
+        credit % GDP (2025-Q4 122.9; credit slot 1); Eurostat gov_10a_main
+        P51G government GFCF % GDP (2022–2025 2.9–3.2; spending slot 4); WB
+        VC.IHR.PSRC.P5 UNODC homicide per 100k (2023 0.60; security slot 1);
+        WB FB.AST.NPER.ZS bank NPL ratio = IMF FSI (2024 0.83%, all bank
+        loans, not households; credit slot 3); WB SH.STA.TRAF.P5 road deaths
+        (to 2019 only). The WB US$8.30 poverty line (SI.POV.UMIC) was
+        throttled and not confirmed. Add them to fetch_comparables.py /
+        fetch_eurostat.py with sidecars before Phase B draws those slots.
+    - name: statutory national minimum wage
+      publisher: none — Switzerland has no national minimum wage
+      url: https://www.seco.admin.ch/
+      official: true
+      notes: >-
+        There is no statutory national minimum wage; a federal initiative
+        for one was rejected in the 2014 popular vote. Some cantons have one
+        (Neuchâtel, Jura, Ticino, Geneva, Basel-Stadt), set cantonally and
+        not comparable as a national figure. People slot 3 states exactly
+        that via ctx.pending, as Italy's does — a true statement, not a gap.
+    - name: SMI year-ends from a second redistributor
+      publisher: SIX Swiss Exchange via redistributors
+      url: https://stooq.com/q/d/l/?s=^smi&i=m
+      official: false
+      notes: >-
+        stooq serves its 796-byte JS proof-of-work page under HTTP 200
+        (verified 2026-10-22), same as ^tsx/^ibex/^psi. Yahoo ^SSMI is
+        staged and complete for the window, so this is a cross-check only.
+    - name: Transparency International CPI, WEF competitiveness
+      publisher: Transparency International / IMD / WEF
+      url: https://www.transparency.org/en/cpi
+      official: false
+      notes: Hand-curated at build phase, as France/Canada did.
+
+macro:
+  gdp_from_bfs.csv:
+    source: BFS — Volkswirtschaftliche Gesamtrechnung, Bruttoinlandprodukt nach Verwendungsarten (ts-x-04.02.01.02)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=ts-x-04.02.01.02
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      Annual GDP by expenditure, 1995–2025. Resolve the orderNr to the
+      current damId (today 36813557, embargo 2026-08-25), then GET
+      /hub/api/dam/assets/{damId}/master → text/csv, UTF-8 with BOM,
+      COMMA-separated, long format PERIOD,SECTOR,CLASSIFICATION,UNIT_MEAS,
+      VALUE,STATUS. UNIT_MEAS: MCHF (CHF millions, current prices), AC
+      (nominal % change), ACPP (real % change at previous-year prices).
+      Verified: B1GQ MCHF 2006 562,159.6 · 2024 860,932.1 · 2025 881,571.8;
+      ACPP 2009 −1.93, 2020 −2.26, 2025 +1.61. The research pass saw rows
+      repeated (1995 twice); the current edition does not repeat them, and
+      the fetcher still asserts one value per key. STATUS O = missing. Gold
+      split: P61 vs P61XF11 (2025 exports of goods 517.5bn vs 365.0bn ex
+      gold). THE VINTAGE TRAP: Eurostat/World Bank hold the pre-2026-08
+      vintage (see header), equal through 2022, apart from 2023. 2025 is
+      the BFS first estimate.
+  gdp_from_estat.csv:
+    source: Eurostat — nama_10_gdp (Switzerland's ESA 2010 transmission)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_gdp?geo=CH&na_item=B1GQ&unit=CP_MNAC
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Unit must be CP_MNAC — CP_MCHF does not exist and returns a
+      well-formed EMPTY cube (unit dimension size 0) under HTTP 200.
+      Verified: 2006 562,159.6 (= BFS) … 2022 819,703.7 (= BFS), then
+      2023 834,189.8 · 2024 853,957.0 · 2025 867,544.7 — the previous BFS
+      vintage (real growth 2025 1.3 vs BFS 1.61). Kept as the harmonised
+      twin; never spliced with the BFS file.
+  gdp_quarterly_from_seco.csv:
+    source: SECO — Quartalsschätzungen BIP, real-time database (gdp_cssa sheet)
+    url: https://www.seco.admin.ch/dam/de/sd-web/MPCPHCXIDH6N/realtime-database.xlsx
+    refreshed_by: fetch/fetch_seco.py
+    notes: >-
+      3.4MB xlsx, one sheet per variable (gdp_cssa, gdp, cons_priv, exp,
+      imp, cpi_*, ur_*, gdp_us/ea/jp…), each a VINTAGE MATRIX: row 9 =
+      release date, row 10 = vintage label (2000q2…2026q2), col A = quarter
+      start date, CHF millions real, seasonally (and in gdp_cssa sport-event)
+      adjusted. openpyxl needs read_only=True plus ws.reset_dimensions()
+      (the sheets report a 1×1 dimension and the workbook references a
+      missing drawing1.xml that breaks a normal load). Header rows are one
+      cell shorter than data rows; the latest populated vintage column is
+      the second-to-last (release 2026-06-01, data to 2026Q1: the sidecar
+      STOPS AT 2026Q1 although Eurostat namq has 2026Q2). The URL is
+      resolved each download from the site's JSON content API
+      (/api/collector/de/weiterfuehrende-informationen-bip.json). The
+      cached workbook was first placed by hand; consolidation exercised the
+      fetcher's own resolve()+get() path live on 2026-10-22 and it returned
+      a byte-identical file (sha256 7a3c16a5…), so the cache is honest.
+      Delete cache/seco_realtime-database.xlsx to refresh. Verified
+      q/q: 2008Q4 −2.1, 2009Q1 −1.5, 2020Q2 −6.4, 2025Q3 −0.4. SPORT-EVENT
+      ADJUSTMENT is Swiss-specific: FIFA/IOC/UEFA licence revenue booked in
+      Switzerland moves GDP in championship years; gdp_cssa removes it,
+      `gdp` keeps it. The file lags SECO's latest release by one quarter.
+  gdp_quarterly_from_estat.csv:
+    source: Eurostat — namq_10_gdp (CH, CLV_PCH_PRE, SCA)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/namq_10_gdp?geo=CH&na_item=B1GQ&unit=CLV_PCH_PRE&s_adj=SCA
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      q/q real growth, 1995Q2–2026Q2 (updated 2026-10-22). Verified 2008Q4
+      −2.2, 2009Q1 −1.7, 2015Q1 −0.3, 2020Q2 −6.3, 2026Q2 +1.9. NOT
+      sport-event adjusted, so it differs from SECO gdp_cssa by tenths
+      (2015Q1 −0.3 vs −0.0). Used with SECO to date the bands.
+  cpi_from_bfs.csv:
+    source: BFS — Landesindex der Konsumentenpreise (LIK), Totalindex auf allen Indexbasen (cc-d-05.02.08)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=cc-d-05.02.08
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      xlsx (today damId 36878072, 2026-10-01), sheets Index_m (monthly
+      from 1921) and Index_y (annual from 1914), one column per index base
+      (1914 … Dec-2020, Dec-2025) plus the % change column last. The
+      official annual inflation is the last column of Index_y: verified
+      2008 2.4 · 2009 −0.5 · 2015 −1.1 · 2022 2.8 · 2023 2.1 · 2024 1.1 ·
+      2025 0.2. REBASED to December 2025 = 100 in early 2026 (new basket
+      column) — take rates, not levels across bases. orderNr is a PREFIX
+      match on the DAM API (cc-d-05.02 returns 122 assets) and old
+      versions stay listed with lifecycle OLD: filter exact orderNr and
+      lifecycle CURRENT, and assert the embargo date is recent.
+  hicp_from_estat.csv:
+    source: Eurostat — prc_hicp_aind (Swiss HICP, computed by BFS)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_aind?geo=CH&coicop=CP00&unit=RCH_A_AVG
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      2006–2025: 2009 −0.7, 2015 −0.8, 2023 2.3, 2025 0.1. Beside the LIK,
+      never spliced; they differ by tenths (2015: −0.8 vs −1.1).
+  unemployment_from_bfs.csv:
+    source: BFS — Erwerbslose gemäss ILO, registrierte Arbeitslose und registrierte Stellensuchende (je-d-03.03.00.01)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=je-d-03.03.00.01
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      xlsx (damId 36346864), sheet T3.3.0.1, annual means in THOUSANDS,
+      2000–2025, three rows: SECO registered job seekers, SECO registered
+      unemployed, BFS ILO unemployed. Verified 2006: registered unemployed
+      131.5k vs ILO 195.3k; 2025: job seekers 214.1k, ILO 248.5k. SURVEY vs
+      ADMINISTRATIVE: two lines, never one. Breaks in the footnotes: SECO
+      moved the RAV offices to a new semi-automated registration system in
+      March 2018; the 2017 SAKE revision created a 2009/2010 break that BFS
+      has back-adjusted in this ILO series.
+  unemployment_rate_from_bfs.csv:
+    source: BFS — Erwerbslosenquote gemäss ILO nach Geschlecht, Nationalität und anderen Merkmalen (je-d-03.03.01.14)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=je-d-03.03.01.14
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      xlsx (damId 36710099 — orderNr also returns the .01/.03 sub-tables;
+      pick the exact one), sheets Quartalswerte (Q2 values 1991+) and
+      Jahreswerte (annual averages 2010–2025: 2010 4.81, 2024 4.34, 2025
+      4.84; Swiss and foreign nationals too). Before 2010 the SAKE was a
+      Q2-only survey, so 2000–2009 exist only as Q2 values, in their own
+      column (ilo_rate_q2_pct, continued after 2010 for a like-for-like
+      line); the two columns are never spliced.
+  unemployment_from_estat.csv:
+    source: Eurostat — lfsa_urgan (LFS unemployment rate, 15–74), with une_rt_a as twin
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/lfsa_urgan?geo=CH&citizen=TOTAL&age=Y15-74&sex=T
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      lfsa_urgan covers 1996–2025 (2006 4.0, 2009 4.1, 2025 4.9); une_rt_a
+      CH STARTS 2010 (2006–09 absent), so lfsa_urgan is the long one.
+  employment_from_bfs.csv:
+    source: BFS — Erwerbstätigenstatistik, Erwerbstätige Total (Inlandkonzept), Jahresmittel (ts-x-03.02.01.01)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=ts-x-03.02.01.01
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      text/csv (damId 36710246), UTF-8 BOM, comma, columns INDICATORS_*,
+      DETAILS_*, PERIOD, FREQ, MEASURE_*, VALUE, STATUS; from 1900 with
+      gaps (STATUS O). Domestic concept — includes ~400k cross-border
+      commuters (Grenzgänger), which the resident-population LFS does not.
+  wages_from_bfs.csv:
+    source: BFS — Schweizerischer Lohnindex (ts-x-03.04.03.00.06 base 2020; ts-x-03.04.03.00.03 base 2010; ts-x-03.04.03.00.04 base 1993)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=ts-x-03.04.03.00.06
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      CSV YEAR,SECTION,DIVISION,SEX,WAGE_TYPE(N nominal/R real),VALUE,
+      VALUE_P,OBS_STATUS_VALUE. The base-2020 file starts in 2021 (B-S
+      total 2021 = 99.8, −0.2%); the base-2010 file starts in 2011 (not
+      2006), so 2006–2010 come from the base-1993 file (NOGA 2002, total
+      C-O). One row per year per base (base written as a label, 1993=100
+      / 2010=100 / 2020=100, so (year, base) keys the row); where two bases overlap their
+      year-on-year changes are asserted equal. Use the % changes across the
+      rebase seams, never the levels.
+
+fiscal:
+  general_government_from_efv.csv:
+    source: EFV — Finanzstatistik, Hauptaggregate und Prognosen im FS- und GFS-Modell (main_extern.csv)
+    url: https://www.data.finance.admin.ch/static/assets/datasets/fs_dashboard/main_extern.csv
+    refreshed_by: fetch/fetch_efv.py
+    notes: >-
+      text/csv, 462kB, long format: hh (staat = general government, bund,
+      ktn = cantons, gdn = communes, sv = social security, bund_ktn_gdn),
+      model (fs national model / gfs IMF model), variable, jahr 1990–2030,
+      value, source (Rechnung = outturn | Prognosen | Budget/Finanzpläne |
+      Hochrechnung). RATIOS ARE FRACTIONS (0.237, not 23.7). Verified
+      staat/gfs 2024 (Rechnung): saldo +2,480 CHF mn, defizit_ueberschuss
+      +0.29% GDP, staatsquote 31.35%, fiskalquote 26.7%,
+      fiskalquote_erweitert 37.3%, schuldenquote (Maastricht) 23.7%,
+      bruttoschuldenquote 30.0%, fremdkapitalquote 40.4%; 2020 saldo
+      −18,705. 2025 IS STILL "Prognosen" — filter on source and mark the
+      last outturn year. The four debt measures and two tax ratios are
+      separate columns (header trap 5); the GFS model is the
+      internationally comparable one, the FS model is the national one
+      (they differ — 2024 saldo FS +3,254 vs GFS +2,480). EFV's revenue and
+      expenditure ratios sit 1.5 pt below Eurostat TR/TE for 2024 (31.6/31.4
+      vs 33.1/32.8) — more than the GDP vintage explains, so a recording
+      difference between the EFV GFS model and Eurostat's ESA table; two
+      lines, never one. EFV has no interest-paid column: the spine's
+      interest slot uses Eurostat D41PAY. Fixed-path file: delete
+      cache/efv_main_extern.csv to refresh.
+  general_government_from_estat.csv:
+    source: Eurostat — gov_10a_main (CH transmission, S13)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10a_main?geo=CH&sector=S13&unit=PC_GDP&na_item=B9
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Present for CH 1995–2025 although the EDP tables are NOT
+      (gov_10dd_edpt1 and gov_10dd_ggd answer with geo dimension size 0).
+      Columns B9, TR, TE and D41PAY (interest, 2024 0.3). Verified B9 2020
+      −2.6, 2024 0.3; TR 2024 33.1; TE 2024 32.8 — on the old GDP vintage
+      (2023+), and on Eurostat's recording, so they differ from EFV's
+      ratios (by 1.5 pt for TR/TE in 2024).
+  tax_burden_from_estat.csv:
+    source: Eurostat — gov_10a_taxag (D2_D5_D91_D61_M_D995, S13_S212)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10a_taxag?geo=CH&na_item=D2_D5_D91_D61_M_D995&sector=S13_S212&unit=PC_GDP
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      1995–2024 (2024 27.8). Spain's key. Beside EFV's fiskalquote (26.7)
+      and fiskalquote_erweitert (37.3), never spliced; the gap to the
+      extended ratio is the compulsory health insurance and BVG pension
+      contributions that are not taxes in the national accounts.
+  spending_by_function_from_efv.csv:
+    source: EFV — general-government expenditure by COFOG function, GFS model (gfs_dashboard/cofog_int.csv, the EFV's Switzerland rows in its international comparison)
+    url: https://www.data.finance.admin.ch/static/assets/datasets/gfs_dashboard/cofog_int.csv
+    refreshed_by: fetch/fetch_efv.py
+    notes: >-
+      The ten COFOG divisions, % of GDP (current BFS vintage) and CHF mn,
+      2006–2025; the ten sum to GFS general-government expenditure in
+      general_government_from_efv.csv (asserted: 2024 31.35% = staatsquote)
+      and sit within 1.5 pt of Eurostat gov_10a_exp (old GDP vintage
+      there). `status` carries the year's general-government status, so
+      2025 is a FORECAST row, not an outturn. Not the national FS
+      functional classification (fs_dashboard/fir_art_funk.csv), which is
+      a 1.26 GB detail file and was not used.
+  spending_by_function_from_estat.csv:
+    source: Eurostat — gov_10a_exp (COFOG, CH, S13)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10a_exp?geo=CH&sector=S13&unit=PC_GDP&na_item=TE
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      1995–2024 (TOTAL 2020 37.4, 2024 32.5); the 2020 spike is the COVID
+      short-time-work and loan programme. One year behind EFV.
+
+trade:
+  goods_by_partner_from_bazg.csv:
+    source: BAZG — Aussenhandel, saisonbereinigte Daten nach Ländern (SA_COUNTRY_EXP / SA_COUNTRY_IMP)
+    url: https://ocean.bazg.admin.ch/open-data-reports/SA_COUNTRY_EXP_en_v1/SA_COUNTRY_EXP_en_v1.csv
+    refreshed_by: fetch/fetch_bazg.py
+    notes: >-
+      3.8MB, SEMICOLON-separated, served as application/octet-stream;
+      columns Traffic_direction;country;Country_txt;year;period;Period_txt;
+      Nominal_Value;wdAdjusted_*;seasonalAdjusted_*;trend_*;status;Update.
+      1995-01 → 2026-09, CHF. 58 partners and aggregates (EU 100302,
+      Europe 100800, Asia 100820, North America 100844 …). THE PERIOD
+      CODE MIXES MONTHS (1–12) AND QUARTERS (24–27) IN ONE COLUMN —
+      summing a year over all rows doubles it; sum 1–12 only. status
+      prov for 2026. No World row: build the total from the continents
+      and assert it. Verified 2025 exports (months): Europe 160.0bn,
+      EU 147.0, North America 58.3, Germany 43.0, China 15.2. This is the
+      konjunkturelles Total (Total 1, excl. gold). The quarter rows are
+      asserted equal to their months, then dropped. Customs territory = CH +
+      Liechtenstein. NAMED TOTAL LINES, never one series: TOTAL1 = sum of
+      the six continents (= SNB BoP Total 1 DAT1, 2024 exports 283,005.7);
+      TOTAL2 = general total INCLUDING gold, built by streaming the
+      CTCI5_EXP/CTCI5_IMP SITC files (open-data-reports/CTCI5_*_en_v1, 4–5
+      GB each, 1988+), 2012 onward (= SNB BoP foreign-trade total, 2025
+      exports 461,014.1); TOTAL2_PRE2012 = the same file before 1 Jan 2012,
+      when gold bars entered special trade — a BREAK, not comparable with
+      TOTAL2; GOLD_SITC971 = non-monetary gold (2025 exports 163.8bn,
+      imports 179.8bn). Only the CTCI5 monthly aggregates are cached, keyed
+      to the object's ETag (cache/bazg_CTCI5_*_monthly.csv), so a re-run
+      re-reads the bucket listing but never re-streams the 9 GB unless BAZG
+      republishes. The running year is omitted (2026: 9 of 12 months).
+  gold_from_bazg.csv:
+    source: BAZG — Goldimporte nach Ländern (TN8_controlCode_Gold_IMP)
+    url: https://ocean.bazg.admin.ch/open-data-reports/TN8_controlCode_Gold_IMP_en_v1/TN8_controlCode_Gold_IMP_en_v1.csv
+    refreshed_by: fetch/fetch_bazg.py
+    notes: >-
+      IMPORTS ONLY, and only tariff 7108.12 (unwrought non-monetary gold):
+      semicolon CSV from 2021 by month × control code (911 mined, 912
+      >=99.5% for refining, 913 >=99.5% other uses, 914 <99.5%) × country
+      of origin, kg and CHF mn (2025 total CHF 173.7bn = SNB BoP gold
+      expenses, asserted). `month` is YYYY-MM. Not all of SITC
+      971 and not exports; the export side of gold is the GOLD_SITC971 line
+      in goods_by_partner_from_bazg.csv. 2026 is partial (9 of 12 months).
+      The gold panel exists because gold swamps Total 2 (header trap 2).
+  current_account_from_snb.csv:
+    source: SNB — Swiss balance of payments, current account, annual (bopcurra)
+    url: https://data.snb.ch/api/cube/bopcurra/data/csv/en?dimSel=D0(L0,T1,DAT1,DGZ,T3,T4),D1(E,A,S)&fromDate=1983
+    refreshed_by: fetch/fetch_snb.py
+    notes: >-
+      SNB cube API: CSV, SEMICOLON, quoted, UTF-8 BOM, 2-line header block
+      (CubeId, PublishingDate) then a blank line, then Date;D0;D1;Value.
+      The cube runs from 1983: asked WITHOUT fromDate the API answers only
+      the last ten years, which is why the research pass thought it began
+      in 2016. The sidecar carries 2006–2025, checked within 10% (or US$5bn)
+      of WB BN.CAB.XOKA.CD. The foreign-trade total equals the BAZG Total 2
+      to the franc; the BoP gold line does not equal customs gold. Verified 2024 goods foreign trade
+      receipts 393.8bn, of which Total 1 283.0bn and non-monetary gold
+      94.1bn; 2025 gold 149.6bn receipts / 173.7bn expenses; merchanting
+      2024 62.5bn; current account balance 2024 +79.8bn, 2025 +49.6bn.
+      BoP basis — never spliced with the customs file.
+
+markets:
+  policy_rate_from_snb.csv:
+    source: SNB — official interest rates (snboffzisa — LZ policy rate; UG0/OG0 3-month CHF Libor target range)
+    url: https://data.snb.ch/api/cube/snboffzisa/data/csv/en?dimSel=D0(LZ,UG0,OG0)&fromDate=2006-01
+    refreshed_by: fetch/fetch_snb.py
+    notes: >-
+      Monthly. TWO INSTRUMENTS, NEVER ONE LINE: until 2019-05 the SNB set a
+      TARGET RANGE for 3-month CHF Libor (UG0/OG0: 2006-01 0.5–1.5,
+      2008-12 0–1, 2011-08 0–0.25, 2015-01 −1.25 to −0.25); the SNB policy
+      rate LZ exists only from 2019-06 (−0.75), then 2022-06 −0.25,
+      2022-09 +0.5, 2022-12 +1.0, 2024-12 0.5, 2025-06 0.0, still 0 in
+      2026-09. Empty Value cells (trailing ';') where an instrument did not
+      exist — blank, not zero. The negative rate applied to sight deposits
+      above a threshold (ZIG in cube snbgwdzid, daily) is a third series.
+  fx_from_snb.csv:
+    source: SNB — foreign exchange rates, annual (devkua) and monthly (devkum M0 average / M1 end of month)
+    url: https://data.snb.ch/api/cube/devkum/data/csv/en?dimSel=D0(M0,M1),D1(EUR1,USD1)&fromDate=2006-01
+    refreshed_by: fetch/fetch_snb.py
+    notes: >-
+      CHF PER unit of foreign currency (EUR1, USD1; some currencies per 100
+      — JPY100) — a RISING line is a WEAKER franc. Verified annual (devkua)
+      EUR 2006 1.5729 · 2015 1.0681 · 2025 0.9370; USD 2024 0.8801, 2025
+      0.8307. Monthly EUR shows the 1.20 floor (2011-09 1.2010 … 2014-12
+      1.2024) and its removal on 15 Jan 2015 (2015-01 1.0983, 2015-02
+      1.0623) — events, annotated.
+  yields_from_snb.csv:
+    source: SNB — spot interest rates on Swiss Confederation bonds, monthly (rendeiduebm, D0=CHF, D1=10J)
+    url: https://data.snb.ch/api/cube/rendeiduebm/data/csv/en?dimSel=D0(CHF),D1(2J,10J)&fromDate=2006-01
+    refreshed_by: fetch/fetch_snb.py
+    notes: >-
+      Verified 10y: 2006-01 2.153 · 2015-01 −0.067 · 2022-12 1.565 ·
+      2026-09 0.586. ENDPOINT THAT STOPS: the obvious cube `rendoblim`
+      (and daily `rendoblid`, `rendopar`) froze at 2025-07 (PublishingDate
+      2025-09-01) while answering 200 — identical history, no new months.
+      Assert the last month is recent. CH is NOT in Eurostat
+      irt_lt_mcby_a (geo size 0).
+  mortgage_rates_from_snb.csv:
+    source: SNB — interest rates on new loan agreements by product (zikreddet) and offered mortgage rates (zikrepro)
+    url: https://data.snb.ch/api/cube/zikreddet/data/csv/en
+    refreshed_by: fetch/fetch_snb.py
+    notes: >-
+      zikreddet monthly from 2009-05 (K current-account advances, OBB/MBB
+      variable mortgages, FH fixed mortgages, FI investment loans; FI
+      2026-07 2.00). zikrepro (offered rates, mean & quantiles, variable
+      MV 2025-08 2.81, 10y fixed 1.87) runs from 1990 (variable) and
+      2007-12 (fixed 2/5/10y, Libor-linked 3y) when asked with fromDate;
+      without it the API answers from 2025-08 only, which the research pass
+      mistook for a new survey. So 2006–2009-04 IS covered, by the offered
+      variable mortgage rate, a different survey from the new-loan rates
+      (two columns, never joined). Libor-linked offers end 2021-06;
+      SARON-linked start 2021-01. zikrepro is rounded to two decimals to
+      2017-05.
+  smi_from_yahoo.csv:
+    source: Yahoo Finance — ^SSMI (SMI price index, SIX)
+    url: https://query1.finance.yahoo.com/v8/finance/chart/%5ESSMI?interval=1mo&period1=1104537600&period2=1793000000
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: >-
+      JSON chart, monthly bars from 2005-01, CHF. Needs a browser
+      User-Agent ("Mozilla/5.0 (X11; Linux x86_64)" works; a full Chrome UA
+      and the default curl/urllib UA both got 429). TIMESTAMP TRAP: bar
+      timestamps are local midnight Europe/Zurich expressed in UTC, so a
+      naive UTC conversion labels every bar one month early — convert with
+      exchangeTimezoneName. Verified December closes 2006 8,785.7 · 2007
+      8,484.5 · 2008 5,534.5 · 2015 8,818.1 · 2022 10,729.4 · 2024 11,600.9
+      · 2025 13,267.5; latest 14,525.9. Price index; the SMIC total-return
+      index is a different series. Nobody official publishes an index close.
+
+social:
+  gini_from_bfs.csv:
+    source: BFS — Kennzahlen zur Verteilung der Einkommen vor und nach staatlichen Transfers, HABE (je-d-20.03.01.02.02)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=je-d-20.03.01.02.02
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      xlsx (damId 36347744), ONE SHEET PER YEAR (2023 … 2000, 1998), from
+      the household budget survey (HABE), equivalised monthly CHF. Row
+      "Gini-Koeffizient": primary / gross / disposable income, total
+      population and working-age. Verified 2023 disposable 0.305 (primary
+      0.458). THREE GINIS EXIST and none is the other: HABE 0.305, SILC
+      (Eurostat ilc_di12) 31.5, World Bank 33.5 for 2023.
+  gini_from_estat.csv:
+    source: Eurostat — ilc_di12 (SILC Gini, statinfo=GINI_HND)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ilc_di12?geo=CH&statinfo=GINI_HND
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      CH 2014–2024 only (2015 29.6, 2024 31.0); the age dimension has two
+      values — pick TOTAL. Gaps before 2014 are carried blank.
+  poverty_from_bfs.csv:
+    source: BFS — Armutsquote nach verschiedenen Merkmalen, SILC (je-d-20.03.02.01.01)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=je-d-20.03.02.01.01
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      xlsx (damId 36395150), one sheet per year 2007–2024. ABSOLUTE poverty
+      against the national (SKOS) social-minimum line, NOT the EU 60%-median
+      at-risk rate: 2024 8.4% (743k people), 65+ 14.9%. The relative
+      at-risk rate is ilc_li02 (below) — two definitions, two lines.
+  poverty_from_estat.csv:
+    source: Eurostat — ilc_li02 (at-risk-of-poverty rate, rskpovth=60% median)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ilc_li02?geo=CH&sex=T&age=TOTAL&unit=PC
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      The dimension is no longer indic_il (HTTP 400 INVALID_QUERY_DIMENSION
+      if sent); it is statinfo × rskpovth. CH 2007–2024. Key the fetch on
+      rskpovth for the 60% line before writing.
+  arrears_from_bfs.csv:
+    source: BFS — Zahlungsrückstände nach soziodemografischen Merkmalen, SILC (je-d-20.02.04.08)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=je-d-20.02.04.08
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      xlsx (damId 36395139), one sheet per year 2013–2024: share of people
+      in households with arrears of at least one/two kinds, and by kind
+      (rent, mortgage, utilities, consumer credit, credit cards, health
+      insurance, taxes). Verified 2024: any arrears 15.36%, two or more
+      8.0%, mortgage 0.21% (of owners), utilities 3.86%, TAXES 8.75% (the
+      research pass's "3.9%" was the utilities column). Denominators differ:
+      rent among tenants, mortgage among owners, the rest among everyone.
+      Definitional seam in loans_pct in 2017; credit-card items from 2014.
+      A SURVEY of people, not a loan register; Switzerland publishes no
+      household delinquency series (see meta.pending).
+
+demography:
+  balance_from_bfs.csv:
+    source: BFS — STATPOP/BEVNAT, Demografische Bilanz nach Kanton (px-x-0102020000_101)
+    url: https://www.pxweb.bfs.admin.ch/api/v1/de/px-x-0102020000_101/px-x-0102020000_101.px
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      PxWeb v1 API: GET returns metadata JSON; POST a json-stat-style query
+      with "response":{"format":"csv"} → CSV in WINDOWS-1252 (decode
+      cp1252, not UTF-8). 1971–2025, by canton (0 = Schweiz), citizenship
+      (Swiss/foreign), sex; 16 components: stock 1 Jan, births, deaths,
+      natural change, immigration incl. change of population type,
+      emigration, net migration, acquisitions of citizenship, stock 31 Dec.
+      Verified Schweiz 2025: 1 Jan 9,051,029, births 78,153, deaths 71,904,
+      immigration 204,261, emigration 133,829, 31 Dec 9,127,125;
+      naturalisations 40,672. BFS publishes 0 for immigration and
+      emigration before 1981 although net migration is non-zero: holes, not
+      zeros, so the sidecar starts in 1981. Identity pop_31dec = pop_1jan +
+      natural change + net + stock adjustment asserted. The PxWeb cache
+      files have fixed names (cache/bfs_px_*.csv): delete to refresh. RATE
+      LIMIT: the server answers HTTP 429
+      ("Too many requests in too short timeframe") after a burst of
+      roughly 30 calls in 10 s and stays locked for ~10 s; some tables
+      exist only in /de/ (an /en/ request is HTTP 400). Space calls ≥1 s.
+  population_from_estat.csv:
+    source: Eurostat — demo_gind (population on 1 January)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?geo=CH&indic_de=JAN
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      1960–2026: 2006 7,459,128 (= BFS) … 1-Jan-2025 9,051,029 (= BFS),
+      1-Jan-2026 9,124,288 — 2,837 BELOW the BFS definitive 31-Dec-2025
+      9,127,125 (provisional transmission). Cross-check only.
+  fertility_from_bfs.csv:
+    source: BFS — Lebendgeburten nach Alter der Mutter und zusammengefasste Geburtenziffer, 1960–2025 (je-d-01.04.01.01)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=je-d-01.04.01.01
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      xlsx (damId 36837554 — the orderNr prefix also returns six sibling
+      tables .01.01–.01.06; pick the exact one), sheets 2020-2025,
+      2002-2020, 1990-2001, 1960-1989 (note 2020 is on two sheets). Eurostat
+      demo_find TFR twin: 2008 1.48, 2015 1.54, 2023 1.33, 2024 1.29.
+  life_expectancy_from_bfs.csv:
+    source: BFS — Lebenserwartung, 2000–2025 (je-d-01.04.02.03.01)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=je-d-01.04.02.03.01
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      xlsx (damId 36837591): official period life tables in 5-year windows
+      (1948/53 … 1998/2003) THEN complete annual tables 2000–2025, by sex,
+      at ages 0/1/10/20…. Two table types side by side in one sheet — take
+      the annual block only. BY SEX ONLY: BFS publishes no both-sexes life
+      expectancy, so Eurostat demo_mlexpec's total (2020 83.1, 2024 84.2;
+      not staged) has no BFS twin and none is computed by averaging.
+  projection_from_bfs.csv:
+    source: BFS — Szenarien zur Bevölkerungsentwicklung der Schweiz 2025–2055 (px-x-0104000000_101)
+    url: https://www.pxweb.bfs.admin.ch/api/v1/de/px-x-0104000000_101/px-x-0104000000_101.px
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      16 scenario variants (A-00-2025 reference, B high, C low …), by
+      citizenship Swiss / EEA / non-EEA, sex, age class, 2024–2075; units
+      stock 1 Jan, births, deaths, immigration, emigration, naturalisation.
+      kind=projection. Rows sorted by year, then scenario_code. The model's
+      launch years 2024–2025 are modelled, not observed (reference
+      pop_1jan 2024 8,960,817 vs observed 8,962,258).
+
+security:
+  homicide_police_from_bfs.csv:
+    source: BFS — Polizeiliche Kriminalstatistik (PKS), Straftaten gemäss StGB nach Kanton, Ausführungsgrad, Aufklärungsgrad (px-x-1903020100_101)
+    url: https://www.pxweb.bfs.admin.ch/api/v1/de/px-x-1903020100_101/px-x-1903020100_101.px
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      PxWeb POST → CSV (cp1252). Straftat 311.00.111.00 "Tötungsdelikte
+      (Art. 111–113/116)", Kanton 8100, Ausführungsgrad 0 total / 1
+      vollendet / 2 versucht, 2009–2025. Verified completed homicides 2009
+      51 · 2015 57 · 2024 45 · 2025 55; ATTEMPTS ARE FOUR TIMES THAT (2025
+      251) and the "total" row (306) is mostly attempts — the subset trap:
+      draw completed, label attempts separately. All StGB offences 2025
+      554,963. PKS was rebuilt in 2009; earlier cantonal figures are not
+      comparable and are not drawn.
+  homicide_police_from_estat.csv:
+    source: Eurostat — crim_off_cat (ICCS0101 intentional homicide, police-recorded, CH)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/crim_off_cat?geo=CH&iccs=ICCS0101&unit=NR
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      2008–2024: 2008 54, 2015 57, 2024 45 — equals PKS "vollendet" where
+      both exist, so this is the same police count, transmitted. Carries
+      2008, which PKS's API does not.
+  firearm_deaths_from_bfs.csv:
+    source: BFS — Todesursachenstatistik, Schusswaffentodesfälle nach Geschlecht (je-d-14.03.04.01.13)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=je-d-14.03.04.01.13
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      damId 36262370 (2025-12-22), 2000–2024, by sex; firearm_suicides +
+      other_firearm_deaths = firearm_deaths (asserted). Nearly nine in ten
+      firearm DEATHS are suicides in Switzerland (militia rifles at home) —
+      a superset of firearm homicides, never drawn as their peer. "Other"
+      bundles homicide, accident and undetermined intent.
+
+mortality:
+  causes_of_death_from_bfs.csv:
+    source: BFS — Sterbefälle und Sterbeziffern wichtiger Todesursachen seit 1970, Männer (je-d-14.03.04.01.03) und Frauen (je-d-14.03.04.01.04)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=je-d-14.03.04.01.04
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      Two xlsx (men damId 36262329, women 36262332; data as of
+      2025-12-22), sheets "Anzahl Fälle" and "Sterbeziffern", years 1970,
+      1980, 1990–2024 (LAST YEAR 2024). Sum the two sexes for totals.
+      CELL TYPES CHANGE: older years are numbers, recent years are strings
+      with apostrophe thousands separators ("36'728"), "*" for not
+      applicable (COVID-19 before 2020) — parse explicitly. Breaks in the
+      footnotes: ICD-8 → ICD-10 between 1994 and 1995; "Unfälle" include
+      accidental poisoning by psychotropic substances from 2006; SUICIDE
+      INCLUDES ASSISTED SUICIDE UNTIL 2008 (header trap 4). Women 2024: all
+      causes 36,728, dementia 4,389, suicide 277.
+  assisted_suicide_from_bfs.csv:
+    source: BFS — Assistierter Suizid nach Geschlecht und Alter (je-d-14.03.04.01.14)
+    url: https://dam-api.bfs.admin.ch/hub/api/dam/assets?orderNr=je-d-14.03.04.01.14
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      damId 36262348 (2025-12-22), 2003–2024, by sex and age (<65 / 65+;
+      parts asserted to add up). PUBLISHED FROM 2003, not 2009: in 2003–08
+      these same deaths are ALSO inside "Suizid" in
+      causes_of_death_from_bfs.csv; from 2009 they are not. NEVER ADD the
+      two. 2008 253 → 2024 1,774 assisted suicides; Suizid 2024 996.
+  deaths_by_cause_from_estat.csv:
+    source: Eurostat — hlth_cd_aro (causes of death, residents, CH)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/hlth_cd_aro?geo=CH&sex=T&age=TOTAL&resid=TOT_IN&unit=NR&icd10=X85-Y09_Y871
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      2011–2024. The assault code is X85-Y09_Y871 — plain "X85-Y09"
+      returns an EMPTY cube (icd10 size 0). Assault deaths 2022 = 35 vs
+      PKS completed homicides 42 (death certificates at residence vs police
+      at place of offence — both correct, never spliced). Suicide code
+      X60-X84_Y870: 2024 1,043. COVID U071 2022 4,136. resid=TOT_IN counts
+      ALL deaths in the country, residents and non-residents, so it sits
+      above the BFS resident counts (all causes 2022 75,199 vs 74,425;
+      suicide 2024 1,043 vs 996; COVID 2022 4,136 vs 4,114).
+
+credit:
+  household_credit_banks_from_snb.csv:
+    source: SNB — domestic loans by economic activity, private households (bakredsekbrm, D3=AA)
+    url: https://data.snb.ch/api/cube/bakredsekbrm/data/csv/en?dimSel=D1(T0,H),D3(AA)&fromDate=2006-01
+    refreshed_by: fetch/fetch_snb.py
+    notes: >-
+      Monthly STOCKS (CHF mn) from 1985-06, banks only: loans to private
+      households, total, mortgage and other. Verified Dec-2006 524,270
+      (mortgage 483,641) · Dec-2025 945,300 (901,510) · Aug-2026 967,580.
+      Take December (the running year's latest month is labelled in
+      `month`), never sum months. BREAKS in the monthly stock: +CHF 60bn
+      between 2006-08 and 2006-09 (reporting change; every row is after
+      it); other loans −CHF 10bn in the single month 2007-12 (unexplained in
+      the cube); 2026-04 about CHF 17bn reclassified from mortgages to other
+      loans while the total rose 2bn — the 2026 split is not comparable
+      with 2025, the total is. Liechtenstein scope unconfirmed (meta.pending).
+  household_debt_fa_from_snb.csv:
+    source: SNB — financial accounts, balance sheet of households, annual (frsekgevehup; HH+NPISH detail in frsekphupooe)
+    url: https://data.snb.ch/api/cube/frsekgevehup/data/csv/en?dimSel=D1(T5,HYP,KON)
+    refreshed_by: fetch/fetch_snb.py
+    notes: >-
+      All lenders (banks, insurers, pension funds, others): households'
+      loans 2016 825,150 → 2025 1,050,981 CHF mn, of which mortgages
+      983,072, consumer credit 20,679. The cube runs from 1999 (consumer
+      and other loans from 2005) when asked with fromDate; the research
+      pass's "starts 2016" was the API's default ten-year window. Sidecar
+      rows 2006–2025. HH+NPISH levels equal Eurostat nasa_10_f_bs to the
+      million (asserted). About CHF 100bn above the bank-only series in the
+      same year — two definitions, two lines.
+  household_debt_from_estat.csv:
+    source: Eurostat — nasa_10_f_bs (S14_S15 F4 loans, liabilities, % GDP)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nasa_10_f_bs?geo=CH&sector=S14_S15&na_item=F4&finpos=LIAB&unit=PC_GDP&co_nco=NCO
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      1999–2025: 2006 105.7 · 2015 120.2 · 2020 132.4 · 2025 123.0 % GDP;
+      the level column equals the SNB financial accounts HH+NPISH. Computed
+      on Eurostat's OLD GDP vintage from 2023 (SNB 2025 HH+NPISH loans
+      1,066.8bn / BFS GDP 881.6bn = 121.0%, not 123.0) — header trap 1. BIS
+      WS_TC (the spine's credit slot 1) gives 122.9 for 2025-Q4, not staged
+      yet (meta.pending).
+
+migration:
+  flows_from_bfs.csv:
+    source: BFS — Demografische Bilanz (px-x-0102020000_101), immigration and emigration by citizenship
+    url: https://www.pxweb.bfs.admin.ch/api/v1/de/px-x-0102020000_101/px-x-0102020000_101.px
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      Permanent resident population, 1971–2025, Swiss vs foreign. Foreign
+      2025: immigration 181,279, emigration 104,423; 2023 immigration
+      241,040 (total 263,081). IMMIGRATION INCLUDES CHANGES OF POPULATION
+      TYPE (header trap 3): the label says "inkl. Änderung des
+      Bevölkerungstyps" and the plate must too. Detail by age/citizenship:
+      px-x-0103020200_101..104 (immigration, 2011–2025) and
+      px-x-0103020300_101 (emigration).
+  stock_by_permit_from_bfs.csv:
+    source: BFS — STATPOP, ständige und nichtständige Wohnbevölkerung nach Anwesenheitsbewilligung (px-x-0103010000_101)
+    url: https://www.pxweb.bfs.admin.ch/api/v1/de/px-x-0103010000_101/px-x-0103010000_101.px
+    refreshed_by: fetch/fetch_bfs.py
+    notes: >-
+      2010–2025, permanent vs non-permanent, permit B/C/Ci/F/L/N/S,
+      203 citizenships. 2010 is the first STATPOP register year and its
+      permanent total equals the balance's 1 Jan 2011 stock (7,870,134),
+      not 31 Dec 2010 (7,864,012); from 2011 the permit sum equals the
+      balance's 31 Dec stock to the person (asserted). S rows before 2022
+      are blank (status created March 2022). SLOW: one national query took 92 s and a 3-year
+      query timed out at 90 s — fetch one year per call with a long
+      timeout. Verified 2025 permanent: Swiss 6,599,008, B 955,652,
+      C 1,406,673, N 11,092, S 65,260; non-permanent N 7,771, S 5,946.
+  flows_from_estat.csv:
+    source: Eurostat — migr_imm1ctz, migr_imm3ctb, migr_emi1ctz (CH)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_imm1ctz?geo=CH&citizen=TOTAL&age=TOTAL&sex=T&agedef=COMPLET
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      imm1ctz 1998–2024 with TWO DEFINITIONAL SEAMS: equal to BFS (type
+      changes included) in 2000–2010 and 2023–2024 (2023 263,081), but
+      EXCLUDING type changes in 2011–2022, lower than BFS by exactly the
+      BFS type-change component (2015 153,627 vs 188,515; 2022 167,079 vs
+      190,883). Found at consolidation; the fetcher pins 2010, 2015, 2022
+      and 2023. Never one line across 2010/11 or 2022/23. imm3ctb only
+      2011–2024; emi1ctz 1998–2024 (2024 129,786), equal to BFS every year. citizen=FOR returns an EMPTY cube (citizen size 0)
+      under HTTP 200 — use EU27_2020_FOR / NEU27_2020_FOR or FOR_STLS.
+  stock_from_estat.csv:
+    source: Eurostat — migr_pop1ctz (citizenship) and migr_pop3ctb (country of birth)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_pop1ctz?geo=CH&citizen=FOR_STLS&age=TOTAL&sex=T
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Foreign citizens 1-Jan (FOR_STLS; FOR is empty, Italy's quirk):
+      2006 1,541,825 · 2025 2,478,134. Foreign-born (pop3ctb c_birth=FOR,
+      which does work): 2011+, 2025 2,870,124. The ~390k gap is the
+      naturalised foreign-born — itself a finding (migr_acq).
+  asylum_from_estat.csv:
+    source: Eurostat — migr_asyappctza (first-time applicants) and migr_asydcfsta (first-instance decisions), reported by SEM
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_asyappctza?geo=CH&citizen=TOTAL&applicant=FRST&age=TOTAL&sex=T
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      2008–2025. First-time applicants 2015 38,120 · 2023 26,895 · 2025
+      23,415; decisions 2024 24,765. unit=PER is accepted for CH (unlike
+      the UK/PT empty-cube trap) and returns the same values. Ukrainian
+      S-status (temporary protection) is NOT asylum and not in these
+      tables — a fourth number beside the three.
+  permits_from_estat.csv:
+    source: Eurostat — migr_resfirst (first permits) and migr_resvalid (valid permits)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_resfirst?geo=CH&citizen=TOTAL&reason=TOTAL&duration=TOTAL
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Third-country nationals only. resfirst 2012–2025 WITH 2019 AND 2020
+      MISSING (holes stay holes): 2015 41,105 · 2025 46,272. resvalid
+      2012–2025 (2025 813,792).
+  citizenship_from_estat.csv:
+    source: Eurostat — migr_acq (acquisitions of citizenship)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_acq?geo=CH&citizen=TOTAL&age=TOTAL&sex=T&agedef=COMPLET
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      1998–2024: 2006 46,711 · 2024 39,912 — equals the BFS balance's
+      naturalisations exactly (sign aside). BFS carries 2025 (40,672).
+  irregular_from_estat.csv:
+    source: Eurostat — migr_eipre (third-country nationals found illegally present)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_eipre?geo=CH&citizen=TOTAL&age=TOTAL&sex=T
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      2009–2025 (Schengen member): 2015 15,555 · 2025 15,300. Events of
+      apprehension, not persons; extra dims reason (4) and apprehen (6) —
+      pick the totals before writing.
+
+international:
+  gdp_usd_from_wb.csv:
+    source: World Bank — World Development Indicators, NY.GDP.MKTP.CD (CHE)
+    url: https://api.worldbank.org/v2/country/CHE/indicator/NY.GDP.MKTP.CD?format=json
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Harmonised cross-country series, not the BFS accounts. Verified
+      (lastupdated 2026-10-08): 2006 US$448.4bn · 2024 969.9bn · 2025
+      1,043.5bn — the OLD BFS vintage at SNB average rates (BFS current
+      vintage gives ~US$978bn for 2024). Magnitude check passed: ~US$1tn.
+  gdp_pc_from_wb.csv:
+    source: World Bank — NY.GDP.PCAP.CD
+    url: https://api.worldbank.org/v2/country/CHE/indicator/NY.GDP.PCAP.CD?format=json
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: 2024 US$107,702; 2025 114,769.
+  population_from_wb.csv:
+    source: World Bank — SP.POP.TOTL
+    url: https://api.worldbank.org/v2/country/CHE/indicator/SP.POP.TOTL?format=json
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Mid-year (2025 9,092,436) — between BFS's 1 Jan and 31 Dec figures;
+      cross-check only, the series of record is STATPOP.
+  reserves_from_snb.csv:
+    source: SNB — Switzerland's reserve assets, IMF template section 1 (snbimfra, T1 official reserve assets)
+    url: https://data.snb.ch/api/cube/snbimfra/data/csv/en?dimSel=D0(T1)&fromDate=2006-01
+    refreshed_by: fetch/fetch_snb.py
+    notes: >-
+      Monthly; D1 T0 = CHF mn, T1 = USD mn. Verified USD Dec-2006 64.5bn
+      → Dec-2014 545.4bn → Dec-2021 1,110.0bn → Dec-2025 1,075.1bn (= WB
+      FI.RES.TOTL.CD 2025 1,075.7bn). The sixteen-fold rise is the franc
+      defence, not trade surpluses.
+  reserves_from_wb.csv:
+    source: World Bank — FI.RES.TOTL.CD (IMF IFS)
+    url: https://api.worldbank.org/v2/country/CHE/indicator/FI.RES.TOTL.CD?format=json
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+  openness_from_wb.csv:
+    source: World Bank — NE.TRD.GNFS.ZS
+    url: https://api.worldbank.org/v2/country/CHE/indicator/NE.TRD.GNFS.ZS?format=json
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: 2024 130.4%, 2025 147.2% — the 2025 jump is gold flows to the US, BoP basis.
+  gini_from_wb.csv:
+    source: World Bank — SI.POV.GINI
+    url: https://api.worldbank.org/v2/country/CHE/indicator/SI.POV.GINI?format=json
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: 2023 33.5; 2024–25 null — it lags, holes stay holes.
+  hdi_from_undp.csv:
+    source: UNDP — Human Development Report 2025, composite indices complete time series
+    url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Latin-1 CSV, browser UA. CHE hdi_2006 0.918 · hdi_2023 0.970, rank
+      2. One vintage throughout.
+  gg_debt_from_imf.csv:
+    source: IMF — World Economic Outlook via DataMapper, GGXWDG_NGDP (CHE)
+    url: https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP/CHE
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      1990–2031: 2006 47.9 · 2020 45.3 · 2024 40.4 · 2025 40.1; 2026+ are
+      projections (kind=projection). Equals EFV's GFS total-liabilities
+      ratio (40.4), NOT the Maastricht 23.7 — header trap 5.
