@@ -1,9 +1,20 @@
 # The queue
 
 Which countries are in, which are coming, and what each one needs that the
-last one did not. One at a time, in this order. Method:
-[SOURCING_A_COUNTRY.md](SOURCING_A_COUNTRY.md), then
-[ADDING_A_COUNTRY.md](ADDING_A_COUNTRY.md).
+last one did not. Method: [SOURCING_A_COUNTRY.md](SOURCING_A_COUNTRY.md),
+then [ADDING_A_COUNTRY.md](ADDING_A_COUNTRY.md).
+
+The work runs in three horizontal phases, not country-by-country verticals
+(decided 2026-10-22, after Canada's StatCan outage proved that a country
+stuck on one source idles the whole pipeline):
+
+1. **Data for all** — research pass, `SOURCES.yaml`, fetchers and staged
+   CSVs, in per-country worktree lanes, three at a time. A source that is
+   down or walled goes on the country's pending list and the lane moves on.
+2. **Plates for all** — `plates.py`, i18n catalogs, events, fact tests.
+   Sequential: the layout baseline and the string catalogs are shared.
+3. **Site for all** — `chapters.py`, `ui.json`, `make site`, merge, deploy.
+   A country merges to main only when all three phases are green for it.
 
 Every country publishes in **its own official language, plus English and
 Portuguese**, and every plate is drawn in each of them.
