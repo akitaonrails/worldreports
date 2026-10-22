@@ -1,0 +1,153 @@
+# Data provenance — Taiwan (DRAFT SKELETON)
+#
+# Every endpoint below is marked UNVERIFIED until the discovery pass curls
+# it live; the pass replaces each marker with the verified URL and records
+# the payload shape in DISCOVERY.md. Where the chapter's usual international
+# comparables (World Bank, IMF, UN) do not carry Taiwan, the entry names the
+# substitute instead — that is this country's standing condition, not a gap
+# per entry.
+#
+# NOTE ON PUBLISHER NAMES: DGBAS (Directorate-General of Budget, Accounting
+# and Statistics) was split on 2024-01-01 into the Budget Center
+# (pgb.gov.tw — fiscal/national-accounts releases) and the Statistics
+# Office (stat.gov.tw — census, labour, prices). Legacy DGBAS URLs may
+# redirect; verify which host serves which table.
+
+economy:
+  gdp.csv:
+    source: UNVERIFIED — Statistics Office / Budget Center (ex-DGBAS),stat.gov.tw — real GDP, nominal GDP, per capita, growth
+    url: UNVERIFIED — https://stat.gov.tw/ open-data / "National Statistics" interactive tables (XBEN class)
+    notes: >-
+      Substitute for the World Bank's NY.GDP series, which does not carry
+      Taiwan. Cross-check magnitude ~US$800bn nominal GDP. Quarterly
+      national accounts are annual-rate seasonally adjusted — annual is
+      the MEAN of quarters, never the sum.
+  cpi.csv:
+    source: UNVERIFIED — Statistics Office, stat.gov.tw — CPI index, y/y
+    url: UNVERIFIED — https://stat.gov.tw/ (Ch. 040 price indices)
+    notes: Substitute for IMF WEO inflation.
+
+fiscal:
+  revenue_spending_debt.csv:
+    source: UNVERIFIED — Ministry of Finance (MOF), fiscal statistics; Budget Center for general-government fiscal aggregates
+    url: UNVERIFIED — https://www.mof.gov.tw / https://pgb.gov.tw
+    notes: >-
+      Substitute for IMF Gov. Debt. Watch two publishers, one idea: MOF
+      treasury cash basis vs Budget Center general-government accrual
+      system. Fiscal year is the calendar year for Taiwan (verify).
+
+spending:
+  expenses_by_function.csv:
+    source: UNVERIFIED — Budget Center / Directorate-General of Budget, Accounting and Statistics — central government expenditure by function
+    url: UNVERIFIED
+    notes: Two publishers possible (Executive Yuan budget vs audit/central government final accounts).
+
+trade:
+  partners.csv:
+    source: UNVERIFIED — Ministry of Finance, Customs Administration (行政區通關統計) — exports/imports by partner
+    url: UNVERIFIED — customs trade statistics portal (CAX)
+    notes: >-
+      This is the goods-side substitute for UN Comtrade / WTO stats, which
+      do list Taiwan — see the wto entries. Balance-of-payments goods
+      series also exists at the Budget Center; customs value vs BoP are
+      two definitions, two lines, never spliced.
+  wto_profile.csv:
+    source: UNVERIFIED — WTO — trade profile / market share for Chinese Taipei
+    url: UNVERIFIED — https://stats.wto.org (resident entity "Chinese Taipei")
+    official: true
+    notes: >-
+      WTO carries Taiwan under the name "Chinese Taipei" — the name on the
+      endpoint is what SOURCES records; plate labelling is an editorial
+      decision for Phase C.
+
+markets:
+  rates.csv:
+    source: UNVERIFIED — Central Bank of the Republic of China (Taiwan) — discount rate (policy rate)
+    url: UNVERIFIED — https://www.cbc.gov.tw open data (interest rate: 貼現率)
+    notes: The CBC calls its policy rate the discount rate; no OMO target-rate series like Canada's.
+  usdtwd.csv:
+    source: UNVERIFIED — CBC — USD/TWD daily, and Bank of Taiwan daily rate (official? verify which is the official fix)
+    url: UNVERIFIED
+    notes: Two publishers for one idea (CBC fix vs Bank of Taiwan spot); keep both columns until break is measured.
+  stock_index.csv:
+    source: UNVERIFIED — Yahoo Finance ^TWII (TWSE Capitalization-Weighted Stock Index year-ends)
+    url: UNVERIFIED — https://query1.finance.yahoo.com/v8/finance/chart/%5ETWII
+    official: false
+    notes: >-
+      Market redistributor, official: false per §5. stooq is JS-walled
+      from this machine (recorded in discovery). TWSE's own site is the
+      first candidate for an official close — verify.
+
+people:
+  labour.csv:
+    source: UNVERIFIED — Statistics Office (ex-DGBAS) — labour force survey: employment rate, unemployment, sector shares
+    url: UNVERIFIED — https://stat.gov.tw Ch. 030
+    notes: No OECD membership (verify — Taiwan is not an OECD member); national LFS is the spine.
+  income_inequality.csv:
+    source: UNVERIFIED — Statistics Office — family income survey (Gini, quintile shares), wage stats
+    url: UNVERIFIED
+    notes: Survey-based; DGBAS family income/expense survey is the only sub-national income cut. No World Bank PIP for Taiwan.
+
+world:
+  reserves.csv:
+    source: UNVERIFIED — CBC — foreign exchange reserves (among the world's largest, ~US$570-600bn; verify)
+    url: UNVERIFIED — https://www.cbc.gov.tw open data
+    notes: >-
+      The key world-chapter series and a fully national one; IMF IFS does
+      not carry Taiwan, so the CBC IS the comparable. Rank panel must be
+      built against other countries' own central banks, not an IMF table.
+  ranking.csv:
+    source: UNVERIFIED — WTO; possible ADB "Taipei,China" series (verify ADB coverage)
+    url: UNVERIFIED
+    official: true
+    notes: >-
+      HDI does not apply (no UNDP for Taiwan) — record in DATA_NOTES.md
+      that the world chapter's human-development panel has no source and
+      the chapter is built from trade/financial standing instead.
+
+demography:
+  population.csv:
+    source: UNVERIFIED — Ministry of the Interior, Department of Household Registration (registration.moi.gov.tw) — registered population, births, deaths, monthly
+    url: UNVERIFIED — MOI open data / registration.moi.gov.tw
+    notes: >-
+      Population ~23.3mn, peaked 2020 and falling since (cross-check the
+      magnitude). Register-based: this is the administrative count, not a
+      census estimate; note the 2026-01-21 name changes if any.
+  projections.csv:
+    source: UNVERIFIED — Statistics Office — population projections (2024 vintage, re-bases the whole series)
+    url: UNVERIFIED
+    notes: Use ONE vintage throughout; compute change within a vintage.
+
+security:
+  homicide.csv:
+    source: UNVERIFIED — National Police Agency (police.gov.tw) — recorded homicide
+    url: UNVERIFIED
+    notes: >-
+      §4a second count: police counts at place of occurrence vs DOH death
+      certificates at residence. Two columns, two lines.
+  crime.csv:
+    source: UNVERIFIED — NPA / Ministry of Justice — recorded crime statistics yearbook
+    url: UNVERIFIED
+
+mortality:
+  causes_of_death.csv:
+    source: UNVERIFIED — Ministry of Health and Welfare, Health Promotion Administration — deaths by ICD-10 cause
+    url: UNVERIFIED — BTC open data / HPA annual report
+    notes: MOH also publishes the annual cause-of-death statistics; verify which carries the long series.
+
+credit:
+  household_credit.csv:
+    source: UNVERIFIED — CBC — household loans, housing loans, NPL ratio
+    url: UNVERIFIED — https://www.cbc.gov.tw open data (金融統計)
+    notes: No BIS/IMF cross-country series for Taiwan; CBC is both the national and the comparable source.
+
+migration:
+  stocks_flows.csv:
+    source: UNVERIFIED — Ministry of the Interior, National Immigration Agency (nia.gov.tw) — foreign residents (ARC), foreign workers (MOOL), immigrants with residency
+    url: UNVERIFIED
+    notes: >-
+      §4a discipline: foreign RESIDENTS (stock, ARC/ALR registrations) vs
+      foreign WORKERS (MOEA/MOOL permits, a permit is not a person) vs
+      new foreign residents (flow). Emigration data weak — publish the
+      stock and the flow that exists, say what is unmeasured; largely
+      Southeast Asian workers.
