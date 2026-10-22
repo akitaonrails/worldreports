@@ -29,9 +29,10 @@ and are never spliced — see data/SOURCES.yaml.
 Outputs:
   data/social/gini.csv            year,hfws,hies
   data/social/poverty.csv         year,relative,elderly_65,elderly_65_market
-  data/social/mortality.csv       year,suicide,transport,pneumonia,cancer,heart,liver,diabetes
+  data/social/mortality.csv       year,suicide,transport,pneumonia,cancer,heart,liver,diabetes,all_causes,cerebrovascular
   data/social/road.csv            year,road_rate
-  data/social/vital.csv           year,births,deaths,natural_change,tfr,life_expectancy
+  data/social/vital.csv           year,births,deaths,natural_change,tfr,life_expectancy,crude_birth_rate,crude_death_rate
+  data/social/migration.csv       year,arrivals,departures,net
   data/social/workplace.csv       year,injury_rate,fatal_rate,deaths,disease_cases
   data/fiscal/debt.csv            year,d1,d2
 """
@@ -63,6 +64,7 @@ INDICATORS = {
     "mortality": ("101201", "1012"),        # 사망원인별 사망률 추이
     "road": ("426101", "4261"),             # 도로교통사고 사망률
     "vital": ("101101", "1011"),            # 출생 사망 추이
+    "migration": ("101401", "1014"),        # 국제인구이동 (입국, 출국, 순이동)
     "workplace": ("151401", "1514"),        # 산업재해현황
     "debt_d1": ("420901", "1106"),          # GDP 대비 국가채무 비율 (D1)
     "debt_d2": ("501801", "5018"),          # GDP 대비 일반정부부채 비율 (D2)
@@ -245,12 +247,22 @@ def main() -> None:
     # subordinate causes with "- " and "* ": "- 폐렴" is a component of
     # 호흡기계통의 질환 and "* 폐암" a component of 각종 암.
     mort = tables["mortality"]
+    #
+    # `all_causes` is the table's own 전체 row, the crude death rate on the
+    # release's denominator — 주민등록 연앙인구, the mid-year registered
+    # population of Korean nationals, which is also the scope of the deaths
+    # counted. It is what lets a count from the same release (homicide) be
+    # put on that same denominator: deaths ÷ (all_causes / 100,000).
+    all_causes = as_series(mort, "전체")
+    assert all_causes.get(2024) == "702.6", all_causes.get(2024)
     write("social/mortality.csv",
-          "year,suicide,transport,pneumonia,cancer,heart,liver,diabetes", years,
+          "year,suicide,transport,pneumonia,cancer,heart,liver,diabetes,"
+          "all_causes,cerebrovascular", years,
           [as_series(mort, "자살"), as_series(mort, "운수사고"),
            as_series(mort, "폐렴"), as_series(mort, "각종 암"),
            as_series(mort, "심장 질환"), as_series(mort, "간 질환"),
-           as_series(mort, "당뇨병")])
+           as_series(mort, "당뇨병"), all_causes,
+           as_series(mort, "뇌혈관 질환")])
 
     # Births and deaths on the confirmed registration basis, which is what
     # the Causes of Death release uses: 2025 deaths are 362,968 here and
@@ -261,10 +273,25 @@ def main() -> None:
     deaths = as_series(vital, "사망자수")
     change = {y: str(int(births[y]) - int(deaths[y]))
               for y in sorted(set(births) & set(deaths))}
+    # The crude rates are the published ones, per 1,000, on the same
+    # registered-population denominator as the Causes of Death release.
+    cbr, cdr = as_series(vital, "조출생률"), as_series(vital, "조사망률")
+    assert (cbr.get(2023), cdr.get(2023)) == ("4.5", "6.9"), (cbr.get(2023),
+                                                              cdr.get(2023))
     write("social/vital.csv",
-          "year,births,deaths,natural_change,tfr,life_expectancy", years,
+          "year,births,deaths,natural_change,tfr,life_expectancy,"
+          "crude_birth_rate,crude_death_rate", years,
           [births, deaths, change, as_series(vital, "합계출산율"),
-           as_series(vital, "기대수명")])
+           as_series(vital, "기대수명"), cbr, cdr])
+
+    # International migration, Korean nationals and foreigners together:
+    # the first 입국자/출국자/순이동 rows of the table are the 계 (total)
+    # group, ahead of the 내국인 and 외국인 groups.
+    mig = tables["migration"]
+    net = as_series(mig, "순이동")
+    assert net.get(2023) == "121309", net.get(2023)
+    write("social/migration.csv", "year,arrivals,departures,net", years,
+          [as_series(mig, "입국자"), as_series(mig, "출국자"), net])
 
     # Two different road-death counts exist and are not interchangeable. The
     # police one below counts deaths on the road within 30 days of the crash;
