@@ -123,6 +123,31 @@ markets:
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind reserves_intl.csv; diff before adopting."
+  sse_index.csv:
+    source: market — SSE Composite (上证综合指数), redistributed by Yahoo Finance
+    url: "LIVE — https://query1.finance.yahoo.com/v8/finance/chart/000001.SS?interval=1mo (needs a browser User-Agent)"
+    refreshed_by: "fetch/fetch_markets.py → sidecar markets/sse_index_from_yahoo.csv; curated staged from it (window-clipped to 2006+), values unchanged (2026-10-22)"
+    official: false
+    notes: >-
+      VERIFIED. JSON chart object; meta: symbol 000001.SS, exchange SHH
+      (Shanghai), instrumentType INDEX, currency CNY, firstTradeDate 1997-07,
+      gmtoffset 28800. Year-end closes asserted at fetch time (2007 5261.56,
+      2015 3539.18, 2024 3351.76) and cross-checked against Yahoo's own daily
+      bars for the last trading day of each December — the monthly bar IS the
+      year-end. The print record for 2007 quotes 5261.24: Yahoo's history runs
+      0.32 points (0.006%) higher for that one bar; the sidecar records the
+      redistributor's value, unrounded. Monthly bars are stamped at month start
+      in exchange time, so the fetcher applies the +08:00 offset — read as
+      bare UTC every bar lands one month early. stooq is JS-walled from this
+      machine, so Yahoo is the source. Nobody publishes a stock index as a
+      statistic, hence official: false; the 2026 row is a running reading, not
+      an annual total.
+  sse_index_from_yahoo.csv:
+    source: Yahoo Finance chart API — 000001.SS monthly bars
+    url: "LIVE — https://query1.finance.yahoo.com/v8/finance/chart/000001.SS?interval=1mo"
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: "Fetcher sidecar behind sse_index.csv; 2005 row kept as rebasing context."
 
 # --------------------------------------------------------------------------
 # fiscal — revenue, deficit, debt. MOF (narrow) + IMF (broad), side by side.
@@ -315,8 +340,8 @@ pending:
       benchmark lending rate before — a definitional break, two columns,
       never one line), markets/usdcny.csv (official: true; PBoC/CFETS central
       parity 中间价 AND the CFETS market close, two series, never one; CNY
-      per USD so a rising line is a WEAKER renminbi), markets/
-      reserves_nbs_safe.csv (official: true; SAFE reserve-assets series,
+      per USD so a rising line is a WEAKER renminbi), markets/reserves_nbs_safe.csv
+      (official: true; SAFE reserve-assets series,
       ~US$3.2-3.7tn, beside the staged reserves_intl.csv), fiscal/
       fiscal_balance_mof.csv (official: true; MOF announced budget deficit —
       a narrow general-public-budget concept, NOT the general-government
