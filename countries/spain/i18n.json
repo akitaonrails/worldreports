@@ -1,31 +1,55 @@
 {
- "(ICD-10 X85–Y09) as the underlying cause": {
-  "es": "(ICD-10 X85–Y09) como causa básica",
-  "pt": "(CID-10 X85–Y09) como causa básica"
+ "%": {
+  "es": "%",
+  "pt": "%"
  },
- "0.900 = very high development": {
-  "es": "0,900 = desarrollo muy alto",
-  "pt": "0,900 = desenvolvimento muito alto"
+ "% above 2015–2019 average": {
+  "es": "% sobre la media 2015–2019",
+  "pt": "% acima da média 2015–2019"
  },
- "1.10 (2024) — among the": {
-  "es": "1,10 (2024) — entre las",
-  "pt": "1,10 (2024) — entre as"
+ "% above {0}–{1} average": {
+  "es": "% sobre la media {0}–{1}",
+  "pt": "% acima da média {0}–{1}"
+ },
+ "% of GDP": {
+  "es": "% del PIB",
+  "pt": "% do PIB"
+ },
+ "% of disposable income": {
+  "es": "% de la renta disponible",
+  "pt": "% da renda disponível"
+ },
+ "% of goods exports": {
+  "es": "% de las exportaciones de bienes",
+  "pt": "% das exportações de bens"
+ },
+ "% of labour force": {
+  "es": "% de la población activa",
+  "pt": "% da força de trabalho"
+ },
+ "% of loans": {
+  "es": "% de los préstamos",
+  "pt": "% dos empréstimos"
+ },
+ "% of people": {
+  "es": "% de las personas",
+  "pt": "% das pessoas"
+ },
+ "% of population": {
+  "es": "% de la población",
+  "pt": "% da população"
+ },
+ "% per year": {
+  "es": "% anual",
+  "pt": "% ao ano"
+ },
+ "%, annual average": {
+  "es": "%, media anual",
+  "pt": "%, média anual"
  },
  "13.6% in December 2013": {
   "es": "13,6% en diciembre de 2013",
   "pt": "13,6% em dezembro de 2013"
- },
- "141% in 2008": {
-  "es": "141% en 2008",
-  "pt": "141% em 2008"
- },
- "19,324 — latest close,": {
-  "es": "19.324 — último cierre,",
-  "pt": "19.324 — último fechamento,"
- },
- "2.5 million by 2025 — naturalisation, not": {
-  "es": "2,5 millones en 2025 — la nacionalización, no",
-  "pt": "2,5 milhões em 2025 — a naturalização, não"
  },
  "2008–09 crisis": {
   "es": "crisis de 2008–09",
@@ -39,26 +63,6 @@
   "es": "2012 incluye el rescate bancario;",
   "pt": "2012 inclui o resgate bancário;"
  },
- "2012–16: the only years the register": {
-  "es": "2012–16: los únicos años en que el registro",
-  "pt": "2012–16: os únicos anos em que o registro"
- },
- "2014: reporting change —": {
-  "es": "2014: cambio de declaración —",
-  "pt": "2014: mudança de reporte —"
- },
- "2015: the euro fell 20% —": {
-  "es": "2015: el euro cayó un 20% —",
-  "pt": "2015: o euro caiu 20% —"
- },
- "2021 on both: 528,856 vs 887,960 —": {
-  "es": "2021 en ambas: 528.856 frente a 887.960 —",
-  "pt": "2021 nas duas: 528.856 contra 887.960 —"
- },
- "2026: partial": {
-  "es": "2026: parcial",
-  "pt": "2026: parcial"
- },
  "26.1% in 2013 — one worker in four": {
   "es": "26,1% en 2013 — un trabajador de cada cuatro",
   "pt": "26,1% em 2013 — um trabalhador em cada quatro"
@@ -71,61 +75,77 @@
   "es": "5,85% en 2012",
   "pt": "5,85% em 2012"
  },
- "60,358 certified with the virus identified in 2020 —": {
-  "es": "60.358 certificadas con virus identificado en 2020 —",
-  "pt": "60.358 certificadas com vírus identificado em 2020 —"
- },
  "69.5% to 100.0% in two years:": {
   "es": "del 69,5% al 100,0% en dos años:",
   "pt": "de 69,5% a 100,0% em dois anos:"
- },
- "A €1.7 trillion economy that fell twice before COVID and outgrew the euro area after it.": {
-  "es": "Una economía de 1,7 billones de euros que cayó dos veces antes de la COVID y superó a la eurozona después.",
-  "pt": "Uma economia de € 1,7 bilhão que caiu duas vezes antes da COVID e cresceu mais que a zona do euro depois."
- },
- "All deaths registered per year (thousands)": {
-  "es": "Total de defunciones registradas al año (miles)",
-  "pt": "Total de óbitos registrados por ano (milhares)"
  },
  "All other functions": {
   "es": "Todas las demás funciones",
   "pt": "Todas as demais funções"
  },
- "At risk of poverty (% below 60% of the median income)": {
-  "es": "Riesgo de pobreza (% bajo el 60% de la renta mediana)",
-  "pt": "Risco de pobreza (% abaixo de 60% da renda mediana)"
+ "An economy that fell twice before COVID, fell hardest of all in 2020, and outgrew the euro area after it.": {
+  "es": "Una economía que cayó dos veces antes de la COVID, cayó más que ninguna en 2020 y después creció más que la eurozona.",
+  "pt": "Uma economia que caiu duas vezes antes da COVID, caiu mais que todas em 2020 e depois cresceu mais que a zona do euro."
+ },
+ "BIS debt service ratio, households: interest plus repayments, Q4": {
+  "es": "ratio de servicio de la deuda del BPI, hogares: intereses más amortizaciones, 4.º trim.",
+  "pt": "índice de serviço da dívida do BIS, famílias: juros mais amortizações, 4º tri."
+ },
+ "BIS total credit to households and NPISHs, every lender, adjusted for breaks": {
+  "es": "crédito total del BPI a hogares e ISFLSH, todos los prestamistas, corregido de rupturas",
+  "pt": "crédito total do BIS a famílias e ISFLSF, todos os credores, ajustado por quebras"
  },
  "Births": {
   "es": "Nacimientos",
   "pt": "Nascimentos"
  },
- "Births and deaths per year (thousands)": {
-  "es": "Nacimientos y defunciones al año (miles)",
-  "pt": "Nascimentos e óbitos por ano (milhares)"
+ "Births and deaths (per 1,000 people)": {
+  "es": "Nacimientos y defunciones (por 1.000 habitantes)",
+  "pt": "Nascimentos e óbitos (por 1.000 habitantes)"
+ },
+ "Born abroad, and foreign citizens (% of population, 1 January)": {
+  "es": "Nacidos en el extranjero y extranjeros (% de la población, 1 de enero)",
+  "pt": "Nascidos no exterior e estrangeiros (% da população, 1º de janeiro)"
  },
  "COVID-19": {
   "es": "COVID-19",
   "pt": "COVID-19"
  },
- "COVID-19 as the certified cause (deaths per year)": {
-  "es": "COVID-19 como causa certificada (defunciones al año)",
-  "pt": "COVID-19 como causa certificada (óbitos por ano)"
+ "COVID-19 as the certified cause (deaths per 100,000)": {
+  "es": "COVID-19 como causa certificada (defunciones por 100.000)",
+  "pt": "COVID-19 como causa certificada (óbitos por 100.000)"
+ },
+ "COVID: {0} deaths in {1} {2} per {3};": {
+  "es": "COVID: {0} defunciones en {1} {2} por {3};",
+  "pt": "COVID: {0} óbitos em {1} {2} por {3};"
  },
  "Circulatory diseases": {
   "es": "Enfermedades circulatorias",
   "pt": "Doenças circulatórias"
  },
+ "Consumer prices (% per year) vs the ECB's 2% target": {
+  "es": "Precios de consumo (% anual) frente al objetivo del 2% del BCE",
+  "pt": "Preços ao consumidor (% ao ano) contra a meta de 2% do BCE"
+ },
+ "Corruption Perceptions Index (0–100, higher = cleaner)": {
+  "es": "Índice de Percepción de la Corrupción (0–100, más alto = más limpio)",
+  "pt": "Índice de Percepção da Corrupção (0–100, mais alto = mais limpo)"
+ },
  "Credit — Variable-Rate Country": {
   "es": "Crédito — El país del tipo variable",
   "pt": "Crédito — O país da taxa variável"
+ },
+ "Crude death rate (deaths per 1,000 people)": {
+  "es": "Tasa bruta de mortalidad (defunciones por 1.000 habitantes)",
+  "pt": "Taxa bruta de mortalidade (óbitos por 1.000 habitantes)"
  },
  "Deaths": {
   "es": "Defunciones",
   "pt": "Óbitos"
  },
- "Deaths above the 2015–2019 average (thousands)": {
-  "es": "Defunciones por encima de la media de 2015–2019 (miles)",
-  "pt": "Óbitos acima da média de 2015–2019 (milhares)"
+ "Deaths above the 2015–2019 average (%)": {
+  "es": "Defunciones por encima de la media 2015–2019 (%)",
+  "pt": "Óbitos acima da média de 2015–2019 (%)"
  },
  "Defence & public order": {
   "es": "Defensa y orden público",
@@ -135,21 +155,25 @@
   "es": "Demografía — Las defunciones superaron a los nacimientos en 2015",
   "pt": "Demografia — Os óbitos superaram os nascimentos em 2015"
  },
- "Deposit facility rate (year-end)": {
-  "es": "Tipo de la facilidad de depósito (fin de año)",
-  "pt": "Taxa de depósito (fim de ano)"
+ "Doubtful loans (% of all credit to residents, December)": {
+  "es": "Créditos dudosos (% del crédito total a residentes, diciembre)",
+  "pt": "Créditos duvidosos (% do crédito total a residentes, dezembro)"
  },
- "Doubtful loans as a share of all credit (%, December)": {
-  "es": "Créditos dudosos como parte del crédito total (%, diciembre)",
-  "pt": "Créditos duvidosos como parcela do crédito total (%, dezembro)"
+ "ECB deposit facility rate": {
+  "es": "facilidad de depósito del BCE",
+  "pt": "facilidade de depósito do BCE"
  },
- "ECB aim: 2%": {
+ "ECB deposit facility rate (year-end)": {
+  "es": "facilidad de depósito del BCE (fin de año)",
+  "pt": "facilidade de depósito do BCE (fim de ano)"
+ },
+ "ECB target: 2%": {
   "es": "objetivo del BCE: 2%",
   "pt": "meta do BCE: 2%"
  },
- "EPA (INE)": {
-  "es": "EPA (INE)",
-  "pt": "EPA (INE)"
+ "EPA (INE), annual average": {
+  "es": "EPA (INE), media anual",
+  "pt": "EPA (INE), média anual"
  },
  "Economic affairs": {
   "es": "Asuntos económicos",
@@ -159,73 +183,105 @@
   "es": "Educación",
   "pt": "Educação"
  },
- "Emigration": {
-  "es": "Emigración",
-  "pt": "Emigração"
+ "Emigration, Eurostat — EM method, to 2020": {
+  "es": "Emigración, Eurostat — método EM, hasta 2020",
+  "pt": "Emigração, Eurostat — método EM, até 2020"
  },
- "Employment (millions, EPA annual average)": {
-  "es": "Ocupación (millones, media anual de la EPA)",
-  "pt": "Emprego (milhões, média anual da EPA)"
+ "Emigration, Eurostat — EMCR method, from 2021": {
+  "es": "Emigración, Eurostat — método EMCR, desde 2021",
+  "pt": "Emigração, Eurostat — método EMCR, desde 2021"
  },
- "Euribor 12m": {
-  "es": "Euríbor 12m",
-  "pt": "Euribor 12m"
+ "Euribor 12m, the mortgage index": {
+  "es": "Euríbor a 12 meses, el índice hipotecario",
+  "pt": "Euribor 12 meses, o índice das hipotecas"
  },
  "Eurostat (EU-SILC)": {
   "es": "Eurostat (EU-SILC)",
   "pt": "Eurostat (EU-SILC)"
  },
- "Eurostat (carries EM to 2020,": {
-  "es": "Eurostat (lleva la EM hasta 2020,",
-  "pt": "Eurostat (carrega a EM até 2020,"
- },
  "Eurostat LFS (no values before 2009)": {
   "es": "LFS de Eurostat (sin valores antes de 2009)",
   "pt": "LFS da Eurostat (sem valores antes de 2009)"
+ },
+ "Eurostat — EM method, to 2020": {
+  "es": "Eurostat — método EM, hasta 2020",
+  "pt": "Eurostat — método EM, até 2020"
+ },
+ "Eurostat — EMCR method, from 2021": {
+  "es": "Eurostat — método EMCR, desde 2021",
+  "pt": "Eurostat — método EMCR, desde 2021"
+ },
+ "Eurostat's starts in {0} and reads {1} in {2}": {
+  "es": "el de Eurostat empieza en {0} y marca {1} en {2}",
+  "pt": "o da Eurostat começa em {0} e marca {1} em {2}"
  },
  "Exports": {
   "es": "Exportaciones",
   "pt": "Exportações"
  },
- "Exports vs imports, goods and services (€ billion)": {
-  "es": "Exportaciones frente a importaciones, bienes y servicios (miles de millones de €)",
-  "pt": "Exportações vs importações, bens e serviços (bilhões de €)"
+ "Exports and imports, goods and services (% of GDP)": {
+  "es": "Exportaciones e importaciones, bienes y servicios (% del PIB)",
+  "pt": "Exportações e importações, bens e serviços (% do PIB)"
  },
- "Foreign Trade — a Deficit That Flipped, 2006–2026": {
-  "es": "Comercio exterior — Un déficit que se volteó, 2006–2026",
-  "pt": "Comércio exterior — Um déficit que virou, 2006–2026"
+ "Food and farm goods (HS 01–24)": {
+  "es": "Alimentos y productos agrarios (SA 01–24)",
+  "pt": "Alimentos e produtos agrícolas (SH 01–24)"
  },
- "GDP at current prices (€ billion)": {
-  "es": "PIB a precios corrientes (miles de millones de €)",
-  "pt": "PIB a preços correntes (bilhões de €)"
+ "Foreign Trade — a Deficit That Flipped, 2006–2025": {
+  "es": "Comercio exterior — un déficit que se dio la vuelta, 2006–2025",
+  "pt": "Comércio exterior — um déficit que virou, 2006–2025"
  },
- "GDP in current US$ (trillion)": {
-  "es": "PIB en US$ corrientes (billones)",
-  "pt": "PIB em US$ correntes (trilhões)"
+ "France": {
+  "es": "Francia",
+  "pt": "França"
+ },
+ "France still takes {0}% ({1}), down from {2}%;": {
+  "es": "Francia aún recibe el {0}% ({1}), frente al {2}%;",
+  "pt": "A França ainda recebe {0}% ({1}), contra {2}%;"
+ },
+ "Fuels, mostly refined (HS 27)": {
+  "es": "Combustibles, sobre todo refinados (SA 27)",
+  "pt": "Combustíveis, sobretudo refinados (SH 27)"
+ },
+ "GDP at current prices (US$ billion)": {
+  "es": "PIB a precios corrientes (miles de millones de US$)",
+  "pt": "PIB a preços correntes (US$ bilhões)"
  },
  "GDP per person (US$, current — World Bank)": {
   "es": "PIB por persona (US$ corrientes — Banco Mundial)",
   "pt": "PIB por pessoa (US$ correntes — Banco Mundial)"
  },
- "GDP per person (US$, current)": {
-  "es": "PIB por persona (US$ corrientes)",
-  "pt": "PIB por pessoa (US$ correntes)"
+ "General government on the Maastricht definition: small surpluses in 2006–07, then deficits every year since.": {
+  "es": "Administraciones públicas según la definición de Maastricht: pequeños superávits en 2006–07 y déficit todos los años desde entonces.",
+  "pt": "Administrações públicas pela definição de Maastricht: pequenos superávits em 2006–07 e déficit todos os anos desde então."
  },
- "General government on the Maastricht definition: the state took in less than it spent every single year of the window.": {
-  "es": "Las administraciones públicas en la definición de Maastricht: el Estado ingresó menos de lo que gastó todos y cada uno de los años del período.",
-  "pt": "O governo geral na definição de Maastricht: o Estado arrecadou menos do que gastou em todos os anos do período."
+ "General services (incl. interest)": {
+  "es": "Servicios generales (incl. intereses)",
+  "pt": "Serviços gerais (incl. juros)"
  },
- "General public services (incl. debt interest)": {
-  "es": "Servicios públicos generales (incl. intereses de la deuda)",
-  "pt": "Serviços públicos gerais (incl. juros da dívida)"
+ "Germany": {
+  "es": "Alemania",
+  "pt": "Alemanha"
  },
- "Goods and services on the national-accounts basis: in surplus every year since 2011, on tourism and the export turn.": {
-  "es": "Bienes y servicios en base de contabilidad nacional: en superávit todos los años desde 2011, por el turismo y el giro exportador.",
-  "pt": "Bens e serviços na base de contas nacionais: em superávit todos os anos desde 2011, pelo turismo e pela virada exportadora."
+ "Gini, 0–100": {
+  "es": "Gini, 0–100",
+  "pt": "Gini, 0–100"
  },
- "Gross public debt — Maastricht (% of GDP)": {
-  "es": "Deuda pública bruta — Maastricht (% del PIB)",
-  "pt": "Dívida pública bruta — Maastricht (% do PIB)"
+ "Gini, {0}–{1}": {
+  "es": "Gini, {0}–{1}",
+  "pt": "Gini, {0}–{1}"
+ },
+ "Gross public debt, Maastricht (% of GDP)": {
+  "es": "Deuda pública bruta, Maastricht (% del PIB)",
+  "pt": "Dívida pública bruta, Maastricht (% do PIB)"
+ },
+ "HDI, 0–1": {
+  "es": "IDH, 0–1",
+  "pt": "IDH, 0–1"
+ },
+ "HDI, {0}–{1}": {
+  "es": "IDH, {0}–{1}",
+  "pt": "IDH, {0}–{1}"
  },
  "Harmonised HICP (Eurostat)": {
   "es": "IPCA armonizado (Eurostat)",
@@ -235,85 +291,125 @@
   "es": "Sanidad",
   "pt": "Saúde"
  },
- "Homicide (same series as left)": {
-  "es": "Homicidios (la misma serie que a la izquierda)",
-  "pt": "Homicídios (a mesma série que à esquerda)"
+ "Homicide": {
+  "es": "Homicidio",
+  "pt": "Homicídio"
  },
- "Homicide rate per 100,000 (computed)": {
-  "es": "Tasa de homicidios por 100.000 (calculada)",
-  "pt": "Taxa de homicídios por 100.000 (calculada)"
+ "Homicide rate, by death certificate (per 100,000)": {
+  "es": "Tasa de homicidios, según el certificado de defunción (por 100.000)",
+  "pt": "Taxa de homicídios, pela certidão de óbito (por 100.000)"
  },
- "Homicides per year — by death certificate (INE/ECM)": {
-  "es": "Homicidios al año — por certificado de defunción (INE/ECM)",
-  "pt": "Homicídios por ano — por certidão de óbito (INE/ECM)"
- },
- "Homicides recorded by the police (Ministerio del Interior)": {
-  "es": "Homicidios registrados por la policía (Ministerio del Interior)",
-  "pt": "Homicídios registrados pela polícia (Ministério do Interior)"
- },
- "Household debt (% of gross disposable income)": {
-  "es": "Deuda de los hogares (% de la renta disponible bruta)",
-  "pt": "Dívida das famílias (% da renda disponível bruta)"
+ "Household debt, all lenders (% of GDP, year-end)": {
+  "es": "Deuda de los hogares, todos los prestamistas (% del PIB, fin de año)",
+  "pt": "Dívida das famílias, todos os credores (% do PIB, fim de ano)"
  },
  "Human Development Index (UNDP)": {
   "es": "Índice de Desarrollo Humano (PNUD)",
   "pt": "Índice de Desenvolvimento Humano (PNUD)"
  },
- "IBEX 35 — annual close (price index)": {
-  "es": "IBEX 35 — cierre anual (índice de precios)",
-  "pt": "IBEX 35 — fechamento anual (índice de preços)"
+ "IBEX 35 in US$, with the S&P 500 (index 2006 = 100)": {
+  "es": "IBEX 35 en US$, con el S&P 500 (índice 2006 = 100)",
+  "pt": "IBEX 35 em US$, com o S&P 500 (índice 2006 = 100)"
  },
- "INE's Estadística Continua de Población — one vintage back to 1971; 2026 is a genuine 1-January level": {
-  "es": "Estadística Continua de Población del INE — una sola vendimia desde 1971; 2026 es un nivel real a 1 de enero",
-  "pt": "Estatística Contínua de População do INE — uma só safra desde 1971; 2026 é um nível real em 1º de janeiro"
+ "IBEX 35, in US$ at the year-end rate": {
+  "es": "IBEX 35, en US$ al cambio de fin de año",
+  "pt": "IBEX 35, em US$ ao câmbio de fim de ano"
  },
- "INE's definitive vital statistics; 2025 exists only as provisional estimates and is left blank": {
-  "es": "estadísticas vitales definitivas del INE; 2025 existe solo como estimaciones provisionales y queda en blanco",
-  "pt": "estatísticas vitais definitivas do INE; 2025 existe só como estimativas provisórias e fica em branco"
+ "INE death certificates": {
+  "es": "INE, certificados de defunción",
+  "pt": "INE, certidões de óbito"
  },
- "INE's own release (CNTR)": {
-  "es": "publicación propia del INE (CNTR)",
-  "pt": "publicação própria do INE (CNTR)"
+ "INE death certificates (ICD-10 X85–Y09)": {
+  "es": "INE, certificados de defunción (CIE-10 X85–Y09)",
+  "pt": "INE, certidões de óbito (CID-10 X85–Y09)"
  },
- "INE, new methodology (EMCR) — from 2021": {
-  "es": "INE, metodología nueva (EMCR) — desde 2021",
-  "pt": "INE, metodologia nova (EMCR) — desde 2021"
+ "INE death certificates, crude": {
+  "es": "INE, certificados de defunción, bruta",
+  "pt": "INE, certidões de óbito, bruta"
  },
- "INE, old methodology (EM) — ends 2021": {
-  "es": "INE, metodología antigua (EM) — termina en 2021",
-  "pt": "INE, metodologia antiga (EM) — termina em 2021"
+ "INE vital statistics (MNP) per 1,000 residents at 1 July (ECP); 2025 not yet definitive": {
+  "es": "Movimiento Natural de la Población del INE por 1.000 residentes a 1 de julio (ECP); 2025 aún no es definitivo",
+  "pt": "estatísticas vitais do INE (MNP) por 1.000 residentes em 1º de julho (ECP); 2025 ainda não é definitivo"
  },
- "Immigration": {
-  "es": "Inmigración",
-  "pt": "Imigração"
+ "INE vital statistics (MNP) per 1,000 residents at 1 July of the same year (ECP)": {
+  "es": "Movimiento Natural de la Población del INE por 1.000 residentes a 1 de julio del mismo año (ECP)",
+  "pt": "estatísticas vitais do INE (MNP) por 1.000 residentes em 1º de julho do mesmo ano (ECP)"
  },
- "Immigration per year — one series, two methodologies": {
-  "es": "Inmigración al año — una serie, dos metodologías",
-  "pt": "Imigração por ano — uma série, duas metodologias"
+ "INE — old method (EM), 2021": {
+  "es": "INE — método antiguo (EM), 2021",
+  "pt": "INE — método antigo (EM), 2021"
+ },
+ "INE's Estadística Continua de Población — one vintage back to 1971": {
+  "es": "Estadística Continua de Población del INE — una sola serie hasta 1971",
+  "pt": "Estadística Continua de Población do INE — uma só série até 1971"
+ },
+ "Immigration and emigration (per 1,000 people) — one seam, two methods": {
+  "es": "Inmigración y emigración (por 1.000 habitantes) — una costura, dos métodos",
+  "pt": "Imigração e emigração (por 1.000 habitantes) — uma emenda, dois métodos"
+ },
+ "Immigration, Eurostat — EM method, to 2020": {
+  "es": "Inmigración, Eurostat — método EM, hasta 2020",
+  "pt": "Imigração, Eurostat — método EM, até 2020"
+ },
+ "Immigration, Eurostat — EMCR method, from 2021": {
+  "es": "Inmigración, Eurostat — método EMCR, desde 2021",
+  "pt": "Imigração, Eurostat — método EMCR, desde 2021"
+ },
+ "Immigration, INE — old method (EM), 2021": {
+  "es": "Inmigración, INE — método antiguo (EM), 2021",
+  "pt": "Imigração, INE — método antigo (EM), 2021"
  },
  "Imports": {
   "es": "Importaciones",
   "pt": "Importações"
  },
- "Income inequality — Gini (lower = more equal)": {
-  "es": "Desigualdad de renta — Gini (menor = más igualdad)",
-  "pt": "Desigualdade de renda — Gini (menor = mais igualdade)"
+ "In surplus every year since 2011 on the national accounts — a services surplus, tourism mostly, over a goods deficit.": {
+  "es": "En superávit todos los años desde 2011 en contabilidad nacional: un superávit de servicios, sobre todo turismo, por encima de un déficit de bienes.",
+  "pt": "Em superávit todos os anos desde 2011 nas contas nacionais: um superávit de serviços, sobretudo turismo, acima de um déficit de bens."
  },
- "Inflation — consumer prices (% per year) vs the ECB's 2% aim": {
-  "es": "Inflación — precios de consumo (% al año) frente al objetivo del 2% del BCE",
-  "pt": "Inflação — preços ao consumidor (% ao ano) vs a meta de 2% do BCE"
+ "Income inequality, Gini (0–100, higher = less equal)": {
+  "es": "Desigualdad de la renta, Gini (0–100, más alto = menos igual)",
+  "pt": "Desigualdade de renda, Gini (0–100, mais alto = menos igual)"
  },
- "Interest paid on the debt": {
-  "es": "Intereses pagados por la deuda",
-  "pt": "Juros pagos pela dívida"
+ "Inequality that rose with the crisis and fell back, one person in five below the relative poverty line, and a minimum wage that doubled in euros.": {
+  "es": "Una desigualdad que subió con la crisis y volvió a bajar, una persona de cada cinco bajo el umbral relativo de pobreza y un salario mínimo que se duplicó en euros.",
+  "pt": "Uma desigualdade que subiu com a crise e voltou a cair, uma pessoa em cada cinco abaixo da linha relativa de pobreza e um salário mínimo que dobrou em euros."
  },
- "Investment rate — whole economy (% of GDP)": {
-  "es": "Tasa de inversión — toda la economía (% del PIB)",
-  "pt": "Taxa de investimento — toda a economia (% do PIB)"
+ "Interest paid on the debt (% of GDP)": {
+  "es": "Intereses pagados por la deuda (% del PIB)",
+  "pt": "Juros pagos sobre a dívida (% do PIB)"
  },
- "Loans to households, stock (€ billion, Q4)": {
-  "es": "Préstamos a los hogares, saldo (miles de millones de €, T4)",
-  "pt": "Empréstimos às famílias, estoque (bilhões de €, T4)"
+ "Investment rate, whole economy (% of GDP)": {
+  "es": "Tasa de inversión, toda la economía (% del PIB)",
+  "pt": "Taxa de investimento, toda a economia (% do PIB)"
+ },
+ "Italy": {
+  "es": "Italia",
+  "pt": "Itália"
+ },
+ "Lens: people in work (millions, EPA)": {
+  "es": "Lente: personas ocupadas (millones, EPA)",
+  "pt": "Lente: pessoas ocupadas (milhões, EPA)"
+ },
+ "Lens: the two big killers (deaths per 100,000)": {
+  "es": "Lente: las dos grandes causas de muerte (defunciones por 100.000)",
+  "pt": "Lente: as duas grandes causas de morte (óbitos por 100.000)"
+ },
+ "Lens: the year's paperwork (per 1,000 people)": {
+  "es": "Lente: los trámites del año (por 1.000 habitantes)",
+  "pt": "Lente: a papelada do ano (por 1.000 habitantes)"
+ },
+ "Lens: violent deaths side by side (per 100,000)": {
+  "es": "Lente: las muertes violentas, una junto a otra (por 100.000)",
+  "pt": "Lente: as mortes violentas lado a lado (por 100.000)"
+ },
+ "Lens: what Spain sells (% of goods exports)": {
+  "es": "Lente: qué vende España (% de las exportaciones de bienes)",
+  "pt": "Lente: o que a Espanha vende (% das exportações de bens)"
+ },
+ "Lens: what servicing the debt takes (% of income)": {
+  "es": "Lente: lo que se lleva el servicio de la deuda (% de la renta)",
+  "pt": "Lente: quanto leva o serviço da dívida (% da renda)"
  },
  "Maastricht 3% limit": {
   "es": "límite de Maastricht: 3%",
@@ -323,53 +419,81 @@
   "es": "límite de Maastricht: 60%",
   "pt": "limite de Maastricht: 60%"
  },
+ "Machinery and electrical (HS 84–85)": {
+  "es": "Maquinaria y material eléctrico (SA 84–85)",
+  "pt": "Máquinas e material elétrico (SH 84–85)"
+ },
  "Main refinancing rate (from Oct 2008)": {
   "es": "Tipo de las operaciones principales (desde oct. 2008)",
   "pt": "Taxa das operações principais (desde out. 2008)"
+ },
+ "Medicines (HS 30)": {
+  "es": "Medicamentos (SA 30)",
+  "pt": "Medicamentos (SH 30)"
  },
  "Migration — Who Arrives, Who Leaves, Who Becomes Spanish": {
   "es": "Migración — Quién llega, quién se va, quién se hace español",
   "pt": "Migração — Quem chega, quem sai, quem se torna espanhol"
  },
+ "Minimum wage (US$ per month, 12-month basis)": {
+  "es": "Salario mínimo (US$ al mes, en 12 pagas)",
+  "pt": "Salário mínimo (US$ por mês, em 12 parcelas)"
+ },
  "Money & Markets — Frankfurt's Rate, the Yield and the IBEX": {
   "es": "Dinero y mercados — El tipo de Fráncfort, el bono y el IBEX",
   "pt": "Moeda e mercados — A taxa de Frankfurt, o título e o IBEX"
+ },
+ "Morocco": {
+  "es": "Marruecos",
+  "pt": "Marrocos"
+ },
+ "Morocco has gone from {0}% to {1}%": {
+  "es": "Marruecos ha pasado del {0}% al {1}%",
+  "pt": "o Marrocos passou de {0}% para {1}%"
  },
  "Mortality — COVID-19 and the Two Big Killers": {
   "es": "Mortalidad — La COVID-19 y las dos grandes causas",
   "pt": "Mortalidade — A COVID-19 e as duas grandes causas"
  },
- "Natural increase vs net migration (thousands)": {
-  "es": "Crecimiento natural frente a saldo migratorio (miles)",
-  "pt": "Crescimento natural vs saldo migratório (milhares)"
+ "Natural increase and net migration (per 1,000 people)": {
+  "es": "Crecimiento vegetativo y saldo migratorio (por 1.000 habitantes)",
+  "pt": "Crescimento vegetativo e saldo migratório (por 1.000 habitantes)"
  },
- "Net lending (+) or borrowing (−), general government (% of GDP)": {
-  "es": "Capacidad (+) o necesidad (−) de financiación, administraciones públicas (% del PIB)",
-  "pt": "Capacidade (+) ou necessidade (−) de financiamento, governo geral (% do PIB)"
+ "Net lending (+) or borrowing (−), and the primary balance (% of GDP)": {
+  "es": "Capacidad (+) o necesidad (−) de financiación y saldo primario (% del PIB)",
+  "pt": "Capacidade (+) ou necessidade (−) de financiamento e saldo primário (% do PIB)"
  },
- "No age standardisation — part of every bar is simply an older population": {
-  "es": "Sin ajuste por edad — parte de cada barra es simplemente una población más vieja",
-  "pt": "Sem padronização por idade — parte de cada barra é simplesmente uma população mais velha"
+ "Net migration (per 1,000 people)": {
+  "es": "Saldo migratorio (por 1.000 habitantes)",
+  "pt": "Saldo migratório (por 1.000 habitantes)"
  },
  "Official reserves incl. gold (US$ billion, year-end)": {
   "es": "Reservas oficiales incl. oro (miles de millones de US$, fin de año)",
   "pt": "Reservas oficiais incl. ouro (bilhões de US$, fim de ano)"
  },
- "Openness — exports + imports (% of GDP, World Bank)": {
-  "es": "Apertura — exportaciones + importaciones (% del PIB, Banco Mundial)",
-  "pt": "Abertura — exportações + importações (% do PIB, Banco Mundial)"
+ "One of Europe's lowest homicide rates; suicide is the largest violent death, and road deaths fell by more than half.": {
+  "es": "Una de las tasas de homicidio más bajas de Europa; el suicidio es la primera muerte violenta y los muertos en carretera se redujeron a menos de la mitad.",
+  "pt": "Uma das taxas de homicídio mais baixas da Europa; o suicídio é a principal morte violenta e as mortes no trânsito caíram a menos da metade."
  },
  "Other functions": {
   "es": "Otras funciones",
   "pt": "Outras funções"
  },
- "People — Work, Inequality and Poverty, 2006–2026": {
-  "es": "Las personas — Trabajo, desigualdad y pobreza, 2006–2026",
-  "pt": "As pessoas — Trabalho, desigualdade e pobreza, 2006–2026"
+ "People — Inequality, Poverty, Pay and Work": {
+  "es": "Las personas — desigualdad, pobreza, salario y empleo",
+  "pt": "As pessoas — desigualdade, pobreza, salário e emprego"
  },
- "Public investment — general government (% of GDP)": {
-  "es": "Inversión pública — administraciones públicas (% del PIB)",
-  "pt": "Investimento público — governo geral (% do PIB)"
+ "Portugal": {
+  "es": "Portugal",
+  "pt": "Portugal"
+ },
+ "Poverty: below 60% of the median income, and below US$8.30 a day (%)": {
+  "es": "Pobreza: bajo el 60% de la renta mediana y bajo 8,30 US$ al día (%)",
+  "pt": "Pobreza: abaixo de 60% da renda mediana e abaixo de US$ 8,30 por dia (%)"
+ },
+ "Public investment, general government (% of GDP)": {
+  "es": "Inversión pública, administraciones públicas (% del PIB)",
+  "pt": "Investimento público, administrações públicas (% do PIB)"
  },
  "Public spending by function (% of GDP, COFOG)": {
   "es": "Gasto público por función (% del PIB, COFOG)",
@@ -379,17 +503,29 @@
   "es": "Crecimiento real del PIB (% al año)",
   "pt": "Crescimento real do PIB (% ao ano)"
  },
- "Resident population at 1 January (millions)": {
-  "es": "Población residente a 1 de enero (millones)",
-  "pt": "População residente em 1º de janeiro (milhões)"
+ "Resident population, 1 January (index 2006 = 100)": {
+  "es": "Población residente, 1 de enero (índice 2006 = 100)",
+  "pt": "População residente, 1º de janeiro (índice 2006 = 100)"
  },
- "Road-traffic accidents": {
-  "es": "Accidentes de tráfico",
-  "pt": "Acidentes de trânsito"
+ "Revenue and expenditure, general government (% of GDP)": {
+  "es": "Ingresos y gastos, administraciones públicas (% del PIB)",
+  "pt": "Receitas e despesas, administrações públicas (% do PIB)"
  },
- "Security — Homicide on the Death Certificate": {
-  "es": "Seguridad — El homicidio en el certificado de defunción",
-  "pt": "Segurança — O homicídio na certidão de óbito"
+ "Road traffic": {
+  "es": "Tráfico",
+  "pt": "Trânsito"
+ },
+ "Road traffic deaths (per 100,000)": {
+  "es": "Muertes por accidentes de tráfico (por 100.000)",
+  "pt": "Mortes no trânsito (por 100.000)"
+ },
+ "S&P 500, US$": {
+  "es": "S&P 500, US$",
+  "pt": "S&P 500, US$"
+ },
+ "Security — Violent Death on the Death Certificate": {
+  "es": "Seguridad — la muerte violenta en el certificado de defunción",
+  "pt": "Segurança — a morte violenta na certidão de óbito"
  },
  "Social protection": {
   "es": "Protección social",
@@ -399,89 +535,85 @@
   "es": "La protección social por sí sola",
   "pt": "A proteção social sozinha"
  },
- "Social protection alone outweighs every other function of the Spanish state combined; investment tells the bubble and the cuts.": {
-  "es": "La protección social por sí sola supera a todas las demás funciones del Estado español juntas; la inversión cuenta la burbuja y los recortes.",
-  "pt": "A proteção social sozinha supera todas as demais funções do Estado espanhol somadas; o investimento conta a bolha e os cortes."
+ "Social protection alone is two-fifths of what the state spends; investment tells the bubble and the cuts.": {
+  "es": "Solo la protección social es dos quintas partes del gasto público; la inversión cuenta la burbuja y los recortes.",
+  "pt": "Só a proteção social é dois quintos do gasto público; o investimento conta a bolha e os cortes."
  },
  "Social protection vs everything else (% of GDP)": {
   "es": "Protección social frente a todo lo demás (% del PIB)",
   "pt": "Proteção social vs todo o resto (% do PIB)"
  },
- "Source: Banco de España — financial accounts and interest-rate statistics": {
-  "es": "Fuente: Banco de España — cuentas financieras y estadísticas de tipos de interés",
-  "pt": "Fonte: Banco de España — contas financeiras e estatísticas de taxas de juro"
- },
  "Source: Eurostat — EDP notification and gov_10a_main (Spain's own transmission)": {
   "es": "Fuente: Eurostat — notificación EDP y gov_10a_main (transmisión propia de España)",
   "pt": "Fonte: Eurostat — notificação EDP e gov_10a_main (transmissão própria da Espanha)"
  },
- "Source: Eurostat — gov_10a_exp (COFOG) and gov_10a_main": {
-  "es": "Fuente: Eurostat — gov_10a_exp (COFOG) y gov_10a_main",
-  "pt": "Fonte: Eurostat — gov_10a_exp (COFOG) e gov_10a_main"
+ "Source: Eurostat — gov_10a_exp (COFOG), gov_10a_main and nama_10_gdp": {
+  "es": "Fuente: Eurostat — gov_10a_exp (COFOG), gov_10a_main y nama_10_gdp",
+  "pt": "Fonte: Eurostat — gov_10a_exp (COFOG), gov_10a_main e nama_10_gdp"
  },
- "Source: INE — Estadística de Defunciones según la Causa de Muerte (ICD-10 X85–Y09)": {
-  "es": "Fuente: INE — Estadística de Defunciones según la Causa de Muerte (ICD-10 X85–Y09)",
-  "pt": "Fonte: INE — Estatística de Óbitos por Causa da Morte (CID-10 X85–Y09)"
+ "Sources: BIS — total credit and debt service ratios · Banco de España — interest-rate and credit statistics · ECB": {
+  "es": "Fuentes: BPI — crédito total y ratios de servicio de la deuda · Banco de España — estadísticas de tipos de interés y de crédito · BCE",
+  "pt": "Fontes: BIS — crédito total e índices de serviço da dívida · Banco de España — estatísticas de juros e de crédito · BCE"
  },
- "Sources: ECB Data Portal · Eurostat (Maastricht yield) · Yahoo Finance — a redistributor (IBEX, price index)": {
-  "es": "Fuentes: ECB Data Portal · Eurostat (tipo Maastricht) · Yahoo Finance — un redistribuidor (IBEX, índice de precios)",
-  "pt": "Fontes: ECB Data Portal · Eurostat (juro Maastricht) · Yahoo Finance — um redistribuidor (IBEX, índice de preços)"
+ "Sources: ECB Data Portal · Eurostat (Maastricht yield) · INE (IPC) · Yahoo Finance — a redistributor (IBEX 35, S&P 500, price indices)": {
+  "es": "Fuentes: Portal de datos del BCE · Eurostat (rendimiento de Maastricht) · INE (IPC) · Yahoo Finance — un redistribuidor (IBEX 35, S&P 500, índices de precios)",
+  "pt": "Fontes: Portal de dados do BCE · Eurostat (rendimento de Maastricht) · INE (IPC) · Yahoo Finance — um redistribuidor (IBEX 35, S&P 500, índices de preços)"
  },
- "Sources: Eurostat — ESA 2010 national accounts · INE — CNTR and IPC (base 2025) · World Bank WDI": {
-  "es": "Fuentes: Eurostat — cuentas nacionales ESA 2010 · INE — CNTR e IPC (base 2025) · World Bank WDI",
-  "pt": "Fontes: Eurostat — contas nacionais ESA 2010 · INE — CNTR e IPC (base 2025) · World Bank WDI"
+ "Sources: Eurostat — ESA 2010 national accounts and LFS · INE — IPC (base 2025) and EPA · World Bank WDI": {
+  "es": "Fuentes: Eurostat — contabilidad nacional SEC 2010 y EPA europea · INE — IPC (base 2025) y EPA · Banco Mundial (WDI)",
+  "pt": "Fontes: Eurostat — contas nacionais SEC 2010 e LFS · INE — IPC (base 2025) e EPA · Banco Mundial (WDI)"
  },
- "Sources: Eurostat — migr_imm1ctz/imm3ctb, migr_emi1ctz, migr_pop1ctz/pop3ctb, migr_asyappctza, migr_asydcfsta, migr_resfirst, migr_acq · INE — EM and EMCR": {
-  "es": "Fuentes: Eurostat — migr_imm1ctz/imm3ctb, migr_emi1ctz, migr_pop1ctz/pop3ctb, migr_asyappctza, migr_asydcfsta, migr_resfirst, migr_acq · INE — EM y EMCR",
-  "pt": "Fontes: Eurostat — migr_imm1ctz/imm3ctb, migr_emi1ctz, migr_pop1ctz/pop3ctb, migr_asyappctza, migr_asydcfsta, migr_resfirst, migr_acq · INE — EM e EMCR"
+ "Sources: Eurostat — EU-SILC and earn_mw_cur · World Bank (Gini, PIP) · ECB (US$ rate) · INE — EPA": {
+  "es": "Fuentes: Eurostat — ECV (EU-SILC) y earn_mw_cur · Banco Mundial (Gini, PIP) · BCE (tipo del US$) · INE — EPA",
+  "pt": "Fontes: Eurostat — EU-SILC e earn_mw_cur · Banco Mundial (Gini, PIP) · BCE (câmbio do US$) · INE — EPA"
  },
- "Sources: Eurostat — nama_10_gdp (P6/P7) · World Bank WDI (openness)": {
-  "es": "Fuentes: Eurostat — nama_10_gdp (P6/P7) · World Bank WDI (apertura)",
-  "pt": "Fontes: Eurostat — nama_10_gdp (P6/P7) · World Bank WDI (abertura)"
+ "Sources: Eurostat — migr_imm1ctz, migr_emi1ctz, migr_pop1ctz/pop3ctb, migr_asyappctza, migr_asydcfsta, migr_resfirst, migr_acq · INE — EM, EMCR and ECP": {
+  "es": "Fuentes: Eurostat — migr_imm1ctz, migr_emi1ctz, migr_pop1ctz/pop3ctb, migr_asyappctza, migr_asydcfsta, migr_resfirst, migr_acq · INE — EM, EMCR y ECP",
+  "pt": "Fontes: Eurostat — migr_imm1ctz, migr_emi1ctz, migr_pop1ctz/pop3ctb, migr_asyappctza, migr_asydcfsta, migr_resfirst, migr_acq · INE — EM, EMCR e ECP"
  },
- "Sources: INE — EPA · Eurostat — LFS and EU-SILC · World Bank": {
-  "es": "Fuentes: INE — EPA · Eurostat — LFS y EU-SILC · Banco Mundial",
-  "pt": "Fontes: INE — EPA · Eurostat — LFS e EU-SILC · Banco Mundial"
+ "Sources: Eurostat — nama_10_gdp (P6/P7, P61/P62, P71/P72) and Comext DS-045409 (customs goods)": {
+  "es": "Fuentes: Eurostat — nama_10_gdp (P6/P7, P61/P62, P71/P72) y Comext DS-045409 (bienes, aduanas)",
+  "pt": "Fontes: Eurostat — nama_10_gdp (P6/P7, P61/P62, P71/P72) e Comext DS-045409 (bens, aduana)"
  },
- "Sources: INE — Estadística Continua de Población, MNP, EM/EMCR · Eurostat demo_find": {
-  "es": "Fuentes: INE — Estadística Continua de Población, MNP, EM/EMCR · Eurostat demo_find",
-  "pt": "Fontes: INE — Estatística Contínua de População, MNP, EM/EMCR · Eurostat demo_find"
+ "Sources: INE — Estadística Continua de Población and MNP · Eurostat — migr_imm1ctz, migr_emi1ctz": {
+  "es": "Fuentes: INE — Estadística Continua de Población y MNP · Eurostat — migr_imm1ctz, migr_emi1ctz",
+  "pt": "Fontes: INE — Estadística Continua de Población e MNP · Eurostat — migr_imm1ctz, migr_emi1ctz"
  },
- "Sources: INE — MNP (deaths) and ECM (certified causes)": {
-  "es": "Fuentes: INE — MNP (defunciones) y ECM (causas certificadas)",
-  "pt": "Fontes: INE — MNP (óbitos) e ECM (causas certificadas)"
+ "Sources: INE — Estadística de Defunciones según la Causa de Muerte · UNODC and WHO via the World Bank": {
+  "es": "Fuentes: INE — Estadística de Defunciones según la Causa de Muerte · UNODC y OMS vía el Banco Mundial",
+  "pt": "Fontes: INE — Estadística de Defunciones según la Causa de Muerte · UNODC e OMS via Banco Mundial"
  },
- "Sources: World Bank WDI · UNDP Human Development Report 2025 · IMF IFS via the World Bank": {
-  "es": "Fuentes: World Bank WDI · Informe de Desarrollo Humano 2025 del PNUD · IMF IFS vía el Banco Mundial",
-  "pt": "Fontes: World Bank WDI · Relatório de Desenvolvimento Humano 2025 do PNUD · IMF IFS via Banco Mundial"
+ "Sources: INE — MNP (deaths), ECM (certified causes) and ECP (mid-year population)": {
+  "es": "Fuentes: INE — MNP (defunciones), ECM (causas certificadas) y ECP (población a mitad de año)",
+  "pt": "Fontes: INE — MNP (óbitos), ECM (causas certificadas) e ECP (população no meio do ano)"
  },
- "Spain borrows again, but it does not": {
-  "es": "España vuelve a endeudarse, pero no",
-  "pt": "A Espanha volta a se endividar, mas não"
+ "Sources: World Bank WDI · UNDP Human Development Report 2025 · Transparency International CPI 2025 · IMF IFS via the World Bank": {
+  "es": "Fuentes: Banco Mundial (WDI) · PNUD, Informe sobre Desarrollo Humano 2025 · Transparency International, IPC 2025 · FMI (IFS) vía el Banco Mundial",
+  "pt": "Fontes: Banco Mundial (WDI) · PNUD, Relatório de Desenvolvimento Humano 2025 · Transparência Internacional, IPC 2025 · FMI (IFS) via Banco Mundial"
  },
- "Spain has no monetary policy of its own: the deposit facility, the 10-year benchmark, the euro and the IBEX 35.": {
-  "es": "España no tiene política monetaria propia: la facilidad de depósito, el bono a 10 años, el euro y el IBEX 35.",
-  "pt": "A Espanha não tem política monetária própria: a facilidade de depósito, o título de 10 anos, o euro e o IBEX 35."
+ "Spain has no monetary policy of its own: the ECB's rate against Spanish inflation, the 10-year benchmark, the euro and the IBEX 35 in dollars.": {
+  "es": "España no tiene política monetaria propia: el tipo del BCE frente a la inflación española, el bono a 10 años, el euro y el IBEX 35 en dólares.",
+  "pt": "A Espanha não tem política monetária própria: a taxa do BCE contra a inflação espanhola, o título de 10 anos, o euro e o IBEX 35 em dólares."
  },
- "Spain in the World — Size, Development and Reserves": {
-  "es": "España en el mundo — Tamaño, desarrollo y reservas",
-  "pt": "A Espanha no mundo — Tamanho, desenvolvimento e reservas"
+ "Spain in the World — Size, Development, Integrity and Reserves": {
+  "es": "España en el mundo — tamaño, desarrollo, integridad y reservas",
+  "pt": "A Espanha no mundo — tamanho, desenvolvimento, integridade e reservas"
  },
  "Spanish IPC (INE)": {
   "es": "IPC español (INE)",
   "pt": "IPC espanhol (INE)"
  },
- "Spanish citizens": {
-  "es": "Ciudadanos españoles",
-  "pt": "Cidadãos espanhóis"
+ "Spanish inflation (IPC)": {
+  "es": "inflación española (IPC)",
+  "pt": "inflação espanhola (IPC)"
  },
- "Suicide and self-harm": {
-  "es": "Suicidio y lesiones autoinfligidas",
-  "pt": "Suicídio e lesões autoprovocadas"
+ "Suicide": {
+  "es": "Suicidio",
+  "pt": "Suicídio"
  },
- "Taxes and social contributions (Eurostat harmonised)": {
-  "es": "Impuestos y cotizaciones sociales (armonizado Eurostat)",
-  "pt": "Impostos e contribuições sociais (harmonizado Eurostat)"
+ "Suicide rate (per 100,000)": {
+  "es": "Tasa de suicidio (por 100.000)",
+  "pt": "Taxa de suicídio (por 100.000)"
  },
  "The 10-year benchmark yield (%, annual average)": {
   "es": "El tipo del bono de referencia a 10 años (%, media anual)",
@@ -491,488 +623,664 @@
   "es": "Las cuentas públicas — Déficits, el rescate y la deuda",
   "pt": "As contas públicas — Déficits, o resgate e a dívida"
  },
- "The Spanish Economy — Size, Growth and Prices, 2006–2026": {
-  "es": "La economía española — Tamaño, crecimiento y precios, 2006–2026",
-  "pt": "A economia espanhola — Tamanho, crescimento e preços, 2006–2026"
+ "The Spanish Economy — Growth, Income, Prices and Jobs": {
+  "es": "La economía española — crecimiento, renta, precios y empleo",
+  "pt": "A economia espanhola — crescimento, renda, preços e emprego"
  },
  "The comparables layer: the same quantities, computed the same way, for everyone.": {
   "es": "La capa de comparables: las mismas magnitudes, calculadas del mismo modo, para todos.",
   "pt": "A camada de comparáveis: as mesmas grandezas, calculadas do mesmo jeito, para todos."
  },
- "The external balance (€ billion, goods and services)": {
-  "es": "El saldo exterior (miles de millones de €, bienes y servicios)",
-  "pt": "O saldo externo (bilhões de €, bens e serviços)"
+ "The euro against the US$ (index 2006 = 100, annual average)": {
+  "es": "El euro frente al US$ (índice 2006 = 100, media anual)",
+  "pt": "O euro contra o US$ (índice 2006 = 100, média anual)"
  },
- "The flows, the stocks on both definitions, and one methodology seam drawn as a seam.": {
-  "es": "Los flujos, los stocks en ambas definiciones y una costura metodológica dibujada como costura.",
-  "pt": "Os fluxos, os estoques nas duas definições e uma emenda metodológica desenhada como emenda."
+ "The flows per 1,000 people, the foreign-born share, and one methodology seam drawn as a seam.": {
+  "es": "Los flujos por 1.000 habitantes, la proporción de nacidos fuera y una costura metodológica dibujada como costura.",
+  "pt": "Os fluxos por 1.000 habitantes, a parcela de nascidos fora e uma emenda metodológica desenhada como emenda."
  },
- "The interest bill vs the tax take (% of GDP)": {
-  "es": "La factura de intereses frente a la recaudación (% del PIB)",
-  "pt": "A fatura de juros vs a arrecadação (% do PIB)"
- },
- "The labour market that lost one worker in four, and the slow rebuilding since.": {
-  "es": "El mercado laboral que perdió a un trabajador de cada cuatro, y la lenta reconstrucción desde entonces.",
-  "pt": "O mercado de trabalho que perdeu um trabalhador em cada quatro, e a lenta reconstrução desde então."
- },
- "The police count is pending (the ministry's portal blocks automated access); what the certificates show is one of Europe's lowest rates.": {
-  "es": "El cómputo policial está pendiente (el portal del ministerio bloquea el acceso automatizado); lo que muestran los certificados es una de las tasas más bajas de Europa.",
-  "pt": "A contagem policial está pendente (o portal do ministério bloqueia o acesso automatizado); o que as certidões mostram é uma das taxas mais baixas da Europa."
- },
- "The policy rate is set in Frankfurt (%)": {
-  "es": "El tipo oficial se decide en Fráncfort (%)",
-  "pt": "A taxa oficial é decidida em Frankfurt (%)"
+ "The policy rate is set in Frankfurt, vs Spanish inflation (%)": {
+  "es": "El tipo oficial se decide en Fráncfort, frente a la inflación española (%)",
+  "pt": "A taxa oficial é decidida em Frankfurt, contra a inflação espanhola (%)"
  },
  "The population grows anyway, on migration alone; fertility is among the lowest ever recorded in Europe.": {
   "es": "La población crece de todos modos, solo por la migración; la fecundidad está entre las más bajas jamás registradas en Europa.",
   "pt": "A população cresce mesmo assim, só pela migração; a fecundidade está entre as mais baixas já registradas na Europa."
  },
- "The resident stock, two definitions (millions, 1 January)": {
-  "es": "El stock de residentes, dos definiciones (millones, 1 de enero)",
-  "pt": "O estoque de residentes, duas definições (milhões, 1º de janeiro)"
- },
- "The two big killers (deaths per year, thousands)": {
-  "es": "Las dos grandes causas (defunciones al año, miles)",
-  "pt": "As duas grandes causas (óbitos por ano, milhares)"
- },
- "The year's paperwork: asylum, permits, citizenship (persons)": {
-  "es": "El papeleo del año: asilo, autorizaciones, nacionalidad (personas)",
-  "pt": "A papelada do ano: asilo, autorizações, nacionalidade (pessoas)"
- },
  "Total expenditure": {
   "es": "Gasto total",
   "pt": "Despesa total"
  },
- "Total fertility rate — children per woman": {
-  "es": "Tasa global de fecundidad — hijos por mujer",
-  "pt": "Taxa total de fecundidade — filhos por mulher"
+ "Total fertility rate (children per woman)": {
+  "es": "Indicador coyuntural de fecundidad (hijos por mujer)",
+  "pt": "Taxa de fecundidade total (filhos por mulher)"
  },
  "Total revenue": {
   "es": "Ingresos totales",
   "pt": "Receita total"
  },
+ "Trade balance, goods and services (% of GDP)": {
+  "es": "Saldo comercial, bienes y servicios (% del PIB)",
+  "pt": "Saldo comercial, bens e serviços (% do PIB)"
+ },
  "Tumours": {
   "es": "Tumores",
   "pt": "Tumores"
  },
- "US dollars per euro (annual average) — falling = a weaker euro": {
-  "es": "Dólares por euro (media anual) — a la baja = un euro más débil",
-  "pt": "Dólares por euro (média anual) — em queda = um euro mais fraco"
+ "UNODC, intentional homicide": {
+  "es": "UNODC, homicidio intencional",
+  "pt": "UNODC, homicídio intencional"
  },
- "Unemployment rate, 15–74 (%, annual average)": {
-  "es": "Tasa de paro, 15–74 (%, media anual)",
-  "pt": "Taxa de desemprego, 15–74 (%, média anual)"
+ "US$ bn": {
+  "es": "miles de millones de US$",
+  "pt": "US$ bilhões"
  },
- "Violent deaths in context (per year)": {
-  "es": "Muertes violentas en contexto (al año)",
-  "pt": "Mortes violentas em contexto (por ano)"
+ "US$ per month": {
+  "es": "US$ al mes",
+  "pt": "US$ por mês"
  },
- "What a mortgage costs (%, annual average)": {
-  "es": "Cuánto cuesta una hipoteca (%, media anual)",
-  "pt": "Quanto custa uma hipoteca (%, média anual)"
+ "US$ {0} per euro in {1} {2} in {3} {4} in {5};": {
+  "es": "{0} US$ por euro en {1} {2} en {3} {4} en {5};",
+  "pt": "US$ {0} por euro em {1} {2} em {3} {4} em {5};"
+ },
+ "US$, current": {
+  "es": "US$ corrientes",
+  "pt": "US$ correntes"
+ },
+ "Unemployment rate, 15–74 (% of labour force)": {
+  "es": "Tasa de paro, 15–74 años (% de la población activa)",
+  "pt": "Taxa de desemprego, 15–74 anos (% da força de trabalho)"
+ },
+ "United Kingdom": {
+  "es": "Reino Unido",
+  "pt": "Reino Unido"
+ },
+ "United States": {
+  "es": "Estados Unidos",
+  "pt": "Estados Unidos"
+ },
+ "Vehicles and parts (HS 87)": {
+  "es": "Vehículos y componentes (SA 87)",
+  "pt": "Veículos e peças (SH 87)"
+ },
+ "WHO estimate (to 2019)": {
+  "es": "estimación de la OMS (hasta 2019)",
+  "pt": "estimativa da OMS (até 2019)"
+ },
+ "WHO, age-standardised": {
+  "es": "OMS, estandarizada por edad",
+  "pt": "OMS, padronizada por idade"
  },
  "What a mortgage costs when most mortgages reprice every year, and fifteen years of deleveraging.": {
   "es": "Cuánto cuesta una hipoteca cuando la mayoría se revisa cada año, y quince años de desapalancamiento.",
   "pt": "Quanto custa uma hipoteca quando a maioria é revisada a cada ano, e quinze anos de desalavancagem."
  },
+ "What a new mortgage costs, vs the policy rate (%)": {
+  "es": "Lo que cuesta una hipoteca nueva, frente al tipo oficial (%)",
+  "pt": "Quanto custa uma hipoteca nova, contra a taxa oficial (%)"
+ },
  "What people die of: cancer and the heart trade the lead, and 2020 breaks every trend on the plate.": {
   "es": "De qué muere la gente: el cáncer y el corazón se turnan al frente, y 2020 rompe todas las tendencias de la plancha.",
   "pt": "Do que as pessoas morrem: câncer e coração trocam a liderança, e 2020 quebra todas as tendências da prancha."
  },
- "What the state takes and what it spends (% of GDP)": {
-  "es": "Lo que el Estado ingresa y lo que gasta (% del PIB)",
-  "pt": "O que o Estado arrecada e o que gasta (% do PIB)"
+ "Where Spain's goods go (% of goods exports)": {
+  "es": "Adónde van los bienes españoles (% de las exportaciones de bienes)",
+  "pt": "Para onde vão os bens espanhóis (% das exportações de bens)"
  },
  "Where the Money Goes — Spending by Function, 2006–2024": {
   "es": "Adónde va el dinero — El gasto por función, 2006–2024",
   "pt": "Para onde vai o dinheiro — O gasto por função, 2006–2024"
  },
- "Who Spain trades with — partners and products": {
-  "es": "Con quién comercia España — socios y productos",
-  "pt": "Com quem a Espanha comercia — parceiros e produtos"
- },
- "Who arrives and who leaves (Eurostat, thousands per year)": {
-  "es": "Quién llega y quién se va (Eurostat, miles al año)",
-  "pt": "Quem chega e quem sai (Eurostat, milhares por ano)"
- },
  "World Bank (EU-SILC-derived)": {
   "es": "Banco Mundial (derivado de EU-SILC)",
   "pt": "Banco Mundial (derivado da EU-SILC)"
  },
- "a 68% jump that is pure methodology": {
-  "es": "un salto del 68% que es pura metodología",
-  "pt": "um salto de 68% que é pura metodologia"
+ "World Bank WDI, current US$ at the annual average exchange rate": {
+  "es": "Banco Mundial (WDI), US$ corrientes al tipo de cambio medio anual",
+  "pt": "Banco Mundial (WDI), US$ correntes ao câmbio médio anual"
  },
- "a level step, not behaviour": {
-  "es": "un salto de nivel, no comportamiento",
-  "pt": "um salto de nível, não comportamento"
+ "a currency Spain shares — no peseta since {0}": {
+  "es": "una moneda que España comparte — sin peseta desde {0}",
+  "pt": "uma moeda que a Espanha compartilha — sem peseta desde {0}"
  },
- "a price index via a redistributor — dividends excluded, and the IBEX yields among the most in Europe": {
-  "es": "un índice de precios vía un redistribuidor — dividendos excluidos, y el IBEX reparte de los mayores dividendos de Europa",
-  "pt": "um índice de preços via redistribuidor — dividendos excluídos, e o IBEX rende dos maiores dividendos da Europa"
+ "a level step": {
+  "es": "un salto de nivel",
+  "pt": "um degrau de nível"
  },
- "a relative threshold: it did not fall when": {
-  "es": "un umbral relativo: no cayó cuando",
-  "pt": "um limiar relativo: não caiu quando"
+ "a relative line: it barely moves when incomes": {
+  "es": "un umbral relativo: apenas se mueve cuando las rentas",
+  "pt": "uma linha relativa: quase não se move quando as rendas"
  },
  "acquired Spanish citizenship": {
   "es": "adquirieron la nacionalidad española",
   "pt": "adquiriram a nacionalidade espanhola"
  },
- "alone since 2016": {
-  "es": "en solitario desde 2016",
-  "pt": "sozinha desde 2016"
+ "an ageing population lifts the crude rate": {
+  "es": "una población que envejece eleva la tasa bruta",
+  "pt": "uma população que envelhece eleva a taxa bruta"
  },
- "and the certified count still sees only part of the excess": {
-  "es": "y el cómputo certificado aún ve solo parte del exceso",
-  "pt": "e a contagem certificada ainda vê só parte do excesso"
+ "an economy that leans on tourism": {
+  "es": "una economía que se apoya en el turismo",
+  "pt": "uma economia apoiada no turismo"
  },
- "and the post-crisis export turn": {
-  "es": "y el giro exportador poscrisis",
-  "pt": "e a virada exportadora pós-crise"
+ "an error page served as HTTP {0}": {
+  "es": "una página de error servida como HTTP {0}",
+  "pt": "uma página de erro servida como HTTP {0}"
+ },
+ "and still above where it began": {
+  "es": "y aún por encima de donde empezó",
+  "pt": "e ainda acima de onde começou"
+ },
+ "as much as the economy": {
+  "es": "tanto como la economía",
+  "pt": "tanto quanto a economia"
  },
  "asylum applications": {
   "es": "solicitudes de asilo",
   "pt": "pedidos de asilo"
  },
- "automated request with an error page served as HTTP 200;": {
-  "es": "petición automatizada con una página de error servida como HTTP 200;",
-  "pt": "pedido automatizado com uma página de erro servida como HTTP 200;"
+ "at risk of poverty, 60% of the median (EU-SILC)": {
+  "es": "en riesgo de pobreza, 60% de la mediana (ECV)",
+  "pt": "em risco de pobreza, 60% da mediana (EU-SILC)"
  },
- "bars: births minus deaths, computed here; the two net-migration methodologies are never joined": {
-  "es": "barras: nacimientos menos defunciones, calculado aquí; las dos metodologías de saldo migratorio nunca se unen",
-  "pt": "barras: nascimentos menos óbitos, calculado aqui; as duas metodologias de saldo migratório nunca se unem"
+ "at the ECB, not in Madrid; much of this is gold,": {
+  "es": "está en el BCE, no en Madrid; buena parte es oro,",
+  "pt": "está no BCE, não em Madri; boa parte é ouro,"
  },
- "bill halved — rates fell faster": {
-  "es": "se redujo a la mitad — los tipos cayeron más rápido",
-  "pt": "caiu pela metade — os juros caíram mais rápido"
+ "austerity cut it from {0}% in {1}": {
+  "es": "la austeridad la recortó del {0}% en {1}",
+  "pt": "a austeridade a cortou de {0}% em {1}"
+ },
+ "bars: births minus deaths; the two migration methods are never joined (see Migration)": {
+  "es": "barras: nacimientos menos defunciones; los dos métodos migratorios nunca se unen (véase Migración)",
+  "pt": "barras: nascimentos menos óbitos; os dois métodos migratórios nunca são unidos (ver Migração)"
+ },
+ "baseline: {0} deaths a year, the mean of {1}–{2};": {
+  "es": "referencia: {0} defunciones al año, la media de {1}–{2};",
+  "pt": "referência: {0} óbitos por ano, a média de {1}–{2};"
+ },
+ "below US$8.30 a day, 2021 PPP (World Bank)": {
+  "es": "bajo 8,30 US$ al día, PPA de 2021 (Banco Mundial)",
+  "pt": "abaixo de US$ 8,30 por dia, PPC de 2021 (Banco Mundial)"
  },
  "births in 2015": {
   "es": "nacimientos en 2015",
   "pt": "nascimentos em 2015"
  },
- "born in Spain": {
-  "es": "nacidos en España",
-  "pt": "nascidos na Espanha"
+ "born abroad": {
+  "es": "nacidos en el extranjero",
+  "pt": "nascidos no exterior"
  },
- "buffer sits at the ECB, not in Madrid; much of": {
-  "es": "está en el BCE, no en Madrid; gran parte",
-  "pt": "está no BCE, não em Madri; boa parte"
+ "cancer overtakes the heart only in {0}:": {
+  "es": "el cáncer supera al corazón solo en {0}:",
+  "pt": "o câncer supera o coração só em {0}:"
  },
- "cancer overtakes the heart": {
-  "es": "el cáncer supera al corazón",
-  "pt": "o câncer supera o coração"
+ "children per woman": {
+  "es": "hijos por mujer",
+  "pt": "filhos por mulher"
  },
- "computed here as doubtful ÷ total credit to resident sectors (credit institutions in Spain), December stocks": {
-  "es": "calculado aquí como dudosos ÷ crédito total a sectores residentes (entidades de crédito en España), saldos de diciembre",
-  "pt": "calculado aqui como duvidosos ÷ crédito total a setores residentes (instituições de crédito na Espanha), estoques de dezembro"
+ "computed another way, and TI does not compare them": {
+  "es": "calculaba de otra manera, y TI no los compara",
+  "pt": "calculado de outro modo, e a TI não os compara"
  },
- "computed here, not published: the baseline is the mean of the five years before 2020.": {
-  "es": "calculado aquí, no publicado: la base es la media de los cinco años anteriores a 2020.",
-  "pt": "calculado aqui, não publicado: a base é a média dos cinco anos anteriores a 2020."
+ "computed here as doubtful ÷ total credit to resident sectors (credit institutions in Spain)": {
+  "es": "calculado aquí como dudosos ÷ crédito total a sectores residentes (entidades de crédito en España)",
+  "pt": "calculado aqui como duvidosos ÷ crédito total a setores residentes (instituições de crédito na Espanha)"
  },
- "computed here: ECM deaths against the 1-January population of the SAME year — among the lowest rates in Europe": {
-  "es": "calculado aquí: defunciones ECM contra la población a 1 de enero del MISMO año — de las tasas más bajas de Europa",
-  "pt": "calculado aqui: óbitos ECM contra a população de 1º de janeiro do MESMO ano — das taxas mais baixas da Europa"
+ "consolidated, all levels of government — the Tesoro's state-only figure is a smaller number": {
+  "es": "consolidada, todos los niveles de la administración — la cifra del Tesoro, solo del Estado, es menor",
+  "pt": "consolidada, todos os níveis de governo — o número do Tesoro, só do Estado, é menor"
  },
- "consolidated, all levels of government — the Tesoro's state-only figure is a smaller, different number": {
-  "es": "consolidada, todos los niveles de administración — la cifra del Tesoro, solo el Estado, es un número menor y distinto",
-  "pt": "consolidada, todos os níveis de governo — a cifra do Tesouro, só o Estado, é um número menor e diferente"
+ "convergence yield, Eurostat": {
+  "es": "de convergencia de Maastricht, Eurostat",
+  "pt": "de convergência de Maastricht, Eurostat"
  },
- "count grows slowly in record-arrival years": {
-  "es": "crece despacio en años de llegadas récord",
-  "pt": "cresce devagar em anos de chegadas recorde"
- },
- "curated by hand in a later edition — the two counts disagree": {
-  "es": "se curará a mano en una edición posterior — los dos cómputos discrepan",
-  "pt": "curado à mão numa edição posterior — as duas contagens divergem"
- },
- "current US$: the dips are the exchange rate as much as the economy": {
-  "es": "US$ corrientes: las caídas son el tipo de cambio tanto como la economía",
-  "pt": "US$ correntes: as quedas são o câmbio tanto quanto a economia"
- },
- "customs values by partner and product: DataComex is the source,": {
-  "es": "valores de aduana por socio y producto: la fuente es DataComex,",
-  "pt": "valores aduaneiros por parceiro e produto: a fonte é o DataComex,"
- },
- "data pending — run fetchers / add CSV": {
-  "es": "datos pendientes — ejecutar los fetchers / añadir el CSV",
-  "pt": "dados pendentes — rodar os fetchers / incluir o CSV"
+ "customs goods exports, Eurostat Comext (community concept); shares of the total to the world": {
+  "es": "exportaciones de bienes en aduana, Eurostat Comext (concepto comunitario); cuotas sobre el total mundial",
+  "pt": "exportações de bens na aduana, Eurostat Comext (conceito comunitário); parcelas do total para o mundo"
  },
  "deaths overtake": {
   "es": "las defunciones superan a los",
   "pt": "os óbitos superam os"
  },
- "decisions lag applications by years — asylum and permits start 2008; the hole is the source's": {
-  "es": "las resoluciones van años por detrás de las solicitudes — asilo y autorizaciones empiezan en 2008; el hueco es de la fuente",
-  "pt": "as decisões ficam anos atrás dos pedidos — asilo e autorizações começam em 2008; o buraco é da fonte"
+ "deleveraging beat the rate shock: {0}% in {1}": {
+  "es": "el desapalancamiento pudo con el choque de tipos: {0}% en {1}",
+  "pt": "a desalavancagem venceu o choque de juros: {0}% em {1}"
  },
- "different baskets, two series, never spliced; the IPC is INE's linked index, published today in base 2025": {
-  "es": "cestas distintas, dos series, nunca empalmadas; el IPC es el índice enlazado del INE, publicado hoy en base 2025",
-  "pt": "cestas distintas, duas séries, nunca emendadas; o IPC é o índice encadeado do INE, publicado hoje em base 2025"
+ "even as each age group dies later": {
+  "es": "aunque cada grupo de edad muera más tarde",
+  "pt": "mesmo que cada faixa etária morra mais tarde"
  },
- "eight years below zero": {
-  "es": "ocho años bajo cero",
-  "pt": "oito anos abaixo de zero"
+ "excluded; {0} is the latest close, not a year-end": {
+  "es": "dividendos; {0} es el último cierre, no un fin de año",
+  "pt": "dividendos; {0} é o último fechamento, não um fim de ano"
  },
- "emigration, is why the foreign-citizen": {
-  "es": "no la emigración, explica que la cifra de extranjeros",
-  "pt": "não a emigração, explica que o número de estrangeiros"
+ "fall together — a property of the measure": {
+  "es": "caen a la vez — una propiedad de la medida",
+  "pt": "caem juntas — uma propriedade da medida"
  },
- "euro slump, not a recession": {
-  "es": "caída del euro, no una recesión",
-  "pt": "queda do euro, não uma recessão"
- },
- "fifteen years of deleveraging:": {
-  "es": "quince años de desapalancamiento:",
-  "pt": "quinze anos de desalavancagem:"
+ "far above homicide": {
+  "es": "muy por encima del homicidio",
+  "pt": "muito acima do homicídio"
  },
  "first residence permits issued": {
   "es": "primeras autorizaciones de residencia emitidas",
   "pt": "primeiras autorizações de residência emitidas"
  },
- "first-instance decisions": {
-  "es": "resoluciones en primera instancia",
-  "pt": "decisões em primeira instância"
+ "first-instance asylum decisions": {
+  "es": "resoluciones de asilo en primera instancia",
+  "pt": "decisões de asilo em primeira instância"
  },
- "five million jobs destroyed,": {
-  "es": "cinco millones de empleos destruidos,",
-  "pt": "cinco milhões de empregos destruídos,"
+ "five different questions: applications are not arrivals, permits are not people; asylum and permits start 2008": {
+  "es": "cinco preguntas distintas: las solicitudes no son llegadas, los permisos no son personas; asilo y permisos empiezan en 2008",
+  "pt": "cinco perguntas diferentes: pedidos não são chegadas, autorizações não são pessoas; asilo e autorizações começam em 2008"
  },
- "five series, five different questions: applications are not arrivals, permits are not people,": {
-  "es": "cinco series, cinco preguntas distintas: las solicitudes no son llegadas, las autorizaciones no son personas,",
-  "pt": "cinco séries, cinco perguntas distintas: pedidos não são chegadas, autorizações não são pessoas,"
+ "food has outsold cars every year since {0}:": {
+  "es": "los alimentos venden más que los coches todos los años desde {0}:",
+  "pt": "os alimentos vendem mais que os carros todos os anos desde {0}:"
  },
- "from 141% of income to 75%": {
-  "es": "del 141% de la renta al 75%",
-  "pt": "de 141% da renda a 75%"
+ "foreign citizens": {
+  "es": "extranjeros",
+  "pt": "estrangeiros"
+ },
+ "from {0} only: the earlier {1}–{2} index was": {
+  "es": "solo desde {0}: el índice anterior, de {1} a {2}, se",
+  "pt": "só a partir de {0}: o índice anterior, de {1} a {2}, era"
  },
  "generated from committed CSVs": {
   "es": "generado a partir de CSV versionados",
   "pt": "gerado a partir de CSVs versionados"
  },
- "in both directions and neither is wrong (SOURCES.yaml, pending)": {
-  "es": "en ambos sentidos y ninguno es erróneo (SOURCES.yaml, pendiente)",
-  "pt": "em ambas as direções e nenhuma está errada (SOURCES.yaml, pendente)"
+ "goods alone": {
+  "es": "solo bienes",
+  "pt": "só bens"
  },
- "incomes fell together — a property of the": {
-  "es": "las rentas cayeron a la vez — una propiedad de la",
-  "pt": "as rendas caíram juntas — uma propriedade da"
+ "in current dollars: the dips are the exchange rate": {
+  "es": "en dólares corrientes: las caídas son el tipo de cambio",
+  "pt": "em dólares correntes: as quedas são o câmbio"
  },
- "lowest ever recorded in Europe": {
-  "es": "más bajas jamás registradas en Europa",
-  "pt": "mais baixas já registradas na Europa"
+ "in euros, €{0}bn in {1}": {
+  "es": "en euros, {0} mm€ en {1}",
+  "pt": "em euros, € {0} bi em {1}"
  },
- "measure, not a finding about poverty": {
-  "es": "medida, no un hallazgo sobre la pobreza",
-  "pt": "medida, não um achado sobre a pobreza"
+ "in surplus since {0} on services: in {1}": {
+  "es": "en superávit desde {0} gracias a los servicios: en {1}",
+  "pt": "em superávit desde {0} graças aos serviços: em {1}"
  },
- "measured of the two": {
-  "es": "medida de las dos",
-  "pt": "medida das duas"
+ "index 2006 = 100": {
+  "es": "índice 2006 = 100",
+  "pt": "índice 2006 = 100"
  },
- "most Spanish mortgages are variable-rate,": {
-  "es": "la mayoría de las hipotecas españolas son a tipo variable,",
-  "pt": "a maioria das hipotecas espanholas é de taxa variável,"
+ "index 2006 = 100, in US$": {
+  "es": "índice 2006 = 100, en US$",
+  "pt": "índice 2006 = 100, em US$"
  },
- "n/a": {
-  "es": "n/d",
-  "pt": "n/d"
+ "index 2006 = 100, up = stronger": {
+  "es": "índice 2006 = 100, arriba = más fuerte",
+  "pt": "índice 2006 = 100, para cima = mais forte"
  },
- "national-accounts basis, services included — the customs goods-only figures are a different universe (pending)": {
-  "es": "base de contabilidad nacional, servicios incluidos — las cifras de aduana, solo bienes, son otro universo (pendiente)",
-  "pt": "base de contas nacionais, serviços incluídos — as cifras aduaneiras, só bens, são outro universo (pendente)"
+ "index {0} = {1}": {
+  "es": "índice {0} = {1}",
+  "pt": "índice {0} = {1}"
  },
- "need no paperwork and are the worse-": {
-  "es": "no requieren papeleo y son la peor",
-  "pt": "não exigem papelada e são a pior"
+ "index {0} = {1} in US$": {
+  "es": "índice {0} = {1}, en US$",
+  "pt": "índice {0} = {1}, em US$"
  },
- "net migration, EMCR (from 2021; computed as the difference of the flows)": {
-  "es": "saldo migratorio, EMCR (desde 2021; calculado como diferencia de los flujos)",
-  "pt": "saldo migratório, EMCR (desde 2021; calculado como diferença dos fluxos)"
+ "index {0} = {1} up = stronger": {
+  "es": "índice {0} = {1}, arriba = más fuerte",
+  "pt": "índice {0} = {1}, para cima = mais forte"
  },
- "net migration, old methodology (EM, to 2021)": {
-  "es": "saldo migratorio, metodología antigua (EM, hasta 2021)",
-  "pt": "saldo migratório, metodologia antiga (EM, até 2021)"
+ "is INE's linked index, base {0}": {
+  "es": "es el índice enlazado del INE, base {0}",
+  "pt": "é o índice encadeado do INE, base {0}"
  },
- "new borrowers": {
-  "es": "nuevos prestatarios",
-  "pt": "novos tomadores"
+ "lowest rates; the police count is pending": {
+  "es": "más bajas de Europa; el cómputo policial está pendiente",
+  "pt": "mais baixas da Europa; a contagem policial está pendente"
+ },
+ "millions employed": {
+  "es": "millones de ocupados",
+  "pt": "milhões de ocupados"
+ },
+ "ministry's portal answers automated requests with": {
+  "es": "del Interior responde a las peticiones automáticas con",
+  "pt": "do Interior responde às solicitações automáticas com"
+ },
+ "most Spanish mortgages reprice on Euribor every year,": {
+  "es": "la mayoría de las hipotecas españolas se revisan con el Euríbor cada año,",
+  "pt": "a maioria das hipotecas espanholas é reajustada pelo Euribor todo ano,"
+ },
+ "national accounts (ESA 2010), services included; the customs panels below are goods only": {
+  "es": "contabilidad nacional (SEC 2010), con servicios; los paneles de aduanas de abajo son solo bienes",
+  "pt": "contas nacionais (SEC 2010), com serviços; os painéis de aduana abaixo são só bens"
+ },
+ "natural increase negative since {0}:": {
+  "es": "crecimiento vegetativo negativo desde {0}:",
+  "pt": "crescimento vegetativo negativo desde {0}:"
+ },
+ "net emigration {0}–{1} bottoming at {2} in {3};": {
+  "es": "emigración neta en {0}–{1} con un mínimo de {2} en {3};",
+  "pt": "emigração líquida em {0}–{1} com mínimo de {2} em {3};"
+ },
+ "net migration, Eurostat — new method, from 2021": {
+  "es": "saldo migratorio, Eurostat — método nuevo, desde 2021",
+  "pt": "saldo migratório, Eurostat — método novo, desde 2021"
+ },
+ "net migration, Eurostat — old method, to 2020": {
+  "es": "saldo migratorio, Eurostat — método antiguo, hasta 2020",
+  "pt": "saldo migratório, Eurostat — método antigo, até 2020"
  },
  "new housing loans (TEDR)": {
   "es": "nuevos préstamos para vivienda (TEDR)",
   "pt": "novos empréstimos imobiliários (TEDR)"
  },
- "not a year-end": {
-  "es": "no es un cierre de año",
-  "pt": "não é um fechamento de ano"
+ "not age-standardised — part of every bar is an older population": {
+  "es": "sin estandarizar por edad — parte de cada barra es una población más vieja",
+  "pt": "sem padronização por idade — parte de cada barra é uma população mais velha"
  },
  "of which positive": {
   "es": "de las cuales favorables",
   "pt": "das quais favoráveis"
  },
+ "on the Banco de España's own measure:": {
+  "es": "según la medida del propio Banco de España:",
+  "pt": "pela medida do próprio Banco de España:"
+ },
+ "on the current method": {
+  "es": "con el método actual",
+  "pt": "no método atual"
+ },
  "one vintage throughout — the HDR recomputes the whole back-series at each methodology change": {
   "es": "una sola vendimia en toda la serie — el IDH recalcula toda la serie histórica en cada cambio metodológico",
   "pt": "uma só safra em toda a série — o IDH recalcula toda a série histórica a cada mudança metodológica"
  },
- "only in 2024": {
-  "es": "solo en 2024",
-  "pt": "só em 2024"
+ "openness, exports + imports: {0}% of GDP in {1}": {
+  "es": "apertura, exportaciones + importaciones: {0}% del PIB en {1}",
+  "pt": "abertura, exportações + importações: {0}% do PIB em {1}"
  },
- "pensions are most of it; the 2012-13 peak is unemployment": {
-  "es": "las pensiones son la mayor parte; el pico de 2012-13 es paro",
-  "pt": "as pensões são a maior parte; o pico de 2012-13 é desemprego"
+ "per 1,000 people": {
+  "es": "por 1.000 habitantes",
+  "pt": "por 1.000 habitantes"
  },
- "primary balance (deficit + interest, computed)": {
-  "es": "saldo primario (déficit + intereses, calculado)",
-  "pt": "saldo primário (déficit + juros, calculado)"
+ "per 100,000": {
+  "es": "por 100.000",
+  "pt": "por 100.000"
  },
- "re-leverage": {
-  "es": "vuelve a apalancarse",
-  "pt": "volta a alavancar"
+ "per {0}": {
+  "es": "por {0}",
+  "pt": "por {0}"
+ },
+ "per {0} people": {
+  "es": "por {0} habitantes",
+  "pt": "por {0} habitantes"
+ },
+ "primary balance (net of interest)": {
+  "es": "saldo primario (sin intereses)",
+  "pt": "saldo primário (sem juros)"
+ },
+ "rates fell faster than the debt grew": {
+  "es": "los tipos bajaron más deprisa de lo que creció la deuda",
+  "pt": "os juros caíram mais rápido do que a dívida cresceu"
+ },
+ "recorded in Europe": {
+  "es": "registradas en Europa",
+  "pt": "registradas na Europa"
  },
  "replacement level 2.1": {
   "es": "nivel de reemplazo: 2,1",
   "pt": "nível de reposição: 2,1"
  },
- "s portal blocks automated access); what the certificates show is one of Europe": {
-  "es": "bloquea el acceso automatizado); lo que muestran los certificados es una de las tasas más bajas de Europa",
-  "pt": "bloqueia o acesso automatizado); o que as certidões mostram é uma das taxas mais baixas da Europa"
+ "revalued at the market price": {
+  "es": "revalorizado a precio de mercado",
+  "pt": "reavaliado a preço de mercado"
  },
- "shrank — emigration in the slump": {
-  "es": "se redujo — la emigración en la crisis",
-  "pt": "encolheu — a emigração na crise"
+ "scale extended": {
+  "es": "escala ampliada",
+  "pt": "escala ampliada"
  },
- "small for a large economy — the euro area's": {
-  "es": "pequeñas para una gran economía — el colchón de la eurozona",
-  "pt": "pequenas para uma grande economia — o colchão da zona do euro"
+ "score, 0–100": {
+  "es": "puntuación, 0–100",
+  "pt": "pontuação, 0–100"
  },
- "so the 2022-23 shock hit the stock, not just": {
-  "es": "así que el shock de 2022-23 golpeó al stock, no solo a los",
-  "pt": "então o choque de 2022-23 atingiu o estoque, não só os"
+ "score, {0}–{1}": {
+  "es": "puntuación, {0}–{1}",
+  "pt": "pontuação, {0}–{1}"
  },
- "staged for a later edition (see SOURCES.yaml, pending)": {
-  "es": "preparado para una edición posterior (véase SOURCES.yaml, pendiente)",
-  "pt": "preparado para uma edição posterior (ver SOURCES.yaml, pendente)"
+ "services +{0}% of GDP, goods {1}%": {
+  "es": "servicios +{0}% del PIB, bienes {1}%",
+  "pt": "serviços +{0}% do PIB, bens {1}%"
  },
- "suicide became the largest violent death": {
-  "es": "el suicidio se convirtió en la mayor muerte violenta",
-  "pt": "o suicídio tornou-se a maior morte violenta"
+ "services alone (tourism, mostly)": {
+  "es": "solo servicios (sobre todo turismo)",
+  "pt": "só serviços (sobretudo turismo)"
  },
- "surplus since 2011 — tourism": {
-  "es": "superávit desde 2011 — el turismo",
-  "pt": "superávit desde 2011 — o turismo"
+ "since the points licence of July {0}": {
+  "es": "desde el carné por puntos de julio de {0}",
+  "pt": "desde a carteira por pontos de julho de {0}"
+ },
+ "small for a large economy: the euro area's buffer sits": {
+  "es": "pequeñas para una gran economía: el colchón de la eurozona",
+  "pt": "pequenas para uma grande economia: o colchão da zona do euro"
+ },
+ "so the {0}–{1} shock hit the stock, not just new loans": {
+  "es": "así que el choque de {0}–{1} golpeó al stock, no solo a los préstamos nuevos",
+  "pt": "então o choque de {0}–{1} atingiu o estoque, não só os empréstimos novos"
+ },
+ "spending reached {0}% of GDP in {1}": {
+  "es": "el gasto llegó al {0}% del PIB en {1}",
+  "pt": "o gasto chegou a {0}% do PIB em {1}"
  },
  "suspected, not identified": {
   "es": "sospechoso, no identificado",
   "pt": "suspeito, não identificado"
  },
- "the Interior ministry's crime portal answers every": {
-  "es": "el portal de criminalidad del Ministerio del Interior responde a cada",
-  "pt": "o portal de criminalidade do Ministério do Interior responde a cada"
- },
- "the austerity years took it": {
-  "es": "los años de austeridad la llevaron",
-  "pt": "os anos de austeridade a levaram"
+ "the SMI is paid in fourteen instalments; shown over twelve:": {
+  "es": "el SMI se paga en catorce pagas; aquí, en doce:",
+  "pt": "o SMI é pago em catorze parcelas; aqui, em doze:"
  },
  "the bailout and the slump": {
   "es": "el rescate y la crisis",
   "pt": "o resgate e a crise"
  },
- "the count a death certificate makes: assault": {
-  "es": "el cómputo de un certificado de defunción: agresión",
-  "pt": "a contagem de uma certidão de óbito: agressão"
+ "the bill is lower than at its {0} peak —": {
+  "es": "la factura es menor que en su máximo de {0} —",
+  "pt": "a fatura é menor que no pico de {0} —"
  },
- "the debt tripled while the interest": {
-  "es": "la deuda se triplicó mientras la factura de intereses",
-  "pt": "a dívida triplicou enquanto a fatura de juros"
+ "the construction bust: {0}% by {1}": {
+  "es": "el hundimiento de la construcción: {0}% en {1}",
+  "pt": "o colapso da construção: {0}% em {1}"
  },
- "the economy did not": {
-  "es": "la economía no",
-  "pt": "a economia não"
+ "the debt went from {0}% to {1}% of GDP;": {
+  "es": "la deuda pasó del {0}% al {1}% del PIB;",
+  "pt": "a dívida passou de {0}% para {1}% do PIB;"
  },
- "the gap is people who became Spanish:": {
-  "es": "la brecha son las personas que se hicieron españolas:",
-  "pt": "a lacuna são as pessoas que se tornaram espanholas:"
+ "the euro crisis in one number: the Maastricht": {
+  "es": "la crisis del euro en un número: el rendimiento",
+  "pt": "a crise do euro em um número: o rendimento"
  },
- "the gap is the deficit": {
-  "es": "la brecha es el déficit",
-  "pt": "a lacuna é o déficit"
+ "the gap between the lines is the deficit;": {
+  "es": "la distancia entre las líneas es el déficit;",
+  "pt": "a distância entre as linhas é o déficit;"
  },
- "the least open large economy in": {
-  "es": "la gran economía menos abierta de",
-  "pt": "a grande economia menos aberta da"
+ "the last surplus was {0}": {
+  "es": "el último superávit fue en {0}",
+  "pt": "o último superávit foi em {0}"
  },
- "the net is the reader's to see: departures": {
-  "es": "el saldo queda a la vista del lector: las salidas",
-  "pt": "o saldo fica a cargo do leitor: as saídas"
+ "the new-business compilation changed with Circular 5/2012: pre- and post-2014 levels differ": {
+  "es": "la elaboración de las operaciones nuevas cambió con la Circular 5/2012: los niveles antes y después de 2014 difieren",
+  "pt": "a compilação das operações novas mudou com a Circular 5/2012: os níveis antes e depois de 2014 diferem"
  },
- "the new-business compilation changed with Circular 5/2012 — pre/post-2014 levels are not strictly one definition": {
-  "es": "la compilación de nuevas operaciones cambió con la Circular 5/2012 — los niveles antes y después de 2014 no son estrictamente una misma definición",
-  "pt": "a compilação de novas operações mudou com a Circular 5/2012 — os níveis antes e depois de 2014 não são estritamente uma mesma definição"
+ "the police-recorded count is pending: the Interior": {
+  "es": "el cómputo policial está pendiente: el portal del Ministerio",
+  "pt": "a contagem policial está pendente: o portal do Ministério"
  },
- "the population has grown on migration": {
-  "es": "la población ha crecido por la migración",
-  "pt": "a população cresceu pela migração"
+ "the population grows on migration alone": {
+  "es": "la población crece solo por la migración",
+  "pt": "a população cresce só pela migração"
  },
- "the same 2021 methodology seam runs through both series (see the left panel)": {
-  "es": "la misma costura metodológica de 2021 atraviesa ambas series (véase el panel de la izquierda)",
-  "pt": "a mesma emenda metodológica de 2021 atravessa as duas séries (veja o painel à esquerda)"
+ "the shaded gap is people who became Spanish:": {
+  "es": "la franja sombreada son personas que se hicieron españolas:",
+  "pt": "a faixa sombreada são pessoas que se tornaram espanholas:"
  },
- "the stock is still below its 2010 peak —": {
-  "es": "el stock sigue por debajo de su pico de 2010 —",
-  "pt": "o estoque ainda está abaixo do pico de 2010 —"
+ "the {0}–{1} bulge is unemployment, {2} the furloughs": {
+  "es": "el bulto de {0}–{1} es el paro, el de {2} los ERTE",
+  "pt": "o salto de {0}–{1} é o desemprego, o de {2} os ERTE"
  },
- "the two read the same to the decimal today; both are drawn because a revision can reopen the seam": {
-  "es": "hoy ambas coinciden hasta el decimal; se dibujan las dos porque una revisión puede reabrir la costura",
-  "pt": "hoje as duas coincidem até o decimal; ambas são desenhadas porque uma revisão pode reabrir a emenda"
+ "then a decade to win them back": {
+  "es": "y después una década para recuperarlos",
+  "pt": "e depois uma década para recuperá-los"
  },
- "the year's paperwork: asylum, permits, citizenship (persons)": {
-  "es": "El papeleo del año: asilo, autorizaciones, nacionalidad (personas)",
-  "pt": "A papelada do ano: asilo, autorizações, nacionalidade (pessoas)"
+ "to {0}% by {1}": {
+  "es": "al {0}% en {1}",
+  "pt": "para {0}% em {1}"
  },
- "then EMCR from 2021)": {
-  "es": "y la EMCR desde 2021)",
-  "pt": "e a EMCR desde 2021)"
+ "two baskets, never spliced; the IPC": {
+  "es": "dos cestas, nunca empalmadas; el IPC",
+  "pt": "duas cestas, nunca emendadas; o IPC"
  },
- "then twelve years to rebuild them": {
-  "es": "y doce años para reconstruirlos",
-  "pt": "e doze anos para reconstruí-los"
- },
- "this is gold, revalued at market price": {
-  "es": "de esto es oro, revalorizado a precio de mercado",
-  "pt": "disto é ouro, reavaliado a preço de mercado"
- },
- "to Oct": {
-  "es": "hasta oct.",
-  "pt": "até out."
- },
- "to half its pre-crisis level": {
-  "es": "a la mitad de su nivel precrisis",
-  "pt": "à metade do nível pré-crise"
- },
- "traffic deaths fell by half while": {
-  "es": "las muertes de tráfico cayeron a la mitad mientras",
-  "pt": "as mortes no trânsito caíram pela metade enquanto"
- },
- "two cuts of one survey, not two measurements; disposable income, equivalised": {
-  "es": "dos cortes de una misma encuesta, no dos mediciones; renta disponible equivalizada",
-  "pt": "dois cortes da mesma pesquisa, não duas medições; renda disponível equivalizada"
+ "two cuts of one survey: the World Bank's peaks at {0} in {1};": {
+  "es": "dos cortes de una misma encuesta: el del Banco Mundial toca máximo en {0} en {1};",
+  "pt": "dois recortes de uma mesma pesquisa: o do Banco Mundial atinge o pico de {0} em {1};"
  },
  "virus identified": {
   "es": "virus identificado",
   "pt": "vírus identificado"
  },
- "western Europe, opening": {
-  "es": "Europa occidental, abriéndose",
-  "pt": "Europa ocidental, abrindo-se"
+ "{0} = very high human development": {
+  "es": "{0} = desarrollo humano muy alto",
+  "pt": "{0} = desenvolvimento humano muito alto"
  },
- "without it: about −7%": {
-  "es": "sin él: alrededor de −7%",
-  "pt": "sem ele: cerca de −7%"
+ "{0} against {1} deaths": {
+  "es": "{0} frente a {1} defunciones",
+  "pt": "{0} contra {1} óbitos"
+ },
+ "{0} deaths above the {1}–{2} average that year": {
+  "es": "{0} defunciones por encima de la media {1}–{2} ese año",
+  "pt": "{0} óbitos acima da média {1}–{2} naquele ano"
+ },
+ "{0} deaths by assault in {1}: one of Europe's": {
+  "es": "{0} muertes por agresión en {1}: una de las tasas",
+  "pt": "{0} mortes por agressão em {1}: uma das taxas"
+ },
+ "{0} in {1} against {2} at the {3} peak": {
+  "es": "{0} en {1} frente a {2} en el máximo de {3}",
+  "pt": "{0} em {1} contra {2} no pico de {3}"
+ },
+ "{0} in {1} {2} in {3}: down {4}%": {
+  "es": "{0} en {1} {2} en {3}: un {4}% menos",
+  "pt": "{0} em {1} {2} em {3}: {4}% a menos"
+ },
+ "{0} in {1} {2} in {3}: the lowest score Spain has had": {
+  "es": "{0} en {1} {2} en {3}: la peor puntuación de España",
+  "pt": "{0} em {1} {2} em {3}: a pior pontuação da Espanha"
+ },
+ "{0} in {1} — among the lowest ever": {
+  "es": "{0} en {1} — entre las más bajas jamás",
+  "pt": "{0} em {1} — entre as mais baixas já"
+ },
+ "{0} in {1} — {2} deaths": {
+  "es": "{0} en {1} — {2} defunciones",
+  "pt": "{0} em {1} — {2} óbitos"
+ },
+ "{0} is the last definitive year": {
+  "es": "{0} es el último año definitivo",
+  "pt": "{0} é o último ano definitivo"
+ },
+ "{0} million by {1} {2} in {3} alone": {
+  "es": "{0} millones en {1} {2} solo en {3}",
+  "pt": "{0} milhões em {1} {2} só em {3}"
+ },
+ "{0} million in {1} {2} million on {3} January {4};": {
+  "es": "{0} millones en {1} {2} millones el {3} de enero de {4};",
+  "pt": "{0} milhões em {1} {2} milhões em {3}º de janeiro de {4};"
+ },
+ "{0} million jobs lost from {1} to {2}": {
+  "es": "{0} millones de empleos perdidos de {1} a {2}",
+  "pt": "{0} milhões de empregos perdidos de {1} a {2}"
+ },
+ "{0} on both: {1} vs {2} arrivals —": {
+  "es": "{0} con ambos: {1} frente a {2} llegadas —",
+  "pt": "{0} nos dois: {1} contra {2} chegadas —"
+ },
+ "{0} suicides in {1}: the largest violent death,": {
+  "es": "{0} suicidios en {1}: la primera muerte violenta,",
+  "pt": "{0} suicídios em {1}: a principal morte violenta,"
+ },
+ "{0} vs {1} per {2} a {3}% jump of method alone": {
+  "es": "{0} frente a {1} por {2} un salto del {3}% solo de método",
+  "pt": "{0} contra {1} por {2} um salto de {3}% só de método"
+ },
+ "{0} year-ends below zero, {1}–{2}": {
+  "es": "{0} cierres de año bajo cero, {1}–{2}",
+  "pt": "{0} fins de ano abaixo de zero, {1}–{2}"
+ },
+ "{0}% against {1}% in {2}": {
+  "es": "{0}% frente al {1}% en {2}",
+  "pt": "{0}% contra {1}% em {2}"
+ },
+ "{0}% in {1}": {
+  "es": "{0}% en {1}",
+  "pt": "{0}% em {1}"
+ },
+ "{0}% in {1} {2}% in {3}: pensions are most of it;": {
+  "es": "{0}% en {1} {2}% en {3}: las pensiones son la mayor parte;",
+  "pt": "{0}% em {1} {2}% em {3}: as pensões são a maior parte;"
+ },
+ "{0}% in {1} — €{2}bn of exports": {
+  "es": "{0}% en {1} — {2} mm€ de exportaciones",
+  "pt": "{0}% em {1} — € {2} bi de exportações"
+ },
+ "{0}% in {1}: the lowest since {2}": {
+  "es": "{0}% en {1}: la más baja desde {2}",
+  "pt": "{0}% em {1}: a mais baixa desde {2}"
+ },
+ "{0}% of disposable income in {1} {2}% in {3}": {
+  "es": "{0}% de la renta disponible en {1} {2}% en {3}",
+  "pt": "{0}% da renda disponível em {1} {2}% em {3}"
+ },
+ "{0}: +{1}% in one decree": {
+  "es": "{0}: +{1}% en un solo decreto",
+  "pt": "{0}: +{1}% em um só decreto"
+ },
+ "{0}: IBEX {1} S&P {2} {3} — price indices, dividends": {
+  "es": "{0}: IBEX {1} S&P {2} {3} — índices de precios, sin",
+  "pt": "{0}: IBEX {1} S&P {2} {3} — índices de preços, sem"
+ },
+ "{0}: reporting change,": {
+  "es": "{0}: cambio de declaración,",
+  "pt": "{0}: mudança de reporte,"
+ },
+ "{0}: suicide passes road deaths": {
+  "es": "{0}: el suicidio supera al tráfico",
+  "pt": "{0}: o suicídio supera o trânsito"
+ },
+ "{0}: the deepest fall in the G{1} —": {
+  "es": "{0}: la mayor caída del G{1} —",
+  "pt": "{0}: a maior queda do G{1} —"
+ },
+ "{0}: the euro fell {1}% against the dollar — the economy did not;": {
+  "es": "{0}: el euro cayó un {1}% frente al dólar — la economía no;",
+  "pt": "{0}: o euro caiu {1}% contra o dólar — a economia não;"
+ },
+ "{0}: the euro fell, the economy grew": {
+  "es": "{0}: cayó el euro, la economía creció",
+  "pt": "{0}: o euro caiu, a economia cresceu"
+ },
+ "{0}: {1} certified with the virus identified, {2} suspected;": {
+  "es": "{0}: {1} certificadas con virus identificado, {2} sospechosas;",
+  "pt": "{0}: {1} certificados com vírus identificado, {2} suspeitos;"
+ },
+ "{0}–{1}: the only years the register shrank": {
+  "es": "{0}–{1}: los únicos años en que el registro encogió",
+  "pt": "{0}–{1}: os únicos anos em que o registro encolheu"
  },
  "“whatever it takes”": {
   "es": "«cueste lo que cueste»",
   "pt": "“custe o que custar”"
+ },
+ "€{0} a month in {1} at the year's average dollar rate": {
+  "es": "{0} € al mes en {1} al cambio medio del dólar del año",
+  "pt": "€ {0} por mês em {1} ao câmbio médio do dólar no ano"
  }
 }
