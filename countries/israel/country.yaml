@@ -1,0 +1,129 @@
+# Israel. FIRST DRAFT (discovery pass, checkpoint 1). Every UNVERIFIED
+# marker below must be resolved against live endpoints before this file
+# is considered curated. Israel is the atlas's first right-to-left
+# country: the page, grid, and figure-text work for RTL is Phase B/C and
+# deliberately not done here — this file records only what the DATA layer
+# needs (locale codes, endonym, ILS, the data-layer notes in DISCOVERY.md).
+slug: israel
+flag_emoji: "🇮🇱"
+wordmark: ישראל
+# Hebrew letters sit on a baseline like Latin ones — no CJK em-box
+# centring — but the wordmark's first letter is א, an open left side.
+# Bearing is UNVERIFIED until the masthead is actually set in Phase B.
+name:
+  en: "Israel"
+  fr: "Israël"
+  pt: "Israel"
+  es: "Israel"
+  ko: "이스라엘"
+  he: "ישראל"
+
+# `he` is a NEW locale for the atlas and a NEW script (Hebrew). Follows
+# south-korea's non-Latin pattern: language code first, official language
+# listed first, default_locale en per precedent. he-IL equivalents on the
+# html/og fields. `he` needs AFFIX and CURRENCY_AFFIX columns in
+# core/sitebuild.py in Phase B (ILS: ₪ before the number, symbol-first
+# convention — what core/numstyle.py expects for he is recorded in
+# DISCOVERY.md, not changed here).
+locales:
+  - {code: he, html_lang: he-IL, og_locale: he_IL, endonym: עברית}
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete. CBS publishes annual national accounts to 2025;
+# verification that 2025 annual totals are out is in DISCOVERY.md.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+
+# Bands, from the current vintage of CBS/BoI quarterly real GDP.
+# UNVERIFIED until CBS quarterly series are pulled live:
+#  * 2008–09: mild for Israel on the annual numbers (growth slowed but
+#    stayed positive). Whether two consecutive negative q/q real-GDP
+#    quarters exist at end-2008/early-2009 is the two-quarter test and
+#    has NOT yet been checked. If it fails, this becomes an event label
+#    on the plates that need it, as with Canada's 2015 oil shock.
+#  * COVID 2020: qualifies — 2020 annual real GDP fell and q/q was
+#    negative in the spring round of restrictions (verify q/q signs).
+#  * 2023– : the war period. The band follows whatever the quarterly
+#    data show (negative q/q stretches after Oct 2023), recorded as the
+#    data say, with event annotations for the wars; no editorialising.
+bands:
+  - {from: 2008.75, to: 2009.4, label: "global crisis"}   # UNVERIFIED
+  - {from: 2020.0,  to: 2020.9, label: "COVID-19"}        # UNVERIFIED
+  - {from: 2023.8,  to: 2024.5, label: "war"}             # UNVERIFIED
+
+currency:
+  code: ILS
+
+# UNVERIFIED palette (checkpoint 1). The flag is blue on white: two
+# blues (#0038B8-ish flag blue) and the paper, so primary is a darkened
+# flag blue and the siblings are cool. MUST stay distinct from the blues
+# already used by canada (RED primary but NAVY #1C3A55 / BLUE #2F6E9B),
+# south-korea (#0047A0), and the grounds of spain / united-kingdom /
+# italy / portugal — the collision check against those country.yaml
+# files is a later verification pass.
+palette:
+  BLUE:    "#2A5DB0"
+  BLUE_D:  "#1C4180"
+  NAVY:    "#14273F"
+  TEAL:    "#13807A"
+  CYAN:    "#2F7E9B"
+  PURPLE:  "#5C5FA3"
+  GREEN:   "#2E7D4F"
+  GOLD:    "#BE8A1E"
+  primary: "#1C4180"
+  alert:   "#B5272F"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#1C4180", "#2A5DB0", "#13807A", "#BE8A1E", "#5C5FA3", "#2E7D4F", "#14273F"]
+  # Blue, the paper, blue — the flag's structure. The middle band is the
+  # page colour, so it is drawn with an outline.
+  flag_bands: ["#1C4180", "#FBFAF7", "#1C4180"]
+  # Darkened blue ground, deliberately NOT the navy of south-korea
+  # (#0A1E31) nor canada's warm black (#1A1012). UNVERIFIED against
+  # spain/uk/italy/portugal in a later pass.
+  web:
+    mark_bearing: "0.04em"    # UNVERIFIED — א is open on the left; set in Phase B
+    ground:   "#0E2038"
+    raised:   "#142A47"
+    raised_2: "#1A3457"
+    rule:     "#234168"
+    ink:      "#EAEEF4"
+    muted:    "#A7B2C2"
+    faint:    "#7E8A9C"
+    money:    "#5A93D6"
+    world:    "#2FA8A0"
+    people:   "#D7A33F"
+
+seo:
+  title:
+    he: "ישראל — לוחות נתונים רשמיים, 2006–2026"
+    en: "Israel — plates of official data, 2006–2026"
+    pt: "Israel — pranchas de dados oficiais, 2006–2026"
+  description:
+    he: >-
+      לוחות נתונים על הכלכלה, הכספים הציבוריים, המסחר, השווקים, התעסוקה, הדמוגרפיה, העלייה וההגירה, התמותה, האשראי והפשע בישראל, המבוססים אך ורק על מקורות רשמיים ומיוצרים מקובצי CSV המאוחסנים במאגר.
+    en: "Data plates on Israel's economy, public finances, trade, markets, work, demography, immigration, mortality, credit and crime, built only from official sources and regenerated from committed CSVs."
+    pt: "Pranchas de dados sobre a economia, as contas públicas, o comércio, os mercados, o trabalho, a demografia, a imigração, a mortalidade, o crédito e o crime de Israel, construídas apenas a partir de fontes oficiais."
+  keywords: [Israel, CBS Israel, Bank of Israel, aliyah, shekel, official statistics]
+  # Scope note for later: CBS publishes for areas under Israeli civilian
+  # jurisdiction; how Judea and Samaria is handled in each series is a
+  # data-layer decision recorded in DISCOVERY.md, and seo.spatial must
+  # name one scope, never mix two.
+  spatial: "Israel"
+
+# Named in the dek, and must agree with SOURCES.yaml. UNVERIFIED until
+# the publisher verification passes close.
+sources:
+  he: "הלשכה המרכזית לסטטיסטיקה, בנק ישראל, משרד האוצר, רשות האוכלוסין וההגירה"
+  en: "the Central Bureau of Statistics, the Bank of Israel, the Ministry of Finance and the Population and Immigration Authority"
+  pt: "a Central Bureau of Statistics de Israel, o Banco de Israel, o Ministério das Finanças e a Autoridade de População e Imigração"
