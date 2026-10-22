@@ -718,3 +718,185 @@ table.srctable .is-other { color: var(--faint); }
 /* The flag grid is the whole page, so it carries its own country colours
    rather than one country's; core/page.py emits a .home__card--<slug>
    rule per country from the same palettes the plates use. */
+
+/* ------------------------------------------------------------- compare
+
+   Another country's version of the same chapter, wiped across this one.
+
+   The two plates are drawn by the same code at the same size, so they
+   align panel for panel: the comparison is not two pictures side by side
+   but one picture with a seam in it, and moving the seam is how you read
+   it. Side by side at card width would be two illegible thumbnails.
+
+   The control is inert markup until the script reaches it — see
+   core.page._compare for why this one does not degrade. */
+.cmp {
+  display: flex; align-items: center; gap: .5rem;
+  margin: 0 0 .55rem; min-height: 1.9rem;
+}
+.cmp[hidden] { display: none; }
+
+.cmp__menu { position: relative; }
+.cmp__btn {
+  list-style: none; cursor: pointer;
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-size: .78rem; font-weight: 500; color: var(--faint);
+  border: 1px solid var(--rule); border-radius: 999px;
+  padding: .22rem .7rem;
+  transition: color .18s var(--ease), border-color .18s var(--ease);
+}
+.cmp__btn::-webkit-details-marker { display: none; }
+.cmp__btn:hover { color: var(--ink); border-color: var(--faint); }
+.cmp__menu[open] .cmp__btn { color: var(--ink); border-color: var(--fam); }
+/* The glyph is content, not a character in the copy: it must not be
+   translated and must not be read out as "left right arrow". */
+.cmp__ico::before { content: "\21C4"; font-size: .9em; }
+
+.cmp__sheet {
+  position: absolute; z-index: 30; top: calc(100% + .4rem); left: 0;
+  min-width: 15rem; max-width: 20rem;
+  background: var(--raised-2, var(--raised)); border: 1px solid var(--rule);
+  border-radius: var(--r); padding: .55rem;
+  box-shadow: 0 16px 40px rgb(0 0 0 / .45);
+}
+.cmp__lead {
+  font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--faint); margin: .1rem .35rem .45rem;
+}
+.cmp__list { display: flex; flex-direction: column; }
+.cmp__pick {
+  font: inherit; text-align: left; cursor: pointer;
+  display: flex; align-items: baseline; gap: .5rem;
+  background: transparent; border: 0; border-radius: 4px;
+  color: var(--ink); padding: .4rem .45rem;
+}
+.cmp__pick:hover, .cmp__pick:focus-visible { background: var(--raised); }
+.cmp__pick small { color: var(--faint); font-size: .72rem; }
+.cmp__empty { color: var(--faint); font-size: .78rem; padding: .3rem .45rem; }
+
+/* the active state: who against whom, and where the seam is */
+.cmp__on { display: flex; align-items: center; gap: .5rem; flex: 1; min-width: 0; }
+.cmp__on[hidden] { display: none; }
+.cmp__who {
+  font-size: .78rem; color: var(--ink); white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.cmp__range {
+  flex: 1; min-width: 3rem; max-width: 9rem;
+  accent-color: var(--fam); cursor: ew-resize;
+}
+.cmp__clear {
+  font: inherit; line-height: 1; cursor: pointer;
+  background: transparent; border: 1px solid var(--rule); border-radius: 999px;
+  color: var(--faint); width: 1.5rem; height: 1.5rem; flex-shrink: 0;
+}
+.cmp__clear:hover { color: var(--ink); border-color: var(--faint); }
+
+/* the seam itself */
+.figure { position: relative; }
+.cmp__layer {
+  position: absolute; inset: 0 0 .9rem 0;  /* the thumbnail's own margin */
+  overflow: hidden; cursor: ew-resize; touch-action: pan-y;
+  --wipe: 50%;
+}
+.cmp__layer[hidden] { display: none; }
+.cmp__img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: fill;            /* both plates are 16 × 10.2; never letterbox */
+  border: 1px solid var(--rule); border-radius: 2px;
+  background: #FBFAF7;
+  clip-path: inset(0 0 0 var(--wipe));
+  transition: clip-path .5s var(--ease);
+}
+/* Only the arrival animates. Once the reader has the handle, the seam has
+   to track the pointer exactly or it feels broken. */
+.cmp__layer.is-live .cmp__img,
+.cmp__layer.is-live .cmp__edge,
+.cmp__layer.is-live .cmp__grip { transition: none; }
+.cmp__edge {
+  position: absolute; top: 0; bottom: 0; left: var(--wipe);
+  width: 2px; margin-left: -1px; background: var(--ink);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / .35);
+  transition: left .5s var(--ease);
+}
+.cmp__grip {
+  position: absolute; top: 50%; left: var(--wipe);
+  width: 30px; height: 30px; margin: -15px 0 0 -15px;
+  border-radius: 50%; background: var(--ink);
+  box-shadow: 0 2px 10px rgb(0 0 0 / .45);
+  transition: left .5s var(--ease);
+}
+/* The two arrows are drawn, not typed: a chevron glyph lands differently
+   in every font and at 10px it reads as a bracket. Borders do not. */
+.cmp__grip::before, .cmp__grip::after {
+  content: ""; position: absolute; top: 50%; margin-top: -4px;
+  border: 4px solid transparent;
+}
+.cmp__grip::before { right: 55%; border-right-color: var(--ground); }
+.cmp__grip::after  { left: 55%;  border-left-color: var(--ground); }
+.cmp__tag {
+  position: absolute; bottom: .4rem;
+  font-size: .68rem; font-weight: 600; letter-spacing: .02em;
+  padding: .12rem .45rem; border-radius: 999px;
+  background: rgb(0 0 0 / .62); color: #fff;
+  max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.cmp__tag--a { left: .4rem; }
+.cmp__tag--b { right: .4rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cmp__img, .cmp__edge, .cmp__grip { transition: none; }
+}
+
+/* the same seam, full screen, where the plate is actually readable */
+.viewer__cmp { clip-path: inset(0 0 0 var(--wipe, 50%)); }
+.viewer__cmp[hidden] { display: none; }
+.vcmp { position: absolute; inset: 0; pointer-events: none; --wipe: 50%; }
+.vcmp[hidden] { display: none; }
+.vcmp__edge {
+  position: absolute; top: 0; bottom: 0; left: var(--wipe);
+  width: 2px; margin-left: -1px; background: var(--ink);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / .4);
+}
+.vcmp__grip {
+  position: absolute; top: 50%; left: var(--wipe);
+  width: 42px; height: 42px; margin: -21px 0 0 -21px;
+  border-radius: 50%; background: var(--ink); cursor: ew-resize;
+  pointer-events: auto;
+  box-shadow: 0 3px 14px rgb(0 0 0 / .5);
+}
+.vcmp__grip::before, .vcmp__grip::after {
+  content: ""; position: absolute; top: 50%; margin-top: -6px;
+  border: 6px solid transparent;
+}
+.vcmp__grip::before { right: 55%; border-right-color: var(--ground); }
+.vcmp__grip::after  { left: 55%;  border-left-color: var(--ground); }
+.vcmp__grip:focus-visible { outline: 2px solid var(--fam); outline-offset: 3px; }
+.vcmp__tag {
+  position: absolute; top: .7rem;
+  font-size: .78rem; font-weight: 600;
+  padding: .2rem .6rem; border-radius: 999px;
+  background: rgb(0 0 0 / .66); color: #fff;
+}
+.vcmp__tag--a { left: .8rem; }
+.vcmp__tag--b { right: .8rem; }
+
+/* The whole-page sources table, folded. One row per committed CSV and
+   thirty-odd of them, sitting between the plates and the colophon: open by
+   default it is a wall of filenames to scroll past. Folded it is still in
+   the DOM, so a page search still finds a filename and a screen reader
+   walking the document still reaches every row. */
+.sources__all > summary {
+  cursor: pointer; list-style: none;
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .86rem; font-weight: 500; color: var(--muted);
+  border: 1px solid var(--rule); border-radius: 999px;
+  padding: .45rem 1rem; margin-bottom: 1rem;
+  transition: color .18s var(--ease), border-color .18s var(--ease);
+}
+.sources__all > summary::-webkit-details-marker { display: none; }
+.sources__all > summary::before {
+  content: "\25B8"; transition: transform .2s var(--ease); color: var(--faint);
+}
+.sources__all[open] > summary::before { transform: rotate(90deg); }
+.sources__all > summary:hover { color: var(--ink); border-color: var(--faint); }

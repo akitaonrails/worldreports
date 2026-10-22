@@ -56,7 +56,7 @@ def headline(ctx) -> list[dict]:
 def build(ctx) -> list[dict]:
     return [
         {
-            "id": '01_economy', "n": '01', "family": MONEY,
+            "id": '01_economy', "topic": "economy", "n": '01', "family": MONEY,
             "title": ctx.text(ko='한국 경제',
                              en='The Korean Economy',
                              pt='A Economia Coreana'),
@@ -69,7 +69,7 @@ def build(ctx) -> list[dict]:
             "sources": ['macro/gdp.csv', 'macro/cpi.csv'],
         },
         {
-            "id": '02_fiscal', "n": '02', "family": MONEY,
+            "id": '02_fiscal', "topic": "fiscal", "n": '02', "family": MONEY,
             "title": ctx.text(ko='조세, 재정수지, 국가채무',
                              en='Taxes, Fiscal Balance & Public Debt',
                              pt='Impostos, Resultado Fiscal e Dívida Pública'),
@@ -82,7 +82,7 @@ def build(ctx) -> list[dict]:
             "sources": ['fiscal/tax_burden.csv', 'fiscal/government.csv', 'fiscal/debt.csv'],
         },
         {
-            "id": '03_spending', "n": '03', "family": MONEY,
+            "id": '03_spending', "topic": "spending", "n": '03', "family": MONEY,
             "title": ctx.text(ko='돈이 가는 곳',
                              en='Where the Money Goes',
                              pt='Para Onde Vai o Dinheiro'),
@@ -95,7 +95,7 @@ def build(ctx) -> list[dict]:
             "sources": ['fiscal/spending_by_function.csv', 'fiscal/investment.csv', 'fiscal/rnd.csv'],
         },
         {
-            "id": '04_trade', "n": '04', "family": WORLD,
+            "id": '04_trade', "topic": "trade", "n": '04', "family": WORLD,
             "title": ctx.text(ko='대외무역',
                              en='Foreign Trade',
                              pt='Comércio Exterior'),
@@ -108,7 +108,7 @@ def build(ctx) -> list[dict]:
             "sources": ['trade/trade.csv', 'trade/exports_products.csv', 'trade/destinations.csv'],
         },
         {
-            "id": '05_markets', "n": '05', "family": MONEY,
+            "id": '05_markets', "topic": "markets", "n": '05', "family": MONEY,
             "title": ctx.text(ko='돈과 시장',
                              en='Money & Markets',
                              pt='Dinheiro e Mercados'),
@@ -121,7 +121,7 @@ def build(ctx) -> list[dict]:
             "sources": ['markets/kospi.csv', 'markets/sp500.csv', 'macro/won.csv', 'macro/base_rate.csv'],
         },
         {
-            "id": '06_people', "n": '06', "family": PEOPLE,
+            "id": '06_people', "topic": "people", "n": '06', "family": PEOPLE,
             "title": ctx.text(ko='사람',
                              en='People',
                              pt='Pessoas'),
@@ -134,7 +134,7 @@ def build(ctx) -> list[dict]:
             "sources": ['social/hdi.csv', 'social/gini.csv', 'macro/unemployment.csv', 'macro/minimum_wage.csv', 'social/poverty.csv'],
         },
         {
-            "id": '07_world', "n": '07', "family": WORLD,
+            "id": '07_world', "topic": "world", "n": '07', "family": WORLD,
             "title": ctx.text(ko='세계 속의 한국',
                              en='Korea in the World',
                              pt='A Coreia no Mundo'),
@@ -147,7 +147,7 @@ def build(ctx) -> list[dict]:
             "sources": ['intl/openness.csv', 'intl/cpi.csv', 'macro/reserves.csv', 'macro/external.csv'],
         },
         {
-            "id": '08_demography', "n": '08', "family": PEOPLE,
+            "id": '08_demography', "topic": "demography", "n": '08', "family": PEOPLE,
             "title": ctx.text(ko='인구 전환',
                              en="Korea's Demographic Transition",
                              pt='A Transição Demográfica Coreana'),
@@ -160,7 +160,7 @@ def build(ctx) -> list[dict]:
             "sources": ['social/population.csv', 'social/vital.csv'],
         },
         {
-            "id": '09_safety', "n": '09', "family": PEOPLE,
+            "id": '09_safety', "topic": "security", "n": '09', "family": PEOPLE,
             "title": ctx.text(ko='건강과 안전',
                              en='Health & Safety',
                              pt='Saúde e Segurança'),
@@ -173,7 +173,7 @@ def build(ctx) -> list[dict]:
             "sources": ['social/mortality.csv', 'social/covid.csv', 'social/homicide.csv', 'social/road.csv', 'social/workplace.csv'],
         },
         {
-            "id": '10_credit', "n": '10', "family": MONEY,
+            "id": '10_credit', "topic": "credit", "n": '10', "family": MONEY,
             "title": ctx.text(ko='가계부채와 신용의 가격',
                              en='Household Debt & the Price of Credit',
                              pt='Dívida das Famílias e o Preço do Crédito'),

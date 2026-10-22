@@ -15,7 +15,7 @@ from pathlib import Path
 
 import pytest
 
-from core import page
+from core import page, sitebuild
 
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link",
         "meta", "param", "source", "track", "wbr"}
@@ -237,12 +237,32 @@ def test_the_negotiator_is_not_indexed(site, country):
     assert "noindex" in doc.meta.get("robots", "")
 
 
+# The one block on a page that is allowed to carry a placeholder: the
+# strings the script composes sentences from at runtime, which the
+# generator cannot fill because it does not know which country the reader
+# will pick to compare against.
+UI_BLOCK = re.compile(r"<script>window\.UI = .*?</script>", re.S)
+# What those strings may ask the script for.
+SCRIPT_FILLS = {"{lang}", "{n}"}
+
+
 def test_no_placeholder_survives_into_a_page(site):
     """Copy carries {n}, {window}, {year}; a page must carry none."""
     for path in pages_of(site):
-        text = path.read_text(encoding="utf-8")
+        text = UI_BLOCK.sub("", path.read_text(encoding="utf-8"))
         left = set(re.findall(r"\{[a-z_]{2,12}\}", text))
         assert not left, f"{path}: unfilled {sorted(left)}"
+
+
+def test_the_script_only_asks_for_placeholders_it_can_fill(site):
+    """The runtime strings are exempt from the sweep above, so they get
+    their own: a typo there would otherwise ship `{langauge}` to a reader
+    with nothing to catch it."""
+    for path in pages_of(site):
+        for block in UI_BLOCK.findall(path.read_text(encoding="utf-8")):
+            left = set(re.findall(r"\{[a-z_]{2,12}\}", block))
+            assert left <= SCRIPT_FILLS, \
+                f"{path}: window.UI asks for {sorted(left - SCRIPT_FILLS)}"
 
 
 def test_a_page_is_not_silently_in_the_wrong_language(site, country):
@@ -365,3 +385,95 @@ def test_no_plate_is_left_over_from_a_chapter_that_is_gone(country):
         if stem not in ids:
             stray.append(str(path.relative_to(country.out_dir)))
     assert not stray, f"{country.slug}: {len(stray)} orphaned: {stray[:6]}"
+
+
+# ------------------------------------------------------------- comparison
+#
+# The comparison control puts one country's plate on top of another's. That
+# only means anything if the two really are the same chapter, and the plate
+# numbering does not say so: France's `01_economy` and Argentina's
+# `01-output` are the same chapter, Argentina has no `spending` chapter at
+# all, and Brazil numbers trade sixth where France numbers it fourth. The
+# `topic` each chapter declares is what makes them comparable, so it is
+# what these tests are about.
+
+# The spine, from SOURCING_A_COUNTRY.md. A country may leave a chapter out;
+# it may not invent a topic, because a topic nothing else shares is a
+# comparison that can never be offered.
+SPINE = {
+    "economy", "prices", "fiscal", "spending", "trade", "markets",
+    "people", "world", "demography", "security", "mortality", "credit",
+    "migration",
+}
+
+
+def test_every_chapter_declares_a_topic(country):
+    for d in sitebuild.chapters_for(country):
+        assert d.get("topic"), f"{country.slug}/{d['id']}: no topic"
+
+
+def test_every_topic_is_one_of_the_spine(country):
+    for d in sitebuild.chapters_for(country):
+        assert d["topic"] in SPINE, \
+            f"{country.slug}/{d['id']}: topic {d['topic']!r} is not in the spine"
+
+
+def test_a_country_never_declares_one_topic_twice(country):
+    """Two chapters on one topic make the comparison ambiguous: the menu
+    would offer the country once and show whichever plate sorted first."""
+    seen = {}
+    for d in sitebuild.chapters_for(country):
+        assert d["topic"] not in seen, (
+            f"{country.slug}: {d['id']} and {seen[d['topic']]} both claim "
+            f"topic {d['topic']!r}")
+        seen[d["topic"]] = d["id"]
+
+
+def test_the_comparison_index_points_at_plates_that_exist(countries):
+    """Every path in compare.json resolves to a committed file.
+
+    The index is built from chapter ids and locale codes rather than by
+    listing the directory, so a chapter renamed without its plate being
+    re-rendered would publish a comparison that 404s. Nothing on the page
+    would say so — the seam would just wipe onto nothing.
+    """
+    index = page.compare_index(countries)
+    by_slug = {c.slug: c for c in countries}
+    missing = []
+    for topic, entries in index["topics"].items():
+        for entry in entries:
+            out = by_slug[entry["slug"]].dir / "output"
+            for loc, plate in entry["plates"].items():
+                for key in ("thumb", "svg"):
+                    rel = plate[key].split(f'/{entry["slug"]}/output/')[-1]
+                    if not (out / rel).exists():
+                        missing.append(f'{entry["slug"]}/{loc}/{key}: {rel}')
+    assert not missing, "comparison points at absent plates:\n  " + \
+        "\n  ".join(missing[:10])
+
+
+def test_the_comparison_index_offers_a_peer_for_the_shared_chapters(countries):
+    """The point of the feature is that the common chapters are common.
+
+    Not every topic is shared — Argentina is the only country with a
+    `prices` chapter, because it is the only one whose price index has a
+    decade missing from it — but the spine ones are, and a refactor that
+    quietly broke the topic tagging would show up here as chapters that
+    suddenly have nobody to compare with.
+    """
+    index = page.compare_index(countries)
+    shared = {t for t, e in index["topics"].items() if len(e) > 1}
+    assert {"economy", "fiscal", "trade", "markets", "people",
+            "demography", "security", "credit"} <= shared, \
+        f"expected the spine to be shared; shared topics are {sorted(shared)}"
+
+
+def test_the_comparison_names_every_country_in_every_language(countries):
+    """The menu on a Korean page names France in Korean."""
+    index = page.compare_index(countries)
+    locales = {loc for c in countries for loc in c.locale_codes}
+    for entries in index["topics"].values():
+        for entry in entries:
+            missing = [l for l in locales if not entry["name"].get(l)]
+            assert not missing, \
+                f'{entry["slug"]}: no name in {missing}'

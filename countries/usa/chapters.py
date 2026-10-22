@@ -51,7 +51,7 @@ def headline(ctx) -> list[dict]:
 def build(ctx) -> list[dict]:
     return [
         {
-            "id": '01-economy', "n": '01', "family": MONEY,
+            "id": '01-economy', "topic": "economy", "n": '01', "family": MONEY,
             "title": ctx.text(en='The American economy, 2006-2026',
                               pt='A economia americana, 2006-2026'),
             "blurb": ctx.text(en='Output, prices and work, from the agencies that measure them',
@@ -68,7 +68,7 @@ def build(ctx) -> list[dict]:
             },
         },
         {
-            "id": '02-fiscal', "n": '02', "family": MONEY,
+            "id": '02-fiscal', "topic": "fiscal", "n": '02', "family": MONEY,
             "title": ctx.text(en='What Washington takes in and what it owes',
                               pt='O que Washington arrecada e o que deve'),
             "blurb": ctx.text(en='Federal receipts, outlays and debt, by fiscal year ending 30 September',
@@ -86,7 +86,7 @@ def build(ctx) -> list[dict]:
             },
         },
         {
-            "id": '03-spending', "n": '03', "family": MONEY,
+            "id": '03-spending', "topic": "spending", "n": '03', "family": MONEY,
             "title": ctx.text(en='Where the money goes',
                               pt='Para onde vai o dinheiro'),
             "blurb": ctx.text(en='Federal outlays by function, in dollars and as a share of the budget',
@@ -105,7 +105,7 @@ def build(ctx) -> list[dict]:
             },
         },
         {
-            "id": '04-trade', "n": '04', "family": WORLD,
+            "id": '04-trade', "topic": "trade", "n": '04', "family": WORLD,
             "title": ctx.text(en='What America buys and sells',
                               pt='O que os Estados Unidos compram e vendem'),
             "blurb": ctx.text(en='Trade in goods and services, and who the goods come from',
@@ -123,7 +123,7 @@ def build(ctx) -> list[dict]:
             },
         },
         {
-            "id": '05-markets', "n": '05', "family": MONEY,
+            "id": '05-markets', "topic": "markets", "n": '05', "family": MONEY,
             "title": ctx.text(en='Money and markets',
                               pt='Dinheiro e mercados'),
             "blurb": ctx.text(en='The policy rate, the yield curve, the dollar and the stock market',
@@ -140,7 +140,7 @@ def build(ctx) -> list[dict]:
             },
         },
         {
-            "id": '06-people', "n": '06', "family": PEOPLE,
+            "id": '06-people', "topic": "people", "n": '06', "family": PEOPLE,
             "title": ctx.text(en='Households',
                               pt='Famílias'),
             "blurb": ctx.text(en='What a typical household earns, who is counted as poor, and the wage floor',
@@ -158,7 +158,7 @@ def build(ctx) -> list[dict]:
             },
         },
         {
-            "id": '07-world', "n": '07', "family": WORLD,
+            "id": '07-world', "topic": "world", "n": '07', "family": WORLD,
             "title": ctx.text(en='The United States in the world',
                               pt='Os Estados Unidos no mundo'),
             "blurb": ctx.text(en='Share of world output, what health costs, and how long people live',
@@ -175,7 +175,7 @@ def build(ctx) -> list[dict]:
             },
         },
         {
-            "id": '08-demographics', "n": '08', "family": PEOPLE,
+            "id": '08-demographics', "topic": "demography", "n": '08', "family": PEOPLE,
             "title": ctx.text(en='How many Americans',
                               pt='Quantos americanos'),
             "blurb": ctx.text(en='Population, what changes it, and where the Census Bureau expects it to go',
@@ -193,7 +193,7 @@ def build(ctx) -> list[dict]:
             },
         },
         {
-            "id": '09-mortality', "n": '09', "family": PEOPLE,
+            "id": '09-mortality', "topic": "mortality", "n": '09', "family": PEOPLE,
             "title": ctx.text(en='Deaths',
                               pt='Mortes'),
             "blurb": ctx.text(en='All causes, COVID-19 and the respiratory diseases — on two definitions',
@@ -211,7 +211,7 @@ def build(ctx) -> list[dict]:
             },
         },
         {
-            "id": '10-violence', "n": '10', "family": PEOPLE,
+            "id": '10-violence', "topic": "security", "n": '10', "family": PEOPLE,
             "title": ctx.text(en='Violent and accidental death',
                               pt='Mortes violentas e acidentais'),
             "blurb": ctx.text(en='Homicide, firearms, suicide and overdose',
@@ -229,7 +229,7 @@ def build(ctx) -> list[dict]:
             },
         },
         {
-            "id": '11-credit', "n": '11', "family": MONEY,
+            "id": '11-credit', "topic": "credit", "n": '11', "family": MONEY,
             "title": ctx.text(en='What households owe',
                               pt='O que as famílias devem'),
             "blurb": ctx.text(en='Household debt, the credit available to draw on, and what it costs',

@@ -3,8 +3,11 @@
   "line": "Twenty years of the United States, from the agencies that measure it.",
   "dek": "Every number here comes from the body that publishes it — the Bureau of Economic Analysis, the Bureau of Labor Statistics, the Treasury, the Office of Management and Budget, the Federal Reserve, the Census Bureau and the CDC. The charts are generated from the CSVs in this repository, so every figure can be traced back to a file and a source.",
   "notes": [
-   "Source file",
-   "Sources"
+   "2026 is a partial year. Annual totals and averages on this page stop at 2025; readings that are genuinely current — a debt stock, a policy rate, a closing price — are marked <em>latest</em>.",
+   "October 2025 was never collected and never will be. The shutdown cancelled the household survey and the CPI collection for that month, and BLS states neither can be collected retroactively, so 2025 is eleven months and is labelled as such — a permanent hole, not a late release.",
+   "Three pairs of series are deliberately never spliced: the federal budget as OMB publishes it, revised and on an accrual basis, against Treasury's cash position, which take one publisher per row and record which in a <code>source</code> column; goods trade at customs value from the Census Bureau against goods and services on a balance-of-payments basis from BEA, about $300bn apart; and a cause of death as the <em>underlying</em> cause against deaths <em>involving</em> it, which for pneumonia in 2020 differ by 639%.",
+   "Where one line is contained in another it says so in its own legend entry — U-3 inside U-6, firearm homicides inside firearm deaths, debt held by the public inside gross federal debt — and where a panel promises a share, the share is drawn rather than left for the reader to divide two lines by eye.",
+   "The plates are drawn in both languages, and so is this page."
   ],
   "colophon": []
  },
@@ -12,8 +15,11 @@
   "line": "Vinte anos dos Estados Unidos, segundo os órgãos que os medem.",
   "dek": "Cada número aqui vem do órgão que o publica — o Bureau of Economic Analysis, o Bureau of Labor Statistics, o Tesouro, o Office of Management and Budget, o Federal Reserve, o Census Bureau e o CDC. Os gráficos são gerados a partir dos CSVs deste repositório, então cada valor pode ser rastreado até um arquivo e uma fonte.",
   "notes": [
-   "Arquivo de origem",
-   "Fontes"
+   "2026 é um ano parcial. Totais e médias anuais nesta página param em 2025; leituras genuinamente atuais — um estoque de dívida, uma taxa de política monetária, um fechamento de mercado — vêm marcadas como <em>último</em>.",
+   "Outubro de 2025 nunca foi coletado e nunca será. A paralisação do governo cancelou a pesquisa domiciliar e a coleta do CPI daquele mês, e o BLS afirma que nenhuma das duas pode ser feita retroativamente, então 2025 tem onze meses e é rotulado assim — um buraco permanente, não uma divulgação atrasada.",
+   "Três pares de séries nunca são emendados: o orçamento federal como o OMB o publica, revisado e por competência, contra a posição de caixa do Tesouro — cada ano toma um único publicador, registrado na coluna <code>source</code>; o comércio de bens a valor aduaneiro do Census contra bens e serviços em base de balanço de pagamentos do BEA, cerca de US$ 300 bi de diferença; e uma causa de morte como causa <em>básica</em> contra óbitos que a <em>envolvem</em>, que para pneumonia em 2020 diferem em 639%.",
+   "Quando uma linha está contida em outra, isso é dito na própria legenda — U-3 dentro de U-6, homicídios por arma de fogo dentro de mortes por arma de fogo, dívida em poder do público dentro da dívida federal bruta — e quando um painel promete uma participação, a participação é desenhada em vez de deixada para o leitor dividir duas linhas a olho.",
+   "As pranchas são desenhadas nos dois idiomas, e esta página também."
   ],
   "colophon": []
  }

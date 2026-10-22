@@ -182,7 +182,7 @@ on its plate cannot disagree:
 
 ```python
 {
-  "id": "01_economy", "n": "01", "family": MONEY,
+  "id": "01_economy", "topic": "economy", "n": "01", "family": MONEY,
   "title": ctx.text(en="The Economy", pt="A Economia"),
   "blurb": ctx.text(en="...", pt="..."),
   "spark": ctx.col("macro/gdp.csv", "nominal_bn"),
@@ -190,6 +190,18 @@ on its plate cannot disagree:
                      "money_bn")],
 }
 ```
+
+`topic` is this chapter's place in the shared spine — `economy`,
+`fiscal`, `spending`, `trade`, `markets`, `people`, `world`, `demography`,
+`security`, `mortality`, `credit`, `migration` — and it is what the
+comparison control matches on. The numbering cannot do that job: France's
+`01_economy` and Argentina's `01-output` are the same chapter, Brazil
+numbers trade sixth where France numbers it fourth, and Argentina has no
+`spending` chapter at all. Declare the topic the chapter actually answers;
+a topic no other country has simply means the comparison menu will say so,
+which is honest. A country may not use one topic twice — the comparison
+would have no way to choose between the two plates — and `tests/test_site.py`
+enforces both that and the spine.
 
 `family` is one of `money`, `world`, `people` — the filter chips on the
 page. The third argument to `ctx.stat` is a format spec from

@@ -48,7 +48,7 @@ def headline(ctx) -> list[dict]:
 def build(ctx) -> list[dict]:
     chapters = [
         {
-            "id": "01_economy", "n": "01", "family": MONEY,
+            "id": "01_economy", "topic": "economy", "n": "01", "family": MONEY,
             "title": ctx.text(en="The Brazilian Economy", pt="A Economia Brasileira"),
             "blurb": ctx.text(en="Nominal size, real growth, income per person and inflation "
                 "— the four numbers the rest depend on.", pt="Tamanho nominal, crescimento real, renda por pessoa e "
@@ -64,7 +64,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "02_fiscal", "n": "02", "family": MONEY,
+            "id": "02_fiscal", "topic": "fiscal", "n": "02", "family": MONEY,
             "title": ctx.text(en="Taxes, Balance & Debt", pt="Impostos, Resultado e Dívida"),
             "blurb": ctx.text(en="What the state collects, whether it spends more than it "
                 "raises, and what that does to the debt stock.", pt="O que o Estado arrecada, se gasta mais do que arrecada, e o "
@@ -81,7 +81,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "03_spending", "n": "03", "family": MONEY,
+            "id": "03_spending", "topic": "spending", "n": "03", "family": MONEY,
             "title": ctx.text(en="Where the Money Goes", pt="Para Onde Vai o Dinheiro"),
             "blurb": ctx.text(en="Federal spending by function — pensions against everything "
                 "else the budget has to carry.", pt="Gasto federal por função — a Previdência contra tudo mais "
@@ -97,7 +97,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "06_trade", "n": "06", "family": WORLD,
+            "id": "06_trade", "topic": "trade", "n": "06", "family": WORLD,
             "title": ctx.text(en="Foreign Trade", pt="Comércio Exterior"),
             "blurb": ctx.text(en="A commodity-heavy export machine, a diversified import "
                 "bill, and China replacing everyone else.", pt="Uma pauta de exportação pesada em commodities, uma conta de "
@@ -113,7 +113,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "04_markets", "n": "04", "family": MONEY,
+            "id": "04_markets", "topic": "markets", "n": "04", "family": MONEY,
             "title": ctx.text(en="Money & Markets", pt="Moeda e Mercados"),
             "blurb": ctx.text(en="Brazilian equities in reais, in dollars, and beside the "
                 "S&P 500 — the currency is half the story.", pt="A bolsa brasileira em reais, em dólares e ao lado do "
@@ -130,7 +130,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "08_people", "n": "08", "family": PEOPLE,
+            "id": "08_people", "topic": "people", "n": "08", "family": PEOPLE,
             "title": ctx.text(en="Development, Jobs & Poverty", pt="Desenvolvimento, Trabalho e Pobreza"),
             "blurb": ctx.text(en="Human development, inequality, unemployment, the minimum "
                 "wage and how far poverty actually fell.", pt="Desenvolvimento humano, desigualdade, desemprego, o salário "
@@ -146,7 +146,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "07_world", "n": "07", "family": WORLD,
+            "id": "07_world", "topic": "world", "n": "07", "family": WORLD,
             "title": ctx.text(en="Brazil in the World", pt="O Brasil no Mundo"),
             "blurb": ctx.text(en="How the outside world scores Brazil, how closed its economy "
                 "is, and the reserves behind it.", pt="Como o mundo avalia o Brasil, quão fechada é sua economia, "
@@ -163,7 +163,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "09_demographics", "n": "09", "family": PEOPLE,
+            "id": "09_demographics", "topic": "demography", "n": "09", "family": PEOPLE,
             "title": ctx.text(en="The Demographic Transition", pt="A Transição Demográfica"),
             "blurb": ctx.text(en="Fertility down a third since 2000. The population peaks in "
                 "2041 and shrinks from 2042.", pt="Fecundidade um terço menor desde 2000. A população atinge o "
@@ -181,7 +181,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "10_security", "n": "10", "family": PEOPLE,
+            "id": "10_security", "topic": "security", "n": "10", "family": PEOPLE,
             "title": ctx.text(en="Violence", pt="Violência"),
             "blurb": ctx.text(en="Homicides falling while police lethality climbs — two "
                 "measurement systems, deliberately not spliced.", pt="Homicídios caindo enquanto a letalidade policial sobe — "
@@ -197,7 +197,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "11_epidemics", "n": "11", "family": PEOPLE,
+            "id": "11_epidemics", "topic": "mortality", "n": "11", "family": PEOPLE,
             "title": ctx.text(en="Epidemics", pt="Epidemias"),
             "blurb": ctx.text(en="COVID killed 425,218 in 2021 alone. Dengue set its record "
                 "in 2024, and influenza in 2025.", pt="A COVID matou 425.218 só em 2021. A dengue bateu recorde "
@@ -216,7 +216,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "05_credit", "n": "05", "family": MONEY,
+            "id": "05_credit", "topic": "credit", "n": "05", "family": MONEY,
             "title": ctx.text(en="Credit & Household Debt", pt="Crédito e Endividamento"),
             "blurb": ctx.text(en="Households owe half a year's income and pay 38% a year to "
                 "borrow. Debt service and arrears are at series highs.", pt="As famílias devem meio ano de renda e pagam 38% ao ano para "

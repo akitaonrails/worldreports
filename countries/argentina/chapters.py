@@ -43,7 +43,7 @@ def headline(ctx) -> list[dict]:
 def build(ctx) -> list[dict]:
     return [
         {
-            "id": '01-output', "n": '01', "family": MONEY,
+            "id": '01-output', "topic": "economy", "n": '01', "family": MONEY,
             "title": ctx.text(es='Veinte años de producto argentino',
                              en='Twenty years of Argentine output',
                              pt='Vinte anos de produto argentino'),
@@ -55,7 +55,7 @@ def build(ctx) -> list[dict]:
                              pt='Quatro painéis sobre o produto argentino entre 2006 e 2026. O PIB em dólares sobe de US$233 bilhões para um pico de US$656 bilhões em 2023 e termina perto de US$683 bilhões, mas se move tanto com o câmbio quanto com o produto. O crescimento real alterna com força: -5,9% em 2009, -9,9% em 2020, +10,4% em 2021, com média próxima de 1% ao ano. O PIB per capita chega a US$14.901 em 2015 e é de US$14.730 em 2025. Um índice de produto real com base 100 em 2006 termina o período apenas um pouco acima de onde começou.'),
         },
         {
-            "id": '02-prices', "n": '02', "family": MONEY,
+            "id": '02-prices', "topic": "prices", "n": '02', "family": MONEY,
             "title": ctx.text(es='Los precios, el peso y los dos dólares',
                              en='Prices, the peso and the two dollars',
                              pt='Os preços, o peso e os dois dólares'),
@@ -67,7 +67,7 @@ def build(ctx) -> list[dict]:
                              pt='Quatro painéis sobre os preços na Argentina. A inflação anual aparece em duas cores porque entre 2007 e 2016, a década da intervenção no INDEC, não existe índice nacional utilizável: em seu lugar entra o IPC provincial de San Luis, entre 18% e 39% ao ano. O índice nacional volta em 2017, chega a 211% em 2023 e cai para 31,5% em 2025 e 21,3% em 2026. O peso vai de cerca de 3 por dólar para aproximadamente 1.500, em escala logarítmica e ao lado do dólar paralelo. O spread entre os dois chega a quase 100% durante o segundo cepo. As reservas do banco central oscilam entre US$56 bilhões e US$21,9 bilhões em 2023, recuperando-se até US$49,7 bilhões.'),
         },
         {
-            "id": '03-living', "n": '03', "family": PEOPLE,
+            "id": '03-living', "topic": "people", "n": '03', "family": PEOPLE,
             "title": ctx.text(es='Trabajo, salarios y quién es pobre',
                              en='Work, wages and who is poor',
                              pt='Trabalho, salários e quem é pobre'),
@@ -79,7 +79,7 @@ def build(ctx) -> list[dict]:
                              pt='Quatro painéis sobre o padrão de vida na Argentina. O desemprego cai de 10,1% em 2006 para 6,1% em 2023 e volta a cerca de 7%. O salário mínimo em dólares passa de US$600 entre 2013 e 2015 e é de US$269 em 2025, abaixo do nível de 2006. A pobreza é desenhada em duas linhas, uma por semestre, com a década intervinda em branco: chega a 52,9% no primeiro semestre de 2024, o seguinte à desvalorização de dezembro de 2023, e a 38,1% no segundo. O coeficiente de Gini se move numa faixa estreita entre 0,42 e 0,44.'),
         },
         {
-            "id": '04-state', "n": '04', "family": MONEY,
+            "id": '04-state', "topic": "fiscal", "n": '04', "family": MONEY,
             "title": ctx.text(es='Lo que el Estado recauda y lo que gasta',
                              en='What the state takes and what it spends',
                              pt='O que o Estado arrecada e o que gasta'),
@@ -91,7 +91,7 @@ def build(ctx) -> list[dict]:
                              pt='Quatro painéis sobre as contas públicas argentinas. O resultado primário é desenhado em três trechos separados porque três metodologias incompatíveis cobrem o período; o último chega a -6,4% do PIB em 2020 e vira um superávit de +1,78% em 2024, o primeiro desde 2010. A receita tributária fica entre 21% e 26% do PIB, com os direitos de exportação e o imposto de renda mostrados como componentes. O gasto primário por finalidade é empilhado e dominado pela previdência, entre 7,6% e 9,7% do PIB; a série consolidada termina em 2023. O último painel confronta a previdência com o serviço da dívida, que chega a 4,35% do PIB em 2019.'),
         },
         {
-            "id": '05-trade', "n": '05', "family": WORLD,
+            "id": '05-trade', "topic": "trade", "n": '05', "family": WORLD,
             "title": ctx.text(es='Lo que la Argentina le vende al mundo',
                              en='What Argentina sells to the world',
                              pt='O que a Argentina vende ao mundo'),
@@ -103,7 +103,7 @@ def build(ctx) -> list[dict]:
                              pt='Quatro painéis sobre o comércio exterior argentino. Exportações e importações atingem picos próximos de US$88 bilhões e US$81 bilhões em 2022; o saldo comercial vai de um déficit de US$8,3 bilhões em 2017 a um superávit de US$18,9 bilhões em 2024. As exportações por categoria são empilhadas: produtos primários, manufaturas de origem agropecuária, manufaturas de origem industrial e combustíveis. As manufaturas industriais são calculadas como resíduo porque a fonte serve vazia a série própria dessa categoria. Combustíveis e energia ganham participação nos anos mais recentes.'),
         },
         {
-            "id": '06-credit', "n": '06', "family": MONEY,
+            "id": '06-credit', "topic": "credit", "n": '06', "family": MONEY,
             "title": ctx.text(es='Un sistema financiero que casi no presta',
                              en='A banking system that barely lends',
                              pt='Um sistema financeiro que quase não empresta'),
@@ -115,7 +115,7 @@ def build(ctx) -> list[dict]:
                              pt='Quatro painéis sobre o crédito na Argentina. O crédito ao setor privado fica entre 9% e 15% do PIB ao longo de vinte anos, contra 50-70% no Chile ou no Brasil; as famílias respondem por cerca de metade. O crédito imobiliário despenca de 1,56% do PIB em 2008 para 0,28% em 2024 e mal se recupera para 0,74% em 2025. As taxas reais mostram que poupar foi punido todos os anos entre 2017 e 2024, com taxa real de depósito de -37% em 2023, e que a partir de 2025 ela fica positiva enquanto o custo real de tomar emprestado passa de 30%. A inadimplência da carteira salta de 1,54% em 2024 para 5,54% em 2025, o pior registro desde 2006.'),
         },
         {
-            "id": '07-markets', "n": '07', "family": MONEY,
+            "id": '07-markets', "topic": "markets", "n": '07', "family": MONEY,
             "title": ctx.text(es='Lo que el mercado le cobró a la Argentina',
                              en='What the market charged Argentina',
                              pt='O que o mercado cobrou da Argentina'),
@@ -127,7 +127,7 @@ def build(ctx) -> list[dict]:
                              pt='Quatro painéis sobre os mercados argentinos. O Merval convertido em dólares é comparado ao S&P 500 com base 100 em 2006 e escala logarítmica; supera o índice americano em alguns trechos e devolve tudo em outros. O risco-país, o spread EMBI+, fica perto de 400 pontos-base em 2017 e passa de 2.200 em 2022, caindo para cerca de 570 em 2025. O último painel confronta reservas e risco-país em eixos gêmeos: movem-se em sentidos opostos quase todo o período.'),
         },
         {
-            "id": '08-people', "n": '08', "family": PEOPLE,
+            "id": '08-people', "topic": "demography", "n": '08', "family": PEOPLE,
             "title": ctx.text(es='Menos nacimientos, y un año malo de muertes',
                              en='Fewer births, and one bad year of deaths',
                              pt='Menos nascimentos, e um ano ruim de mortes'),
@@ -139,7 +139,7 @@ def build(ctx) -> list[dict]:
                              pt='Quatro painéis sobre a demografia argentina. Os nascimentos caem de 777.012 em 2014 para 413.135 em 2024, 46,8% a menos em dez anos, enquanto os óbitos sobem; as duas linhas convergem sem se cruzar. O crescimento vegetativo despenca de 451.000 por ano para 36.700. As mortes por COVID-19 são 53.222 em 2020 e 84.695 em 2021, frente a entre 15.000 e 40.000 mortes anuais por pneumonia; a gripe fica de fora porque a Argentina codifica apenas de 9 a 358 mortes por gripe ao ano. Os óbitos totais atingem o pico de 436.799 em 2021, com a COVID-19 empilhada como parcela do total; o registro contabiliza 164.785 mortes por COVID-19 no total, confirmadas e prováveis juntas.'),
         },
         {
-            "id": '09-violence', "n": '09', "family": PEOPLE,
+            "id": '09-violence', "topic": "security", "n": '09', "family": PEOPLE,
             "title": ctx.text(es='Homicidio y femicidio',
                              en='Homicide and femicide',
                              pt='Homicídio e feminicídio'),

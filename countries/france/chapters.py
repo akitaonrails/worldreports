@@ -52,7 +52,7 @@ def headline(ctx) -> list[dict]:
 def build(ctx) -> list[dict]:
     chapters = [
         {
-            "id": "01_economy", "n": "01", "family": MONEY,
+            "id": "01_economy", "topic": "economy", "n": "01", "family": MONEY,
             "title": ctx.text(en="The French Economy", fr="L'Économie Française", pt="A Economia Francesa"),
             "blurb": ctx.text(en="Nominal size, real growth, income per person and inflation "
                 "— the four numbers the rest depend on.", fr="Taille nominale, croissance réelle, revenu par habitant et "
@@ -69,7 +69,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "02_fiscal", "n": "02", "family": MONEY,
+            "id": "02_fiscal", "topic": "fiscal", "n": "02", "family": MONEY,
             "title": ctx.text(en="Taxes, Deficit & Debt", fr="Prélèvements, Déficit et Dette", pt="Impostos, Déficit e Dívida"),
             "blurb": ctx.text(en="The heaviest tax take in the EU, a deficit that never "
                 "closes, and what that does to the debt stock.", fr="Les prélèvements les plus lourds de l'UE, un déficit qui ne "
@@ -87,7 +87,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "03_spending", "n": "03", "family": MONEY,
+            "id": "03_spending", "topic": "spending", "n": "03", "family": MONEY,
             "title": ctx.text(en="Where the Money Goes", fr="Où Va l'Argent", pt="Para Onde Vai o Dinheiro"),
             "blurb": ctx.text(en="Public spending by function — social protection against "
                 "everything else the state has to carry.", fr="La dépense publique par fonction — la protection sociale "
@@ -108,7 +108,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "04_trade", "n": "04", "family": WORLD,
+            "id": "04_trade", "topic": "trade", "n": "04", "family": WORLD,
             "title": ctx.text(en="Foreign Trade", fr="Commerce Extérieur", pt="Comércio Exterior"),
             "blurb": ctx.text(en="A goods deficit that became structural, and the aeronautics "
                 "and luxury exports that soften it.", fr="Un déficit de biens devenu structurel, et les exportations "
@@ -125,7 +125,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "05_markets", "n": "05", "family": MONEY,
+            "id": "05_markets", "topic": "markets", "n": "05", "family": MONEY,
             "title": ctx.text(en="Money & Markets", fr="Monnaie et Marchés", pt="Moeda e Mercados"),
             "blurb": ctx.text(en="The CAC 40 beside the S&P 500, the euro against the dollar, "
                 "and eight years of negative rates.", fr="Le CAC 40 face au S&P 500, l'euro face au dollar, et huit "
@@ -145,7 +145,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "06_people", "n": "06", "family": PEOPLE,
+            "id": "06_people", "topic": "people", "n": "06", "family": PEOPLE,
             "title": ctx.text(en="Development, Jobs & Poverty", fr="Développement, Emploi et Pauvreté", pt="Desenvolvimento, Trabalho e Pobreza"),
             "blurb": ctx.text(en="Human development, inequality, unemployment, the minimum "
                 "wage and a poverty rate that will not fall.", fr="Développement humain, inégalités, chômage, salaire minimum "
@@ -162,7 +162,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "07_world", "n": "07", "family": WORLD,
+            "id": "07_world", "topic": "world", "n": "07", "family": WORLD,
             "title": ctx.text(en="France in the World", fr="La France dans le Monde", pt="A França no Mundo"),
             "blurb": ctx.text(en="How the outside world scores France, how open its economy "
                 "is, and the gold behind its reserves.", fr="Comment le monde évalue la France, le degré d'ouverture de "
@@ -180,7 +180,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "08_demographics", "n": "08", "family": PEOPLE,
+            "id": "08_demographics", "topic": "demography", "n": "08", "family": PEOPLE,
             "title": ctx.text(en="The Demographic Transition", fr="La Transition Démographique", pt="A Transição Demográfica"),
             "blurb": ctx.text(en="Fertility at its lowest since the war, and deaths now "
                 "outnumbering births.", fr="La fécondité au plus bas depuis la guerre, et des décès "
@@ -202,7 +202,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "09_security", "n": "09", "family": PEOPLE,
+            "id": "09_security", "topic": "security", "n": "09", "family": PEOPLE,
             "title": ctx.text(en="Violence", fr="Violences", pt="Violência"),
             "blurb": ctx.text(en="Homicides counted two incompatible ways, femicides, and "
                 "recorded violence that reflects reporting as much as crime.", fr="Les homicides comptés de deux façons incompatibles, les "
@@ -222,7 +222,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "10_mortality", "n": "10", "family": PEOPLE,
+            "id": "10_mortality", "topic": "mortality", "n": "10", "family": PEOPLE,
             "title": ctx.text(en="Mortality", fr="Mortalité", pt="Mortalidade"),
             "blurb": ctx.text(en="COVID-19 and influenza deaths counted three different ways, "
                 "against twenty years of all-cause mortality.", fr="Les morts du COVID-19 et de la grippe comptés de trois "
@@ -245,7 +245,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "11_credit", "n": "11", "family": MONEY,
+            "id": "11_credit", "topic": "credit", "n": "11", "family": MONEY,
             "title": ctx.text(en="Credit and Household Debt", fr="Le Crédit et la Dette des Ménages", pt="Crédito e Dívida das Famílias"),
             "blurb": ctx.text(en="What borrowing costs, how much households owe, and why a "
                 "rate shock left the existing stock almost untouched.", fr="Ce que coûte emprunter, combien les ménages doivent, et "

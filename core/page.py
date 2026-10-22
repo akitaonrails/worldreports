@@ -415,6 +415,73 @@ def _provenance(ch: Chrome, files: list[str], by_file: dict) -> str:
         </details>"""
 
 
+def compare_index(countries: list[Country]) -> dict:
+    """Which countries publish the same chapter, and where their plate is.
+
+    The comparison control needs to know that France's `01_economy` and
+    Argentina's `01-output` are the same chapter of the same atlas. The
+    numbering does not say so — the five original projects numbered their
+    own plates and Argentina has no `spending` chapter at all — so each
+    chapter declares a `topic` from the shared spine and this groups them
+    by it.
+
+    Written once for the whole site rather than inlined on every page:
+    thirteen pages would otherwise each carry every other country's plate
+    list, and the index is only read when a reader actually asks for a
+    comparison.
+
+    This is page assembly, not plate rendering. It reads each country
+    through its own accessors and writes nothing into any of them; no
+    number crosses a border here, only the path to an already-rendered
+    image.
+    """
+    topics: dict[str, list[dict]] = {}
+    for c in countries:
+        for d in sitebuild.chapters_for(c):
+            topic = d.get("topic")
+            if not topic:
+                continue
+            # One entry per locale the country publishes, so the page can
+            # prefer the language the reader is already in and fall back
+            # to this country's own when it does not publish it.
+            plates = {}
+            for code in c.locale_codes:
+                suffix = "" if code == "en" else f".{code}"
+                stem = f"{d['id']}{suffix}"
+                # Root-relative, not absolute: the same file has to work
+                # on worldreports.io and on whatever port `make serve` is
+                # on, and a plate fetched from the live origin while
+                # previewing a local build would compare the wrong thing.
+                plates[code] = {
+                    "thumb": f"/{c.slug}/output/thumbs/{stem}.png",
+                    "svg": f"/{c.slug}/output/{stem}.svg",
+                    "title": (d["title"] or {}).get(code) or "",
+                    "alt": (d.get("alt") or {}).get(code) or "",
+                }
+            topics.setdefault(topic, []).append({
+                "slug": c.slug,
+                "flag": c.flag_emoji,
+                "name": d_name(c),
+                "n": d["n"],
+                "id": d["id"],
+                "default": c.default_locale,
+                "locales": list(c.locale_codes),
+                "plates": plates,
+            })
+    for entries in topics.values():
+        entries.sort(key=lambda x: x["slug"])
+    return {"topics": topics}
+
+
+def d_name(c: Country) -> dict:
+    """A country's name in every language the atlas publishes.
+
+    The comparison menu on a Korean page names France in Korean, so this
+    is the whole dict rather than one locale's string.
+    """
+    return dict(c.name)
+
+
 def _plate_files(ch_data: dict, locale: str, default: str) -> tuple[str, str, str]:
     """Where this plate's three files are, relative to a locale directory.
 
@@ -427,6 +494,44 @@ def _plate_files(ch_data: dict, locale: str, default: str) -> tuple[str, str, st
     return (f"../output/thumbs/{stem}.png",
             f"../output/{stem}.svg",
             f"../output/{stem}.png")
+
+
+def _compare(ch: Chrome, d: dict) -> str:
+    """The control that puts another country's version of this plate on top.
+
+    Rendered `hidden` and revealed by the script, because unlike every
+    other control on the page this one has no meaning without it: there is
+    no HTML that wipes one image across another. Everything else here
+    degrades to something that still works, so a dead control would be the
+    only broken thing on a page that is otherwise readable with the script
+    off.
+
+    The menu is filled in by the script from /compare.json rather than
+    written out per page: thirteen pages would each carry every other
+    country's plate list, and most readers will never open it.
+    """
+    if not d.get("topic"):
+        return ""
+    return f"""<div class="cmp" hidden>
+          <details class="cmp__menu">
+            <summary class="cmp__btn">
+              <span class="cmp__ico" aria-hidden="true"></span>
+              {e(ch.t("compare"))}
+            </summary>
+            <div class="cmp__sheet">
+              <p class="cmp__lead">{e(ch.t("compare.with"))}</p>
+              <div class="cmp__list"></div>
+            </div>
+          </details>
+          <div class="cmp__on" hidden>
+            <span class="cmp__who"></span>
+            <input type="range" class="cmp__range" min="0" max="100"
+                   value="50" step="0.5"
+                   aria-label="{e(ch.t("compare.position"))}">
+            <button type="button" class="cmp__clear"
+                    aria-label="{e(ch.t("compare.clear"))}">×</button>
+          </div>
+        </div>"""
 
 
 def _card(country: Country, ch: Chrome, d: dict, i: int,
@@ -446,13 +551,23 @@ def _card(country: Country, ch: Chrome, d: dict, i: int,
 
     return f"""<li data-family="{e(d['family'])}" data-id="{e(d['id'])}"
         data-title="{e(title)}" data-alt="{e(alt)}" data-label="{e(label)}"
-        data-svg="{e(svg)}">
+        data-svg="{e(svg)}" data-topic="{e(d.get('topic', ''))}">
       <article class="card" style="--fam: var(--{e(d['family'])})">
-        <a class="figure__open" href="{e(svg)}">
-          <img class="card__thumb" src="{e(thumb)}" alt="{e(alt)}"
-               width="{THUMB_W}" height="{THUMB_H}"
-               loading="{'eager' if i < 2 else 'lazy'}" decoding="async">
-        </a>
+        {_compare(ch, d)}
+        <div class="figure">
+          <a class="figure__open" href="{e(svg)}">
+            <img class="card__thumb" src="{e(thumb)}" alt="{e(alt)}"
+                 width="{THUMB_W}" height="{THUMB_H}"
+                 loading="{'eager' if i < 2 else 'lazy'}" decoding="async">
+          </a>
+          <div class="cmp__layer" hidden aria-hidden="true">
+            <img class="cmp__img" alt="">
+            <span class="cmp__edge"></span>
+            <span class="cmp__grip"></span>
+            <span class="cmp__tag cmp__tag--a"></span>
+            <span class="cmp__tag cmp__tag--b"></span>
+          </div>
+        </div>
         <span class="card__n">{e(label)}</span>
         <h3 class="card__title">{e(title)}</h3>
         <p class="card__blurb">{e(blurb)}</p>
@@ -509,16 +624,26 @@ def _sources(ch: Chrome, datasets: list[dict]) -> str:
     heads = ("sources.file", "sources.dataset", "sources.publisher",
              "sources.coverage", "sources.kind")
     head = "".join(f'<th scope="col">{e(ch.t(k))}</th>' for k in heads)
+    # Folded away by default. This is the longest thing on the page by a
+    # wide margin — one row per committed CSV, thirty-odd of them — and it
+    # sits between the plates and the colophon, so left open it is a wall
+    # of filenames a reader has to scroll past to reach the end of the
+    # page. A <details> keeps every row in the DOM and in the
+    # accessibility tree, so it is still found by a page search, still
+    # read by a screen reader that walks the document, and still indexed.
     return f"""<section id="sources" aria-labelledby="sources-h">
     <h2 id="sources-h">{e(ch.t("sources.title"))}</h2>
     <p class="dek">{e(ch.t("sources.lead"))}</p>
-    <div class="tablewrap tablewrap--tall">
-      <table class="t srctable srctable--all">
-        <colgroup><col><col><col><col><col></colgroup>
-        <thead><tr>{head}</tr></thead>
-        <tbody>{"".join(rows)}</tbody>
-      </table>
-    </div>
+    <details class="sources__all">
+      <summary>{e(ch.t("sources.show", n=len(rows)))}</summary>
+      <div class="tablewrap tablewrap--tall">
+        <table class="t srctable srctable--all">
+          <colgroup><col><col><col><col><col></colgroup>
+          <thead><tr>{head}</tr></thead>
+          <tbody>{"".join(rows)}</tbody>
+        </table>
+      </div>
+    </details>
   </section>"""
 
 
@@ -543,6 +668,18 @@ def _colophon(country: Country, ch: Chrome, datasets: list[dict],
       </div>
     </div>
   </footer>"""
+
+
+def _ui_json(ch: Chrome) -> str:
+    """The few strings the script builds sentences from, in this locale.
+
+    Everything else on the page is translated by the generator and written
+    into the HTML. These cannot be: the comparison menu is assembled at
+    runtime from countries this page does not otherwise mention.
+    """
+    keys = ("compare.none", "compare.lang", "compare.loading",
+            "compare.hint", "compare.clear")
+    return json.dumps({k: ch.t(k) for k in keys}, ensure_ascii=False)
 
 
 def _viewer(ch: Chrome) -> str:
@@ -574,6 +711,15 @@ def _viewer(ch: Chrome) -> str:
     </div>
     <div class="viewer__stage" id="v-stage">
       <img class="viewer__img" id="v-img" alt="">
+      <img class="viewer__img viewer__cmp" id="v-cmp" alt="" hidden>
+      <div class="vcmp" id="v-wipe" hidden>
+        <span class="vcmp__edge"></span>
+        <span class="vcmp__grip" tabindex="0" role="slider"
+              aria-label="{e(ch.t("compare.position"))}"
+              aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"></span>
+        <span class="vcmp__tag vcmp__tag--a" id="v-cmp-a"></span>
+        <span class="vcmp__tag vcmp__tag--b" id="v-cmp-b"></span>
+      </div>
     </div>
     <div class="viewer__foot">
       <button type="button" class="step" id="v-prev">←&nbsp;{e(ch.t("viewer.prev"))}</button>
@@ -624,7 +770,7 @@ def country_page(country: Country, locale: str, chapters: list[dict],
 {_jsonld(country, ch, datasets)}
   </script>
 </head>
-<body>
+<body data-slug="{e(country.slug)}" data-name="{e(ch.tx(country.name) or country.wordmark)}">
   <a class="skip" href="#plates">{e(ch.t("skip"))}</a>
 
   <header class="masthead">
@@ -658,6 +804,7 @@ def country_page(country: Country, locale: str, chapters: list[dict],
   {_colophon(country, ch, datasets, built)}
   {_viewer(ch)}
 
+  <script>window.UI = {_ui_json(ch)};</script>
   <script src="../../assets/viewer.js"></script>
   <script src="../../assets/app.js"></script>
 </body>
@@ -831,6 +978,13 @@ def build(out_dir: Path, only: list[str] | None = None) -> list[str]:
     assets.mkdir(exist_ok=True)
     for name in ("app.css", "app.js", "viewer.js"):
         shutil.copy2(SITE / name, assets / name)
+
+    # Every country's plates, grouped by the chapter they belong to. The
+    # comparison control fetches this once, on first use.
+    (out_dir / "compare.json").write_text(
+        json.dumps(compare_index(countries), ensure_ascii=False,
+                   separators=(",", ":")),
+        encoding="utf-8")
 
     for country in wanted:
         local = _country_ui(country)
