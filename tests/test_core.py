@@ -82,10 +82,24 @@ def test_shared_code_names_no_country(path):
                       + "\n  ".join(dict.fromkeys(hits)))
 
 
+# A country branch checkout leaves gitignored leftovers (cache/,
+# __pycache__/) behind in a directory whose tracked files belong to another
+# branch. A directory holding nothing else is a checkout artefact, not a
+# country, and must not trip the declaration check.
+_LEFTOVER_DIRS = {"cache", "__pycache__"}
+
+
+def _has_country_content(d: Path) -> bool:
+    return any(f.is_file()
+               and not (_LEFTOVER_DIRS & set(f.relative_to(d).parts[:-1]))
+               for f in d.rglob("*"))
+
+
 def test_every_country_directory_declares_itself():
     """A directory under countries/ without a country.yaml is invisible."""
     dirs = {p.name for p in COUNTRIES_DIR.iterdir()
-            if p.is_dir() and not p.name.startswith((".", "__"))}
+            if p.is_dir() and not p.name.startswith((".", "__"))
+            and _has_country_content(p)}
     declared = {c.slug for c in Country.all()}
     assert dirs == declared, f"undeclared: {sorted(dirs - declared)}"
 
