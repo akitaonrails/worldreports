@@ -4,8 +4,12 @@
 # those exist, and says in the notes where the two disagree and by how much.
 # Never spliced.
 #
-# *** FIRST DRAFT — endpoints marked UNVERIFIED; will be curl'd live and the
-# *** comments resolved in the verification passes that follow this commit. ***
+# Endpoints were curl'd live on 2026-10-22 and the outcome is recorded per
+# series in SOURCES.yaml: World Bank, IMF DataMapper, UNDP HDR25, Yahoo
+# 000001.SS and UN Comtrade are LIVE and fetched; the NBS machine API is
+# 403-blocked, GACC 412-blocked, and PBoC/SAFE/MOF portals answer but their
+# series endpoints are not yet isolated — all parked on the SOURCES.yaml
+# pending list, none scraped around.
 slug: china
 flag_emoji: "🇨🇳"
 wordmark: 中国
