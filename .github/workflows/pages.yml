@@ -58,7 +58,7 @@ jobs:
       - name: Test
         run: |
           python3 -m pytest
-          node --test tests/js/
+          node --test tests/js/*.test.js
 
       - name: Build the site
         run: python3 -m core.page --out _site

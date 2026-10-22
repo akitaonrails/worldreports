@@ -45,16 +45,16 @@ serve: site
 ## test — everything. The slow part really renders every plate.
 test:
 	$(PY) -m pytest
-	node --test tests/js/
+	node --test tests/js/*.test.js
 
 ## test-fast — skip the suites that render plates
 test-fast:
 	$(PY) -m pytest --ignore=tests/test_layout.py \
 	    --deselect tests/test_catalogs.py::test_every_string_the_plates_emit_has_a_translation
-	node --test tests/js/
+	node --test tests/js/*.test.js
 
 test-js:
-	node --test tests/js/
+	node --test tests/js/*.test.js
 
 ## baseline — re-record the layout baseline after a deliberate change
 baseline:
