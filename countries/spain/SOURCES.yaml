@@ -1,0 +1,439 @@
+# Data provenance — every planned series for Spain.
+#
+# Written 2026-10-22 BEFORE the CSVs, as the research pass prescribes; the
+# fetchers then staged each `*_from_*` sidecar under data/. Nothing here is
+# curated yet: every committed file is a sidecar, and a later session turns
+# the ones the plates use into curated CSVs by diffing, not by trusting.
+#
+# Sources verified live 2026-10-22. The pending block under `meta` is for
+# publishers that exist but could not be staged this session (walled or
+# unreachable) — the page's sources table ignores `meta`.
+
+meta:
+  pending:
+    - name: crime statistics (homicides)
+      publisher: Ministerio del Interior — Portal Estadístico de Criminalidad
+      url: https://estadisticasdecriminalidad.ses.mir.es/publico/portolestadistico/
+      official: true
+      notes: >-
+        The portal answers every automated request — plain and browser-UA
+        alike — with its error page served as HTTP 200 (verified
+        2026-10-22), so no fetcher can be written against it safely.
+        Curation by hand from the quarterly Balance de Criminalidad and the
+        annual series when the security chapter is built. Pair it with the
+        ECM death-certificate count of assaults (ICD-10 X85–Y09), which IS
+        staged below from the INE — the two disagree in both directions and
+        neither is wrong (SOURCING §4).
+    - name: budget execution and debt stock on national definitions
+      publisher: IGAE (Intervención General de la Administración del Estado) / Tesoro Público
+      url: https://www.igae.pap.hacienda.gob.es/
+      official: true
+      notes: >-
+        Both sites timed out from this machine on 2026-10-22 (connection
+        never established; not a 403). The fiscal plates are therefore
+        built on the Eurostat EDP transmission (gov_10dd_edpt1,
+        gov_10q_ggdebt), which Spain reports under obligation — the same
+        numbers IGAE computes, on the Maastricht definition. If a clean
+        IGAE machine endpoint is verified later, add it BESIDE the EDP
+        series (national vs harmonised definitions of the debt differ by
+        consolidation), never spliced.
+    - name: merchandise trade by partner and product
+      publisher: DataComex (Secretaría de Estado de Comercio)
+      url: https://datacomex.comercio.es/
+      official: true
+      notes: >-
+        Spain's customs trade portal, not probed this session. The World
+        Bank openness series (international/) is staged as the comparables
+        layer; the partner/product chapter waits for the build phase.
+        Customs-value goods and balance-of-payments goods-and-services are
+        two different numbers; see SOURCING §4 before drawing either.
+    - name: IBEX 35 daily closes from stooq
+      publisher: stooq.com (redistributor)
+      url: https://stooq.com/q/d/l/?s=%5Eibex&i=d
+      official: false
+      notes: >-
+        Walled behind a JavaScript proof-of-work page on 2026-10-22 — the
+        same wall that blocked ^TSX in the Canada session. Staged from
+        Yahoo instead (markets/ibex_from_yahoo.csv); stooq stays here as
+        the alternative if Yahoo ever fails.
+
+macro:
+  gdp_from_estat.csv:
+    source: Eurostat — nama_10_gdp (ESA 2010, Spain's transmission)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_gdp?geo=ES&na_item=B1GQ
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      GDP at current prices (CP_MEUR, written as €bn) and real growth
+      (CLV_PCH_PRE). Spain computes this (INE's CNE/CNTR) and transmits it;
+      Eurostat is the authoritative publication channel for the ESA 2010
+      accounts. The INE twin is macro/gdp_from_ine.csv — same quantity,
+      national release, kept as a separate column set, never spliced.
+  gdp_from_ine.csv:
+    source: INE — Contabilidad Nacional Trimestral (CNTR), series CNTR6548
+    url: https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/CNTR6548
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      Quarterly GDP at current prices, € millions, NOT seasonally adjusted,
+      summed to the year (Spanish quarterly GDP is published as quarterly
+      levels, not annualised rates — the sum is the annual level, not four
+      times it). 2024 reads €1,598.6bn against Eurostat's €1,593.3bn for
+      the same year: the vintages differ by revision, which is exactly the
+      seam the two-column rule exists for.
+  hicp_from_estat.csv:
+    source: Eurostat — prc_hicp_aind (HICP annual rate of change)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_aind?geo=ES&coicop=CP00
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      The harmonised consumer-price rate (RCH_A_AVG). NOT the same series
+      as INE's IPC: the HICP excludes some owner-occupier concepts and
+      uses a different basket; Spain's 2016-2019 pair differs by tenths of
+      a point. Two columns, both labelled.
+  ipc_from_ine.csv:
+    source: INE — IPC, series IPC290751 (índice general nacional, series enlazadas)
+    url: https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/IPC290751
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      INE's legally LINKED general CPI index, monthly, published today in
+      base 2025 — the base moved 2006 → 2011 → 2016 → 2021 → 2025 (the
+      last change in early 2026), and the linked series absorbs each
+      rebase, so the levels are comparable across the window but are NOT
+      the index anyone quoted at the time. ipc_index_avg is the annual
+      mean of the monthly index; ipc_rate is the year-on-year change of
+      that mean, which reproduces INE's "variación media anual" (2008:
+      4.1, 2024: 2.8 — both check against the press figure).
+  unemployment_from_estat.csv:
+    source: Eurostat — une_rt_a (LFS unemployment rate, 15-74)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/une_rt_a?geo=ES
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      The harmonised LFS rate. Drawn beside INE's EPA annual average,
+      which is the series Spanish readers know (2013: 26.1). The pair
+      differ slightly in coverage; never spliced.
+  unemployment_from_ine.csv:
+    source: INE — Encuesta de Población Activa, table 72986, series EPA648630
+    url: https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/72986
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      National unemployment rate, both sexes, all ages, ANNUAL AVERAGE of
+      the quarterly EPA (FK_Periodo 28 in the API). The EPA was reweighted
+      to the 2021 census in 2022 and its questionnaire modernised in 2021;
+      INE back-computed the rates, but the 2021 step is a vintage seam to
+      annotate if a chart makes too much of it.
+
+fiscal:
+  debt_from_estat.csv:
+    source: Eurostat — gov_10dd_edpt1 (EDP notification debt) and gov_10q_ggdebt
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10dd_edpt1?geo=ES&na_item=GD&unit=PC_GDP
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Maastricht gross debt, general government, % of GDP (annual) and
+      €bn (quarterly, read at Q4). This is the EDP/ESA definition:
+      consolidated, all levels of government. Spain's own "deuda de las
+      Administraciones Públicas" (BdE/IGAE) is the same EDP aggregate
+      domestically; the Tesoro's "deuda del Estado" is the STATE only and
+      a materially smaller number. One definition per column.
+  deficit_from_estat.csv:
+    source: Eurostat — gov_10dd_edpt1 (B9) and gov_10a_main (D41PAY)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10dd_edpt1?geo=ES&na_item=B9
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Net lending/borrowing % GDP; primary = deficit + interest, computed
+      here (it is what the budget would be if the debt were free). 2009
+      reads −11.2% and 2012 −11.5% — the 2012 figure includes the
+      bank-recapitalisation transfers, which is why it is larger than the
+      "underlying" deficit quoted at the time.
+  revenue_from_estat.csv:
+    source: Eurostat — gov_10a_main (TR, TE)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Total revenue and total expenditure of general government, % of
+      GDP, national-accounts basis. The pair brackets the deficit file.
+  tax_burden_from_estat.csv:
+    source: Eurostat — gov_10a_taxag (D2+D5+D91+D61 net of D995)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Eurostat's harmonised taxes-and-social-contributions ratio. Spain's
+      national "presión fiscal" lands lower; both are correct, they count
+      different things, and the notes on the plate must say which is drawn.
+  spending_by_function_from_estat.csv:
+    source: Eurostat — gov_10a_exp (COFOG divisions, TE, % GDP)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Spending by COFOG division. GF01 carries debt interest, which is why
+      it is not simply "administration"; defence+order and the three small
+      divisions are summed pairs/triples, as in France's fetcher.
+  investment_from_estat.csv:
+    source: Eurostat — nama_10_gdp (P51G) and gov_10a_main (P51G)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Gross fixed capital formation, whole economy (€bn and % GDP) and
+      general government (% GDP): three concepts, kept apart.
+
+markets:
+  policy_rate_from_ecb.csv:
+    source: ECB Data Portal — FM (DFR and MRO, daily, year-end)
+    url: https://data-api.ecb.europa.eu/service/data/FM/D.U2.EUR.4F.KR.DFR.LEV
+    refreshed_by: fetch/fetch_ecb.py
+    notes: >-
+      Spain has no monetary policy of its own; the policy rate is the
+      ECB's. The deposit facility rate is the one that has steered
+      money-market rates since 2014 — through the negative-rate period the
+      MRO sat at zero while the DFR went to −0.50 — so the DFR is drawn
+      and the MRO kept as a second column, never spliced into one "policy
+      rate" line. Same construct as France's file, fetched into Spain's
+      own directory.
+  eurusd_from_ecb.csv:
+    source: ECB Data Portal — EXR (USD per EUR reference rate, daily)
+    url: https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A
+    refreshed_by: fetch/fetch_ecb.py
+    notes: >-
+      Annual mean and year-end of the daily ECB reference rate. USD per
+      EUR: a FALLING line is a weaker euro.
+  yield_10y_from_estat.csv:
+    source: Eurostat — irt_lt_mcby_a (Maastricht criterion bond yield)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/irt_lt_mcby_a?geo=ES
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Annual average of the 10-year benchmark government bond yield used
+      for the convergence criterion. 2012 reads about 5.8% — the euro
+      crisis in one number; the spread over Germany it implies is the
+      plate's story but is computed on the plate, not here.
+  euribor_from_bde.csv:
+    source: Banco de España — bierest API, series D_1NBAF472 (Euríbor a un año)
+    url: https://app.bde.es/bierest/resources/srdatosapp/listaSeries?series=D_1NBAF472&rango=MAX
+    refreshed_by: fetch/fetch_bde.py
+    notes: >-
+      Monthly 12-month Euribor, annual mean. The rate most Spanish
+      mortgages reprice against, so it belongs beside the ECB rate they
+      both follow. BdE series arrive newest-first with null holes and
+      their units only in the metadata; see fetch_bde.py.
+  mortgage_rate_from_bde.csv:
+    source: Banco de España — bierest API, series DN_1TI2T0135 (TEDR, housing, new business)
+    url: https://app.bde.es/bierest/resources/srdatosapp/listaSeries?series=DN_1TI2T0135&rango=MAX
+    refreshed_by: fetch/fetch_bde.py
+    notes: >-
+      Narrowly-defined effective rate on NEW housing loans to households,
+      monthly, annual mean; the series starts January 2003. The
+      new-business compilation changed with Circular 5/2012 (in force for
+      2014 data), so pre/post-2014 levels are not strictly one definition
+      — annotate, do not smooth.
+  ibex_from_yahoo.csv:
+    source: Yahoo Finance (redistributor) — ^IBEX, monthly closes
+    url: https://query1.finance.yahoo.com/v8/finance/chart/%5EIBEX
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: >-
+      Nobody official publishes an index close. PRICE index — it excludes
+      dividends, and the IBEX's dividend yield is among the highest in
+      Europe, so a price-only chart understates Madrid against total-
+      return indices; the plate must say so. Monthly close = last trading
+      day of the month, so December is the year-end value; the current
+      year is a live reading, labelled as such. stooq's ^ibex is the
+      fallback and is JS-walled (see meta.pending).
+
+credit:
+  household_debt_from_bde.csv:
+    source: Banco de España — CFEE (financial accounts), series DMZ10E000H0.Q
+    url: https://app.bde.es/bierest/resources/srdatosapp/listaSeries?series=DMZ10E000H0.Q&rango=MAX
+    refreshed_by: fetch/fetch_bde.py
+    notes: >-
+      Household + NPISH loan liabilities as % of gross disposable income
+      (four-quarter accumulation), quarterly, annual mean and Q4. Includes
+      NPISHs — the "hogares e ISFLSH" pairing is standard in Spain and is
+      said on the plate. Peak ~138% in 2010; the deleveraging since (75%
+      by 2025) is the chapter's story.
+  npl_from_bde.csv:
+    source: Banco de España — bierest, D_MEADU000 (dudosos) and D_MEE60000 (crédito total)
+    url: https://app.bde.es/bierest/resources/srdatosapp/listaSeries?series=D_MEADU000&rango=MAX
+    refreshed_by: fetch/fetch_bde.py
+    notes: >-
+      Doubtful loans and total credit to other resident sectors, both in
+      THOUSANDS of euro (the API's values are newest-first with null
+      holes; the units live only in the informacion metadata). npl_ratio
+      is computed here as doubtful ÷ total — a computed column, labelled
+      as one. Universe: credit institutions in Spain, resident sectors
+      only; the 2014 reporting change (Circular 4/2004 as amended) moved
+      the level, so the 2013-14 step is classification, not behaviour.
+
+social:
+  gini_from_estat.csv:
+    source: Eurostat — ilc_di12 (EU-SILC Gini of equivalised disposable income)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ilc_di12?geo=ES
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      EU-SILC Gini. INE publishes the same survey nationally (ECV); the
+      two vintages can differ by a decimal. The World Bank's harmonised
+      Gini for Spain is ALSO EU-SILC-derived — three cuts of one survey,
+      not three measurements.
+  poverty_from_estat.csv:
+    source: Eurostat — ilc_li02 (at-risk-of-poverty rate, 60% of median)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Share below 60% of the national median equivalised income. A
+      relative threshold: it does not fall in a recession where everyone's
+      income falls together, and that is a property of the measure, not a
+      finding about poverty.
+  demography_from_estat.csv:
+    source: Eurostat — demo_gind (JAN, LBIRTH, DEATH) and demo_find (TOTFERRT)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Population on 1 January, live births, deaths, total fertility rate —
+      the harmonised cut, drawn beside INE's own (below), never spliced.
+  population_from_ine.csv:
+    source: INE — Estadística Continua de Población, table 56934, series ECP320
+    url: https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/56934
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      Resident population, national total, at 1 January (FK_Periodo 19 in
+      the API's quarterly grid). The ECP replaced the Padrón-derived
+      "cifras oficiales" as INE's reference series in 2023 and carries a
+      homogeneous reconstruction back to 1971 — one vintage throughout,
+      which is why it and not the DPOP tables is the national series here.
+  vital_from_ine.csv:
+    source: INE — Movimiento Natural de la Población (series MNP17451 births, MNP89585 deaths)
+    url: https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/MNP17451
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      Monthly national births and deaths SUMMED to the year. MNP results
+      are provisional for the most recent year or two and are revised
+      upward as late registrations arrive — the last complete year can
+      still move.
+  causes_of_death_from_ine.csv:
+    source: INE — Estadística de Defunciones según la Causa de Muerte, table 9936 (lista reducida)
+    url: https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/9936
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      Deaths by cause, national total, both sexes, annual — the ICD-10
+      reduced list. Includes the assault codes (X85-Y09): the death-
+      certificate homicide count that pairs with the police count the
+      Interior portal cannot yet serve (meta.pending). ECM follows whoever
+      certifies the death; see SOURCING §4 on what that misses.
+
+migration:
+  immigration_from_estat.csv:
+    source: Eurostat — migr_imm1ctz (by citizenship) and migr_imm3ctb (by country of birth)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_imm1ctz?geo=ES
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Immigration FLOW, both definitions: by citizenship (total, Spanish
+      nationals, other-EU, non-EU) and by country of birth. The two cuts
+      answer different questions and diverge by exactly the naturalisation
+      rate; both columns, both labelled (SOURCING §4a).
+  emigration_from_estat.csv:
+    source: Eurostat — migr_emi1ctz (by citizenship)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Emigration flow. Register-based departures are known to be
+      under-measured across Europe (leaving needs no paperwork); published
+      as its own series beside immigration, never as a pre-computed net.
+  stock_from_estat.csv:
+    source: Eurostat — migr_pop1ctz (by citizenship) and migr_pop3ctb (by country of birth)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Resident population on 1 January on BOTH definitions. The
+      foreign-citizen stock can fall in a year of record arrivals when
+      naturalisations run high — that gap is a finding, and it is why the
+      two cuts are two columns. EU27_2020_FOR and NEU27_2020_FOR split
+      intra-EU from third-country: different legal objects, never summed
+      into one "immigrants" line without the split visible.
+  asylum_from_estat.csv:
+    source: Eurostat — migr_asyappctza (asylum applicants)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Applications (unit=PER, applicant=TOTAL: first-time plus subsequent;
+      the applicant dimension also separates FRST). Applications are not
+      arrivals, grants or people present — the four differ by an order of
+      magnitude at the edges (SOURCING §4a). Data starts 2008.
+  permits_from_estat.csv:
+    source: Eurostat — migr_resfirst (first residence permits, unit=PER)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      First permits ISSUED in the year — administrative events, not
+      arrivals: a status change issues a new first permit without a new
+      arrival. Data starts 2008. The unit dimension is PER (persons);
+      querying with unit=NR returns an empty cube with no error, the
+      endpoint's own version of the silent-truncation trap.
+  naturalisation_from_estat.csv:
+    source: Eurostat — migr_acq (acquisitions of citizenship)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      People who became Spanish in the year. This is the series that makes
+      the citizenship-cut stock fall while arrivals rise; drawn beside the
+      stocks, not inside them.
+  migration_flows_from_ine.csv:
+    source: INE — Estadística de Migraciones (series EM825679 immigration, EM1392987 emigration, EM1393263 balance)
+    url: https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/EM825679
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      The national twin of the Eurostat flow files, on the EM methodology
+      (from the register's residential-variation statistics), which ENDS
+      in 2021. The years after 2021 are blank, not zero.
+  migration_flows_emcr_from_ine.csv:
+    source: INE — Estadística de Migraciones y Cambios de Residencia (series EM1765217, EM1843418)
+    url: https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/EM1765217
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      The EMCR replaced the EM in 2021 and counts on a wider net, and 2021
+      exists on BOTH: EM says 528,856 immigrations, the EMCR says 887,960.
+      A 68% jump that is pure methodology — the two files are two
+      segments and are never drawn as one line. Eurostat's harmonised
+      files carry EM through 2020 and EMCR from 2021 (migr_imm1ctz 2021 =
+      887,960 exactly), so the harmonised series is itself spliced at
+      2021; this pair is what makes the seam visible.
+
+international:
+  gdp_usd_from_wb.csv:
+    source: World Bank — NY.GDP.MKTP.CD
+    url: https://api.worldbank.org/v2/country/ESP/indicator/NY.GDP.MKTP.CD
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      GDP in current US$ — the comparables layer and a magnitude check on
+      the national accounts (~US$1.7tn in 2024), never spliced into them.
+      The euro's exchange rate moves this series as much as Spain does.
+  gdp_pc_from_wb.csv:
+    source: World Bank — NY.GDP.PCAP.CD
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: Current US$ per person, harmonised across countries.
+  population_from_wb.csv:
+    source: World Bank — SP.POP.TOTL
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Cross-check only: the population series of record is INE's ECP (the
+      only one that is a single vintage from 1971).
+  reserves_from_wb.csv:
+    source: World Bank — FI.RES.TOTL.CD (IMF IFS)
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Total reserves including gold, current US$. A eurozone member's
+      reserves are a small, semi-dormant number — the ECB holds the
+      union's real buffer — and the plate should say why it is small
+      rather than let it read as fragility.
+  openness_from_wb.csv:
+    source: World Bank — NE.TRD.GNFS.ZS
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Exports plus imports of goods and services as a share of GDP,
+      national-accounts basis — not the customs-value trade the pending
+      DataComex chapter will draw.
+  hdi_from_undp.csv:
+    source: UNDP — Human Development Report 2025, composite indices complete time series
+    url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      One file, one vintage, every year. The HDR recomputes the whole
+      back-series at each methodology change, so a trend assembled from
+      successive reports is partly an artefact of the reports.
+  gini_from_wb.csv:
+    source: World Bank — SI.POV.GINI
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      The Bank's harmonised Gini for Spain is EU-SILC-derived — the same
+      survey as the Eurostat series through a different income definition.
+      Two cuts of one survey, not two measurements.
