@@ -89,6 +89,21 @@ Copy France's and replace it. The fields that need thought:
   Argentina publishes Spanish and South Korea Korean, and neither needs
   the other's. `default_locale` is the one the language negotiator falls
   back to.
+- **`number_style`** — optional. How a locale writes its numbers, when
+  that is not the language's base style. Portugal and Brazil share the
+  `pt` catalogs and chrome but not their numbers, so Portugal says
+
+  ```yaml
+  number_style: {pt: pt-PT}
+  ```
+
+  and its cards read `291 mil milhões de euros` and `12,5 %` where
+  Brazil's read `R$ 11.745 bi` and `12,5%`. A locale not named here uses
+  the style of the same name — Brazil names nothing. The style must be one
+  of the language's own (`core.numstyle.STYLES`); the loader refuses
+  `{pt: de}`, and `tests/test_numbers.py` fails a country whose
+  `html_lang` names a style it did not select. German is German on every
+  German page, Switzerland's included: there is no `de-CH` style.
 - **`name`** — the country's name in *every* locale any country publishes,
   not just its own. The atlas switcher on a Korean page names France in
   Korean, so a missing entry there is a hole on someone else's page.
@@ -284,7 +299,14 @@ enforces both that and the spine.
 `family` is one of `money`, `world`, `people` — the filter chips on the
 page. The third argument to `ctx.stat` is a format spec from
 `core.sitebuild.NUMFMT`, which says how a figure is *written*, not what it
-means. `kind=` says whether it is current: `flow` for an annual total,
+means. Each locale then writes it in its number style: the separators and
+the magnitude word (`Mrd.`, `mil milhões`, `bi`), the currency on the side
+that language puts it, and — in Japanese, Chinese and Vietnamese — the
+figure *rescaled* onto the language's own magnitudes, so `money_tn` 636.9
+for Japan is `637兆円` and `usd_bn` 684.4 is `6,844億ドル`
+(`core.numstyle.LADDERS`). Every style and currency in the atlas, with
+its exact output, is pinned in `tests/test_numbers.py`; a new currency
+needs a `CURRENCY_AFFIX` entry for every style its country publishes. `kind=` says whether it is current: `flow` for an annual total,
 only comparable once the year is complete; `level` for a stock or a rate
 read at a moment; `projection` for an official forward estimate. Getting
 this wrong puts a half-finished year on a card as though it were a result.

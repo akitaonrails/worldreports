@@ -76,10 +76,15 @@ as do the United Kingdom's and India's should it ever be queued. The USA
 already has this — its debt table keys on `fiscal_year` — so the mechanism
 exists; it just has to be used deliberately and labelled on the panel.
 
-**A fourth and fifth script.** `AFFIX` and `CURRENCY_AFFIX` in
-`core/sitebuild.py` are keyed by language, and every new locale needs a
-column in both. The catalog test fails until it has one, which is the
-intended behaviour.
+**Number styles.** `AFFIX` and `CURRENCY_AFFIX` in `core/sitebuild.py`
+and the unit rules in `core/i18n.py` are keyed by *number style*
+(`core/numstyle.py`), and every Phase B style — de, it, pt-PT, ja,
+zh-Hans, zh-Hant, vi, he — and currency — GBP, CHF, JPY, VND, CNY, TWD,
+ILS — already has its forms. `tests/test_numbers.py` reads every lane's
+country.yaml and fails on a locale or currency with no form, which is the
+intended behaviour. Portugal must declare `number_style: {pt: pt-PT}`.
+Hebrew has its numbers and affixes only; right-to-left layout is still
+the open problem described above.
 
 ## The migration chapter
 

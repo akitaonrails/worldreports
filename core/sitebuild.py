@@ -22,10 +22,13 @@ A chapter is declared in `countries/<slug>/chapters.py` and looks like this:
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
-# A no-break space, not U+202F: see core.i18n.
-NBSP = " "
+from core import numstyle
+
+# A no-break space, not U+202F: see core.numstyle.
+NBSP = numstyle.NBSP
 
 
 # ------------------------------------------------------------- formatting
@@ -116,25 +119,236 @@ CURRENCY_AFFIX = {
                          "pt": ("₩ ", "")}},
 }
 
-# Korean keeps the English separators; the others swap them. Same rule as
-# core.i18n, applied to the figures on the page rather than on a plate.
-SEPARATORS = {
-    "en": {}, "ko": {},
-    "fr": {",": NBSP, ".": ","},
-    "pt": {",": ".", ".": ","},
-    "es": {",": ".", ".": ","},
+# The styles added for Phase B, one block per style so each reads as the
+# convention it is and carries its source. Merged into AFFIX and
+# CURRENCY_AFFIX below. The styles above (en, fr, pt, es, ko) are what the
+# published countries were built with and are left exactly as they were.
+#
+# "{mag}" in a suffix is the style's own magnitude word, for the styles
+# that rescale onto a ladder (core.numstyle.LADDERS): 684 bn is written
+# 6,840億ドル, not 684億. A style without a ladder writes the spec's
+# magnitude one-for-one and never has the placeholder.
+_N = NBSP
+_STYLE_AFFIX = {
+    # Duden and DIN 5008: a space before %, the amount before the unit,
+    # "Mrd." and "Mio." with their points, "US-$" (Duden). The EU style
+    # guide's German section agrees on the order and the space.
+    "de": {
+        "pct": ("", f"{_N}%"), "pct_s": ("", f"{_N}%"), "pct2": ("", f"{_N}%"),
+        "pct_gdp": ("", f"{_N}% des BIP"), "pct_gdp_s": ("", f"{_N}% des BIP"),
+        "rank": ("Platz ", ""), "score100": ("", "/100"),
+        "pop_mn": ("", f"{_N}Mio."),
+        "per100k": ("", "/100.000 Einw."), "per100k2": ("", "/100.000 Einw."),
+        "years": ("", " Jahre"),
+        "usd_bn": ("", f"{_N}Mrd.{_N}US-$"), "usd_bn_s": ("", f"{_N}Mrd.{_N}US-$"),
+        "usd_bn1": ("", f"{_N}Mrd.{_N}US-$"),
+    },
+    # ISTAT and Treccani: % with no space (ISTAT house style), "mld" and
+    # "mln", the ISO code after the amount as the EU style guide's Italian
+    # section places it, "24º" for a rank.
+    "it": {
+        "pct": ("", "%"), "pct_s": ("", "%"), "pct2": ("", "%"),
+        "pct_gdp": ("", "% del PIL"), "pct_gdp_s": ("", "% del PIL"),
+        "rank": ("", "º"), "score100": ("", "/100"),
+        "pop_mn": ("", f"{_N}mln"),
+        "per100k": ("", "/100.000 ab."), "per100k2": ("", "/100.000 ab."),
+        "years": ("", " anni"),
+        "usd_bn": ("", f"{_N}mld{_N}USD"), "usd_bn_s": ("", f"{_N}mld{_N}USD"),
+        "usd_bn1": ("", f"{_N}mld{_N}USD"),
+    },
+    # European Portuguese: the EU style guide's Portuguese section and
+    # CLDR pt-PT. "mil milhões" for 10^9 — a "bilião" is 10^12 here — a
+    # space before %, the currency after the amount, "24.º" (AO 1990).
+    "pt-PT": {
+        "pct": ("", f"{_N}%"), "pct_s": ("", f"{_N}%"), "pct2": ("", f"{_N}%"),
+        "pct_gdp": ("", f"{_N}% do PIB"), "pct_gdp_s": ("", f"{_N}% do PIB"),
+        "rank": ("", ".º"), "score100": ("", "/100"),
+        "pop_mn": ("", f"{_N}milhões"),
+        "per100k": ("", "/100 mil hab."), "per100k2": ("", "/100 mil hab."),
+        "years": ("", " anos"),
+        "usd_bn": ("", f"{_N}mil milhões de dólares"),
+        "usd_bn_s": ("", f"{_N}mil milhões de dólares"),
+        "usd_bn1": ("", f"{_N}mil milhões de dólares"),
+    },
+    # CLDR ja, and the Cabinet Office's and the BoJ's own usage: GDP比 in
+    # front, 位 for a rank, the 万/億/兆 ladder with the unit word after.
+    "ja": {
+        "pct": ("", "%"), "pct_s": ("", "%"), "pct2": ("", "%"),
+        "pct_gdp": ("GDP比", "%"), "pct_gdp_s": ("GDP比", "%"),
+        "rank": ("", "位"), "score100": ("", "/100"),
+        "pop_mn": ("", "{mag}人"),
+        "per100k": ("", "/10万人"), "per100k2": ("", "/10万人"),
+        "years": ("", "年"),
+        "usd_bn": ("", "{mag}ドル"), "usd_bn_s": ("", "{mag}ドル"),
+        "usd_bn1": ("", "{mag}ドル"),
+    },
+    # CLDR zh, and the NBS's usage: 占GDP的, 第…位, 万/亿/万亿.
+    "zh-Hans": {
+        "pct": ("", "%"), "pct_s": ("", "%"), "pct2": ("", "%"),
+        "pct_gdp": ("占GDP的", "%"), "pct_gdp_s": ("占GDP的", "%"),
+        "rank": ("第", "位"), "score100": ("", "/100"),
+        "pop_mn": ("", "{mag}人"),
+        "per100k": ("", "/10万人"), "per100k2": ("", "/10万人"),
+        "years": ("", "年"),
+        "usd_bn": ("", "{mag}美元"), "usd_bn_s": ("", "{mag}美元"),
+        "usd_bn1": ("", "{mag}美元"),
+    },
+    # CLDR zh-Hant, and DGBAS usage: 萬/億/兆 (兆 is 10^12 in Taiwan),
+    # 第…名.
+    "zh-Hant": {
+        "pct": ("", "%"), "pct_s": ("", "%"), "pct2": ("", "%"),
+        "pct_gdp": ("占GDP的", "%"), "pct_gdp_s": ("占GDP的", "%"),
+        "rank": ("第", "名"), "score100": ("", "/100"),
+        "pop_mn": ("", "{mag}人"),
+        "per100k": ("", "/10萬人"), "per100k2": ("", "/10萬人"),
+        "years": ("", "年"),
+        "usd_bn": ("", "{mag}美元"), "usd_bn_s": ("", "{mag}美元"),
+        "usd_bn1": ("", "{mag}美元"),
+    },
+    # CLDR vi (no space before %), and the GSO's usage: "% GDP",
+    # triệu/tỷ/nghìn tỷ, "tỷ USD".
+    "vi": {
+        "pct": ("", "%"), "pct_s": ("", "%"), "pct2": ("", "%"),
+        "pct_gdp": ("", "% GDP"), "pct_gdp_s": ("", "% GDP"),
+        "rank": ("hạng ", ""), "score100": ("", "/100"),
+        "pop_mn": ("", f"{_N}{{mag}}"),
+        "per100k": ("", "/100.000 dân"), "per100k2": ("", "/100.000 dân"),
+        "years": ("", " năm"),
+        "usd_bn": ("", f"{_N}{{mag}} USD"), "usd_bn_s": ("", f"{_N}{{mag}} USD"),
+        "usd_bn1": ("", f"{_N}{{mag}} USD"),
+    },
+    # CLDR he. Numbers and affixes only: the words are in logical order
+    # and no bidi marks are inserted — right-to-left layout is out of
+    # scope here (COUNTRIES.md).
+    "he": {
+        "pct": ("", "%"), "pct_s": ("", "%"), "pct2": ("", "%"),
+        "pct_gdp": ("", "% מהתוצר"), "pct_gdp_s": ("", "% מהתוצר"),
+        "rank": ("מקום ", ""), "score100": ("", "/100"),
+        "pop_mn": ("", f"{_N}מיליון"),
+        "per100k": ("", " ל-100 אלף"), "per100k2": ("", " ל-100 אלף"),
+        "years": ("", " שנים"),
+        "usd_bn": ("", f"{_N}מיליארד דולר"),
+        "usd_bn_s": ("", f"{_N}מיליארד דולר"),
+        "usd_bn1": ("", f"{_N}מיליארד דולר"),
+    },
 }
+for _style, _forms in _STYLE_AFFIX.items():
+    for _spec in ("count", "dec3", "dec2", "index"):
+        _forms.setdefault(_spec, ("", ""))
+    for _spec, _form in _forms.items():
+        AFFIX[_spec][_style] = _form
+
+# The same for the money specs, per currency. EUR gains the de, it and
+# pt-PT forms; the new currencies carry every style of every country that
+# uses them. English follows the EU style guide: the symbol before the
+# amount, an ISO code (CHF) before it with a space.
+_STYLE_CURRENCY = {
+    "EUR": {
+        "money_bn": {"de": ("", f"{_N}Mrd.{_N}€"), "it": ("", f"{_N}mld{_N}€"),
+                     "pt-PT": ("", f"{_N}mil milhões de euros")},
+        "money":    {"de": ("", f"{_N}€"), "it": ("", f"{_N}€"),
+                     "pt-PT": ("", f"{_N}€")},
+    },
+    "GBP": {
+        "money_bn": {"en": ("£", "bn"), "pt": ("£ ", " bi")},
+        "money":    {"en": ("£", ""), "pt": ("£ ", "")},
+        "money2":   {"en": ("£", ""), "pt": ("£ ", "")},
+    },
+    "CHF": {
+        "money_bn": {"en": ("CHF ", "bn"), "pt": ("CHF ", " bi"),
+                     "de": ("", f"{_N}Mrd.{_N}CHF")},
+        "money":    {"en": ("CHF ", ""), "pt": ("CHF ", ""),
+                     "de": ("", f"{_N}CHF")},
+        "money2":   {"en": ("CHF ", ""), "pt": ("CHF ", ""),
+                     "de": ("", f"{_N}CHF")},
+    },
+    "JPY": {
+        "money_bn": {"en": ("¥", "bn"), "pt": ("¥ ", " bi"),
+                     "ja": ("", "{mag}円")},
+        "money_tn": {"en": ("¥", "tn"), "pt": ("¥ ", " tri"),
+                     "ja": ("", "{mag}円")},
+        "money":    {"en": ("¥", ""), "pt": ("¥ ", ""), "ja": ("", "円")},
+        "money2":   {"en": ("¥", ""), "pt": ("¥ ", ""), "ja": ("", "円")},
+    },
+    "CNY": {
+        "money_bn": {"en": ("CN¥", "bn"), "pt": ("CN¥ ", " bi"),
+                     "zh-Hans": ("", "{mag}元")},
+        "money_tn": {"en": ("CN¥", "tn"), "pt": ("CN¥ ", " tri"),
+                     "zh-Hans": ("", "{mag}元")},
+        "money":    {"en": ("CN¥", ""), "pt": ("CN¥ ", ""),
+                     "zh-Hans": ("", "元")},
+        "money2":   {"en": ("CN¥", ""), "pt": ("CN¥ ", ""),
+                     "zh-Hans": ("", "元")},
+    },
+    "TWD": {
+        "money_bn": {"en": ("NT$", "bn"), "pt": ("NT$ ", " bi"),
+                     "zh-Hant": ("", "{mag}元")},
+        "money_tn": {"en": ("NT$", "tn"), "pt": ("NT$ ", " tri"),
+                     "zh-Hant": ("", "{mag}元")},
+        "money":    {"en": ("NT$", ""), "pt": ("NT$ ", ""),
+                     "zh-Hant": ("", "元")},
+        "money2":   {"en": ("NT$", ""), "pt": ("NT$ ", ""),
+                     "zh-Hant": ("", "元")},
+    },
+    # Vietnamese writes "tỷ đồng" with a magnitude word and the ₫ sign
+    # after a plain amount (CLDR vi: 1.234 ₫).
+    "VND": {
+        "money_bn": {"en": ("₫", "bn"), "pt": ("₫ ", " bi"),
+                     "vi": ("", f"{_N}{{mag}} đồng")},
+        "money_tn": {"en": ("₫", "tn"), "pt": ("₫ ", " tri"),
+                     "vi": ("", f"{_N}{{mag}} đồng")},
+        "money":    {"en": ("₫", ""), "pt": ("₫ ", ""), "vi": ("", f"{_N}₫")},
+        "money2":   {"en": ("₫", ""), "pt": ("₫ ", ""), "vi": ("", f"{_N}₫")},
+    },
+    # CLDR he puts ₪ after the amount with a space.
+    "ILS": {
+        "money_bn": {"en": ("₪", "bn"), "pt": ("₪ ", " bi"),
+                     "he": ("", f"{_N}מיליארד ₪")},
+        "money":    {"en": ("₪", ""), "pt": ("₪ ", ""), "he": ("", f"{_N}₪")},
+        "money2":   {"en": ("₪", ""), "pt": ("₪ ", ""), "he": ("", f"{_N}₪")},
+    },
+}
+for _code, _specs in _STYLE_CURRENCY.items():
+    for _spec, _forms in _specs.items():
+        CURRENCY_AFFIX.setdefault(_code, {}).setdefault(_spec, {}).update(_forms)
+
+# The separators live in core.numstyle, shared with the plates, so a card
+# and its plate cannot write the same figure two ways.
+SEPARATORS = numstyle.SEPARATORS
 
 
-def localize_number(num: str, locale: str) -> str:
-    """Rewrite the decimal and thousands marks for one locale.
+def localize_number(num: str, style: str) -> str:
+    """Rewrite the decimal and thousands marks for one number style."""
+    return numstyle.swap(num, style)
 
-    One `translate` pass, so the comma and the point swap simultaneously
-    instead of collapsing into each other: a two-step replace turns
-    12,739.5 into 12.739.5.
+
+# Numbers inside a sentence: thousands groups or a decimal. A year on its
+# own has neither, and a full stop is not a decimal point, so neither is
+# touched.
+_IN_PROSE = re.compile(r"\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+\.\d+")
+
+
+def localize_prose(text: str, style: str) -> str:
+    """Rewrite the numbers in a sentence, and only the numbers."""
+    if style not in SEPARATORS:
+        return text
+    return _IN_PROSE.sub(lambda m: numstyle.swap(m.group(0), style), text)
+
+
+def format_figure(value: float, spec: str, style: str,
+                  prefix: str, suffix: str) -> str:
+    """One figure in one number style, affixes included.
+
+    A style with a magnitude ladder rescales the figure onto its own word
+    ("{mag}" in the suffix); every other style formats it with the spec's
+    NUMFMT and swaps the marks.
     """
-    table = SEPARATORS.get(locale, {})
-    return num.translate(str.maketrans(table)) if table else num
+    scaled = numstyle.rescaled(value, spec, style, NUMFMT[spec])
+    if scaled is not None:
+        n, mag = scaled
+        return f"{prefix}{localize_number(n, style)}{suffix.replace('{mag}', mag)}"
+    n = NUMFMT[spec].format(value)
+    return f"{prefix}{localize_number(n, style)}{suffix}"
 
 
 class SiteContext:
@@ -172,7 +386,8 @@ class SiteContext:
         return pairs[-1]
 
     # ------------------------------------------------------- formatting
-    def affix(self, spec: str, locale: str) -> tuple[str, str]:
+    def affix(self, spec: str, style: str) -> tuple[str, str]:
+        """The (prefix, suffix) a spec takes in one number style."""
         per_locale = AFFIX.get(spec)
         if per_locale is None:
             per_locale = CURRENCY_AFFIX.get(self.c.currency, {}).get(spec)
@@ -181,19 +396,23 @@ class SiteContext:
                 f"{self.c.slug}: no affix for spec {spec!r}. Add it to "
                 f"core.sitebuild.AFFIX, or to CURRENCY_AFFIX under "
                 f"{self.c.currency!r} if it is a money figure.")
-        if locale not in per_locale:
+        if style not in per_locale:
             raise KeyError(
-                f"{self.c.slug}: spec {spec!r} has no {locale!r} form; "
+                f"{self.c.slug}: spec {spec!r} has no {style!r} form; "
                 f"it has {sorted(per_locale)}")
-        return per_locale[locale]
+        return per_locale[style]
 
     def render(self, value: float, spec: str) -> dict[str, str]:
-        """A figure written for each of this country's locales."""
-        n = NUMFMT[spec].format(value)
+        """A figure written for each of this country's locales.
+
+        Keyed by locale, written in that locale's number style: Portugal's
+        "pt" card reads 291 mil milhões de euros, Brazil's R$ 11.745 bi.
+        """
         out = {}
         for locale in self.locales:
-            prefix, suffix = self.affix(spec, locale)
-            out[locale] = f"{prefix}{localize_number(n, locale)}{suffix}"
+            style = self.c.number_style(locale)
+            prefix, suffix = self.affix(spec, style)
+            out[locale] = format_figure(value, spec, style, prefix, suffix)
         return out
 
     def text(self, **per_locale) -> dict[str, str]:
@@ -436,7 +655,9 @@ def describe(ctx, chapter: dict, locale: str) -> str | None:
     if parts:
         out = (out + " " if out else "") + ph["sep"].join(parts) + ". "
     out += ph["table"]
-    return localize_number(out, locale)
+    # Only the numbers: swapping every mark in the sentence turned its
+    # full stops into commas ("na tabela abaixo,") on every pt alt text.
+    return localize_prose(out, ctx.c.number_style(locale))
 
 
 # ---------------------------------------------------------- provenance

@@ -124,8 +124,9 @@ def test_every_locale_can_be_formatted(country):
     ones — but every language must be known to the units table, or a plate
     would publish "bn" to a reader who does not read English.
     """
+    styles = [country.number_style(c) for c in country.locale_codes]
     for spec, per_locale in AFFIX.items():
-        missing = [c for c in country.locale_codes if c not in per_locale]
+        missing = [c for c in styles if c not in per_locale]
         assert not missing, \
             f"{country.slug}: spec {spec!r} has no form for {missing}"
     for spec, per_locale in NUMFMT.items():
