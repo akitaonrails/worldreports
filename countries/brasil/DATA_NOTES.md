@@ -225,3 +225,109 @@ Fixed while writing this: `SOURCES.yaml` had described SGS 432 as Selic
 series that holds flat between meetings, which is what makes it visible:
 true accumulated Selic for 2005 was about 19.05% against the 18.00 the
 file records.
+
+---
+
+## On the plate spine (2026-10-22)
+
+Every plate now keeps to the shared spine (`PLATE_SPINE.md`,
+`core/spine.py`): the same four slots, units and scales as every other
+country, so the comparison viewer can wipe a Brazilian plate over a
+French one. What that took, and the judgement calls in it:
+
+### Counts became rates, and over which population
+
+| Panel | Count | Population (same year, same scope) |
+|---|---|---|
+| Security: suicide, road deaths | SIM by residence (`social/deaths.csv`: X60–X84, V01–V89) | IBGE resident population, 1 July, projection rev. 2024 (`social/population.csv : pop_mn`) |
+| Security lens: killed by police | FBSP `police_killings` | the same IBGE population. FBSP's own MVI rate implies 213.37M for 2025 against IBGE's 213.42M, so it is the denominator FBSP uses |
+| Security lens: homicides of women, femicides | FBSP `women_homicides`, `femicides` | female population, mid-year, UN WPP via the World Bank (`social/demography.csv : population_female`). IBGE's projection by sex is not staged; the WPP total runs about 0.3% under IBGE's, so these rates are, if anything, a hair high |
+| Mortality: crude death rate, excess | SIM registered deaths (`social/deaths.csv : registered`) | IBGE population as above |
+| Mortality: COVID-19, influenza, dengue | SIM, B34 / J09–J11 / A90+A91+A97 | IBGE population as above |
+| Demography: births, deaths, natural increase | IBGE projection model (`social/population.csv`) | the same file's `pop_mn`, so numerator and denominator are one model |
+| Demography: net migration | WPP count (`social/demography.csv : net_migration`) | the WPP population of the same year, same file |
+| People: minimum wage in US$ | R$ a month (`macro/minimum_wage.csv`) | ÷ the year's average PTAX (`macro/dollar.csv : avg`) |
+
+Published rates are drawn as published, never recomputed: IPEA's homicide
+rates, FBSP's MVI rate.
+
+### Registered deaths are new, and differ from the model
+
+The old plates drew deaths from IBGE's projection model, which is a
+model. `fetch_sim_causes.py` now also reads SIM's registered total, and
+the mortality chapter draws that. The model corrects for
+under-registration, so it runs above SIM through 2019 (2019: 1,376,835 vs
+1,349,801) and below it after (2024: 1,507,335 vs 1,532,015). Both are on
+the crude-death-rate panel, labelled. Excess deaths are computed from the
+registered counts against their 2015–19 mean, drawn from 2015 on: before
+the baseline the gap to it is population growth, not a deficit of deaths.
+There is no age adjustment.
+
+### Fiscal: the IMF line is canonical, the Brazilian lines ride beside it
+
+General government on the IMF's basis is the spine's series. Brazil argues
+in other measures, and each is drawn as a labelled second line rather
+than substituted: the Tesouro's central-government primary result, the
+BCB's DBGG gross and DLSP net debt, and the NFSP nominal interest bill
+(new, `fiscal/nfsp.csv`, consolidated public sector). The IMF's interest
+is net interest, primary balance minus overall balance; the BCB's is
+nominal interest on the NFSP perimeter. They agree within about a point
+except 2023–24, when the BCB's runs higher. The tax burden keeps its 2010
+seam: two segments, never joined.
+
+### Spending: COFOG for the whole general government
+
+Brazil does not report COFOG to the OECD, but the Tesouro, SOF and IBGE
+compile it for the general government — federal, state and municipal —
+from 2010 (`fiscal/cofog.csv`, `fetch_cofog.py`). The ten divisions map
+onto the spine's seven groups with no judgement call, and their total
+equals the IMF's general-government expenditure to the hundredth in 2010
+and 2015, which is as good a cross-check as two publishers get. The old
+plate's federal budget functions (SIAFI) were a narrower perimeter whose
+"encargos especiais" mixed interest with transfers to states; they stay
+committed for the chapter's R$ figures but are no longer drawn. 2006–09
+are empty on the stack: COFOG starts in 2010 and is not back-cast.
+
+The Tesouro's portal (tesourotransparente.gov.br) answered HTTP 429 for
+the whole session; the files themselves came from cdn.tesouro.gov.br,
+found through the Internet Archive's copy of the publication page. The
+2024 edition's spreadsheet was not reachable, so 2024 is transcribed by
+hand from its report's Table 1, and the fetcher checks the two editions
+agree on 2023.
+
+### A 10-year yield where none is published
+
+No official API publishes a constant-maturity 10-year yield for Brazil,
+and the OECD's "long-term interest rate" for Brazil is the TJLP, a BNDES
+lending rate. `fetch_tesouro_direto.py` builds one from the Tesouro
+Direto offer rates for the NTN-F nearest ten years out, day by day. It is
+a retail offer rate, not ANBIMA's curve, and was not cross-checked
+against ANBIMA (behind a login); its level tracks the Selic cycle as it
+should (7.3% in 2020, 14.1% in 2025). 2006 and 2009 are blank: no NTN-F
+on offer matured within 1.5 years of ten.
+
+### Moved, merged or dropped
+
+- Nominal GDP in R$ trillion: the size now sits on world slot 1 in US$,
+  with the R$ level in its note.
+- Unemployment moved from people to economy slot 4, with the ILO estimate
+  beside PNAD-C and PME, none spliced.
+- HDI moved from people to world. The WEF competitiveness rank left the
+  atlas (discontinued after 2019); `international/wef.csv` stays
+  committed but undrawn.
+- Trade openness left the world plate: trade slot 1 now draws exports and
+  imports of goods and services as a share of GDP.
+- Goods trade in US$ (SECEX) survives in the trade notes; the product
+  snapshot is the trade lens.
+- The "R$100 invested in 2005" panel, with the S&P 500 converted into
+  reais, became the spine's Ibovespa-in-US$ against the S&P 500, both
+  2006 = 100; the reais-versus-dollars story is its note.
+- Total credit to GDP is a note on the BIS household-debt panel; the
+  BCB's debt-to-income and debt-service ratios are the credit lens.
+- The minimum wage in reais, nominal and real, is the people lens; the
+  canonical slot is the same wage in US$.
+- The demography plate no longer runs to 2070. The projection lives in
+  slot 1's note (peak 220.4M in 2041) and slot 4's (deaths overtake births
+  in 2042).
+- The mortality log panel is gone: everything is per 100,000 on linear
+  axes, where influenza and dengue no longer need a log scale to show.
