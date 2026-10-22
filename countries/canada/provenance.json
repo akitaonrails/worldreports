@@ -1,0 +1,28 @@
+{
+ "02-fiscal": [
+  "fiscal/expenses_pct_gdp.csv",
+  "fiscal/liabilities.csv",
+  "fiscal/transactions_pct_gdp.csv"
+ ],
+ "03-spending": [
+  "fiscal/expenses_pct_gdp.csv",
+  "fiscal/revenues_pct_gdp.csv"
+ ],
+ "05-markets": [
+  "markets/rates.csv",
+  "markets/usdcad.csv"
+ ],
+ "07-world": [
+  "international/g7_balance.csv",
+  "international/g7_gross_debt.csv",
+  "international/g7_net_debt.csv",
+  "international/hdi.csv",
+  "international/reserves.csv"
+ ],
+ "12-migration": [
+  "international/population.csv",
+  "migration/pr_admissions.csv",
+  "migration/pr_by_origin.csv",
+  "migration/study_permits.csv"
+ ]
+}

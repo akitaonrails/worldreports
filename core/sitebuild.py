@@ -91,6 +91,10 @@ AFFIX = {
 # The country's own currency, keyed by ISO 4217. Only the money specs need
 # this, and only the country's own currency is ever used with them.
 CURRENCY_AFFIX = {
+    "CAD": {"money_bn": {"en": ("C$ ", "bn"), "fr": ("", f"{NBSP}Md$CA"),
+                         "pt": ("C$ ", " bi")},
+            "money":    {"en": ("C$ ", ""), "fr": ("", f"{NBSP}$CA"),
+                         "pt": ("C$ ", "")}},
     "EUR": {"money_bn": {"en": ("€", "bn"), "fr": ("", f"{NBSP}Md€"),
                          "pt": ("€ ", " bi")},
             "money":    {"en": ("€", ""), "fr": ("", f"{NBSP}€"),

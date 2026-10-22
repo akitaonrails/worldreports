@@ -1,0 +1,116 @@
+{
+ "en": {
+  "line": "{n} plates of official data, {window}",
+  "dek": "Every number here comes from the source that publishes it — Statistics Canada, the Bank of Canada, the Department of Finance and the Parliamentary Budget Officer, IRCC — and every plate is regenerated from committed CSVs, so the charts and the numbers on this page cannot drift apart. Statistics Canada’s data platform was unreachable when this edition was built, so the chapters it publishes — the economy, trade, work, demography, security, mortality and credit — are absent for now rather than approximated.",
+  "notes": [
+   "2026 is a partial year. Annual totals and averages on this page stop at 2025; readings that are genuinely current — a policy rate, an exchange rate — are marked <em>latest</em>.",
+   "The fiscal plates run on Ottawa’s fiscal year, April to March, labelled by the year it starts in: 2024 is 2024-25. The World plate is general government on calendar years, and the two are never mixed.",
+   "Canada has three debts that are quoted as one: the federal accumulated deficit, federal net debt, and general-government gross debt. The plates draw them separately and say which is which.",
+   "IRCC’s open data begins in 2015 and rounds every cell to a multiple of five; the migration plates start there and say so.",
+   "The Bank of Canada retired the USD noon rate in March 2017. The two exchange-rate series are drawn side by side and never spliced; 2006-07 have no full-year average and are left blank.",
+   "The plates are drawn in all three languages, and so is this page."
+  ],
+  "colophon": [
+   {
+    "term": "Federal public finances",
+    "detail": "Department of Finance Canada — Fiscal Reference Tables, November 2025"
+   },
+   {
+    "term": "Rates, yields, the dollar",
+    "detail": "Bank of Canada — Valet API"
+   },
+   {
+    "term": "Permanent residents and study permits",
+    "detail": "Immigration, Refugees and Citizenship Canada — open data portal"
+   },
+   {
+    "term": "G7 comparisons",
+    "detail": "IMF, redistributed in the Fiscal Reference Tables — general government, calendar years"
+   },
+   {
+    "term": "International comparables",
+    "detail": "UNDP Human Development Report 2025; World Bank World Development Indicators"
+   },
+   {
+    "term": "Absent for now",
+    "detail": "Statistics Canada — national accounts, labour, demography, mortality, crime, credit and trade tables; its data platform was down when this edition was built"
+   }
+  ]
+ },
+ "fr": {
+  "line": "{n} planches de données officielles, {window}",
+  "dek": "Chaque chiffre vient de l’organisme qui le publie — Statistique Canada, la Banque du Canada, le ministère des Finances et le directeur parlementaire du budget, IRCC — et chaque planche est régénérée depuis des CSV versionnés : les graphiques et les chiffres de cette page ne peuvent donc pas diverger. La plateforme de données de Statistique Canada était injoignable au moment de cette édition : les chapitres qu’elle publie — économie, commerce, travail, démographie, sécurité, mortalité et crédit — sont absents pour l’instant plutôt qu’approximés.",
+  "notes": [
+   "2026 est une année incomplète. Les totaux et moyennes annuels de cette page s’arrêtent à 2025 ; les lectures réellement courantes — un taux directeur, un taux de change — portent la mention <em>dernier point</em>.",
+   "Les planches budgétaires suivent l’exercice fédéral, d’avril à mars, nommé par l’année où il commence : 2024 signifie 2024-25. La planche Monde porte sur les administrations publiques en années civiles, et les deux ne sont jamais mélangés.",
+   "Le Canada a trois dettes que l’on cite comme une seule : le déficit accumulé fédéral, la dette nette fédérale et la dette brute des administrations publiques. Les planches les tracent séparément et disent laquelle est laquelle.",
+   "Les données ouvertes d’IRCC commencent en 2015 et arrondissent chaque cellule à un multiple de cinq ; les planches sur la migration commencent là et le disent.",
+   "La Banque du Canada a retiré le taux de midi du dollar américain en mars 2017. Les deux séries de change sont tracées côte à côte et jamais raccordées ; 2006-07 n’ont pas de moyenne annuelle complète et restent vides.",
+   "Les planches sont tracées dans les trois langues, comme cette page."
+  ],
+  "colophon": [
+   {
+    "term": "Finances publiques fédérales",
+    "detail": "Ministère des Finances Canada — Tables de référence financières, novembre 2025"
+   },
+   {
+    "term": "Taux, rendements, dollar",
+    "detail": "Banque du Canada — API Valet"
+   },
+   {
+    "term": "Résidents permanents et permis d’études",
+    "detail": "Immigration, Réfugiés et Citoyenneté Canada — portail de données ouvertes"
+   },
+   {
+    "term": "Comparaisons du G7",
+    "detail": "FMI, redistribué dans les Tables de référence financières — administrations publiques, années civiles"
+   },
+   {
+    "term": "Comparables internationaux",
+    "detail": "Rapport sur le développement humain 2025 du PNUD ; World Development Indicators de la Banque mondiale"
+   },
+   {
+    "term": "Absents pour l’instant",
+    "detail": "Statistique Canada — comptes nationaux, emploi, démographie, mortalité, criminalité, crédit et commerce ; sa plateforme de données était hors service au moment de cette édition"
+   }
+  ]
+ },
+ "pt": {
+  "line": "{n} pranchas de dados oficiais, {window}",
+  "dek": "Cada número vem do órgão que o publica — Statistics Canada, o Banco do Canadá, o Department of Finance e o Parliamentary Budget Officer, o IRCC — e cada prancha é regerada a partir de CSVs versionados, de modo que os gráficos e os números desta página não podem divergir. A plataforma de dados do Statistics Canada estava fora do ar quando esta edição foi montada, de modo que os capítulos que ela publica — economia, comércio, trabalho, demografia, segurança, mortalidade e crédito — estão ausentes por ora, em vez de aproximados.",
+  "notes": [
+   "2026 é um ano parcial. Totais e médias anuais desta página param em 2025; as leituras genuinamente correntes — um juro básico, uma taxa de câmbio — vêm marcadas como <em>último dado</em>.",
+   "As pranchas fiscais seguem o ano fiscal federal, de abril a março, nomeado pelo ano em que começa: 2024 significa 2024-25. A prancha Mundo trata do governo geral em anos civis, e os dois nunca são misturados.",
+   "O Canadá tem três dívidas que são citadas como uma só: o déficit acumulado federal, a dívida líquida federal e a dívida bruta do governo geral. As pranchas as desenham separadamente e dizem qual é qual.",
+   "Os dados abertos do IRCC começam em 2015 e arredondam cada célula a um múltiplo de cinco; as pranchas de migração começam aí e dizem isso.",
+   "O Banco do Canadá aposentou a taxa do meio-dia do dólar americano em março de 2017. As duas séries de câmbio são desenhadas lado a lado e nunca emendadas; 2006-07 não têm média anual completa e ficam em branco.",
+   "As pranchas são desenhadas nos três idiomas, e esta página também."
+  ],
+  "colophon": [
+   {
+    "term": "Contas públicas federais",
+    "detail": "Department of Finance Canada — Fiscal Reference Tables, novembro de 2025"
+   },
+   {
+    "term": "Juros, rendimentos, o dólar",
+    "detail": "Bank of Canada — API Valet"
+   },
+   {
+    "term": "Residentes permanentes e permissões de estudo",
+    "detail": "Immigration, Refugees and Citizenship Canada — portal de dados abertos"
+   },
+   {
+    "term": "Comparações do G7",
+    "detail": "FMI, redistribuído nas Fiscal Reference Tables — governo geral, anos civis"
+   },
+   {
+    "term": "Comparáveis internacionais",
+    "detail": "Relatório de Desenvolvimento Humano 2025 do PNUD; World Development Indicators do Banco Mundial"
+   },
+   {
+    "term": "Ausentes por ora",
+    "detail": "Statistics Canada — contas nacionais, trabalho, demografia, mortalidade, crime, crédito e comércio; sua plataforma de dados estava fora do ar quando esta edição foi montada"
+   }
+  ]
+ }
+}

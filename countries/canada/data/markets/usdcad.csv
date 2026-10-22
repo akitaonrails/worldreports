@@ -1,0 +1,25 @@
+# TWO SERIES, NEVER ONE. The Bank of Canada retired the USD noon rate on 2017-03-01; usd_cad_daily (the 16:30 indicative rate) replaced it. Jan-Apr 2017 exists on both.
+# A year with under 12 months of coverage is left blank and its *_months column says so: 2006-07 are holes pending StatCan 33-10-0163, not zeros.
+# CAD per USD: a RISING line is a weaker Canadian dollar.
+year,usd_cad_noon_avg,noon_months,usd_cad_daily_avg,daily_months
+2006,,0,,0
+2007,,8,,0
+2008,1.066,12,,0
+2009,1.142,12,,0
+2010,1.0299,12,,0
+2011,0.9891,12,,0
+2012,0.9996,12,,0
+2013,1.0299,12,,0
+2014,1.1045,12,,0
+2015,1.2787,12,,0
+2016,1.3248,12,,0
+2017,,4,1.2986,12
+2018,,0,1.2957,12
+2019,,0,1.3269,12
+2020,,0,1.3415,12
+2021,,0,1.2535,12
+2022,,0,1.3013,12
+2023,,0,1.3497,12
+2024,,0,1.3698,12
+2025,,0,1.3978,12
+2026,,0,1.3875,10
