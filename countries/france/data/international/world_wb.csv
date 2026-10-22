@@ -1,0 +1,25 @@
+# World Bank WDI, current US$: GDP (NY.GDP.MKTP.CD) and total reserves
+# including gold (FI.RES.TOTL.CD), both in US$ billion; GDP per person
+# (NY.GDP.PCAP.CD) in US$. The harmonised series every country on the spine
+# draws. Adopted from world_from_wb.csv after review, 2026-10-22.
+year,gdp_usd_bn,gdp_per_person_usd,reserves_usd_bn
+2006,2317.9,36432,98.2
+2007,2655.8,41486,115.5
+2008,2926.8,45465,103.3
+2009,2700.1,41728,131.8
+2010,2646.2,40695,165.9
+2011,2870.4,43930,168.5
+2012,2683.0,40864,184.5
+2013,2816.1,42669,145.2
+2014,2861.2,43148,144.0
+2015,2442.5,36702,138.2
+2016,2470.4,37024,145.9
+2017,2588.9,38687,156.3
+2018,2781.6,41418,166.5
+2019,2722.8,40408,189.0
+2020,2647.9,39170,224.2
+2021,2966.4,43725,244.3
+2022,2794.8,40989,242.4
+2023,3056.3,44700,240.8
+2024,3160.4,46103,282.9
+2025,3366.3,48986,428.2

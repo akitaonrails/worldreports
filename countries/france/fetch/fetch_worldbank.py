@@ -5,6 +5,9 @@ Usage:  python3 scripts/fetch_worldbank.py
 
   data/social/hdi_from_undp.csv    HDR 2025 complete time series, France
   data/social/gini_from_wb.csv     SI.POV.GINI (World Bank harmonised)
+  data/credit/npl_from_wb.csv      FB.AST.NPER.ZS, bank non-performing
+                                   loans to gross loans (IMF Financial
+                                   Soundness Indicators, via the WDI)
 
 The HDR file is a single vintage covering every year, which is the point: the
 HDI is recomputed for the whole back-series at each methodology change, so
@@ -100,7 +103,8 @@ def hdr_hdi() -> dict[int, float]:
     return out
 
 
-def write(name: str, header: str, series: dict[int, float], dec: int) -> None:
+def write(name: str, header: str, series: dict[int, float], dec: int,
+          folder: Path = DATA) -> None:
     if not series:
         print(f"  !! {name}: nothing fetched", file=sys.stderr)
         return
@@ -108,14 +112,21 @@ def write(name: str, header: str, series: dict[int, float], dec: int) -> None:
     for y in sorted(series):
         if 2005 <= y <= 2026:
             lines.append(f"{y},{series[y]:.{dec}f}")
-    (DATA / name).write_text("\n".join(lines) + "\n")
-    print(f"  -> data/social/{name}")
+    (folder / name).write_text("\n".join(lines) + "\n")
+    print(f"  -> data/{folder.name}/{name}")
 
 
 def main() -> None:
     print("Fetching UNDP / World Bank series for France...")
     write("hdi_from_undp.csv", "year,undp", hdr_hdi(), 3)
     write("gini_from_wb.csv", "year,wb", wb_series("SI.POV.GINI"), 1)
+    npl = wb_series("FB.AST.NPER.ZS")
+    # A known value, so an empty or re-based answer is not written.
+    if abs(npl.get(2019, 0) - 2.51) > 0.05:
+        raise SystemExit(f"FB.AST.NPER.ZS 2019 is {npl.get(2019)}, "
+                         "expected 2.51; nothing written")
+    write("npl_from_wb.csv", "year,npl_fsi_pct", npl, 2,
+          folder=ROOT / "data" / "credit")
     print("Done. Diff the sidecars before adopting.")
 
 

@@ -1,0 +1,29 @@
+# Inserm-CépiDc causes of death as reported to Eurostat, residents
+# of France: suicide = intentional self-harm (X60-X84, Y87.0), transport
+# = all transport accidents (V01-Y85); crude rates per 100,000
+# (hlth_cd_acdr2) and counts (hlth_cd_aro). Road deaths = people killed
+# within 30 days in road accidents, CARE database (ONISR), with Eurostat's
+# own rate per million inhabitants (tran_sf_roadus). ONISR's CARE return
+# for France is metropolitan France; Eurostat's rate is computed on the
+# matching population.
+# Adopted from causes_from_estat.csv after review, 2026-10-22.
+year,suicide_rate,suicide_count,transport_rate,transport_count,road_killed,road_per_million
+2006,,,,,4709,74
+2007,,,,,4620,73
+2008,,,,,4275,67
+2009,,,,,4273,66
+2010,,,,,3992,62
+2011,16.22,10560,6.22,4045,3963,61
+2012,15.19,9971,5.74,3766,3653,56
+2013,14.97,9872,4.99,3313,3268,50
+2014,13.68,9090,5.05,3369,3380,51
+2015,13.74,9145,4.93,3431,3459,52
+2016,12.91,8611,4.91,3279,3471,52
+2017,12.54,8400,4.67,3144,3444,52
+2018,13.24,8914,4.12,2759,3246,48
+2019,13.18,8861,3.92,2654,3238,48
+2020,13.36,9027,3.21,2189,2538,38
+2021,13.24,8987,3.58,2444,2931,43
+2022,13.53,9237,3.79,2592,3260,48
+2023,12.99,8905,3.69,2536,3154,46
+2024,,8784,,2486,3181,46
