@@ -131,6 +131,31 @@ fiscal:
       liabilities and is a different quantity again. Neither is the
       general-government debt in international/, and the three are
       routinely quoted as though they were one number.
+  general_government_from_imf.csv:
+    source: 'IMF — World Economic Outlook and Fiscal Monitor, via DataMapper (GGR_G01_GDP_PT (Fiscal Monitor), G_X_G01_GDP_PT (Fiscal Monitor), GGXCNL_NGDP (WEO), GGXONLB_G01_GDP_PT (Fiscal Monitor), GGXWDG_NGDP (WEO))'
+    url: 'https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      General government, % of GDP, calendar years. Balance and gross
+      debt are WEO indicators; revenue, expenditure and the primary
+      balance are not WEO codes on DataMapper (GGR_NGDP, GGX_NGDP and
+      GGXONLB_NGDP do not exist there) and come from the Fiscal Monitor,
+      served from the same database — the fetcher checks the WEO and
+      Fiscal Monitor balances agree within 0.1 pt before writing. Stops
+      at 2025: later IMF years are staff projections. 2025 itself may be
+      an IMF estimate. Columns: revenue_pct_gdp, expenditure_pct_gdp,
+      balance_pct_gdp, primary_balance_pct_gdp, gross_debt_pct_gdp. The
+      same IMF numbers that Finance Canada reprints in
+      international/g7_*.csv, taken straight from the IMF.
+  public_investment_from_oecd.csv:
+    source: 'OECD — National Accounts at a Glance, chapter 6, OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_VI, measure P51GS13'
+    url: 'https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_VI,/A.CAN.P51GS13...'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      gov_gfcf_pct_gdp: general-government gross fixed capital
+      formation, % of GDP (spending slot 4).
 
 international:
   g7_balance.csv:
@@ -283,6 +308,43 @@ social:
       Canadian Income Survey through its own income definition and lands
       in a different place from Statistics Canada's own figure. They are
       not two readings of one quantity.
+  demography_from_wb.csv:
+    source: 'World Bank — World Development Indicators (SP.POP.TOTL.FE.IN, SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM), from the UN World Population Prospects and national vital statistics'
+    url: 'https://api.worldbank.org/v2/country/CAN/indicator/SP.POP.TOTL.FE.IN?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Mid-year population (total and female), so a rate per 100,000
+      women can be computed on a mid-year denominator. Crude birth and
+      death rates are per 1,000 people. net_migration is a COUNT of
+      people (WPP estimate), not a rate: per 1,000 = net_migration /
+      population x 1,000 for the same year. WPP figures for recent years
+      are estimates and are revised with each WPP. Columns:
+      population_female, fertility, birth_rate_per_1000,
+      death_rate_per_1000, net_migration.
+  poverty_from_wb.csv:
+    source: 'World Bank — Poverty and Inequality Platform, SI.POV.UMIC'
+    url: 'https://api.worldbank.org/v2/country/CAN/indicator/SI.POV.UMIC?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      poverty_830_pct: share of people below US$8.30 a day, 2021 PPP.
+      Survey years only; the gaps are years without a survey, not zeros.
+      The cross-country line beside the national poverty definition,
+      never spliced into it.
+  security_from_wb.csv:
+    source: 'World Bank — World Development Indicators: VC.IHR.PSRC.P5 (UNODC), SH.STA.SUIC.P5 and SH.STA.TRAF.P5 (WHO Global Health Estimates)'
+    url: 'https://api.worldbank.org/v2/country/CAN/indicator/VC.IHR.PSRC.P5?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      All per 100,000 people. Intentional homicide is UNODC's harmonised
+      count, which usually differs from the national police or death-
+      certificate series in both directions. Suicide and road-traffic
+      deaths are WHO modelled estimates (suicide age-standardised),
+      ending 2021 and 2019 respectively in this release; later years are
+      blank, not zero. Columns: homicide_per_100k, suicide_per_100k,
+      road_deaths_per_100k.
 
 migration:
   pr_admissions.csv:
@@ -338,3 +400,52 @@ migration:
       two differ by more than a factor of two because a study permit
       runs for several years. The stock belongs to Statistics Canada's
       non-permanent-resident estimate.
+
+credit:
+  debt_service_from_bis.csv:
+    source: 'BIS — debt service ratios, WS_DSR Q.CA.H'
+    url: 'https://stats.bis.org/api/v2/data/dataflow/BIS/WS_DSR/1.0/Q.CA.H?format=csv'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Interest plus amortisation on household debt as % of household
+      disposable income. A BIS estimate built on an assumed average
+      maturity and the aggregate lending rate. Q4 value, quarter mean
+      and the number of quarters, as in the credit file.
+  household_credit_from_bis.csv:
+    source: 'BIS — total credit statistics, WS_TC Q.CA.H.A.M.770.A'
+    url: 'https://stats.bis.org/api/v2/data/dataflow/BIS/WS_TC/2.0/Q.CA.H.A.M.770.A?format=csv'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Credit to households and NPISHs from all sectors, market value, %
+      of GDP, adjusted for breaks. hh_credit_pct_gdp_q4 is the Q4 (year-
+      end) value the spine draws; _qavg is the mean of the quarters
+      published and _quarters says how many, so the running year reads
+      as one quarter, not a year. Wider than bank-loan series: every
+      lender and debt securities are in it.
+
+macro:
+  economy_from_wb.csv:
+    source: 'World Bank — World Development Indicators (NE.GDI.FTOT.ZS, SL.UEM.TOTL.ZS)'
+    url: 'https://api.worldbank.org/v2/country/CAN/indicator/NE.GDI.FTOT.ZS?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      gfcf_pct_gdp is whole-economy gross fixed capital formation, % of
+      GDP (spending slot 3). unemployment_pct is the ILO modelled
+      estimate, % of the labour force — harmonised, and not the national
+      LFS headline, which stays the national line. Columns:
+      gfcf_pct_gdp, unemployment_pct.
+
+trade:
+  trade_from_wb.csv:
+    source: 'World Bank — World Development Indicators (NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS)'
+    url: 'https://api.worldbank.org/v2/country/CAN/indicator/NE.EXP.GNFS.ZS?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Exports and imports of goods AND services, national-accounts
+      basis, % of GDP — not a customs goods series. The trade balance is
+      their difference and is not stored. Columns: exports_pct_gdp,
+      imports_pct_gdp.
