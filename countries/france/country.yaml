@@ -1,0 +1,100 @@
+# France. Everything that makes this country's pages and plates look and read
+# the way they do. The palette is lifted verbatim from the france-reports
+# scripts/style.py, so nothing about the existing plates changes.
+slug: france
+flag_emoji: "🇫🇷"
+wordmark: France
+name:
+  en: "France"
+  fr: "France"
+  pt: "França"
+  es: "Francia"
+  ko: "프랑스"
+
+locales:
+  - {code: fr, html_lang: fr,    og_locale: fr_FR, endonym: Français}
+  - {code: en, html_lang: en,    og_locale: en_GB, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete. A flow for a year still running is not comparable
+# with the ones before it: plotted on the same line it draws a collapse
+# that never happened, so plates dash or hatch anything past it.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+# Label every Nth year on the x-axis. Twenty-one years of annual ticks do
+# not fit, so each country labels the stride its own plates were drawn with.
+tick_every: 2
+
+# Bands drawn behind the data. France's 2008-09 contraction was a single
+# sharp year, and 2012-13 was a flat double-dip rather than a recession with
+# a trough, so only the two unambiguous ones get a band.
+bands:
+  - {from: 2008.6, to: 2009.9, label: "2008–09 crisis"}
+  - {from: 2020.0, to: 2020.9, label: "COVID-19"}
+
+currency:
+  code: EUR
+
+# The tricolore is a flag, not a chart palette: pure #0055A4 / #EF4135 next
+# to each other vibrate, and white is the paper. These are darkened,
+# desaturated siblings that survive being printed and read in greyscale.
+palette:
+  BLUE:    "#1B4F9C"
+  BLUE_D:  "#143A74"
+  RED:     "#C8384B"
+  NAVY:    "#0E2A4D"
+  GREEN:   "#2E7D4F"
+  GREEN_D: "#1F5F3A"
+  GOLD:    "#C8911C"
+  PURPLE:  "#6E5BA6"
+  TEAL:    "#13807A"
+  primary: "#1B4F9C"
+  alert:   "#C8384B"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#1B4F9C", "#C8384B", "#2E7D4F", "#C8911C", "#6E5BA6", "#13807A", "#1F2430"]
+  # The masthead rule and the plate header accent. The middle band is the
+  # paper itself, so it is drawn with an outline — an unstroked white
+  # rectangle on a #FBFAF7 page is a gap, and the rule reads as two
+  # detached blocks.
+  flag_bands: ["#1B4F9C", "#FBFAF7", "#C8384B"]
+  # The site chrome, lifted where #1B4F9C-on-navy would not carry.
+  web:
+    # F is an open letter: a little less than B, more than A.
+    mark_bearing: "0.055em"
+    ground:   "#0A1F38"
+    raised:   "#0F2A47"
+    raised_2: "#143252"
+    rule:     "#1C3F63"
+    ink:      "#E9E7E1"
+    muted:    "#94A1B5"
+    faint:    "#68788F"
+    money:    "#5E9BE6"
+    world:    "#2FA8A0"
+    people:   "#E8707F"
+
+seo:
+  title:
+    en: "France — plates of official data, 2006–2026"
+    fr: "France — planches de données officielles, 2006–2026"
+    pt: "França — pranchas de dados oficiais, 2006–2026"
+  description:
+    en: "Data plates on France's economy, public finances, trade, society, demography, mortality, credit and security, built only from official sources and regenerated from committed CSVs."
+    fr: "Des planches sur l'économie, les finances publiques, le commerce, la société, la démographie, la mortalité, le crédit et la sécurité en France, construites uniquement à partir de sources officielles et régénérées depuis des CSV versionnés."
+    pt: "Pranchas de dados sobre a economia, as contas públicas, o comércio, a sociedade, a demografia, a mortalidade, o crédito e a segurança da França, construídas apenas a partir de fontes oficiais."
+  keywords: [France, INSEE, Eurostat, public finances, demography, mortality, official statistics]
+  spatial: "France (including the overseas departments)"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+sources:
+  en: "INSEE, Eurostat, the Banque de France and the ECB, the DGFiP and the Cour des comptes, the SSMSI"
+  fr: "l'INSEE, Eurostat, la Banque de France et la BCE, la DGFiP et la Cour des comptes, le SSMSI"
+  pt: "INSEE, Eurostat, Banque de France e BCE, DGFiP e Cour des comptes, SSMSI"

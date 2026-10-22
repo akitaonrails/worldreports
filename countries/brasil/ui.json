@@ -1,0 +1,72 @@
+{
+ "en": {
+  "line": "Eleven plates of official data, 2006–2026",
+  "dek": "Every number here comes from the source that publishes it — IBGE, Banco Central, Tesouro Nacional, MDIC, IPEA, FBSP — and every plate is regenerated from committed CSVs, so the charts and the numbers on this page cannot drift apart. Where a series breaks, it is annotated rather than smoothed.",
+  "notes": [
+   "2026 is a partial year. Annual totals and averages on this page stop at 2025; readings that are genuinely current — a debt stock, a policy rate, a closing price — are marked <em>latest</em>.",
+   "Two pairs of series are deliberately never spliced: homicides counted from death certificates (IPEA/SIM, by residence) against police records (FBSP, by occurrence); and the tax burden before and after its 2010 methodology change.",
+   "The plates themselves are labelled in English; this page is bilingual."
+  ],
+  "colophon": [
+   {
+    "term": "National accounts, population, jobs",
+    "detail": "IBGE — Contas Nacionais, PNAD Contínua, Projeções da População 2024"
+   },
+   {
+    "term": "Prices, rates, currency, reserves, debt",
+    "detail": "Banco Central do Brasil — SGS"
+   },
+   {
+    "term": "Budget, spending, primary result",
+    "detail": "Tesouro Nacional; Receita Federal for the tax burden"
+   },
+   {
+    "term": "Trade",
+    "detail": "MDIC/SECEX — Balança Comercial, consolidated series"
+   },
+   {
+    "term": "Homicides and violence",
+    "detail": "IPEA — Atlas da Violência over DATASUS/SIM; FBSP — Anuário 2026"
+   },
+   {
+    "term": "International comparisons",
+    "detail": "World Economic Forum, Transparency International, UNDP, World Bank"
+   }
+  ]
+ },
+ "pt": {
+  "line": "Onze pranchas de dados oficiais, 2006–2026",
+  "dek": "Cada número aqui vem da fonte que o publica — IBGE, Banco Central, Tesouro Nacional, MDIC, IPEA, FBSP — e cada prancha é gerada a partir de CSVs versionados, de modo que os gráficos e os números desta página não podem divergir. Onde uma série se quebra, isso é anotado em vez de suavizado.",
+  "notes": [
+   "2026 é um ano parcial. Totais e médias anuais nesta página param em 2025; leituras genuinamente correntes — um estoque de dívida, uma taxa de juros, um fechamento — aparecem marcadas como <em>atual</em>.",
+   "Dois pares de séries nunca são emendados de propósito: homicídios contados por declaração de óbito (IPEA/SIM, por residência) contra registros policiais (FBSP, por ocorrência); e a carga tributária antes e depois da mudança metodológica de 2010.",
+   "As pranchas em si estão rotuladas em inglês; esta página é bilíngue."
+  ],
+  "colophon": [
+   {
+    "term": "Contas nacionais, população, trabalho",
+    "detail": "IBGE — Contas Nacionais, PNAD Contínua, Projeções da População 2024"
+   },
+   {
+    "term": "Preços, juros, câmbio, reservas, dívida",
+    "detail": "Banco Central do Brasil — SGS"
+   },
+   {
+    "term": "Orçamento, gasto, resultado primário",
+    "detail": "Tesouro Nacional; Receita Federal para a carga tributária"
+   },
+   {
+    "term": "Comércio exterior",
+    "detail": "MDIC/SECEX — Balança Comercial, série consolidada"
+   },
+   {
+    "term": "Homicídios e violência",
+    "detail": "IPEA — Atlas da Violência sobre DATASUS/SIM; FBSP — Anuário 2026"
+   },
+   {
+    "term": "Comparações internacionais",
+    "detail": "World Economic Forum, Transparency International, PNUD, Banco Mundial"
+   }
+  ]
+ }
+}

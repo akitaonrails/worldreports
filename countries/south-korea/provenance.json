@@ -1,0 +1,58 @@
+{
+ "01_economy": [
+  "macro/cpi.csv",
+  "macro/gdp.csv"
+ ],
+ "02_fiscal": [
+  "fiscal/debt.csv",
+  "fiscal/government.csv",
+  "fiscal/tax_burden.csv"
+ ],
+ "03_spending": [
+  "fiscal/investment.csv",
+  "fiscal/rnd.csv",
+  "fiscal/spending_by_function.csv"
+ ],
+ "04_trade": [
+  "trade/destinations.csv",
+  "trade/exports_products.csv",
+  "trade/trade.csv"
+ ],
+ "05_markets": [
+  "macro/base_rate.csv",
+  "macro/cpi.csv",
+  "macro/won.csv",
+  "markets/kospi.csv",
+  "markets/sp500.csv"
+ ],
+ "06_people": [
+  "macro/cpi.csv",
+  "macro/minimum_wage.csv",
+  "macro/unemployment.csv",
+  "social/gini.csv",
+  "social/hdi.csv",
+  "social/poverty.csv"
+ ],
+ "07_world": [
+  "intl/cpi.csv",
+  "intl/openness.csv",
+  "macro/external.csv",
+  "macro/reserves.csv"
+ ],
+ "08_demography": [
+  "social/population.csv",
+  "social/vital.csv"
+ ],
+ "09_safety": [
+  "macro/gdp.csv",
+  "social/covid.csv",
+  "social/homicide.csv",
+  "social/mortality.csv",
+  "social/road.csv",
+  "social/workplace.csv"
+ ],
+ "10_credit": [
+  "macro/credit_terms.csv",
+  "macro/household_credit.csv"
+ ]
+}

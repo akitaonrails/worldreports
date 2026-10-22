@@ -1,0 +1,88 @@
+# United States. Palette lifted verbatim from usa-reports scripts/style.py.
+slug: usa
+flag_emoji: "🇺🇸"
+wordmark: United States
+name:
+  en: "United States"
+  fr: "États-Unis"
+  pt: "Estados Unidos"
+  es: "Estados Unidos"
+  ko: "미국"
+
+locales:
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete. A flow for a year still running is not comparable
+# with the ones before it: plotted on the same line it draws a collapse
+# that never happened, so plates dash or hatch anything past it.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+# Label every Nth year on the x-axis. Twenty-one years of annual ticks do
+# not fit, so each country labels the stride its own plates were drawn with.
+tick_every: 3
+
+# National Bureau of Economic Research business-cycle dates, which are the
+# official US recession dates: December 2007 to June 2009, and February to
+# April 2020. Written as year fractions so a band lands mid-year where the
+# turning point actually fell rather than snapping to January.
+bands:
+  - {from: 2007.95, to: 2009.5,  label: "Great Recession"}
+  - {from: 2020.12, to: 2020.33, label: "COVID-19"}
+
+currency:
+  code: USD
+
+palette:
+  NAVY:    "#1B3A6B"
+  NAVY_D:  "#0F2547"
+  RED:     "#B5293A"
+  BLUE:    "#2E6DA4"
+  GOLD:    "#C8902A"
+  TEAL:    "#157F76"
+  PURPLE:  "#6B4E96"
+  GREEN:   "#2E7D4F"
+  primary: "#1B3A6B"
+  alert:   "#B5293A"
+  ink:     "#1D2129"
+  muted:   "#596274"
+  faint:   "#949BAA"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#ECE9E2"
+  band_dark: "#E0DCD3"
+  series:  ["#1B3A6B", "#B5293A", "#C8902A", "#157F76", "#2E6DA4", "#6B4E96", "#2E7D4F", "#1D2129"]
+  flag_bands: ["#B5293A", "#FBFAF7", "#1B3A6B"]
+  web:
+    # Two words, thirteen letters: at 13vw it would not fit a
+    # phone, so this wordmark is set smaller than the one-word ones.
+    mark_bearing: "0.06em"
+    mark_size: "clamp(2.5rem, 7.5vw, 5.4rem)"
+    ground:   "#0C1F3C"
+    raised:   "#12294B"
+    raised_2: "#173158"
+    rule:     "#1F3F6E"
+    ink:      "#E9E7E1"
+    muted:    "#94A1B5"
+    faint:    "#68788F"
+    money:    "#6E9FD8"
+    world:    "#2FA8A0"
+    people:   "#E8707F"
+
+seo:
+  title:
+    en: "United States — a data atlas, 2006–2026"
+    pt: "Estados Unidos — um atlas de dados, 2006–2026"
+  description:
+    en: "Twenty years of the United States in editorial plates, built only from official statistics — the BEA, the BLS, the Census Bureau, the Treasury, the Federal Reserve and the CDC — and regenerated from committed CSVs."
+    pt: "Vinte anos dos Estados Unidos em pranchas editoriais, construídas apenas a partir de estatísticas oficiais — BEA, BLS, Census Bureau, Tesouro, Federal Reserve e CDC."
+  keywords: [United States, BEA, BLS, Census Bureau, Federal Reserve, CDC, official statistics]
+  spatial: "United States of America"
+
+sources:
+  en: "the BEA, the BLS, the Census Bureau, the Treasury, the Federal Reserve, the OMB and the CDC"
+  pt: "BEA, BLS, Census Bureau, Tesouro dos EUA, Federal Reserve, OMB e CDC"

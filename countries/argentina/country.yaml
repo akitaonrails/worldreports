@@ -1,0 +1,91 @@
+# Argentina. Palette lifted verbatim from argentina-reports scripts/style.py.
+slug: argentina
+flag_emoji: "🇦🇷"
+wordmark: Argentina
+name:
+  en: "Argentina"
+  fr: "Argentine"
+  pt: "Argentina"
+  es: "Argentina"
+  ko: "아르헨티나"
+
+locales:
+  - {code: es, html_lang: es-AR, og_locale: es_AR, endonym: Español}
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete. A flow for a year still running is not comparable
+# with the ones before it: plotted on the same line it draws a collapse
+# that never happened, so plates dash or hatch anything past it.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+# Label every Nth year on the x-axis. Twenty-one years of annual ticks do
+# not fit, so each country labels the stride its own plates were drawn with.
+tick_every: 2
+
+bands:
+  - {from: 2018.0, to: 2020.9, label: "2018–20 recession"}
+  - {from: 2020.0, to: 2020.9, label: "COVID-19"}
+
+# Prices rose about 1,200-fold over this window, so a peso figure is only
+# meaningful beside its own year. Everything comparable across years is in
+# dollars, as a share of GDP, or deflated — never in nominal pesos.
+currency:
+  code: ARS
+
+palette:
+  CELESTE:   "#3E86BE"
+  CELESTE_D: "#235E8C"
+  NAVY:      "#123A5B"
+  SUN:       "#E8A61E"
+  GREEN:     "#2F8A5B"
+  RED:       "#C8443C"
+  PURPLE:    "#7B5EA7"
+  TEAL:      "#12857F"
+  ASTERISK:  "#B08968"
+  primary:   "#3E86BE"
+  alert:     "#C8443C"
+  ink:       "#1F2430"
+  muted:     "#5A6072"
+  faint:     "#9AA0AE"
+  paper:     "#FBFAF7"
+  card:      "#FFFFFF"
+  grid:      "#E7E4DD"
+  spine:     "#C9C6BE"
+  band:      "#EFECE5"
+  series:    ["#3E86BE", "#123A5B", "#E8A61E", "#C8443C", "#7B5EA7", "#12857F", "#1F2430"]
+  flag_bands: ["#3E86BE", "#FBFAF7", "#3E86BE"]
+  web:
+    # A is a diagonal and all but touches its own edge, so it
+    # needs almost no nudge; nine letters want a little less size.
+    mark_bearing: "0.012em"
+    mark_size: "clamp(3.4rem, 10vw, 7.2rem)"
+    ground:   "#0A2238"
+    raised:   "#10304C"
+    raised_2: "#143A5B"
+    rule:     "#1D4870"
+    ink:      "#E9E7E1"
+    muted:    "#94A1B5"
+    faint:    "#68788F"
+    money:    "#6FB0E2"
+    world:    "#E8A61E"
+    people:   "#E8707F"
+
+seo:
+  title:
+    en: "Argentina in numbers — a data atlas, 2006–2026"
+    es: "Argentina en números — un atlas de datos, 2006–2026"
+    pt: "Argentina em números — um atlas de dados, 2006–2026"
+  description:
+    en: "Twenty years of Argentine official statistics as editorial plates: output, prices, work and poverty, public accounts, trade, credit, markets, population and violence. Every number traced to the CSV it came from."
+    es: "Veinte años de estadísticas oficiales argentinas en planchas editoriales: producto, precios, trabajo y pobreza, cuentas públicas, comercio, crédito, mercados, población y violencia. Cada número rastreable hasta el CSV del que salió."
+    pt: "Vinte anos de estatísticas oficiais argentinas em pranchas editoriais: produto, preços, trabalho e pobreza, contas públicas, comércio, crédito, mercados, população e violência. Cada número rastreável até o CSV de onde veio."
+  keywords: [Argentina, INDEC, BCRA, inflation, poverty, public accounts, official statistics]
+  spatial: "Argentina"
+
+sources:
+  en: "INDEC, the BCRA, the Ministerio de Economía, datos.gob.ar and the DEIS"
+  es: "el INDEC, el BCRA, el Ministerio de Economía, datos.gob.ar y la DEIS"
+  pt: "INDEC, BCRA, Ministerio de Economía, datos.gob.ar e DEIS"

@@ -1,0 +1,8 @@
+# Everything the plates and the pages are built with, pinned to the
+# versions they were drawn with. A matplotlib that moves a tick by a pixel
+# redraws fifty-two committed plates, and the diff is the thing we read.
+matplotlib~=3.10
+numpy~=2.4
+PyYAML~=6.0
+Pillow~=12.1
+pytest~=9.0

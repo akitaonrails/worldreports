@@ -1,0 +1,57 @@
+{
+ "01_economy": [
+  "macro/gdp.csv",
+  "macro/ipca.csv"
+ ],
+ "02_fiscal": [
+  "fiscal/debt.csv",
+  "fiscal/primary_result.csv",
+  "fiscal/tax_burden.csv"
+ ],
+ "03_spending": [
+  "fiscal/investment.csv",
+  "fiscal/spending_by_function.csv"
+ ],
+ "06_trade": [
+  "trade/destinations.csv",
+  "trade/exports_products.csv",
+  "trade/trade.csv"
+ ],
+ "04_markets": [
+  "macro/dollar.csv",
+  "macro/ipca.csv",
+  "macro/selic.csv",
+  "markets/ibov.csv",
+  "markets/sp500.csv"
+ ],
+ "08_people": [
+  "macro/ipca.csv",
+  "macro/minimum_wage.csv",
+  "macro/unemployment.csv",
+  "social/gini.csv",
+  "social/hdi.csv",
+  "social/poverty.csv"
+ ],
+ "07_world": [
+  "international/cpi.csv",
+  "international/wef.csv",
+  "macro/dollar.csv",
+  "macro/gdp.csv",
+  "macro/reserves.csv",
+  "trade/trade.csv"
+ ],
+ "09_demographics": [
+  "social/population.csv"
+ ],
+ "10_security": [
+  "social/homicides.csv",
+  "social/violence_fbsp.csv"
+ ],
+ "05_credit": [
+  "macro/credit.csv",
+  "macro/household_debt.csv"
+ ],
+ "11_epidemics": [
+  "social/epidemic_deaths.csv"
+ ]
+}

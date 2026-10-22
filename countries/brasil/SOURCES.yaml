@@ -1,0 +1,290 @@
+# Data provenance — every series in this repo
+#
+# Curated CSVs (committed) are the source of truth for charts; where a public
+# official API exists, fetch/fetch_*.py can refresh them (results written to
+# *_from_api.csv / *_check.csv files so curated data is never clobbered).
+# Retrieved/compiled: 2026-10-21.
+
+macro:
+  gdp.csv:
+    source: IBGE — Contas Nacionais (SIDRA tables 6784 & 1846, 5932)
+    url: https://sidra.ibge.gov.br/tabela/6784
+    refreshed_by: fetch/fetch_ibge.py
+    notes: >-
+      nominal_rbi: annual current prices (R$ bn); 2024-2026 = sum of official
+      quarterly values (table 1846, market prices) which matches the annual
+      accounts. real_growth: annual volume variation (6784/9810; 2024-2025
+      from 5932 Q4 accumulated). gdp_per_capita_usd computed as nominal GDP /
+      population / average PTAX (BCB series 1). population_mn is Contas
+      Nacionais variable 93 through 2023 and IBGE Projeções 2024
+      (population.csv) from 2024 on; the two agree to within 0.049M over
+      2006-2023, so the join introduces no step.
+  ipca.csv:
+    source: Banco Central — SGS series 433 (IPCA monthly %, compounded per year)
+    url: https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados
+    refreshed_by: fetch/fetch_bcb.py
+  selic.csv:
+    source: Banco Central — SGS series 432 (Copom target rate, year end); 2026 = current level (series 1178)
+    url: https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados
+    notes: >-
+      432 is the Meta Selic set by Copom, not the realized rate accumulated
+      over the year — it is a daily series that holds flat between meetings,
+      and this file takes its value on the last day of each year. True
+      accumulated Selic for 2005 was about 19.05% against the 18.00 here.
+      The series begins in 1999 with inflation targeting; the realized
+      Selic-over (series 1178 or 4390, from 1986) is a different concept and
+      must not be spliced onto it.
+    refreshed_by: fetch/fetch_bcb.py
+  credit.csv:
+    source: Banco Central — SGS 20622, 20539, 20714, 20715, 20716, 21082, 21084
+    url: https://api.bcb.gov.br/dados/serie/bcdata.sgs.20622/dados
+    notes: >-
+      Every code was resolved to its official name through BCB's open-data
+      catalog (codigo_sgs on dadosabertos.bcb.gov.br), not inferred from its
+      values — by magnitude alone 20717 looks like the household rate, since
+      it is the highest at 48.5%, but it is "recursos livres - Total"; the
+      household series is 20716 at 38.2%. One value a year, taken at
+      DECEMBER rather than averaged, because these are stocks and stock
+      ratios measured at a point in time; that makes the rate columns
+      year-end rates, not annual averages. The rate and arrears columns
+      begin in March 2011, when BCB rebuilt the credit statistics on SCR
+      microdata. stock_brl_mn exists back to 1988 in SGS but crosses four
+      currency redenominations with no unit column, so this file starts at
+      1995. 2026 is partial (August).
+    refreshed_by: fetch/fetch_credit.py
+  household_debt.csv:
+    source: Banco Central — SGS 29037, 29038, 29034 (household indebtedness)
+    url: https://api.bcb.gov.br/dados/serie/bcdata.sgs.29037/dados
+    notes: >-
+      debt_income = stock of household debt with the SFN over the last
+      twelve months of accumulated income; debt_service = share of income
+      going to debt service. The ex-housing column matters: the gap between
+      it and the total is mortgage credit, which buys an asset, so the
+      headline 49.9% should not be read as consumption debt. Covers the SFN
+      only — it excludes fintech lenders outside the system, consórcios and
+      informal credit, so it is a floor, not the whole of what households
+      owe. December values; 2026 is partial (August).
+    refreshed_by: fetch/fetch_credit.py
+  dollar.csv:
+    source: Banco Central — SGS series 1 (PTAX USD/BRL, free — sale, end of period)
+    url: https://api.bcb.gov.br/dados/serie/bcdata.sgs.1/dados
+    notes: avg = simple average of daily values; eop = last business day
+    refreshed_by: fetch/fetch_bcb.py
+  reserves.csv:
+    source: Banco Central — SGS series 3546 (international reserves, conceito liquidez, US$ mn, monthly)
+    url: https://api.bcb.gov.br/dados/serie/bcdata.sgs.3546/dados
+    notes: >-
+      eop_usbi = last monthly value of each year, converted to US$ bn. Series
+      13637 (daily, conceito caixa) is served as an HTML error page under
+      HTTP 200 by the SGS gateway and cannot be parsed; 3546 carries the same
+      year-end level.
+    refreshed_by: fetch/fetch_bcb.py
+  unemployment.csv:
+    source: IBGE — PNAD Contínua annual average (SIDRA 4562); PME annual (SIDRA 1168, 6 metro regions, old survey)
+    notes: two non-comparable series in one file (value=PNAD-C national; pme=old metro survey); do not splice
+    compiled: sub-agent research 2026-10-21, verified against IBGE releases
+  minimum_wage.csv:
+    source: planalto.gov.br legal acts (Decreto 12.797/2025 for 2026; Lei 11.321/2006 etc.)
+    notes: value in force for most of each year (pre-2010 adjustments were not on Jan 1)
+    compiled: sub-agent research 2026-10-21
+
+social:
+  population.csv:
+    source: IBGE — Projeções da População, revisão 2024 (tab4 indicadores, Brasil 2000-2070)
+    url: https://ftp.ibge.gov.br/Projecao_da_Populacao/Projecao_da_Populacao_2024/projecoes_2024_tab4_indicadores.xlsx
+    notes: >-
+      pop_mn/growth_pct/tfr/births/deaths are all 2024-revision model output
+      and mutually consistent; reference date 1 July. NOT the Censo 2022
+      enumerated count (203,080,756) — IBGE adjusts that upward by 3.90% for
+      undercount (7.33% for ages 0-9), so the two must never share an axis.
+      Peak population 220,425,299 in 2041, declining from 2042; TFR falls
+      2.3156 (2000) -> 1.5705 (2023), -32.2%. Do NOT use SIDRA tables
+      7358/7360/7362/7363/7365: they still serve the superseded 2018 revision
+      (peak 2047, 233.2M) with the year as a classification, not the period.
+    refreshed_by: fetch/fetch_ibge_population.py
+  homicides.csv:
+    source: IPEA — Atlas da Violência (undocumented JSON API over DATASUS/SIM)
+    url: https://www.ipea.gov.br/dados-api/series-values/328/1
+    notes: >-
+      Brazil = regiao_id 1076 at abrangencia 1. Series 328 count / 20 rate /
+      365 hidden / 366 estimated count / 368 estimated rate. Definition is
+      CID-10 X85-Y09 (agressões) + Y35-Y36 (intervenção legal), by victim's
+      RESIDENCE. Verified against an independent DATASUS/TabNet pull: the
+      counts match for all 19 years. Two breaks to annotate, not smooth:
+      (1) 2019, where X85-Y09 falls 21% while deaths of undetermined intent
+      (Y10-Y34) jump — largely reclassification, so the registered series
+      overstates the decline; (2) 2024, where hidden homicides nearly double.
+      "Estimated" adds a modeled share of those undetermined deaths and is
+      equally official; the gap reached 17% in 2024 (42,590 vs 49,673).
+      Rates are IPEA's own — do not recompute, the denominators are a
+      documented patchwork and the Atlas PDF itself prints 20.1 vs the API's
+      20.03 for 2024.
+    refreshed_by: fetch/fetch_violence.py
+  violence_fbsp.csv:
+    source: FBSP — Anuário Brasileiro de Segurança Pública 2026 (20th ed., 2025 data)
+    url: https://forumseguranca.org.br/wp-content/uploads/2026/07/anuario-2026.xlsx
+    notes: >-
+      Sheets T02 (MVI count + rate), P03 (police lethality), P06 (homicides of
+      women, femicides). MVI = homicídio doloso + latrocínio + lesão corporal
+      seguida de morte + mortes por intervenção policial, by OCCURRENCE, from
+      state police records. A different universe from homicides.csv — never
+      splice them. Starts 2012 (properly 2013) but publishes ~18 months
+      sooner, so it is the only source for the latest year. Use THIS for
+      police killings, never SIM's Y35: SIM captures about a third of them,
+      since the ICD code follows the death certificate rather than the police
+      classification. The rising femicide share is substantially a
+      classification effect (qualifier created by Lei 13.104/2015, autonomous
+      crime from Lei 14.994/2024), so the 2015-2019 ramp is not a trend.
+    refreshed_by: fetch/fetch_violence.py
+  epidemic_deaths.csv:
+    source: Ministério da Saúde — SIM/DATASUS, Mortalidade Geral (TabNet, CID-10)
+    url: http://tabnet.datasus.gov.br/cgi/deftohtm.exe?sim/cnv/obt10uf.def
+    notes: >-
+      Deaths by underlying cause from death certificates, counted by the
+      victim's RESIDENCE — the same instrument as homicides.csv, so the three
+      columns are comparable to each other and to the security plate.
+      COVID is read from B34, not U07: this TabNet definition carries no
+      ICD-10 chapter XXII at all, so a U07 query returns zero rather than an
+      error. B34's pre-pandemic baseline is ~64 deaths a year against 213,233
+      in 2020, which is what makes it usable as a COVID proxy — but values
+      before 2020 are unspecified viral deaths and must not be drawn under a
+      COVID label. Dengue changes code mid-series: A90/A91 through 2024, A97
+      from 2025 (ICD-10 2019 revision), and the column sums all three, or
+      2025 reads as a year with no dengue deaths. Influenza is J09+J10+J11.
+      Not the Ministry's COVID panel, which counted notifications during the
+      emergency and reported 194,949 for 2020 against SIM's 213,233 — two
+      instruments, not an error in either. 2025 is treated as complete on
+      its own volume (1,534,588 registered deaths, above 2024's 1,532,015);
+      2026 exists in TabNet and is genuinely partial, so it is excluded.
+    refreshed_by: fetch/fetch_sim_causes.py
+  hdi.csv:
+    source: UNDP — Human Development Report 2025, complete time series (single vintage)
+    url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
+    notes: post-2010 methodology for all years (internally consistent); latest year 2023
+    compiled: sub-agent research 2026-10-21
+  gini.csv:
+    source: IBGE SIDRA 7435 (column ibge, 2012+) and World Bank PIP SI.POV.GINI (column wb)
+    url: https://sidra.ibge.gov.br/tabela/7435
+    notes: two vintages kept separate — do not splice; 2010 missing (census year, no survey)
+    compiled: sub-agent research 2026-10-21
+  poverty.csv:
+    source: World Bank PIP — SI.POV.UMIC (US$ 8.30/day) and SI.POV.DDAY (US$ 3.00/day), PPP 2021 vintage
+    url: https://api.worldbank.org/v2/country/BRA/indicator/SI.POV.UMIC
+    notes: computed from IBGE PNAD/PNAD-C microdata; 2010 missing; 2025+ pending
+    compiled: sub-agent research 2026-10-21
+
+fiscal:
+  tax_burden.csv:
+    source: >-
+      Receita Federal do Brasil + Tesouro Nacional — Carga Tributária Bruta do
+      Governo Geral. 2010-2025: STN new methodology (GFSM 2014, FGTS/Sistema S
+      excluded), edition 2025 (published 10/04/2026). 2006-2009: RFB old
+      methodology (Estudos Tributários 2015).
+    url: https://www.tesourotransparente.gov.br/publicacoes/carga-tributaria-do-governo-geral/2025/114
+    notes: >-
+      METHODOLOGY BREAK at 2010 (~-1.8pp level shift; no official recalc before
+      2010). Chart shows the break. Old-methodology reference values for
+      2010-2017 in the research notes (e.g. 2014: 31.84 old vs 29.53 new).
+    compiled: sub-agent research 2026-10-21
+  primary_result.csv:
+    source: Tesouro Nacional — Resultado Primário do Governo Central, "acima da linha" (series-temporais.tesouro.gov.br, series 8911; % PIB 2015-2025 from PCPR/RTN publications)
+    url: https://series-temporais-externo-frontend.tesouro.gov.br/backend-series-temporais/rest/Public/SerieGrafico/ValorSerie/8911
+    notes: >-
+      2006-2014 computed as STN R$ values / official nominal GDP (reproduces
+      published % PIB exactly for 2015-2025). BCB "abaixo da linha" measure
+      differs slightly (2023: -2.42% vs -2.09%).
+    compiled: sub-agent research 2026-10-21
+  debt.csv:
+    source: Banco Central — DBGG (SGS 13762, "Conceito Bacen") and DLSP (SGS 4513), % GDP, December values
+    url: https://api.bcb.gov.br/dados/serie/bcdata.sgs.13762/dados
+    notes: >-
+      2026 = August values (82.87 / 69.27). Current official series; vintage
+      Sept/2026 release (past ratios re-lowered by GDP revisions). Pre-2008
+      debt methodology differs (old series 2006: 64.6%). SGS 4513 = NET debt
+      (not gross); gross = 13762. IMF concept (broader): 93.3% in 2025.
+    compiled: sub-agent research 2026-10-21
+    refreshed_by: fetch/fetch_bcb.py
+  revenue.csv:
+    source: Tesouro Nacional — Receita Total do Governo Central (series-temporais API, series 8807, cash basis, before transfers)
+    compiled: sub-agent research 2026-10-21
+  spending_by_function.csv:
+    source: "Tesouro Nacional — Despesas da União: Séries Históricas (SIAFI), published 30/09/2026"
+    url: https://www.tesourotransparente.gov.br/publicacoes/despesas-da-uniao-series-historicas/2023/8-2
+    files: Despesa_Funcao.xlsm / Despesa_Grupo.xls (thot-arquivos.tesouro.gov.br)
+    notes: >-
+      Spending by function as % of GDP. despesa liquidada, Orçamentos Fiscal e
+      Seguridade Social, excluding debt refinancing. juros_gnd2 & pessoal_gnd1
+      are GND groups (not funções); encargos_especiais (função 27) contains
+      most interest. % GDP computed as value / IBGE nominal GDP.
+      outras = total − listed functions.
+  spending_by_function_rbi.csv:
+    source: "Tesouro Nacional — Despesas da União: Séries Históricas (SIAFI), published 30/09/2026"
+    url: https://www.tesourotransparente.gov.br/publicacoes/despesas-da-uniao-series-historicas/2023/8-2
+    files: Despesa_Funcao.xlsm / Despesa_Grupo.xls (thot-arquivos.tesouro.gov.br)
+    notes: >-
+      The same series in R$ billion of the year, which is what the site's
+      headline figures and plate 03 read. 2026 rows = Jan-Aug partial (the R$
+      file only), so annual totals stop at 2025.
+  debt_bcb.csv:
+    source: Banco Central — SGS 13762 (gross, DBGG) and 4513 (net, DLSP), % GDP
+    url: https://api.bcb.gov.br/dados/serie/bcdata.sgs.13762/dados
+    refreshed_by: fetch/fetch_bcb.py
+    notes: >-
+      Fetcher output, kept beside the curated debt.csv for comparison. Not read
+      by the charts: debt.csv is the curated series.
+  investment.csv:
+    source: >-
+      IBGE Contas Nacionais (FBCF, SIDRA 1846/6784); Tesouro — Orçamento GND4
+      (liquidado); Tesouro RTN série histórica (valor pago, GND4+5, % PIB published)
+    url: https://www.tesourotransparente.gov.br/ckan/dataset/ab56485b-9c40-4efb-8563-9ce3e1973c4b/resource/527ccdb1-3059-42f3-bf23-b5e3ab4c6dc6/download/seriehistoricajul26.xlsx
+    notes: three investment concepts kept as separate columns; RTN series starts 2008
+
+trade:
+  trade.csv:
+    source: MDIC/SECEX — "Balança Comercial Brasileira — Dados Consolidados" (TOTAIS_ANUAL.xlsx and product/destination factor files)
+    url: https://balanca.mdic.gov.br/balanca/publicacoes_dados_consolidados/tabelas/pg_series_historicas/
+    notes: >-
+      US$ FOB; SECEX's consolidated series restates 2012-2019 vs first-published
+      figures (2014: -9.9 consolidated vs -4.0 announced; 2013: -9.0 vs +2.4).
+      2026 = Jan-Sep. Product groupings per SOURCES notes; complexo soja includes
+      soy oil (HS 1507) and sucroalcooleiro includes ethanol (HS 2207) from UN
+      Comtrade (Brazil-reported). Cross-checked vs UN Comtrade exact matches.
+    compiled: sub-agent research 2026-10-21
+  exports_products.csv:
+    source: SECEX factor files + UN Comtrade supplements (HS 1507, 2207, 2710)
+    notes: selected years (2006, 2010, 2015, 2020, 2024, 2025); others = residual
+    compiled: sub-agent research 2026-10-21
+  imports_products.csv:
+    source: SECEX import factor files (fuels, fertilizers+agrotoxics, machinery/electronics, chemicals+pharma, vehicles, wheat)
+    notes: selected years; share of total imports FOB
+    compiled: sub-agent research 2026-10-21
+  destinations.csv:
+    source: SECEX EXP_ANUAL_{CHINA, ESTADOS UNIDOS, UNIÃO EUROPEIA, ARGENTINA, JAPÃO}.xlsx
+    notes: SECEX's fixed EU bloc definition; Argentina = Mercosul proxy; 2026 = Jan-Sep
+    compiled: sub-agent research 2026-10-21
+
+markets:
+  ibov.csv:
+    source: B3 — IBOVESPA official historical statistics (adjusted series); 2005-06 cross-checked vs BCB SGS series 7
+    url: https://sistemaswebb3-listados.b3.com.br/indexStatisticsPage/variation/IBOVESPA?language=en-us
+    notes: year-end closes; 2026 = Oct 20 close (208,295.98, +29.3% YTD, record run)
+    compiled: sub-agent research 2026-10-21
+  sp500.csv:
+    source: S&P 500 (^GSPC) final trading-day closes from Yahoo Finance history; cross-checks CNBC (2025), macrotrends (Oct 2026)
+    url: https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC
+    notes: 2026 = Oct 20 close (7,712.57); price index, excludes dividends
+    compiled: sub-agent research 2026-10-21
+
+international:
+  wef.csv:
+    source: World Economic Forum — Global Competitiveness Report editions 2006-07 through 2017-18 (GCI, scale 1-7) and GCI 4.0 2018/2019 (scale 0-100, via World Bank data360)
+    url: https://www3.weforum.org/docs/WEF_GlobalCompetitivenessReport_2006-07.pdf
+    notes: >-
+      scores pre/post 2018 are NOT comparable; rank denominators vary
+      (122->141 countries); last edition with country rankings = 2019.
+    compiled: sub-agent research 2026-10-21
+  cpi.csv:
+    source: Transparency International — Corruption Perceptions Index (2006-2011 from archived TI tables; 2012+ from TI/Wikipedia compiled tables; 2024-25 from TI Brasil)
+    url: https://www.transparency.org/en/cpi/2025
+    notes: "0-10 scale until 2011, 0-100 from 2012 (TI: only 2012+ comparable); chart script rescales pre-2012 by 10"
+    compiled: sub-agent research 2026-10-21

@@ -1,0 +1,707 @@
+/* worldreports.io — one stylesheet for every country.
+
+   The site is a mount for the plates, so its ink is taken from the same
+   palette the plates are drawn with: each country's country.yaml defines
+   both, and core/page.py writes the custom properties below into the page
+   head. Nothing here names a country, which is what lets a new one inherit
+   the whole design by declaring a palette.
+
+   The values here are fallbacks, so the stylesheet is legible on its own
+   and a page that somehow ships without its palette still renders. */
+
+:root {
+  --ground:    #0A1F38;   /* deep navy, darkened from the plates' NAVY */
+  --raised:    #0F2A47;
+  --raised-2:  #143252;
+  --rule:      #1C3F63;
+  --paper:     #FBFAF7;   /* the plates' own background */
+  --ink:       #E9E7E1;
+  --muted:     #94A1B5;
+  --faint:     #68788F;
+
+  /* The plate palette, lifted where #1B4F9C-on-navy would not carry. */
+  --money:     #5E9BE6;   /* lifted from the plates' BLUE */
+  --world:     #2FA8A0;   /* lifted from TEAL */
+  --people:    #E8707F;   /* lifted from RED */
+
+  /* The flag, used only for the masthead rule. It is a flag, not a series
+     palette: a white band is lighter than anything else on the page, which
+     is exactly why it must not also mean a category. */
+  --mark-bearing: 0.068em;
+  --mark-size: clamp(4rem, 13vw, 9rem);
+
+  --flag-1: #1B4F9C;
+  --flag-2: #FBFAF7;
+  --flag-3: #C8384B;
+
+  --measure:   66ch;
+  --pad:       clamp(1.25rem, 4vw, 4rem);
+  --r:         3px;
+
+  --ease: cubic-bezier(.22, .61, .36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: Archivo, ui-sans-serif, system-ui, sans-serif;
+  font-variation-settings: "wdth" 100;
+  font-size: clamp(15px, 0.55vw + 13px, 17px);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum" 1;
+}
+
+h1, h2, h3 { margin: 0; line-height: 1.08; font-weight: 700; }
+p { margin: 0; }
+a { color: inherit; }
+
+/* A heading that structures the page for a screen reader without taking
+   room on it: clipped rather than display:none, which would remove it from
+   the accessibility tree along with the layout. */
+.sr {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--paper); color: var(--ground);
+  padding: .7rem 1rem; border-radius: var(--r);
+}
+.skip:focus { left: 1rem; top: 1rem; }
+
+:focus-visible {
+  outline: 2px solid var(--people);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------------------------------------------------------- masthead */
+.masthead {
+  padding: clamp(2rem, 4.5vw, 3.25rem) var(--pad) clamp(1.75rem, 3.5vw, 2.75rem);
+  border-bottom: 1px solid var(--rule);
+}
+.masthead__inner {
+  max-width: 1320px; margin-inline: auto;
+  display: grid; gap: 0 clamp(2rem, 5vw, 5rem);
+  grid-template-areas: "top top" "mark mark" "line line" "dek dek";
+  grid-template-columns: 1fr;
+}
+.masthead__top {
+  grid-area: top;
+  display: flex; align-items: center; justify-content: space-between;
+  /* On a phone the flag rule and the two switchers do not fit on one
+     line, and without this they would run off the right edge rather
+     than drop to the next. */
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: clamp(1.1rem, 2.2vw, 1.75rem);
+}
+.wordmark { grid-area: mark; }
+.masthead__line { grid-area: line; }
+.dek { grid-area: dek; }
+
+/* wide: the standfirst sits beside the wordmark rather than under it. The
+   first column is sized to the wordmark instead of taking a fixed fraction,
+   which otherwise leaves a few hundred px of dead air in the middle. */
+@media (min-width: 960px) {
+  .masthead__inner {
+    grid-template-areas: "top top" "mark dek" "line dek";
+    grid-template-columns: max-content minmax(0, 1fr);
+    align-items: end;
+  }
+  .dek { align-self: end; justify-self: end; margin-bottom: .4rem; }
+  .masthead__line { margin-bottom: 0; }
+}
+
+.ticks { display: flex; gap: 6px; }
+.ticks i { width: 34px; height: 7px; border-radius: 1px; }
+.ticks i:nth-child(1) { background: var(--flag-1); }
+.ticks i:nth-child(2) { background: var(--flag-2); }
+.ticks i:nth-child(3) { background: var(--flag-3); }
+/* A band the colour of the paper needs an edge, or the rule reads as two
+   detached blocks rather than one flag. Same reason the plates stroke it. */
+.ticks i { box-shadow: inset 0 0 0 1px rgb(255 255 255 / .18); }
+
+/* language, set in the corner the wordmark leaves empty */
+.lang {
+  display: flex; flex-shrink: 0;
+  border: 1px solid var(--rule); border-radius: 999px;
+  padding: 2px; gap: 2px;
+}
+.lang__btn {
+  font: inherit; font-size: .82rem; font-weight: 500;
+  font-variation-settings: "wdth" 88;
+  background: transparent; color: var(--faint);
+  border: 0; border-radius: 999px;
+  padding: .3rem .8rem; cursor: pointer;
+  transition: color .16s var(--ease), background .16s var(--ease);
+}
+.lang__btn { text-decoration: none; }
+.lang__btn:hover { color: var(--ink); }
+.lang__btn.is-on { color: var(--ground); background: var(--ink); }
+
+.wordmark {
+  font-size: var(--mark-size, clamp(4rem, 13vw, 9rem));
+  font-weight: 800;
+  font-variation-settings: "wdth" 118;
+  letter-spacing: -0.035em;
+  line-height: 0.82;
+  margin-bottom: clamp(1rem, 2vw, 1.6rem);
+  /* The first glyph carries left side bearing, so without a nudge the
+     wordmark starts inboard of the margin every other element aligns to.
+     How much depends on the letter — B and F are not the same — so each
+     country sets --mark-bearing from its country.yaml. */
+  margin-left: calc(-1 * var(--mark-bearing, 0.068em));
+}
+
+.masthead__line {
+  font-size: clamp(1.02rem, 1.8vw, 1.45rem);
+  font-weight: 500;
+  font-variation-settings: "wdth" 88;
+  color: var(--ink);
+  margin-bottom: clamp(1.25rem, 3vw, 2rem);
+}
+
+.dek {
+  max-width: var(--measure);
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+/* ------------------------------------------------------------- index */
+.index { padding: clamp(2.5rem, 6vw, 4.5rem) var(--pad) clamp(3rem, 7vw, 5rem); }
+.index__head {
+  max-width: 1320px; margin-inline: auto;
+  display: flex; flex-wrap: wrap; gap: 1.25rem 2rem;
+  align-items: baseline; justify-content: space-between;
+  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+}
+.index__title {
+  font-size: 1.35rem; font-weight: 600;
+  font-variation-settings: "wdth" 86;
+  color: var(--muted);
+}
+
+.filters { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chip {
+  font: inherit; font-size: .9rem; font-weight: 500;
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: transparent; color: var(--muted);
+  border: 1px solid var(--rule); border-radius: 999px;
+  padding: .4rem .95rem; cursor: pointer;
+  transition: color .18s var(--ease), border-color .18s var(--ease), background .18s var(--ease);
+}
+.chip:hover { color: var(--ink); border-color: var(--faint); }
+.chip.is-on { color: var(--ground); background: var(--ink); border-color: var(--ink); }
+.chip__dot { width: 9px; height: 9px; border-radius: 50%; }
+.chip__dot[data-f="money"]  { background: var(--money); }
+.chip__dot[data-f="world"]  { background: var(--world); }
+.chip__dot[data-f="people"] { background: var(--people); }
+
+.grid {
+  list-style: none; margin: 0 auto; padding: 0; max-width: 1320px;
+  display: grid; gap: 1px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr));
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.grid__loading { background: var(--ground); padding: 2rem; color: var(--faint); }
+/* cards must fill their row, or the hairline background shows through under
+   the shorter ones as a stray coloured band */
+.grid > li { display: flex; min-width: 0; }
+/* an author display rule beats the UA stylesheet's [hidden] { display: none },
+   so the filter needs to say it explicitly */
+.grid > li[hidden] { display: none; }
+
+/* one hairline grid: cards are flush, separated only by the gap showing
+   through. The card is an <article>, not a button: it holds a link to the
+   plate, a disclosure holding the plate's data, and a download — nesting
+   those inside a button would be invalid and unreachable by keyboard. The
+   viewer is layered over the link by the script, so the card works the
+   same way with the script off, one step slower. */
+.card {
+  position: relative;
+  background: var(--ground);
+  display: flex; flex-direction: column;
+  min-height: 310px;
+  /* A grid and flex item defaults to min-width: auto, which is the width
+     of its widest content — so a data table inside a card would widen the
+     card past its column and spill over the one beside it instead of
+     scrolling inside its own box. */
+  min-width: 0;
+  padding: 1.5rem 1.5rem 1.35rem;
+  text-align: left; width: 100%;
+  transition: background .2s var(--ease);
+}
+
+.card__thumb {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 0 .9rem;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  /* The plates are drawn on warm paper; on the dark page an unloaded or
+     broken image should read as a missing plate, not as a hole. */
+  background: var(--paper);
+  aspect-ratio: 560 / 357;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.card:hover, .card:focus-within { background: var(--raised); }
+.card::before {
+  content: ""; position: absolute; inset: 0 auto 0 0; width: 3px;
+  background: var(--fam); transform: scaleY(0); transform-origin: 50% 0;
+  transition: transform .26s var(--ease);
+}
+.card:hover::before, .card:focus-within::before { transform: scaleY(1); }
+
+/* the whole thumbnail is the link to the plate */
+.figure__open { display: block; text-decoration: none; }
+.figure__open:focus-visible { outline: 2px solid var(--fam); outline-offset: 2px; }
+
+.card__n {
+  font-size: .78rem; font-weight: 700; letter-spacing: .09em;
+  color: var(--fam); font-variation-settings: "wdth" 80;
+}
+.card__title {
+  font-size: 1.32rem; font-weight: 700; letter-spacing: -0.015em;
+  font-variation-settings: "wdth" 96;
+  margin: .45rem 0 .6rem;
+}
+.card__blurb {
+  color: var(--muted); font-size: .935rem; line-height: 1.5;
+  margin-bottom: 1.1rem;
+}
+
+.spark { display: block; width: 100%; height: 40px; margin-top: auto; overflow: visible; }
+.spark__line { fill: none; stroke: var(--fam); stroke-width: 1.6; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.spark__area { fill: var(--fam); opacity: .14; }
+.spark__span {
+  display: flex; justify-content: space-between;
+  font-size: .72rem; color: var(--faint); margin-top: .3rem;
+}
+
+.stats {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: .6rem; margin: 1rem 0 0; padding-top: .9rem;
+  border-top: 1px solid var(--rule);
+}
+.stat__v {
+  font-size: .98rem; font-weight: 700; letter-spacing: -0.01em;
+  font-variation-settings: "wdth" 84;
+  white-space: nowrap;
+}
+.stat__k {
+  display: block; font-size: .7rem; color: var(--faint);
+  margin-top: .1rem; line-height: 1.3;
+}
+.stat__y { color: var(--faint); font-weight: 500; font-size: .76rem; }
+
+/* ---------------------------------------------------------- colophon */
+.colophon {
+  padding: clamp(2.5rem, 6vw, 4rem) var(--pad) clamp(3.5rem, 8vw, 6rem);
+  border-top: 1px solid var(--rule);
+}
+.colophon > h2 {
+  max-width: 1320px; margin: 0 auto clamp(1.5rem, 3vw, 2.25rem);
+  font-size: 1.35rem; font-weight: 600;
+  font-variation-settings: "wdth" 86; color: var(--muted);
+}
+.colophon__cols {
+  max-width: 1320px; margin-inline: auto;
+  display: grid; gap: clamp(2rem, 5vw, 4rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+}
+.sources { margin: 0; font-size: .92rem; }
+.sources dt { font-weight: 600; color: var(--ink); }
+.sources dd { margin: .1rem 0 1rem; color: var(--muted); }
+.notes h3 { font-size: 1rem; margin-bottom: .6rem; font-variation-settings: "wdth" 92; }
+.notes p { color: var(--muted); font-size: .92rem; margin-bottom: .85rem; max-width: 56ch; }
+.notes em { color: var(--ink); font-style: normal; font-weight: 600; }
+.notes__repo a { color: var(--world); text-underline-offset: 3px; }
+
+/* ------------------------------------------------------------ viewer */
+.viewer {
+  position: fixed; inset: 0; z-index: 50;
+  background: var(--ground);
+  display: grid; grid-template-rows: auto 1fr auto;
+  /* grid items default to min-width:auto, so the toolbar's intrinsic width
+     would widen the whole viewer past the viewport on a phone */
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+}
+.viewer__bar, .viewer__foot, .viewer__stage { min-width: 0; }
+.viewer[hidden] { display: none; }
+
+.viewer__bar, .viewer__foot {
+  display: flex; align-items: center; gap: 1rem;
+  padding: .7rem clamp(.75rem, 2vw, 1.4rem);
+  background: var(--ground);
+}
+.viewer__bar { border-bottom: 1px solid var(--rule); justify-content: space-between; }
+.viewer__foot { border-top: 1px solid var(--rule); justify-content: space-between; }
+
+.viewer__id { display: flex; align-items: baseline; gap: .8rem; min-width: 0; }
+.viewer__n { font-size: .78rem; font-weight: 700; letter-spacing: .09em; color: var(--fam, var(--muted)); }
+.viewer__title {
+  font-size: clamp(.98rem, 2vw, 1.2rem); font-weight: 700;
+  font-variation-settings: "wdth" 92;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.viewer__tools { display: flex; gap: .4rem; flex-shrink: 0; }
+.tool {
+  font: inherit; font-size: .9rem; font-weight: 600;
+  min-width: 2.1rem; height: 2.1rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; color: var(--muted);
+  border: 1px solid var(--rule); border-radius: var(--r);
+  cursor: pointer; text-decoration: none;
+  transition: color .16s var(--ease), border-color .16s var(--ease);
+}
+.tool:hover { color: var(--ink); border-color: var(--faint); }
+.tool--wide { padding-inline: .6rem; min-width: 3.4rem; font-size: .8rem; }
+.tool--close { font-size: 1.3rem; }
+
+.viewer__stage {
+  overflow: hidden; position: relative;
+  cursor: grab; touch-action: none;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #102538 0%, var(--ground) 72%);
+}
+.viewer__stage.is-dragging { cursor: grabbing; }
+/* The script places the plate itself: it reads the translate/scale back when
+   it clamps panning, so the plate's untransformed origin has to be the stage
+   corner. Centring it here instead (place-items, margin auto) offsets the
+   layout box by half the overflow, which the clamp cannot see — the plate
+   then jumps and clips as you zoom. */
+.viewer__img {
+  position: absolute; top: 0; left: 0;
+  max-width: none; display: block;
+  transform-origin: 0 0;
+  will-change: transform;
+  background: var(--paper);
+  border-radius: 2px;
+  box-shadow: 0 24px 70px rgb(0 0 0 / .55);
+  user-select: none; -webkit-user-drag: none;
+}
+
+.step {
+  font: inherit; font-size: .85rem; font-weight: 500;
+  background: transparent; color: var(--muted);
+  border: 0; padding: .4rem .2rem; cursor: pointer;
+  transition: color .16s var(--ease);
+}
+.step:hover:not(:disabled) { color: var(--ink); }
+.step:disabled { color: var(--faint); opacity: .45; cursor: default; }
+.viewer__hint { font-size: .78rem; color: var(--faint); text-align: center; }
+
+@media (max-width: 560px) {
+  /* the plate number is already in the card and the URL; the title earns the room */
+  .viewer__n { display: none; }
+  .tool--wide { min-width: 2.7rem; padding-inline: .4rem; font-size: .74rem; }
+  .viewer__bar, .viewer__foot { gap: .5rem; }
+  .step { font-size: .8rem; }
+}
+
+@media (max-width: 640px) {
+  .viewer__hint { display: none; }
+  /* stack rather than drop a column: every figure stays on the card */
+  .stats { grid-template-columns: 1fr; gap: .45rem; }
+  .stat { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+  .stat__k { margin-top: 0; text-align: right; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+  .card::before { transform: scaleY(1); opacity: .4; }
+}
+
+/* -------------------------------------------------- the country switch
+
+   Five countries is too many for a row of pills and too few to hide behind
+   a search box, so the switcher is a details/summary menu: it is one
+   control in the masthead, it works with the script off, and it never
+   competes with the language pills beside it.
+
+   It sits in the masthead's corner with .lang, and on a narrow screen the
+   two share the row rather than stacking, because the corner is the one
+   place neither the wordmark nor the standfirst wants. */
+.corner {
+  display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+  justify-content: flex-end; flex-shrink: 0;
+}
+.atlas { position: relative; }
+.atlas > summary {
+  display: flex; align-items: center; gap: .4rem;
+  font-size: .82rem; font-weight: 600; color: var(--muted);
+  border: 1px solid var(--rule); border-radius: 999px;
+  padding: .3rem .6rem .3rem .5rem; cursor: pointer;
+  list-style: none; user-select: none;
+  transition: color .16s var(--ease), border-color .16s var(--ease);
+}
+.atlas > summary::-webkit-details-marker { display: none; }
+.atlas > summary:hover { color: var(--ink); border-color: var(--faint); }
+.atlas[open] > summary { color: var(--ink); border-color: var(--faint); }
+/* The caret turns rather than swapping glyph, so the control does not
+   reflow by a pixel when it opens. */
+.atlas__caret { font-size: .6rem; transition: transform .16s var(--ease); }
+.atlas[open] .atlas__caret { transform: rotate(180deg); }
+.atlas__flag { font-size: 1rem; line-height: 1; }
+
+.atlas__menu {
+  position: absolute; right: 0; top: calc(100% + .45rem); z-index: 40;
+  min-width: 13rem; padding: .35rem;
+  background: var(--raised); border: 1px solid var(--rule);
+  border-radius: var(--r); box-shadow: 0 18px 50px rgb(0 0 0 / .5);
+  list-style: none; margin: 0;
+}
+.atlas__menu a {
+  display: flex; align-items: center; gap: .55rem;
+  padding: .45rem .55rem; border-radius: 2px;
+  font-size: .9rem; color: var(--muted); text-decoration: none;
+  transition: background .14s var(--ease), color .14s var(--ease);
+}
+.atlas__menu a:hover, .atlas__menu a:focus-visible {
+  background: var(--raised-2); color: var(--ink);
+}
+.atlas__menu [aria-current="true"] { color: var(--ink); font-weight: 600; }
+.atlas__sep {
+  height: 1px; margin: .35rem .3rem; background: var(--rule);
+}
+
+/* ---------------------------------------------------------- headline
+
+   A strip of the country's largest figures, above the plates, for the
+   reader who came for one number and will not scroll for it. */
+.headline {
+  padding: clamp(1.75rem, 4vw, 2.75rem) var(--pad);
+  border-bottom: 1px solid var(--rule);
+}
+.headline__list {
+  display: grid; gap: 1px;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  background: var(--rule); border: 1px solid var(--rule);
+  list-style: none; margin: 0; padding: 0;
+}
+.headline__item {
+  background: var(--ground); padding: 1rem 1.1rem 1.1rem;
+  display: flex; flex-direction: column; gap: .2rem;
+}
+.headline__v {
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem); font-weight: 700;
+  line-height: 1; letter-spacing: -.015em;
+  font-variant-numeric: tabular-nums; color: var(--ink);
+}
+.headline__k { font-size: .82rem; color: var(--muted); line-height: 1.35; }
+.headline__y {
+  font-size: .74rem; color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------- the figures
+
+   Every plate is a picture of a table, and a picture is not readable by a
+   screen reader, printable at a useful size, or checkable against the
+   source. So each plate carries the table it was drawn from, folded away
+   behind a disclosure rather than hidden from the accessibility tree: a
+   <details> is reachable, announced and expandable by keyboard, and the
+   numbers inside are in the DOM whether or not it is open. */
+/* The tools sit under the blurb rather than under the plate: a reader
+   scanning the grid is looking for which plate this is, and three links
+   between the picture and its title push the title out of the way. */
+.figure__tools {
+  display: flex; flex-wrap: wrap; gap: .35rem .9rem;
+  align-items: center; margin-bottom: 1.1rem;
+  font-size: .8rem; min-width: 0;
+}
+/* a disclosure opens to full width rather than sitting in the link row */
+.figure__tools .data { flex-basis: 100%; min-width: 0; }
+.figure__tools a, .data > summary {
+  color: var(--muted); text-decoration: none;
+  text-underline-offset: 3px; cursor: pointer;
+}
+.figure__tools a:hover, .data > summary:hover { color: var(--ink); text-decoration: underline; }
+
+.data { font-size: .85rem; }
+.data > summary { list-style: none; display: inline-flex; align-items: center; gap: .35rem; }
+.data > summary::-webkit-details-marker { display: none; }
+.data > summary::before {
+  content: "+"; font-weight: 700; color: var(--faint);
+  width: .8em; display: inline-block; text-align: center;
+}
+.data[open] > summary::before { content: "−"; }
+
+/* ------------------------------------------------------------ tables
+
+   One table style for the plate data and the source manifest. It scrolls
+   on its own axis instead of widening the page, and its header sticks so a
+   long column of years keeps its labels. */
+.tablewrap {
+  margin-top: .8rem; max-height: 22rem; overflow: auto;
+  min-width: 0; max-width: 100%;
+  border: 1px solid var(--rule); border-radius: var(--r);
+}
+.tablewrap--tall { max-height: none; }
+table.t {
+  border-collapse: collapse; width: 100%;
+  font-size: .82rem; font-variant-numeric: tabular-nums;
+}
+table.t caption {
+  text-align: left; padding: .6rem .7rem; color: var(--faint);
+  font-size: .78rem; font-variant-numeric: normal;
+}
+table.t th, table.t td {
+  padding: .35rem .7rem; text-align: right; white-space: nowrap;
+  border-bottom: 1px solid var(--rule);
+}
+table.t th:first-child, table.t td:first-child {
+  text-align: left; position: sticky; left: 0;
+  background: var(--ground);
+}
+table.t thead th {
+  position: sticky; top: 0; z-index: 2;
+  background: var(--raised); color: var(--ink);
+  font-weight: 600; font-variant-numeric: normal;
+  white-space: normal; min-width: 6rem;
+}
+/* A provenance table is prose in columns, so it shares the width it is
+   given and wraps, rather than sizing itself to its longest publisher name
+   and making the reader scroll sideways inside a card. */
+table.srctable { table-layout: fixed; width: 100%; }
+table.srctable th, table.srctable td { min-width: 0; vertical-align: top; }
+table.srctable code { overflow-wrap: anywhere; }
+
+/* five columns across the page */
+.srctable--all col:nth-child(1) { width: 20%; }
+.srctable--all col:nth-child(2) { width: 32%; }
+.srctable--all col:nth-child(3) { width: 26%; }
+.srctable--all col:nth-child(4) { width: 12%; }
+.srctable--all col:nth-child(5) { width: 10%; }
+/* The first header cell is sticky on both axes, so it needs to outrank
+   both the row heads it scrolls over and the column heads beside it. */
+table.t thead th:first-child { z-index: 3; background: var(--raised); }
+table.t tbody tr:hover td { background: var(--raised); }
+table.t tbody tr:hover td:first-child { background: var(--raised); }
+table.t td { color: var(--muted); }
+table.t td:first-child { color: var(--ink); font-weight: 600; }
+/* A blank is a year the publisher has not filled, not a zero. */
+table.t td:empty::after { content: "—"; color: var(--faint); }
+
+/* Source manifest: text, not figures, so it reads left and wraps. Written
+   as `table.srctable` rather than `.srctable`, because `table.t td` above
+   is one element selector more specific and would otherwise keep the
+   nowrap meant for columns of numbers. */
+table.srctable th, table.srctable td { text-align: left; white-space: normal; }
+table.srctable td:first-child { font-weight: 400; }
+table.srctable code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .92em; color: var(--ink);
+}
+/* Every cell in two of these columns is a link; underlining them all
+   turns the table into a wall of rules. The hover says they are links. */
+table.srctable a { color: inherit; text-decoration: none; }
+table.srctable a:hover { color: var(--ink); text-decoration: underline; }
+table.srctable th a { color: var(--ink); }
+table.srctable .is-official { color: var(--world); }
+table.srctable .is-other { color: var(--faint); }
+
+/* the per-plate file list, inside a card */
+.src__lead { color: var(--faint); font-size: .78rem; margin: .5rem 0 .6rem; }
+.src { list-style: none; margin: 0; padding: 0; }
+.src li {
+  padding: .45rem 0; border-top: 1px solid var(--rule);
+  display: flex; flex-direction: column; gap: .15rem;
+}
+.src a { color: var(--ink); text-decoration: none; }
+.src a:hover { text-decoration: underline; }
+.src code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .95em; overflow-wrap: anywhere;
+}
+.src__meta { color: var(--faint); font-size: .76rem; line-height: 1.4; }
+
+/* ------------------------------------------------------------- atlas
+
+   The front page: five flags and nothing to read before them. */
+.home {
+  min-height: 100svh;
+  display: flex; flex-direction: column;
+  padding: var(--pad);
+}
+.home__head { margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+.home__mark {
+  font-size: clamp(2.6rem, 9vw, 6rem); font-weight: 700;
+  letter-spacing: -.03em; line-height: .95;
+  margin-left: -.045em;   /* optical: the w's left side bearing */
+}
+.home__dek {
+  color: var(--muted); max-width: var(--measure);
+  margin-top: .9rem; font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.5;
+}
+/* Unlike the plate grid, this one is not a hairline lattice: the atlas has
+   five countries today and will have more tomorrow, and a lattice drawn as
+   a coloured background behind a one-pixel gap turns every incomplete last
+   row into a bright empty rectangle. Bordered cards over a real gap end
+   where the countries end, at any number of them. */
+.home__grid {
+  display: grid; gap: 1px;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  list-style: none; margin: 0; padding: 0;
+}
+.home__card {
+  height: 100%;
+  display: flex; flex-direction: column; gap: .5rem;
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  background: var(--ground); color: inherit; text-decoration: none;
+  border: 1px solid var(--rule);
+  position: relative; isolation: isolate;
+  transition: background .18s var(--ease), border-color .18s var(--ease);
+}
+.home__card:hover, .home__card:focus-visible { border-color: var(--faint); }
+.home__card:hover, .home__card:focus-visible { background: var(--raised); }
+/* The flag is the link. It is set as text so it stays crisp at any size
+   and needs no image per country; the fallback below keeps a country
+   legible on the platforms whose fonts carry no flag glyphs. */
+.home__flag {
+  font-size: clamp(3.5rem, 11vw, 6rem); line-height: 1;
+  font-family: "Noto Color Emoji", "Apple Color Emoji",
+               "Segoe UI Emoji", sans-serif;
+}
+.home__bands { display: flex; gap: 4px; margin-top: .2rem; }
+.home__bands i {
+  width: 26px; height: 6px; border-radius: 1px;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .18);
+}
+.home__name {
+  font-size: 1.35rem; font-weight: 700; letter-spacing: -.01em;
+  /* CJK has no spaces, and the default break-anywhere would split 대한민국
+     across two lines mid-word. keep-all breaks at word boundaries only. */
+  word-break: keep-all;
+}
+.home__meta { font-size: .85rem; color: var(--faint); }
+.home__foot {
+  margin-top: auto; padding-top: clamp(2rem, 5vw, 3rem);
+  color: var(--faint); font-size: .85rem;
+}
+.home__foot a { color: var(--world); text-underline-offset: 3px; }
+
+/* The flag grid is the whole page, so it carries its own country colours
+   rather than one country's; core/page.py emits a .home__card--<slug>
+   rule per country from the same palettes the plates use. */

@@ -1,0 +1,563 @@
+# Data provenance — every series in this repo
+#
+# Curated CSVs (committed) are the source of truth for the charts; where a
+# public official API exists, fetch/fetch_*.py can refresh them (results are
+# written to *_from_estat.csv / *_from_ecb.csv / *_from_*.csv sidecars so
+# curated data is never clobbered).
+# Retrieved/compiled: 2026-10-21.
+
+macro:
+  gdp.csv:
+    source: INSEE / Eurostat — comptes nationaux annuels, ESA 2010 (nama_10_gdp)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_gdp
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      nominal_eurbn: GDP at current prices, B1GQ, converted from Eurostat's
+      millions to billions of euro. real_growth: chain-linked volume change
+      on the previous year (CLV_PCH_PRE). gdp_per_capita_usd computed as
+      nominal GDP x the ECB average USD/EUR reference rate / population;
+      population_mn is the 1 January count (demo_gind, JAN), so the per-capita
+      figure uses a start-of-year denominator rather than a mid-year one.
+      geo=FR is France INCLUDING the overseas departments; FRM (metropolitan
+      only) is a different series and the two must not be mixed. The dips in
+      the US$ per-capita line in 2015 and 2022 are euro weakness, not French
+      recessions.
+  inflation.csv:
+    source: INSEE — Indice des prix à la consommation (IPC); Eurostat — HICP (prc_hicp_aind)
+    url: https://www.insee.fr/fr/statistiques/serie/001763852
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      ipc = INSEE's national index, annual average year-on-year change, which
+      is the number used in French indexation (the SMIC, pensions). hicp =
+      Eurostat's harmonised index, which is what the ECB targets. They are
+      close but not identical — the HICP weights differ and it treats health
+      and insurance differently — so they are two columns, never one spliced
+      line. 2026 is a year-to-date reading, not an annual average.
+  eurusd.csv:
+    source: ECB — euro foreign exchange reference rates (EXR, D.USD.EUR.SP00.A)
+    url: https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A
+    refreshed_by: fetch/fetch_ecb.py
+    notes: >-
+      US dollars per euro. avg = simple mean of every daily reference rate in
+      the year; eop = the last published rate of the year (2026 = the latest,
+      21 October). Note the direction: this is USD per EUR, so a FALLING line
+      is a weaker euro.
+  policy_rate.csv:
+    source: ECB — key interest rates (FM, D.U2.EUR.4F.KR.DFR.LEV and MRR_FR.LEV)
+    url: https://data-api.ecb.europa.eu/service/data/FM/D.U2.EUR.4F.KR.DFR.LEV
+    refreshed_by: fetch/fetch_ecb.py
+    notes: >-
+      dfr = deposit facility rate, mro = main refinancing operations fixed
+      rate, both the level in force on the last day of the year. The plate
+      draws the DFR: from 2014 to 2022 it is the rate that actually steered
+      money-market rates, while the MRO sat at zero. The MRO fixed-rate series
+      only begins in October 2008 — before that the ECB ran variable-rate
+      tenders with a minimum bid rate, a different instrument — which is
+      precisely why the two are not spliced into one "policy rate" line.
+  unemployment.csv:
+    source: INSEE — taux de chômage au sens du BIT, annual average; Eurostat une_rt_a as cross-check
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      ILO-definition unemployment. Watch the geography: INSEE publishes
+      "France hors Mayotte" and "France (y compris Mayotte)", and Mayotte
+      entered the series in 2014. The two are not the same population and are
+      kept in separate columns.
+    compiled: sub-agent research 2026-10-21
+  smic.csv:
+    source: INSEE / Légifrance — SMIC, montant brut en vigueur (décrets et arrêtés de relèvement)
+    url: https://www.insee.fr/fr/statistiques/1375188
+    notes: >-
+      Gross monthly amount for a 35-hour week (151.6667 h) and the hourly
+      rate, for the rate in force for the MOST DAYS of each calendar year.
+      That rule matters: France revalued the SMIC in July before 2010 and
+      several times a year in 2022-23, and for 2006, 2007, 2008, 2009 and
+      2012 the majority is only a few days wide, so a "value on 1 January"
+      rule would give different numbers for those five years. 2025 is the
+      only year since 1970 with no revaluation at all — the January 2025 rise
+      was brought forward to 1 November 2024 by décret 2024-951. An *arrêté*
+      is the automatic in-year indexation triggered when first-quintile
+      prices cumulate +2%; a *décret* is the scheduled or discretionary move.
+    compiled: sub-agent research 2026-10-21
+  reserves.csv:
+    source: IMF IRFCL — official reserve assets, France (line I.A, approximate market value)
+    url: https://api.imf.org/external/sdmx/2.1/data/IMF.STA,IRFCL/FRA.IRFCLDT1_IRFCL65_USD..M
+    notes: >-
+      Year-end, US$ billion, gold INCLUDED at market value and revalued
+      monthly. This is the single most important caveat on the plate: France
+      has held 78.35 million fine troy ounces (about 2,437 t) unchanged since
+      2009, so essentially the whole roughly fourfold rise over the period is
+      the gold price, not accumulation. Gold was 80% of the total in August
+      2026. The August 2021 jump is the IMF's general SDR allocation
+      (about +US$27.6bn), a real level shift rather than a revision. Do not
+      use the Banque de France headline, which quotes NET foreign exchange
+      reserves, a different concept.
+    compiled: sub-agent research 2026-10-21
+
+fiscal:
+  tax_burden.csv:
+    source: INSEE — taux de prélèvements obligatoires, comptes nationaux base 2020; Eurostat gov_10a_taxag
+    url: https://www.insee.fr/fr/statistiques/2381412
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      NO base-vintage break needs annotating, which is the opposite of the
+      usual expectation: INSEE retropolates the entire national accounts at
+      every base change, so the base-2020 series runs unbroken from 1959.
+      A break only appears if vintages are spliced, as the DG Trésor
+      historical table does — do not build from that. The one genuine
+      discontinuity is 2019, when the CICE stopped being a tax credit booked
+      as expenditure and became a cut in employer social contributions: that
+      lowers the numerator by roughly 0.9pt of GDP with no change in tax
+      policy, so 2018 and 2019 are not comparable. The two columns are two
+      definitions, never to be spliced: `insee` excludes imputed social
+      contributions (the French national concept), `estat` includes them (the
+      Eurostat cross-country concept), a gap of 2.4-3.3pt. 2024 is
+      semi-définitif, 2025 provisoire, 2026 a government forecast (RESF 2027).
+    compiled: sub-agent research 2026-10-21
+  deficit.csv:
+    source: Eurostat — EDP / Maastricht notification (gov_10dd_edpt1) and gov_10a_main
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10dd_edpt1
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      deficit = general government net lending/borrowing, B9, % of GDP.
+      interest = D41 paid, % of GDP. primary = deficit + interest, i.e. the
+      balance before debt service, computed here rather than taken from a
+      publication. France has not posted a surplus in this window, nor since
+      1974.
+  debt.csv:
+    source: Eurostat — EDP / Maastricht notification (gov_10dd_edpt1, GD)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10dd_edpt1
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      General government consolidated gross debt at nominal value, the
+      Maastricht definition, % of GDP, end of year. This is the figure the
+      Commission and the rating agencies use. Net debt is a different and
+      less standardised concept and is deliberately not shown beside it.
+  revenue.csv:
+    source: Eurostat gov_10a_main — total general government revenue and expenditure (% of GDP)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Kept for comparison with the COFOG breakdown and the tax ratio; the
+      gap between revenue and expenditure is the deficit in deficit.csv.
+  spending_by_function.csv:
+    source: Eurostat gov_10a_exp — COFOG, general government total expenditure (% of GDP)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10a_exp
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      COFOG divisions as published, except two deliberate merges named in the
+      column headers: defence_order = GF02 defence + GF03 public order and
+      safety; other = GF05 environment + GF06 housing + GF08 recreation,
+      culture and religion. general_services (GF01) CONTAINS the interest on
+      the debt, which is why it does not simply mean "administration".
+      COFOG is published about a year behind the main accounts, so this file
+      stops at 2024 while debt and deficit reach 2025.
+  investment.csv:
+    source: Eurostat nama_10_gdp (P51G, whole economy) and gov_10a_main (P51G, S13)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Two different concepts, kept in separate columns: gfcf_pct_gdp is gross
+      fixed capital formation for the whole economy, gov_gfcf_pct_gdp is
+      general government's own investment. The dips in the government series
+      track the municipal electoral cycle, which is a real pattern and not
+      noise.
+
+trade:
+  trade.csv:
+    source: Douanes/DGDDI — Le chiffre du commerce extérieur, FAB/FAB, données brutes
+    url: https://lekiosque.finances.gouv.fr/fichiers/Etudes/thematiques/Data_Analyse_An_A2025.XLS
+    notes: >-
+      Billions of euro, FAB/FAB (both flows free-on-board), raw data
+      including military materiel and the below-threshold estimate. The
+      CAF/FAB basis Douanes also publishes gives materially different numbers
+      — 2025 imports 703.6 and balance -88.9 instead of 683.9 and -69.2 — and
+      the two must never be mixed. 2006-2025 are taken from ONE vintage (the
+      annual analysis of 6 February 2026) so the series is internally
+      consistent; the August 2026 quarterly note already restates 2025
+      exports to 616.5 and the balance to -65.2, a 4.0bn move in six months.
+      2026 = JANUARY-JUNE only, the latest raw calendar cumulative, and is
+      deliberately NOT plotted on the annual panels: a half year drawn as a
+      point on an annual series reads as a 50% collapse.
+    compiled: sub-agent research 2026-10-21
+  exports_products.csv:
+    source: DGDDI open data ("bases complètes"), nomenclature A129, aggregated by product group
+    url: https://lekiosque.finances.gouv.fr/site_fr/telechargement/telechargement_SGBD.asp
+    notes: >-
+      Snapshot years only (2006, 2010, 2015, 2020, 2025); `others` is the
+      exact residual to that year's open-data export total. A DIFFERENT
+      UNIVERSE from trade.csv: the open-data microdata are brutes de collecte
+      — exports FAB, excluding military materiel, with no below-threshold
+      estimate — so the totals run 1-3% below the headline series. Treat
+      these as composition, not as levels comparable with trade.csv.
+      Groupings are choices, not official aggregates: chemicals includes
+      perfumes and cosmetics (C20B), agrifood excludes beverages to avoid
+      double counting with the separate wines-and-spirits group, and
+      electrical merges C26 with C27. Two breaks: EMEBI replaced the DEB for
+      intra-EU collection in January 2022, which is why 2025 aggregates sit
+      slightly low, and the product nomenclature moved from CPF rev. 2 to
+      rev. 2.1 in 2015.
+    compiled: sub-agent research 2026-10-21
+  imports_products.csv:
+    source: DGDDI open data, nomenclature A129, imports valued CAF
+    notes: >-
+      share_pct is the share of that year's total CAF imports. energy is
+      B06Z (crude oil, natural gas, LNG) plus C19Z (refined petroleum and
+      coke); it EXCLUDES coal and electricity, so it is narrower than the
+      "Énergie" aggregate Douanes publishes. The import `electronics` group
+      is C26 only while the export `electrical` group is C26+C27, so the two
+      product files are not comparable group by group.
+    compiled: sub-agent research 2026-10-21
+  destinations.csv:
+    source: DGDDI open data — share of total French goods exports by country of destination
+    notes: >-
+      Belgium EXCLUDES Luxembourg, and China is mainland only, excluding Hong
+      Kong — Douanes' own published table uses a combined "Chine et H-K" line,
+      which runs about a point higher. 2026 is January-August; a share is a
+      composition rather than a level, so a partial year is legitimate here
+      in a way it is not on the annual flow panels. The United Kingdom series
+      straddles Brexit: from 2021 it is collected as third-country customs
+      data rather than intra-EU declarations, so before and after are not
+      strictly comparable.
+    compiled: sub-agent research 2026-10-21
+
+markets:
+  cac40.csv:
+    source: Euronext Paris — CAC 40 (^FCHI) year-end closes
+    url: https://query1.finance.yahoo.com/v8/finance/chart/%5EFCHI
+    refreshed_by: fetch/fetch_markets.py
+    notes: >-
+      Last trading-day close of each year; 2026 is the latest close, not a
+      year-end. A PRICE index: it excludes dividends, which flatters the
+      S&P 500 in the comparison because the CAC 40's dividend yield has run
+      well above it for most of the period. The total-return variant is
+      deliberately not substituted, since pairing a gross-return index for
+      one market with a price index for the other would be worse than either.
+  sp500.csv:
+    source: S&P 500 (^GSPC) year-end closes
+    url: https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC
+    refreshed_by: fetch/fetch_markets.py
+    notes: price index, excludes dividends; 2026 = latest close
+
+social:
+  hdi.csv:
+    source: UNDP — Human Development Report 2025, complete time series (single vintage)
+    url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
+    refreshed_by: fetch/fetch_worldbank.py
+    notes: >-
+      One vintage for every year, deliberately: the HDI is recomputed for the
+      whole back-series at each methodology change, so a trend assembled from
+      successive reports is partly an artefact of the reports. Latest year
+      2023.
+  gini.csv:
+    source: INSEE — indice de Gini du niveau de vie (ERFS); Eurostat EU-SILC (ilc_di12) as the second column
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Two measurements of inequality that are not interchangeable: INSEE's
+      is built on the ERFS (tax and social records), Eurostat's on EU-SILC
+      with its own harmonised income definition. Kept as separate columns and
+      drawn as separate lines. Eurostat's France series starts in 2014.
+    compiled: sub-agent research 2026-10-21
+  poverty.csv:
+    source: INSEE — taux de pauvreté monétaire (ERFS), 60% and 50% of median; Eurostat ilc_li02 as cross-check
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Share of people below 60% (and 50%) of median living standards. This is
+      a RELATIVE measure: it can fall in a recession because the median falls
+      with it, which is why it is not a poverty count. ERFS results are
+      published with about a two-year lag.
+    compiled: sub-agent research 2026-10-21
+  population.csv:
+    source: INSEE — Bilan démographique (observed) and Projections de population, scénario central
+    notes: >-
+      pop_mn is the 1 January count. Years through 2025 are observed état
+      civil figures; everything after is the central projection, drawn dashed.
+      Deaths overtook births in France in 2025 — a crossover that had been
+      projected for later — so the natural increase that had carried French
+      population growth for decades has now ended, and growth from here
+      depends on migration.
+    compiled: sub-agent research 2026-10-21
+  homicides.csv:
+    source: SSMSI — Insécurité et délinquance, bilan statistique (recorded offences); Inserm/CépiDc — causes de décès
+    notes: >-
+      Two incompatible systems, never spliced. SSMSI counts homicides
+      RECORDED by the police and gendarmerie, by the force that recorded
+      them; CépiDc counts DEATHS from assault (ICD-10 X85-Y09) off death
+      certificates, by year of death. They disagree by design — an attempted
+      homicide that fails is in neither, a death recorded in one year may be
+      certified in the next — and CépiDc publishes with a multi-year lag.
+      The November 2015 attacks appear in both but not identically.
+    compiled: sub-agent research 2026-10-21
+  violence.csv:
+    source: >-
+      Ministère de l'Intérieur / délégation aux victimes — étude nationale sur
+      les morts violentes au sein du couple (annual); SSMSI — Interstats for
+      the recorded-offence columns
+    url: https://www.interieur.gouv.fr/Interstats
+    notes: >-
+      women_killed_by_partner is women killed by a partner or ex-partner;
+      couple_deaths_total is ALL deaths within the couple in the same study,
+      both sexes, including the perpetrators who then killed themselves. The
+      first is a subset of the second, so the plate draws it as a filled area
+      INSIDE the total and plots the share on its own axis, rather than as a
+      second line that would read as an independent trend. The two columns
+      were briefly mislabelled during compilation — an earlier draft had the
+      both-sexes total under a women-only name — which is why the names now
+      say explicitly which population each counts. sexual_violence and
+      assaults are offences RECORDED by the police and gendarmerie, counted
+      in victims: the rise after 2017 is substantially a change in the
+      propensity to report, not a measured change in the underlying rate, and
+      the panel says so next to the line.
+    compiled: sub-agent research 2026-10-21
+  violence_pre2016_etat4001.csv:
+    source: >-
+      SSMSI / Ministère de l'Intérieur — état 4001, frozen departmental
+      monthly series (dataset 5617ad4dc751df6211cdbb49, resource
+      fdf5afbf-ed3c-4c54-a4f0-3581c8a1eca4, tableaux-4001-ts.xlsx)
+    url: https://www.data.gouv.fr/datasets/5617ad4dc751df6211cdbb49/
+    notes: >-
+      Kept for comparison only, never plotted on the same line as
+      violence.csv, and the file repeats this warning in its own header
+      comments. Three separate reasons it is not splice-compatible: the
+      scope is France entière including the COM, wider than the 2016+ series
+      which excludes them; index 7 counted PLAIGNANTS (complainants) until 28
+      February 2015 and VICTIMES from 1 March 2015; and the annual figures
+      here are a sum of twelve monthly departmental values computed in this
+      repo, not a total the SSMSI publishes. The SSMSI itself describes this
+      dataset as "brutes [...] pas assez fiabilisées en particulier à
+      l'échelle départementale". The dataset was last fed in October 2022
+      with August 2022 data and will not be updated again.
+    compiled: sub-agent research 2026-10-21
+
+  all_cause_deaths.csv:
+    source: >-
+      INSEE — Décès et taux de mortalité (état civil), table 2383440; Insee
+      Focus n°389 "Les décès en 2025" for 2025. cepidc column: Inserm-CépiDc
+      "Toutes causes", via DREES open data "Causes de décès"
+    url: https://www.insee.fr/fr/statistiques/2383440
+    notes: >-
+      Two counting systems in separate columns, and the file repeats the
+      warning in its own header. insee counts deaths registered in the état
+      civil, France entière, with a real break at 2014: Mayotte is excluded
+      up to 2013 and included from 2014 (INSEE publishes both figures for
+      2014 — 559,293 including it, 558,727 without). cepidc counts the
+      certificates Inserm-CépiDc actually received and coded, France
+      hexagonale plus the five DROM, and runs about 2,100 deaths below INSEE
+      in 2024 because some certificates never arrive or cannot be coded. It
+      is here only so that a CépiDc cause-of-death numerator has a CépiDc
+      denominator: dividing covid_deaths.deaths_cepidc by the INSEE total
+      understates the share for no reason. 2025 is INSEE's figure from Insee
+      Focus 389 and supersedes the 651,000 still shown in the bilan
+      démographique spreadsheet; CépiDc has not reached 2025 and will not
+      before about mid-2027.
+    compiled: sub-agent research 2026-10-21
+  covid_deaths.csv:
+    source: >-
+      Santé publique France — SI-VIC and SurvESMS surveillance, via
+      data.gouv.fr (synthèse des indicateurs, file
+      table-indicateurs-open-data-france-2023-06-30-17h59.csv);
+      Inserm-CépiDc — U07.1 + U07.2 as cause initiale, via DREES open data
+      "Causes de décès" (ensemble_tableaux_2024.csv)
+    url: https://www.data.gouv.fr/datasets/synthese-des-indicateurs-de-suivi-de-lepidemie-covid-19
+    notes: >-
+      THREE different quantities, never to be added or averaged. France never
+      used a 28-day or 30-day rule, unlike the UK: deaths_hospital is SI-VIC's
+      dchosp, every death of a patient registered as hospitalised for or with
+      confirmed COVID-19, from any cause, post-mortem diagnoses included —
+      DREES states outright that these patients "ne sont pas forcément
+      décédés du fait de la Covid-19, mais ils en ont été porteurs pendant
+      leur hospitalisation". deaths_total is SPF's dc_tot, which is literally
+      dchosp + esms_dc: hospital deaths plus deaths of residents of social and
+      medico-social establishments with accommodation. It contains NO at-home
+      deaths and never did, and it plausibly double-counts ESMS residents who
+      died in hospital, since SurvESMS counted them in both places and SPF
+      sums the two terms as published. deaths_cepidc is the cause-of-death
+      count: U07.1/U07.2 selected as the underlying cause from the medical
+      part of the certificate. CépiDc is LARGER than the whole surveillance
+      total in 2020 and 2021 (69,249 vs 64,606; 60,895 vs 59,135), which
+      inverts the usual intuition — the reason is coverage, not counting:
+      CépiDc sees deaths at home and anywhere else, which the surveillance
+      never did. INSEE puts the gap at about 22,000 deaths for March
+      2020-December 2021. The 2023 surveillance row covers 1 January to 30
+      June 2023 ONLY and is not a year; the CépiDc figure for 2023 is a full
+      year. Surveillance ended with the legal basis for SI-DEP on 1 July 2023,
+      so 2024 onwards is empty because nothing is published, not because
+      nobody died: the one 2024 figure that exists anywhere is CépiDc's 8,549.
+      The 2020 deaths_total of 64,606 is the one value computed rather than
+      read, by applying SPF's own identity to the final revised SI-VIC count;
+      the figure published at the time was 64,632, on a hospital count later
+      revised down by 26.
+    compiled: sub-agent research 2026-10-21
+  flu_deaths.csv:
+    source: >-
+      Inserm-CépiDc — influenza (J09-J11) as cause initiale, via DREES open
+      data "Causes de décès"; Santé publique France — BEH seasonal influenza
+      bilans (2015 n°32-33, 2016 n°32-33, 2017 n°22, 2018 n°34, 2019 n°28,
+      2022 n°21, 2025 n°17) and the IRA bulletins
+    url: https://data.drees.solidarites-sante.gouv.fr/explore/dataset/causes-de-deces/
+    notes: >-
+      Three columns that differ by roughly an order of magnitude because they
+      answer three different questions, and the plate draws them as three
+      separate things rather than one line. deaths_cepidc is how many death
+      certificates named influenza as the UNDERLYING cause. excess_deaths_spf
+      is SPF's model estimate of deaths attributable to influenza — all-cause
+      mortality adjusted for influenza activity, RSV and weather — which also
+      captures the cardiovascular and respiratory deaths influenza
+      precipitates and that are never coded J09-J11. 2016-17 shows the gap
+      plainly: 2,501 certified against 14,358 attributable against 21,200 raw
+      excess. excess_all_cause_epidemic_spf is that raw all-cause excess
+      during the epidemic window, and SPF warns that not all of it is
+      attributable to influenza. The model column ends after 2019-20 because
+      SPF discontinued it; BEH 2022 n°21 says the replacement, electronic
+      death certification, "n'est pas comparable à celui utilisé jusqu'en
+      2019-2020", so the blanks are an end of publication, not missing
+      retrieval. The 2016 zero is published ("Aucun excès"), not a gap.
+      `season` names the influenza season ENDING in that calendar year, so a
+      seasonal figure sits beside the year the epidemic mostly fell in. The
+      2010-2014 rows carry a season and no values: SPF published those
+      seasons per age band only, and the bands are not summed here. The three
+      values for 2021-22, 2022-23 and 2023-24 appear only as parenthetical
+      comparisons in BEH 2025 n°17 — their own seasonal bilans publish no
+      number, and BEH 2024 n°19 states that NO national excess was observed
+      at the 2023-24 peak, which sits awkwardly beside the 8,100 here. Treat
+      those three as weaker than the pre-2020 values. SPF has also revised
+      three earlier seasons downward in BEH 2025 n°17 (2016-17 to about
+      20,700, 2017-18 to 17,600, 2018-19 to 12,100) without explaining why;
+      this file carries the original bilan values.
+    compiled: sub-agent research 2026-10-21
+
+credit:
+  lending_rates.csv:
+    source: >-
+      European Central Bank Data Portal — dataflow MIR (MFI interest rate
+      statistics), French data collected and reported by the Banque de France
+    url: https://data-api.ecb.europa.eu/service/data/MIR/M.FR.B.A2C.A.R.A.2250.EUR.N?format=csvdata
+    notes: >-
+      Annual averages of the monthly series, computed here: the ECB publishes
+      the monthly observations only. The December value is also carried, so a
+      reader who wants an end-of-year rate does not have to take the average
+      for one. Rates are the Annualised Agreed Rate / Narrowly Defined
+      Effective Rate on euro contracts to households and NPISH. THE RATE
+      CONCEPT MATTERS: the NDER excludes arrangement fees, compulsory borrower
+      insurance and guarantee fees, which the French statutory TAEG includes —
+      and the taux d'usure ceiling is set against the TAEG. So a 4% figure
+      here is not comparable with a ~6% usury ceiling, and a chart that puts
+      them on one axis is simply wrong. No usury series exists in any SDMX
+      dataflow, and it is not in this repo. "New business" includes
+      renegotiated contracts, so the 2016-17 and 2020-21 renegotiation waves
+      pull the average down for a reason that is not new lending. The
+      outstanding-stock columns are the other half of the story: French
+      mortgages are overwhelmingly fixed-rate, so the stock rate barely moved
+      (1.56% to 1.99%) while new rates tripled.
+    compiled: sub-agent research 2026-10-21
+  household_debt.csv:
+    source: >-
+      European Central Bank — Quarterly Sector Accounts (compiled by the
+      Banque de France); Eurostat nasa_10_f_bs; Bank for International
+      Settlements — credit to the non-financial sector (WS_TC) and debt
+      service ratios (WS_DSR)
+    url: https://data-api.ecb.europa.eu/service/data/QSA/Q.N.FR.W0.S1M.S1.N.L.LE.F4.T._Z.XDC_R_B6GA_CY._T.S.V.N._T?format=csvdata
+    notes: >-
+      FOUR measures of the same idea in separate columns, none of them
+      spliceable onto another: they differ in consolidation, instrument
+      scope, denominator and vintage. The ECB QSA ratio to adjusted gross
+      disposable income is the "taux d'endettement des ménages" the Banque de
+      France communicates, and it is NON-CONSOLIDATED — no consolidated
+      debt-to-income ratio exists for France in QSA at all. Eurostat's %GDP
+      is carried consolidated and non-consolidated in two columns rather than
+      one. The BIS debt-service ratio is the column that matters most for
+      reading the others: it sits flat at about 6% across the whole period,
+      including through the 2022-24 rate rise, because the stock is fixed-rate
+      (ACPR puts fixed rate at 98.5% of the outstanding stock in 2024). A
+      leverage ratio that falls while over-indebtedness filings rise is not a
+      contradiction — see overindebtedness.csv. Eurostat's tipsd21 indicator
+      is withdrawn and returns 404; its PC_GADI unit exists in the metadata
+      but serves no values for French households, which is why the
+      debt-to-income column comes from the ECB.
+    compiled: sub-agent research 2026-10-21
+  credit_outstanding.csv:
+    source: >-
+      European Central Bank Data Portal — dataflow BSI (balance sheet items),
+      MFIs excluding the central bank, reported by the Banque de France
+    url: https://data-api.ecb.europa.eu/service/data/BSI/M.FR.N.A.A20.A.1.U6.2250.Z01.E?format=csvdata
+    notes: >-
+      December stocks, converted from the published millions to billions.
+      Unadjusted and adjusted stocks are separate columns: "adjusted" means
+      adjusted for loan sales and securitisation, which adds back loans the
+      banks have moved off their own balance sheets, and the gap between the
+      two is large (1,556bn against 1,741bn in 2025) because securitisation
+      is not small in France. The adjusted housing, consumption and other
+      splits START ONLY IN DECEMBER 2014 — there is no earlier consumer-credit
+      stock in BSI — so those columns are blank before then rather than
+      back-cast. Growth rates are the ECB's own published notional-stock
+      growth, not a difference of the levels here: a difference of stocks
+      would attribute a securitisation to borrowers. 2026 is August, not a
+      year end, and the reference month is in its own column so the partiality
+      cannot be lost.
+    compiled: sub-agent research 2026-10-21
+  overindebtedness.csv:
+    source: >-
+      Banque de France — surendettement des ménages: baromètre du
+      surendettement (2011 edition, five-year table) and the annual enquêtes
+      typologiques; Webstat series IFI.M.FR.SUREN.DEPOT for the
+      machine-readable part
+    url: https://webstat.banque-france.fr/
+    notes: >-
+      Dossiers déposés with a commission départementale de surendettement —
+      the statutory entry point to personal insolvency, and the clearest
+      indicator here of debts that came from borrowing. TWO COLUMNS, TWO
+      SOURCES, deliberately not merged: dossiers_deposes_published is the
+      figure the Banque de France printed for that year, harvested from its
+      own publications; dossiers_deposes_webstat is the machine-readable
+      series, which starts only in January 2019. No long machine-readable
+      series exists anywhere. 2006 is blank: the five-year table starts at
+      2007, and earlier editions count dossiers RECEVABLES over a partial
+      year, which is a different quantity — it is not back-calculated from the
+      published "−1.1% in 2007". Scope is metropolitan France, called "France
+      hexagonale" from the 2025 edition. The median debt per dossier is
+      2022-2025 only, because the population definition changed in 2022. The
+      reading to be careful with: filings rose about 36% from 2022 to 2025
+      while every leverage ratio in household_debt.csv fell. Both are real —
+      nominal incomes grew while the credit flow stalled, and the two series
+      describe different populations.
+    compiled: sub-agent research 2026-10-21
+  credit_holding_ocm.csv:
+    # The one series here that is not from a public institution. The note
+    # below has always said so; this states it in a field, so the page's
+    # provenance table can say so too instead of calling it official.
+    official: false
+    source: >-
+      Observatoire des crédits aux ménages (Fédération bancaire française and
+      ASF) — annual survey
+    url: https://www.asf-france.com/
+    notes: >-
+      NOT AN OFFICIAL STATISTIC. This is an industry survey, and it is the
+      only series in this repository that is not from a public institution.
+      It is here because nothing official measures the share of households
+      holding credit at all, and that share is the one thing the stock and
+      rate series cannot tell you: the stock can grow while fewer households
+      borrow. It has fallen from 47.8% in 2017 to 40.4% in 2025, a low since
+      the survey began in 1989. The housing and consumer-credit breakdowns
+      only exist for the recent years. Treated as context, never as a
+      headline figure, and labelled as a survey wherever it is drawn.
+    compiled: sub-agent research 2026-10-21
+
+international:
+  wef.csv:
+    source: World Economic Forum — Global Competitiveness Report, editions 2006-07 to 2019
+    url: https://www.weforum.org/publications/
+    notes: >-
+      Scores pre- and post-2018 are NOT comparable: the classic GCI ran on a
+      1-7 scale through the 2017-18 edition, then GCI 4.0 switched to 0-100
+      with equally weighted pillars. France's apparent jump from 22nd to 17th
+      is mostly that change. Rank denominators vary from 125 to 141
+      economies. The last edition with country rankings is 2019; the rankings
+      were "paused" in 2020 and never resumed.
+    compiled: sub-agent research 2026-10-21
+  cpi.csv:
+    source: Transparency International — Corruption Perceptions Index, France
+    url: https://www.transparency.org/en/cpi/2025
+    notes: >-
+      Scores are as published on each year's own scale: 0-10 through 2011,
+      0-100 from 2012, and TI states that only 2012 onwards are comparable.
+      The chart rescales the pre-2012 values by 10 so the panel has one axis,
+      and says so. Latest edition is CPI 2025 (published 10 February 2026,
+      182 countries); there is no CPI 2026. Ranks include ties as published.
+    compiled: sub-agent research 2026-10-21

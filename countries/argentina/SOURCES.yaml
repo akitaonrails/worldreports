@@ -1,0 +1,318 @@
+# Provenance for every committed CSV in this atlas.
+#
+# The sources table on every page of this country is generated from this
+# file plus the CSVs themselves, so the coverage and the row counts printed
+# there cannot drift from the data. tests/test_sources.py fails if they
+# have, or if a committed CSV has no entry here.
+#
+# fields
+#   file        path under data/, the committed CSV (not the *_check sidecar)
+#   title       what the file contains, in one line
+#   publisher   the institution that produced the numbers
+#   official    true for a state statistic; false for a market reference
+#   access      how the fetcher reaches it
+#   fetcher     the script that writes the sidecar for this file
+#   series      upstream identifiers, where the source has them
+#   caveats     what a reader must know before quoting a number from it
+
+meta:
+  project: argentina-reports
+  window: 2006-2026
+  notes: >
+    Committed CSVs are the single source of truth. Fetchers write
+    *_check.csv sidecars beside them and never overwrite a curated value, so
+    a bad upstream day cannot silently rewrite a published plate. Charts are
+    a build artefact.
+
+datasets:
+  - file: macro/gdp.csv
+    title: GDP in dollars and pesos, real growth, GDP per capita, population
+    publisher: INDEC — Cuentas Nacionales, base 2004
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [9.1_PPC_2004_A_22, 9.1_PDPC_2004_A_30, 9.1_PPCDC_2004_A_33,
+             9.1_POB_2004_A_9, 6.1_PIBPM_2004_A_38, 6.2_PIBPM_2004_T_38]
+    caveats: >
+      The annual accounts stop a year behind the quarterly ones, so the most
+      recent growth rate is built from four complete quarters of the
+      constant-price series — the same aggregate, not a different one.
+      Dollar GDP moves with the exchange rate as well as with output.
+
+  - file: macro/ipc.csv
+    title: Consumer price inflation, December to December
+    publisher: >
+      INDEC (national index, from December 2016); Dirección Provincial de
+      Estadística y Censos de San Luis (2007-2016)
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [145.3_INGNACNAL_DICI_M_15]
+    caveats: >
+      There is no usable official national index between 2007 and 2016. INDEC
+      was intervened in January 2007 and the 2016 statistical emergency
+      withdrew what it had published. The `alternative` column is the San
+      Luis provincial index — official, just not national — and is drawn in a
+      different colour on every plate. The two columns are never added, never
+      spliced into one series, and never plotted in the same colour.
+
+  - file: macro/unemployment.csv
+    title: Unemployment rate
+    publisher: INDEC — Encuesta Permanente de Hogares
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [45.1_ECTDT_0_A_33, 45.2_ECTDT_0_T_33]
+    caveats: >
+      Served as a fraction, not a percentage, and scaled here. Urban
+      agglomerates only, which is what the EPH covers.
+
+  - file: macro/minimum_wage.csv
+    title: Minimum wage, in pesos of the year and in dollars
+    publisher: Ministerio de Trabajo — Salario Mínimo Vital y Móvil
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [57.1_SMVMM_0_M_34]
+    caveats: >
+      The peso column is only meaningful beside its own year: prices rose
+      roughly 1,200-fold across this window. The dollar column converts at
+      the official annual average rate, which during the two cepos was a
+      price most people could not transact at.
+
+  - file: macro/reserves.csv
+    title: Central bank international reserves, year end
+    publisher: BCRA
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [92.1_RID_0_0_32]
+
+  - file: macro/dollar.csv
+    title: Official exchange rate, annual average and year end
+    publisher: BCRA — tipo de cambio de valuación
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [92.1_TCV_0_0_21]
+
+  - file: macro/credit.csv
+    title: Credit to the private sector and household borrowing, % of GDP
+    publisher: BCRA
+    official: true
+    access: https://api.bcra.gob.ar/estadisticas/v4.0/monetarias
+    fetcher: fetch/fetch_bcra.py
+    series: [26, 112, 113, 114, 115]
+    caveats: >
+      Not taken from the series gateway: its mirror of this series has a
+      42-year hole, July 1975 to March 2017. Daily balances, represented by
+      the December average rather than by 31 December, which is a liquidity
+      spike. Households are the four retail lines — cards, personal loans,
+      mortgages, pledge loans — and exclude business lending.
+
+  - file: macro/rates.csv
+    title: Interest rates, nominal and real
+    publisher: BCRA
+    official: true
+    access: https://api.bcra.gob.ar/estadisticas/v4.0/monetarias
+    fetcher: fetch/fetch_bcra.py
+    series: [12, 13, 14]
+    caveats: >
+      Real rates are Fisher-exact against the national IPC and therefore
+      only exist from 2017: the intervened decade has no denominator this
+      atlas will divide by. The gateway's own mortgage and overdraft rate
+      series stop being measured in 2016-17 and then publish 0.0 monthly
+      through 2026; they are not used.
+
+  - file: macro/credit_quality.csv
+    title: Non-performing loans and credit as a share of bank assets
+    publisher: BCRA — Principales Indicadores del Sistema Financiero
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [332.1_BANCOS_PRIADA__51, 332.1_BANCOS_PRIADO__43]
+    caveats: >
+      Both are percentages, although the catalogue declares their unit to be
+      "En millones de pesos".
+
+  - file: fiscal/primary_result.csv
+    title: Primary balance of the non-financial public sector, % of GDP
+    publisher: Secretaría de Hacienda — Esquema Ahorro-Inversión-Financiamiento
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [379.1_SUPERAVIT_006__28_89, 379.2_SUPERAVIT_014__28_63,
+             379.9_SUPERAVIT_017__23_94]
+    caveats: >
+      Three columns because three incompatible methodologies cover the
+      window (1993, 2007, 2015). They are plotted as separate segments and
+      must never be joined: the treatment of central-bank transfers and
+      pension income changes at each break by more than the deficit moves in
+      a normal year. Published in pesos of the year and divided here by the
+      same year's nominal GDP. 2026 is blank because no annual GDP exists
+      for it yet.
+
+  - file: fiscal/spending_by_function.csv
+    title: Primary public spending by function, % of GDP
+    publisher: Secretaría de Política Económica — Gasto Público Consolidado
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [451.4_GPN_*PIB]
+    caveats: The consolidated series ends in 2023.
+
+  - file: fiscal/tax_revenue.csv
+    title: Tax revenue, total and selected taxes, % of GDP
+    publisher: Secretaría de Hacienda — Recursos tributarios
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [142.3_TOTAL_2001_M_26, 142.3_DEREC_2001_M_20,
+             142.3_GANAN_2001_M_9]
+    caveats: >
+      The monthly ids, not the annual ones: the annual series are listed in
+      the catalogue as live with 29 values and serve an empty array.
+
+  - file: trade/trade.csv
+    title: Exports, imports and the trade balance, US$ billion
+    publisher: INDEC — Intercambio Comercial Argentino
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [74.3_IET_0_M_16, 74.3_IIT_0_M_25]
+    caveats: 2026 is a partial year and is labelled as such on the plate.
+
+  - file: trade/exports_rubros.csv
+    title: Exports by category, US$ billion
+    publisher: INDEC — Intercambio Comercial Argentino
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [74.3_IEPP_0_M_35, 74.3_IEMOA_0_M_48, 74.1_IECE_0_A_35]
+    caveats: >
+      The four categories partition total exports by the ICA's own
+      definition, which is how industrial manufactures (MOI) are recovered:
+      the MOI ids exist in the catalogue and serve empty at every frequency,
+      so MOI is computed as the residual of the total minus the other three.
+
+  - file: social/poverty.csv
+    title: Population below the poverty line, by half year
+    publisher: INDEC — Encuesta Permanente de Hogares
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [64.2_POBLACION_NUA_0_0_34_74]
+    caveats: >
+      **This series is dated at the day after the half it describes ends.**
+      2024-07-01 is the first half of 2024 (52.9%) and 2025-01-01 is the
+      second (38.1%). The monthly IPC and the quarterly Gini in the same API
+      are dated normally; poverty is not, and nothing in the metadata says
+      so. 2008-2015 is empty because the intervened INDEC's figures were
+      withdrawn.
+
+  - file: social/gini.csv
+    title: Gini coefficient of per-capita family income, annual average
+    publisher: INDEC — Encuesta Permanente de Hogares
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [65.1_CGI_0_0_21]
+    caveats: >
+      Quarterly, dated at the start of its quarter. The annual average hides
+      the quarterly spike to 0.467 in the first quarter of 2024.
+
+  - file: social/homicides.csv
+    title: Intentional homicide victims and rate
+    publisher: Ministerio de Seguridad — Sistema Nacional de Información Criminal
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_datos_gob.py
+    series: [snic_1_victimas_arg, t_snic_1_victimas_arg]
+
+  - file: social/femicides.csv
+    title: Direct femicide victims, rate and counts
+    publisher: >
+      Corte Suprema de Justicia de la Nación, Oficina de la Mujer — Registro
+      Nacional de Femicidios de la Justicia Argentina
+    official: true
+    access: https://om.csjn.gob.ar/ (annual reports, PDF)
+    fetcher: hand-curated from the published reports
+    caveats: >
+      The rate is published every year from 2014 and is complete. Counts are
+      entered only for the years a report states them unambiguously (2023,
+      2024, 2025) and are left blank elsewhere rather than interpolated. The
+      registry changed its method in 2017, so readings either side are not
+      strictly comparable; the plate marks that at 2017. Linked victims are
+      additional people killed, not a subset of the direct count.
+
+  - file: social/vitals.csv
+    title: Births, deaths and natural increase
+    publisher: Ministerio de Salud — DEIS
+    official: true
+    access: https://datos.salud.gob.ar/
+    fetcher: fetch/fetch_deis.py
+    caveats: >
+      Counts events registered in the year, so the most recent year is
+      revised upward in the next edition. The fetcher refuses to run if its
+      sums stop matching the published national totals.
+
+  - file: social/causes.csv
+    title: Deaths by cause — COVID-19, influenza, pneumonia
+    publisher: Ministerio de Salud — DEIS, defunciones por causa (CIE-10)
+    official: true
+    access: https://datos.salud.gob.ar/
+    fetcher: fetch/fetch_causes.py
+    caveats: >
+      The cause code is truncated to three characters in the published file,
+      so U07.1 (confirmed COVID) and U07.2 (probable) cannot be separated:
+      this series is both together. It therefore does not reconcile with the
+      pandemic dashboard, which counted confirmed cases only and reported
+      roughly 130,000 deaths through 2022 against 161,767 here. Influenza is
+      barely coded in Argentina — 9 to 358 deaths a year against 15,000 to
+      40,000 pneumonias — so the `respiratory` column exists and the
+      influenza column is never quoted alone.
+
+  - file: social/hdi.csv
+    title: Human Development Index
+    publisher: UNDP — Human Development Report
+    official: true
+    access: https://hdr.undp.org/
+    fetcher: fetch/fetch_worldbank.py
+    caveats: An international estimate, not an Argentine statistic.
+
+  - file: markets/merval.csv
+    title: Merval index, year-end close
+    publisher: Yahoo Finance (^MERV)
+    official: false
+    access: https://query1.finance.yahoo.com/
+    fetcher: fetch/fetch_markets.py
+    caveats: >
+      BYMA publishes no open historical endpoint for its own index. This is
+      a vendor series and is labelled as one on the plate.
+
+  - file: markets/sp500.csv
+    title: S&P 500 index, year-end close
+    publisher: Yahoo Finance (^GSPC)
+    official: false
+    access: https://query1.finance.yahoo.com/
+    fetcher: fetch/fetch_markets.py
+    caveats: Present only as the comparison line.
+
+  - file: markets/parallel_fx.csv
+    title: Parallel exchange rates — blue and contado con liquidación
+    publisher: Ámbito Financiero, via api.argentinadatos.com
+    official: false
+    access: https://api.argentinadatos.com/
+    fetcher: fetch/fetch_markets.py
+    caveats: >
+      By construction, rates the state does not publish: the blue is the
+      street rate and the CCL is implied by arbitraging a cross-listed bond.
+      During the two cepos the gap to the official rate is the story.
+
+  - file: markets/country_risk.csv
+    title: EMBI+ Argentina spread, basis points
+    publisher: J.P. Morgan, via Ámbito Financiero and api.argentinadatos.com
+    official: false
+    access: https://api.argentinadatos.com/
+    fetcher: fetch/fetch_markets.py
+    caveats: A vendor index with no public primary feed.

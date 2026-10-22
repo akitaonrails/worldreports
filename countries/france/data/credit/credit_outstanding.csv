@@ -1,0 +1,51 @@
+# credit_outstanding.csv -- outstanding MFI loans to French resident households, EUR billion.
+# Source: ECB Data Portal, dataflow BSI (Balance Sheet Items), reporting agent = Banque de France.
+#   https://data-api.ecb.europa.eu/service/data/BSI/<key>?format=csvdata&startPeriod=2005-01
+#   Key pattern M.FR.N.A.<item>.A.<datatype>.U6.2250.Z01.<suffix>; counterpart = domestic (U6) households
+#   and NPISH (2250), all currencies (Z01). Lender = MFIs excluding the central bank.
+# Levels (EUR bn, converted here from the EUR-million observations):
+#   hh_loans_total_eur_bn        item A20  datatype 1  UNADJUSTED stock of loans to households (from 2003-01)
+#   hh_loans_housing_eur_bn      item A22  datatype 1  UNADJUSTED stock, lending for house purchase (from 2003-01)
+#   hh_loans_cons_other_eur_bn   item A25  datatype 1  UNADJUSTED stock, consumption + other lending (from 1997-09)
+#   hh_loans_total_adj_eur_bn    item A20T datatype 1  ADJUSTED stock (from 2003-01)
+#   hh_loans_housing_adj_eur_bn  item A22T datatype 1  ADJUSTED stock -- STARTS 2014-12 ONLY
+#   hh_loans_consumption_adj_eur_bn item A21T datatype 1 ADJUSTED, credit for consumption -- STARTS 2014-12 ONLY
+#   hh_loans_other_adj_eur_bn    item A23T datatype 1  ADJUSTED, other lending -- STARTS 2014-12 ONLY
+# "ADJUSTED" (the ...T items) means adjusted for loan SALES and SECURITISATION: it adds back loans the banks
+#   moved off balance sheet. In France the gap is large (2026-08: 1,749.8bn adjusted vs 1,564.9bn unadjusted,
+#   because French banks securitise heavily into internal vehicles). The unadjusted series therefore UNDERSTATES
+#   household borrowing and its drops can be pure securitisation events, not repayment. Use the adjusted series
+#   where it exists; it is why the clean housing/consumption split only begins in Dec 2014.
+#   There is NO unadjusted consumer-credit-only item for France in BSI: A25 bundles consumption with other lending.
+# Growth rates (percent, year-on-year) are the ECB's OWN published annual growth rates of the index of notional
+#   stocks (datatype I, suffix A), NOT computed from the levels above. Notional-stock growth strips out
+#   reclassifications, revaluations, exchange-rate effects and (for the ...T items) securitisation:
+#   growth_total_adj_pct        M.FR.N.A.A20T.A.I.U6.2250.Z01.A  (from 2004-01)
+#   growth_housing_pct          M.FR.N.A.A22.A.I.U6.2250.Z01.A
+#   growth_housing_adj_pct      M.FR.N.A.A22T.A.I.U6.2250.Z01.A  (from 2015-12)
+#   growth_consumption_adj_pct  M.FR.N.A.A21T.A.I.U6.2250.Z01.A  (from 2015-12)
+# All columns are the DECEMBER observation of the year. reference_month gives the actual month used:
+#   2026 is PARTIAL -- reference_month 2026-08, the latest month published, NOT a year-end figure.
+# Retrieved 2026-10-21.
+year,hh_loans_total_eur_bn,hh_loans_housing_eur_bn,hh_loans_cons_other_eur_bn,hh_loans_total_adj_eur_bn,hh_loans_housing_adj_eur_bn,hh_loans_consumption_adj_eur_bn,hh_loans_other_adj_eur_bn,growth_total_adj_pct,growth_housing_pct,growth_housing_adj_pct,growth_consumption_adj_pct,reference_month
+2006,787.9,567.1,220.8,804.5,,,,11.5,15.2,,,2006-12
+2007,871.2,639.6,231.5,889.9,,,,11.0,12.9,,,2007-12
+2008,921.2,687.2,234.0,953.3,,,,7.3,7.4,,,2008-12
+2009,948.8,712.9,235.9,989.7,,,,4.0,3.8,,,2009-12
+2010,1005.7,771.4,234.3,1048.1,,,,6.1,8.0,,,2010-12
+2011,1064.0,819.4,244.6,1100.9,,,,4.5,6.1,,,2011-12
+2012,1086.4,843.9,242.5,1126.6,,,,2.5,2.9,,,2012-12
+2013,1112.3,878.2,234.1,1156.6,,,,2.6,3.7,,,2013-12
+2014,1091.8,854.7,237.2,1178.4,927.4,162.2,88.8,2.0,-2.8,,,2014-12
+2015,1120.7,883.6,237.1,1217.7,964.0,167.7,85.9,3.5,3.2,3.8,3.4,2015-12
+2016,1159.8,925.1,234.7,1258.1,997.7,176.1,84.3,4.5,4.9,4.6,5.0,2016-12
+2017,1220.1,975.6,244.5,1328.1,1058.3,185.6,84.2,6.0,5.7,6.2,5.8,2017-12
+2018,1289.7,1037.4,252.3,1398.5,1119.8,196.1,82.6,5.6,6.3,5.8,6.0,2018-12
+2019,1363.9,1100.9,263.1,1483.2,1196.4,207.3,79.5,6.3,6.1,6.8,5.6,2019-12
+2020,1439.6,1178.1,261.4,1552.2,1262.7,207.2,82.4,4.8,7.1,5.6,1.7,2020-12
+2021,1519.2,1256.5,262.7,1634.1,1343.6,211.4,79.1,5.6,6.6,6.3,3.0,2021-12
+2022,1585.0,1315.6,269.4,1713.9,1417.2,218.9,77.8,5.2,4.6,5.5,4.8,2022-12
+2023,1578.5,1306.9,271.5,1731.2,1432.1,221.1,77.9,1.3,-0.7,1.1,1.7,2023-12
+2024,1548.9,1271.7,277.1,1730.2,1422.7,227.7,79.8,0.3,-2.7,-0.7,4.5,2024-12
+2025,1556.2,1272.1,284.1,1740.8,1424.4,233.7,82.6,1.5,0.1,0.7,4.0,2025-12
+2026,1564.9,1278.1,286.8,1749.8,1430.2,234.0,85.6,1.5,0.2,0.8,3.5,2026-08

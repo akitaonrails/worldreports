@@ -1,0 +1,346 @@
+# Data provenance — every series in this repo.
+#
+# The committed CSVs under data/ are the source of truth for the charts.
+# Where a public official API exists, fetch/fetch_*.py can refresh them;
+# fetchers write to *_from_api.csv / *_from_omb.csv sidecars so curated data
+# is never clobbered, and fetch/curate.py is the deliberate step that
+# accepts a sidecar into the committed file.
+#
+# FRED is deliberately absent. It was unreachable for the whole of this
+# build, and every series below is taken from the body that produces it
+# rather than from an aggregator — which is the better arrangement anyway.
+#
+# Retrieved: 2026-10-21.
+
+macro:
+  gdp.csv:
+    source: Bureau of Economic Analysis — NIPA tables 1.1.1, 1.1.5, 7.1
+    url: https://apps.bea.gov/national/Release/XLS/Survey/Section1All_xls.xlsx
+    refreshed_by: fetch/fetch_bea.py
+    notes: >-
+      nominal_usdbn is A191RC, real_growth A191RL, gdp_per_capita_usd A939RC
+      and population_mn B230RC. Current-dollar quarterly NIPA series are
+      SEASONALLY ADJUSTED ANNUAL RATES, so an annual figure is the MEAN of
+      its quarters and not their sum. 2026 is built from 2 published
+      quarters and is drawn and labelled as a part year.
+  cpi.csv:
+    source: Bureau of Labor Statistics — CPI-U, series CUUR0000SA0 and CUUR0000SA0L1E
+    url: https://api.bls.gov/publicAPI/v1/timeseries/data/CUUR0000SA0
+    refreshed_by: fetch/fetch_bls.py
+    notes: >-
+      The annual index is BLS's own M13 annual average where it is
+      published, otherwise the mean of the published months. December 2025
+      carries no October value: the October 2025 CPI was cancelled by the
+      shutdown and BLS states it cannot be collected retroactively.
+  unemployment.csv:
+    source: Bureau of Labor Statistics — Current Population Survey, LNS14000000 (U-3) and LNS13327709 (U-6); CES0000000001 payrolls
+    url: https://api.bls.gov/publicAPI/v1/timeseries/data/LNS14000000
+    refreshed_by: fetch/fetch_bls.py
+    notes: >-
+      2025 has ELEVEN months, not twelve. The October 2025 household survey
+      was never collected because of the 43-day shutdown and BLS says it
+      cannot be collected retroactively, so October 2025 has no
+      unemployment rate and never will. The `months` column records the
+      count and the plate says so in words. U-3 is a SUBSET of U-6 and is
+      labelled as one wherever both are drawn.
+  fed_funds.csv:
+    source: Federal Reserve Bank of New York — effective federal funds rate and the FOMC target
+    url: https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json
+    refreshed_by: fetch/fetch_rates.py
+    notes: >-
+      The TARGET is the policy series and the average is the market one.
+      effr_last is kept but never used as a headline: EFFR can dislocate on
+      the final business day of a year — it printed 3.06% on 31 December
+      2007 against a 4.25% target.
+  treasury.csv:
+    source: US Department of the Treasury — daily par yield curve
+    url: https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/2026/all
+    refreshed_by: fetch/fetch_rates.py
+    notes: >-
+      spread_10y_2y_avg is the average over the year, which says whether
+      the curve was inverted for the year rather than merely on its last
+      day. The 30-year was not issued between 2002 and 2006, so each tenor
+      keeps its own series and a missing tenor does not drop the day.
+  dollar.csv:
+    source: Federal Reserve Board — H.10, broad nominal dollar index
+    url: https://www.federalreserve.gov/releases/h10/summary/jrxwtfb_nm.htm
+    refreshed_by: fetch/fetch_rates.py
+    notes: >-
+      Based at JANUARY 2006 = 100, which is the first month of this atlas.
+      broad_index_dec is December specifically, not the latest month: a
+      part year has no year-end reading and passing September off as one
+      would be a silent lie. The Board's Data Download Program is not used
+      because it serves nothing without an opaque package hash.
+  mortgage.csv:
+    source: Freddie Mac — Primary Mortgage Market Survey
+    url: https://www.freddiemac.com/pmms/docs/PMMS_history.csv
+    refreshed_by: fetch/fetch_rates.py
+    notes: >-
+      Freddie Mac is a government-sponsored enterprise under FHFA
+      conservatorship, not a federal agency. There is no federal-agency
+      series for the retail mortgage rate since FHFA retired the Monthly
+      Interest Rate Survey, so this is the published series. Weekly, so a
+      year is the average of its weeks and the count is recorded.
+
+fiscal:
+  budget.csv:
+    source: OMB Historical Tables 1.1 and 1.2 (FY2027 edition) for FY2006-2025; Treasury Monthly Treasury Statement for FY2026
+    url: https://www.whitehouse.gov/wp-content/uploads/2026/04/hist01z1_fy2027.xlsx
+    refreshed_by: fetch/fetch_omb.py, fetch/fetch_treasury.py, fetch/curate.py
+    notes: >-
+      ONE publisher per row, recorded in the `source` column. OMB and
+      Treasury do not agree: for FY2019 and FY2021 they are within $2bn,
+      but for FY2020 OMB's outlays are $6,516.8bn against Treasury's
+      $6,551.9bn — $35bn, half a percent, apart, because OMB revises
+      history as loan-programme costs are re-estimated under credit reform
+      while the Monthly Treasury Statement is the cash position reported at
+      the time. Neither is wrong and they are never averaged. OMB's current
+      edition stops at FY2025, which is why FY2026 comes from Treasury; its
+      GDP denominator has 3 of 4 quarters, recorded in `gdp_quarters`.
+      Treasury's API is never asked for a subset of columns: narrowing with
+      `fields` makes Fiscal Data group by what is left and sum the rest,
+      which silently returned FY2025 receipts of $10,152.7bn — the current
+      and prior year-to-date rows added together.
+  debt.csv:
+    source: Treasury Fiscal Data — Debt to the Penny
+    url: https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny
+    refreshed_by: fetch/fetch_treasury.py
+    notes: >-
+      Read at the last business day of each September, the fiscal year end.
+      Debt held by the public is a SUBSET of gross federal debt — the rest
+      is intragovernmental, mostly the Social Security and Medicare trust
+      funds — and is labelled as a subset wherever both are drawn.
+  spending.csv:
+    source: OMB Historical Table 3.2 — outlays by function and subfunction (FY2027 edition)
+    url: https://www.whitehouse.gov/wp-content/uploads/2026/04/hist03z2_fy2027.xlsx
+    refreshed_by: fetch/fetch_omb.py
+    notes: >-
+      The `estimate` column marks a projected year; those are drawn dashed
+      or hatched and never as actuals. Education, training, employment and
+      social services shows FY2022 $677.3bn then FY2023 -$2.2bn: the
+      student-loan forgiveness accrual booked in FY2022 was reversed, not
+      spent. That break is annotated on the plate, never smoothed. The
+      workbooks are loaded WITHOUT openpyxl's read_only mode: they carry no
+      worksheet dimension record, and in read_only mode openpyxl returns a
+      single cell and the table reads as empty without erroring.
+  federal_from_api.csv:
+    source: Bureau of Economic Analysis — NIPA table 3.2, federal government current receipts and expenditures
+    url: https://apps.bea.gov/national/Release/XLS/Survey/Section3All_xls.xlsx
+    refreshed_by: fetch/fetch_bea.py
+    notes: >-
+      A CROSS-CHECK ONLY; no plate draws it. This is the national-accounts
+      basis — calendar year and accrual — where the budget is fiscal year
+      and cash, and the two differ by roughly a percentage point of GDP.
+      Receipts are W005RC, "Current receipts". NOT W006RC, which is
+      "Current tax receipts" — a subset excluding contributions for
+      government social insurance, about a third of federal revenue. Used
+      as the total it put FY2006 receipts at 11.1% of GDP against OMB's
+      17.6%, which is how the error was caught.
+
+trade:
+  trade.csv:
+    source: Bureau of Economic Analysis — NIPA table 4.1 (goods and services, balance-of-payments basis)
+    url: https://apps.bea.gov/national/Release/XLS/Survey/Section4All_xls.xlsx
+    refreshed_by: fetch/fetch_bea.py
+    notes: >-
+      Goods AND services, on a balance-of-payments basis. Cross-checked
+      against NIPA table 1.1.5, which agrees exactly on net exports.
+  goods.csv:
+    source: Census Bureau — trade in goods by country
+    url: https://www.census.gov/foreign-trade/balance/country.xlsx
+    refreshed_by: fetch/fetch_trade.py
+    notes: >-
+      The CENSUS BASIS: goods only, at customs value. This must never be
+      added to or spliced with the BEA figures in trade.csv; for 2024 the
+      two differ by about $300bn, mostly the services surplus. The plate
+      draws both and says they are two definitions of the same trade.
+      Census ZERO-FILLS months it has not yet published, so the month count
+      tests for a non-zero value; a presence test read twelve months in
+      August.
+  partners.csv:
+    source: Census Bureau — trade in goods by country
+    url: https://www.census.gov/foreign-trade/balance/country.xlsx
+    refreshed_by: fetch/fetch_trade.py
+    notes: >-
+      Shares are computed against the Census goods total with BLOCS
+      excluded: Census gives a country group a code beginning with 0, and
+      summing every row would count Germany once as Germany and again
+      inside the European Union. The European Union is drawn as one partner
+      because US trade policy treats it as one. Written through the csv
+      module: "Korea, South" contains a comma, which silently turned a
+      six-column row into seven and shifted every later column.
+
+markets:
+  sp500.csv:
+    source: S&P Dow Jones Indices, via Yahoo Finance
+    url: https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC
+    refreshed_by: fetch/fetch_markets.py
+    notes: >-
+      The ONE series here not taken from the body that produces it. The
+      S&P 500 is private intellectual property, licensed commercially, with
+      no free official archive and no federal-agency equivalent; Yahoo
+      Finance is a redistributor and is named as one on the plate. What
+      makes it usable is that it is checkable: the fetcher asserts seven
+      published year-end closes and stops if any disagrees. All seven agree
+      to the cent. Robert Shiller's ie_data.xls, the standard academic
+      series, was rejected because it now ends in September 2023.
+      drawdown_pct is the largest fall from a running peak inside the year,
+      which is what a holder lived through; the year's high minus its low
+      would overstate it whenever the low came first.
+
+social:
+  income.csv:
+    source: Census Bureau — Current Population Survey ASEC, table H-8
+    url: https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-households/h08.xlsx
+    refreshed_by: fetch/fetch_income.py
+    notes: >-
+      Both dollar bases come from the same table, so the deflator is
+      Census's own. A redesign year is published twice, once on each
+      processing basis; the first occurrence is taken, which is the basis
+      Census itself charts.
+  poverty.csv:
+    source: Census Bureau — "Poverty in the United States" P60 report, tables 3 and 8
+    url: https://www2.census.gov/programs-surveys/demo/tables/p60/290/table_8_spm_hist.xlsx
+    refreshed_by: fetch/fetch_income.py
+    notes: >-
+      TWO measures, side by side, never spliced. The official measure (OPM)
+      compares pre-tax money income against a threshold set in 1963 and
+      moved only by the CPI; it counts no tax credit and no in-kind
+      benefit, so by construction it cannot see the EITC, the Child Tax
+      Credit, SNAP or housing subsidies. The supplemental measure (SPM)
+      counts those, subtracts tax, medical and work costs, and varies the
+      threshold by housing cost; Census publishes it from 2009. In 2021 the
+      expanded Child Tax Credit cut SPM child poverty to 5.1% while OPM
+      child poverty read 15.3%. Everything is taken from ONE P60 release so
+      the vintage is consistent, and the release number is probed rather
+      than hardcoded.
+  minimum_wage.csv:
+    source: Department of Labor, Wage and Hour Division — history of federal minimum wage rates under the FLSA
+    url: https://www.dol.gov/agencies/whd/minimum-wage/history/chart
+    refreshed_by: hand-curated from the DOL chart; see fetch/fetch_income.py
+    notes: >-
+      Not fetched: DOL publishes effective dates rather than a series, and
+      there are four values across this atlas. Recorded at 1 January and 31
+      December of each year because three of the four changes took effect
+      on 24 July, mid-year, and a single annual figure would have to pick
+      one and hide the other. Unchanged at $7.25 since 24 July 2009.
+  population.csv:
+    source: Census Bureau — population estimates, vintages 2019 and 2025
+    url: https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/state/totals/NST-EST2025-ALLDATA.csv
+    refreshed_by: fetch/fetch_census.py
+    notes: >-
+      Growth is only computed WITHIN a vintage. Across the 2019/2020
+      boundary the jump is the 2020 Census re-basing the estimate upward,
+      not people: it reads as +1.0% against a real +0.5%, which would be
+      the fastest growth on the chart and is an artefact. A vintage's base
+      year carries THREE MONTHS of components, not twelve — BIRTHS2020 is
+      894,123 where a real year is about 3.6 million — so base-year
+      components are dropped rather than drawn as a collapse in births.
+      Components before 2010 are not published and are left empty. A
+      Census estimate year runs 1 July to 30 June.
+  projections.csv:
+    source: Census Bureau — 2023 National Population Projections, middle series
+    url: https://www2.census.gov/programs-surveys/popproj/datasets/2023/2023-popproj/np2023_d1_mid.csv
+    refreshed_by: fetch/fetch_census.py
+    notes: >-
+      A projection, not a measurement. The all-groups row is SEX=0,
+      ORIGIN=0, RACE=0; the file already contains those totals, so summing
+      the group rows would double-count every person.
+  mortality.csv:
+    source: CDC WONDER Underlying Cause of Death 1999-2020 (final); CDC provisional COVID-19 death counts (Socrata r8kw-7aab)
+    url: https://wonder.cdc.gov/controller/datarequest/D76
+    refreshed_by: fetch/fetch_cdc.py
+    notes: >-
+      The two files do NOT measure the same thing and are never spliced.
+      WONDER counts the UNDERLYING cause; the provisional file counts
+      deaths that INVOLVED the condition. Measured at the 2020 overlap:
+      all-cause agrees to 0.2% (a vintage difference, so all-cause IS one
+      continuous column with the vintage recorded), COVID-19 is 9.9% apart,
+      influenza 47.9% and pneumonia 639.5% — most 2020 pneumonia deaths
+      involved pneumonia but were caused by COVID-19. Each measure keeps
+      its own column and the plate draws them as two lines whose step at
+      2020 is visibly a change of definition. The underlying-cause series
+      stops at 2020 because the final file does; WONDER's provisional
+      dataset D176 would extend it but its request form is built in the
+      browser and is not published as a parameter list, so it is left out
+      rather than guessed at. Certificate-based influenza counts badly
+      understate flu mortality against CDC's modelled burden estimates.
+      ICD-10 J17 is absent from the pneumonia set because it can never be
+      an underlying cause and WONDER rejects it.
+  violence.csv:
+    source: CDC WONDER Underlying Cause of Death 1999-2020 (final); CDC provisional injury counts (Socrata t6u2-f84c); VSRR provisional overdose counts (Socrata xkb8-kh2a)
+    url: https://wonder.cdc.gov/controller/datarequest/D76
+    refreshed_by: fetch/fetch_cdc.py
+    notes: >-
+      The seam between final and provisional was MEASURED, not assumed:
+      homicides 2019 final 18,918 against provisional 19,141 (+1.2%) and
+      2020 24,352 against 24,576 (+0.9%); overdoses agree to under 1% over
+      2015-2020. The `vintage` column records which file each year came
+      from. VSRR is used for overdoses in preference to the injury
+      dashboard's Drug_OD, which runs about 5% below CDC's published counts.
+      Firearm homicides are a SUBSET of firearm deaths and synthetic
+      opioids a SUBSET of overdoses; both are labelled as subsets and the
+      share is drawn rather than left to be divided by eye. Police
+      intervention (Y35) is a known UNDERCOUNT and stops at 2020: the code
+      follows whoever certifies the death, and research puts roughly half
+      of these deaths under ordinary homicide. It is drawn because it is
+      the official series, not because it is right.
+  hdi.csv:
+    source: UN Development Programme — Human Development Report 2025, composite indices time series
+    url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
+    refreshed_by: fetch/fetch_worldbank.py
+    notes: >-
+      One vintage for the whole series. UNDP recomputes history under the
+      current methodology with each report, so mixing report years produces
+      steps that are methodology rather than development.
+
+credit:
+  household_debt.csv:
+    source: Federal Reserve Bank of New York — Quarterly Report on Household Debt and Credit
+    url: https://www.newyorkfed.org/medialibrary/interactives/householdcredit/data/xls/hhd_c_report_2026q2.xlsx
+    refreshed_by: fetch/fetch_credit.py
+    notes: >-
+      Built from the FRBNY Consumer Credit Panel, a 5% anonymised sample of
+      Equifax credit reports. This is NOT the same universe as the Board's
+      Z.1 financial accounts, which count household-sector liabilities
+      including items that never appear on a credit report; the levels
+      differ by roughly a trillion dollars and the two must not be mixed. A
+      stock is taken at Q4 and a rate is averaged; the `quarters` column
+      records how many quarters a year actually has.
+  credit_access.csv:
+    source: Federal Reserve Bank of New York — Quarterly Report on Household Debt and Credit, page 10
+    url: https://www.newyorkfed.org/microeconomics/hhdc
+    refreshed_by: fetch/fetch_credit.py
+    notes: >-
+      The credit card limit is the closest published measure of how much
+      credit households can actually draw on. Utilisation is balance over
+      limit, which is what availability means from the borrower's side
+      rather than the lender's.
+  delinquency.csv:
+    source: Federal Reserve Bank of New York — Quarterly Report on Household Debt and Credit, page 12
+    url: https://www.newyorkfed.org/microeconomics/hhdc
+    refreshed_by: fetch/fetch_credit.py
+    notes: >-
+      Student loan delinquency goes from 0.57% in 2024 to 9.21% in 2025.
+      That is the end of the pandemic credit-reporting pause — a change in
+      what is reported, not in what borrowers did — and it is annotated on
+      the plate rather than smoothed.
+  rates.csv:
+    source: Federal Reserve Board — G.19 Consumer Credit, terms of credit
+    url: https://www.federalreserve.gov/releases/g19/HIST/cc_hist_tc_levels.html
+    refreshed_by: fetch/fetch_credit.py
+
+international:
+  worldbank.csv:
+    source: World Bank — World Development Indicators
+    url: https://api.worldbank.org/v2/country/USA/indicator/NY.GDP.MKTP.CD
+    refreshed_by: fetch/fetch_worldbank.py
+    notes: >-
+      Kept only where the authoritative publisher is an international body
+      or where the point of the measure is the comparison. Where a US
+      agency publishes the same measure on its own definition, that agency
+      wins: poverty comes from the Census Bureau, not from the World Bank's
+      harmonised dollar-a-day lines, which say almost nothing about the
+      United States. us_share_world_gdp is at MARKET EXCHANGE RATES; on a
+      purchasing-power basis the share is markedly lower and the two are
+      not interchangeable.

@@ -1,0 +1,78 @@
+# Build the atlas and publish it to worldreports.io on every push to main.
+#
+# The build draws every plate from the CSVs in this repository and nothing
+# else — no network, no API keys, no cache that could make two runs differ.
+# That is the whole point of committing the data: the site CI publishes is
+# reproducible from the commit it was built at.
+name: pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# A second push while the first is deploying should win, but not by
+# cancelling a deploy half-way through.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # Hangul needs a CJK face. A Latin-only font draws every Korean
+      # glyph as an empty box and raises nothing, so without this the
+      # Korean plates would publish as rows of tofu. core.style refuses to
+      # render a language it has no font for, which turns a silently
+      # unreadable plate into a failed build.
+      - name: Install the fonts the plates are drawn with
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends fonts-noto-cjk
+          fc-cache -f
+
+      - run: pip install -r requirements.txt
+
+      # The plates are committed, and the pages link to the committed
+      # files. The suite checks that every chapter has one in every
+      # language and that nothing stale is left over, so a render someone
+      # forgot to commit fails here rather than reaching the site as a
+      # broken image.
+      - name: Test
+        run: |
+          python3 -m pytest
+          node --test tests/js/
+
+      - name: Build the site
+        run: python3 -m core.page --out _site
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

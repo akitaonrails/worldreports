@@ -1,0 +1,50 @@
+# lending_rates.csv -- Bank interest rates on NEW and OUTSTANDING loans, France.
+# Source: ECB Data Portal, dataflow MIR (MFI Interest Rate statistics), reporting agent = Banque de France.
+#   API root: https://data-api.ecb.europa.eu/service/data/MIR/<key>?format=csvdata&startPeriod=2006-01
+#   Series keys (FREQ.REF_AREA.BS_REP_SECTOR.BS_ITEM.MATURITY_NOT_IRATE.DATA_TYPE_MIR.AMOUNT_CAT.BS_COUNT_SECTOR.CURRENCY_TRANS.IR_BUS_COV):
+#     housing_new_total            M.FR.B.A2C.A.R.A.2250.EUR.N   new loans for house purchase, ALL initial rate fixation periods
+#     housing_new_fix_over10y      M.FR.B.A2C.P.R.A.2250.EUR.N   new housing loans, rate fixed > 10 years
+#     housing_new_fix_1to5y        M.FR.B.A2C.I.R.A.2250.EUR.N   new housing loans, rate fixed > 1 and <= 5 years
+#     housing_new_var_upto1y       M.FR.B.A2C.F.R.A.2250.EUR.N   new housing loans, floating / fixation <= 1 year
+#     consumer_new_total           M.FR.B.A2B.A.R.A.2250.EUR.N   new loans for consumption (excl. revolving/overdraft/card)
+#     revolving_overdraft_hh       M.FR.B.A2Z.A.R.A.2250.EUR.N   revolving loans, overdrafts, convenience + extended card credit
+#     other_lending_hh_new         M.FR.B.A2D.A.R.A.2250.EUR.N   new "other lending" to households
+#     nfc_new_total                M.FR.B.A2A.A.R.A.2240.EUR.N   new loans to non-financial corporations (S.11), all amounts
+#     housing_outstanding_stock    M.FR.B.A22.A.R.A.2250.EUR.O   rate on the OUTSTANDING STOCK of housing loans
+#     cons_other_outstanding_stock M.FR.B.A25.A.R.A.2250.EUR.O   rate on the OUTSTANDING STOCK of consumer + other lending
+# Rate concept: Annualised Agreed Rate / Narrowly Defined Effective Rate (AAR/NDER), euro-denominated, percent per annum.
+#   NDER EXCLUDES ancillary charges (file fees, compulsory insurance), so it is BELOW the French legal TAEG
+#   and below the usury ceiling (taux d'usure) computed by the Banque de France. Not comparable to TAEG.
+# Columns ending _pct are the UNWEIGHTED arithmetic mean of the monthly observations of that calendar year.
+#   The ECB publishes no official annual average; this is computed here. months_covered says how many months
+#   entered the average. 2026 is PARTIAL (see months_covered: January-August 2026 only).
+# housing_new_total_dec_pct = the December observation alone (blank for a year with no December yet).
+# "New business" = contracts agreed in the month, including renegotiations. The _stock columns are the average
+#   rate carried by the whole existing book. The gap between them is the key France story: new-business rates
+#   went 1.06% (2021 avg) -> ~4% (end-2023) while the stock rate moved only ~1.1% -> ~2.0% (2026), because
+#   French mortgages are overwhelmingly fixed-rate for the whole life of the loan (verifiable in this same file:
+#   housing_new_var_upto1y, the floating-rate segment, is a small and atypically priced slice, and ECB/ACPR
+#   report France as one of the most fixed-rate mortgage markets in the euro area).
+# Retrieved 2026-10-21. ECB MIR last observation available: 2026-08.
+year,housing_new_total_pct,housing_new_fix_over10y_pct,housing_new_fix_1to5y_pct,housing_new_var_upto1y_pct,consumer_new_total_pct,revolving_overdraft_hh_pct,other_lending_hh_new_pct,nfc_new_total_pct,housing_outstanding_stock_pct,cons_other_outstanding_stock_pct,housing_new_total_dec_pct,months_covered
+2006,3.82,3.88,3.76,3.76,6.10,10.70,3.95,3.85,4.39,7.05,4.10,12
+2007,4.41,4.39,4.35,4.57,6.77,11.06,4.57,4.87,4.39,6.95,4.84,12
+2008,5.01,5.03,4.95,5.18,7.31,11.20,5.00,5.25,4.48,7.14,5.32,12
+2009,4.39,4.49,4.33,3.99,6.80,10.87,4.10,2.78,4.35,6.88,3.90,12
+2010,3.64,3.78,3.42,3.22,6.10,9.76,3.70,2.48,4.09,6.34,3.44,12
+2011,3.80,3.94,3.45,3.52,6.18,9.09,3.81,3.06,3.93,6.18,3.95,12
+2012,3.77,3.89,3.61,3.31,6.39,8.32,3.50,2.63,3.88,5.94,3.42,12
+2013,3.19,3.29,3.05,2.74,5.90,7.60,2.88,2.26,3.66,5.65,3.18,12
+2014,2.96,3.04,2.83,2.60,5.43,7.20,2.59,2.18,3.53,5.36,2.60,12
+2015,2.31,2.36,2.29,2.10,4.57,6.48,2.17,1.75,3.20,4.96,2.32,12
+2016,1.87,1.92,1.82,1.78,4.11,5.96,1.85,1.61,2.75,4.52,1.50,12
+2017,1.60,1.63,1.50,1.61,3.84,5.84,1.44,1.51,2.28,4.02,1.60,12
+2018,1.55,1.58,1.43,1.57,3.73,5.70,,1.47,2.03,3.68,1.48,12
+2019,1.36,1.39,1.29,1.41,3.75,5.40,1.54,1.44,1.88,3.51,1.17,12
+2020,1.26,1.28,1.25,1.31,3.43,5.06,1.53,1.16,1.69,3.31,1.24,12
+2021,1.15,1.16,1.22,1.23,3.47,4.80,1.51,1.30,1.56,3.18,1.11,12
+2022,1.47,1.48,1.50,1.46,3.90,4.80,1.79,1.88,1.47,3.17,2.05,12
+2023,3.01,3.03,3.06,3.13,5.78,5.99,3.81,4.35,1.57,3.80,3.60,12
+2024,3.39,3.38,3.62,3.93,6.44,6.81,3.99,4.61,1.74,4.45,3.14,12
+2025,3.02,3.01,3.29,3.67,6.19,7.11,3.41,3.63,1.89,4.77,2.99,12
+2026,3.12,3.13,3.35,3.69,6.23,7.19,3.47,3.58,1.99,5.14,,8

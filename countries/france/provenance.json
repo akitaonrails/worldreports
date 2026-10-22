@@ -1,0 +1,61 @@
+{
+ "01_economy": [
+  "macro/gdp.csv",
+  "macro/inflation.csv"
+ ],
+ "02_fiscal": [
+  "fiscal/debt.csv",
+  "fiscal/deficit.csv",
+  "fiscal/tax_burden.csv"
+ ],
+ "03_spending": [
+  "fiscal/investment.csv",
+  "fiscal/spending_by_function.csv"
+ ],
+ "04_trade": [
+  "trade/destinations.csv",
+  "trade/exports_products.csv",
+  "trade/trade.csv"
+ ],
+ "05_markets": [
+  "macro/eurusd.csv",
+  "macro/inflation.csv",
+  "macro/policy_rate.csv",
+  "markets/cac40.csv",
+  "markets/sp500.csv"
+ ],
+ "06_people": [
+  "macro/inflation.csv",
+  "macro/smic.csv",
+  "macro/unemployment.csv",
+  "social/gini.csv",
+  "social/hdi.csv",
+  "social/poverty.csv"
+ ],
+ "07_world": [
+  "international/cpi.csv",
+  "international/wef.csv",
+  "macro/gdp.csv",
+  "macro/reserves.csv",
+  "trade/trade.csv"
+ ],
+ "08_demographics": [
+  "social/population.csv"
+ ],
+ "09_security": [
+  "social/homicides.csv",
+  "social/violence.csv"
+ ],
+ "10_mortality": [
+  "social/all_cause_deaths.csv",
+  "social/covid_deaths.csv",
+  "social/flu_deaths.csv"
+ ],
+ "11_credit": [
+  "credit/credit_holding_ocm.csv",
+  "credit/credit_outstanding.csv",
+  "credit/household_debt.csv",
+  "credit/lending_rates.csv",
+  "credit/overindebtedness.csv"
+ ]
+}

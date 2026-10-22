@@ -1,0 +1,28 @@
+# The assembled site. Built by `make site` and by CI from the committed
+# plates and CSVs; it is a copy, never a source.
+_site/
+
+# Rendered plates ARE committed, under countries/*/output. They are the
+# reviewable artefact beside the CSV that produced them. `make charts`
+# regenerates them, and CI re-renders and diffs so an image cannot quietly
+# stop matching its data.
+
+# Cached upstream API responses. Large, reproducible, and never the source
+# of truth: the curated CSVs under countries/*/data are.
+cache/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# Editors and operating systems
+.DS_Store
+*.swp
+.idea/
+.vscode/

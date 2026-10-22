@@ -1,0 +1,46 @@
+{
+ "01-output": [
+  "macro/gdp.csv"
+ ],
+ "02-prices": [
+  "macro/dollar.csv",
+  "macro/ipc.csv",
+  "macro/reserves.csv",
+  "markets/parallel_fx.csv"
+ ],
+ "03-living": [
+  "macro/minimum_wage.csv",
+  "macro/unemployment.csv",
+  "social/gini.csv",
+  "social/poverty.csv"
+ ],
+ "04-state": [
+  "fiscal/primary_result.csv",
+  "fiscal/spending_by_function.csv",
+  "fiscal/tax_revenue.csv"
+ ],
+ "05-trade": [
+  "trade/exports_rubros.csv",
+  "trade/trade.csv"
+ ],
+ "06-credit": [
+  "macro/credit.csv",
+  "macro/credit_quality.csv",
+  "macro/rates.csv"
+ ],
+ "07-markets": [
+  "macro/dollar.csv",
+  "macro/reserves.csv",
+  "markets/country_risk.csv",
+  "markets/merval.csv",
+  "markets/sp500.csv"
+ ],
+ "08-people": [
+  "social/causes.csv",
+  "social/vitals.csv"
+ ],
+ "09-violence": [
+  "social/femicides.csv",
+  "social/homicides.csv"
+ ]
+}

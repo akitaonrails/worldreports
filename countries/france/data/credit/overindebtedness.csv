@@ -1,0 +1,97 @@
+# overindebtedness.csv -- Banque de France surendettement (household over-indebtedness procedure).
+# This is the clearest available indicator of households whose debts came from borrowing: filing a dossier
+# with a commission departementale de surendettement is the French statutory personal-insolvency entry point.
+#
+# TWO COLUMNS, TWO SOURCES, NOT TO BE MERGED INTO ONE:
+#
+# dossiers_deposes_published = the figure the Banque de France PRINTED for that year. Scope: France
+#   metropolitaine (called "France hexagonale" from the 2025 edition). Sources, year by year:
+#     2007-2011  "Barometre du surendettement - 4e trimestre 2011, donnees", table "Donnees d'activite au
+#                cours des cinq dernieres annees", row "Dossiers deposes". Original URL
+#                http://www.banque-france.fr/fileadmin/user_upload/banque_de_france/La_Banque_de_France/
+#                barometre-surendettement-2011T4_donnees.pdf -- banque-france.fr was unreachable on
+#                2026-10-21 (every path 302s to /maintenance/maintenance.html), so retrieved from the
+#                Internet Archive: https://web.archive.org/web/20120530005306if_/<that URL>
+#     2011-2016  Enquete typologique sur le surendettement des menages, editions 2011/2012/2013/2014/2015/2016,
+#                sentence "En <year>, N dossiers deposes en France metropolitaine". Original URLs
+#                https://particuliers.banque-france.fr/sites/default/files/media/2016/10/13/
+#                enquete-typologique-surendettement_<year>.pdf  (2016 edition: .../media/2017/02/28/
+#                enquete-typologique-2016-sur-le-surendettement_2017-02-28.pdf), retrieved via
+#                https://web.archive.org/web/20220320123532if_/<URL>. 2011 agrees with the barometre.
+#     2017       "2017 in figures - Ten key figures on household over-indebtedness in France",
+#                .../media/2018/03/09/suren-2017_reperes_en_v3.pdf : 181,123 situations submitted.
+#     2018       "2018 in figures", .../media/2019/02/15/suren-2018_key-figures.pdf : 162,936 cases.
+#     2022-2025  Enquete typologique / Typologie du surendettement des menages, annex table "POPULATIONS
+#                STATISTIQUES ETUDIEES", row "Nombre de depots de dossiers":
+#                2022 https://www.banque-france.fr/system/files/2023-02/suren-2022_enquete-typologique.pdf
+#                2023 https://www.banque-france.fr/system/files/2024-02/Surendettement_Enquete-typologique_2023.pdf
+#                2024 https://www.banque-france.fr/system/files/2025-02/Surendettement_Enquete-typologique_2024.pdf
+#                2025 https://www.banque-france.fr/system/files/2026-04/Typologie-surendettement-2025.pdf
+#                (all four read from Internet Archive captures, same reason as above)
+#     2006       NOT FOUND in any Banque de France document reachable on 2026-10-21. The 2011 barometre's
+#                five-year table starts at 2007; the 2010 and earlier enquetes typologiques are built on
+#                dossiers DECLARES RECEVABLES over a partial year (the 2010 edition: 176,731 dossiers
+#                recevables, 1 Jan - 31 Oct 2010), which is a DIFFERENT statistic and is not entered here.
+#                Left blank deliberately. Do not back out 2006 from the published "-1.1% in 2007".
+#     2019-2021  no published-edition figure captured; use the webstat column, which is the same institution.
+#
+# dossiers_deposes_webstat = sum of the 12 monthly observations of Banque de France series
+#   IFI.M.FR.SUREN.DEPOT, "Depots de dossiers de surendettement aupres des commissions departementales de
+#   surendettement", from the Banque de France Webstat open-data portal:
+#     https://webstat.banque-france.fr/export/csv/fr/catalogue/ifi   (full IFI base, semicolon-separated)
+#     per-series API: https://webstat.banque-france.fr/api/explore/v2.1/catalog/datasets/<dataset_id>/records
+#   The monthly series only STARTS 2019-01; there is no earlier month in Webstat. Last month 2026-09,
+#   series updated_at 2026-10-13. The annual sum is computed here; the Banque de France publishes no
+#   annual total in this base.
+#   The webstat sums run a few units above the printed figures for the same year (2022: 113,082 vs 113,081;
+#   2023: 121,621 vs 121,617; 2024: 134,807 vs 134,803; 2025: 148,020 vs 148,013). The gap is tiny and
+#   almost certainly later revision of the monthly data; the published number is the citable one.
+#   The IFI base carries only the 95 metropolitan departements plus the FR aggregate -- no DROM.
+# months_covered applies to dossiers_deposes_webstat. 2026 is PARTIAL: January-September 2026 only
+#   (121,571 filings over 9 months); it is NOT a full-year figure and must not be compared with a year total.
+#
+# endettement_global_eur_th / dossiers_traites / endettement_median_eur come from the row "Endettement global"
+#   of the debt-structure annex table of the same annual editions (2022-2025 only). Definitions:
+#     endettement_global_eur_th = total debt stock of the surveyed households, THOUSANDS of euros.
+#     dossiers_traites          = the population it is measured on: dossiers "entierement traites" in the year,
+#                                 excluding those whose debts duplicate another dossier. NOT dossiers deposes.
+#     endettement_median_eur    = median total debt per dossier, euros, ALL debt including housing debt.
+#   BREAK, and the reason this stops at 2022: from the 2022 edition the Banque de France changed the
+#   population from dossiers "declares ou juges recevables" to dossiers "entierement traites", so the
+#   2011-2021 editions' debt figures are not on the same base. Earlier editions also headline a MEAN
+#   ("endettement global moyen", e.g. 42,334 EUR in 2016), not a median. Nothing before 2022 is spliced in.
+#   Watch the headline-vs-annex trap: the 2024 edition's cover highlights 17,447 EUR "endettement median
+#   HORS IMMOBILIER", while its annex median including housing debt is 18,807 EUR. This file uses the annex
+#   (all debt) figure throughout.
+#
+# inscriptions_ficp_personnes = sum of 12 monthly values of IFI.M.FR.FICP.INS_FICP, persons newly registered
+#   in the FICP (national register of household credit-repayment incidents). A FLOW of registrations, which
+#   includes ordinary payment incidents, not only surendettement measures -- it is NOT a count of over-indebted
+#   people. For reference, the 2025 edition reports 476,000 persons registered in FICP for a surendettement
+#   measure at end-2025, down 45% in ten years; that STOCK is not in this file.
+# inscriptions_fcc_personnes = sum of 12 monthly values of IFI.M.FR.FCC.INS_FCC, persons registered in the
+#   Fichier Central des Cheques (bounced cheques / withdrawn payment cards). Context only; it is not credit.
+#   2026 covers 8 months for FCC (one month short of DEPOT) -- months_covered refers to DEPOT only.
+# Retrieved 2026-10-21.
+year,dossiers_deposes_published,dossiers_deposes_webstat,months_covered,endettement_global_eur_th,dossiers_traites,endettement_median_eur,inscriptions_ficp_personnes,inscriptions_fcc_personnes
+2006,,,,,,,,
+2007,182855,,,,,,,
+2008,188485,,,,,,,
+2009,216396,,,,,,,
+2010,218102,,,,,,,
+2011,232493,,,,,,,
+2012,220836,,,,,,,
+2013,223012,,,,,,,
+2014,230964,,,,,,,
+2015,217302,,,,,,,
+2016,194194,,,,,,,
+2017,181123,,,,,,,
+2018,162936,,,,,,,
+2019,,143091,12,,,,854143,1225796
+2020,,108748,12,,,,758802,826533
+2021,,120975,12,,,,685901,760090
+2022,113081,113082,12,4255112,102884,18024,774579,818347
+2023,121617,121621,12,4205846,101960,18446,881207,779945
+2024,134803,134807,12,4468618,109694,18807,908636,695184
+2025,148013,148020,12,4964717,120473,19278,914997,615092
+2026,,121571,9,,,,717124,359085

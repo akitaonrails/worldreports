@@ -1,0 +1,84 @@
+# Brasil. Palette lifted verbatim from brazil-reports scripts/style.py.
+slug: brasil
+flag_emoji: "🇧🇷"
+wordmark: Brasil
+name:
+  en: "Brazil"
+  fr: "Brésil"
+  pt: "Brasil"
+  es: "Brasil"
+  ko: "브라질"
+
+locales:
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete. A flow for a year still running is not comparable
+# with the ones before it: plotted on the same line it draws a collapse
+# that never happened, so plates dash or hatch anything past it.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+# Label every Nth year on the x-axis. Twenty-one years of annual ticks do
+# not fit, so each country labels the stride its own plates were drawn with.
+tick_every: 2
+
+bands:
+  - {from: 2014.0, to: 2016.9, label: "2014–16 recession"}
+  - {from: 2020.0, to: 2020.9, label: "COVID-19"}
+
+currency:
+  code: BRL
+
+palette:
+  GREEN:   "#0A8A4B"
+  GREEN_D: "#056736"
+  BLUE:    "#1F5C99"
+  NAVY:    "#12355B"
+  YELLOW:  "#E9A820"
+  RED:     "#D64545"
+  PURPLE:  "#7B5EA7"
+  TEAL:    "#12857F"
+  primary: "#0A8A4B"
+  alert:   "#D64545"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#0A8A4B", "#1F5C99", "#E9A820", "#D64545", "#7B5EA7", "#12857F", "#1F2430"]
+  flag_bands: ["#0A8A4B", "#E9A820", "#1F5C99"]
+  web:
+    # B carries about 0.07em of left side bearing.
+    mark_bearing: "0.068em"
+    ground:   "#0B1A2A"
+    raised:   "#11263A"
+    raised_2: "#16304A"
+    rule:     "#1E3952"
+    ink:      "#E9E7E1"
+    muted:    "#94A1B5"
+    faint:    "#68788F"
+    # #0A8A4B is the plates' green; on #0B1A2A it sits under 3:1, so the
+    # site uses a lifted sibling. The plates keep the darker one: they are
+    # drawn on paper, not on the ground colour.
+    money:    "#2FB172"
+    world:    "#3B86D1"
+    people:   "#E9A820"
+
+seo:
+  title:
+    en: "Brazil — plates of official data, 2006–2026"
+    pt: "Brasil — pranchas de dados oficiais, 2006–2026"
+  description:
+    en: "Data plates on Brazil's economy, state, trade, society, demography, violence, epidemics and household debt, built only from official sources and regenerated from committed CSVs."
+    pt: "Pranchas de dados sobre a economia, o Estado, o comércio, a sociedade, a demografia, a violência, as epidemias e o endividamento das famílias no Brasil, construídas apenas a partir de fontes oficiais."
+  keywords: [Brazil, IBGE, Banco Central, Tesouro Nacional, public finances, violence, official statistics]
+  spatial: "Brazil"
+
+sources:
+  en: "IBGE, the Banco Central do Brasil, the Tesouro Nacional, the Ministério do Desenvolvimento, and the Fórum Brasileiro de Segurança Pública"
+  pt: "IBGE, Banco Central do Brasil, Tesouro Nacional, Ministério do Desenvolvimento e Fórum Brasileiro de Segurança Pública"

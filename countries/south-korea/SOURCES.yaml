@@ -1,0 +1,633 @@
+# Provenance for every committed CSV in this repository.
+#
+# core/page.py prints this manifest as the sources table on every page of
+# this country, and it reads the CSVs as well as this file: the coverage
+# shown there is measured from the data, not copied from here, so the page
+# cannot claim years the file does not have. A CSV with no entry here fails
+# the build (tests/test_sources.py).
+#
+# Fields
+#   title      what the series is, in the publisher's own terms where useful
+#   publisher  the agency that computed the number
+#   url        where a reader can check it
+#   series     the table/indicator identifiers, so the fetch is reproducible
+#   fetcher    the script that writes the file, or `curated` for hand entry
+#   unit       what the numbers are in
+#   caveats    things that would make a reader wrong if they did not know them
+#
+# `caveats` is the point of this file. Most of the real work in this atlas was
+# finding out which official number is which.
+
+meta:
+  country: Republic of Korea
+  window: 2006-2026
+  note: >-
+    Korea renamed its statistics office in 2025: 통계청 / Statistics Korea
+    became 국가데이터처 / the Ministry of Data and Statistics, and moved from
+    kostat.go.kr to mods.go.kr. Releases published before the change still
+    carry the old name, and both appear in this file where they are the
+    accurate attribution for the document actually used.
+
+files:
+
+  # ------------------------------------------------------------ macro
+  macro/gdp.csv:
+    title: Gross domestic product — nominal level, real growth, per capita, population
+    publisher: Bank of Korea (national accounts)
+    url: https://ecos.bok.or.kr/
+    series: ECOS 200Y113 (nominal, 10106), 200Y110 (real, 10601), 901Y028 (population, I35A)
+    fetcher: fetch/fetch_bok.py
+    unit: ₩ trillion; % per year; current US$; millions of people
+    caveats:
+      - >-
+        Real growth is computed here from the chained real GDP series rather
+        than read from a published growth table, so the level and the growth
+        rate in this file can never disagree with each other.
+      - >-
+        The national accounts were rebased from 2015 to 2020 prices in the
+        2024 benchmark revision. The whole series is on the current base; a
+        growth rate quoted from an older release will differ slightly.
+      - >-
+        GDP per capita is nominal GDP converted at the annual average
+        exchange rate and divided by the population — the same construction
+        the Bank of Korea uses, but computed here, so it is not a quotation.
+      - 2026 carries population only; the national accounts for it do not exist yet.
+
+  macro/cpi.csv:
+    title: Consumer price index, all items — annual inflation
+    publisher: Statistics Korea, via Bank of Korea ECOS
+    url: https://ecos.bok.or.kr/
+    series: ECOS 901Y009 (item 0, 2020=100)
+    fetcher: fetch/fetch_bok.py
+    unit: "% change on the previous year"
+    caveats:
+      - >-
+        Computed from the 2020=100 index rather than taken from a published
+        inflation series, for the same reason as GDP growth. The result
+        matches the World Bank's independent series for Korea exactly.
+
+  macro/base_rate.csv:
+    title: Bank of Korea base rate
+    publisher: Bank of Korea
+    url: https://ecos.bok.or.kr/
+    series: ECOS 722Y001 (0101000), monthly
+    fetcher: fetch/fetch_bok.py
+    unit: "% per year"
+    caveats:
+      - >-
+        The year-end *level*, not the annual average. A policy rate is a
+        decision, not a flow, and averaging it describes no moment that
+        existed.
+      - 2026 is the level in the latest published month, not a year-end.
+
+  macro/won.csv:
+    title: Won per US dollar — annual average and year-end close
+    publisher: Bank of Korea
+    url: https://ecos.bok.or.kr/
+    series: ECOS 731Y006 (0000003), monthly close
+    fetcher: fetch/fetch_bok.py
+    unit: KRW per USD
+    caveats:
+      - >-
+        `eop` is December's close specifically, not the last row the API
+        happened to serve — which is December only by luck of ordering, and
+        would silently become September in a partial year.
+
+  macro/reserves.csv:
+    title: Official foreign exchange reserves
+    publisher: Bank of Korea
+    url: https://ecos.bok.or.kr/
+    series: ECOS 732Y001 (item 99), monthly
+    fetcher: fetch/fetch_bok.py
+    unit: US$ billion, end of period
+    caveats:
+      - Published in thousands of US dollars; divided by 1e6 here.
+
+  macro/external.csv:
+    title: International investment position — external assets, liabilities and the net
+    publisher: Bank of Korea
+    url: https://ecos.bok.or.kr/
+    series: ECOS 311Y001 — 대외금융자산 (1000000), 대외금융부채 (2000000)
+    fetcher: fetch/fetch_bok.py
+    unit: US$ billion
+    caveats:
+      - >-
+        ECOS publishes the two sides and not the net, so the net column is
+        computed. It crosses zero in 2014: that year is when Korea stopped
+        being a net debtor to the rest of the world.
+      - >-
+        This is the whole country's balance sheet, not the state's. Reserves
+        (macro/reserves.csv) are one line inside the asset side.
+
+  macro/unemployment.csv:
+    title: Unemployment rate
+    publisher: Statistics Korea (Economically Active Population Survey), via ECOS
+    url: https://ecos.bok.or.kr/
+    series: ECOS 901Y027 (I61BC)
+    fetcher: fetch/fetch_bok.py
+    unit: "% of the labour force, annual average"
+    caveats:
+      - >-
+        2026 is the mean of the months published so far, not a full year, and
+        the plate marks it as partial.
+      - >-
+        Korea's headline unemployment rate is low partly because its
+        participation definitions treat a great deal of involuntary
+        part-time and family work as employment. The rate is comparable
+        across years; it is not a measure of labour-market slack.
+
+  macro/minimum_wage.csv:
+    title: Statutory minimum wage
+    publisher: Minimum Wage Commission / Ministry of Employment and Labour
+    url: https://www.minimumwage.go.kr/
+    series: annual determination
+    fetcher: curated
+    unit: ₩ per hour
+    caveats:
+      - >-
+        The 2006 figure covers a sixteen-month application period: the
+        determination year was realigned to the calendar year that year, and
+        2006 is the rate that applied from January 2006.
+      - >-
+        The real line on plate 06 is this series deflated by macro/cpi.csv,
+        chained backwards from the latest year, so a reader can check it
+        against the inflation panel of plate 01.
+
+  macro/household_credit.csv:
+    title: Household credit — loans and card/instalment credit
+    publisher: Bank of Korea (flow of funds)
+    url: https://ecos.bok.or.kr/
+    series: ECOS 151Y001 — 가계신용 (1000000), 가계대출 (1100000), 판매신용 (1200000)
+    fetcher: fetch/fetch_bok.py
+    unit: ₩ trillion, end of period; % of GDP
+    caveats:
+      - >-
+        가계신용 (household credit) is the broadest official measure: it
+        covers banks, non-bank lenders and card companies. It is larger than
+        the bank-only figures that are sometimes quoted for the same idea.
+      - >-
+        The share of GDP is computed against macro/gdp.csv, so it moves with
+        the national-accounts base year as well as with the debt.
+
+  macro/credit_terms.csv:
+    title: What credit costs and how much of it goes unpaid
+    publisher: Bank of Korea
+    url: https://ecos.bok.or.kr/
+    series: >-
+      ECOS 121Y006 — weighted-average lending rates on new business
+      (BECBLA03 households, BECBLA0302 housing, BECBLA03051 unsecured);
+      901Y054 — delinquency rates (MO3AB households, MO3AA corporates)
+    fetcher: fetch/fetch_bok.py
+    unit: "% per year; % of loans overdue"
+    caveats:
+      - >-
+        Rates are on *newly extended* loans by deposit banks, weighted by
+        amount. They are the price of borrowing now, not the average rate
+        households are currently paying on the stock of their debt.
+      - >-
+        Delinquency covers deposit banks only. Arrears at non-bank lenders,
+        where the riskiest household credit sits, are higher and are not in
+        this series.
+
+  # ------------------------------------------------------------ fiscal
+  fiscal/government.csv:
+    title: General government revenue, expenditure and net lending
+    publisher: Bank of Korea (SNA general government account)
+    url: https://ecos.bok.or.kr/
+    series: ECOS 200Y153
+    fetcher: fetch/fetch_bok.py
+    unit: "% of GDP"
+    caveats:
+      - >-
+        This is the SNA net lending/borrowing of general government. Korean
+        budget debate uses 관리재정수지, the managed fiscal balance, which
+        excludes the social-security surpluses and is therefore several
+        points of GDP worse. The two are not interchangeable and this atlas
+        draws the SNA measure throughout.
+
+  fiscal/tax_burden.csv:
+    title: Tax burden — total tax revenue as a share of GDP
+    publisher: Statistics Korea / Ministry of Economy and Finance, via ECOS
+    url: https://ecos.bok.or.kr/
+    series: ECOS 901Y081 (G2A)
+    fetcher: fetch/fetch_bok.py
+    unit: "% of GDP"
+    caveats:
+      - >-
+        The source table is in 억원 (hundred millions of won) while GDP is in
+        조원 (trillions); the ratio needs the factor of ten between them, and
+        getting it wrong produces a plausible-looking number ten times off.
+      - >-
+        Tax only. Social insurance contributions are excluded, which is why
+        this is lower than the OECD's "tax and social contributions" ratio
+        for Korea by roughly seven points of GDP.
+
+  fiscal/debt.csv:
+    title: Public debt on the two official definitions, D1 and D2
+    publisher: Ministry of Economy and Finance, via e-National Indicators
+    url: https://www.index.go.kr/
+    series: index.go.kr 420901/1106 (D1), 501801/5018 (D2)
+    fetcher: fetch/fetch_index_kr.py
+    unit: "% of GDP"
+    caveats:
+      - >-
+        D1 is central plus local government debt — the number Korean
+        political argument uses. D2 adds non-profit public institutions and
+        is the general-government measure the IMF and OECD compare. D2 for
+        2012, 2020, 2023 and 2024 matches the IMF's general-government gross
+        debt for Korea exactly.
+      - >-
+        D3, which adds the non-financial public corporations, exists and is
+        larger again. It is not drawn here.
+      - D2 begins in 2011; there is no earlier published value on this basis.
+
+  fiscal/investment.csv:
+    title: Gross fixed capital formation
+    publisher: Bank of Korea (national accounts)
+    url: https://ecos.bok.or.kr/
+    series: ECOS 200Y113
+    fetcher: fetch/fetch_bok.py
+    unit: ₩ trillion; % of GDP
+    caveats:
+      - Whole-economy investment, not government investment.
+
+  fiscal/spending_by_function.csv:
+    title: General government expenditure by COFOG function
+    publisher: Bank of Korea
+    url: https://ecos.bok.or.kr/
+    series: ECOS 200Y152, functions 110/107/109/104/101/102/103 against total 201
+    fetcher: fetch/fetch_bok.py
+    unit: "% of GDP"
+    caveats:
+      - >-
+        `other` is the published total minus the seven named functions, not a
+        published residual, so the columns always sum to the total.
+      - Ends in 2024; the COFOG breakdown is published with a long lag.
+
+  fiscal/spending_by_function_krw.csv:
+    title: General government expenditure by COFOG function, in won
+    publisher: Bank of Korea
+    url: https://ecos.bok.or.kr/
+    series: ECOS 200Y152
+    fetcher: fetch/fetch_bok.py
+    unit: ₩ trillion
+    caveats:
+      - The same series as spending_by_function.csv, before dividing by GDP.
+
+  fiscal/rnd.csv:
+    title: Research and development expenditure
+    publisher: World Bank (from OECD/UNESCO)
+    url: https://data.worldbank.org/indicator/GB.XPD.RSDV.GD.ZS
+    series: GB.XPD.RSDV.GD.ZS
+    fetcher: fetch/fetch_international.py
+    unit: "% of GDP"
+    caveats:
+      - >-
+        Gross domestic expenditure on R&D by every sector, not the government
+        budget for it. Korea's figure is overwhelmingly private: it is the
+        second highest in the world after Israel.
+      - Ends in 2023.
+
+  # ------------------------------------------------------------- trade
+  trade/trade.csv:
+    title: Merchandise exports, imports and the trade balance
+    publisher: Korea Customs Service, via Bank of Korea ECOS
+    url: https://ecos.bok.or.kr/
+    series: ECOS 901Y092, annual and monthly
+    fetcher: fetch/fetch_bok.py
+    unit: US$ billion, customs basis
+    caveats:
+      - >-
+        2026 is a cumulative January–September total, not a year, and every
+        panel that draws it says so. It already exceeds all of 2025, which
+        is real: the AI/semiconductor cycle. MOTIE's own September release
+        gives US$814.5bn cumulative against the US$814.7bn here, a rounding
+        difference between the customs and the ministry cuts.
+      - >-
+        Customs basis, so it differs from the balance-of-payments goods
+        account by freight and insurance treatment.
+
+  trade/destinations.csv:
+    title: Exports by destination country
+    publisher: Korea Customs Service, via Bank of Korea ECOS
+    url: https://ecos.bok.or.kr/
+    series: ECOS 901Y121
+    fetcher: fetch/fetch_bok.py
+    unit: "% of total exports"
+    caveats:
+      - >-
+        Four partners are drawn. They are not the whole total, and the shares
+        do not sum to 100.
+
+  trade/exports_products.csv:
+    title: Exports by product group, at five snapshot years
+    publisher: Korea, as reported to UN Comtrade
+    url: https://comtradeapi.un.org/
+    series: HS 8542, 8703, 8708, 89, 2710, 39, 72, 8517 — annual, flow X, partner world
+    fetcher: fetch/fetch_products.py
+    unit: US$ billion
+    caveats:
+      - >-
+        HS headings, not the MTI categories Korea's own trade statistics and
+        press releases use. MTI 반도체 is wider than HS 8542, and the
+        ministry's semiconductor figure for 2025 is US$173.4bn against the
+        US$142.8bn here. Both are correct about different definitions; the
+        panel states which one it draws.
+      - >-
+        Chapter-level codes are used where no single heading covers the
+        product: 89 ships, 72 iron and steel, 39 plastics and
+        petrochemicals.
+      - Five snapshot years only, not an annual series.
+
+  # ----------------------------------------------------------- markets
+  markets/kospi.csv:
+    title: KOSPI composite index, year-end close
+    publisher: Korea Exchange (index), retrieved via Yahoo Finance
+    url: https://finance.yahoo.com/quote/%5EKS11
+    series: ^KS11, daily closes
+    fetcher: fetch/fetch_markets.py
+    unit: index points
+    caveats:
+      - >-
+        The year-end value is the last *trading day by date*, so a gap in the
+        series or a partial final year cannot silently promote some other day
+        to year-end.
+      - >-
+        Taken from the index feed rather than transcribed. Second-hand
+        year-end figures for the KOSPI are frequently wrong — one search
+        result gave 2,486 for 2020 against the actual 2,873.47.
+      - 2026 is the latest close, not a year-end.
+
+  markets/sp500.csv:
+    title: S&P 500 index, year-end close
+    publisher: S&P Dow Jones Indices, retrieved via Yahoo Finance
+    url: https://finance.yahoo.com/quote/%5EGSPC
+    series: ^GSPC, daily closes
+    fetcher: fetch/fetch_markets.py
+    unit: index points
+    caveats:
+      - Price index, no dividends, on both sides of the comparison.
+
+  # ------------------------------------------------- international scores
+  intl/openness.csv:
+    title: Trade openness — exports plus imports as a share of GDP
+    publisher: World Bank (national accounts)
+    url: https://data.worldbank.org/indicator/NE.TRD.GNFS.ZS
+    series: NE.TRD.GNFS.ZS
+    fetcher: fetch/fetch_international.py
+    unit: "% of GDP"
+    caveats:
+      - >-
+        Goods *and* services on the national-accounts basis, which is not
+        trade/trade.csv divided by GDP — that would be goods only, on the
+        customs basis, several points of GDP away.
+
+  intl/cpi.csv:
+    title: Corruption Perceptions Index — Korea's score and rank
+    publisher: Transparency International
+    url: https://www.transparency.org/en/cpi
+    series: CPI 2012-2025
+    fetcher: curated, from intl/cpi_from_ti.csv plus the current release
+    unit: score out of 100; rank
+    caveats:
+      - >-
+        The plate draws the score, not the rank: the number of countries
+        assessed changes every year, so a rank is not comparable across the
+        window.
+      - >-
+        Scores before 2012 were computed differently on a 0-10 scale and are
+        deliberately absent rather than rescaled.
+      - >-
+        Ranks are published in the time series only from 2017; earlier years
+        are blank here rather than filled from secondary sources.
+
+  intl/cpi_from_ti.csv:
+    title: Corruption Perceptions Index time series, as published
+    publisher: Transparency International
+    url: https://images.transparencycdn.org/images/CPI2024-Results-and-trends.xlsx
+    series: CPI 2012-2024 results spreadsheet, "CPI Timeseries" sheet
+    fetcher: fetch/fetch_international.py
+    unit: score out of 100; rank
+    caveats:
+      - >-
+        Sidecar, not drawn. It stops at the edition whose spreadsheet is
+        published; the curated intl/cpi.csv adds the current year.
+      - >-
+        The spreadsheet's own header capitalisation is inconsistent — the
+        2012 and 2013 columns read "CPI Score", every later one "CPI score" —
+        so the reader matches case-insensitively. Matching exactly drops the
+        two oldest years with no error at all.
+
+  # ------------------------------------------------------------ social
+  social/population.csv:
+    title: Population, share aged 65 and over, and total fertility rate
+    publisher: Statistics Korea — Population Projections (2024 revision)
+    url: https://kosis.kr/
+    series: ECOS 901Y028 (I35A population, elderly share, total fertility rate)
+    fetcher: fetch/fetch_bok.py
+    unit: millions of people; %; children per woman
+    caveats:
+      - >-
+        Observed to the latest vital-statistics year and projected after it,
+        to 2072. The plate draws the projected part dashed and says so.
+      - >-
+        The medium variant. The projection was revised upwards in 2024
+        relative to the 2021 one; an older chart of the same series will show
+        a steeper fall.
+
+  social/vital.csv:
+    title: Births, deaths, natural change, fertility and life expectancy
+    publisher: Statistics Korea / Ministry of Data and Statistics — Vital Statistics
+    url: https://www.index.go.kr/
+    series: index.go.kr 101101/1011 — 출생 사망 추이
+    fetcher: fetch/fetch_index_kr.py
+    unit: people per year; children per woman; years
+    caveats:
+      - >-
+        2020 is the crossing year: 272,337 births against 304,948 deaths.
+        Korea has had more deaths than births every year since.
+      - >-
+        The confirmed registration basis, which is what the Causes of Death
+        release uses. The provisional February release of the same year
+        differs: 363,400 deaths for 2025 against the 362,968 here.
+      - >-
+        `natural_change` is computed from the two columns beside it rather
+        than read, so the three can never disagree.
+      - >-
+        `tfr` duplicates the same column in social/population.csv, which
+        comes from a different portal page. They agree to three decimals
+        across the whole window, which is the point of keeping both.
+      - >-
+        Life expectancy drops in 2022 — 83.6 to 82.7 — and recovers. That is
+        the pandemic, and it is the only year in the window where it falls.
+
+  social/mortality.csv:
+    title: Death rates by cause
+    publisher: Statistics Korea / Ministry of Data and Statistics — Causes of Death Statistics
+    url: https://www.index.go.kr/
+    series: index.go.kr 101201/1012 — 사망원인별 사망률 추이
+    fetcher: fetch/fetch_index_kr.py
+    unit: deaths per 100,000 population
+    caveats:
+      - >-
+        `transport` is 운수사고, the cause-of-death category, which covers
+        rail, water and air as well as roads and is assigned from the death
+        certificate. It is not social/road.csv, the police count, and the two
+        differ by about a third.
+      - >-
+        Influenza is not in this table. Korea's headline cause-of-death
+        release does not publish it as a separate series; the respiratory
+        infection it does publish is 폐렴, pneumonia, which has been the
+        country's third largest cause of death since 2015 and is drawn here.
+        An annual influenza series exists only in the 104-item KOSIS table,
+        which requires an API key.
+      - >-
+        The whole table is one consistent cut of one release, which is why it
+        is used in preference to the portal's standalone 자살률 indicator —
+        that one lags this one by several years.
+
+  social/covid.csv:
+    title: COVID-19 deaths
+    publisher: Statistics Korea / Ministry of Data and Statistics — Causes of Death Statistics
+    url: https://mods.go.kr/
+    series: annual releases, 2020 through 2025
+    fetcher: curated
+    unit: deaths; deaths per 100,000
+    caveats:
+      - >-
+        Counted from death certificates (ICD U07.1, U07.2, U10.9) for Korean
+        residents, which is *not* the KDCA surveillance count. The release
+        says so itself; the two differ by thousands.
+      - >-
+        Assembled from the per-year releases rather than from the trend table
+        inside the latest one. That trend table prints 0 for 2020, because
+        the row only exists from the year COVID entered the summary
+        classification — while the 2020 release itself published 950 deaths.
+        An official table and an official release disagree, and the releases
+        win.
+
+  social/homicide.csv:
+    title: Deaths from assault (가해/타살)
+    publisher: Statistics Korea / Ministry of Data and Statistics — Causes of Death Statistics
+    url: https://mods.go.kr/
+    series: "table 5, 주요 사망원인별 사망자 수 추이, in the 2024 and 2025 releases"
+    fetcher: curated
+    unit: deaths per year
+    caveats:
+      - >-
+        Begins in 2014. The trend table prints alternate years, so the two
+        most recent releases together give every year from 2014; earlier
+        years would need older releases. The overlapping years agree.
+      - >-
+        Stored as a count because the published rate is given to one decimal,
+        which rounds a sub-1.0 series into uselessness. Plate 09 converts it
+        with the population from macro/gdp.csv and reproduces the published
+        rate.
+
+  social/road.csv:
+    title: Road traffic deaths
+    publisher: National Police Agency, via e-National Indicators
+    url: https://www.index.go.kr/
+    series: index.go.kr 426101/4261
+    fetcher: fetch/fetch_index_kr.py
+    unit: deaths per 100,000 population
+    caveats:
+      - >-
+        Deaths on the road within 30 days of the crash, counted by the
+        police. See the note on social/mortality.csv for why this is not the
+        same as the 운수사고 cause-of-death rate.
+
+  social/workplace.csv:
+    title: Industrial accidents — injury rate, fatal accident rate, deaths, disease cases
+    publisher: Ministry of Employment and Labour, via e-National Indicators
+    url: https://www.index.go.kr/
+    series: index.go.kr 151401/1514
+    fetcher: fetch/fetch_index_kr.py
+    unit: "% of workers; deaths per 10,000 workers; people"
+    caveats:
+      - >-
+        The rate and the count tell opposite stories and both are correct.
+        사고사망만인율, the fatal-accident rate per 10,000 workers, more than
+        halved. 사망자수, the death count, did not fall, because the
+        workforce grew and because the deaths counted include occupational
+        disease — whose case count more than tripled over the same window.
+        Plate 09 draws both and says which is which.
+      - >-
+        Covers workplaces inside the industrial accident compensation
+        scheme. Self-employed and platform workers are largely outside it.
+
+  social/gini.csv:
+    title: Gini coefficient of disposable income, by survey
+    publisher: Statistics Korea, via e-National Indicators
+    url: https://www.index.go.kr/
+    series: index.go.kr 422501/4225
+    fetcher: fetch/fetch_index_kr.py
+    unit: coefficient, 0 to 1
+    caveats:
+      - >-
+        Two surveys, never spliced. `hfws` is 가계금융복지조사, the current
+        basis, from 2011. `hies` is 가계동향조사, discontinued for this
+        purpose after 2016. Both are disposable-income Gini coefficients —
+        they differ by survey universe, not by income concept — and they
+        differ by about 0.05, which is most of the apparent improvement in
+        any chart that joins them.
+
+  social/poverty.csv:
+    title: Relative poverty, whole population and at 65 and over
+    publisher: Statistics Korea, via e-National Indicators
+    url: https://www.index.go.kr/
+    series: index.go.kr 505601/5056 (whole population), 102401/1024 (65 and over)
+    fetcher: fetch/fetch_index_kr.py
+    unit: "% below half the median equivalised income"
+    caveats:
+      - >-
+        Both columns are 가계금융복지조사 on the same basis; they come from
+        two indicator pages only because the portal splits them.
+      - >-
+        The age base is 65 and over throughout. The retirement-age base, 66
+        and over, is what Statistics Korea headlines and what the OECD
+        comparison uses; it runs about two points higher, and the two get
+        quoted interchangeably.
+      - >-
+        `elderly_65_market` is the same population before taxes and
+        transfers. The difference between the two columns is the size of
+        the transfer system: 54.9% against 35.9% in 2024.
+
+  social/hdi.csv:
+    title: Human Development Index
+    publisher: UNDP, Human Development Report Office
+    url: https://hdr.undp.org/data-center
+    series: HDR 2025 composite indices complete time series, hdi_YYYY for KOR
+    fetcher: fetch/fetch_international.py
+    unit: index, 0 to 1
+    caveats:
+      - >-
+        Read from the exact `hdi_YYYY` columns only. The same file carries
+        `hdi_rank_YYYY`, `hdi_f_YYYY` and `hdi_m_YYYY`, and a prefix match
+        would mix a rank into the index.
+      - Ends in 2023.
+
+  social/gini_from_wb.csv:
+    title: Gini index, World Bank harmonised
+    publisher: World Bank
+    url: https://data.worldbank.org/indicator/SI.POV.GINI
+    series: SI.POV.GINI
+    fetcher: fetch/fetch_international.py
+    unit: index, 0 to 100
+    caveats:
+      - >-
+        Sidecar, not drawn. Kept so a reader can see how far the harmonised
+        series sits from Korea's own, and so the two are never confused.
+
+  social/poverty_from_wb.csv:
+    title: Poverty headcount at the international lines
+    publisher: World Bank
+    url: https://data.worldbank.org/indicator/SI.POV.UMIC
+    series: SI.POV.UMIC, SI.POV.DDAY
+    fetcher: fetch/fetch_international.py
+    unit: "% of population"
+    caveats:
+      - >-
+        Sidecar, not drawn. Korea's poverty measure is relative — below half
+        the median — and absolute dollar lines put almost nobody in Korea
+        below them, which measures the scale rather than the problem.

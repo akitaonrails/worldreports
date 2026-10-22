@@ -1,0 +1,46 @@
+# credit_holding_ocm.csv -- share of French households holding any credit, from the annual survey.
+# Source: Observatoire des Credits aux Menages (OCM), 38th edition, survey fielded November 2025,
+#   presented 5 March 2026. The OCM is run jointly by the Federation Bancaire Francaise (FBF) and the
+#   Association Francaise des Societes Financieres (ASF). It is an INDUSTRY survey, NOT an official
+#   statistic: it is not Insee, not Banque de France, and carries no official-statistics label.
+#   File: https://asf-france.com/wp-content/uploads/2026/03/OCM-Tableau-de-bord-mars-2026.pdf
+#   Press release: https://asf-france.com/wp-content/uploads/2026/03/CP-FBF-38eme-edition-de-lOCM.pdf
+# Method: postal survey of a quota sample of households (response rate 73.1% in 2025; 9,498 usable
+#   responses in time), reweighted to the 2019 Insee census structure (region, agglomeration size, age
+#   and occupation of the head of household). Survey-based: subject to sampling error and to reporting
+#   bias about one's own debts. Series exists since 1989.
+# Columns:
+#   share_any_credit_pct      = households holding ANY credit (mortgage and/or consumer), %. 1989-2025.
+#   share_housing_credit_pct  = households holding a housing loan, %. Chart covers 2010-2025.
+#   share_consumer_credit_pct = households holding a consumer credit, %. Chart covers 2010-2025, but
+#                               2010 and 2011 are LEFT BLANK here (see provenance note below).
+#   The two sub-shares do not sum to the total: 1.99 million households held both in 2025.
+# PROVENANCE OF THE NUMBERS: the OCM tableau de bord publishes these as printed DATA LABELS on its
+#   charts, with no data table. The values here were extracted from the PDF text layer and assigned to
+#   years by horizontal position (pdftotext -bbox-layout), not read off pixels. Cross-checks against the
+#   prose and the press release all agree: any-credit 40.4% (2025) and 41.9% (2024); housing 28.7% (2025)
+#   and 29.7% (2024); consumer 18.1% (2025), 19.0% (2024) and 24.9% (2020). For 2010 and 2011 the housing
+#   and consumer curves cross, so the two labels could not be attributed to a series without ambiguity and
+#   consumer credit is left blank for those two years rather than guessed.
+# Retrieved 2026-10-21. Latest year: 2025 (there is no 2026 figure; the survey is fielded each November).
+year,share_any_credit_pct,share_housing_credit_pct,share_consumer_credit_pct
+2006,50.9,,
+2007,52.0,,
+2008,52.6,,
+2009,50.8,,
+2010,49.5,30.5,
+2011,49.4,31.0,
+2012,48.6,31.4,27.6
+2013,47.6,31.0,26.6
+2014,46.5,30.6,25.6
+2015,46.5,30.2,26.0
+2016,46.4,30.7,25.5
+2017,47.8,30.8,27.2
+2018,47.8,31.4,26.8
+2019,47.4,31.1,26.5
+2020,46.5,31.4,24.9
+2021,45.2,30.6,24.0
+2022,43.4,30.1,21.8
+2023,42.7,29.6,20.9
+2024,41.9,29.7,19.0
+2025,40.4,28.7,18.1

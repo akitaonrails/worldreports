@@ -1,0 +1,8 @@
+# Only the fetchers need these, and only when refreshing a country's CSVs
+# by hand. CI never installs them: the build draws from the committed files
+# and must not be able to reach the network at all.
+#
+#   pip install -r requirements-fetch.txt
+#   make C=france fetch
+requests
+openpyxl

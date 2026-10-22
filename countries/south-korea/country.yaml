@@ -1,0 +1,87 @@
+# South Korea. Palette lifted verbatim from south-korea-reports
+# scripts/style.py, including the Taegeukgi blue and red.
+slug: south-korea
+flag_emoji: "🇰🇷"
+wordmark: 한국
+name:
+  en: "South Korea"
+  fr: "Corée du Sud"
+  pt: "Coreia do Sul"
+  es: "Corea del Sur"
+  ko: "대한민국"
+
+# ko, not kr: `kr` is the country code, `ko` is the ISO 639-1 language.
+locales:
+  - {code: ko, html_lang: ko,    og_locale: ko_KR, endonym: 한국어}
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete. A flow for a year still running is not comparable
+# with the ones before it: plotted on the same line it draws a collapse
+# that never happened, so plates dash or hatch anything past it.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+# Label every Nth year on the x-axis. Twenty-one years of annual ticks do
+# not fit, so each country labels the stride its own plates were drawn with.
+tick_every: 2
+
+bands:
+  - {from: 2008.75, to: 2009.4, label: "global crisis"}
+  - {from: 2020.0,  to: 2020.9, label: "COVID-19"}
+
+currency:
+  code: KRW
+
+palette:
+  BLUE:    "#0047A0"
+  BLUE_D:  "#003478"
+  RED:     "#CD2E3A"
+  TEAL:    "#0F7A6E"
+  YELLOW:  "#E0A526"
+  PURPLE:  "#6F5AA6"
+  NAVY:    "#102A43"
+  primary: "#0047A0"
+  alert:   "#CD2E3A"
+  ink:     "#1C2128"
+  muted:   "#58606E"
+  faint:   "#98A0AC"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E6E3DC"
+  spine:   "#C8C5BD"
+  band:    "#EEEBE4"
+  series:  ["#0047A0", "#CD2E3A", "#E0A526", "#0F7A6E", "#6F5AA6", "#1C2128"]
+  flag_bands: ["#CD2E3A", "#FBFAF7", "#0047A0"]
+  web:
+    # Hangul syllables are centred in a fixed em box. Nudging
+    # one would pull the wordmark off the margin, not onto it.
+    mark_bearing: "0"
+    ground:   "#0A1E31"
+    raised:   "#0F2A42"
+    raised_2: "#13334F"
+    rule:     "#1B4068"
+    ink:      "#ECEEF2"
+    muted:    "#A9B0BD"
+    faint:    "#848C9A"
+    money:    "#4E8FE0"
+    world:    "#2FA8A0"
+    people:   "#E8707F"
+
+seo:
+  title:
+    en: "South Korea — an infographic atlas, 2006–2026"
+    ko: "대한민국 — 인포그래픽 아틀라스, 2006–2026"
+    pt: "Coreia do Sul — um atlas infográfico, 2006–2026"
+  description:
+    en: "Infographic plates on South Korea built only from official sources: the Bank of Korea, Statistics Korea, e-National Indicators, the World Bank and the UNDP. Every figure is generated from CSVs committed to the repository."
+    ko: "한국은행, 통계청, e-나라지표, 세계은행, UNDP 등 공식 자료만으로 만든 대한민국 인포그래픽. 모든 수치는 저장소에 커밋된 CSV에서 생성됩니다."
+    pt: "Pranchas infográficas sobre a Coreia do Sul construídas apenas a partir de fontes oficiais: Banco da Coreia, Statistics Korea, e-National Indicators, Banco Mundial e PNUD."
+  keywords: [South Korea, Bank of Korea, Statistics Korea, KOSPI, demography, official statistics]
+  spatial: "Republic of Korea"
+
+sources:
+  en: "the Bank of Korea, Statistics Korea, e-National Indicators, the World Bank and the UNDP"
+  ko: "한국은행, 통계청, e-나라지표, 세계은행, UNDP"
+  pt: "Banco da Coreia, Statistics Korea, e-National Indicators, Banco Mundial e PNUD"

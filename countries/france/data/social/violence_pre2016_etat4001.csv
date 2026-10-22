@@ -1,0 +1,22 @@
+# NOT splice-compatible with violence.csv. Separate measurement system.
+# Source: SSMSI/Ministere de l'Interieur, frozen dataset 5617ad4dc751df6211cdbb49,
+#   resource fdf5afbf-ed3c-4c54-a4f0-3581c8a1eca4 (tableaux-4001-ts.xlsx).
+#   Dataset last fed Oct 2022 with Aug 2022 data; never to be updated again.
+# Aggregation: sum of 12 monthly departmental values per year. NOT a published total.
+# Scope: France entiere = metropole + DROM + COM  <-- WIDER than the 2016+ series (COM excluded there).
+# Unit break: index 7 counted PLAIGNANT until 28/02/2015, then VICTIME from 01/03/2015.
+# cbv_idx7            = etat 4001 index 7 only, victims aged 15+.
+# violsex_idx46_49    = sum of etat 4001 indexes 46+47+48+49.
+# SSMSI on this file: "brutes [...] pas assez fiabilisees en particulier a l'echelle departementale".
+# Retrieved 2026-10-21.
+year,cbv_idx7,violsex_idx46_49
+2006,173666,23941
+2007,186727,24368
+2008,199111,25197
+2009,206160,24447
+2010,206310,24359
+2011,206350,25211
+2012,207411,28250
+2013,207530,29535
+2014,211638,32324
+2015,227151,35551

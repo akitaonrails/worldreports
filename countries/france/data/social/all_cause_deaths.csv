@@ -1,0 +1,31 @@
+# Two counting systems, kept in separate columns.
+# insee = deaths registered in the état civil, France entière.
+#   Break at 2014: hors Mayotte up to 2013, y compris Mayotte from 2014
+#   (INSEE publishes both for 2014: 559293 y.c. / 558727 hors).
+# cepidc = 'Toutes causes' as counted by Inserm-CépiDc from death
+#   certificates, France hexagonale + 5 DROM. It is the right
+#   denominator for a CépiDc cause-of-death numerator: CépiDc misses the
+#   certificates it never receives or cannot code (about 2,100 in 2024),
+#   so mixing the two systems understates every share.
+# Retrieved 2026-10-21.
+year,insee,cepidc
+2006,526920,
+2007,531162,
+2008,542575,
+2009,548541,
+2010,551218,
+2011,545057,
+2012,569868,
+2013,569236,
+2014,559293,
+2015,593680,591806
+2016,593865,592072
+2017,606274,604298
+2018,609648,607820
+2019,613243,611413
+2020,668922,667497
+2021,661585,660168
+2022,675122,673190
+2023,639269,637082
+2024,643168,641046
+2025,647818,

@@ -1,0 +1,327 @@
+# Adding or updating a country
+
+Instructions to myself, written while merging five independent atlases into
+one tree. Read the first section even when only refreshing a number.
+
+---
+
+## The rule that outranks every other
+
+**No code that draws one country may read another country's data.**
+
+Five atlases that used to be five repositories now share a checkout. The
+failure that matters here is not a crash: it is a French number on a
+Brazilian plate. Nobody notices, because both are plausible, and the atlas
+is worth nothing the moment one of them is wrong.
+
+So the rule is mechanical, not a convention. Four things enforce it, and
+all four must keep holding:
+
+1. **One accessor.** Every path is resolved by `core.country.within(base,
+   rel, slug)`, which resolves the result and refuses anything that lands
+   outside `countries/<slug>/`. A `..` segment, an absolute path and a
+   symlink pointing out all fail the same test, because it checks the
+   resolved target and not the string. `Country.data()`, `Country.out()`
+   and `Context.table()` are all it.
+2. **Filesystem watching.** `tests/test_isolation.py` draws every plate
+   and builds every card with `open` watched, and fails on any read
+   outside the country's own directory. It is verified against a
+   deliberate breach, so it is known to catch one rather than assumed to.
+3. **Recorded provenance.** `core.provenance` watches a real render and
+   writes `countries/<slug>/provenance.json`: plate → the CSVs it read.
+   `tests/test_sources.py` checks every recorded file against that
+   country's own manifest.
+4. **No country's name in shared code.** `tests/test_core.py` reads
+   `core/` and fails if it names a country in code. A comment may explain
+   one; an `if slug == "france"` may not.
+
+Practically, that means two things when working here:
+
+- A plate function receives a `ctx` and nothing else. It never imports
+  `pathlib` to build a path, never reads `countries/` itself, and has no
+  way to name another country. Keep it that way.
+- A fetcher lives in `countries/<slug>/fetch/`, computes
+  `ROOT = Path(__file__).resolve().parent.parent`, and writes only under
+  `ROOT / "data"` and `ROOT / "cache"`. It is the one kind of code here
+  that touches the network, and it is never run by the build.
+
+---
+
+## The layout
+
+```
+countries/<slug>/
+  country.yaml       identity: name, locales, palette, years, bands
+  data/              the committed CSVs — the source of truth
+  SOURCES.yaml       who publishes each CSV, and its caveats
+  DATA_NOTES.md      what these sources were like to work with
+  provenance.json    generated: plate -> the CSVs it read
+  plates.py          PLATES, and one function per plate
+  chapters.py        build(ctx) -> the cards, their copy, their figures
+  i18n.json          every string the plates emit, translated
+  ui.json            the masthead line, the dek, the reading notes
+  events.py          EVENTS: year -> a short label for annotations
+  datasets.py        optional, where a country reads its CSVs its own way
+  fetch/             the refreshers. The only code that uses the network.
+  output/            the rendered plates and thumbs. Committed.
+  tests/             only what cannot be asked of every country
+```
+
+Nothing outside `countries/<slug>/` changes when a country is added. If a
+new country needs a change in `core/`, that change has to make sense for
+the other five — and if it does not, the country is asking for a hook that
+belongs in its own `country.yaml`.
+
+---
+
+## Adding one
+
+### 1. `country.yaml`
+
+Copy France's and replace it. The fields that need thought:
+
+- **`locales`** — in the order the page offers them, each with `code`,
+  `html_lang`, `og_locale` and `endonym`. This is the country's own set:
+  Argentina publishes Spanish and South Korea Korean, and neither needs
+  the other's. `default_locale` is the one the language negotiator falls
+  back to.
+- **`name`** — the country's name in *every* locale any country publishes,
+  not just its own. The atlas switcher on a Korean page names France in
+  Korean, so a missing entry there is a hole on someone else's page.
+  `tests/test_catalogs.py` fails on one.
+- **`years`** and **`last_full_year`** — the span every plate shares, and
+  the last year whose annual totals are complete. Everything about partial
+  years follows from the second number; see below.
+- **`tick_every`** — the x-axis stride. Twenty-one annual ticks do not fit.
+- **`palette`** — the country's own colours, and the reason this is in yaml
+  rather than code. Flags are not chart palettes: pure flag colours next to
+  each other vibrate and white is the paper, so these are darkened,
+  desaturated siblings that survive greyscale. `flag_bands` is the header
+  rule; a band the colour of the paper gets an outline automatically.
+  `palette.web` is the site chrome, and `mark_bearing` / `mark_size` tune
+  the wordmark: the bearing is per-letter (an open F needs less than a B,
+  and Hangul needs none, because CJK glyphs are centred in a fixed em box).
+- **`seo`** — `title`, `description` and `keywords` per locale. Real
+  sentences; they are what a search result shows.
+- **`sources`** — the institutions named in the dek, per locale. They must
+  agree with `SOURCES.yaml`.
+
+### 2. `data/` and `SOURCES.yaml`
+
+Commit the CSVs first, and give every one an entry in `SOURCES.yaml` with
+its publisher, its URL and its caveats. A committed CSV with no entry fails
+the build.
+
+A dataset is official unless the manifest says otherwise. If a series is
+*not* — a market index, a parallel exchange rate, an industry survey —
+write `official: false` on it. Do not leave the disclaimer in the prose of
+a `notes:` field: the page reads the flag, not the prose, and will label it
+"Official" while its own note denies it. A test looks for exactly that
+contradiction, in five languages.
+
+Every row needs every column. A row missing its trailing comma parses as
+one column short and the plate silently loses a year.
+
+### 3. `plates.py`
+
+```python
+def plate_economy(ctx):
+    gdp = ctx.table("macro/gdp.csv")
+    ig = ctx.fig("Title", "Subtitle", source=ctx.source("INSEE", "Eurostat"))
+    ax = ig.next_panel("GDP at current prices")
+    yrs, vals = ctx.series(gdp, "nominal_bn")
+    ctx.line(ax, yrs, vals, ctx.p.BLUE)
+    for ax in ig.axes_flat:
+        ig.style_axis(ax)
+    ig.save(ctx.out("01_economy.png"))
+
+PLATES = (
+    dict(id="01", slug="economy", builder=plate_economy,
+         title="...", subtitle="...", alt="..."),
+)
+```
+
+Two shapes are accepted, because two grew up in the five original
+projects. **New countries use the declarative one above**: the title and
+the alt text are reviewable without reading the drawing code, and `alt` is
+required there because it is the only thing a screen-reader user gets
+instead of the image. The older shape — `("plate_economy", plate_economy)`,
+the function titling and saving itself — is kept working for the plates
+already drawn that way.
+
+What the context gives you, and why to use it rather than the equivalent:
+
+- `ctx.table(rel)` / `ctx.rows(rel)` / `ctx.has(rel)` — the CSVs, resolved
+  under this country's `data/`. This is the isolation boundary.
+- `ctx.line` / `ctx.bars` — already carry this country's `last_full_year`,
+  so the running year is dashed or hatched without the call site
+  remembering. This is the single most load-bearing binding here: the worst
+  bug in the original build drew half a year of trade as an annual total,
+  which read as a 50% export collapse that never happened.
+- `ctx.fig(...)` — a figure in this country's identity. Pass a smaller
+  `right` (0.955) when a panel in the right-hand column carries a second
+  y-axis: the default margin fits a tick label and not the axis label
+  beside it, and `core.qa` fails the build when the label runs off the
+  canvas.
+- `ctx.pending(ax)` — the placeholder for a panel whose CSV is not
+  committed yet. Better than an empty axes, and visible in review.
+- `ctx.p` — the palette. `ctx.p.cycle(i)` for a series without a meaning.
+- `ig.add_event`, `ig.add_band`, `ig.add_recessions`, `ig.mark_partial`,
+  `ig.headroom` — annotations. Keep events sparse per panel: twenty rules
+  on a line is a timeline, not a chart.
+
+### 4. `chapters.py`
+
+`build(ctx)` returns the cards in page order. Every number on a card is
+read from the CSVs at build time, so a figure on a card and the same figure
+on its plate cannot disagree:
+
+```python
+{
+  "id": "01_economy", "n": "01", "family": MONEY,
+  "title": ctx.text(en="The Economy", pt="A Economia"),
+  "blurb": ctx.text(en="...", pt="..."),
+  "spark": ctx.col("macro/gdp.csv", "nominal_bn"),
+  "stats": [ctx.stat({"en": "GDP"}, ctx.col("macro/gdp.csv", "nominal_bn"),
+                     "money_bn")],
+}
+```
+
+`family` is one of `money`, `world`, `people` — the filter chips on the
+page. The third argument to `ctx.stat` is a format spec from
+`core.sitebuild.NUMFMT`, which says how a figure is *written*, not what it
+means. `kind=` says whether it is current: `flow` for an annual total,
+only comparable once the year is complete; `level` for a stock or a rate
+read at a moment; `projection` for an official forward estimate. Getting
+this wrong puts a half-finished year on a card as though it were a result.
+
+### 5. `i18n.json` and `ui.json`
+
+`i18n.json` maps each English string the plates emit to its translations:
+
+```json
+{"(half year)": {"fr": "(semestre)", "pt": "(meio ano)"}}
+```
+
+The figures are localised at save time, on the finished figure, so a plate
+cannot ship half-translated — and a string with no entry stops the render
+rather than shipping in the wrong language.
+`tests/test_catalogs.py::test_every_string_the_plates_emit_has_a_translation`
+renders everything in every language with `strict=True`, which is the
+authoritative check: write the plates first, run it, and let it tell you
+what the catalog is missing.
+
+`ui.json` is keyed by locale and carries the page chrome: `line` (the
+masthead), `dek`, `notes` (the reading caveats), `colophon`. The shared
+chrome — buttons, the viewer, the sources table — lives in `site/ui.json`
+and needs an entry in the new country's languages if they are new to the
+atlas.
+
+`{n}`, `{window}`, `{from}`, `{to}`, `{generated}` are substituted in any
+of this copy. An unsubstituted `{window}` on a page means the key was
+spelled something else.
+
+### 6. `fetch/`
+
+One script per publisher, run by hand, never by the build:
+
+```sh
+make C=<slug> fetch
+```
+
+A fetcher **never overwrites a curated number.** It writes what it pulled
+beside the curated file, as `<name>_check.csv` or `<name>_from_<source>.csv`,
+and a person diffs it. A live API that revises its history, or serves an
+error page under HTTP 200, therefore cannot change a published chart. Both
+sidecar conventions are recognised by `tests/test_sources.py`, which also
+fails if any plate draws from one.
+
+Fetchers need `requests` and sometimes `openpyxl` —
+`requirements-fetch.txt`, deliberately not installed by CI.
+
+### 7. Render, record, build
+
+```sh
+make C=<slug> charts thumbs provenance
+make site
+make test
+```
+
+`charts` draws every plate in every language the country publishes.
+`thumbs` makes the card-sized copies. `provenance` records what each plate
+read. All three write under `countries/<slug>/`, and the plates and thumbs
+are **committed** — they are the reviewable artefact beside the CSV that
+produced them.
+
+A language whose script no installed font covers is refused rather than
+drawn: a page of tofu boxes is worse than a build error. Korean needs
+`fonts-noto-cjk`. Note that matplotlib indexes only the first face of an
+OpenType collection, so it may see "Noto Sans CJK JP" where fontconfig
+lists KR — the pan-CJK faces are one glyph set with different regional
+defaults for Han, and every one of them carries the whole Hangul block, so
+the JP face is a correct fallback for Korean rather than an approximation.
+
+### 8. Tests
+
+Everything in `tests/` that takes a `country` argument runs against the new
+country automatically — the isolation boundary, the manifest, the CSV
+shapes, the catalogs, the pages, the layout. That is the point of the
+monorepo: a rule that holds for France has to hold for a country added next
+year without anyone remembering to copy the test.
+
+`countries/<slug>/tests/` is for what can only be asked of this country —
+the facts its plates assert. Write these as claims about the data, not
+about pixels:
+
+- Ask the CSV for the fact, then check the panel says it. A test that
+  reads two series off a chart and zips them by index compares different
+  years; use `Panel.paired(a, b)` from `tests/probe.py`, which aligns on
+  the year.
+- A test that `skipTest`s when it cannot find what it is looking for has
+  stopped checking. One here did, silently, for months.
+- The layout checker (`core.qa`) is fatal for a label drawn outside the
+  canvas and held at a committed count baseline for the house-style faults
+  — overlap, clipping, a label on the data. Re-record it with `make
+  baseline` only after looking at the plate and deciding the change is
+  right.
+
+---
+
+## Updating a country
+
+1. `make C=<slug> fetch` — refresh the sidecars.
+2. Diff each sidecar against its curated CSV. Copy across what you accept;
+   leave a year the publisher has not covered **empty**. A blank is dropped
+   from a line; it is never zero-filled, because a hole in a series is a
+   hole and not a collapse to zero.
+3. Bump `last_full_year` in `country.yaml` when a year completes, and
+   `years.to` when the window moves.
+4. The captions that say *how* incomplete a partial year is — "2025: 11
+   months · 2026: 9 months" — are written on the plate and do need
+   editing. `grep mark_partial countries/<slug>/plates.py` finds them all.
+5. `make C=<slug> charts thumbs provenance && make site test`.
+6. Commit the CSVs, the plates, the thumbs and `provenance.json` together,
+   so every chart stays reproducible from its committed inputs.
+
+If a refreshed number invalidates something a plate *says*, a test in
+`countries/<slug>/tests/` fails. That is the design: the claim breaks
+loudly instead of changing quietly.
+
+---
+
+## Things that have gone wrong here, so they do not again
+
+- A dataset labelled **Official** whose own note said it was not. The page
+  reads the flag, not the prose.
+- A CSV row **missing its trailing comma**, which parsed one column short.
+- A semantic test pointed at the wrong panel, where it found nothing to
+  compare and **skipped instead of failing**.
+- Two series **zipped by index** rather than aligned by year, comparing
+  2006 against 2013.
+- Six plates whose right-hand **axis label was drawn off the canvas** — not
+  clipped, not drawn at all, so the reader never learned what the second
+  axis measured.
+- A `from core.country import within` in a country's `datasets.py`, which
+  bound the function at import time and **read around the watcher**. Import
+  the module, call `_boundary.within(...)`, and the one check stays one
+  check.
