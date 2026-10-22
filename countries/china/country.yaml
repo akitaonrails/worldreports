@@ -1,0 +1,121 @@
+# China. The seventh queued country. COUNTRIES.md row 7: the problem is not
+# the language, it is source reliability. The atlas publishes what the NBS
+# publishes, marked as such, beside the World Bank / IMF / UN series where
+# those exist, and says in the notes where the two disagree and by how much.
+# Never spliced.
+#
+# *** FIRST DRAFT — endpoints marked UNVERIFIED; will be curl'd live and the
+# *** comments resolved in the verification passes that follow this commit. ***
+slug: china
+flag_emoji: "🇨🇳"
+wordmark: 中国
+name:
+  en: "China"
+  fr: "Chine"
+  pt: "China"
+  es: "China"
+  ko: "중국"
+  zh-Hans: "中国"
+
+# zh-Hans is the ISO-15899 language+script tag COUNTRIES.md assigns China;
+# south-korea's ko shows the pattern for a non-Latin script (language code,
+# not country code; html_lang + og_locale carry the region). zh-Hans needs
+# the zh-CN region forms. Official-first, English default per precedent.
+locales:
+  - {code: zh-Hans, html_lang: zh-CN, og_locale: zh_CN, endonym: 简体中文}
+  - {code: en,      html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt,      html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual totals
+# are complete.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+
+# Bands use the two-consecutive-quarters rule (see Canada/South Korea).
+# CHINA LIKELY QUALIFIES FOR NONE: quarterly real GDP growth stayed positive
+# through the 2008-09 slowdown (the trough was a deceleration, not a
+# contraction) and COVID was a SINGLE-quarter contraction (Q1 2020 negative,
+# Q2 2020 sharply positive on the rebound), so no two consecutive quarters of
+# negative real growth appear in 2006-2026.
+# UNVERIFIED: must be checked quarter-on-quarter on the current NBS / WB vintage
+# before this is frozen. If it holds, bands: [] and the 2020 shock, the 2022
+# and 2024-25 slowdowns go on the plates as EVENTS, not bands.
+bands: []
+
+currency:
+  code: CNY
+
+# The flag is a red field with four small stars and one large one in gold.
+# That is not a chart palette: one hue cannot carry four panels and there is
+# no second flag colour to lean on. The red is darkened off the flag's
+# #DE2910 to a maroon that holds on newsprint, and the gold is darkened off
+# the stars' #FFDE00 to an amber. Chosen deliberately distinct from Canada's
+# brighter brick-red (#B5272F) and from Vietnam's planned red/gold sibling.
+palette:
+  RED:     "#9C1F2E"
+  RED_D:   "#75151F"
+  GOLD:    "#C8961E"
+  GOLD_D:  "#A07814"
+  NAVY:    "#1B3A5B"
+  BLUE:    "#2E6DA4"
+  BLUE_D:  "#1F4E75"
+  GREEN:   "#2E7D4F"
+  GREEN_D: "#1F5F3A"
+  PURPLE:  "#6E5BA6"
+  TEAL:    "#13807A"
+  primary: "#9C1F2E"
+  alert:   "#9C1F2E"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#9C1F2E", "#2E6DA4", "#2E7D4F", "#C8961E", "#6E5BA6", "#13807A", "#1F2430"]
+  # Red field, the paper, star gold. The middle band is the page colour, so it
+  # is drawn with an outline; unstroked it reads as a gap.
+  flag_bands: ["#9C1F2E", "#FBFAF7", "#C8961E"]
+  # Warm near-black, NOT a saturated red: the money family accent is a coral
+  # and a coral accent on a red ground is the one pair that cannot coexist.
+  web:
+    # 中国 are CJK glyphs centred in a fixed em box, like Hangul — nudging one
+    # would pull the wordmark off the margin, not onto it.
+    mark_bearing: "0"
+    ground:   "#160E10"
+    raised:   "#201417"
+    raised_2: "#2A181C"
+    rule:     "#3A2025"
+    ink:      "#F1E7E7"
+    muted:    "#B49A9B"
+    faint:    "#806668"
+    money:    "#E0796F"
+    world:    "#2FA8A0"
+    people:   "#D7A33F"
+
+seo:
+  title:
+    zh-Hans: "中国 — 官方数据图版，2006–2026"
+    en: "China — plates of official data, 2006–2026"
+    pt: "China — pranchas de dados oficiais, 2006–2026"
+  description:
+    zh-Hans: "关于中国经济、财政、贸易、市场、就业、人口、移民、死亡率与信贷的数据图版，全部取自官方来源，由纳入版本管理的 CSV 重新生成；国家统计局口径与世界银行、国际货币基金组织口径并列呈现，并注明二者差异。"
+    en: "Data plates on China's economy, public finances, trade, markets, work, demography, migration, mortality and credit, built only from official sources and regenerated from committed CSVs. The National Bureau of Statistics readings are drawn beside the World Bank, IMF and UN series, never spliced, with the disagreement stated."
+    pt: "Pranchas de dados sobre a economia, as contas públicas, o comércio, os mercados, o trabalho, a demografia, a imigração, a mortalidade e o crédito da China, construídas apenas a partir de fontes oficiais. As leituras do Escritório Nacional de Estatísticas são desenhadas ao lado das séries do Banco Mundial, FMI e ONU, nunca emendadas, com a divergência declarada."
+  keywords:
+    - China
+    - National Bureau of Statistics
+    - NBS
+    - People's Bank of China
+    - World Bank
+    - official statistics
+  spatial: "China"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+sources:
+  zh-Hans: "国家统计局、中国人民银行、国家外汇管理局、海关总署、财政部，以及世界银行与国际货币基金组织"
+  en: "the National Bureau of Statistics, the People's Bank of China, the State Administration of Foreign Exchange, the General Administration of Customs and the Ministry of Finance, with the World Bank and IMF"
+  pt: "o Escritório Nacional de Estatísticas, o Banco Popular da China, a Administração Estatal de Câmbio, a Administração Geral de Alfândega e o Ministério das Finanças, com o Banco Mundial e o FMI"

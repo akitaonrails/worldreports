@@ -1,0 +1,231 @@
+# Data provenance — every series for China  *** FIRST-DRAFT SKELETON ***
+#
+# Written before any CSV, per SOURCING_A_COUNTRY.md §3. No data/ files exist
+# yet; this is the plan of record the fetch swarm will fill in.
+#
+# THE CHINA RULE (COUNTRIES.md row 7): the NBS publishes a full set of
+# numbers; the atlas publishes what NBS publishes, marked official: true,
+# and beside it the World Bank / IMF / UN reading of the SAME quantity,
+# marked official: false, with a note stating where the two disagree and by
+# how much. They are two lines, never one spliced line.
+#
+# Every endpoint below is marked UNVERIFIED in this first commit. The
+# verification passes curl each live and resolve the marker; anything that
+# stays unreachable moves to the pending list at the bottom with a reason.
+#
+# Retrieved: draft 2026-10-22. Endpoints not yet curl'd in this commit.
+
+# --------------------------------------------------------------------------
+# economy — GDP, output, prices. NBS national accounts vs WB/IMF.
+# --------------------------------------------------------------------------
+economy:
+  gdp_growth_nbs.csv:
+    source: NBS (国家统计局) — national accounts, real GDP growth
+    url: "UNVERIFIED — data.stats.gov.cn easyquery.htm; series A.1 GDP"
+    refreshed_by: "UNVERIFIED — fetch/fetch_nbs.py (not written; Phase B)"
+    official: true
+    notes: >-
+      The NBS's own real GDP growth series. Published quarterly and annual.
+      Drawn beside the World Bank/IMF reading of the same quantity. UNVERIFIED:
+      the NBS API may need a session/cookie and may be slow or blocked from
+      this machine — record exactly what happens.
+  gdp_usd.csv:
+    source: World Bank — World Development Indicators, NY.GDP.MKTP.CD (ISO3=CHN)
+    url: "UNVERIFIED — https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.CD"
+    refreshed_by: "UNVERIFIED — fetch/fetch_comparables.py (Phase B)"
+    official: false
+    notes: >-
+      Harmonised cross-country series, not China's own national accounts.
+      Drawn side by side with gdp_growth_nbs.csv, never spliced. The NBS
+      reports in current CNY and a growth rate; the WB converts to current
+      USD at market rates, so the LEVEL differs from any NBS USD figure and
+      the GROWTH differs from the NBS's — that gap is the finding, not an
+      error to hide.
+
+# --------------------------------------------------------------------------
+# markets — policy rate, currency, index, sovereign. PBoC + SAFE.
+# --------------------------------------------------------------------------
+markets:
+  policy_rate.csv:
+    source: PBoC (中国人民银行) — policy/rate series
+    url: "UNVERIFIED — PBoC statistical data; LPR published monthly since Aug 2019"
+    refreshed_by: "UNVERIFIED — fetch/fetch_pboc.py (Phase B)"
+    official: true
+    notes: >-
+      DEFINITIONAL BREAK: the benchmark one-year lending rate (pre-2019) and
+      the Loan Prime Rate (LPR, monthly since Aug 2019) are two different
+      instruments and must be two columns, not one line. The 2019 switch is
+      annotated, never smoothed.
+  usdcny.csv:
+    source: PBoC / CFETS (中国外汇交易中心) — USD/CNY
+    url: "UNVERIFIED — PBoC central parity (中间价) + CFETS daily closing"
+    refreshed_by: "UNVERIFIED — fetch/fetch_pboc.py (Phase B)"
+    official: true
+    notes: >-
+      TWO SERIES, NEVER ONE: the PBoC daily central parity / fixing (中间价)
+      and the CFETS market closing rate are different quantities. Both kept
+      as separate columns. Direction CNY per USD — rising line = weaker renminbi.
+  reserves.csv:
+    source: SAFE (国家外汇管理局) — international reserves
+    url: "UNVERIFIED — SAFE reserves data; also IMF via WB FI.RES.TOTL.CD"
+    refreshed_by: "UNVERIFIED — fetch/fetch_safe.py (Phase B)"
+    official: true
+    notes: >-
+      SAFE publishes the official reserve-assets figure monthly. Cross-checked
+      against the WB/IMF IFS reading (see international/reserves_from_wb.csv).
+  sse_index.csv:
+    source: market — SSE Composite (上证综合指数) year-end close
+    url: "UNVERIFIED — redistributed; Yahoo 000001.SS. stooq is JS-walled here."
+    refreshed_by: "UNVERIFIED — fetch/fetch_market.py (Phase B)"
+    official: false
+    notes: >-
+      Nobody publishes a stock index as a statistic. Redistributor, marked
+      official: false and labelled as such on the plate. UNVERIFIED: Yahoo
+      reachability from this machine to be confirmed.
+
+# --------------------------------------------------------------------------
+# fiscal — revenue, deficit, debt. MOF + IMF side-by-side.
+# --------------------------------------------------------------------------
+fiscal:
+  fiscal_balance.csv:
+    source: MOF (财政部) — budget execution / fiscal balance
+    url: "UNVERIFIED — MOF monthly/annual fiscal revenue & expenditure release"
+    refreshed_by: "UNVERIFIED — fetch/fetch_mof.py (Phase B)"
+    official: true
+    notes: >-
+      China's headline deficit is the BUDGET deficit the MOF announces; the
+      general-government balance on the national-accounts basis (IMF) is a
+      different definition. Two columns, both labelled. General-government
+      (incl. local + LGFV-adjacent) is the disputed number — quantify the gap.
+  debt_pct_gdp.csv:
+    source: IMF — general government gross debt, % of GDP (via DataMapper/WEO)
+    url: "UNVERIFIED — IMF DataMapper; WB GL.GDX.TOTL.GD.ZS"
+    refreshed_by: "UNVERIFIED — fetch/fetch_comparables.py (Phase B)"
+    official: false
+    notes: >-
+      There is no single official Chinese "public debt" number: the MOF's
+      central+local government debt excludes local government financing
+      vehicles, while the IMF's general-government figure uses a broader
+      perimeter. Draw the IMF reading beside the MOF reading and say which
+      perimeter each is on.
+
+# --------------------------------------------------------------------------
+# trade — exports/imports by partner. GACC customs vs UN Comtrade/WB.
+# --------------------------------------------------------------------------
+trade:
+  trade_nbs_gacc.csv:
+    source: GACC (海关总署) — goods exports/imports; NBS mirrors it
+    url: "UNVERIFIED — GACC monthly/annual; also NBS foreign trade series"
+    refreshed_by: "UNVERIFIED — fetch/fetch_gacc.py (Phase B)"
+    official: true
+    notes: >-
+      GACC counts goods at customs value as they cross the border; the
+      balance-of-payments basis (incl. services) is a different, larger number.
+      Two publishers (GACC, NBS) report the same goods figures — take one per
+      row and record which. Cross-check partner totals against UN Comtrade/WB.
+
+# --------------------------------------------------------------------------
+# people — labour, income, inequality. NBS vs ILO/WB.
+# --------------------------------------------------------------------------
+people:
+  unemployment.csv:
+    source: NBS — surveyed urban unemployment rate (城镇调查失业率)
+    url: "UNVERIFIED — NBS; note the older registered (登记) unemployment rate"
+    refreshed_by: "UNVERIFIED — fetch/fetch_nbs.py (Phase B)"
+    official: true
+    notes: >-
+      TWO DEFINITIONS: the surveyed urban unemployment rate (the current
+      headline) and the older registered unemployment rate are different
+      series; the registered rate undercounts. Draw the current headline and
+      say which it is; the ILO-modeled WB series is a third reading.
+  gini.csv:
+    source: NBS — national income/disposable-income Gini (published to 2022?)
+    url: "UNVERIFIED — NBS statistical bulletin; WB SI.POV.GINI"
+    refreshed_by: "UNVERIFIED — fetch/fetch_comparables.py (Phase B)"
+    official: true
+    notes: >-
+      The NBS stopped publishing an official Gini after 2022 (verify). The
+      World Bank's harmonised Gini is derived on its own income definition and
+      lands elsewhere. Two columns, not one quantity twice read.
+
+# --------------------------------------------------------------------------
+# demography — births, deaths, population, life expectancy. NBS.
+# --------------------------------------------------------------------------
+demography:
+  population.csv:
+    source: NBS — total population (year-end), birth/death counts, life expectancy
+    url: "UNVERIFIED — NBS; cross-check WB SP.POP.TOTL (CHN)"
+    refreshed_by: "UNVERIFIED — fetch/fetch_nbs.py (Phase B)"
+    official: true
+    notes: >-
+      Magnitude check per the brief: population ~1.41bn and FALLING since 2022.
+      Verify, don't trust. The NBS year-end estimate and the WB/UN projection
+      are different series on different vintages — census rebasing can move
+      the level; compute change within one vintage.
+
+# --------------------------------------------------------------------------
+# migration — diaspora stock (UN DESA) + internal floating population (NBS).
+# --------------------------------------------------------------------------
+migration:
+  diaspora_stock.csv:
+    source: UN DESA — international migrant stock (UN DESA / WB)
+    url: "UNVERIFIED — UN DESA global migrant stock; WB migr stock"
+    refreshed_by: "UNVERIFIED — fetch/fetch_comparables.py (Phase B)"
+    official: false
+    notes: >-
+      China's international migration story is small on the international
+      definition. The REAL story is internal: hukou vs resident population and
+      the floating population (流动人口), which NBS census/communiqués publish.
+      Flow and stock in separate panels, never one axis.
+  floating_population.csv:
+    source: NBS — floating / migrant population (census + communiqué)
+    url: "UNVERIFIED — NBS census bulletins / population communiques"
+    refreshed_by: "UNVERIFIED — fetch/fetch_nbs.py (Phase B)"
+    official: true
+    notes: >-
+      Hukou (registered) vs permanent-resident population is the definitional
+      split; the floating population is the difference. Census years rebase —
+      annotate; do not interpolate across the census boundary.
+
+# --------------------------------------------------------------------------
+# world / comparables — HDI, openness, cross-country layer.
+# --------------------------------------------------------------------------
+international:
+  hdi.csv:
+    source: UNDP — Human Development Report, composite indices time series
+    url: "UNVERIFIED — HDR25_Composite_indices_complete_time_series.csv"
+    refreshed_by: "UNVERIFIED — fetch/fetch_comparables.py (Phase B)"
+    official: false
+    notes: >-
+      One vintage throughout; the HDR recomputes the whole back-series at each
+      methodology change, so a trend assembled across report years is partly
+      an artefact of the reports.
+  openness.csv:
+    source: World Bank — NE.TRD.GNFS.ZS (trade % of GDP)
+    url: "UNVERIFIED — https://api.worldbank.org/v2/country/CHN/indicator/NE.TRD.GNFS.ZS"
+    refreshed_by: "UNVERIFIED — fetch/fetch_comparables.py (Phase B)"
+    official: false
+    notes: >-
+      Comparables layer and magnitude cross-check on the GACC goods figures.
+
+# --------------------------------------------------------------------------
+# PENDING — unreachable / non-existent / not-yet-verified. Do not block on
+# these; the lane moves on and the fetch swarm picks them up.
+# --------------------------------------------------------------------------
+pending:
+  - >-
+    security/homicide: likely NO credible public series. China does not publish
+    an accessible criminal-homicide series comparable to the other countries.
+    Pending honestly — do NOT scrape. If nothing official surfaces, the Security
+    chapter departs from the spine (record in DATA_NOTES.md later).
+  - >-
+    data.stats.gov.cn reachability + auth: the NBS JSON API (easyquery.htm)
+    may require a session cookie and may be slow or blocked from this machine.
+    Record exactly what happens when curl'd; park on pending if blocked.
+  - >-
+    Yahoo 000001.SS reachability for the SSE Composite; stooq confirmed
+    JS-walled from this machine per the brief.
+  - >-
+    Two-quarter band verification: confirm on the current NBS/WB quarterly
+    vintage that China has NO two consecutive negative real-GDP quarters in
+    2006-2026 before freezing bands: [].
