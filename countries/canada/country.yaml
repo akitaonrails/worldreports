@@ -1,0 +1,102 @@
+# Canada. The sixth country in the atlas and the first added after the five
+# original repositories were merged, so this file is the one that proves the
+# merge did what it was for: nothing outside countries/canada/ changed to
+# put it here.
+slug: canada
+flag_emoji: "🇨🇦"
+wordmark: Canada
+name:
+  en: "Canada"
+  fr: "Canada"
+  pt: "Canadá"
+  es: "Canadá"
+  ko: "캐나다"
+
+locales:
+  - {code: en, html_lang: en-CA, og_locale: en_CA, endonym: English}
+  - {code: fr, html_lang: fr-CA, og_locale: fr_CA, endonym: Français}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual totals
+# are complete. A flow for a year still running is not comparable with the
+# ones before it, so plates dash or hatch anything past it.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+
+# Canada had two unambiguous contractions in this window. The 2015 oil
+# shock met the two-quarter definition and is argued about to this day —
+# employment never fell and the Bank of Canada declined to call it a
+# recession — so it is marked as an event on the plates that need it
+# rather than banded across all of them.
+bands:
+  - {from: 2008.6, to: 2009.5, label: "2008–09 crisis"}
+  - {from: 2020.0, to: 2020.9, label: "COVID-19"}
+
+currency:
+  code: CAD
+
+# The flag is two reds and a white, which is not a chart palette: a single
+# hue cannot carry four panels and the white is the paper. The red is
+# darkened off the flag's #D80621 so it holds on newsprint, and the rest
+# are cool siblings chosen to stay apart from it in greyscale.
+palette:
+  RED:     "#B5272F"
+  RED_D:   "#8A1B22"
+  NAVY:    "#1C3A55"
+  BLUE:    "#2F6E9B"
+  BLUE_D:  "#204E70"
+  GREEN:   "#2E7D4F"
+  GREEN_D: "#1F5F3A"
+  GOLD:    "#BE8A1E"
+  PURPLE:  "#6E5BA6"
+  TEAL:    "#13807A"
+  primary: "#B5272F"
+  alert:   "#B5272F"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#B5272F", "#2F6E9B", "#2E7D4F", "#BE8A1E", "#6E5BA6", "#13807A", "#1F2430"]
+  # Red, the paper, red. The middle band is the page colour, so it is
+  # drawn with an outline; unstroked it reads as a gap between two marks.
+  flag_bands: ["#B5272F", "#FBFAF7", "#B5272F"]
+  # A warm near-black rather than a dark red: the three family accents
+  # have to stay apart from each other and from the page, and a red
+  # accent on a red ground is the one pair that cannot.
+  web:
+    # C is a round letter — less overhang to pull back than B, more than A.
+    mark_bearing: "0.052em"
+    ground:   "#1A1012"
+    raised:   "#241719"
+    raised_2: "#2E1C20"
+    rule:     "#3E272C"
+    ink:      "#F1E9E7"
+    muted:    "#B49C9D"
+    faint:    "#80696C"
+    money:    "#E8796F"
+    world:    "#46A9A2"
+    people:   "#D7A33F"
+
+seo:
+  title:
+    en: "Canada — plates of official data, 2006–2026"
+    fr: "Canada — planches de données officielles, 2006–2026"
+    pt: "Canadá — pranchas de dados oficiais, 2006–2026"
+  description:
+    en: "Data plates on Canada's economy, public finances, trade, markets, work, demography, immigration, mortality, credit and crime, built only from official sources and regenerated from committed CSVs."
+    fr: "Des planches sur l'économie, les finances publiques, le commerce, les marchés, le travail, la démographie, l'immigration, la mortalité, le crédit et la criminalité au Canada, construites uniquement à partir de sources officielles et régénérées depuis des CSV versionnés."
+    pt: "Pranchas de dados sobre a economia, as contas públicas, o comércio, os mercados, o trabalho, a demografia, a imigração, a mortalidade, o crédito e o crime do Canadá, construídas apenas a partir de fontes oficiais."
+  keywords: [Canada, Statistics Canada, Bank of Canada, immigration, public finances, official statistics]
+  spatial: "Canada"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+sources:
+  en: "Statistics Canada, the Bank of Canada, the Department of Finance and the Parliamentary Budget Officer, IRCC"
+  fr: "Statistique Canada, la Banque du Canada, le ministère des Finances et le directeur parlementaire du budget, IRCC"
+  pt: "Statistics Canada, o Banco do Canadá, o Department of Finance e o Parliamentary Budget Officer, IRCC"

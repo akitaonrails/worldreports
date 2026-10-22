@@ -1,0 +1,194 @@
+# Data provenance — every series for Canada
+#
+# IN PROGRESS. Nothing here is curated yet: every file in data/ is a
+# `_from_*` sidecar written by a fetcher, which is the order
+# SOURCING_A_COUNTRY.md asks for — the manifest is written before the
+# CSVs so that deciding what a series is happens before anything is
+# drawn from it. Each entry below describes the sidecar and the curated
+# file it will become.
+#
+# Retrieved/compiled: 2026-10-22.
+
+markets:
+  rates_from_boc.csv:
+    source: Bank of Canada — Valet (STATIC_ATABLE_V39079, V122514, BD.CDN.*.DQ.YLD)
+    url: https://www.bankofcanada.ca/valet/observations/STATIC_ATABLE_V39079/json
+    refreshed_by: fetch/fetch_bankofcanada.py
+    notes: >-
+      target_rate_eoy / target_rate_avg: the target for the overnight
+      rate, taken from the monthly static table rather than from V39079,
+      the business-daily series, which Valet carries only from April
+      2009 — a plate drawn from V39079 opens at 0.25% with the whole
+      2008 easing missing in front of it. overnight_avg is the realised
+      rate, which is the one that moved first in March 2020 and is not
+      the same series as the target. Yields are the Government of Canada
+      benchmark bonds, annual mean of the daily series.
+  usdcad_from_boc.csv:
+    source: Bank of Canada — USD noon rate (IEXE0101) and USD daily rate (FXUSDCAD)
+    url: https://www.bankofcanada.ca/valet/observations/FXUSDCAD/json
+    refreshed_by: fetch/fetch_bankofcanada.py
+    notes: >-
+      TWO COLUMNS, NEVER ONE. The Bank retired the noon rate on
+      2017-03-01 and replaced it with a single indicative rate published
+      at 16:30, computed differently. January to April 2017 is published
+      on both, which is what makes the break measurable rather than
+      asserted. The noon series also begins in May 2007 and ends in
+      April 2017, so 2007 and 2017 are eight- and four-month windows:
+      both are left blank and the `*_months` columns carry the coverage,
+      because either one presented as an annual average lands inside the
+      plausible range for the dollar and nothing downstream would catch
+      it. 2006 and 2007 need Statistics Canada's annual average
+      (33-10-0163) instead. Direction: CAD per USD, so a RISING line is
+      a weaker Canadian dollar.
+
+fiscal:
+  transactions_pct_gdp_from_frt.csv:
+    source: Department of Finance Canada — Fiscal Reference Tables, November 2025, table 2
+    url: https://www.canada.ca/content/dam/fin/publications/frt-trf/2025/frt-trf-25-eng.xlsx
+    refreshed_by: fetch/fetch_frt.py
+    notes: >-
+      FEDERAL government, FISCAL years. `fiscal_year` holds the starting
+      year: 2024 is 1 April 2024 to 31 March 2025. Never plotted against
+      a calendar series without saying so. balance_excl_actuarial and
+      net_actuarial_losses are empty before 2008-09 and that is correct,
+      not missing data: net actuarial losses became a separate expense
+      line in 2019-20 with only 2008-09 onward reclassified, so the
+      split does not exist for earlier years and must not be
+      back-filled from the undivided balance.
+  revenues_pct_gdp_from_frt.csv:
+    source: Department of Finance Canada — Fiscal Reference Tables, November 2025, table 4
+    refreshed_by: fetch/fetch_frt.py
+    notes: >-
+      Federal revenue by source, per cent of GDP, fiscal years. The
+      pollution-pricing column is omitted: the proceeds are returned to
+      Canadians and appear as both a revenue and an expense, so
+      including it in a revenue panel overstates the take by its own
+      size. The federal carbon levy was removed on 1 April 2025, which
+      ends the series rather than zeroing it.
+  expenses_pct_gdp_from_frt.csv:
+    source: Department of Finance Canada — Fiscal Reference Tables, November 2025, table 8
+    refreshed_by: fetch/fetch_frt.py
+    notes: >-
+      Federal expense by category, per cent of GDP, fiscal years. The
+      2020-21 figure of 27.4% for program expenses is real: it is the
+      pandemic benefits, and it is the largest single-year federal
+      spending in Canadian peacetime.
+  liabilities_from_frt.csv:
+    source: Department of Finance Canada — Fiscal Reference Tables, November 2025, table 15
+    refreshed_by: fetch/fetch_frt.py
+    notes: >-
+      Millions of current dollars, fiscal years, FEDERAL only. The
+      accumulated deficit is what Canadian budget documents call "the
+      federal debt"; net_debt subtracts financial assets from total
+      liabilities and is a different quantity again. Neither is the
+      general-government debt in international/, and the three are
+      routinely quoted as though they were one number.
+
+international:
+  g7_balance_from_frt.csv:
+    source: IMF, redistributed by the Department of Finance Canada — Fiscal Reference Tables, table 53
+    refreshed_by: fetch/fetch_frt.py
+    notes: >-
+      GENERAL government — federal, provincial, territorial, local and
+      the CPP/QPP — on the national-accounts basis, CALENDAR years,
+      which is what makes it comparable across the G7 and incomparable
+      with everything in fiscal/. The IMF computes it; Finance Canada
+      only reprints it.
+  g7_net_debt_from_frt.csv:
+    source: IMF, via Fiscal Reference Tables 2025, table 54
+    refreshed_by: fetch/fetch_frt.py
+    notes: >-
+      Canada's net debt reads about 12% of GDP against a G7 average near
+      93%, and the gap is not an achievement: the net measure nets off
+      the assets of the Canada and Quebec Pension Plans, which most G7
+      members do not hold in the same form. It is drawn beside the gross
+      series, never alone.
+  g7_gross_debt_from_frt.csv:
+    source: IMF, via Fiscal Reference Tables 2025, table 55
+    refreshed_by: fetch/fetch_frt.py
+    notes: >-
+      The same countries on the gross measure, where Canada reads about
+      111% of GDP. Both are correct; the pair is the point.
+  gdp_usd_from_wb.csv:
+    source: World Bank — World Development Indicators, NY.GDP.MKTP.CD
+    url: https://api.worldbank.org/v2/country/CAN/indicator/NY.GDP.MKTP.CD
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      A harmonised cross-country series, not Canada's own national
+      accounts. Kept as the comparables layer and as a magnitude check
+      on the Statistics Canada figure; the two are not spliced.
+  gdp_pc_from_wb.csv:
+    source: World Bank — NY.GDP.PCAP.CD
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+  population_from_wb.csv:
+    source: World Bank — SP.POP.TOTL
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      The curated population series is Statistics Canada's quarterly
+      demographic estimate, which is the only one that separates
+      non-permanent residents. This is the cross-check.
+  reserves_from_wb.csv:
+    source: World Bank — FI.RES.TOTL.CD (IMF IFS)
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+  openness_from_wb.csv:
+    source: World Bank — NE.TRD.GNFS.ZS
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+  hdi_from_undp.csv:
+    source: UNDP — Human Development Report 2025, composite indices complete time series
+    url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      One file, one vintage, every year. The HDI is recomputed for the
+      whole back-series at each methodology change, so a trend assembled
+      from successive annual reports is partly an artefact of the
+      reports.
+
+social:
+  gini_from_wb.csv:
+    source: World Bank — SI.POV.GINI
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      The World Bank's harmonised Gini for Canada is derived from the
+      Canadian Income Survey through its own income definition and lands
+      in a different place from Statistics Canada's own figure. They are
+      not two readings of one quantity.
+
+migration:
+  pr_admissions_from_ircc.csv:
+    source: IRCC — Permanent Residents, monthly open-data release
+    url: https://www.ircc.canada.ca/opendata-donneesouvertes/data/ODP-PR-Citz.csv
+    refreshed_by: fetch/fetch_ircc.py
+    notes: >-
+      ROUNDED. Every cell in the source is a multiple of five — all
+      19,503 of them, with no exceptions — and IRCC labels the files
+      "not for calculations". Nationally it hardly matters: 2024 sums to
+      482,960 against IRCC's published 483,390, 0.02% apart. For a small
+      country of citizenship it matters completely, because a cell
+      holding two people is published as zero or as five. The file is
+      tab-separated despite its extension and BEGINS IN 2015, so the
+      2006–2014 half of this atlas's window is not in it.
+  pr_by_origin_from_ircc.csv:
+    source: IRCC — Permanent Residents by country of citizenship
+    refreshed_by: fetch/fetch_ircc.py
+    notes: >-
+      The ten largest sources over the whole file, ranked once rather
+      than per year, so the composition does not reshuffle under the
+      reader. Every column is far above the rounding floor. Country of
+      CITIZENSHIP, not of birth or of last residence; the three give
+      different answers and are regularly quoted as one.
+  study_permits_from_ircc.csv:
+    source: IRCC — Temporary Residents, study permit holders
+    refreshed_by: fetch/fetch_ircc.py
+    notes: >-
+      Permit holders with a permit signed in the period, which is a
+      FLOW. It is not the stock of students present in Canada, and the
+      two differ by more than a factor of two because a study permit
+      runs for several years. The stock belongs to Statistics Canada's
+      non-permanent-resident estimate.
