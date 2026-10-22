@@ -477,3 +477,53 @@ def test_the_comparison_names_every_country_in_every_language(countries):
             missing = [l for l in locales if not entry["name"].get(l)]
             assert not missing, \
                 f'{entry["slug"]}: no name in {missing}'
+
+
+def test_the_comparison_control_is_in_the_viewer_on_every_page(site):
+    """One control, in one place, on all thirteen pages.
+
+    The comparison belongs to the full-screen viewer. The seam only
+    means anything at a size where the panels can be read, and on a card
+    the plate is 400px wide. The control was briefly on the cards and it
+    was two unreadable thumbnails with a line between them.
+
+    Every page gets it because every page is built by the same function;
+    this is the test that says so, and it is the one that fails if a
+    country is ever given a hand-written page of its own.
+    """
+    for path in pages_of(site):
+        text = path.read_text(encoding="utf-8")
+        if "<body" not in text or 'id="viewer"' not in text:
+            continue     # the front page and the negotiators have no viewer
+        bar, grid = text.split('id="viewer"', 1)[1], text.split('id="viewer"', 1)[0]
+        assert 'id="v-cmp-menu"' in bar, f"{path}: the viewer has no comparison"
+        assert 'id="v-cmp-off"' in bar, f"{path}: nothing clears the comparison"
+        assert 'class="vcmp"' in bar, f"{path}: the viewer has no seam"
+        assert "cmp__" not in grid, \
+            f"{path}: a comparison control leaked back onto the grid"
+
+
+def test_every_card_carries_the_topic_the_comparison_matches_on(site, country):
+    """The viewer reads the topic off the card it was opened from, so a
+    card without one silently offers no peers at all."""
+    for path in pages_of(site, country):
+        text = path.read_text(encoding="utf-8")
+        cards = text.count("<article class=\"card\"")
+        assert text.count("data-topic=") >= cards, \
+            f"{path}: {cards} cards but only {text.count('data-topic=')} topics"
+        assert 'data-topic=""' not in text, f"{path}: a card has an empty topic"
+
+
+def test_each_page_tells_the_script_which_locale_it_is(site, country):
+    """`<html lang>` is a language tag and carries a region — es-AR,
+    pt-BR — and will carry a script before this atlas is finished. The
+    comparison index is keyed by the bare locale code, so the page states
+    that code outright rather than leaving the script to lop a tag apart.
+    Reading the tag is how the menu came to name France "France" on a
+    Spanish page: `es-AR` matched nothing and it fell through to English.
+    """
+    for loc in country.locales:
+        text = (site / country.slug / loc.code / "index.html") \
+            .read_text(encoding="utf-8")
+        assert f'data-loc="{loc.code}"' in text, \
+            f"{country.slug}/{loc.code}: the body does not declare its locale"

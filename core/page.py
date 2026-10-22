@@ -496,44 +496,6 @@ def _plate_files(ch_data: dict, locale: str, default: str) -> tuple[str, str, st
             f"../output/{stem}.png")
 
 
-def _compare(ch: Chrome, d: dict) -> str:
-    """The control that puts another country's version of this plate on top.
-
-    Rendered `hidden` and revealed by the script, because unlike every
-    other control on the page this one has no meaning without it: there is
-    no HTML that wipes one image across another. Everything else here
-    degrades to something that still works, so a dead control would be the
-    only broken thing on a page that is otherwise readable with the script
-    off.
-
-    The menu is filled in by the script from /compare.json rather than
-    written out per page: thirteen pages would each carry every other
-    country's plate list, and most readers will never open it.
-    """
-    if not d.get("topic"):
-        return ""
-    return f"""<div class="cmp" hidden>
-          <details class="cmp__menu">
-            <summary class="cmp__btn">
-              <span class="cmp__ico" aria-hidden="true"></span>
-              {e(ch.t("compare"))}
-            </summary>
-            <div class="cmp__sheet">
-              <p class="cmp__lead">{e(ch.t("compare.with"))}</p>
-              <div class="cmp__list"></div>
-            </div>
-          </details>
-          <div class="cmp__on" hidden>
-            <span class="cmp__who"></span>
-            <input type="range" class="cmp__range" min="0" max="100"
-                   value="50" step="0.5"
-                   aria-label="{e(ch.t("compare.position"))}">
-            <button type="button" class="cmp__clear"
-                    aria-label="{e(ch.t("compare.clear"))}">×</button>
-          </div>
-        </div>"""
-
-
 def _card(country: Country, ch: Chrome, d: dict, i: int,
           provenance: dict, by_file: dict) -> str:
     title, blurb = ch.tx(d["title"]), ch.tx(d["blurb"])
@@ -553,21 +515,11 @@ def _card(country: Country, ch: Chrome, d: dict, i: int,
         data-title="{e(title)}" data-alt="{e(alt)}" data-label="{e(label)}"
         data-svg="{e(svg)}" data-topic="{e(d.get('topic', ''))}">
       <article class="card" style="--fam: var(--{e(d['family'])})">
-        {_compare(ch, d)}
-        <div class="figure">
-          <a class="figure__open" href="{e(svg)}">
-            <img class="card__thumb" src="{e(thumb)}" alt="{e(alt)}"
-                 width="{THUMB_W}" height="{THUMB_H}"
-                 loading="{'eager' if i < 2 else 'lazy'}" decoding="async">
-          </a>
-          <div class="cmp__layer" hidden aria-hidden="true">
-            <img class="cmp__img" alt="">
-            <span class="cmp__edge"></span>
-            <span class="cmp__grip"></span>
-            <span class="cmp__tag cmp__tag--a"></span>
-            <span class="cmp__tag cmp__tag--b"></span>
-          </div>
-        </div>
+        <a class="figure__open" href="{e(svg)}">
+          <img class="card__thumb" src="{e(thumb)}" alt="{e(alt)}"
+               width="{THUMB_W}" height="{THUMB_H}"
+               loading="{'eager' if i < 2 else 'lazy'}" decoding="async">
+        </a>
         <span class="card__n">{e(label)}</span>
         <h3 class="card__title">{e(title)}</h3>
         <p class="card__blurb">{e(blurb)}</p>
@@ -697,6 +649,18 @@ def _viewer(ch: Chrome) -> str:
         <strong class="viewer__title" id="v-title"></strong>
       </div>
       <div class="viewer__tools">
+        <details class="cmp__menu" id="v-cmp-menu">
+          <summary class="cmp__btn">
+            <span class="cmp__ico" aria-hidden="true"></span>
+            <span class="cmp__label">{e(ch.t("compare"))}</span>
+          </summary>
+          <div class="cmp__sheet">
+            <p class="cmp__lead">{e(ch.t("compare.with"))}</p>
+            <div class="cmp__list"></div>
+          </div>
+        </details>
+        <button type="button" class="tool tool--close" id="v-cmp-off"
+                hidden aria-label="{e(ch.t("compare.clear"))}">×</button>
         <button type="button" class="tool" id="v-out"
                 aria-label="{e(ch.t("viewer.zoomOut"))}">−</button>
         <button type="button" class="tool tool--wide" id="v-level"
@@ -770,7 +734,7 @@ def country_page(country: Country, locale: str, chapters: list[dict],
 {_jsonld(country, ch, datasets)}
   </script>
 </head>
-<body data-slug="{e(country.slug)}" data-name="{e(ch.tx(country.name) or country.wordmark)}">
+<body data-slug="{e(country.slug)}" data-loc="{e(ch.locale)}" data-name="{e(ch.tx(country.name) or country.wordmark)}">
   <a class="skip" href="#plates">{e(ch.t("skip"))}</a>
 
   <header class="masthead">

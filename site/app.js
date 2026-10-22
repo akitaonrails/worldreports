@@ -64,16 +64,23 @@
 
   /* ----------------------------------------------------------- compare */
   /* Another country's version of the same chapter, wiped across this one.
-     Two plates of the same chapter are drawn by the same code at the same
-     size, so they align panel for panel and the comparison reads as one
-     picture with a movable seam rather than two thumbnails side by side.
+
+     This belongs to the viewer and only to the viewer. On a card the two
+     plates are 400px wide and the comparison is two unreadable
+     thumbnails with a line between them; full screen they are the same
+     drawing at the same size, registered panel for panel, and moving the
+     seam is how you read the difference.
 
      The index is fetched once, on first use. Thirteen pages would
      otherwise each carry every other country's plate list, and most
      readers will never open the menu. */
   const UI = window.UI || {};
   const cl = Viewer.clamp;
-  const LOC = document.documentElement.lang || "en";
+  /* The locale code the index is keyed by, not the language tag in
+     <html lang>: those carry a region (es-AR, pt-BR) and will
+     carry a script (zh-Hant-TW) before this is done. Lopping the
+     tag apart guesses; the page knows, so the page says. */
+  const LOC = document.body.dataset.loc || "en";
   const HERE = document.body.dataset.slug || "";
   let index = null, indexing = null;
 
@@ -118,155 +125,6 @@
       (s, [k, v]) => s.split("{" + k + "}").join(v), text || "");
   }
 
-  class Compare {
-    constructor(li) {
-      this.li = li;
-      this.bar = li.querySelector(".cmp");
-      this.layer = li.querySelector(".cmp__layer");
-      if (!this.bar || !this.layer || !li.dataset.topic) return;
-      this.img = this.layer.querySelector(".cmp__img");
-      this.range = this.bar.querySelector(".cmp__range");
-      this.on = this.bar.querySelector(".cmp__on");
-      this.who = this.bar.querySelector(".cmp__who");
-      this.menu = this.bar.querySelector(".cmp__menu");
-      this.list = this.bar.querySelector(".cmp__list");
-      this.tagA = this.layer.querySelector(".cmp__tag--a");
-      this.tagB = this.layer.querySelector(".cmp__tag--b");
-      this.active = null;
-      this.at = 50;
-      this.bar.hidden = false;
-      this.wire();
-    }
-
-    wire() {
-      this.menu.addEventListener("toggle", () => {
-        if (this.menu.open) this.populate();
-      });
-      document.addEventListener("click", (e) => {
-        if (this.menu.open && !this.menu.contains(e.target)) this.menu.open = false;
-      });
-      this.menu.addEventListener("keydown", (e) => {
-        if (e.key !== "Escape" || !this.menu.open) return;
-        this.menu.open = false;
-        this.menu.querySelector("summary").focus();
-      });
-      this.range.addEventListener("input", () => this.move(+this.range.value));
-      this.bar.querySelector(".cmp__clear")
-        .addEventListener("click", () => this.clear());
-      this.drag();
-    }
-
-    populate() {
-      this.list.textContent = UI["compare.loading"] || "…";
-      loadIndex().then((idx) => {
-        const peers = (idx.topics[this.li.dataset.topic] || [])
-          .filter((x) => x.slug !== HERE);
-        this.list.textContent = "";
-        if (!peers.length) {
-          const p = document.createElement("p");
-          p.className = "cmp__empty";
-          p.textContent = UI["compare.none"] || "";
-          this.list.append(p);
-          return;
-        }
-        peers.forEach((entry) => {
-          const loc = pickLocale(entry);
-          const b = document.createElement("button");
-          b.type = "button";
-          b.className = "cmp__pick";
-          b.innerHTML = "";
-          b.append(entry.flag + " " + nameOf(entry, LOC));
-          if (loc !== LOC) {
-            const s = document.createElement("small");
-            s.textContent = fill(UI["compare.lang"] || "({lang})",
-                                 { lang: langName(loc) });
-            b.append(" ", s);
-          }
-          b.addEventListener("click", () => {
-            this.menu.open = false;
-            this.show(entry, loc);
-          });
-          this.list.append(b);
-        });
-      });
-    }
-
-    show(entry, loc) {
-      const plate = entry.plates[loc];
-      if (!plate) return;
-      this.active = { entry: entry, loc: loc, plate: plate };
-      this.img.alt = plate.alt || plate.title || "";
-      this.tagA.textContent = document.body.dataset.name || "";
-      this.tagB.textContent = nameOf(entry, LOC);
-      this.who.textContent = nameOf(entry, LOC);
-      this.on.hidden = false;
-      this.layer.hidden = false;
-      this.layer.classList.remove("is-live");
-      /* Start closed and open to the middle, so it is obvious that a
-         second plate arrived and which way the seam moves. */
-      this.set(100);
-      this.img.src = plate.thumb;
-      const reveal = () => requestAnimationFrame(() => this.set(50));
-      if (this.img.complete) reveal();
-      else this.img.addEventListener("load", reveal, { once: true });
-      this.li.dataset.cmpSlug = entry.slug;
-      this.li.dataset.cmpSvg = plate.svg;
-      this.li.dataset.cmpName = nameOf(entry, LOC);
-    }
-
-    set(pct) {
-      this.at = cl(pct, 0, 100);
-      this.layer.style.setProperty("--wipe", this.at + "%");
-      this.range.value = String(this.at);
-    }
-
-    /* Live dragging must not animate, or the seam lags the pointer. */
-    move(pct) {
-      this.layer.classList.add("is-live");
-      this.set(pct);
-    }
-
-    clear() {
-      this.active = null;
-      this.layer.hidden = true;
-      this.on.hidden = true;
-      this.img.removeAttribute("src");
-      delete this.li.dataset.cmpSlug;
-      delete this.li.dataset.cmpSvg;
-      delete this.li.dataset.cmpName;
-    }
-
-    /* Dragging anywhere across the plate moves the seam. A press that
-       does not move is still a click on the plate, so the thumbnail keeps
-       opening the viewer while a comparison is up. */
-    drag() {
-      let from = null, moved = false;
-      const pctAt = (x) => {
-        const r = this.layer.getBoundingClientRect();
-        return r.width ? ((x - r.left) / r.width) * 100 : 50;
-      };
-      this.layer.addEventListener("pointerdown", (e) => {
-        from = e.clientX; moved = false;
-        this.layer.setPointerCapture(e.pointerId);
-      });
-      this.layer.addEventListener("pointermove", (e) => {
-        if (from === null) return;
-        if (Math.abs(e.clientX - from) > 3) moved = true;
-        if (moved) this.move(pctAt(e.clientX));
-      });
-      const end = (e) => {
-        if (from !== null && !moved) {
-          const link = this.li.querySelector(".figure__open");
-          if (link) link.click();
-        }
-        from = null;
-      };
-      this.layer.addEventListener("pointerup", end);
-      this.layer.addEventListener("pointercancel", () => { from = null; });
-    }
-  }
-
-  const comparisons = plates.map((li) => new Compare(li));
 
   /* ------------------------------------------------------------ viewer */
   const viewer = $("viewer");
@@ -345,7 +203,7 @@
 
     viewer.hidden = false;
     document.body.style.overflow = "hidden";
-    showCmp(d);
+    syncCmp(i);
 
     /* The thumbnail is a downscaled PNG; the viewer shows the vector, so
        zooming in finds more detail rather than more pixels. */
@@ -364,14 +222,23 @@
     history.replaceState(null, "", `#${d.id}`);
   }
 
-  /* The same seam, full screen, where the plate can actually be read.
-     The comparison plate is transformed with the base one — same pan,
-     same zoom — so the two stay registered panel for panel however far
-     in the reader goes. Only the clip moves. */
+  /* The seam. The comparison plate is transformed with the base one —
+     same pan, same zoom — so the two stay registered panel for panel
+     however far in the reader goes. Only the clip moves. */
   const vcmp = $("v-cmp");
   const vwipe = $("v-wipe");
   const vgrip = vwipe && vwipe.querySelector(".vcmp__grip");
+  const vmenu = $("v-cmp-menu");
+  const vlist = vmenu && vmenu.querySelector(".cmp__list");
+  const vlabel = vmenu && vmenu.querySelector(".cmp__label");
+  const voff = $("v-cmp-off");
+  const LABEL = vlabel ? vlabel.textContent : "";
   let wipe = 50;
+  /* The chosen country is remembered across plates, so stepping from
+     economy to fiscal keeps comparing against the same place. It is
+     dropped silently when the next chapter is one that country does not
+     publish, which is the honest outcome and needs no apology. */
+  let peer = null;
 
   function setWipe(pct) {
     wipe = cl(pct, 0, 100);
@@ -379,16 +246,96 @@
     if (vgrip) vgrip.setAttribute("aria-valuenow", String(Math.round(wipe)));
   }
 
-  function showCmp(d) {
-    const on = !!d.cmpSvg;
-    if (vcmp) vcmp.hidden = !on;
-    if (vwipe) vwipe.hidden = !on;
-    if (!on) { if (vcmp) vcmp.removeAttribute("src"); return; }
-    $("v-cmp-a").textContent = document.body.dataset.name || "";
-    $("v-cmp-b").textContent = d.cmpName || "";
-    setWipe(50);
-    vcmp.src = d.cmpSvg;
+  const topicOf = (i) => (plates[i] && plates[i].dataset.topic) || "";
+
+  function peersFor(i) {
+    const topic = topicOf(i);
+    if (!topic) return Promise.resolve([]);
+    return loadIndex().then((idx) =>
+      (idx.topics[topic] || []).filter((x) => x.slug !== HERE));
   }
+
+  function clearCmp() {
+    peer = null;
+    if (vcmp) { vcmp.hidden = true; vcmp.removeAttribute("src"); }
+    if (vwipe) vwipe.hidden = true;
+    if (voff) voff.hidden = true;
+    if (vlabel) vlabel.textContent = LABEL;
+    if (vmenu) vmenu.classList.remove("is-on");
+  }
+
+  function applyPeer(entry) {
+    const loc = pickLocale(entry);
+    const plate = entry.plates[loc];
+    if (!plate) return clearCmp();
+    peer = entry.slug;
+    vcmp.alt = plate.alt || plate.title || "";
+    $("v-cmp-a").textContent = document.body.dataset.name || "";
+    $("v-cmp-b").textContent = nameOf(entry, LOC);
+    if (vlabel) vlabel.textContent = nameOf(entry, LOC);
+    if (vmenu) vmenu.classList.add("is-on");
+    if (voff) voff.hidden = false;
+    vcmp.hidden = false;
+    vwipe.hidden = false;
+    setWipe(50);
+    vcmp.src = plate.svg;
+    apply();
+  }
+
+  /* Rebuilt per plate: the menu offers whoever publishes *this* chapter,
+     and that is a different list on the mortality plate than on the
+     economy one. */
+  function syncCmp(i) {
+    if (!vmenu) return;
+    vmenu.open = false;
+    vmenu.hidden = !topicOf(i);
+    const want = peer;
+    clearCmp();
+    if (!want) return;
+    peersFor(i).then((peers) => {
+      const again = peers.find((x) => x.slug === want);
+      if (again) applyPeer(again);
+    });
+  }
+
+  if (vmenu) {
+    vmenu.addEventListener("toggle", () => {
+      if (!vmenu.open) return;
+      vlist.textContent = UI["compare.loading"] || "";
+      peersFor(current).then((peers) => {
+        vlist.textContent = "";
+        if (!peers.length) {
+          const p = document.createElement("p");
+          p.className = "cmp__empty";
+          p.textContent = UI["compare.none"] || "";
+          vlist.append(p);
+          return;
+        }
+        peers.forEach((entry) => {
+          const loc = pickLocale(entry);
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "cmp__pick";
+          b.append(entry.flag + " " + nameOf(entry, LOC));
+          if (loc !== LOC) {
+            const s = document.createElement("small");
+            s.textContent = fill(UI["compare.lang"] || "({lang})",
+                                 { lang: langName(loc) });
+            b.append(" ", s);
+          }
+          b.addEventListener("click", () => {
+            vmenu.open = false;
+            applyPeer(entry);
+          });
+          vlist.append(b);
+        });
+      });
+    });
+    document.addEventListener("click", (e) => {
+      if (vmenu.open && !vmenu.contains(e.target)) vmenu.open = false;
+    });
+  }
+  if (voff) voff.addEventListener("click", clearCmp);
 
   function close() {
     viewer.hidden = true;
@@ -500,7 +447,10 @@
   window.addEventListener("keydown", (e) => {
     if (viewer.hidden) return;
     const k = e.key;
-    if (k === "Escape") close();
+    /* One Escape, one thing closed: with the menu open the reader
+       means the menu, not the plate they are still reading. */
+    if (k === "Escape") { if (vmenu && vmenu.open) vmenu.open = false;
+                          else close(); }
     else if (k === "ArrowRight") step(1);
     else if (k === "ArrowLeft") step(-1);
     else if (k === "+" || k === "=") zoomAt(Viewer.ZOOM_STEP);
