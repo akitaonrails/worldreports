@@ -306,12 +306,12 @@ the build.
 
 ## Open decisions for the user
 
-1. **The 2024 H1 recession band.** Published real q/q is −0.1 and −0.1
-   (annualised −0.4 / −0.5), which meets the two-quarter rule. That is
-   the UK late-2023 precedent, but the quarters are inside revision noise
-   and ESRI dates no recession there. Keep it (re-checking on every QE)
-   or drop it. Either way, a country test should assert the two signs so
-   that a revision trips it.
+1. **The 2024 H1 recession band: decided, keep it** (user, 2026-10-22).
+   Published real q/q is −0.1 and −0.1 (annualised −0.4 / −0.5), which
+   meets the two-quarter rule. ESRI dates no recession there, so the build
+   phase must add a country test that asserts both quarters are still
+   negative in the staged QE, so a revision that lifts either one fails
+   the build and the band is reconsidered then.
 2. **The e-Stat API appId**: register it or stay on the file layer.
 
 ## What the next session should build
