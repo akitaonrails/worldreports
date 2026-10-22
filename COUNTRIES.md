@@ -31,6 +31,8 @@ Portuguese**, and every plate is drawn in each of them.
 | 7 | China | `china` | zh-Hans · en · pt | CJK Simplified. Source reliability is the whole problem; see below. |
 | 8 | Taiwan | `taiwan` | zh-Hant · en · pt | CJK Traditional. Not in most international datasets; see below. |
 | 9 | Vietnam | `vietnam` | vi · en · pt | Vietnamese diacritics — check the plate font covers them. |
+| 10 | Portugal | `portugal` | pt · en | Nothing new — Portuguese is already in the atlas. Eurostat alongside INE Portugal, as with France and Spain. |
+| 11 | Switzerland | `switzerland` | de · en · pt | A German locale — new `AFFIX` column for `de`. Not in the EU: EFTA member, so Eurostat carries it in many but not all tables — verify per dataset. CHF, not EUR; SNB, not ECB. |
 
 ## Known problems, written down before they are hit
 
@@ -79,9 +81,11 @@ and first-instance decisions, first and valid residence permits,
 acquisitions of citizenship — all verified live against the dissemination
 API before being written down here.
 
-That makes Spain, Italy and France straightforward and the United Kingdom
+That makes Spain, Italy, Portugal and France straightforward and the United Kingdom
 hard, because its Eurostat rows stop in 2019 and the ONS has changed
-method twice since. Hard is not a reason to leave it out; it is a reason
+method twice since. Switzerland sits between the two: EFTA membership puts
+it in many of the same tables, but coverage has to be verified dataset by
+dataset rather than assumed. Hard is not a reason to leave it out; it is a reason
 to draw the three regimes as three segments and say so on the panel.
 
 **This chapter needs more care than any other in the atlas**, and the
