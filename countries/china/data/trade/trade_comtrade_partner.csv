@@ -1,0 +1,39 @@
+# UN Comtrade (public preview, reporter 156 = China, annual HS TOTAL) - 2023
+# goods exports and imports by partner, US$. A harmonised cross-check on partner
+# shares, NOT GACC's national figure (GACC 412-blocked, pending) and a different
+# definition from the BoP-basis trade_intl_openness.csv: three sources, three
+# columns, never spliced. Verified 2026-10-22: World rows are US$3,379.7bn (X) /
+# US$2,556.8bn (M) - the same order as GACC's announced 2023 customs totals
+# (~US$3.38tn / ~US$2.56tn) - and the partner rows sum EXACTLY to the World
+# totals, so the top-10 shares are shares of the real total, not of a capped
+# tail. 344 is Hong Kong, China and 842 is Comtrade's legacy code for the
+# United States. Partner 156 - re-imports inside processing trade, US$104.3bn
+# of M - is dropped from this panel but stays in the World denominator.
+# Comtrade's China report carries no Taiwan partner code; what GACC books as
+# ~US$200bn of 2023 imports from Taiwan falls in the 'Other Asia nes' residual
+# (490) - that attribution is the atlas's reading, not a Comtrade field.
+# Shares are of the goods flow; the spine's destinations panel reads them as %
+# of goods exports.
+year,flow,partner_code,partner,value_usd,share_of_flow_pct
+2023,X,World,World,3379747834884,100.00
+2023,X,842,"United States",501220722660,14.83
+2023,X,344,"China (Hong Kong SAR)",274519285068,8.12
+2023,X,392,"Japan",157499979155,4.66
+2023,X,410,"Korea, Rep.",148982810996,4.41
+2023,X,704,"Viet Nam",137607205249,4.07
+2023,X,699,"India",117678762947,3.48
+2023,X,643,"Russian Federation",110935409106,3.28
+2023,X,276,"Germany",100565204356,2.98
+2023,X,528,"Netherlands",100195459698,2.96
+2023,X,458,"Malaysia",87369777322,2.59
+2023,M,World,World,2556763018595,100.00
+2023,M,490,"Other Asia nes (Comtrade residual)",199345149123,7.80
+2023,M,842,"United States",165157213513,6.46
+2023,M,410,"Korea, Rep.",161739432075,6.33
+2023,M,392,"Japan",160476326794,6.28
+2023,M,36,"Australia",155641227077,6.09
+2023,M,643,"Russian Federation",129205577995,5.05
+2023,M,76,"Brazil",122490613944,4.79
+2023,M,276,"Germany",106207382759,4.15
+2023,M,458,"Malaysia",102905056591,4.02
+2023,M,704,"Viet Nam",92135781833,3.60

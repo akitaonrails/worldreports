@@ -198,6 +198,32 @@ trade:
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind trade_intl_openness.csv; diff before adopting."
+  trade_comtrade_partner.csv:
+    source: UN Comtrade public preview (reporter 156 = China), HS goods by partner
+    url: "LIVE — https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=156&period=2023&cmdCode=TOTAL (no key)"
+    refreshed_by: "fetch/fetch_comtrade.py → sidecar trade/trade_comtrade_partner_from_comtrade.csv; curated staged from it, values unchanged (2026-10-22)"
+    official: false
+    notes: >-
+      VERIFIED 200 (no auth). 2023 snapshot: World rows US$3,379,747,834,884
+      (X) / US$2,556,763,018,595 (M), asserted at fetch time and matching
+      GACC's announced 2023 customs totals (~US$3.38tn / ~US$2.56tn) in order
+      of magnitude; the 220 partner rows sum EXACTLY to the World totals, so
+      this query is not row-capped and top-10 shares are true shares.
+      Comtrade is on its own harmonised definition — a cross-check on partner
+      totals, never a substitute for the GACC national figure and never
+      spliced with it or with the BoP-basis openness series. Quirks: 842 is
+      Comtrade's legacy United States, 344 is Hong Kong China; partner 156
+      (re-imports in processing trade, $104.3bn of M) is kept out of the
+      panel but inside the World denominator; Comtrade's China report carries
+      no Taiwan partner code — the ~$200bn GACC books as Taiwan imports lands
+      in the 'Other Asia nes' residual (490), and that attribution is the
+      atlas's reading, flagged in the CSV header, not a Comtrade field.
+  trade_comtrade_partner_from_comtrade.csv:
+    source: UN Comtrade public preview — period 2023, flows X and M, cmdCode TOTAL, all partners
+    url: "LIVE — https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=156&period=2023&cmdCode=TOTAL"
+    refreshed_by: fetch/fetch_comtrade.py
+    official: false
+    notes: "Fetcher sidecar behind trade_comtrade_partner.csv; the World row and all partner sums are shape-asserted before caching."
 
 # --------------------------------------------------------------------------
 # people — labour, income, inequality. NBS vs ILO/WB.
