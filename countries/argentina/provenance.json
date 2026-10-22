@@ -1,6 +1,10 @@
 {
  "01-output": [
-  "macro/gdp.csv"
+  "macro/economy_intl.csv",
+  "macro/gdp.csv",
+  "macro/ipc.csv",
+  "macro/unemployment.csv",
+  "macro/world.csv"
  ],
  "02-prices": [
   "macro/dollar.csv",
@@ -10,37 +14,65 @@
  ],
  "03-living": [
   "macro/minimum_wage.csv",
-  "macro/unemployment.csv",
   "social/gini.csv",
-  "social/poverty.csv"
+  "social/gini_intl.csv",
+  "social/poverty.csv",
+  "social/poverty_intl.csv"
  ],
  "04-state": [
+  "fiscal/general_government.csv",
   "fiscal/primary_result.csv",
   "fiscal/spending_by_function.csv",
   "fiscal/tax_revenue.csv"
  ],
  "05-trade": [
+  "macro/gdp.csv",
+  "trade/destinations.csv",
   "trade/exports_rubros.csv",
-  "trade/trade.csv"
+  "trade/trade.csv",
+  "trade/trade_gns.csv"
  ],
  "06-credit": [
   "macro/credit.csv",
   "macro/credit_quality.csv",
+  "macro/household_credit.csv",
+  "macro/policy_rate.csv",
   "macro/rates.csv"
  ],
  "07-markets": [
   "macro/dollar.csv",
-  "macro/reserves.csv",
+  "macro/ipc.csv",
+  "macro/policy_rate.csv",
   "markets/country_risk.csv",
   "markets/merval.csv",
-  "markets/sp500.csv"
+  "markets/sp500.csv",
+  "markets/us_treasury_10y.csv"
  ],
  "08-people": [
-  "social/causes.csv",
+  "macro/gdp.csv",
+  "social/demography_intl.csv",
   "social/vitals.csv"
  ],
  "09-violence": [
+  "macro/gdp.csv",
+  "social/causes.csv",
   "social/femicides.csv",
-  "social/homicides.csv"
+  "social/homicides.csv",
+  "social/security_intl.csv"
+ ],
+ "10-spending": [
+  "fiscal/public_investment.csv",
+  "fiscal/spending_by_function.csv",
+  "macro/economy_intl.csv"
+ ],
+ "11-world": [
+  "macro/reserves.csv",
+  "macro/world.csv",
+  "social/corruption.csv",
+  "social/hdi.csv"
+ ],
+ "12-mortality": [
+  "macro/gdp.csv",
+  "social/causes.csv"
  ]
 }

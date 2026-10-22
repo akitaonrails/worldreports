@@ -257,7 +257,7 @@ datasets:
       sums stop matching the published national totals.
 
   - file: social/causes.csv
-    title: Deaths by cause — COVID-19, influenza, pneumonia
+    title: Deaths by cause — COVID-19, influenza, pneumonia, suicide, land transport
     publisher: Ministerio de Salud — DEIS, defunciones por causa (CIE-10)
     official: true
     access: https://datos.salud.gob.ar/
@@ -270,7 +270,11 @@ datasets:
       roughly 130,000 deaths through 2022 against 161,767 here. Influenza is
       barely coded in Argentina — 9 to 358 deaths a year against 15,000 to
       40,000 pneumonias — so the `respiratory` column exists and the
-      influenza column is never quoted alone.
+      influenza column is never quoted alone. `suicide` is ICD-10
+      X60-X84; `transport` is V01-V89, every land-transport accident,
+      because the three-character code cannot separate traffic from
+      non-traffic: it is drawn beside WHO's road-traffic estimate and
+      labelled as the wider, registered count.
 
   - file: social/hdi.csv
     title: Human Development Index
@@ -317,7 +321,8 @@ datasets:
     fetcher: fetch/fetch_markets.py
     caveats: A vendor index with no public primary feed.
 
-  - file: fiscal/general_government_from_imf.csv
+  - file: fiscal/general_government.csv
+    sidecar: fiscal/general_government_from_imf.csv
     title: 'World Economic Outlook and Fiscal Monitor, via DataMapper (GGR_G01_GDP_PT (Fiscal Monitor), G_X_G01_GDP_PT (Fiscal Monitor), GGXCNL_NGDP (WEO), GGXONLB_G01_GDP_PT (Fiscal Monitor), GGXWDG_NGDP (WEO))'
     publisher: 'IMF'
     official: false
@@ -336,7 +341,8 @@ datasets:
       IMF republishes INDEC's national accounts, including the 2007-2015
       intervention years.
 
-  - file: macro/economy_from_wb.csv
+  - file: macro/economy_intl.csv
+    sidecar: macro/economy_from_wb.csv
     title: 'World Development Indicators (NE.GDI.FTOT.ZS, SL.UEM.TOTL.ZS)'
     publisher: 'World Bank'
     official: false
@@ -346,10 +352,11 @@ datasets:
       gfcf_pct_gdp is whole-economy gross fixed capital formation, % of
       GDP (spending slot 3). unemployment_pct is the ILO modelled
       estimate, % of the labour force — harmonised, and not the national
-      LFS headline, which stays the national line. Columns:
-      gfcf_pct_gdp, unemployment_pct.
+      LFS headline, which stays the national line. Curated
+      columns: gfcf_pct_gdp, unemployment_ilo_pct.
 
-  - file: macro/household_credit_from_bis.csv
+  - file: macro/household_credit.csv
+    sidecar: macro/household_credit_from_bis.csv
     title: 'total credit statistics, WS_TC Q.AR.H.A.M.770.A'
     publisher: 'BIS'
     official: false
@@ -357,13 +364,14 @@ datasets:
     fetcher: fetch/fetch_harmonised.py
     caveats: >
       Credit to households and NPISHs from all sectors, market value, %
-      of GDP, adjusted for breaks. hh_credit_pct_gdp_q4 is the Q4 (year-
-      end) value the spine draws; _qavg is the mean of the quarters
-      published and _quarters says how many, so the running year reads
-      as one quarter, not a year. Wider than bank-loan series: every
+      of GDP, adjusted for breaks. The curated
+      bis_q4_pct_gdp is the Q4 (year-end) value the spine draws, and
+      bis_quarters says how many quarters the year has, so the running
+      year reads as one quarter, not a year. Wider than bank-loan series: every
       lender and debt securities are in it.
 
-  - file: macro/world_from_wb.csv
+  - file: macro/world.csv
+    sidecar: macro/world_from_wb.csv
     title: 'World Development Indicators (NY.GDP.MKTP.CD, NY.GDP.PCAP.CD, FI.RES.TOTL.CD)'
     publisher: 'World Bank'
     official: false
@@ -373,10 +381,12 @@ datasets:
       Current US$: GDP, GDP per person, and total reserves including
       gold (year-end, IMF IFS via the WDI). A harmonised cross-country
       series for the world chapter, not the national accounts; spot-
-      checked and cross-checked in the fetcher. Columns: gdp_usd,
-      gdp_per_person_usd, reserves_usd.
+      checked and cross-checked in the fetcher. Adopted by
+      fetch/curate.py with the two levels divided by 1e9: gdp_usd_bn,
+      gdp_per_person_usd, reserves_usd_bn.
 
-  - file: social/demography_from_wb.csv
+  - file: social/demography_intl.csv
+    sidecar: social/demography_from_wb.csv
     title: 'World Development Indicators (SP.POP.TOTL, SP.POP.TOTL.FE.IN, SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM), from the UN World Population Prospects and national vital statistics'
     publisher: 'World Bank'
     official: false
@@ -392,7 +402,8 @@ datasets:
       population_female, fertility, birth_rate_per_1000,
       death_rate_per_1000, net_migration.
 
-  - file: social/security_from_wb.csv
+  - file: social/security_intl.csv
+    sidecar: social/security_from_wb.csv
     title: 'World Development Indicators: VC.IHR.PSRC.P5 (UNODC), SH.STA.SUIC.P5 and SH.STA.TRAF.P5 (WHO Global Health Estimates)'
     publisher: 'World Bank'
     official: false
@@ -407,7 +418,8 @@ datasets:
       blank, not zero. Columns: homicide_per_100k, suicide_per_100k,
       road_deaths_per_100k.
 
-  - file: trade/trade_from_wb.csv
+  - file: trade/trade_gns.csv
+    sidecar: trade/trade_from_wb.csv
     title: 'World Development Indicators (NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS)'
     publisher: 'World Bank'
     official: false
@@ -416,5 +428,105 @@ datasets:
     caveats: >
       Exports and imports of goods AND services, national-accounts
       basis, % of GDP — not a customs goods series. The trade balance is
-      their difference and is not stored. Columns: exports_pct_gdp,
-      imports_pct_gdp.
+      their difference, computed on the plate and not stored. Columns:
+      exports_pct_gdp, imports_pct_gdp. 2026 is absent: no annual GDP.
+
+  - file: macro/policy_rate.csv
+    title: BCRA monetary-policy rate and BADLAR, annual average
+    publisher: BCRA
+    official: true
+    access: https://api.bcra.gob.ar/estadisticas/v4.0/monetarias
+    fetcher: fetch/fetch_spine.py, adopted by fetch/curate.py
+    sidecar: macro/policy_rate_check.csv
+    series: [160, 7]
+    caveats: >
+      Variable 160, "tasas de interés de política monetaria", runs from 16
+      December 2015 to 10 July 2025, when the BCRA stopped setting one: a
+      policy-rate average is written only for the years it spans whole
+      (2016-2024). Before December 2015 there was no single announced
+      policy rate; the BCRA steered with LEBAC auctions and repo rates.
+      BADLAR (variable 7, 30-day deposits over a million pesos at private
+      banks) is the market rate the BCRA's own NOBAC notes were indexed
+      to, and is drawn across the whole window as a labelled proxy, never
+      as the policy rate. Annual averages of daily nominal annual rates.
+
+  - file: markets/us_treasury_10y.csv
+    title: US 10-year Treasury par yield, annual average
+    publisher: U.S. Department of the Treasury — Daily Treasury Par Yield Curve Rates
+    official: true
+    access: https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/{year}/all
+    fetcher: fetch/fetch_spine.py, adopted by fetch/curate.py
+    sidecar: markets/us_treasury_10y_check.csv
+    caveats: >
+      Not an Argentine series: the base an Argentine dollar bond is priced
+      over. Argentina has no peso 10-year benchmark, so the markets plate
+      draws the yield on its dollar debt as this plus the EMBI+ spread
+      (markets/country_risk.csv), labelled as that sum. The EMBI+ basket's
+      duration is not exactly ten years. 2026 is the year to date.
+
+  - file: trade/destinations.csv
+    title: Goods exports by destination, % of total, and the total
+    publisher: UN Comtrade (reported by INDEC)
+    official: true
+    access: https://comtradeapi.un.org/public/v1/preview/C/A/HS
+    fetcher: fetch/fetch_spine.py, adopted by fetch/curate.py
+    sidecar: trade/destinations_check.csv
+    caveats: >
+      Argentina's own customs returns as reported to the UN. The world
+      total is checked against INDEC's trade.csv within 1% every year
+      before anything is written. Shares of total goods exports, %.
+
+  - file: fiscal/public_investment.csv
+    title: National public sector direct investment, % of GDP
+    publisher: Secretaría de Hacienda — Esquema Ahorro-Inversión-Financiamiento
+    official: true
+    access: https://apis.datos.gob.ar/series/api/series/
+    fetcher: fetch/fetch_spine.py, adopted by fetch/curate.py
+    sidecar: fiscal/public_investment_check.csv
+    series: [379.1_GTOS_CAP_I006__41_45, 379.2_GTOS_CAP_I014__41_48,
+             379.3_GTOS_CAP_I017__36_45]
+    caveats: >
+      "Inversión real directa" of the national public sector, cash basis,
+      divided by the same year's nominal GDP. Not general government: the
+      provinces, which do most public investment, are not in it, and
+      capital transfers to them are excluded. Three methodologies, as in
+      primary_result.csv, kept as three columns and never joined. No
+      harmonised series exists: Argentina is not in the OECD tables.
+
+  - file: social/corruption.csv
+    title: Corruption Perceptions Index, score and rank
+    publisher: Transparency International
+    official: false
+    access: https://images.transparencycdn.org/images/CPI2024-Results-and-trends.xlsx
+    fetcher: fetch/fetch_spine.py (2012-2024), adopted by fetch/curate.py; 2025 by hand
+    sidecar: social/corruption_check.csv
+    caveats: >
+      2012-method scores, 0-100. 2025 (36, rank 104 of 182, published 10
+      February 2026) is entered by hand in fetch/curate.py because TI's
+      2025 workbook refuses a scripted download; read off TI's release as
+      reported by the Buenos Aires Herald and DLA Piper, which agree.
+      Scores before 2012 were on a 0-10 scale with a different method and
+      are not carried. TI publishes no rank in this workbook for 2012-2016.
+
+  - file: social/gini_intl.csv
+    title: Gini index, World Bank (PIP)
+    publisher: World Bank — Poverty and Inequality Platform (SI.POV.GINI)
+    official: false
+    access: https://api.worldbank.org/v2/country/ARG/indicator/SI.POV.GINI?format=json
+    fetcher: fetch/fetch_worldbank.py, adopted by fetch/curate.py
+    sidecar: social/gini_from_wb.csv
+    caveats: >
+      Computed by the World Bank from the same urban EPH microdata, on a
+      0-100 scale; 2015 is absent (no survey released for it).
+
+  - file: social/poverty_intl.csv
+    title: Poverty headcount at US$8.30 and US$3.00 a day (2021 PPP)
+    publisher: World Bank — Poverty and Inequality Platform
+    official: false
+    access: https://api.worldbank.org/v2/country/ARG/indicator/SI.POV.UMIC?format=json
+    fetcher: fetch/fetch_worldbank.py, adopted by fetch/curate.py
+    sidecar: social/poverty_from_wb.csv
+    caveats: >
+      Urban EPH only, like INDEC's own rate, but against an international
+      dollar line rather than the national basket, so it sits far below
+      it. 2015 is absent.
