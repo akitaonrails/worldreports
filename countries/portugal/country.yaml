@@ -1,0 +1,115 @@
+# Portugal. The eighth country in the atlas and the third eurozone one:
+# like France and Spain, the money it uses and the rate it pays are set in
+# Frankfurt, so the ECB series appear here exactly as they do there. The
+# `pt` locale here is EUROPEAN Portuguese (pt-PT) — the country's own
+# language — where the other countries' `pt` is written for Brazilian
+# readers; the shared NUMFMT/AFFIX columns are per-language and one `pt`
+# column serves both, but html_lang/og_locale below are pt_PT.
+slug: portugal
+flag_emoji: "🇵🇹"
+wordmark: Portugal
+name:
+  en: "Portugal"
+  fr: "Portugal"
+  pt: "Portugal"
+  es: "Portugal"
+  ko: "포르투갈"
+
+locales:
+  - {code: pt, html_lang: pt-PT, og_locale: pt_PT, endonym: Português}
+  - {code: en, html_lang: en,    og_locale: en_GB, endonym: English}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual totals
+# are complete. A flow for a year still running is not comparable with the
+# ones before it, so plates dash or hatch anything past it.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+
+# Bands drawn behind the data, dated off the quarter-on-quarter sign of
+# seasonally adjusted real GDP (Eurostat namq_10_gdp, PT, SCA, pulled
+# 2026-10-22), as Spain's were:
+#   2008 Q2 to 2009 Q1: four consecutive negative quarters (−0.5, −0.1,
+#     −1.2, −2.5). A single negative quarter in 2006 Q3 is not banded.
+#   2010 Q4 to 2012 Q4: nine consecutive negative quarters (−0.5 in 2010 Q4,
+#     then every quarter of 2011 and 2012). Portugal requested the troika
+#     bailout on 6 April 2011, mid-band; the programme ran to June 2014,
+#     past the last negative quarter. Isolated dips in 2013 Q3 and 2014 Q1
+#     do not meet the two-quarter rule and are left out.
+#   2020 Q1–Q2: the COVID contraction (−4.3, −15.0). 2021 Q1 (−2.9, the
+#     second lockdown) is a single negative quarter between positives, so it
+#     stays an event, not a band.
+bands:
+  - {from: 2008.25, to: 2009.25, label: "2008–09 crisis"}
+  - {from: 2010.75, to: 2013.0, label: "2010–13 debt crisis"}
+  - {from: 2020.0, to: 2020.5, label: "COVID-19"}
+
+currency:
+  code: EUR
+
+# The flag is green and red with the armillary sphere's yellow — the same
+# two-hue problem as every tricolour here, compounded by sharing its hues
+# with Italy's flag. These are darkened, desaturated siblings: the flag's
+# green #046A38 pulled toward bottle green, the red #DA291C toward brick
+# (warmer than Spain's rojo #A32630, deeper than Italy's #CD212A), and the
+# sphere's yellow toward bronze so it survives next to the paper. Greyscale
+# order runs green darkest, red mid, bronze light.
+palette:
+  VERDE:   "#1E5C3D"
+  VERDE_D: "#14432C"
+  RED:     "#AE3A2C"
+  RED_D:   "#832B20"
+  BRONZE:  "#A8822F"
+  NAVY:    "#1C3A55"
+  BLUE:    "#2F6E9B"
+  PURPLE:  "#6E5BA6"
+  TEAL:    "#13807A"
+  primary: "#1E5C3D"
+  alert:   "#AE3A2C"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#1E5C3D", "#AE3A2C", "#2F6E9B", "#A8822F", "#6E5BA6", "#13807A", "#1F2430"]
+  # The flag read left to right: green, the armillary sphere that sits on
+  # the seam (bronze), red. The page and tests/test_core.py require exactly
+  # three bands, so the 2:3 green:red proportion cannot be drawn as two.
+  flag_bands: ["#1E5C3D", "#A8822F", "#AE3A2C"]
+  # A cool green-tinted near-black: the family accents have to stay apart
+  # from each other and from the page, and a green accent on a green ground
+  # is the one pair that cannot.
+  web:
+    # P is a stem with a bowl — a little more bearing than E, less than B.
+    mark_bearing: "0.055em"
+    ground:   "#101A14"
+    raised:   "#182419"
+    raised_2: "#1F2E22"
+    rule:     "#2C4433"
+    ink:      "#EDF3EE"
+    muted:    "#A8BCAE"
+    faint:    "#6A7F71"
+    money:    "#63B87E"
+    world:    "#46A9A2"
+    people:   "#D9AE4A"
+
+seo:
+  title:
+    pt: "Portugal — pranchas de dados oficiais, 2006–2026"
+    en: "Portugal — plates of official data, 2006–2026"
+  description:
+    pt: "Pranchas de dados sobre a economia, as contas públicas, o comércio, os mercados, o trabalho, a demografia, a migração, a mortalidade, o crédito e o crime em Portugal, construídas apenas a partir de fontes oficiais e regeneradas a partir de CSV versionados."
+    en: "Data plates on Portugal's economy, public finances, trade, markets, work, demography, migration, mortality, credit and crime, built only from official sources and regenerated from committed CSVs."
+  keywords: [Portugal, INE, Eurostat, Banco de Portugal, migração, contas públicas, official statistics]
+  # INE's "Portugal" includes the Açores and Madeira; nothing here mixes
+  # mainland-only with national series inside one line.
+  spatial: "Portugal"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+sources:
+  pt: "o INE, o Banco de Portugal, a Eurostat e o BCE, o IGCP e a DGO (via BPstat), a DGPJ e a AIMA/SEF (via INE e Eurostat)"
+  en: "INE, the Banco de Portugal, Eurostat and the ECB, IGCP and DGO (via BPstat), DGPJ and AIMA/SEF (via INE and Eurostat)"

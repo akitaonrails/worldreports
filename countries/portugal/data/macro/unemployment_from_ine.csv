@@ -1,0 +1,29 @@
+# INE Inquérito ao Emprego — THREE vintages, never spliced:
+#   rate_serie2021 = 0012173 (Série 2021, annual, 2011+);
+#   rate_serie2011 = 0006191 (Série 2011, annual, 2011–2020);
+#   rate_monthly_mean = mean of the twelve monthly estimates of
+#   0007976 (16–74; each month is a centred 3-month window), blank
+#   unless all twelve are published (count in monthly_months).
+# The 2021 questionnaire change and census reweighting are a seam.
+year,rate_serie2021,rate_serie2011,rate_monthly_mean,monthly_months
+2006,,,9.30,12
+2007,,,9.58,12
+2008,,,9.24,12
+2009,,,11.22,12
+2010,,,12.58,12
+2011,13.5,12.7,13.53,12
+2012,16.5,15.5,16.57,12
+2013,17.2,16.2,17.24,12
+2014,14.5,13.9,14.65,12
+2015,12.9,12.4,12.98,12
+2016,11.5,11.1,11.47,12
+2017,9.2,8.9,9.24,12
+2018,7.2,7.0,7.15,12
+2019,6.6,6.5,6.65,12
+2020,7.0,6.8,7.11,12
+2021,6.7,,6.73,12
+2022,6.1,,6.17,12
+2023,6.5,,6.57,12
+2024,6.4,,6.46,12
+2025,6.0,,6.04,12
+2026,,,,8

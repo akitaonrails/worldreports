@@ -1,0 +1,28 @@
+# BPstat 12533735: rate on NEW housing loans to households
+# (long compilation, Jan-2003+); 12710779: percentile-based
+# new-business rate on VARIABLE-rate housing loans (Dec-2018+).
+# Two compilations in two columns - never spliced. The
+# new-business compilation changed over the window; annotate, do
+# not smooth. Annual mean of complete years; running year blank.
+year,mortgage_new_avg,mortgage_var_pctl_avg
+2006,4.005,
+2007,4.799,
+2008,5.435,
+2009,2.727,
+2010,2.468,
+2011,3.766,
+2012,3.880,
+2013,3.238,
+2014,3.189,
+2015,2.383,
+2016,1.945,
+2017,1.653,
+2018,1.407,
+2019,1.263,1.081
+2020,1.075,0.885
+2021,0.833,0.624
+2022,1.773,1.542
+2023,4.015,4.204
+2024,3.655,4.450
+2025,2.968,3.066
+2026,,
