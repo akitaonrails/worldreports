@@ -1,0 +1,68 @@
+# NSO V09.14: goods exports by group and imports by end use, as % of GDP
+# (_pct_gdp), for 2005 and 2009-2025 (2006-2008 absent). The ratios inherit
+# the GDP REVALUATION in their denominator: 2005 and 2009 are over OLD-scale
+# GDP, 2010+ over the revalued scale (gdp_scale column); do not draw a ratio
+# line across 2009->2010 without marking it.
+# NSO V09.15: services exports and imports by type, US$ millions (_usd_mn),
+# 2005-2025.
+#
+# V09.14 "Tỷ trọng giá trị hàng hóa xuất khẩu, nhập khẩu so với tổng sản phẩm trong nước chia theo Nhóm hàng và Năm" — unit on the table page: %; NSO updated 9999-12-31; https://pxweb.nso.gov.vn/pxweb/vi/Xu%E1%BA%A5t%20nh%E1%BA%ADp%20kh%E1%BA%A9u/Xu%E1%BA%A5t%20nh%E1%BA%ADp%20kh%E1%BA%A9u/V09.14.px/
+# V09.15 "Xuất khẩu, nhập khẩu dịch vụ chia theo Giá trị, Loại hình dịch vụ và Năm" — unit on the table page: Triệu đô la Mỹ; NSO updated 9999-12-31; https://pxweb.nso.gov.vn/pxweb/vi/Xu%E1%BA%A5t%20nh%E1%BA%ADp%20kh%E1%BA%A9u/Xu%E1%BA%A5t%20nh%E1%BA%ADp%20kh%E1%BA%A9u/V09.15.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   goods_exports_total_pct_gdp = V09.14: XUẤT KHẨU
+#   exp_fuels_minerals_pct_gdp = V09.14: Nhiên liệu và khoáng sản
+#   exp_manufactures_pct_gdp = V09.14: Công nghiệp chế biến
+#   exp_agricultural_pct_gdp = V09.14: Hàng nông sản
+#   exp_forestry_pct_gdp = V09.14: Hàng lâm sản
+#   exp_fishery_pct_gdp = V09.14: Hàng thủy sản
+#   exp_nonmonetary_gold_pct_gdp = V09.14: Vàng phi tiền tệ
+#   goods_imports_total_pct_gdp = V09.14: NHẬP KHẨU
+#   imp_means_of_production_pct_gdp = V09.14: Tư liệu sản xuất
+#   imp_machinery_equipment_pct_gdp = V09.14: Máy móc, thiết bị, dụng cụ, phụ tùng
+#   imp_materials_fuels_pct_gdp = V09.14: Nguyên, nhiên, vật liệu
+#   imp_consumer_goods_pct_gdp = V09.14: Hàng tiêu dùng
+#   imp_staple_food_pct_gdp = V09.14: Lương thực
+#   imp_foodstuffs_pct_gdp = V09.14: Thực phẩm
+#   imp_medical_pct_gdp = V09.14: Hàng y tế
+#   imp_other_pct_gdp = V09.14: Hàng khác
+#   imp_nonmonetary_gold_pct_gdp = V09.14: Vàng phi tiền tệ
+#   services_exp_total_usd_mn = V09.15: Tổng số
+#   services_exp_transport_usd_mn = V09.15: Dịch vụ vận tải
+#   services_exp_post_telecom_usd_mn = V09.15: Dịch vụ bưu chính viễn thông
+#   services_exp_travel_usd_mn = V09.15: Dịch vụ du lịch
+#   services_exp_financial_usd_mn = V09.15: Dịch vụ tài chính
+#   services_exp_insurance_usd_mn = V09.15: Dịch vụ bảo hiểm
+#   services_exp_government_usd_mn = V09.15: Dịch vụ Chính phủ
+#   services_exp_other_usd_mn = V09.15: Dịch vụ khác
+#   services_imp_total_usd_mn = V09.15: Tổng số
+#   services_imp_transport_usd_mn = V09.15: Dịch vụ vận tải
+#   services_imp_post_telecom_usd_mn = V09.15: Dịch vụ bưu chính viễn thông
+#   services_imp_travel_usd_mn = V09.15: Dịch vụ du lịch
+#   services_imp_financial_usd_mn = V09.15: Dịch vụ tài chính
+#   services_imp_insurance_usd_mn = V09.15: Dịch vụ bảo hiểm
+#   services_imp_government_usd_mn = V09.15: Dịch vụ Chính phủ
+#   services_imp_other_usd_mn = V09.15: Dịch vụ khác
+year,status,gdp_scale,goods_exports_total_pct_gdp,exp_fuels_minerals_pct_gdp,exp_manufactures_pct_gdp,exp_agricultural_pct_gdp,exp_forestry_pct_gdp,exp_fishery_pct_gdp,exp_nonmonetary_gold_pct_gdp,goods_imports_total_pct_gdp,imp_means_of_production_pct_gdp,imp_machinery_equipment_pct_gdp,imp_materials_fuels_pct_gdp,imp_consumer_goods_pct_gdp,imp_staple_food_pct_gdp,imp_foodstuffs_pct_gdp,imp_medical_pct_gdp,imp_other_pct_gdp,imp_nonmonetary_gold_pct_gdp,services_exp_total_usd_mn,services_exp_transport_usd_mn,services_exp_post_telecom_usd_mn,services_exp_travel_usd_mn,services_exp_financial_usd_mn,services_exp_insurance_usd_mn,services_exp_government_usd_mn,services_exp_other_usd_mn,services_imp_total_usd_mn,services_imp_transport_usd_mn,services_imp_post_telecom_usd_mn,services_imp_travel_usd_mn,services_imp_financial_usd_mn,services_imp_insurance_usd_mn,services_imp_government_usd_mn,services_imp_other_usd_mn
+2005,final,old,56.3,20.3,23.1,7.7,0.4,4.7,0,63.8,57.2,16.1,41.1,5.2,0,1.9,0.9,2.4,0,4265,1167,100,2300,220,45,33,400,4450,2190,31,900,230,249,30,820
+2006,final,old,,,,,,,,,,,,,,,,,,5100,1540,120,2850,270,50,40,230,5122,2580,30,1050,270,302,40,850
+2007,final,old,,,,,,,,,,,,,,,,,,6460,1879,110,3750,332,65,45,279,7177,4079,47,1220,300,461,40,1030
+2008,final,old,,,,,,,,,,,,,,,,,,7006,2356,80,3930,230,60,50,300,7956,4974,54,1300,230,473,75,850
+2009,final,old,57.2,17.7,25.6,8.4,0.5,4.2,0.8,70.1,63.2,22.1,41.1,6.5,0,2.1,1.2,3.2,0.8,5766,2062,124,3050,175,65,100,190,8187,5508,59,1100,153,406,141,820
+2010,final,revalued,65.3,20.3,30.1,9.6,0.7,4.5,0,76.6,68.2,22.7,45.5,7.6,0,2.6,1.2,3.8,0,7460,2306,137,4450,192,70,105,200,9921,6596,79,1470,195,481,150,950
+2011,final,revalued,72.7,26.1,30.3,10.8,0.9,4.6,0,80.1,71,23.7,47.3,7.6,0,2.8,1.2,3.6,0,8691,2227,145,5710,208,81,110,210,11859,8226,67,1710,217,567,152,920
+2012,final,revalued,73.8,31.1,27.9,9.9,0.9,3.9,0.1,73.3,66.6,25.7,40.9,6.6,0,2.4,1.2,3,0.1,9620,2070,138,6850,150,64,110,238,11050,6953,57,1856,175,874,167,968
+2013,final,revalued,77.1,34.7,29.2,8.2,1.1,3.9,0.04,77.1,70,29.5,40.5,7,0,2.7,1.1,3.2,0.04,10710,2230,140,7250,183,60,125,722,13820,7340,85,2050,460,911,185,2789
+2014,final,revalued,80.7,35.5,31.7,8.2,1.1,4.2,0.005,79.4,72.3,30.2,42.1,7,0.003,2.9,1.1,3,0.005,11050,2320,145,7410,175,58,137,805,15000,7738,82,2650,480,1020,195,2835
+2015,final,revalued,67.66860434,2.216901482,55.561151,6.185901813,0.959208012,2.74355377,0.001888260656,69.23868827,63.06911713,29.9245668,33.14455033,6.116736592,0.003633680094,2.629364329,0.9934147246,2.490323858,0.001888260656,12580,2430,164,7350,107,55,142,2332,16703,8050,127,3595,219,1015,200,3497
+2016,final,revalued,68.67743803,1.492508424,57.64879411,6.001995072,0.7956714587,2.7365062,0.001962757353,68.0542178,61.45945566,29.74029182,31.71916384,6.541128797,0.006961833567,2.794573337,1.026034253,2.713559374,0.001962757353,13961,2448,163,8500,115,56,150,2529,17800,8055,132,4500,140,800,202,3971
+2017,final,revalued,76.47346617,1.836980194,64.69700361,6.181551835,0.7875897291,2.968079504,0.002261300057,75.79685967,68.72063288,34.58130457,34.1393283,7.026128032,0.006069711866,3.289666874,1.041208341,2.689183105,0.002261300057,14877.7,2807,145,8890,115,56.7,162,2702,18684,7393,136,5040,219,670,206,5020
+2018,final,revalued,78.59847336,1.689776483,67.49723661,5.639232306,0.9414846793,2.82887264,0.001870648878,76.51650567,68.68532441,32.9126479,35.77267652,7.783544214,0.007772868614,3.225159929,0.961610281,3.589001135,0.001870648878,18060,4374,139,10080,208,63,171,3025,20348,7490,147,5910,191,580,213,5817
+2019,final,revalued,79,1.5,69,5,1,2.5,0.002033572494,75.9,67.6,34.2,33.4,8.2,0.004327285561,3.2,1,4,0.002033572494,20422,4469,236,11830,220,84,179,3404,21368,8595,207,6460,309,460,218,5119
+2020,final,revalued,81.5,1,72.5,4.6,1,2.4,0.002,75.8,67.3,37.3,30,8.5,0.005568277244,3.2,1,4.3,0.002,9843,3535,192,3232,87,70,177,2550,20307,9030,250,4610,176,918,192,5131
+2021,final,revalued,91.7,1.1,82,5,1.2,2.4,0.002,90.9,80.7,42.9,37.8,10.1,0.04303329971,4.2,1.1,4.7,0.002,7757,3564,458,149,111,69,175,3231,23182,11705,427,3830,109,882,192,6037
+2022,final,revalued,89.9,1.3,80.1,4.6,1.3,2.6,0.003,87,77.4,39.4,38,9.6,0.03503201355,4.1,0.9,4.6,0.003,14424,6350,453,3203,114,78,180,4046,28390,13726,376,6670,216,900,202,6300
+2023,final,revalued,81.79454673,1.119391373,72.07460015,5.402893668,1.133111382,2.060192032,0.004358120701,75.31176148,67.32148153,34.81223004,32.50925149,7.927698261,0.06468004532,3.56996956,0.8982109823,3.394837673,0.004358120701,21387,6228,476,9158,260,109,206,4950,28417,12300,380,7825,343,845,224,6500
+2024,final,revalued,85.24191723,1.150697027,74.86810991,5.939451282,1.179024526,2.100224714,0.004409766337,80.0695343,70.41516986,37.29765668,33.11751318,9.589519874,0.06335364304,3.615168441,0.9329385658,4.978059224,0.004409766337,25500,6924,517,12230,540,110,221,4958,34967,13894,488,12750,549,940,246,6100
+2025,preliminary,revalued,92.34519779,0.6379819045,81.81023386,6.439153539,1.254928447,2.196328916,0.006571120298,88.44307992,78.53923516,44.69994862,33.83928653,9.823883169,0.3714238263,4.104772774,0.9553397972,4.392346772,0.006571120298,30312,8400,534,15220,630,120,228,5180,40600,16620,526,15050,610,1122,252,6420

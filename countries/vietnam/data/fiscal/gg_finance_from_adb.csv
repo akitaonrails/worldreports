@@ -1,0 +1,45 @@
+# official: false. Asian Development Bank, Key Indicators Database (kidb.adb.org SDMX v5, economy VIE), a redistributor.
+# General government, GFSM 2014 (MOF via ADB). Keyed on the calendar year:
+# Vietnam's budget year is January–December (REF_YEAR 'Ending 31 December').
+# A different concept from the NSO's state-budget (cash) tables; never spliced.
+# %-of-GDP ratios before 2010 use the OLD GDP scale as denominator, so they
+# read higher than they would on the revalued scale.
+# No observation carries a non-normal OBS_STATUS, so there is no break_flags column. Blank = not published.
+# revenue_bn_vnd: GR_G14_GG_XDC "Revenue" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# tax_revenue_bn_vnd: GRT_G14_GG_XDC "Taxes" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# taxes_income_profits_bn_vnd: GRTI_G14_GG_XDC "Taxes on income, profits, and capital gains" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# taxes_goods_services_bn_vnd: GRTGS_G14_GG_XDC "Taxes on goods and services" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# taxes_international_trade_bn_vnd: GRTT_G14_GG_XDC "Taxes on international trade and transaction" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# grants_bn_vnd: GRG_G14_GG_XDC "Revenue-Grants" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# other_revenue_bn_vnd: GRO_G14_GG_XDC "Other revenue" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# expense_bn_vnd: GE_G14_GG_XDC "Expense" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# interest_bn_vnd: GEI_G14_GG_XDC "Interest" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# net_investment_nonfinancial_assets_bn_vnd: GADAN_T_G14_GG_XDC "Net/gross investment in nonfinancial assets" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# expenditure_bn_vnd: GX_G14_GG_XDC "Expenditure" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# net_operating_balance_bn_vnd: GXCBN_G14_GG_XDC "Net operating balance" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# net_lending_bn_vnd: GXCNL_G14_GG_XDC "Net lending/Net borrowing" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# primary_balance_bn_vnd: GXOPB_G14_GG_XDC "Primary balance" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR Ending 31 December; DATA_SOURCE Ministry of Finance)
+# revenue_pct_gdp: GR_G14_GG_XGDP_PS "Revenue (%)" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR Ending 31 December; DATA_SOURCE Asian Development Bank)
+# tax_revenue_pct_gdp: GRT_G14_GG_XGDP_PS "Taxes (%)" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR Ending 31 December; DATA_SOURCE Asian Development Bank)
+# expenditure_pct_gdp: GX_G14_GG_XGDP_PS "Expenditure (%)" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR Ending 31 December; DATA_SOURCE Asian Development Bank)
+# net_lending_pct_gdp: GXCNL_G14_GG_XGDP_PS "Net lending/Net borrowing (%)" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR Ending 31 December; DATA_SOURCE Asian Development Bank)
+# primary_balance_pct_gdp: GXOPB_G14_GG_XGDP_PS "Primary balance (%)" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR Ending 31 December; DATA_SOURCE Asian Development Bank)
+year,revenue_bn_vnd,tax_revenue_bn_vnd,taxes_income_profits_bn_vnd,taxes_goods_services_bn_vnd,taxes_international_trade_bn_vnd,grants_bn_vnd,other_revenue_bn_vnd,expense_bn_vnd,interest_bn_vnd,net_investment_nonfinancial_assets_bn_vnd,expenditure_bn_vnd,net_operating_balance_bn_vnd,net_lending_bn_vnd,primary_balance_bn_vnd,revenue_pct_gdp,tax_revenue_pct_gdp,expenditure_pct_gdp,net_lending_pct_gdp,primary_balance_pct_gdp
+2005,212828,188927.8,81065,83556,23659.8,3789,20111.2,149893,6621,74012,223905,62935,-11077,-4456,23.28531781,20.67041867,24.4972423,-1.21192449,-0.487526905
+2006,262063,232968,106226,99757,26280,7897,21198,180069,7965,79295,259364,81994,2699,10664,24.68648823,21.94572217,24.43224084,0.254247382,1.004555051
+2007,302888.79,269101.79,116138,113830.79,38309,6012,27775,232010.4,12660,95934,327944.4,70878.39,-25055.61,-12395.61,24.29389244,21.58392835,26.3035353,-2.00964286,-0.994218426
+2008,405606.3,363598,155578.6,146546.4,60474,9413,32595.3,292374,16730,121406,413780,113232.3,-8173.7,8556.3,25.09866778,22.49922007,25.60445129,-0.505783517,0.529458569
+2009,422918,371251,129058,163927,76996,7908,43759,326666.09,20490,205185,531851.09,96251.91,-108933.09,-88443.09,23.37662689,20.52075369,29.3978608,-6.021233907,-4.888657178
+2010,546520.1,480115.9,177862,226733.9,74068,11867.6,54536.6,403151,25400,202868,606019,143369.1,-59498.9,-34098.9,19.94713201,17.52348218,22.11874914,-2.171617133,-1.244556714
+2011,678769,614336,237884,293385,81406,12103,52330,498122,29786,210161,708283,180647,-29514,272,19.17491012,17.35470769,20.00866696,-0.833756841,0.007683874
+2012,700138.554,617785.705,264405,280842.505,71276.2,10267,72085.849,644833.87,39884,273703,918536.87,55304.684,-218398.316,-178514.316,17.18653554,15.16499258,22.54763214,-5.361096598,-4.382050694
+2013,795142,684805,281684,323352,78253,11124,99213,759894.3466,54084,301044,1060938.347,35247.65341,-265796.3466,-211712.3466,17.77387443,15.30750241,23.715242,-5.941367566,-4.732423472
+2014,849228.6,718975.3,261601,360247.3,95603,11050,119203.3,791126.8096,66738,305777,1096903.81,58101.79036,-247675.2096,-180937.2096,17.20119699,14.56290541,22.21787928,-5.016682283,-3.664898458
+2015,946779,753504,264074,388578,99315,11844,181431,872274,82022,333200,1205474,74505,-258695,-176673,18.23771739,14.51467872,23.22093555,-4.983218154,-3.40323586
+2016,999751,803925,261966,444356,96125,8378,187448,931443,86783,265095,1196538,68308,-196787,-110004,17.72796437,14.25550338,21.21746618,-3.489501811,-1.9506327
+2017,1106009,892145,300759,493294,96367,7580,206284,982242,97728,245174,1227416,123767,-121407,-23679,17.5726993,14.17474525,19.50166073,-1.928961432,-0.376221122
+2018,1216053,994203,351504,554014,86784,7780,214070,1042131,106584,242862,1284993,173922,-68940,37644,17.34977476,14.18457758,18.33336139,-0.98358663,0.537077678
+2019,1342577,1089029,387803,602223,96943,5133,248415,1105048,107065,264397,1369445,237529,-26868,80197,17.41977631,14.13002128,17.76838541,-0.348609093,1.040546502
+2020,1306374,1026754,386146,559897,78638,4808,274812,1133092,106466,402073,1535165,173282,-228791,-122325,16.23957378,12.7636093,19.08368146,-2.84410768,-1.520625689
+2021,1401447,1149063,460383,596658,89987,17185,235199,1168042,101778,353999,1522041,233405,-120594,-18816,16.51194143,13.53833642,17.93278793,-1.4208465,-0.221691359
+2022,1601480,1335221,514737,702965,114304,8136,258123,1519958,94773,428000,1947958,81522,-346478,-251705,16.64502769,13.87765724,20.24615658,-3.601128895,-2.616103038

@@ -1,0 +1,36 @@
+# NSO V14.19, source of record the Ministry of Health: national (CẢ NƯỚC) row.
+# New HIV infections and new AIDS cases detected in the year, people living
+# with HIV / AIDS (cumulative to 31 December), deaths from HIV/AIDS in the
+# year and cumulative, counts; per 100,000 people as labelled (the NSO's label
+# on the death rate names 2024 for every year). 2011-2024. The national row
+# includes "Không xác định" (unknown province); the fetcher asserts regions +
+# unknown = national for new infections. The one cause-specific mortality
+# count the NSO publishes.
+#
+# V14.19 "Số người nhiễm HIV/AIDS và số người chết do HIV/ AIDS phân theo địa phương(*) chia theo Địa phương, Năm và Thông tin" — unit on the table page: Người; NSO updated 2025-07-23; https://pxweb.nso.gov.vn/pxweb/vi/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/V14.19.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   hiv_new_infections = V14.19: Số người nhiễm HIV - Phát hiện mới
+#   aids_new_cases = V14.19: Số bệnh nhân AIDS - Phát hiện mới
+#   hiv_living_cumulative = V14.19: Số người nhiễm HIV còn sống - Lũy kế tính đến 31/12
+#   aids_living_cumulative = V14.19: Số bệnh nhân AIDS còn sống - Lũy kế tính đến 31/12
+#   hiv_aids_deaths = V14.19: Số người chết do HIV/AIDS trong năm
+#   hiv_aids_deaths_cumulative = V14.19: Số người chết do HIV/AIDS lũy kế đến 31/12
+#   hiv_living_per_100k = V14.19: Số người hiện nhiễm HIV/AIDS được phát hiện trên 100.000 dân
+#   hiv_aids_deaths_per_100k = V14.19: Số người chết do HIV/AIDS trong năm 2024 trên 100.000 dân
+year,status,hiv_new_infections,aids_new_cases,hiv_living_cumulative,aids_living_cumulative,hiv_aids_deaths,hiv_aids_deaths_cumulative,hiv_living_per_100k,hiv_aids_deaths_per_100k
+2011,final,14113,6429,197072,48717,2413,,,
+2012,final,14127,6734,210703,61669,2149,,,
+2013,final,12559,6074,217285,67013,2296,,,
+2014,final,11680,6183,226964,71433,2146,,,
+2015,final,10195,6130,227154,85194,2130,,,
+2016,final,9912,5876,215621,88668,2131,,,
+2017,final,9920,5216,209169,88040,1828,,,
+2018,final,10440,,210209,,1999,,,
+2019,final,10183,,211709,,1934,,,
+2020,final,13995,,213420,,2160,,,
+2021,final,13225,,213833,,1856,,,
+2022,final,11037,,222388,,1582,112572,,
+2023,final,13455,,234220,,1623,114195,,
+2024,final,13351,,245762,,1905,116004,242.5033505,1.879740899

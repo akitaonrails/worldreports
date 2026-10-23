@@ -1,0 +1,137 @@
+# NSO V14.29 "Thu nhập bình quân đầu người một tháng theo giá hiện hành phân theo 5 nhóm thu nhập, theo thành thị, nông thôn, theo giới tính chủ hộ và theo vùng chia theo Phân tổ, Năm và Nhóm thu nhập" — unit: Nghìn đồng; NSO updated 2026-08-21; https://pxweb.nso.gov.vn/pxweb/vi/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/V14.29.px/
+# Monthly income per person at CURRENT prices, thousand VND (nghìn đồng), from the VHLSS household survey: the average and quintiles 1 (poorest) to 5.
+# One row per breakdown (breakdown_vi is the NSO label, NFC) and year. Survey years 2010, 2012, 2014, 2016, then annual 2018-2025: the gaps are survey gaps, never interpolated. Nominal: compare ratios, not levels, across years.
+# status: final / preliminary (Sơ bộ). Official: true.
+year,status,breakdown,breakdown_vi,average,q1,q2,q3,q4,q5
+2010,final,national,CẢ NƯỚC,1387,369,669,1000,1490,3410
+2010,final,urban,Thành thị,2130,633,1153,1611,2268,4983
+2010,final,rural,Nông thôn,1070,330,568,821,1175,2462
+2010,final,head_male,Giới tính chủ hộ - Nam,1321,359,643,953,1411,3243
+2010,final,head_female,Giới tính chủ hộ - Nữ,1618,415,784,1196,1771,3923
+2010,final,red_river_delta,Đồng bằng sông Hồng,1580,468,823,1174,1697,3744
+2010,final,northern_midlands_mountains,Trung du và miền núi phía Bắc,905,282,449,654,1002,2137
+2010,final,north_central_coast,Bắc Trung Bộ và duyên hải miền Trung,1018,317,553,789,1149,2283
+2010,final,central_highlands,Tây Nguyên,1088,305,534,799,1276,2526
+2010,final,southeast,Đông Nam Bộ,2304,720,1205,1684,2341,5573
+2010,final,mekong_delta,Đồng bằng sông Cửu Long,1247,395,661,937,1336,2908
+2012,final,national,CẢ NƯỚC,2000,512,984,1500,2222,4784
+2012,final,urban,Thành thị,2989,952,1672,2333,3198,6794
+2012,final,rural,Nông thôn,1579,450,818,1228,1789,3615
+2012,final,head_male,Giới tính chủ hộ - Nam,1930,494,944,1442,2133,4638
+2012,final,head_female,Giới tính chủ hộ - Nữ,2247,592,1147,1726,2530,5243
+2012,final,red_river_delta,Đồng bằng sông Hồng,2351,700,1285,1819,2566,5384
+2012,final,northern_midlands_mountains,Trung du và miền núi phía Bắc,1258,377,569,913,1490,2943
+2012,final,north_central_coast,Bắc Trung Bộ và duyên hải miền Trung,1505,443,805,1194,1729,3355
+2012,final,central_highlands,Tây Nguyên,1643,421,796,1334,2040,3626
+2012,final,southeast,Đông Nam Bộ,3173,1054,1724,2406,3320,7361
+2012,final,mekong_delta,Đồng bằng sông Cửu Long,1797,545,944,1349,1933,4214
+2014,final,national,CẢ NƯỚC,2637,660,1314,1972,2830,6413
+2014,final,urban,Thành thị,3964,1267,2179,2922,4034,9421
+2014,final,rural,Nông thôn,2038,565,1082,1611,2295,4641
+2014,final,head_male,Giới tính chủ hộ - Nam,2525,638,1268,1901,2725,6095
+2014,final,head_female,Giới tính chủ hộ - Nữ,3027,753,1499,2240,3197,7442
+2014,final,red_river_delta,Đồng bằng sông Hồng,3265,1007,1756,2389,3315,7858
+2014,final,northern_midlands_mountains,Trung du và miền núi phía Bắc,1613,468,719,1159,1919,3806
+2014,final,north_central_coast,Bắc Trung Bộ và duyên hải miền Trung,1982,561,1077,1593,2283,4400
+2014,final,central_highlands,Tây Nguyên,2008,510,963,1590,2404,4574
+2014,final,southeast,Đông Nam Bộ,4125,1397,2273,2991,3972,9979
+2014,final,mekong_delta,Đồng bằng sông Cửu Long,2327,728,1264,1767,2454,5420
+2016,final,national,CẢ NƯỚC,3098,771,1516,2301,3356,7547
+2016,final,urban,Thành thị,4551,1452,2511,3436,4743,10623
+2016,final,rural,Nông thôn,2423,667,1233,1865,2706,5644
+2016,final,head_male,Giới tính chủ hộ - Nam,3000,886,1585,2294,3250,7007
+2016,final,head_female,Giới tính chủ hộ - Nữ,3439,1035,1817,2595,3690,7985
+2016,final,red_river_delta,Đồng bằng sông Hồng,3883,1177,2098,2901,4063,9185
+2016,final,northern_midlands_mountains,Trung du và miền núi phía Bắc,1963,544,839,1364,2286,4784
+2016,final,north_central_coast,Bắc Trung Bộ và duyên hải miền Trung,2358,674,1238,1848,2676,5356
+2016,final,central_highlands,Tây Nguyên,2366,619,1057,1674,2676,5812
+2016,final,southeast,Đông Nam Bộ,4662,1608,2626,3452,4637,10999
+2016,final,mekong_delta,Đồng bằng sông Cửu Long,2778,852,1469,2063,2897,6611
+2018,final,national,CẢ NƯỚC,3876,932,1907,2934,4291,9320
+2018,final,urban,Thành thị,5623,1809,3169,4360,6221,12554
+2018,final,rural,Nông thôn,2990,803,1489,2341,3384,6934
+2018,final,head_male,Giới tính chủ hộ - Nam,3725,899,1832,2829,4125,8939
+2018,final,head_female,Giới tính chủ hộ - Nữ,4364,1091,2148,3316,4858,10406
+2018,final,red_river_delta,Đồng bằng sông Hồng,4834,1374,2677,3722,5283,11120
+2018,final,northern_midlands_mountains,Trung du và miền núi phía Bắc,2455,622,1011,1746,2853,6044
+2018,final,north_central_coast,Bắc Trung Bộ và duyên hải miền Trung,3015,825,1653,2469,3420,6710
+2018,final,central_highlands,Tây Nguyên,2896,730,1287,2054,3168,7241
+2018,final,southeast,Đông Nam Bộ,5709,1809,3254,4483,6117,12899
+2018,final,mekong_delta,Đồng bằng sông Cửu Long,3588,1040,1967,2721,3703,8515
+2019,final,national,CẢ NƯỚC,4295,988,2100,3330,4954,10103
+2019,final,urban,Thành thị,6022,1843,3431,4895,6753,13195
+2019,final,rural,Nông thôn,3399,827,1656,2691,3929,7898
+2019,final,head_male,Giới tính chủ hộ - Nam,4132,952,2015,3208,4768,9719
+2019,final,head_female,Giới tính chủ hộ - Nữ,4828,1144,2413,3759,5562,11265
+2019,final,red_river_delta,Đồng bằng sông Hồng,5191,1396,2892,4149,6018,11504
+2019,final,northern_midlands_mountains,Trung du và miền núi phía Bắc,2640,626,1102,1925,3227,6327
+2019,final,north_central_coast,Bắc Trung Bộ và duyên hải miền Trung,3331,900,1801,2727,3760,7469
+2019,final,central_highlands,Tây Nguyên,3095,720,1321,2285,3609,7546
+2019,final,southeast,Đông Nam Bộ,6280,1923,3535,5104,6971,13875
+2019,final,mekong_delta,Đồng bằng sông Cửu Long,3886,1050,2125,3119,4306,8834
+2020,final,national,CẢ NƯỚC,4249.15,1139.45,2491.04,3528.37,4896.22,9192.52
+2020,final,urban,Thành thị,5590.34,2097.17,3508.83,4693.83,6252.25,11402.95
+2020,final,rural,Nông thôn,3480.01,931.65,2000.66,2959.02,4074.08,7437.08
+2020,final,head_male,Giới tính chủ hộ - Nam,4130.23,1093.87,2408.7,3429.12,4754.35,8966.86
+2020,final,head_female,Giới tính chủ hộ - Nữ,4632.49,1351.99,2751.21,3869.28,5348.05,9846.51
+2020,final,red_river_delta,Đồng bằng sông Hồng,5084.52,1937.82,3250.51,4243.74,5614.56,10384.58
+2020,final,northern_midlands_mountains,Trung du và miền núi phía Bắc,2744.89,664.94,1219.95,2141.13,3341.86,6359.56
+2020,final,north_central_coast,Bắc Trung Bộ và duyên hải miền Trung,3403.2,1030.34,2095.78,2900.28,3854.24,7138.51
+2020,final,central_highlands,Tây Nguyên,2814.47,782.29,1333.65,2203.23,3300.92,6463.29
+2020,final,southeast,Đông Nam Bộ,6024.94,2582.14,4119.65,5248.54,6716.68,11460
+2020,final,mekong_delta,Đồng bằng sông Cửu Long,3872.72,1224.12,2358.84,3130.81,4194.43,8468.73
+2021,final,national,CẢ NƯỚC,4204.81,1151.82,2498.43,3482.96,4709.79,9183.83
+2021,final,urban,Thành thị,5388.38,2050.8,3310.86,4355.98,6063,11155.55
+2021,final,rural,Nông thôn,3485.83,940.25,1967.67,3001.22,4043.57,7479.55
+2021,final,head_male,Giới tính chủ hộ - Nam,4117.95,1089.52,2438.01,3420.92,4609.2,9034.23
+2021,final,head_female,Giới tính chủ hộ - Nữ,4480.04,1335.01,2692.25,3682.21,5034.03,9674.61
+2021,final,red_river_delta,Đồng bằng sông Hồng,5026.04,1919.39,3238.16,4147.28,5500.9,10333.11
+2021,final,northern_midlands_mountains,Trung du và miền núi phía Bắc,2837.47,690.67,1215.38,2205.15,3397.01,6682.27
+2021,final,north_central_coast,Bắc Trung Bộ và duyên hải miền Trung,3493.21,1058.12,2211.12,3053.08,3948.13,7197.45
+2021,final,central_highlands,Tây Nguyên,2855.57,805.67,1290.68,2171.5,3265.9,6761.19
+2021,final,southeast,Đông Nam Bộ,5794.2,2326.65,3651.83,4697.36,6651.11,11630.4
+2021,final,mekong_delta,Đồng bằng sông Cửu Long,3713.22,1207.82,2297.2,3098.81,4097.8,7870.72
+2022,final,national,CẢ NƯỚC,4672.54,1352.36,2701.76,3865.86,5207.02,10236.58
+2022,final,urban,Thành thị,5944.72,2100.59,3617.25,4764.73,6509.54,12739.82
+2022,final,rural,Nông thôn,3863.64,1128.55,2218.58,3322.88,4476.61,8172.65
+2022,final,head_male,Giới tính chủ hộ - Nam,4571.27,1309.39,2635.59,3803.55,5110.5,9998.4
+2022,final,head_female,Giới tính chủ hộ - Nữ,4976.75,1504.76,2903.34,4057.11,5514,10911.66
+2022,final,red_river_delta,Đồng bằng sông Hồng,5586.47,1985.94,3682.56,4659.56,6127.59,11479.26
+2022,final,northern_midlands_mountains,Trung du và miền núi phía Bắc,3169.74,809.97,1483.17,2559.71,3831.23,7166.47
+2022,final,north_central_coast,Bắc Trung Bộ và duyên hải miền Trung,3966.68,1259.47,2415.79,3383.29,4465.52,8312.82
+2022,final,central_highlands,Tây Nguyên,3281.79,911.65,1607.31,2653.36,3832.13,7410.25
+2022,final,southeast,Đông Nam Bộ,6334.09,2465.87,3753.86,5093.67,6861.96,13498.32
+2022,final,mekong_delta,Đồng bằng sông Cửu Long,4076.64,1372.84,2446.94,3453.01,4508.9,8606.21
+2023,final,national,CẢ NƯỚC,4961.77,1451.09,2835.24,4084.97,5583.83,10855.36
+2023,final,urban,Thành thị,6259.89,2257.91,3797.37,5031.59,7012.17,13206.14
+2023,final,rural,Nông thôn,4168.56,1221.77,2333.6,3523.18,4803.33,8961.62
+2023,final,head_male,Giới tính chủ hộ - Nam,4873.42,1413.31,2777,4036.27,5505.28,10635.97
+2023,final,head_female,Giới tính chủ hộ - Nữ,5226.07,1581.91,3008.84,4230.24,5837.6,11475.51
+2023,final,red_river_delta,Đồng bằng sông Hồng,5980.63,2075.41,3858.13,4937.79,6703.15,12331.34
+2023,final,northern_midlands_mountains,Trung du và miền núi phía Bắc,3438.05,868.98,1610.52,2741.22,4132.42,7842.06
+2023,final,north_central_coast,Bắc Trung Bộ và duyên hải miền Trung,4263.77,1346.95,2551.67,3588.2,4799.82,9039.48
+2023,final,central_highlands,Tây Nguyên,3565.89,975.69,1729.05,2772.84,4172.98,8191.4
+2023,final,southeast,Đông Nam Bộ,6520.45,2532.62,3850.13,5191.71,7211.28,13827.11
+2023,final,mekong_delta,Đồng bằng sông Cửu Long,4370.97,1493.41,2648.61,3690.46,4893.63,9132.1
+2024,final,national,CẢ NƯỚC,5414.98,1592.2,3068.76,4490.41,6112.31,11811.85
+2024,final,urban,Thành thị,6889.53,2466.58,4300.96,5614.55,7690.18,14377.57
+2024,final,rural,Nông thôn,4504.5,1346.94,2509.96,3797.5,5161.7,9706.88
+2024,final,head_male,Giới tính chủ hộ - Nam,5329.81,1550.7,3018.9,4436.44,6030.33,11613.33
+2024,final,head_female,Giới tính chủ hộ - Nữ,5665.58,1733.01,3209.53,4651.65,6352.96,12382.19
+2024,final,red_river_delta,Đồng bằng sông Hồng,6558.14,2270.85,4249.49,5342.6,7387.77,13542.57
+2024,final,northern_midlands_mountains,Trung du và miền núi phía Bắc,3759.16,977.83,1804.98,3034.08,4536.14,8446.59
+2024,final,north_central_coast,Bắc Trung Bộ và duyên hải miền Trung,4648.49,1481.42,2778.02,3928.11,5202.62,9854.85
+2024,final,central_highlands,Tây Nguyên,3882.34,1072.28,1870.84,3001.37,4581.38,8892.73
+2024,final,southeast,Đông Nam Bộ,7074.54,2638.87,4346.28,5804.38,7646.77,14937.41
+2024,final,mekong_delta,Đồng bằng sông Cửu Long,4753.17,1578.11,2864.81,3983.43,5313.41,10028.51
+2025,preliminary,national,CẢ NƯỚC,6005.14,2129.69,3836.48,5266.1,6973.36,11822.25
+2025,preliminary,urban,Thành thị,7354.25,3109.02,5024.87,6469.42,8179.19,13998.68
+2025,preliminary,rural,Nông thôn,5158.52,1804.43,3296.67,4522.85,6065.7,10103.3
+2025,preliminary,head_male,Giới tính chủ hộ - Nam,5918.12,2072.99,3767.77,5188.37,6895.3,11669.11
+2025,preliminary,head_female,Giới tính chủ hộ - Nữ,6263.26,2311.9,4050.34,5496.34,7197.88,12270.67
+2025,preliminary,red_river_delta,Đồng bằng sông Hồng,7337.75,3092.08,5152.6,6573.16,8150.25,13728
+2025,preliminary,northern_midlands_mountains,Trung du và miền núi phía Bắc,4150.54,1179.9,2224.18,3500.82,4957.45,8894.62
+2025,preliminary,north_central_coast,Bắc Trung Bộ và duyên hải miền Trung,5062.98,1968.5,3431.81,4515.38,5814.65,9582.44
+2025,preliminary,central_highlands,Tây Nguyên,4767.51,1595.34,2962.49,4004.07,5545.61,9732.95
+2025,preliminary,southeast,Đông Nam Bộ,7706.94,3733.8,5532.65,6907.45,8503.93,13868.31
+2025,preliminary,mekong_delta,Đồng bằng sông Cửu Long,5275.33,2243.08,3468.39,4470.01,5788.48,10410.37

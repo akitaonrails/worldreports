@@ -1,0 +1,24 @@
+# Source: World Bank, World Development Indicators (API v2, lastupdated 2026-10-08). official: false. A redistributor. SM.POP.NETM: net migration, persons, UN WPP 2024 modelled estimate. A residual estimate, not a count.
+# 2006 READS +482,399: implausible as an inflow into a country of emigration; an artefact of the WPP estimate (cause unverified). Kept as published; the plate starts the line in 2007 or annotates the point.
+# Remittances: the World Bank's personal-remittance series (BX.TRF.PWKR.CD.DT) is EMPTY for Vietnam. The labelled proxy is migration/remittances_proxy_from_adb.csv, secondary income received (includes remittances), never called remittances.
+year,net_migration
+2006,482399
+2007,523784
+2008,571113
+2009,-18560
+2010,-4443
+2011,-4602
+2012,-4851
+2013,-4979
+2014,-4894
+2015,-4888
+2016,167652
+2017,139245
+2018,96650
+2019,-2051
+2020,-6457
+2021,-5418
+2022,-78977
+2023,-81789
+2024,-59645
+2025,-48171

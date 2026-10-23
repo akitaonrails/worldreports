@@ -1,0 +1,17 @@
+# Source: World Bank, World Development Indicators (API v2, lastupdated 2026-10-08). official: false. A redistributor. SI.POV.GINI (Gini, 0-100), SI.POV.DDAY (% of population below the international poverty line, current PIP line, 2021 PPP), SI.POV.NAHC (% of POPULATION below the national GSO-World Bank expenditure line).
+# Survey (VHLSS) years only; the years between are holes and stay blank. Nothing is interpolated.
+# NAHC is a population share on the expenditure line, NOT the NSO's household multidimensional share (V14.46). The 2010 jump in NAHC is a NEW POVERTY LINE, not a rise in poverty: treat 2006-2008 and 2010+ as separate segments.
+# The World Bank Gini is the harmonised layer; the NSO's Gini (V14.38) is a different computation with its own 2019->2020 step.
+year,gini,poverty_intl_line_pct,poverty_national_line_pct
+2006,35.8,23.7,16.0
+2008,35.6,17.6,14.5
+2010,39.3,5.2,20.7
+2012,35.6,3.7,17.2
+2014,34.8,3.4,13.5
+2016,35.3,2.5,9.2
+2017,,,7.9
+2018,35.7,2.2,6.8
+2019,,,5.7
+2020,36.8,1.3,4.8
+2021,,,4.4
+2022,36.1,1.6,4.2

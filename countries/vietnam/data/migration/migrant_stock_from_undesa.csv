@@ -1,0 +1,13 @@
+# Source: UN DESA Population Division, International Migrant Stock 2024 (POP/DB/MIG/Stock/Rev.2024), Table 1, both sexes, persons at mid-year. official: false.
+# emigrants_world: people from Viet Nam (origin 704) living anywhere abroad (destination World 900). immigrants_in_vietnam: destination 704, origin World.
+# BASIS for Vietnam's own (immigrant) row: data type 'C R' = CITIZENSHIP-based estimate INCLUDING REFUGEES, not country of birth. Each destination's figure is on that destination's basis (B = birth, C = citizenship, R = refugees added): United States of America (840): basis B; Japan (392): basis C; Australia (36): basis B R; China, Taiwan Province of China (158): basis C R; Republic of Korea (410): basis B R; Canada (124): basis B.
+# Top 6 destinations by 2024 stock, ranked once in the fetcher. Five-yearly points plus 2024: draw as points, never interpolate into an annual line.
+year,emigrants_world,immigrants_in_vietnam,emigrants_in_united_states_of_america,emigrants_in_japan,emigrants_in_australia,emigrants_in_china_taiwan_province_of_china,emigrants_in_republic_of_korea,emigrants_in_canada
+1990,1128520,88560,539749,5917,121046,59,61,109618
+1995,1362168,88376,646490,8743,150852,1520,3162,136705
+2000,1805287,86213,981280,15884,163672,14644,8368,146870
+2005,2091843,81997,1088252,27028,174625,132971,16275,158946
+2010,2339779,84408,1256778,40627,203426,87633,56508,167113
+2015,2719796,101386,1350067,124232,235732,160749,122422,174495
+2020,3330404,200639,1396246,437740,273771,236734,199080,180973
+2024,3693537,326418,1434631,589874,294435,263078,260609,179690

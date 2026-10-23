@@ -1,0 +1,74 @@
+# NSO V03.16 (Chi ngân sách Nhà nước) and V03.17 (as % of GDP).
+# Keyed on CALENDAR year, which IS Vietnam's budget year (1 January - 31
+# December under the Law on the State Budget); there is no April fiscal year
+# here. STATE BUDGET (ngân sách nhà nước: central plus local), cash basis,
+# source of record the Ministry of Finance. Not general government (ADB GFS)
+# and never spliced with it. Values in bn VND (tỷ đồng); _share_pct is the
+# head's share of the total; _pct_gdp is the NSO's own ratio to current GDP
+# (revalued scale), published for 2018-2025 only. "Ước tính 2025" is an
+# ESTIMATE, not the final accounts (quyết toán).
+#
+# Budget heads, not COFOG. 2006 is absent from V03.16 and stays blank. The
+# 2025 total (25.8% of GDP against 18.7% in 2024) is an estimate that the
+# table does not explain.
+#
+# V03.16 "Chi ngân sách Nhà nước chia theo Chỉ tiêu, Loại chi và Năm" — unit on the table page: not stated; NSO updated 2026-08-15; https://pxweb.nso.gov.vn/pxweb/vi/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/V03.16.px/
+# V03.17 "Tỷ lệ chi ngân sách Nhà nước so với tổng sản phẩm trong nước chia theo Chỉ tiêu, Loại chi và Năm" — unit on the table page: %; NSO updated 2026-08-15; https://pxweb.nso.gov.vn/pxweb/vi/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/V03.17.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   exp_total_vnd_bn = V03.16: TỔNG CHI(*)
+#   exp_total_share_pct = V03.16: TỔNG CHI(*)
+#   exp_total_pct_gdp = V03.17: TỔNG CHI(*)
+#   exp_development_investment_vnd_bn = V03.16: Chi đầu tư phát triển(**)
+#   exp_development_investment_share_pct = V03.16: Chi đầu tư phát triển(**)
+#   exp_development_investment_pct_gdp = V03.17: Chi đầu tư phát triển(**)
+#   exp_recurrent_socioeconomic_vnd_bn = V03.16: Chi phát triển sự nghiệp kinh tế - xã hội(***)
+#   exp_recurrent_socioeconomic_share_pct = V03.16: Chi phát triển sự nghiệp kinh tế - xã hội(***)
+#   exp_recurrent_socioeconomic_pct_gdp = V03.17: Chi phát triển sự nghiệp kinh tế - xã hội(***)
+#   exp_education_training_vnd_bn = V03.16: Chi sự nghiệp giáo dục, đào tạo
+#   exp_education_training_share_pct = V03.16: Chi sự nghiệp giáo dục, đào tạo
+#   exp_education_training_pct_gdp = V03.17: Chi sự nghiệp giáo dục, đào tạo
+#   exp_health_population_vnd_bn = V03.16: Chi sự nghiệp y tế, dân số và gia đình
+#   exp_health_population_share_pct = V03.16: Chi sự nghiệp y tế, dân số và gia đình
+#   exp_health_population_pct_gdp = V03.17: Chi sự nghiệp y tế, dân số và gia đình
+#   exp_science_technology_vnd_bn = V03.16: Chi sự nghiệp khoa học, công nghệ
+#   exp_science_technology_share_pct = V03.16: Chi sự nghiệp khoa học, công nghệ
+#   exp_science_technology_pct_gdp = V03.17: Chi sự nghiệp khoa học, công nghệ
+#   exp_culture_media_sport_vnd_bn = V03.16: Chi văn hoá thông tin; phát thanh truyền hình, thông tấn; thể dục thể thao
+#   exp_culture_media_sport_share_pct = V03.16: Chi văn hoá thông tin; phát thanh truyền hình, thông tấn; thể dục thể thao
+#   exp_culture_media_sport_pct_gdp = V03.17: Chi văn hoá thông tin; phát thanh truyền hình, thông tấn; thể dục thể thao
+#   exp_social_security_vnd_bn = V03.16: Chi đảm bảo xã hội
+#   exp_social_security_share_pct = V03.16: Chi đảm bảo xã hội
+#   exp_social_security_pct_gdp = V03.17: Chi đảm bảo xã hội
+#   exp_economic_environment_vnd_bn = V03.16: Chi sự nghiệp kinh tế, bảo vệ môi trường
+#   exp_economic_environment_share_pct = V03.16: Chi sự nghiệp kinh tế, bảo vệ môi trường
+#   exp_economic_environment_pct_gdp = V03.17: Chi sự nghiệp kinh tế, bảo vệ môi trường
+#   exp_administration_party_vnd_bn = V03.16: Chi hoạt động của các cơ quan Quản lý nhà nước, Đảng, đoàn thể
+#   exp_administration_party_share_pct = V03.16: Chi hoạt động của các cơ quan Quản lý nhà nước, Đảng, đoàn thể
+#   exp_administration_party_pct_gdp = V03.17: Chi hoạt động của các cơ quan Quản lý nhà nước, Đảng, đoàn thể
+#   exp_financial_reserve_fund_vnd_bn = V03.16: Chi bổ sung quĩ dự trữ tài chính
+#   exp_financial_reserve_fund_share_pct = V03.16: Chi bổ sung quĩ dự trữ tài chính
+#   exp_financial_reserve_fund_pct_gdp = V03.17: Chi bổ sung quĩ dự trữ tài chính
+# Dropped, blank in every year of the published table: exp_health_population_pct_gdp, exp_culture_media_sport_pct_gdp, exp_social_security_pct_gdp, exp_economic_environment_pct_gdp, exp_administration_party_pct_gdp.
+year,status,exp_total_vnd_bn,exp_total_share_pct,exp_total_pct_gdp,exp_development_investment_vnd_bn,exp_development_investment_share_pct,exp_development_investment_pct_gdp,exp_recurrent_socioeconomic_vnd_bn,exp_recurrent_socioeconomic_share_pct,exp_recurrent_socioeconomic_pct_gdp,exp_education_training_vnd_bn,exp_education_training_share_pct,exp_education_training_pct_gdp,exp_health_population_vnd_bn,exp_health_population_share_pct,exp_science_technology_vnd_bn,exp_science_technology_share_pct,exp_science_technology_pct_gdp,exp_culture_media_sport_vnd_bn,exp_culture_media_sport_share_pct,exp_social_security_vnd_bn,exp_social_security_share_pct,exp_economic_environment_vnd_bn,exp_economic_environment_share_pct,exp_administration_party_vnd_bn,exp_administration_party_share_pct,exp_financial_reserve_fund_vnd_bn,exp_financial_reserve_fund_share_pct,exp_financial_reserve_fund_pct_gdp
+2005,final,262697,100,,79199,30.15,,132327,50.37,,28611,10.89,,7608,2.9,2584,0.98,,2099,0.8,17747,6.76,11801,4.49,18761,7.14,69,0.03,
+2007,final,399402,100,,112160,28.08,,211940,53.06,,53774,13.46,,16426,4.11,7604,1.9,,1410,0.35,36597,9.16,16145,4.04,29214,7.31,185,0.05,
+2008,final,452766,100,,119462,26.38,,252375,55.74,,53560,11.83,,14385,3.18,3191,0.7,,2662,0.59,37138,8.2,21193,4.68,38025,8.4,159,0.04,
+2009,final,561273,100,,181363,32.31,,303371,54.05,,69320,12.35,,19354,3.45,3811,0.68,,6080,1.08,50266,8.96,27208,4.85,40557,7.23,247,0.04,
+2010,final,657582,100,,252743,38.43520656,,376620,57.27346551,,78206,11.89296544,,25130,3.87,4144,0.630187566,,8828,1.36,64218,9.9,37632,5.8,56129,8.65,275,0.0418198795,
+2011,final,787554,100,,208306,26.45,,467017,59.3,,99369,12.62,,30930,3.93,5758,0.73,,8645,1.1,78090,9.92,45543,5.78,72423,9.2,288,0.04,
+2012,final,978463,100,,268812,27.47,,603372,61.67,,127136,12.99,,39454,4.03,5918,0.6,,11372,1.16,85671,8.76,56854,5.81,89172,9.11,441,0.05,
+2013,final,1088153,100,,271680,24.97,,704165,64.71,,155603,14.3,,45872,4.22,6593,0.61,,13166,1.21,100247,9.21,66231,6.09,109093,10.03,253,0.02,
+2014,final,1103983,100,,248452,22.51,,723292,65.52,,174777,15.83,,50261,4.55,7027,0.64,,13574,1.23,106958,9.69,69442,6.29,123120,11.15,299,0.03,
+2015,final,1276451,100,,401719,31.47,,788499,61.77,,177367,13.9,,49423,3.91,9392,0.74,,15539,1.23,105295,8.32,79519,6.28,132843,10.5,302,0.02,
+2016,final,1298290,100,,365903,28.18,,822344,63.34,,178036,13.71,,76217,5.6,9440,0.73,,12975,0.95,122905,9.04,91545,6.73,118169,8.69,483,0.04,
+2017,final,1355034,100,,372792,27.51,,881688,65.07,,204521,15.09,,85230,5.83,9256,0.68,,14911,1.02,131104,8.96,109297,7.47,128080,8.75,127,0.01,
+2018,final,1435435,100,20.4797599,393304,27.39963844,5.611380166,931859,64.91823036,13.29509771,220436,15.35673855,3.145023184,,,11111,0.7740510716,0.158523801,,,,,,,,,298,0.02076025734,0.004251650859
+2019,final,1526893,100,19.81125367,421845,27.62767267,5.473388316,994582,65.13763571,12.90458225,237767,15.57194905,3.084998328,,,12426,0.8138094811,0.1612258607,,,,,,,,,341,0.02233293361,0.00442443413
+2020,final,1709524,100,21.25114268,576432,33.71885975,7.165642997,1013449,59.28252543,12.59821406,241927,14.15171709,3.00740159,,,11886,0.6952812596,0.1477552125,,,,,,,,,10123,0.5921531374,0.1258393081
+2021,final,1708088,100,20.12480418,540046.0566,31.6169926,6.36285785,1061316.482,62.134766,12.50449999,237338.8021,13.89499851,2.796341241,,,10294.50467,0.6026917037,0.1212905252,,,,,,,,,428.085,0.02506223333,0.005043725381
+2022,final,1750790,100,18.19688535,615640,35.16355474,6.398671742,1034250,59.07333261,10.74950661,247939,14.16154993,2.576961005,,,10513,0.600471787,0.1092671627,,,,,,,,,1562,0.08921686781,0.01623469115
+2023,final,1936912,100,18.77023888,723839,37.37077369,7.014583492,1117207,57.67980166,10.82663656,275673,14.23260324,2.671493627,,,9902,0.5112261166,0.09595836331,,,,,,,,,3590,0.1853465723,0.03478999437
+2024,final,2148477,100,18.66564383,720862,33.55223258,6.262740231,1320495,61.46190999,11.47226121,339930,15.82190547,2.953260522,,,9671,0.450132815,0.08402018801,,,,,,,,,1453,0.06762930206,0.01262344465
+2025,estimate,3312560,100,25.7835504,1039053,31.36706958,8.087544194,1683253,50.8142645,13.1017215,409062,12.34881783,3.18396367,,,16972,0.5123529838,0.1321027898,,,,,,,,,100,0.003018813244,0.0007783572344

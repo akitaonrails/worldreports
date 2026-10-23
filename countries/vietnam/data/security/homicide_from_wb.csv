@@ -1,0 +1,14 @@
+# Source: World Bank, World Development Indicators (API v2, lastupdated 2026-10-08). official: false. A redistributor. VC.IHR.PSRC.P5: intentional homicides per 100,000 people (UNODC CTS).
+# Covers 2001-2011 ONLY and is not extended by anything. The WHO homicide model (homicide_from_who.csv) is a different series and is never spliced onto it.
+year,homicide_per_100k
+2001,1.29
+2002,1.35
+2003,1.33
+2004,1.32
+2005,1.30
+2006,1.28
+2007,1.40
+2008,1.28
+2009,1.43
+2010,1.53
+2011,1.54

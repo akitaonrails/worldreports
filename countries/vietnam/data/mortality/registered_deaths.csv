@@ -1,0 +1,22 @@
+# NSO V02.34: deaths REGISTERED (đăng ký khai tử) in the civil registry,
+# source of record the Ministry of Justice; national (CẢ NƯỚC) row; total, on
+# time (đúng hạn) and late (quá hạn), counts, 2018-2024. Registrations land in
+# the year they are filed, so the 2022 peak lags the 2021 COVID wave; the late
+# column measures that. No cause of death: Vietnam has no machine-readable
+# ICD-coded death register.
+#
+# V02.34 "Số trường hợp tử vong được đăng ký khai tử phân theo địa phương chia theo Tỉnh, thành phố, Năm và Hạn đăng ký" — unit on the table page: Người; NSO updated 2026-08-20; https://pxweb.nso.gov.vn/pxweb/vi/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/V02.34.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   deaths_registered_total = V02.34: Tổng số
+#   deaths_registered_on_time = V02.34: Đúng hạn
+#   deaths_registered_late = V02.34: Quá hạn
+year,status,deaths_registered_total,deaths_registered_on_time,deaths_registered_late
+2018,final,569338,403361,165977
+2019,final,556015,403778,152237
+2020,final,583751,424992,158759
+2021,final,625455,446634,178821
+2022,final,725035,508780,216255
+2023,final,642391,467727,174664
+2024,final,629465,474867,154598

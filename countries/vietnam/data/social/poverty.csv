@@ -1,0 +1,46 @@
+# NSO V14.46: share of HOUSEHOLDS below the government's poverty standard, %,
+# national, by ethnicity, urban/rural and region. The standard is redefined
+# every five years. PX NOTEX (asserted present): "*" multidimensional
+# standard 2016-2021, "**" multidimensional standard 2022-2025, and from 2022
+# the 2022-2025 standard. year_label keeps the markers exactly as published
+# ("2021*", "2023**"); `standard` is this fetcher's reading of the NOTEX: up
+# to 2016 income-based (V14.46 keeps 2016 on the old line: 5.8, where the
+# summary table V14.01 reads 9.2 on the multidimensional standard), 2020-2021
+# the 2016-2021 multidimensional standard, 2022+ the 2022-2025 standard.
+# 2017-2019 are absent from this table. The standards are never spliced: draw
+# one segment per standard, and keep V14.01 (hdi_from_gso.csv) a separate line.
+#
+# V14.46 "Tỷ lệ hộ nghèo phân theo thành thị, nông thôn và theo vùng chia theo Phân tổ và Năm" — unit on the table page: %; NSO updated 2026-08-21; https://pxweb.nso.gov.vn/pxweb/vi/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/V14.46.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   poverty_national_pct = V14.46: CẢ NƯỚC
+#   poverty_kinh_hoa_pct = V14.46: Dân tộc Kinh/Hoa
+#   poverty_other_ethnic_pct = V14.46: Dân tộc khác
+#   poverty_urban_pct = V14.46: Thành thị
+#   poverty_rural_pct = V14.46: Nông thôn
+#   poverty_red_river_delta_pct = V14.46: Đồng bằng sông Hồng
+#   poverty_northern_midlands_mountains_pct = V14.46: Trung du và miền núi phía Bắc
+#   poverty_north_central_coast_pct = V14.46: Bắc Trung Bộ và Duyên hải miền Trung
+#   poverty_central_highlands_pct = V14.46: Tây Nguyên
+#   poverty_southeast_pct = V14.46: Đông Nam Bộ
+#   poverty_mekong_delta_pct = V14.46: Đồng bằng sông Cửu Long
+year,status,year_label,standard,poverty_national_pct,poverty_kinh_hoa_pct,poverty_other_ethnic_pct,poverty_urban_pct,poverty_rural_pct,poverty_red_river_delta_pct,poverty_northern_midlands_mountains_pct,poverty_north_central_coast_pct,poverty_central_highlands_pct,poverty_southeast_pct,poverty_mekong_delta_pct
+1998,final,1998,income-based (pre-2016 national line),37.4,,,9,44.9,30.7,64.5,42.5,52.4,7.6,36.9
+2002,final,2002,income-based (pre-2016 national line),28.9,,,6.6,35.6,21.5,47.9,35.7,51.8,8.2,23.4
+2004,final,2004,income-based (pre-2016 national line),18.1,,,8.6,21.2,12.7,29.4,25.3,29.2,4.6,15.3
+2006,final,2006,income-based (pre-2016 national line),15.5,,,7.7,18,10,27.5,22.2,24,3.1,13
+2008,final,2008,income-based (pre-2016 national line),13.4,,,6.7,16.1,8.6,25.1,19.2,21,2.5,11.4
+2010,final,2010,income-based (pre-2016 national line),14.2,,,6.9,17.4,8.3,29.4,20.4,22.2,2.3,12.6
+2011,final,2011,income-based (pre-2016 national line),12.6,,,5.1,15.9,7.1,26.7,18.5,20.3,1.7,11.6
+2012,final,2012,income-based (pre-2016 national line),11.1,,,4.3,14.1,6,23.8,16.1,17.8,1.3,10.1
+2013,final,2013,income-based (pre-2016 national line),9.8,,,3.7,12.7,4.9,21.9,14,16.2,1.1,9.2
+2014,final,2014,income-based (pre-2016 national line),8.4,,,3,10.8,4,18.4,11.8,13.8,1,7.9
+2015,final,2015,income-based (pre-2016 national line),7,,,2.5,9.2,3.2,16,9.8,11.3,0.7,6.5
+2016,final,2016,income-based (pre-2016 national line),5.8,,,2,7.5,2.4,13.8,8,9.1,0.6,5.2
+2020,final,2020,multidimensional 2016-2021,4.8,2.389484,22.71173,1.1379,7.0587,1.3463,14.3832,6.5342,11.0008,0.3199,4.1686
+2021,final,2021*,multidimensional 2016-2021,4.36442,2.259724,21.33895,0.991441,6.501341,1.215264,13.42746,5.743412,10.07429,0.2464967,3.751217
+2022,final,2022,multidimensional 2022-2025,4.19406,1.975516,23.71469,1.544835,5.913642,0.9058686,12.8153,5.179658,10.77312,0.3676129,3.952068
+2023,final,2023**,multidimensional 2022-2025,3.373165,1.404601,19.34073,1.156695,4.771488,0.7028028,10.71267,3.89376,9.031003,0.2733434,3.061412
+2024,final,2024,multidimensional 2022-2025,2.3,0.9353141,13.82131,0.5444037,3.517493,0.4888982,7.828302,2.662862,6.078733,0.1812453,2.085217
+2025,preliminary,Sơ bộ 2025,multidimensional 2022-2025,1.34902,0.5026044,7.751772,0.4813673,1.924447,0.2470526,4.582682,1.624258,3.514414,0.0346937,1.179601

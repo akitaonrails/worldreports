@@ -1,0 +1,68 @@
+# official: false. Asian Development Bank, Key Indicators Database (kidb.adb.org SDMX v5, economy VIE), a redistributor.
+# Labour force survey (NSO via ADB). Unemployment rate is ages 15+, a
+# different age base from the NSO's working-age rate: its own line.
+# Definitional break 2020->2021 (ICLS 13 -> ICLS 19, flagged B in 2021);
+# see the footnotes. Persons in millions.
+# break_flags lists column:OBS_STATUS for every non-normal observation (B = time-series break). Blank = not published.
+# unemployment_rate_pct: LUR_PT "Unemployment rate" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 2010-2019: For 2010–2018, data on labor force have been adjusted for the 2019 Population and Housing Census. Unemployment rate is population at 15 years of age and above.
+# labour_force_mn: LLF_PE_NUM "Labor Force" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# employed_mn: LE_PE_NUM "Employed, Total" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 1) Refers to total number of persons engaged in any activity regardless of age.|2) For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# unemployed_mn: LU_PE_NUM "Unemployed" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# underemployed_mn: LUD_PE_NUM_PS "Underemployed" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# participation_rate_pct: LPR_RATE "Labor force participation rate" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# participation_rate_male_pct: LPR_RATE_M_PS "Labor force participation rate (male)" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# participation_rate_female_pct: LPR_RATE_F_PS "Labor force participation rate (female)" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# employed_a_mn: LE_PE_NUM_A_PS "Employed, Agriculture, forestry, and fishing" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 1) Refers to total number of persons engaged in any activity regardless of age.|2) For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# employed_b_mn: LE_PE_NUM_B_PS "Employed, Mining and quarrying" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 1) Refers to total number of persons engaged in any activity regardless of age.|2) For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# employed_c_mn: LE_PE_NUM_C_PS "Employed, Manufacturing" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 1) Refers to total number of persons engaged in any activity regardless of age.|2) For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# employed_d_mn: LE_PE_NUM_D_PS "Employed, Electricity, gas, steam, and air-conditioning supply; water supply; sewerage, waste management, and remediation activities" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 1) Refers to total number of persons engaged in any activity regardless of age.|2) For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# employed_f_mn: LE_PE_NUM_F_PS "Employed, Construction" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 1) Refers to total number of persons engaged in any activity regardless of age.|2) For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# employed_g_mn: LE_PE_NUM_G_PS "Employed, Wholesale and retail trade; repair of motor vehicles and motorcycles" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 1) Refers to total number of persons engaged in any activity regardless of age.|2) For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# employed_h_mn: LE_PE_NUM_H_PS "Employed, Accommodation and food service activities" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 1) Refers to total number of persons engaged in any activity regardless of age.|2) For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# employed_i_mn: LE_PE_NUM_I_PS "Employed, Transportation and storage" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 1) Refers to total number of persons engaged in any activity regardless of age.|2) For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# employed_j_mn: LE_PE_NUM_J_PS "Employed, Information and communication" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 1) Refers to total number of persons engaged in any activity regardless of age.|2) For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# employed_k_mn: LE_PE_NUM_K_PS "Employed, Financial and insurance activities" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 1) Refers to total number of persons engaged in any activity regardless of age.|2) For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# employed_l_mn: LE_PE_NUM_L_PS "Employed, Real estate activities" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 1) Refers to total number of persons engaged in any activity regardless of age.|2) For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+# employed_ot_mn: LE_PE_NUM_OT_PS "Employed, Others" (UNIT PERSONS, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Ending 30 June; DATA_SOURCE National Statistics Office)
+#   FOOTNOTE: 1) Refers to total number of persons engaged in any activity regardless of age.|2) For 2000–2020, data are based on the International Conference of Labor Statistics (ICLS 13) standards. For 2021 onward, data are calculated based on ICLS19.
+year,unemployment_rate_pct,labour_force_mn,employed_mn,unemployed_mn,underemployed_mn,participation_rate_pct,participation_rate_male_pct,participation_rate_female_pct,employed_a_mn,employed_b_mn,employed_c_mn,employed_d_mn,employed_f_mn,employed_g_mn,employed_h_mn,employed_i_mn,employed_j_mn,employed_k_mn,employed_l_mn,employed_ot_mn,break_flags
+2005,4.73296,44.9045,42.77489,2.1251,,,,,23.5632,0.2565,5.0312,0.2564,1.9799,4.5931,0.8245,1.2904,0.1514,0.1859,0.019,4.6234,
+2006,4.88424,46.2387,43.9803,2.25841,,,,,24.3694,0.4068,6.103,0.2016,2.3209,4.7542,0.7282,1.1284,,0.1699,0.1661,3.6318,
+2007,4.13978,47.1603,45.208,1.95233,,74.7,78.8,70.9,23.9315,0.2988,5.665,0.2295,2.3719,4.9295,1.0964,1.3416,0.1805,0.1916,0.0539,4.9177,
+2008,3.62748,48.2096,46.4608,1.74879,,,,,24.3034,0.2914,5.9988,0.2269,2.4684,5.1004,1.3074,1.4333,0.2048,0.2043,0.0515,4.8702,
+2009,3.2,49.322,47.7436,1.578,,76.5,81,72.3,24.606,0.2915,6.449,0.227,2.5941,5.1507,1.5737,1.4261,0.228,0.2303,0.0652,4.9021,
+2010,2.67,50.4735,49.1244,1.3,1.7,76.68481153,81.25300534,72.38024782,23.8903,0.2788,7.0513,0.2514,3.0783,5.6627,1.8172,1.4414,0.262,0.2576,0.101,5.0324,
+2011,2.03,51.5943,50.5472,1,1.4,76.5519459,81.24615744,72.11897468,24.4885,0.2852,7.0065,0.2469,3.2434,5.8325,1.9881,1.418,0.27,0.3009,0.1198,5.3474,
+2012,1.76,52.6166,51.6905,0.9,1.3,76.79468437,81.2463972,72.57999068,24.5604,0.292,7.1568,0.238,3.3037,6.3141,2.1204,1.4997,0.284,0.3103,0.1492,5.4619,
+2013,1.94,53.5493,52.5078,1,1.4,77.5511496,82.05082218,73.29059639,24.5699,0.273,7.3632,0.2514,3.2887,6.5716,2.2047,1.5078,0.2692,0.3353,0.152,5.721,
+2014,1.87,54.0407,53.0306,1,1.2,77.51230245,82.09434493,73.17367838,24.4843,0.2438,7.7157,0.264,3.2223,6.5885,2.3081,1.5515,0.3237,0.357,0.162,5.8097,
+2015,2.13,54.266,53.1105,1.2,1.2,77.37313408,82.37783416,72.62326629,23.1357,0.2305,8.4575,0.2695,3.2834,6.7474,2.4616,1.6469,0.3455,0.3704,0.1627,5.9994,
+2016,2.09,54.4828,53.3455,1.1,0.9,77.31757331,82.42777121,72.4707848,22.1843,0.2166,9.0492,0.295,3.8617,6.7676,2.4595,1.6167,0.324,0.3971,0.1919,5.9819,
+2017,2.03,54.8196,53.7086,1.1,1,76.88026685,81.98633593,72.01856103,21.4587,0.2147,9.5376,0.2869,4.0653,6.8836,2.4552,1.7444,0.3302,0.3748,0.2269,6.1303,
+2018,2,55.388,54.2825,1.1,0.8,76.98380008,82.41857619,71.81253981,20.4198,0.1987,9.9998,0.3137,4.2732,7.2856,2.7051,1.7638,0.3076,0.4086,0.2605,6.3461,
+2019,1.99,55.7674,54.6592,1.1,0.8,76.79769133,81.94848688,71.77789644,18.8314,0.1979,11.2876,0.356,4.6152,7.2799,2.7394,1.9708,0.3468,0.4826,0.3034,6.2482,
+2020,2.25,54.8429,53.6096,1.2,1.3,74.35642329,79.92199757,69.01577338,17.7246,0.174,11.3022,0.3371,4.6954,7.2908,2.7378,1.9677,0.3387,0.4552,0.3212,6.2652,
+2021,2.96,50.5605,49.072,1.4968,1.446045717,67.77260465,74.20946416,61.51240278,14.2623,0.1751,11.2091,0.3204,4.5452,7.2039,2.4934,1.8565,0.2846,0.4846,0.3082,5.9287,employed_a_mn:B;employed_b_mn:B;employed_c_mn:B;employed_d_mn:B;employed_f_mn:B;employed_g_mn:B;employed_h_mn:B;employed_i_mn:B;employed_j_mn:B;employed_k_mn:B;employed_l_mn:B;employed_mn:B;employed_ot_mn:B;labour_force_mn:B;participation_rate_female_pct:B;participation_rate_male_pct:B;participation_rate_pct:B;underemployed_mn:B;unemployed_mn:B;unemployment_rate_pct:B
+2022,2.1,51.704883,50.60471345,1.1,0.9983,68.56393873,75,62.5,13.93760118,0.195990618,11.76786655,0.32321957,4.639831106,7.893558177,2.684986077,1.906489852,0.313209842,0.489720924,0.366472185,6.085767378,
+2023,2.08,52.37595147,51.28699758,1.09,0.9212,68.9,75.12402263,63.1386477,13.81543577,0.170538401,11.95668934,0.301619201,4.74478239,7.766269053,2.92626276,2.02162762,0.339478503,0.492265553,0.361059762,6.390969231,
+2024,2.24,52.94228,51.8603,1.079239,0.93435,68.79858191,73.90708122,62.44381471,13.67104,0.17914,12.22325,0.32865,4.63463,7.82075,3.12362,2.10396,0.33671,0.49926,0.33978,6.59954,
+2025,2.208834481,53.5596,52.4749,,,68.51493803,74.2,63,13.43939866,0.18486271,12.46791788,0.33166598,4.618798313,7.941742402,3.189041836,2.328586063,0.36419992,0.495075315,0.344611218,6.769035512,

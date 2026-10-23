@@ -1,0 +1,28 @@
+# official: false. Asian Development Bank, Key Indicators Database (kidb.adb.org SDMX v5, economy VIE), a redistributor.
+# Secondary income, CREDIT, USD mn (BPM5 to 2013, BPM6 from 2014, flagged B):
+# a SUPERSET of remittances (it includes other current transfers). Label it
+# 'secondary income received (includes remittances)', never 'remittances'.
+# Same rows as bop_from_adb; the NSO's V03.20 2018+ rows equal them.
+# break_flags lists column:OBS_STATUS for every non-normal observation (B = time-series break). Blank = not published.
+# secondary_income_credit_mn_usd: BXIS_BP6_USD "Balance on secondary income-Credit" (UNIT USD, UNIT_MULT 6 rescaled to 10^6; REF_YEAR Calendar Year; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 2014-2025: Prior to 2014, data are based on the IMF's Balance of Payments Manual (fifth edition). For 2014 onward, data are based on the IMF's Balance of Payments and International Investment Position Manual (sixth edition).
+year,secondary_income_credit_mn_usd,break_flags
+2007,6779,
+2008,7715,
+2009,6801,
+2010,8222,
+2011,9213,
+2012,8667,
+2013,10027,
+2014,10022,secondary_income_credit_mn_usd:B
+2015,8586,
+2016,9125,
+2017,10031,
+2018,10869,
+2019,11609,
+2020,11427,
+2021,13568,
+2022,12287,
+2023,16112,
+2024,16998,
+2025,19766,

@@ -1,0 +1,22 @@
+# Source: UNDP, Human Development Report 2025, composite indices complete time series (one vintage throughout). official: false.
+# hdi: Human Development Index (0-1). hdi_rank: rank among countries, published for the latest year only. life_expectancy: years at birth (UNDP's input, from UN WPP). gii: Gender Inequality Index (0-1, lower is more equal).
+# The NSO computes its own HDI (V14.01: 2023 0.746); a different computation, never merged with this one. The file is Latin-1.
+year,hdi,hdi_rank,life_expectancy,gii
+2006,0.656,,73.3,0.318
+2007,0.664,,73.4,0.323
+2008,0.672,,73.5,0.327
+2009,0.679,,73.5,0.331
+2010,0.686,,73.6,0.335
+2011,0.693,,73.7,0.339
+2012,0.698,,73.8,0.340
+2013,0.704,,73.8,0.341
+2014,0.711,,73.9,0.341
+2015,0.717,,74.0,0.339
+2016,0.723,,74.0,0.327
+2017,0.729,,74.0,0.325
+2018,0.737,,74.1,0.320
+2019,0.744,,74.2,0.318
+2020,0.755,,75.4,0.312
+2021,0.754,,74.1,0.302
+2022,0.764,,74.5,0.300
+2023,0.766,93,74.6,0.299

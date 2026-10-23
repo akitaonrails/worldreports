@@ -1,0 +1,23 @@
+# NSO V03.26 (Hoạt động chứng khoán), source of record the State Securities
+# Commission. Equity market capitalisation and bond market size in bn VND
+# (tỷ đồng), their % of GDP and growth in %. 2018-2025 only. Year-end stocks.
+#
+# V03.26 "Hoạt động chứng khoán chia theo Chỉ tiêu chủ yếu và Năm" — unit on the table page: not stated; NSO updated 2026-08-15; https://pxweb.nso.gov.vn/pxweb/vi/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/V03.26.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   equity_mcap_vnd_bn = V03.26: Giá trị vốn hóa thị trường cổ phiếu (Tỷ đồng)
+#   equity_mcap_growth_pct = V03.26: Tốc độ tăng giá trị vốn hóa thị trường cổ phiếu (%)
+#   equity_mcap_pct_gdp = V03.26: Tỷ lệ vốn hóa thị trường cổ phiếu so với tổng sản phẩm trong nước (%)
+#   bond_market_vnd_bn = V03.26: Quy mô thị trường trái phiếu (Tỷ đồng)
+#   bond_market_pct_gdp = V03.26: Quy mô thị trường trái phiếu so với tổng sản phẩm trong nước (%)
+#   bond_market_growth_pct = V03.26: Tốc độ tăng quy mô thị trường trái phiếu (%)
+year,status,equity_mcap_vnd_bn,equity_mcap_growth_pct,equity_mcap_pct_gdp,bond_market_vnd_bn,bond_market_pct_gdp,bond_market_growth_pct
+2018,final,3961457,12.71196495,56.51923509,1121307,15.99800627,10.60075969
+2019,final,4383580,10.65575115,56.87642512,1189085,15.42823536,6.044553365
+2020,final,5293773,20.76369086,65.80704649,1385867,17.22775308,16.54902719
+2021,final,7766606.607,46.7121202,91.50666542,1543282.066,18.18304992,11.35859834
+2022,final,5226608.634,-32.70408946,54.32290458,1742628.69,18.11206055,12.917057
+2023,final,5936591.068,13.5839984,57.53035372,2029930.851,19.67166654,16.48671128
+2024,final,7173318.532,20.83228322,62.32070848,2309558.664,20.06509701,13.77523837
+2025,final,9975357.132,39.06195699,77.64391389,2678227.545,20.84617785,15.96274153

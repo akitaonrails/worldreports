@@ -1,0 +1,84 @@
+# NSO V14.86 (Trật tự và an toàn xã hội), source of record the Ministry of
+# Public Security: traffic accidents, collisions, deaths and injuries; fires
+# and explosions, deaths, injuries and damage (bn VND). Counts. 2012-2025.
+# DEFINITIONAL BREAK AT 2022, NOT A SAFETY COLLAPSE: accidents double (11,487
+# -> 23,352) and deaths rise 134% (5,790 -> 13,551) while minor collisions
+# (va chạm) FALL and stop being reported after 2023. The table carries no
+# footnote; the fetcher asserts the step. Accidents, deaths and injuries are
+# therefore split into _to2021 and _from2022, never joined. The police count
+# is far below the WHO modelled road-death estimate before 2022.
+# tngt_<measure>_<breakdown> (V14.87): accidents, deaths and injuries by road
+# type and region, 2022-2024 only. NOT a clean breakdown of V14.86: its 2022
+# rows are on the OLD narrow basis (mode deaths sum to 6,397 against V14.86's
+# 13,551), its 2023-2024 mode sums match V14.86 within 3% (asserted), and its
+# own 2024 CẢ NƯỚC row (3,855) does not equal its modes (11,101): use the mode
+# rows, never tngt_*_all for 2024, and never compare 2022 with 2023 in it.
+#
+# V14.86 "Trật tự và an toàn xã hội chia theo Phân tổ và Năm" — unit on the table page: not stated; NSO updated 2026-08-21; https://pxweb.nso.gov.vn/pxweb/vi/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/V14.86.px/
+# V14.87 "Một số chỉ tiêu về tai nạn giao thông phân theo loại đường và theo vùng kinh tế chia theo Phân tổ, Năm và Chỉ tiêu" — unit on the table page: not stated; NSO updated 2025-08-04; https://pxweb.nso.gov.vn/pxweb/vi/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/V14.87.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   traffic_accidents_to2021 = V14.86: Số vụ tai nạn giao thông (Vụ)
+#   traffic_accidents_from2022 = V14.86: Số vụ tai nạn giao thông (Vụ)
+#   traffic_minor_collisions = V14.86: Số vụ va chạm giao thông (Vụ)
+#   traffic_accidents_less_serious_or_worse = V14.86: Số vụ tai nạn giao thông gây hậu quả từ ít nghiêm trọng trở lên (Vụ)
+#   traffic_deaths_to2021 = V14.86: Số người chết do tai nạn giao thông (Người)
+#   traffic_deaths_from2022 = V14.86: Số người chết do tai nạn giao thông (Người)
+#   traffic_injuries_to2021 = V14.86: Số người bị thương do tai nạn giao thông (Người)
+#   traffic_injuries_from2022 = V14.86: Số người bị thương do tai nạn giao thông (Người)
+#   fires_explosions = V14.86: Số vụ cháy, nổ (Vụ)
+#   fire_deaths = V14.86: Số người chết do cháy, nổ (Người)
+#   fire_injuries = V14.86: Số người bị thương do cháy, nổ (Người)
+#   fire_damage_vnd_bn = V14.86: Tổng giá trị tài sản thiệt hại ước tính do cháy nổ (Tỷ đồng)
+#   tngt_accidents_all = V14.87: CẢ NƯỚC / Số Vụ TNGT (Vụ)
+#   tngt_deaths_all = V14.87: CẢ NƯỚC / Số người chết (người)
+#   tngt_injuries_all = V14.87: CẢ NƯỚC / Số người bị thương (Người)
+#   tngt_accidents_road = V14.87: Đường bộ / Số Vụ TNGT (Vụ)
+#   tngt_deaths_road = V14.87: Đường bộ / Số người chết (người)
+#   tngt_injuries_road = V14.87: Đường bộ / Số người bị thương (Người)
+#   tngt_accidents_rail = V14.87: Đường sắt / Số Vụ TNGT (Vụ)
+#   tngt_deaths_rail = V14.87: Đường sắt / Số người chết (người)
+#   tngt_injuries_rail = V14.87: Đường sắt / Số người bị thương (Người)
+#   tngt_accidents_inland_waterway = V14.87: Đường thủy / Số Vụ TNGT (Vụ)
+#   tngt_deaths_inland_waterway = V14.87: Đường thủy / Số người chết (người)
+#   tngt_injuries_inland_waterway = V14.87: Đường thủy / Số người bị thương (Người)
+#   tngt_accidents_maritime = V14.87: Đường hàng hải / Số Vụ TNGT (Vụ)
+#   tngt_deaths_maritime = V14.87: Đường hàng hải / Số người chết (người)
+#   tngt_injuries_maritime = V14.87: Đường hàng hải / Số người bị thương (Người)
+#   tngt_accidents_red_river_delta = V14.87: Đồng bằng sông Hồng / Số Vụ TNGT (Vụ)
+#   tngt_deaths_red_river_delta = V14.87: Đồng bằng sông Hồng / Số người chết (người)
+#   tngt_injuries_red_river_delta = V14.87: Đồng bằng sông Hồng / Số người bị thương (Người)
+#   tngt_accidents_northern_midlands_mountains = V14.87: Trung du và miền núi phía Bắc / Số Vụ TNGT (Vụ)
+#   tngt_deaths_northern_midlands_mountains = V14.87: Trung du và miền núi phía Bắc / Số người chết (người)
+#   tngt_injuries_northern_midlands_mountains = V14.87: Trung du và miền núi phía Bắc / Số người bị thương (Người)
+#   tngt_accidents_north_central_coast = V14.87: Bắc Trung Bộ và Duyên hải miền Trung / Số Vụ TNGT (Vụ)
+#   tngt_deaths_north_central_coast = V14.87: Bắc Trung Bộ và Duyên hải miền Trung / Số người chết (người)
+#   tngt_injuries_north_central_coast = V14.87: Bắc Trung Bộ và Duyên hải miền Trung / Số người bị thương (Người)
+#   tngt_accidents_central_highlands = V14.87: Tây Nguyên / Số Vụ TNGT (Vụ)
+#   tngt_deaths_central_highlands = V14.87: Tây Nguyên / Số người chết (người)
+#   tngt_injuries_central_highlands = V14.87: Tây Nguyên / Số người bị thương (Người)
+#   tngt_accidents_southeast = V14.87: Đông Nam Bộ / Số Vụ TNGT (Vụ)
+#   tngt_deaths_southeast = V14.87: Đông Nam Bộ / Số người chết (người)
+#   tngt_injuries_southeast = V14.87: Đông Nam Bộ / Số người bị thương (Người)
+#   tngt_accidents_mekong_delta = V14.87: Đồng bằng sông Cửu Long / Số Vụ TNGT (Vụ)
+#   tngt_deaths_mekong_delta = V14.87: Đồng bằng sông Cửu Long / Số người chết (người)
+#   tngt_injuries_mekong_delta = V14.87: Đồng bằng sông Cửu Long / Số người bị thương (Người)
+#   tngt_accidents_other_region = V14.87: Khác / Số Vụ TNGT (Vụ)
+#   tngt_deaths_other_region = V14.87: Khác / Số người chết (người)
+#   tngt_injuries_other_region = V14.87: Khác / Số người bị thương (Người)
+year,status,traffic_accidents_to2021,traffic_accidents_from2022,traffic_minor_collisions,traffic_accidents_less_serious_or_worse,traffic_deaths_to2021,traffic_deaths_from2022,traffic_injuries_to2021,traffic_injuries_from2022,fires_explosions,fire_deaths,fire_injuries,fire_damage_vnd_bn,tngt_accidents_all,tngt_deaths_all,tngt_injuries_all,tngt_accidents_road,tngt_deaths_road,tngt_injuries_road,tngt_accidents_rail,tngt_deaths_rail,tngt_injuries_rail,tngt_accidents_inland_waterway,tngt_deaths_inland_waterway,tngt_injuries_inland_waterway,tngt_accidents_maritime,tngt_deaths_maritime,tngt_injuries_maritime,tngt_accidents_red_river_delta,tngt_deaths_red_river_delta,tngt_injuries_red_river_delta,tngt_accidents_northern_midlands_mountains,tngt_deaths_northern_midlands_mountains,tngt_injuries_northern_midlands_mountains,tngt_accidents_north_central_coast,tngt_deaths_north_central_coast,tngt_injuries_north_central_coast,tngt_accidents_central_highlands,tngt_deaths_central_highlands,tngt_injuries_central_highlands,tngt_accidents_southeast,tngt_deaths_southeast,tngt_injuries_southeast,tngt_accidents_mekong_delta,tngt_deaths_mekong_delta,tngt_injuries_mekong_delta,tngt_accidents_other_region,tngt_deaths_other_region,tngt_injuries_other_region
+2012,final,36376,,25713,10663,9838,,38060,,2255,117,259,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2013,final,31337,,20281,11056,9851,,32169,,2590,124,339,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2014,final,25685,,15084,10601,9101,,24863,,2462,127,186,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2015,final,22850,,12383,10467,8728,,21072,,3020,92,316,916.1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2016,final,21431,,11280,10151,8644,,19100,,3618,125,241,1201.8,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2017,final,20084,,10310,9774,8281,,17040,,4114,119,270,2042,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2018,final,18565,,8947,9618,8211,,14558,,4220,108,271,2014.3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2019,final,17626,,8397,9229,7624,,13624,,3755,112,177,1369.9,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2020,final,14977,,6371,8606,6857,,11161,,2813,89,181,614.311678,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2021,final,11487,,4055,7432,5790,,8018,,2246,85,130,374.4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2022,final,,23352,3490,7974,,13551,,14632,3257,125,115,737,11457,6397,7804,11323,6265,7777,95,74,21,32,45,6,7,13,0,1862,1040,1262,1138,595,965,2521,1501,1805,784,558,536,3587,1547,2439,1558,1143,797,7,13,
+2023,final,,22982,5766,16301,,11885,,16127,3777,162,136,747.95,22067,11628,15292,21880,11498,15255,124,97,27,57,31,10,6,2,,5205,2593,3596,2805,1244,2514,5843,2644,4463,1436,959,850,4374,2479,2587,2398,1707,1282,6,2,
+2024,final,,23917,,,,11205,,17572,4166,108,115,657.75,9008,3855,7184,23501,10993,17392,106,71,25,56,34,6,4,3,1,5647,2614,4323,3301,1204,2854,5871,2536,4590,1687,947,1247,4182,2110,2460,2975,1687,1949,4,3,1
+2025,preliminary,,18622,,,,10533,,12294,3179,108,138,912.4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

@@ -1,0 +1,53 @@
+# NSO V03.20 (Cán cân thanh toán quốc tế), source of record the State Bank of
+# Vietnam. US$ millions, except current_account_pct_gdp (%). 2018-2025 only.
+# Signs as published by the SBV. secondary_income_credit (current transfers
+# received) INCLUDES remittances but is not only remittances: a labelled
+# superset. goods_exports_fob is asserted within 3% of the customs total
+# (trade_totals_from_gso.csv) every year.
+#
+# V03.20 "Cán cân thanh toán quốc tế chia theo Phân loại, Chỉ tiêu chủ yếu và Năm" — unit on the table page: Triệu đô la Mỹ; NSO updated 2026-08-15; https://pxweb.nso.gov.vn/pxweb/vi/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/V03.20.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   current_account = V03.20: CÁN CÂN VÃNG LAI
+#   goods_balance = V03.20: Cán cân hàng hóa
+#   goods_exports_fob = V03.20: Cán cân hàng hóa - Xuất khẩu (FOB)
+#   goods_imports_fob = V03.20: Cán cân hàng hóa - Nhập khẩu (FOB)
+#   services_balance = V03.20: Dịch vụ
+#   services_exports = V03.20: Dịch vụ - Xuất khẩu
+#   services_imports = V03.20: Dịch vụ - Nhập khẩu
+#   primary_income_balance = V03.20: Thu nhập
+#   primary_income_credit = V03.20: Thu nhập - Thu
+#   primary_income_debit = V03.20: Thu nhập - Chi
+#   secondary_income_balance = V03.20: Chuyển giao vãng lai
+#   secondary_income_credit = V03.20: Chuyển giao vãng lai - Thu
+#   secondary_income_debit = V03.20: Chuyển giao vãng lai - Chi
+#   current_account_pct_gdp = V03.20: Tỷ lệ cán cân vãng lai so với tổng sản phẩm trong nước (%)
+#   financial_account = V03.20: CÁN CÂN TÀI CHÍNH
+#   fdi_net = V03.20: Đầu tư trực tiếp
+#   fdi_outward = V03.20: Đầu tư trực tiếp của Việt Nam ra nước ngoài
+#   fdi_inward = V03.20: Đầu tư trực tiếp của nước ngoài vào Việt Nam
+#   portfolio_net = V03.20: Đầu tư gián tiếp
+#   portfolio_outward = V03.20: Đầu tư gián tiếp của Việt Nam ra nước ngoài
+#   portfolio_inward = V03.20: Đầu tư gián tiếp vào Việt Nam
+#   other_investment_assets = V03.20: Đầu tư khác (Tài sản có)
+#   other_investment_assets_currency_deposits = V03.20: Đầu tư khác (Tài sản có) - Tiền và tiền gửi
+#   other_investment_assets_other = V03.20: Đầu tư khác (Tài sản có) - Các khoản phải thu, phải trả khác
+#   other_investment_liabilities = V03.20: Đầu tư khác (Tài sản nợ)
+#   other_investment_liabilities_currency_deposits = V03.20: Đầu tư khác (Tài sản nợ) - Tiền và tiền gửi
+#   other_investment_liabilities_loans = V03.20: Đầu tư khác (Tài sản nợ) - Vay, trả nợ nước ngoài
+#   other_investment_liabilities_sdr_allocation = V03.20: Đầu tư khác (Tài sản nợ) - Phân bổ quyền rút vốn đặc biệt
+#   other_investment_net = V03.20: Đầu tư khác (Ròng)
+#   errors_omissions = V03.20: LỖI VÀ SAI SÓT
+#   overall_balance = V03.20: CÁN CÂN TỔNG THỂ
+#   reserves_related_items = V03.20: DỰ TRỮ VÀ CÁC HẠNG MỤC LIÊN QUAN
+#   reserve_assets = V03.20: Tài sản dự trữ
+year,status,current_account,goods_balance,goods_exports_fob,goods_imports_fob,services_balance,services_exports,services_imports,primary_income_balance,primary_income_credit,primary_income_debit,secondary_income_balance,secondary_income_credit,secondary_income_debit,current_account_pct_gdp,financial_account,fdi_net,fdi_outward,fdi_inward,portfolio_net,portfolio_outward,portfolio_inward,other_investment_assets,other_investment_assets_currency_deposits,other_investment_assets_other,other_investment_liabilities,other_investment_liabilities_currency_deposits,other_investment_liabilities_loans,other_investment_liabilities_sdr_allocation,other_investment_net,errors_omissions,overall_balance,reserves_related_items,reserve_assets
+2018,final,5768.853,16539.629,243697,227157.371,-3810,14775,18585,-15817.7,1615,17432.7,8856.924,10869,2012.076,1.860603171,8466,14902,-598,15500,3021,,3021,-11143,-10804,-339,1686,-198,1884,,-9457,-8203.853,6031,-6031,-6031
+2019,final,12474.577,20971.577,264267,243295.423,-945,20422,21367,-16795,2237,19032,9243,11609,2366,3.731459001,18971,15670,-450,16120,2998,3,2995,-7789,-8081,292,8092,2875,5217,,303,-8191.577,23254,-23254,-23254
+2020,final,15060,30708,282629,251921,-10287,7600,17887,-14817,1428,16245,9456,11427,1971,4.344945853,8484.55767,15420,-380,15800,-1256,4,-1260,-8436,-8447,11,2756.55767,397,2359.55767,,-5679.44233,-6912.55767,16632,-16632,-16632
+2021,final,-8149.5247,15672.4753,336167,320494.5247,-15395,5262,20657,-18749,982,19731,10322,13568,3246,-2.223848491,30837.24178,15283,-377,15660,281,10,271,-626.7582221,-791.7582221,165,15900,8851,5439,1610,15273.24178,-8397.717078,14290,-14290,-14290
+2022,final,1403.6,29399.6,371715,342315.4,-13903,13526,27429,-19728,2321,22049,5635,12287,6652,0.3395782749,9470,15226,-2674,17900,1512,2,1510,-13663,-13750,87,6395,325,6070,,-7268,-33618.6,-22745,22745,22745
+2023,final,27590.184,44028,354721,310693,-7030,21387,28417,-22463,4551,27014,13055,16112,3057,6.362748354,-2838,20050,1550,18500,-1189,-34,-1155,-14341,-14171,-170,-7358,-4090,-3268,,-21699,-19144.184,5608,-5608,-5608
+2024,final,30384.568,43231.568,405935,362703.432,-10059,25498,35557,-15693,5542,21235,12905,16998,4093,6.380421196,-7909,19690,-480,20170,-5713,-63,-5650,-12260,-12071,-189,-9626,-3495,-6131,,-21886,-31642.568,-9167,9167,9167
+2025,preliminary,33135.288,41893.288,475059,433165.712,-10230,30307,40537,-14399,5388,19787,15871,19766,3895,6.441892413,-3410,21290,-700,21990,-4931,-31,-4900,-20971,-20507,-464,1202,6565,-5363,,-19769,-25863.288,3862,-3862,-3862

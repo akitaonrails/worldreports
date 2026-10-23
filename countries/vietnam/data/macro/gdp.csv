@@ -1,0 +1,62 @@
+# NSO national accounts, V03.01 (Một số chỉ tiêu chủ yếu về tài khoản quốc gia).
+# Current-price levels in bn VND (tỷ đồng); GDP per person in mn VND (triệu
+# đồng) and in US$ (converted at the average interbank rate); constant prices
+# are 2010 prices; ratios in % of current-price GDP; real growth in % y/y.
+# THE GDP REVALUATION SEAM: the NSO revalued GDP upward from 2010 only (PX
+# NOTEX: "Số liệu từ năm 2010 là số liệu theo quy mô GDP đánh giá lại").
+# 2000-2002 and 2009 are on the OLD scale, 2010+ on the REVALUED scale, and
+# 2003-2008 are absent from the table. Each level is therefore two columns,
+# _old_scale (<=2009) and _revalued (>=2010), never joined: a 2009->2010
+# change in level is methodology, not growth. The ratio and growth columns
+# are single columns; gdp_scale says which scale their denominator is on.
+#
+# V03.01 "Một số chỉ tiêu chủ yếu về tài khoản quốc gia chia theo Chỉ tiêu và Năm" — unit on the table page: not stated; NSO updated 9999-12-31; https://pxweb.nso.gov.vn/pxweb/vi/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/V03.01.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   gdp_cur_vnd_bn_old_scale = V03.01: Tổng sản phẩm trong nước theo giá hiện hành - Tỷ đồng
+#   gdp_cur_vnd_bn_revalued = V03.01: Tổng sản phẩm trong nước theo giá hiện hành - Tỷ đồng
+#   gdp_pc_cur_vnd_mn_old_scale = V03.01: Tổng sản phẩm trong nước bình quân đầu người theo giá hiện hành - Nội tệ - Triệu đồng
+#   gdp_pc_cur_vnd_mn_revalued = V03.01: Tổng sản phẩm trong nước bình quân đầu người theo giá hiện hành - Nội tệ - Triệu đồng
+#   gdp_pc_cur_usd_old_scale = V03.01: Tổng sản phẩm trong nước bình quân đầu người theo giá hiện hành - Ngoại tệ (theo tỷ giá TTBQ liên NH) - USD
+#   gdp_pc_cur_usd_revalued = V03.01: Tổng sản phẩm trong nước bình quân đầu người theo giá hiện hành - Ngoại tệ (theo tỷ giá TTBQ liên NH) - USD
+#   capital_formation_cur_vnd_bn_old_scale = V03.01: Tích luỹ tài sản theo giá hiện hành - Tỷ đồng
+#   capital_formation_cur_vnd_bn_revalued = V03.01: Tích luỹ tài sản theo giá hiện hành - Tỷ đồng
+#   final_consumption_cur_vnd_bn_old_scale = V03.01: Tiêu dùng cuối cùng theo giá hiện hành - Tỷ đồng
+#   final_consumption_cur_vnd_bn_revalued = V03.01: Tiêu dùng cuối cùng theo giá hiện hành - Tỷ đồng
+#   exports_gs_cur_vnd_bn_old_scale = V03.01: Xuất khẩu hàng hoá và dịch vụ theo giá hiện hành - Tỷ đồng
+#   exports_gs_cur_vnd_bn_revalued = V03.01: Xuất khẩu hàng hoá và dịch vụ theo giá hiện hành - Tỷ đồng
+#   imports_gs_cur_vnd_bn_old_scale = V03.01: Nhập khẩu hàng hoá và dịch vụ theo giá hiện hành - Tỷ đồng
+#   imports_gs_cur_vnd_bn_revalued = V03.01: Nhập khẩu hàng hoá và dịch vụ theo giá hiện hành - Tỷ đồng
+#   gni_cur_vnd_bn_old_scale = V03.01: Tổng thu nhập quốc gia theo giá hiện hành - Tỷ đồng
+#   gni_cur_vnd_bn_revalued = V03.01: Tổng thu nhập quốc gia theo giá hiện hành - Tỷ đồng
+#   gdp_const2010_vnd_bn_old_scale = V03.01: Tổng sản phẩm trong nước theo giá so sánh 2010 - Tỷ đồng
+#   gdp_const2010_vnd_bn_revalued = V03.01: Tổng sản phẩm trong nước theo giá so sánh 2010 - Tỷ đồng
+#   real_growth_pct = V03.01: Tốc độ tăng tổng sản phẩm trong nước theo giá so sánh 2010 (Năm trước = 100) - %
+#   capital_formation_pct_gdp = V03.01: Tích luỹ tài sản so với GDP (Giá hiện hành) - %
+#   fixed_assets_pct_gdp = V03.01: Tài sản cố định so với GDP (Giá hiện hành) - %
+#   final_consumption_pct_gdp = V03.01: Tiêu dùng cuối cùng so với GDP (Giá hiện hành) - %
+#   exports_gs_pct_gdp = V03.01: Xuất khẩu hàng hoá và dịch vụ so với GDP (Giá hiện hành) - %
+#   imports_gs_pct_gdp = V03.01: Nhập khẩu hàng hoá và dịch vụ so với GDP (Giá hiện hành) - %
+#   gni_pct_gdp = V03.01: Tổng thu nhập quốc gia so với GDP (Giá hiện hành) - %
+year,status,gdp_scale,gdp_cur_vnd_bn_old_scale,gdp_cur_vnd_bn_revalued,gdp_pc_cur_vnd_mn_old_scale,gdp_pc_cur_vnd_mn_revalued,gdp_pc_cur_usd_old_scale,gdp_pc_cur_usd_revalued,capital_formation_cur_vnd_bn_old_scale,capital_formation_cur_vnd_bn_revalued,final_consumption_cur_vnd_bn_old_scale,final_consumption_cur_vnd_bn_revalued,exports_gs_cur_vnd_bn_old_scale,exports_gs_cur_vnd_bn_revalued,imports_gs_cur_vnd_bn_old_scale,imports_gs_cur_vnd_bn_revalued,gni_cur_vnd_bn_old_scale,gni_cur_vnd_bn_revalued,gdp_const2010_vnd_bn_old_scale,gdp_const2010_vnd_bn_revalued,real_growth_pct,capital_formation_pct_gdp,fixed_assets_pct_gdp,final_consumption_pct_gdp,exports_gs_pct_gdp,imports_gs_pct_gdp,gni_pct_gdp
+2000,final,old,441646,,5.689,,402,,130771,,321853,,243049,,253927,,435319,,,,,29.61,27.65,72.87,55.03,57.5,98.57
+2001,final,old,481295,,6.117,,,,150033,,342607,,262846,,273828,,474855,,,,,31.17,29.15,71.18,54.61,56.89,98.66
+2002,final,old,535762,,6.72,,440,,177983,,382137,,304262,,331946,,527056,,,,,33.22,31.14,71.33,56.79,61.96,98.38
+2009,final,old,1809149,,19.278,,1064,,632326,,1206819,,1132688,,1304350,,1580461,,2027591,,5.4,38.13,34.52,72.77,68.3,78.65,95.3
+2010,final,revalued,,2739843.172,,31.46811411,,1689.574355,,1016456.505,,1885502.399,,1484333.216,,1638476.672,,2654839.22,,2739843.172,6.423267376,37.09907614,35.15968651,68.81789505,54.17584593,59.80184153,96.8974884
+2011,final,revalued,,3539881.312,,40.15937581,,1958.118997,,1145900.057,,2352796.834,,2165704.898,,2268370.89,,3440740.048,,2915553.938,6.413168763,32.37114342,30.56940663,66.46541582,61.18015568,64.08042218,97.19930541
+2012,final,revalued,,4073762.287,,45.66850169,,2192.649399,,1244912.823,,2694746.283,,2585776.817,,2434080.783,,3944024.675,,3076041.911,5.504544793,30.55928979,28.65273281,66.14883475,63.47392495,59.75019189,96.81528762
+2013,final,revalued,,4473655.599,,49.60178749,,2369.244281,,1351621.248,,3033143.589,,2988421.893,,2865193.389,,4320071.287,,3246870.226,5.553510657,30.21290347,28.30278454,67.80011384,66.80044601,64.04590889,96.56691696
+2014,final,revalued,,4937031.678,,54.13188693,,2559.187694,,1495378.848,,3324329.035,,3436103.743,,3249156.599,,4749963.563,,3455392.133,6.422243327,30.2890268,28.40470204,67.33456967,69.59857598,65.81194554,96.2109193
+2015,final,revalued,,5191323.73,,56.28756764,,2596.013416,,1666877.766,,3633279.876,,3785661.312,,3737305.404,,4927883.62,,3696825.71,6.987154231,32.10891582,30.17672554,69.98754201,72.92285184,71.99137636,94.92537697
+2016,final,revalued,,5639401.003,,60.4756936,,2757.257173,,1789073.975,,3898821.365,,4179207.042,,4021018.205,,5329176.689,,3944143.679,6.690008903,31.72453908,29.89385934,69.13538092,74.10728621,71.30222168,94.49898466
+2017,final,revalued,,6293904.554,,66.75336556,,2983.459976,,2033264.805,,4288217.207,,5146055.082,,4985877.728,,5913669.01,,4217874.761,6.94019041,32.3053009,30.54476489,68.13286045,81.76252178,79.21756177,93.95867
+2018,final,revalued,,7009042.132,,73.48145527,,3250.534606,,2244260.448,,4683636.749,,5917275.604,,5624089.097,,6651467.838,,4532739.396,7.46500675,32.01950289,30.34149306,66.82277923,84.42345606,80.24048067,94.89838573
+2019,final,revalued,,7707200.287,,79.88062067,,3464.909848,,2464759.62,,5118113.289,,6563265.824,,6130817.915,,7320005,,4866315.598,7.359262742,31.97996067,30.36256755,66.40690651,85.15758744,79.54662765,94.97619407
+2020,final,revalued,,8044385.729,,82.43660249,,3551.92393,,2567421.083,,5264719.697,,6787981.229,,6344145.664,,7700497.976,,5005755.653,2.865413318,31.9156884,30.27781765,65.44588828,84.38159802,78.86426481,95.72512104
+2021,final,revalued,,8487475.601,,86.16341606,,3720.243916,,2792006.222,,5525695.625,,7965513.431,,7878552.333,,8053248.761,,5133589.056,2.553728377,32.89560233,31.03485512,65.10411204,93.85020712,92.8256257,94.88391059
+2022,final,revalued,,9621371.822,,96.72838481,,4155.472372,,3111599.698,,6109397.17,,8988297.974,,8633592.731,,9162156.261,,5571869.247,8.5375005,32.34049941,30.56584132,63.49819217,93.42012907,89.7334901,95.22713009
+2023,final,revalued,,10319058.87,,102.8724978,,4322.838834,,3267875.633,,6483293.453,,8950407.428,,8075584.166,,9784496.974,,5849273.65,4.978659595,31.66834955,30.12930772,62.8283406,86.73666409,78.25892137,94.81966426
+2024,preliminary,revalued,,11510328.92,,113.577092,,4700,,3520402.612,,7182395.694,,10427922.93,,9626108.731,,11131019.85,,6261036.309,7.039551971,30.58472643,29.04295402,62.39956949,90.59622012,83.63017945,96.70462007
+2025,estimate,revalued,,12847571.22,,125.5315943,,5025.847344,,3956426.851,,8041005.912,,12622020.27,,11831636.8,,12487928.69,,6763098.166,8.01882999,30.79513461,29.20549708,62.58775123,98.24440786,92.09240095,97.20069637

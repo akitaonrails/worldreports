@@ -1,0 +1,50 @@
+# NSO V14.01 (Một số chỉ tiêu xã hội chủ yếu): the NSO's OWN Human
+# Development Index computed from national inputs, with the other headline
+# social indicators of the summary table. Units are in the column names.
+# hdi_nso is NOT the UNDP HDI (UNDP reads 2023 = 0.766 against 0.746 here):
+# two publishers, two lines, never spliced. HDI is blank before 2010.
+# poverty_households_pct here is the SUMMARY table's series, which puts 2016
+# on the multidimensional standard (9.2) and carries 2017-2019; the regional
+# table V14.46 (social/poverty_from_gso.csv) disagrees on 2016 (5.8). Two
+# tables, two lines.
+#
+# V14.01 "Một số chỉ tiêu xã hội chủ yếu chia theo Chỉ tiêu và Năm" — unit on the table page: not stated; NSO updated 2026-08-21; https://pxweb.nso.gov.vn/pxweb/vi/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/Y%20t%E1%BA%BF%2C%20v%C4%83n%20h%C3%B3a%20v%C3%A0%20MSDC/V14.01.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   population_avg_thousand = V14.01: Dân số trung bình (Nghìn người)
+#   population_under16_thousand = V14.01: Dân số trung bình dưới 16 tuổi
+#   population_under18_thousand = V14.01: Dân số trung bình dưới 18 tuổi
+#   hdi_nso = V14.01: Chỉ số phát triển con người(*)
+#   life_expectancy_years = V14.01: Tuổi thọ trung bình tính từ lúc sinh (Năm)
+#   mean_years_schooling = V14.01: Số năm đi học bình quân (Năm)
+#   expected_years_schooling = V14.01: Số năm đi học kỳ vọng (Năm)
+#   gni_pc_vnd_mn = V14.01: Thu nhập quốc gia bình quân đầu người(**) (Triệu đồng)
+#   income_pc_month_vnd_thousand = V14.01: Thu nhập bình quân đầu người một tháng theo giá hiện hành (Nghìn đồng)
+#   gini = V14.01: Hệ số bất bình đẳng trong phân phối thu nhập (Hệ số GINI)
+#   expenditure_pc_month_vnd_thousand = V14.01: Chi tiêu bình quân đầu người một tháng theo giá hiện hành (Nghìn đồng)
+#   poverty_households_pct = V14.01: Tỷ lệ hộ nghèo(***) (%)
+#   hospital_beds_per_10k = V14.01: Giường bệnh bình quân 1 vạn dân (****)(Giường)
+#   doctors_per_10k = V14.01: Bác sĩ bình quân 1 vạn dân (Người)
+#   hygienic_water_pct = V14.01: Tỷ lệ hộ có nguồn nước hợp vệ sinh (%)
+#   electricity_pct = V14.01: Tỷ lệ hộ dùng điện sinh hoạt (%)
+#   durables_pct = V14.01: Tỷ lệ hộ có đồ dùng lâu bền (%)
+#   housing_m2_per_person = V14.01: Diện tích nhà ở bình quân đầu người (m2)
+year,status,population_avg_thousand,population_under16_thousand,population_under18_thousand,hdi_nso,life_expectancy_years,mean_years_schooling,expected_years_schooling,gni_pc_vnd_mn,income_pc_month_vnd_thousand,gini,expenditure_pc_month_vnd_thousand,poverty_households_pct,hospital_beds_per_10k,doctors_per_10k,hygienic_water_pct,electricity_pct,durables_pct,housing_m2_per_person
+2006,final,,,,,,,,,636,0.424,511,15.5,,,89.1,96,99,14.7
+2008,final,,,,,,,,,995,0.434,792,13.4,,,92.1,97.6,99,16.3
+2010,final,,,,0.649,,,,30.49181755,1387,0.433,1211,14.2,22,7.1,90.5,97.2,98.4,17.9
+2012,final,,,,0.662,73.05,7.45,11.19,44.21409126,2000,0.424,1603,11.1,24.9,7.3,91,97.6,99.4,19.4
+2013,final,,,,0.667,73.1,7.58,11.25,47.89891693,,,,9.8,25,7.6,,,,
+2014,final,90728.9,,,0.682,73.23,8.3,11.31,52.08078604,2637,0.43,1888,8.4,26.3,7.9,93,98.3,99.7,21.4
+2015,final,92228.603,,,0.688,73.31069009,8.38,11.37,53.43118577,,,,7,26.5,8,,,,
+2016,final,93250.704,,,0.682,73.38918217,8.49,11.45,57.14891642,3098,0.431,2157,9.2,27,8.2,93.4,98.8,99.7,22.2
+2017,final,94285.951,23699.3437,26486.4899,0.687,73.45272337,8.56,11.47,62.72057446,,,,7.9,27.5,8.4,,,,
+2018,final,95385.184,23998.35953,26752.03868,0.693,73.49383827,8.644020858,11.54464822,69.73271486,3873.76,0.42470467,2545.8,6.84,28,8.6,95.7,99,99.8,23.8
+2019,final,96483.981,24847.55307,27363.27434,0.703,73.59568368,9.042543165,12.21442265,75.86757331,4294.5,0.42303412,,5.65,28.5,8.8,96.34,,,
+2020,final,97582.7,25098.6,27896.3,0.706,73.7,9.1,12.16,78.91253752,4250,0.37475739,2891.524,4.8,30.97396462,9.8,96.5,99.5,99.9,25.3
+2021,final,98504.4,25160.4,28062,0.726,73.64203908,9.2,12.36,81.75521866,4204.8,0.37425315,,4.36442,31.22235299,9.948632571,97.5,,,
+2022,final,99461.7,25451.1,28330.4,0.7369161532,73.64203908,9.4,12.55030472,92.11166483,4672.54,0.37549185,2794.93,4.19406,31.74758551,10.01790744,98.04,99.5,99.9,27.2
+2023,final,100309.2089,27028.2,29657.1,0.746,74.50086974,9.5,12.64,97.543357,4961.77,0.37329122,,3.373165,33.83268632,,98.43,,,
+2024,final,101343.7544,25305.5,28393.7,0.7520574642,74.7,9.6,12.6,109.8342953,5415,0.37245,2977,2.3,,,98.46,99.9,99.9,29
+2025,preliminary,102345.3202,24950.4,28122.3,0.765,74.7,9.6,12.86569105,122.0175838,6005.14,0.32286477,,1.34902,,,98.6,,,

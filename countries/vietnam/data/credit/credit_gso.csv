@@ -1,0 +1,42 @@
+# NSO V03.19: credit outstanding of credit institutions and foreign bank
+# branches at 31 DECEMBER (dư nợ tín dụng), source of record the State Bank of
+# Vietnam. Values in THOUSAND bn VND (nghìn tỷ đồng = VND tn); growth in %
+# y/y. By currency (VND / foreign currency) and tenor (short / medium and
+# long). A year-end STOCK, never summed. Credit to the whole economy: there is
+# no household-debt series for Vietnam. 2025 is about 145% of 2025 GDP
+# (asserted against V03.01).
+#
+# V03.19 "Dư nợ tín dụng của các tổ chức tín dụng, chi nhánh ngân hàng nước ngoài tại thời điểm 31/12 hàng năm(*) chia theo Phân loại, Chỉ tiêu chủ yếu, Kỳ hạn và Năm" — unit on the table page: not stated; NSO updated 2026-08-15; https://pxweb.nso.gov.vn/pxweb/vi/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/T%C3%A0i%20kho%E1%BA%A3n%20qu%E1%BB%91c%20gia/V03.19.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   credit_total_all_vnd_tn = V03.19: Trị giá (Nghìn tỷ đồng) / Số dư / Tổng số
+#   credit_total_short_vnd_tn = V03.19: Trị giá (Nghìn tỷ đồng) / Số dư / Ngắn hạn
+#   credit_total_medium_long_vnd_tn = V03.19: Trị giá (Nghìn tỷ đồng) / Số dư / Trung và dài hạn
+#   credit_vnd_all_vnd_tn = V03.19: Trị giá (Nghìn tỷ đồng) / Bằng đồng Việt Nam / Tổng số
+#   credit_vnd_short_vnd_tn = V03.19: Trị giá (Nghìn tỷ đồng) / Bằng đồng Việt Nam / Ngắn hạn
+#   credit_vnd_medium_long_vnd_tn = V03.19: Trị giá (Nghìn tỷ đồng) / Bằng đồng Việt Nam / Trung và dài hạn
+#   credit_fx_all_vnd_tn = V03.19: Trị giá (Nghìn tỷ đồng) / Bằng ngoại tệ / Tổng số
+#   credit_fx_short_vnd_tn = V03.19: Trị giá (Nghìn tỷ đồng) / Bằng ngoại tệ / Ngắn hạn
+#   credit_fx_medium_long_vnd_tn = V03.19: Trị giá (Nghìn tỷ đồng) / Bằng ngoại tệ / Trung và dài hạn
+#   credit_total_all_growth_pct = V03.19: Tốc độ tăng (%) / Số dư / Tổng số
+#   credit_total_short_growth_pct = V03.19: Tốc độ tăng (%) / Số dư / Ngắn hạn
+#   credit_total_medium_long_growth_pct = V03.19: Tốc độ tăng (%) / Số dư / Trung và dài hạn
+#   credit_vnd_all_growth_pct = V03.19: Tốc độ tăng (%) / Bằng đồng Việt Nam / Tổng số
+#   credit_vnd_short_growth_pct = V03.19: Tốc độ tăng (%) / Bằng đồng Việt Nam / Ngắn hạn
+#   credit_vnd_medium_long_growth_pct = V03.19: Tốc độ tăng (%) / Bằng đồng Việt Nam / Trung và dài hạn
+#   credit_fx_all_growth_pct = V03.19: Tốc độ tăng (%) / Bằng ngoại tệ / Tổng số
+#   credit_fx_short_growth_pct = V03.19: Tốc độ tăng (%) / Bằng ngoại tệ / Ngắn hạn
+#   credit_fx_medium_long_growth_pct = V03.19: Tốc độ tăng (%) / Bằng ngoại tệ / Trung và dài hạn
+year,status,credit_total_all_vnd_tn,credit_total_short_vnd_tn,credit_total_medium_long_vnd_tn,credit_vnd_all_vnd_tn,credit_vnd_short_vnd_tn,credit_vnd_medium_long_vnd_tn,credit_fx_all_vnd_tn,credit_fx_short_vnd_tn,credit_fx_medium_long_vnd_tn,credit_total_all_growth_pct,credit_total_short_growth_pct,credit_total_medium_long_growth_pct,credit_vnd_all_growth_pct,credit_vnd_short_growth_pct,credit_vnd_medium_long_growth_pct,credit_fx_all_growth_pct,credit_fx_short_growth_pct,credit_fx_medium_long_growth_pct
+2015,final,4655.9,2174.7,2481.2,4187.7,1886.4,2301.3,468.2,288.2,180,17.3,9,25.5,20.9,13.3,27.9,-7.7,-12.5,1.3
+2016,final,5505.4,2543.7,2961.7,5025.1,2235,2790.1,480.3,308.7,171.6,18.2,17,19.4,20,18.5,21.2,2.6,7.1,-4.6
+2017,final,6512,3169.5,3342.5,5946.9,2762,3184.9,565.1,407.5,157.6,18.3,24.6,12.9,18.3,23.6,14.2,17.7,32,-8.1
+2018,final,7211.2,3558.9,3652.3,6740.8,3230.6,3510.2,470.4,328.3,142.1,13.9,15.2,12.7,15.5,17.4,13.8,-5.1,-3.2,-9
+2019,final,8195.393176,4148.4,4047,7714.03056,3792.389217,3921.641344,481.3626161,355.9555045,125.4071116,13.64851594,16.56186362,10.80961834,14.43833316,17.38890957,11.72272962,2.330526626,8.423393812,-11.74631181
+2020,final,9192.566,4634.837,4557.8,8692.261,4236.928,4455.4,500.305,397.909,102.397,12.16747998,11.72589432,12.62169508,12.6811844,11.72186603,13.61059336,3.935158921,11.78616288,-18.34833074
+2021,final,10444.07803,5399.2,5044.93287,9860.28841,4894.93477,4965.35364,583.78963,504.2104,79.57923,13.61439265,16.49169108,10.68789482,13.43755566,15.53027972,11.44574314,16.68674708,26.71500268,-22.28363136
+2022,final,11926.683,6260.428,5666.255,11410.694,5795.75133,5614.943,515.989,464.66657,51.311,14.19565198,15.95102978,12.31576606,15.7237347,18.40303502,13.08243898,-11.6138805,-7.84272399,-35.52212053
+2023,final,13569.73291,7350.33479,6219.39812,13032.00139,6856.03116,6175.97023,537.73153,494.30363,43.4279,13.77625204,17.4094613,9.762058361,14.20866592,18.29408768,9.991681661,4.213758433,6.378134756,-15.36337238
+2024,final,15619.528,8581.219,7038.309,15039.2,8036.068,7003.132,580.328,545.151,35.177,15.10564065,16.74596117,13.16704389,15.40207486,17.21166098,13.39322793,7.921512432,10.28666733,-18.99907663
+2025,preliminary,18597.968,9742.485,8855.483,17965.45,9146.8,8818.707,632.518,595.742,36.776,19.06869401,13.53264612,25.81833222,19.45748444,13.82183426,25.92518605,8.993190058,9.280181087,4.545583762

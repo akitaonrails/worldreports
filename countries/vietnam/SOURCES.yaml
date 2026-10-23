@@ -1,0 +1,980 @@
+# Data provenance: every planned series for Vietnam.
+#
+# Written 2026-10-22 BEFORE any CSV exists, as the research pass prescribes.
+# The fetch swarm then stages each `*_from_*` sidecar under data/. Nothing
+# here is curated yet. Corrected at consolidation (same day) to what the
+# four fetchers actually do; where this file and DISCOVERY.md disagree,
+# this file is right. Every endpoint below was curled live on 2026-10-22
+# and its payload shape is recorded in the notes. The pending block under
+# `meta` lists publishers that exist but have no machine endpoint this
+# machine can reach. The page's sources table ignores `meta`.
+#
+# THE NATIONAL PUBLISHER. The General Statistics Office is now Cục Thống kê,
+# the National Statistics Office (NSO), under the Ministry of Finance. The
+# old gso.gov.vn domain no longer resolves; www.nso.gov.vn serves the site.
+# The NSO runs a PxWeb 2019 database at pxweb.nso.gov.vn with two doors:
+#
+#   1. The PxWeb JSON API, /api/v1/vi/<db>/<table>.px. GET gives metadata,
+#      POST a query gives data. It exposes only five databases (Công
+#      nghiệp, Đầu tư, Doanh nghiệp, Dân số và lao động, Giáo dục, plus
+#      English twins). National accounts, prices, trade, the budget and the
+#      social tables all 404 there. Formats: `json` and `csv` work,
+#      `json-stat2` 404s. TRAP: the API rounds every value to the table's
+#      SHOWDECIMALS. The total fertility rate (V02.15) comes back as "2"
+#      for every year from 2001 to 2025. The CSV is Windows-1252, so the
+#      Vietnamese labels are destroyed into '?' and the header row is
+#      mislabelled.
+#   2. The PxWeb HTML table pages, /pxweb/vi/<db>/<db>/<table>.px/. Every
+#      database is here: an ASP.NET WebForms page with __VIEWSTATE. A fetcher
+#      GETs the page, selects every <option> of each ValuesListBox, sets
+#      OutputFormatDropDownList=FileTypeJsonStat and posts ButtonViewTable.
+#      The reply is a JSON-stat v1 attachment, UTF-8 with a BOM and ONE
+#      TRAILING NUL BYTE that has to be stripped before parsing. Values come
+#      at full precision (TFR 2024 = 1.91). FileTypePX also works but its
+#      CODEPAGE is iso-8859-15, so the labels are lossy. A bad path lands on
+#      /ErrorGeneral.aspx under HTTP 200. The fetcher must assert the
+#      content-disposition header and the dataset key, never the status.
+#
+# Year labels carry status: "Sơ bộ 2025" is preliminary and "Ước tính 2025"
+# is an estimate. Parse the year off the label and keep the status in a
+# column. The PX tables are the statistical yearbook (Niên giám), updated
+# each August, so they stop at 2025. The running year 2026 exists only in
+# NSO press releases, and nothing on a plate is built from those.
+#
+# THE GDP SCALE BREAK. In 2019 the NSO revalued GDP upward by roughly a
+# quarter, from 2010 onward only. V03.01's own note: "Số liệu từ năm 2010 là
+# số liệu theo quy mô GDP đánh giá lại". The PX table carries 2000–2002 and
+# 2009 on the OLD scale (2009 = 1,809,149 bn VND) and 2010+ on the NEW
+# (2010 = 2,739,843 bn VND); 2003–2008 are absent. ADB carries 2005–2009
+# from the NSO on the old scale with the same footnote. The World Bank's
+# NY.GDP.MKTP.CD inherits the seam and jumps from US$106.0bn (2009) to
+# US$147.2bn (2010), +39% in a year of 6.4% real growth. The IMF WEO
+# back-casts the revaluation and reads US$129.0bn for 2009. Growth across
+# 2009→2010 on the NSO or WB level is methodology, not growth. Never splice
+# the scales. Draw the old-scale segment and the new-scale segment apart,
+# or use the IMF series for a continuous level, labelled as such.
+
+meta:
+  pending:
+    - name: policy rates (refinancing, rediscount), history
+      publisher: Ngân hàng Nhà nước Việt Nam (State Bank of Vietnam, SBV)
+      url: https://sbv.gov.vn/lãi-suất1
+      official: true
+      notes: >-
+        sbv.gov.vn sits behind an F5 WAF that answers "Request Rejected"
+        (244 bytes) under HTTP 200 to a bare curl. A full browser header set
+        (UA, Accept, Accept-Language, Sec-Fetch-*) passes, and the site is
+        now a Liferay portal. The rate page shows only the CURRENT values
+        (2026-10-22: refinancing 4.50%, rediscount 3.00%, decision
+        1123/QĐ-NHNN of 16/06/2023) and today's interbank fixings. It holds
+        no history and no download. The IMF SDMX API (api.imf.org, MFS_IR
+        9.0.0) answers 403 to data queries. Hand-curate the refinancing-rate
+        history from the SBV decisions (Quyết định) when the markets plate
+        is built. The NSO's V03.21 covers deposit and lending averages and
+        the central rate from 2015 in the meantime.
+    - name: exchange rates and monetary statistics, direct from the SBV
+      publisher: Ngân hàng Nhà nước Việt Nam (State Bank of Vietnam, SBV)
+      url: https://sbv.gov.vn/tỷ-giá
+      official: true
+      notes: >-
+        The central rate page gives TODAY only (22/10/2026: 1 USD = 25,632
+        VND, notice 442/TB-NHNN). The "Dữ liệu thống kê" pages (M2, credit,
+        NPL ratio, loan-to-deposit) are HTML snapshots of the latest period,
+        and /can-can-thanh-toan-quoc-te returns 403 even with browser
+        headers. dttktt.sbv.gov.vn (the old WebCenter statistics host)
+        times out. The NSO republishes the annual central rate (V03.21),
+        credit (V03.19), money (V03.18.02, 2025 only) and the balance of
+        payments (V03.20), and those are what is staged.
+    - name: merchandise trade by partner and commodity, customs basis
+      publisher: Tổng cục Hải quan / Cục Hải quan (General Department of Vietnam Customs)
+      url: https://www.customs.gov.vn/
+      official: true
+      notes: >-
+        customs.gov.vn resolves (58.186.80.48) but the TCP connection times
+        out from this machine on every path. That is a block, not a 403.
+        The NSO republishes customs trade by partner (V09.06/V09.12) and by
+        SITC group (V09.03/V09.09-10), so the trade chapter is not blocked.
+        UN Comtrade carries Vietnam's own report through 2023.
+    - name: public debt bulletin and state budget outturn, direct from the MOF
+      publisher: Bộ Tài chính (Ministry of Finance)
+      url: https://mof.gov.vn/
+      official: true
+      notes: >-
+        mof.gov.vn is a Vite single-page app whose bundle calls an
+        undocumented relative /api/. The public debt bulletin (Bản tin nợ
+        công) and the budget disclosure (công khai ngân sách) are documents.
+        vst.mof.gov.vn and the treasury (kbnn.vn) never connected. Staged
+        instead: the NSO's budget revenue and expenditure (V03.13-17), ADB's
+        general-government GFS table to 2022, and IMF WEO general-government
+        gross debt and net lending, which is not the MOF's public-debt
+        definition. The MOF counts public debt as government plus
+        government-guaranteed plus local-government debt. Hand-curate the
+        bulletin's public-debt-to-GDP series if a plate needs the national
+        definition.
+    - name: overseas contract workers (labour export), annual departures
+      publisher: Cục Quản lý lao động ngoài nước (DOLAB), formerly MOLISA, now the Ministry of Home Affairs
+      url: https://dolab.gov.vn/
+      official: true
+      notes: >-
+        This is the single most important migration flow for Vietnam:
+        workers sent abroad on contract, mostly to Japan, Taiwan and Korea.
+        dolab.gov.vn and molisa.gov.vn both timed out. MOLISA's labour
+        functions moved to the Ministry of Home Affairs (moha.gov.vn answers
+        200) in the 2025 restructuring. The annual totals exist only in
+        press releases and year-end reports. Hand-curate them from DOLAB's
+        year-end reports, labelled as a flow of contract departures, not
+        emigrants, and never drawn on the UN DESA stock's axis (SOURCING
+        §4a).
+    - name: recorded crime and intentional homicide, police count
+      publisher: Bộ Công an (Ministry of Public Security)
+      url: https://bocongan.gov.vn/
+      official: true
+      notes: >-
+        bocongan.gov.vn answers (117 KB HTML) but publishes no crime
+        statistics table. Vietnam reports no national homicide series. The
+        UNODC CTS portal's download paths 302 away (dataunodc.un.org). What
+        survives in the World Bank's VC.IHR.PSRC.P5 stops at 2011. The
+        security chapter is therefore built from the prosecution and court
+        counts the NSO republishes (V14.77), the police traffic-death count
+        (V14.86) beside the WHO estimate, and the WHO's modelled homicide
+        rate. The gap is named on the plate, not filled.
+    - name: national summary data page (IMF e-GDDS/SDDS)
+      publisher: Cục Thống kê (National Statistics Office)
+      url: http://nsdp.nso.gov.vn/
+      official: true
+      notes: >-
+        Linked from the NSO homepage. The connection was reset on 2026-10-22.
+        If it comes back it may carry SDMX for the quarterly national
+        accounts and the monthly CPI, which the PX-Web database does not.
+    - name: Corruption Perceptions Index
+      publisher: Transparency International
+      url: https://www.transparency.org/en/cpi
+      official: false
+      notes: >-
+        Hand-curated at plate-build time, as for France and Canada, with
+        the 2012 methodology break carried in the CSV.
+    - name: VN-Index from the exchange itself
+      publisher: HOSE (Sở Giao dịch Chứng khoán TP.HCM)
+      url: https://www.hsx.vn/
+      official: false
+      notes: >-
+        hsx.vn is a React app with no documented history endpoint. Nobody
+        official publishes an index close anyway. Staged from CafeF (below).
+        Yahoo was tried and rejected: ^VNI is delisted, ^VNINDEX.VN returns
+        a single point, and 0P0000HY8X.VN starts in 2020 and reads the
+        2024-12 month-end as 1,254.59 against HOSE's 1,266.78 close. stooq
+        serves its 796-byte JS wall under HTTP 200.
+
+macro:
+  gdp_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V03.01, Một số chỉ tiêu chủ yếu về tài khoản quốc gia
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Tài khoản quốc gia/Tài khoản quốc gia/V03.01.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      Sixteen national-accounts aggregates: GDP at current prices (tỷ
+      đồng, i.e. bn VND), GDP per person in VND and in USD (converted at
+      the average interbank rate), capital formation, final consumption,
+      exports and imports of goods and services, GNI, GDP at constant 2010
+      prices, real growth, and the expenditure shares of GDP. Years:
+      2000–2002, 2009, 2010–2023, "Sơ bộ 2024", "Ước tính 2025". 2003–2008
+      are ABSENT from the table, and 2009 and earlier are on the
+      pre-revaluation scale (see the header). Verified 2026-10-22: GDP
+      2024 = 11,510,329 bn VND, 2025 = 12,847,571 bn VND; GDP per person
+      2024 = US$4,700, 2025 = US$5,026. At 101.3mn people that puts 2024
+      at about US$476bn, equal to the World Bank's US$476.3bn. Real growth
+      2020 2.87%, 2021 2.55%, 2022 8.54%, 2025 8.02%. HTML door only; the
+      API 404s for this database.
+  gdp_from_adb.csv:
+    source: Asian Development Bank — Key Indicators Database, SDMX v5 dataflow ADB,DF_NA (economy VIE)
+    url: https://kidb.adb.org/api/v5/sdmx/data/ADB,DF_NA/A..VIE?format=sdmx-csv&startPeriod=2005
+    refreshed_by: fetch/fetch_adb.py
+    official: false
+    notes: >-
+      ADB republishes the NSO's national accounts (DATA_SOURCE "National
+      Statistics Office") with the 2006–2008 years the NSO's own PX table
+      no longer carries: NGDE_XDC (GDP, bn VND, UNIT_MULT 9 → 2006 =
+      1,061,565), NGDP_R_PTX_PS (real growth: 2008 5.66, 2009 5.40),
+      expenditure components and sector shares, 2005–2025. A redistributor,
+      so not official here. The footnote on every pre-2010 row says it is
+      on the "unreevaluated scale". It is the only machine source for
+      2006–2008 and is never spliced onto the NSO's new-scale 2010+ line.
+      Quirk: a Q frequency key returns the annual rows; there is no
+      quarterly national-accounts series for Vietnam in KIDB. FOOTNOTE is
+      series-level and its leading span ("2005-2010: …") is the span of
+      the QUERY, not of the years the note covers; the fetcher carries
+      each footnote verbatim in the CSV comments. NGDP_XDC carries
+      OBS_STATUS B at 2010 (asserted); levels and shares are split into
+      *_old_scale (≤2009) and *_new_scale (≥2010). A sidecar with no
+      non-normal OBS_STATUS carries no break_flags column.
+  cpi_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V11.08, CPI, gold and USD price indices and core inflation, annual average (previous year = 100)
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Chỉ số giá/Chỉ số giá/V11.08.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      Annual-average CPI as an index with the previous year = 100.
+      Inflation is the value minus 100. Twenty groups, plus the gold price
+      index, the USD price index and core inflation (lạm phát cơ bản, from
+      2010; earlier cells are null, which is correct). Years 2000,
+      2003–2025. Verified: 2008 122.97 (+23.0%, the window's peak), 2011
+      118.58, 2023 103.25, 2024 103.63, 2025 103.31. Equal to World Bank
+      FP.CPI.TOTL.ZG (2024 3.62, 2025 3.31) and ADB PCPI_PC_PP_PT. The
+      gold and USD indices are household-relevant in Vietnam (savings are
+      held in both), but they are price indices and not exchange or policy
+      rates. Monthly tables V11.01–V11.07 stop at 2025 like the rest of
+      the yearbook.
+
+fiscal:
+  budget_revenue_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V03.13-14 (Thu ngân sách Nhà nước) and V03.15 (as % of GDP); source of record Ministry of Finance
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Tài khoản quốc gia/Tài khoản quốc gia/V03.13-14.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      STATE BUDGET revenue (ngân sách nhà nước: central plus local), bn
+      VND, by 21 heads: domestic revenue excluding crude oil, SOEs, FDI
+      firms, the non-state sector, personal income tax, lottery, land and
+      housing, crude oil, trade taxes net of VAT refunds, and aid. Years
+      2000, 2002–2024 and "Ước tính 2025". Verified: total 2006 = 279,472;
+      2020 = 1,510,579 (the COVID dip); 2024 = 2,057,544; 2025 estimate
+      2,681,469 bn VND. The % of GDP companion V03.15 covers only
+      2018–2025 (2024 17.9%, 2025 estimate 20.9%); four of its heads
+      (lottery, fuel fee, trade duties/excise, import VAT) are blank in
+      every year and are dropped, named in the CSV header. This is a cash,
+      state-budget concept. It is not general government (see ADB below)
+      and is never spliced with it.
+  gg_finance_from_adb.csv:
+    source: Asian Development Bank — Key Indicators Database, SDMX v5 ADB,DF_GOV_FIN (general government, GFSM 2014)
+    url: https://kidb.adb.org/api/v5/sdmx/data/ADB,DF_GOV_FIN/A..VIE?format=sdmx-csv&startPeriod=2005
+    refreshed_by: fetch/fetch_adb.py
+    official: false
+    notes: >-
+      General-government revenue (GR_G14_GG), expense, net lending
+      (GXCNL_G14_GG) and tax revenue, bn VND and % of GDP, 2005–2022 ONLY.
+      Verified 2006: revenue 262,063 bn VND = 24.7% of GDP, tax revenue
+      21.9%, net lending +0.25%. The %GDP denominators before 2010 are the
+      old GDP scale, which is why 2006 reads higher than the NSO-based
+      state-budget ratio would. Kept beside the NSO's state-budget series
+      as a different concept, never spliced. REF_YEAR "Ending 31
+      December": calendar years. No OBS_STATUS flags, so no break_flags
+      column. ADB and the IMF disagree on 2022: ADB net lending −3.6% of
+      GDP, IMF WEO +0.7%. Two publishers, two lines.
+  debt_balance_from_imf.csv:
+    source: IMF — World Economic Outlook via DataMapper API (GGXWDG_NGDP, GGXCNL_NGDP)
+    url: https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP/VNM
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      General-government gross debt and net lending/borrowing, % of GDP.
+      Debt 2000–2031, net lending 1998–2031; years after 2025 are WEO
+      PROJECTIONS (kind=projection). Verified: debt 2006 30.2, 2010 37.3,
+      2020 41.3, 2024 31.2, 2025 30.5, 2026p 28.3; net lending 2020 −2.9,
+      2024 −0.9, 2025 0.0. QUIRKS: a browser User-Agent ("Mozilla/5.0")
+      gets an Akamai "Access Denied" 403, so send curl's default UA. The
+      /VNM path segment does NOT filter: the reply carries ~226 countries,
+      so read values[ind]["VNM"]. GGR_NGDP and GGX_NGDP return no rows for
+      any country. This is not the MOF's public-debt definition (see
+      meta.pending).
+
+spending:
+  budget_spending_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V03.16 (Chi ngân sách Nhà nước) and V03.17 (as % of GDP); source of record Ministry of Finance
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Tài khoản quốc gia/Tài khoản quốc gia/V03.16.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      State-budget expenditure, bn VND, eleven heads: development
+      investment, recurrent spending on education and training, health,
+      science and technology, culture, social security (đảm bảo xã hội),
+      economic services and environment, administration (state, Party and
+      mass organisations), and the financial reserve fund. These are
+      budget heads, not COFOG. Years 2005, 2007–2024 and "Ước tính 2025":
+      2006 IS MISSING and stays blank. Verified: total 2020 = 1,709,524;
+      2024 = 2,148,477; 2025 estimate 3,312,560 bn VND = 25.8% of GDP
+      against 18.7% in 2024. That 2025 step is an ESTIMATE ("Ước tính"),
+      and the table does not explain it. It is labelled as an estimate and
+      checked against the 2025 final accounts (quyết toán) before any
+      claim is made of it. % of GDP (V03.17) covers 2018–2025 only; five
+      of its heads are blank in every year and are dropped, named in the
+      CSV header.
+
+trade:
+  trade_totals_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V09.01, Tổng mức lưu chuyển hàng hoá xuất, nhập khẩu; source of record Vietnam Customs
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Xuất nhập khẩu/Xuất nhập khẩu/V09.01.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      Merchandise exports, imports, total and balance, US$ millions, plus
+      growth index, 1990–"Sơ bộ 2025". Customs basis. Verified: exports
+      2006 39,826; 2023 354,721 (UN Comtrade's mirror of Vietnam's own
+      report reads 353,078); 2024 405,935; 2025 474,998. Balance 2025
+      +20,071. Goods only and customs-valued. The BoP basis (V03.20, FOB)
+      is a different series, although its 2023 goods-export line equals
+      the customs figure (354,721). The balance's growth index is blank in
+      every year of the table and is dropped (the header says so).
+  exports_by_partner_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V09.06, exports by country bloc, country and territory
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Xuất nhập khẩu/Xuất nhập khẩu/V09.06.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      71 rows: TỔNG SỐ, then the blocs (ASEAN, APEC, EU, OPEC), which
+      OVERLAP and are never stacked, then countries. US$ millions,
+      1995–2025, long format sorted by year. THE NSO PUBLISHES NAMES ONLY,
+      NO CODES: `partner` is the label as published (NFC) and
+      `partner_iso3` is the fetcher's own mapping (an unmapped new label
+      fails the run). China is labelled "CHND Trung Hoa" and Hong Kong
+      "ĐKHC Hồng Công (TQ)", so match on partner_iso3, never on the name.
+      Some bloc rows are blank in some years (APEC and OPEC in 2025): a
+      blank is unpublished, not zero. The TỔNG SỐ rows are asserted equal
+      to V09.01. Verified:
+      United States 2006 7,845 → 2024 119,478 → 2025 153,135 (the US is the
+      largest export market); China 2024 60,878.
+  imports_by_partner_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V09.12, imports by country bloc, country and territory
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Xuất nhập khẩu/Xuất nhập khẩu/V09.12.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      65 rows, same structure as V09.06 (names only; partner_iso3 is the
+      fetcher's mapping), 1995–2025. Verified: total 2024
+      381,304, 2025 454,926; Korea 2024 55,985. China is the largest
+      import source. The pair with exports is the story: a surplus with
+      the US, a deficit with China.
+  trade_by_group_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V09.14 (goods exports and imports by group, % of GDP) and V09.15 (services exports and imports)
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Xuất nhập khẩu/Xuất nhập khẩu/V09.14.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      V09.14: exports by group (fuels and minerals, manufactures,
+      agricultural, forestry, fishery, non-monetary gold) and imports by
+      end use, as % of GDP, for 2005 and 2009–2025. 2005 is on the old GDP
+      scale and 2006–2008 are absent. V09.15: services trade by type,
+      2005–2025. The ratios inherit the GDP scale break in their
+      denominator.
+  trade_from_comtrade.csv:
+    source: UN Comtrade — public preview API, Vietnam as reporter (code 704), HS TOTAL
+    url: https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=704&period=2023&partnerCode=0&flowCode=X&cmdCode=TOTAL
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Cross-check only. Vietnam's report to the UN, 2023 exports
+      US$353.08bn against the NSO's 354.72bn (asserted within 0.5%);
+      imports 325.44bn against 326.61bn. 2006–2023 staged; 2024 and 2025
+      return count 0 (not yet loaded) and are left out, not zero; they are
+      re-requested, uncached, on every run. QUIRKS: the preview API takes
+      ONE period per call, so the fetcher makes one call per year; HTTP
+      429 after two quick calls ("Rate limit is exceeded. Try again in 2
+      seconds"), so it sleeps between years and backs off. hs_edition
+      records the HS vintage Vietnam reported that year.
+  openness_from_wb.csv:
+    source: World Bank — WDI NE.TRD.GNFS.ZS (trade in goods and services, % of GDP)
+    url: https://api.worldbank.org/v2/country/VNM/indicator/NE.TRD.GNFS.ZS?format=json&date=2006:2025
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      2006–2025. Verified: 2006 138.3, 2010 114.0, 2024 173.9, 2025 190.3.
+      The fall from 2006 to 2010 is mostly the GDP revaluation entering the
+      denominator in 2010, not a fall in trade. Annotate it.
+
+markets:
+  rates_fx_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V03.21, Lãi suất, tỷ giá trung tâm; source of record State Bank of Vietnam
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Tài khoản quốc gia/Tài khoản quốc gia/V03.21.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      Seventeen series, 2015–"Sơ bộ 2025": average VND deposit rates by
+      tenor (demand to over 24 months), average USD deposit rates, average
+      VND and USD lending rates (short; medium and long), and the SBV
+      central rate VND per USD. Verified: 12-month VND deposit 2020 6.81 →
+      2024 4.91 → 2025 5.13; medium/long VND lending 2020 10.25 → 2025
+      8.30; central rate 2020 23,208.78 → 2024 24,170.41 → 2025 24,977.20.
+      THE CENTRAL RATE IS BLANK FOR 2015–2017 in V03.21: the column starts
+      in 2018 (22,605.96), whatever the table's title promises. USD
+      deposit rates are 0.15–0.63 in 2015, then 0 from 2016.
+      THE USD DEPOSIT ROWS ARE ALL 0.00 AND THAT IS REAL, NOT MISSING: the
+      SBV has capped USD deposit rates at 0% since late 2015. Drawing them
+      as a flat zero line is correct; dropping them as blanks is not. No
+      policy rate here (see meta.pending). The central rate is a managed
+      reference; banks trade within a band around it (±5% since October
+      2022).
+  usdvnd_from_wb.csv:
+    source: World Bank — WDI PA.NUS.FCRF (official exchange rate, LCU per US$, period average), with ADB DF_ER ENDE_XDC_USD_RATE (end of period)
+    url: https://api.worldbank.org/v2/country/VNM/indicator/PA.NUS.FCRF?format=json&date=2006:2025
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Annual average 2006–2024 (2006 15,994.25; 2020 23,208.37; 2024
+      24,164.89; 2025 not yet loaded), taken from IMF IFS. The 2020 value
+      equals the NSO central rate to the đồng. ADB's end-period rate
+      (https://kidb.adb.org/api/v5/sdmx/data/ADB,DF_ER/A..VIE?format=sdmx-csv)
+      adds 2025 = 25,121. Average and end-of-period are two columns, never
+      spliced. VND per USD, so a RISING line is a WEAKER đồng.
+  usdvnd_from_yahoo.csv:
+    source: Yahoo Finance — VND=X (market quote), monthly
+    url: https://query1.finance.yahoo.com/v8/finance/chart/VND%3DX?range=25y&interval=1mo
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: >-
+      Monthly closes from 2003-12 to 2026-10: 275 distinct months (the
+      raw reply repeats the running month as a live bar; the later reading
+      wins). partial=1 marks the running month. Verified Dec
+      closes: 2006 15,390; 2008 17,204; 2018 23,194; 2024 25,476; 2025
+      26,225; Oct-2026 25,848. This is a market quote above the central
+      rate (25,632 on 2026-10-22). It shows the gap but is not the
+      official rate. It is the only source for the running year.
+  vnindex_from_cafef.csv:
+    source: CafeF (cafef.vn) — VN-Index daily history, a redistributor of HOSE closes
+    url: https://cafef.vn/du-lieu/Ajax/PageNew/DataHistory/PriceHistory.ashx?Symbol=VNINDEX&StartDate=12/20/2006&EndDate=12/31/2006&PageIndex=1&PageSize=20
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: >-
+      JSON, Data.Data[] with Ngay (dd/mm/yyyy) and GiaDongCua (close);
+      PageSize-paginated, newest first; reaches back past 2007. Verified
+      year-end closes: 2006 751.77, 2008 315.62 (the crash from the 2007
+      peak), 2018 892.54, 2024 1,266.78, 2025 1,784.49; 2026-10-22
+      1,760.63. A price index, not a total-return index. The fetcher must
+      assert Data.Data is non-empty: an out-of-range query returns
+      TotalCount 0 under HTTP 200.
+  market_cap_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V03.26, Hoạt động chứng khoán; source of record State Securities Commission
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Tài khoản quốc gia/Tài khoản quốc gia/V03.26.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      Equity market capitalisation (bn VND, growth, % of GDP) and bond
+      market size (bn VND, % of GDP, growth), 2018–2025 only. ADB DF_MF_FIN
+      CM_MKT_LCAP_GD_ZS (2008–2025; 2024 43.0%, 2025 61.4%) is the longer
+      comparables twin, official false. It is NOT staged: fetch_adb.py
+      takes only the NPL ratio from DF_MF_FIN. Add the column there if a
+      plate needs market cap before 2018.
+
+social:
+  labour_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V02.35 (labour force 15+), V02.39 and V02.42 (employment), V02.46 (informal employment rate), V02.59 (unemployment rate, working age)
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Dân số và lao động/Dân số và lao động/V02.59.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      Fetched through the HTML JSON-stat door like every NSO file. The
+      JSON API (/api/v1/vi/Dân số và lao động/V02.59.px, POST
+      {"query":[...],"response":{"format":"json"}}, reply with a BOM) is
+      used only as a cross-check, asserted equal to its 2-dp rounding.
+      Unemployment rate IN WORKING AGE (trong độ tuổi lao động),
+      2010–"Sơ bộ 2025" (2000–2009 blank in the table): 2010 2.91, 2020
+      2.48, 2021 3.20 (Delta), 2025 2.21. Labour force 15+ (thousands) 2000–2025; informal employment
+      rate 2013–2025. Rates are fine at the API's rounding (2 dp), but
+      the fetcher uses the HTML JSON-stat door wherever SHOWDECIMALS could
+      truncate. Unemployment exists on three definitions: NSO working age
+      (here), ADB LUR_PT for 15+ (2.24 in 2024, covering 2005–2009 too),
+      and the World Bank's ILO-modelled SL.UEM.TOTL.ZS (1.60 in 2024).
+      They are three lines, never one. The headline is low because most
+      work is informal or agricultural, which is why the informality panel
+      belongs beside it.
+  unemployment_from_adb.csv:
+    source: Asian Development Bank — KIDB ADB,DF_LFE (LUR_PT, LLF_PE_NUM, LE_PE_NUM), from NSO labour force surveys
+    url: https://kidb.adb.org/api/v5/sdmx/data/ADB,DF_LFE/A..VIE?format=sdmx-csv&startPeriod=2005
+    refreshed_by: fetch/fetch_adb.py
+    official: false
+    notes: >-
+      Unemployment rate 15+ (2006 4.88, 2024 2.24, 2025 2.21), labour
+      force and employment in millions, 2005–2025, with employment by
+      ISIC section. ADB labels REF_YEAR "Ending 30 June" for DF_LFE. That
+      is KIDB metadata, not a fiscal year: the NSO's labour force survey
+      is annual on the calendar year, the 2024–2025 values equal the
+      NSO's own to 2 dp, and the file is keyed on the calendar year. ICLS
+      13 to 2020, ICLS 19 from 2021 (OBS_STATUS B at 2021, in
+      break_flags); the 2010–2018 rows are re-weighted to the 2019 census
+      (footnote). The only machine source for 2006–2009 unemployment.
+      A different age base from the NSO's working-age rate, so it is
+      drawn as its own line.
+  income_quintiles_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V14.29, monthly income per person by quintile (VHLSS)
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Y tế, văn hóa và MSDC/Y tế, văn hóa và MSDC/V14.29.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      Monthly income per person at current prices (thousand VND) for the
+      average and quintiles 1–5, by urban/rural, sex of household head
+      and region. Years 2010, 2012, 2014, 2016, 2018–2025. Biennial before
+      2018, so the gaps are survey gaps and are not interpolated. Nominal
+      VND: plot ratios (Q5/Q1, the NSO's own V14.31) rather than levels
+      across the window.
+  gini_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V14.38, Hệ số GINI (VHLSS income)
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Y tế, văn hóa và MSDC/Y tế, văn hóa và MSDC/V14.38.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      Income Gini, 0–1 scale, national plus urban/rural and six regions,
+      2002–2025. Verified: 2006 0.424, 2010 0.433, 2018 0.425, 2019 0.423,
+      then 2020 0.375 and 2025 0.323. A FIVE-POINT FALL IN ONE YEAR
+      (2019→2020) is not a plausible redistribution, and the 2025 value is
+      "Sơ bộ". The table carries no footnote (the PX-Web footnote page is
+      empty) and the cause is not verified: a VHLSS income-module or
+      weighting change is the likely explanation. It is annotated as an
+      undocumented step and drawn as two segments, 2002–2019 and
+      2020–2025, until the NSO's methodology note confirms the cause. The World Bank's SI.POV.GINI (2020 36.8, 2022 36.1)
+      is a consumption-based Gini on its own welfare aggregate. It is a
+      different quantity on a 0–100 scale, kept in its own file.
+  poverty_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V14.46, Tỷ lệ hộ nghèo (household poverty rate on the national standard)
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Y tế, văn hóa và MSDC/Y tế, văn hóa và MSDC/V14.46.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      Share of HOUSEHOLDS below the government's poverty standard, which
+      has been redefined every five years. The PX NOTEX, verbatim in
+      substance: income standard to 2015; multidimensional standard
+      2016–2021 ("*"); multidimensional standard 2022–2025 ("**", from
+      2022). Years 1998–2016 then 2020–"Sơ bộ 2025", with 2017–2019 absent
+      in this table. `year_label` keeps the markers exactly as published
+      ("2021*", "2023**"). The `standard` column is INFERRED by the
+      fetcher from the NOTEX and the V14.01 comparison, not published: it
+      reads income-based to 2016 (the NSO keeps 2016 on the old line
+      here), the 2016–2021 multidimensional standard for 2020–2021, and
+      the 2022–2025 standard from 2022. Verified: 2006 15.5, 2010 14.2, 2015 7.0, 2016 5.8,
+      2020 4.8, 2023 3.37, 2024 2.3, 2025 1.35. TWO TABLES DISAGREE: the
+      summary table V14.01 reads 2016 = 9.2 and carries 2017–2019 (7.9,
+      6.84, 5.65), because it puts 2016 on the new multidimensional
+      standard where V14.46 keeps the old one. One table per line, the
+      standard changes annotated, never spliced. The World Bank's
+      SI.POV.DDAY ($3/day 2021 PPP: 2006 23.7, 2022 1.6) is a third
+      definition, in its own file.
+  inequality_from_wb.csv:
+    source: World Bank — WDI SI.POV.GINI, SI.POV.DDAY, SI.POV.NAHC (Poverty and Inequality Platform, VHLSS microdata)
+    url: https://api.worldbank.org/v2/country/VNM/indicator/SI.POV.GINI?format=json&date=2006:2025
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      The harmonised layer, on survey years only: Gini 2006 35.8, 2010
+      39.3, 2020 36.8, 2022 36.1 (nine points); international poverty
+      line 2006 23.7 → 2022 1.6; national poverty headcount (SI.POV.NAHC,
+      a population share on the GSO–World Bank expenditure line, NOT the
+      household share in V14.46) 2006 16.0, 2010 20.7, 2022 4.2. The 2010
+      jump in NAHC is a new poverty line, not a rise in poverty. Survey
+      years only. Holes stay holes.
+
+international:
+  gdp_usd_from_wb.csv:
+    source: World Bank — WDI NY.GDP.MKTP.CD, NY.GDP.PCAP.CD, NY.GDP.MKTP.KD.ZG
+    url: https://api.worldbank.org/v2/country/VNM/indicator/NY.GDP.MKTP.CD?format=json&date=2006:2025
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      GDP in current US$, per person, and real growth, 2006–2025 (WDI
+      updated 2026-10-08). Verified: 2023 US$433.8bn, 2024 476.3bn, 2025
+      514.7bn; per person 2024 4,716.7, 2025 5,066.0. CARRIES THE NSO
+      SCALE SEAM: 2009 106.0 → 2010 147.2. The fetcher keeps the column
+      and the plate draws 2006–2009 and 2010+ as separate segments, or
+      uses the IMF file below for a continuous level.
+  gdp_usd_from_imf.csv:
+    source: IMF — World Economic Outlook via DataMapper API (NGDPD, NGDP_RPCH, PCPIPCH, BCA_NGDPD, LUR)
+    url: https://www.imf.org/external/datamapper/api/v1/NGDPD/VNM
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      GDP in US$bn, back-cast onto the revalued scale, so it is continuous
+      across 2010: 2006 84.3, 2009 129.0, 2010 143.3, 2024 459.4, 2025
+      494.0, 2026p 542.1. Real growth, inflation, the current account and
+      unemployment ride along. Years after 2025 are WEO projections. Same
+      quirks as debt_balance_from_imf.csv (UA 403; the country path does
+      not filter). The IMF level differs from the World Bank's by up to 4%
+      after 2010 (exchange-rate conversion), so each is labelled with its
+      own name.
+  hdi_from_undp.csv:
+    source: UNDP — Human Development Report 2025, composite indices complete time series
+    url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      One vintage throughout. VNM: HDI 2006 0.656, 2010 0.686, 2019 0.744,
+      2023 0.766, rank 93 in 2023; life expectancy 2023 74.6; GII 2023
+      0.299. The file is Latin-1. Send a browser UA.
+  hdi_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V14.01, Một số chỉ tiêu xã hội chủ yếu (HDI, life expectancy, schooling, GNI per person, Gini, poverty)
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Y tế, văn hóa và MSDC/Y tế, văn hóa và MSDC/V14.01.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      The NSO computes its OWN HDI from national inputs: 2010 0.649, 2019
+      0.703, 2023 0.746, 2024 0.752, 2025 0.765. UNDP reads 2023 = 0.766,
+      two points higher. Two publishers, one idea: two lines, both
+      labelled, never spliced (SOURCING §4). Years 2006, 2008, 2010,
+      2012–2025; HDI is null before 2010. Its population column is not
+      the V02.02 series at 2014 (90,728.9 vs 91,203.8, an older vintage)
+      or 2022 (99,461.7 vs 99,467.9); take population from
+      population_from_gso.csv.
+  reserves_from_wb.csv:
+    source: World Bank — WDI FI.RES.TOTL.CD (total reserves incl. gold, IMF IFS)
+    url: https://api.worldbank.org/v2/country/VNM/indicator/FI.RES.TOTL.CD?format=json&date=2006:2025
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Year-end stock, current US$, 2006–2025. Verified 2006 13.4bn, 2010
+      12.5bn, 2020 94.8bn, 2024 83.1bn, 2025 85.6bn. The SBV publishes no
+      reserve stock series. The NSO's balance of payments (V03.20) carries
+      only the annual CHANGE in reserve assets (2024 +9,167 / 2025 −3,862
+      US$mn, BoP sign convention), and the change is never drawn as a
+      level.
+  bop_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V03.20, Cán cân thanh toán quốc tế; source of record State Bank of Vietnam
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Tài khoản quốc gia/Tài khoản quốc gia/V03.20.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      33 BoP lines, US$ millions, 2018–"Sơ bộ 2025" ONLY: current account
+      (2024 30,385; 2025 33,135), goods FOB, services, primary and
+      secondary income, current transfers credit (2024 16,998; 2025
+      19,766, which includes remittances), the financial account (FDI in
+      and out, portfolio, other investment), errors and omissions, the
+      overall balance and the change in reserve assets.
+  bop_from_adb.csv:
+    source: Asian Development Bank — KIDB ADB,DF_GLOB_BOP (BPM6), from SBV/NSO
+    url: https://kidb.adb.org/api/v5/sdmx/data/ADB,DF_GLOB_BOP/A..VIE?format=sdmx-csv&startPeriod=2005
+    refreshed_by: fetch/fetch_adb.py
+    official: false
+    notes: >-
+      The same BoP over 2005–2025, so the 2006–2017 years exist. Its
+      2018–2025 rows equal the NSO's V03.20 (current account 2024
+      30,384.568). BPM5 to 2013, BPM6 from 2014 (OBS_STATUS B, in
+      break_flags). The overall balance and reserves-related items are
+      ADB's *_BP6_FY_* codes; "FY" there is ADB's indicator naming, not a
+      fiscal year (DF_GLOB_BOP REF_YEAR is "Calendar Year"). Includes BXIS_BP6_USD (secondary income credit,
+      2007–2025: 2024 16,998), which is the remittance proxy for the
+      migration chapter (see migration/).
+
+demography:
+  population_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V02.02, Dân số trung bình (average population) by sex and urban/rural
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Dân số và lao động/Dân số và lao động/V02.02.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      AVERAGE annual population, thousands, 1990–"Sơ bộ 2025", plus growth
+      and structure. HTML door; the API copy (/api/v1/…/V02.02.px) is
+      asserted equal to its rounding. V14.01's population column
+      (hdi_from_gso.csv) agrees except at 2014 (90,728.9 vs 91,203.8, an
+      older vintage) and 2022 (99,461.7 vs 99,467.9). This is the
+      population for every per-100k and per-1,000 rate computed from NSO
+      counts. Verified: 2006 83,311.2; 2019 96,484.0; 2023
+      100,309.21 (past 100mn); 2024 101,343.75. ADB's LP_PE_NUM_MOP
+      matches (2024 101.34, 2025 102.35). The World Bank's SP.POP.TOTL
+      (2024 101.0mn) is the UN WPP mid-year estimate, a different vintage
+      and method, kept as a cross-check file. The 2009 and 2019 censuses
+      re-based the intercensal estimates, so growth across those years is
+      within-vintage only.
+  vital_rates_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V02.11 (crude birth, crude death and natural increase rates), V02.15 (total fertility rate), V02.17 (infant and under-5 mortality)
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Dân số và lao động/Dân số và lao động/V02.15.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      Per mille rates, 2001–"Sơ bộ 2025", from the annual Population
+      Change and Family Planning survey (not civil registration).
+      Verified: CBR 2006 17.4 → 2024 13.5; CDR 2006 5.3, 2019 6.32, 2025
+      6.1; TFR 2006 2.09, 2019 2.09, 2023 1.96, 2024 1.91 (the record low
+      that set off the 2025 abolition of the two-child policy), 2025 1.93.
+      TFR MUST COME FROM THE HTML JSON-STAT DOOR: the JSON API returns "2"
+      for every year (SHOWDECIMALS=0).
+  life_expectancy_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V02.24, life expectancy at birth by sex, urban/rural and region
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Dân số và lao động/Dân số và lao động/V02.24.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      HTML door. Years 2005, 2009–"Sơ bộ 2025" (2006–2008 absent). Verified 2006 n/a,
+      2010 72.9, 2020 73.7, 2021 73.64, 2022 73.64, 2023 74.5, 2024 74.7,
+      2025 74.7. 2021 and 2022 are IDENTICAL to the hundredth, a carried
+      value rather than a COVID-year measurement. Annotate it. WHO
+      (WHOSIS_000001: 2021 74.0, 2022 72.9) and the World Bank (2020
+      75.4, 2024 74.7) are modelled and disagree with it and with each
+      other. They go in their own file if drawn.
+  population_from_wb.csv:
+    source: World Bank — WDI SP.POP.TOTL, SP.POP.65UP.TO.ZS, SP.DYN.TFRT.IN, SP.DYN.LE00.IN (UN WPP)
+    url: https://api.worldbank.org/v2/country/VNM/indicator/SP.POP.TOTL?format=json&date=2006:2025
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Cross-check and ageing panel. Population 2024 101.0mn (NSO
+      101.34mn); 65+ share 2006 6.2% → 2025 9.5%; WPP TFR 2024 1.90.
+      These are UN WPP estimates, not the NSO's survey figures.
+  projection_from_unwpp.csv:
+    source: UN DESA Population Division — World Population Prospects 2024, Demographic Indicators, medium variant (bulk CSV, location 704)
+    url: https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_Demographic_Indicators_Medium.csv.gz
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      The projection panel, 2006–2100: population, median age, TFR, life
+      expectancy, births, deaths, CBR, CDR and net migration (thousands of
+      persons; rates per 1,000). kind = estimate for 2006–2023 and
+      projection (medium variant) from 2024. THE DATA PORTAL API
+      (population.un.org/dataportalapi/api/v1) NOW ANSWERS 401 (Bearer
+      token) to every data query; only its metadata is anonymous. The
+      fetcher resolves the bulk CSV from the site's own
+      https://population.un.org/wpp/assets/downloads.json instead of
+      hardcoding it. Net migration 2006 carries the same +482k artefact as
+      WB SM.POP.NETM. The NSO's own 2019-census projection (Dự báo dân số
+      2019–2069) is a PDF publication with no table in PX-Web.
+
+security:
+  justice_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V14.77 (Hoạt động tư pháp) and V14.78 (prosecutions by crime group, 2025); source of record Supreme People's Procuracy and Supreme People's Court
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Y tế, văn hóa và MSDC/Y tế, văn hóa và MSDC/V14.77.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      Cases and defendants PROSECUTED (khởi tố), indicted (truy tố) and
+      tried (xét xử), 2011–"Sơ bộ 2025". Verified: cases prosecuted 2011
+      71,665 → 2024 100,504 → 2025 79,791; cases tried 2013 67,779 → 2024
+      81,125. These count what the justice system processed, not what
+      happened. A rise is enforcement as much as crime, and the 2025 fall
+      is a "Sơ bộ" figure whose cause the table does not give. Say both
+      on the plate. V14.78 gives the 2025 split by Penal Code
+      chapter (crimes against life and health, property, drugs, public
+      order), one year only. No homicide row exists in any NSO table.
+  traffic_fire_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V14.86 (Trật tự và an toàn xã hội) and V14.87 (accidents by road type); source of record Ministry of Public Security
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Y tế, văn hóa và MSDC/Y tế, văn hóa và MSDC/V14.86.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      Traffic accidents, collisions, deaths and injuries; fires and
+      explosions, deaths, injuries and damage; 2012–"Sơ bộ 2025". Verified
+      traffic deaths: 2012 9,838 → 2021 5,790 → 2022 13,551 → 2024 11,205
+      → 2025 10,533. THE 2022 STEP IS A RECLASSIFICATION, NOT A SAFETY
+      COLLAPSE. In one year accidents double (11,487 → 23,352) and deaths
+      rise 134%, while the separately counted "va chạm" (minor collisions)
+      FALL (4,055 → 3,490) and stop being reported after 2023. Incidents
+      moved between categories and the death count's scope widened. The
+      table carries no footnote saying so, so the fetcher asserts the step
+      and the plate annotates it as a definitional break, with two
+      segments that are never joined. V14.87 (tngt_* columns, by road type
+      and region) covers only 2022–2024 and is NOT a breakdown of V14.86:
+      its 2022 mode deaths sum to 6,397 against V14.86's 13,551 (the old
+      narrow basis), its 2023–2024 mode sums match V14.86 within 3%
+      (asserted), and its own 2024 CẢ NƯỚC row (3,855) does not equal its
+      modes (11,101). Use the mode rows, never tngt_*_all for 2024, and
+      never compare 2022 with 2023 inside V14.87.
+  road_deaths_from_who.csv:
+    source: WHO — Global Health Observatory RS_198 (estimated road traffic death rate per 100,000)
+    url: https://ghoapi.azureedge.net/api/RS_198?$filter=SpatialDim eq 'VNM'
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      WHO's MODELLED estimate: 2018 24.6, 2019 23.5, 2021 17.7, 2023 12.9
+      per 100,000. Before 2022 that is about three times the police count
+      (2019: ~23,000 modelled deaths against 7,624 recorded). After the
+      2022 redefinition the two converge (2023: ~13,000 against 11,885).
+      Two publishers, one idea, and the gap is the finding. Filter
+      Dim1=SEX_BTSX.
+  homicide_from_who.csv:
+    source: WHO — Global Health Observatory VIOLENCE_HOMICIDERATE (Global Health Estimates, modelled)
+    url: https://ghoapi.azureedge.net/api/VIOLENCE_HOMICIDERATE?$filter=SpatialDim eq 'VNM' and Dim1 eq 'SEX_BTSX'
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Estimated homicide rate per 100,000, 2000–2021: 2014 1.79, 2019
+      1.84, 2021 1.91. A model, not a count: Vietnam publishes no national
+      homicide statistic. The plate says that, in words, beside the line.
+  homicide_from_wb.csv:
+    source: World Bank — WDI VC.IHR.PSRC.P5 (UNODC CTS, intentional homicides per 100,000)
+    url: https://api.worldbank.org/v2/country/VNM/indicator/VC.IHR.PSRC.P5?format=json&date=2000:2025
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      The UNODC count as redistributed by the World Bank, 2001–2011 only
+      (2006 1.28, 2010 1.53). It ends in 2011 and is not extended by
+      anything. The WHO model is a different series and is never spliced
+      onto it.
+
+mortality:
+  registered_deaths_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V02.34, deaths registered (đăng ký khai tử) by province and timeliness; source of record Ministry of Justice civil registry
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Dân số và lao động/Dân số và lao động/V02.34.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      HTML door. Deaths REGISTERED, total, on time and late, 2018–2024. Verified:
+      2019 556,015; 2020 583,751; 2021 625,455; 2022 725,035; 2023
+      642,391; 2024 629,465. The 2022 peak lags the 2021 COVID wave
+      because late registrations land in the year they are filed. The
+      "Quá hạn" (late) column measures that, and the plate shows it. No
+      cause of death: Vietnam has no national ICD-coded death register in
+      any machine-readable form.
+  hiv_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V14.19, HIV/AIDS cases and deaths by province; source of record Ministry of Health
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Y tế, văn hóa và MSDC/Y tế, văn hóa và MSDC/V14.19.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      New HIV infections and AIDS cases, people living with HIV
+      (cumulative to 31 December), deaths from HIV/AIDS in the year,
+      2011–2024. The one cause-specific mortality count the NSO publishes.
+      New AIDS cases and AIDS living run to 2017 only; cumulative deaths
+      start in 2022; the per-100,000 columns exist for 2024 only, and the
+      NSO's label on the death-rate row names "2024" whatever the year, so
+      do not read it as a series. For a rate over time compute deaths ÷
+      population_from_gso.csv. Use the CẢ NƯỚC row. "Không xác định" (unknown province) is a
+      separate row and is part of the national total.
+  causes_from_who.csv:
+    source: WHO — Global Health Estimates (xmart DEX_CMS/GHE_FULL), deaths by cause, VNM
+    url: https://xmart-api-public.who.int/DEX_CMS/GHE_FULL?$filter=FLAG_LEVEL eq 1 and DIM_COUNTRY_CODE eq 'VNM' and DIM_SEX_CODE eq 'TOTAL' and DIM_AGEGROUP_CODE eq 'TOTAL'
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      MODELLED deaths (with uncertainty interval), rates and shares by
+      cause, 2000–2023 (the current GHE edition runs two years past the
+      research pass's 2021), long format: level 0 all causes, 1 the three
+      broad groups, 2 cause groups, 3 causes; never sum across levels.
+      All causes 2021 708,741 (registered deaths 625,455), 2023 720,006.
+      Verified level 1 for 2021, per 100,000: communicable/maternal/perinatal 145.3 (the COVID
+      year), noncommunicable 506.7, injuries 64.4. Levels 2–3 give the
+      cause detail. This is the only cause-of-death source for Vietnam,
+      and it is an estimate. The mortality chapter says so in its title,
+      not a footnote. NCDMORT3070 (30–70 NCD mortality probability,
+      2000–2023) is a GHO companion and is not staged. COVID-19 is its
+      own level-3 cause (code 395, zero before 2020), and self-harm,
+      interpersonal violence and road injury are level-3 rows too: the
+      modelled sources for the spine's COVID, suicide and homicide slots.
+
+credit:
+  credit_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V03.19, credit outstanding of credit institutions at 31 December; source of record State Bank of Vietnam
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Tài khoản quốc gia/Tài khoản quốc gia/V03.19.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      Total credit to the economy (dư nợ tín dụng), thousand bn VND, by
+      currency (VND / foreign) and tenor (short / medium-long), with
+      growth, 2015–"Sơ bộ 2025". Verified: 2015 4,655.9 → 2020 9,192.6 →
+      2024 15,619.5 → 2025 18,598.0, about 145% of 2025 GDP. A year-end
+      STOCK, never summed. There is no household-debt series anywhere for
+      Vietnam. This chapter is "credit to the economy" and says so, which
+      is a departure from the spine to record in DATA_NOTES.
+  credit_from_adb.csv:
+    source: Asian Development Bank — KIDB ADB,DF_MF_MON (depository corporations survey), with ADB,DF_MF_FIN (FSANL_PT, NPL ratio from IMF FSI) folded into the same file
+    url: https://kidb.adb.org/api/v5/sdmx/data/ADB,DF_MF_MON/A..VIE?format=sdmx-csv&startPeriod=2005
+    refreshed_by: fetch/fetch_adb.py
+    official: false
+    notes: >-
+      Claims on the private sector (FMIR_DC_CPS_XDC_PS, bn VND, 2005–2025:
+      2006 693,834; 2024 15,705,613), M2 and M2/GDP (2006 86.9%; 2024
+      155.6%), and the NPL ratio (FSANL_PT, 2008–2024; 2024 4.85). The
+      2006–2014 years exist only here. The NPL ratio is the
+      IMF-FSI-reported figure. The SBV's own "tỷ lệ nợ xấu" is an HTML
+      snapshot (meta.pending) and the two are not assumed to agree. The
+      M2/GDP denominator carries the 2010 GDP-scale break. DF_MF_FIN is
+      not a file of its own: its NPL ratio is the npl_ratio_pct column
+      here (https://kidb.adb.org/api/v5/sdmx/data/ADB,DF_MF_FIN/A..VIE?format=sdmx-csv&startPeriod=2005).
+      No observation is flagged, so there is no break_flags column.
+      Cross-check: claims on the private sector 2024 15,705.6 tn VND
+      against the NSO's credit to the economy (V03.19) 15,619.5 tn.
+  private_credit_from_wb.csv:
+    source: World Bank — WDI FS.AST.PRVT.GD.ZS (domestic credit to private sector, % of GDP)
+    url: https://api.worldbank.org/v2/country/VNM/indicator/FS.AST.PRVT.GD.ZS?format=json&date=2006:2025
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      2006 65.4 → 2010 90.4 → 2020 115.5 → 2022 125.0, ending in 2022.
+      Part of the 2010 step is the GDP denominator changing scale.
+      Annotate it.
+
+migration:
+  migrant_stock_from_undesa.csv:
+    source: UN DESA Population Division — International Migrant Stock 2024, Table 1 (by destination and origin)
+    url: https://www.un.org/development/desa/pd/sites/www.un.org.development.desa.pd/files/undesa_pd_2024_ims_stock_by_sex_destination_and_origin.xlsx
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Vietnam's story is EMIGRATION. Rows with origin code 704 and
+      destination World (900) give the stock of people born in Vietnam
+      living abroad: 1990 1,128,520; 2005 2,091,843; 2010 2,339,779; 2020
+      3,330,404; 2024 3,693,537. The top six destinations by 2024 stock, ranked
+      once in the fetcher: United States (1,434,631), Japan (589,874),
+      Australia (294,435), Taiwan (263,078), Korea (260,609), Canada
+      (179,690); the research pass's "Australia, Canada and France"
+      order was wrong. Each destination's figure is on its own basis
+      (birth, citizenship, or citizenship plus refugees), recorded in the
+      CSV header. Destination 704 and
+      origin 900 give the immigrant stock in Vietnam: 2010 84,408; 2020
+      200,639; 2024 326,418. Coverage flag "C", type "R": a
+      citizenship-based estimate including refugees, NOT country of birth
+      (§4a), and the plate says which. Five-yearly points plus 2024. They
+      are drawn as points, never interpolated into an annual line. 6 MB
+      xlsx; a bare curl gets an HTML error page, so send a browser UA and
+      check for the PK zip magic before parsing.
+  net_migration_from_wb.csv:
+    source: World Bank — WDI SM.POP.NETM (net migration, UN WPP 2024 estimates)
+    url: https://api.worldbank.org/v2/country/VNM/indicator/SM.POP.NETM?format=json&date=2006:2025
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Modelled net migration, persons, 2006–2025: 2010 −4,443; 2020
+      −6,457; 2022 −78,977; 2023 −81,789; 2025 −48,171. 2006 READS
+      +482,399. That is not plausible as an inflow of half a million
+      people into a country of emigration. It is an artefact of the WPP
+      estimate, cause unverified. The fetcher keeps
+      it, the plate either starts the line in 2007 or annotates the
+      point, and the choice goes in DATA_NOTES. A residual estimate, not a
+      count. SOURCING §4a says to publish the two flows separately where
+      they exist. For Vietnam they do not, which is why the stock and the
+      remittance panels carry this chapter.
+  remittances_proxy_from_adb.csv:
+    source: Asian Development Bank — KIDB ADB,DF_GLOB_BOP, BXIS_BP6_USD (secondary income, credit), with NSO V03.20 "Chuyển giao vãng lai - Thu" for 2018–2025
+    url: https://kidb.adb.org/api/v5/sdmx/data/ADB,DF_GLOB_BOP/A.BXIS_BP6_USD.VIE?format=sdmx-csv
+    refreshed_by: fetch/fetch_adb.py
+    official: false
+    notes: >-
+      The World Bank's personal-remittances series for Vietnam
+      (BX.TRF.PWKR.CD.DT) is EMPTY. BX.TRF.PWKR.DT.GD.ZS stops in 2004, so
+      the obvious source does not exist. Secondary-income credit is a
+      SUPERSET of remittances (it includes other current transfers),
+      2007–2025: 2024 US$17.0bn, 2025 19.8bn. It is labelled as
+      "secondary income received (includes remittances)", never as
+      remittances. The NSO's 2018–2025 rows equal ADB's.
+  internal_migration_from_gso.csv:
+    source: Cục Thống kê (NSO) — PX-Web V02.21-23, in-migration, out-migration and net migration rates by province
+    url: https://pxweb.nso.gov.vn/pxweb/vi/Dân số và lao động/Dân số và lao động/V02.21-23.px/
+    refreshed_by: fetch/fetch_nso.py
+    notes: >-
+      HTML door. Long format (year, status, place, level, rates), sorted
+      by year. INTERNAL migration between provinces, per mille, 2005, 2007–2025
+      (national in-migration rate 2010 9.7, 2012 7.2). Not international
+      migration. At national level in = out by construction, so only the
+      provincial rows (Bình Dương, Hồ Chí Minh City in; the Mekong delta
+      out) carry information. 71 rows on the pre-2025 63-province map,
+      plus Hà Tây (merged into Hà Nội in 2008), so match on names with
+      care. The 2025 merger to 34 provinces will re-key every provincial
+      table. In this chapter only as the internal half of the story,
+      labelled as such.
+# Reviewed publication copies used by the plates. The detailed fetch-sidecar
+# records below remain the audit trail; this compact map is what the site and
+# provenance checker publish.
+files:
+  macro/gdp.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Reviewed national accounts publication copy"}
+  macro/cpi.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Reviewed annual CPI publication copy"}
+  international/gdp_usd_wb.csv: {publisher: "World Bank WDI", url: "https://api.worldbank.org/", title: "GDP and GDP per person, with the 2010 scale seam preserved", official: false}
+  international/gdp_usd_imf.csv: {publisher: "IMF WEO", url: "https://www.imf.org/external/datamapper/api/v1/", title: "Back-cast GDP and macro comparables", official: false}
+  international/hdi_gso.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Vietnam national HDI publication copy"}
+  international/hdi_undp.csv: {publisher: "UNDP", url: "https://hdr.undp.org/", title: "Human Development Index", official: false}
+  international/reserves.csv: {publisher: "World Bank WDI", url: "https://api.worldbank.org/", title: "Total reserves including gold", official: false}
+  international/bop.csv: {publisher: "Asian Development Bank", url: "https://kidb.adb.org/", title: "Balance of payments", official: false}
+  fiscal/gg_finance.csv: {publisher: "Asian Development Bank", url: "https://kidb.adb.org/", title: "General-government finance, GFSM 2014", official: false}
+  fiscal/debt_balance.csv: {publisher: "IMF WEO", url: "https://www.imf.org/external/datamapper/api/v1/", title: "General-government debt and net lending", official: false}
+  fiscal/budget_revenue.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "State-budget revenue"}
+  spending/budget_spending.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "State-budget spending by national function"}
+  social/labour.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Labour force, employment and unemployment"}
+  social/unemployment_adb.csv: {publisher: "Asian Development Bank", url: "https://kidb.adb.org/", title: "Unemployment, population age 15+", official: false}
+  social/gini.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Income Gini with the 2020 survey seam preserved"}
+  social/poverty.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Household poverty under successive national standards"}
+  social/inequality_wb.csv: {publisher: "World Bank WDI", url: "https://api.worldbank.org/", title: "Consumption Gini and poverty comparables", official: false}
+  social/income_quintiles.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Household income quintiles"}
+  trade/totals.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Customs-value merchandise trade totals"}
+  trade/exports_by_partner.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Goods exports by destination"}
+  trade/imports_by_partner.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Goods imports by origin"}
+  trade/by_group.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Trade by broad commodity group"}
+  markets/rates_fx.csv: {publisher: "Cục Thống kê / State Bank of Vietnam", url: "https://pxweb.nso.gov.vn/", title: "Lending rates and central exchange rate"}
+  markets/usdvnd.csv: {publisher: "World Bank / ADB", url: "https://api.worldbank.org/", title: "Annual average and end-period VND per US dollar", official: false}
+  markets/usdvnd_monthly.csv: {publisher: "Yahoo Finance", url: "https://query1.finance.yahoo.com/", title: "Market VND per US dollar", official: false}
+  markets/vnindex.csv: {publisher: "CafeF", url: "https://s.cafef.vn/", title: "VN-Index year-end close", official: false}
+  credit/credit_adb.csv: {publisher: "Asian Development Bank", url: "https://kidb.adb.org/", title: "Credit, money and NPL ratio", official: false}
+  credit/credit_gso.csv: {publisher: "Cục Thống kê / State Bank of Vietnam", url: "https://pxweb.nso.gov.vn/", title: "Credit to the economy"}
+  credit/private_credit.csv: {publisher: "World Bank WDI", url: "https://api.worldbank.org/", title: "Private-sector credit as a share of GDP", official: false}
+  demography/population.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Average population"}
+  demography/population_wb.csv: {publisher: "World Bank WDI", url: "https://api.worldbank.org/", title: "Population, fertility and life expectancy comparables", official: false}
+  demography/projection.csv: {publisher: "United Nations WPP 2024", url: "https://population.un.org/wpp/", title: "Demographic indicators and projections", official: false}
+  demography/vital_rates.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Survey-based birth, death and fertility rates"}
+  security/homicide_wb.csv: {publisher: "World Bank / UNODC", url: "https://api.worldbank.org/", title: "Intentional homicide rate", official: false}
+  security/homicide_who.csv: {publisher: "World Health Organization", url: "https://ghoapi.azureedge.net/", title: "Modelled homicide rate", official: false}
+  security/justice.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Justice-system case counts"}
+  security/road_deaths.csv: {publisher: "World Health Organization", url: "https://ghoapi.azureedge.net/", title: "Modelled road-traffic death rate", official: false}
+  security/traffic_fire.csv: {publisher: "Cục Thống kê / Ministry of Public Security", url: "https://pxweb.nso.gov.vn/", title: "Police traffic and fire counts with the 2022 break preserved"}
+  mortality/causes.csv: {publisher: "World Health Organization GHE", url: "https://ghoapi.azureedge.net/", title: "Modelled causes of death", official: false}
+  mortality/hiv.csv: {publisher: "Cục Thống kê / Ministry of Health", url: "https://pxweb.nso.gov.vn/", title: "Registered HIV indicators"}
+  mortality/registered_deaths.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Registered deaths, including late registrations"}
+  migration/internal_migration.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Internal migration rates"}
+  migration/migrant_stock.csv: {publisher: "United Nations DESA", url: "https://www.un.org/development/desa/pd/", title: "International migrant stocks", official: false}
+  migration/net_migration.csv: {publisher: "World Bank / United Nations WPP", url: "https://api.worldbank.org/", title: "Modelled net migration", official: false}
+  migration/remittances_proxy.csv: {publisher: "Asian Development Bank", url: "https://kidb.adb.org/", title: "Secondary-income credits, a remittance superset", official: false}
+
