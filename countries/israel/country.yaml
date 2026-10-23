@@ -5,6 +5,7 @@
 # deliberately not done here — this file records only what the DATA layer
 # needs (locale codes, endonym, ILS, the data-layer notes in DISCOVERY.md).
 slug: israel
+spine: true
 flag_emoji: "🇮🇱"
 wordmark: ישראל
 # Hebrew letters sit on a baseline like Latin ones — no CJK em-box
@@ -38,22 +39,22 @@ years: {from: 2006, to: 2026}
 last_full_year: 2025
 tick_every: 2
 
-# Bands, checked against the current vintage of the international
-# layer (IMF WEO via DataMapper, pulled live 2026-10-22); the CBS
-# quarterly series are blocked from this machine (see DISCOVERY.md),
-# so every band here carries the two-quarter q/q test as pending:
-#  * 2008–09: IMF WEO shows Israel +3.8 (2008), -2.8 (2009) — a real
-#    contraction year, band kept; q/q confirmation awaits CBS.
-#  * COVID 2020: -1.9% annual, qualifies on the annual number.
-#  * 2023– : the war period. Annual growth stayed positive (+2.0,
-#    +1.7; 2025 +3.5) while gross debt jumped 61.5 → 67.8% of GDP.
-#    Candidate band only: whether q/q contractions after Oct 2023
-#    meet the two-quarter rule needs CBS quarterly. Events annotate
-#    the data; no editorialising.
+# Bands, checked against the staged vintage of the international layer
+# (IMF WEO via DataMapper, countries/israel/data/macro/gdp_growth_from_imf.csv).
+# The discovery pass's "+3.8 / −2.8" pair was a row-alignment error: the
+# −2.8 belongs to Sudan's row (see SOURCES.yaml notes). The staged series
+# says 2008 +3.2, 2009 +1.2 — no 2008–09 contraction on the annual
+# vintage, so that band is gone.
+#  * COVID 2020: −1.9% annual on the staged vintage — a real contraction
+#    year, band kept. (CBS quarterly is blocked from this machine, so the
+#    two-quarter q/q test rides on the harmonised annual number, as in
+#    every country built from the harmonised layer.)
+#  * 2023– : the war period. Annual growth stayed positive (+2.0, +1.7;
+#    2025 +3.5), so no band is drawn — a band would assert a contraction
+#    the staged series does not show. The debt jump and the Oct 2023
+#    events are drawn as events and notes, never as a band.
 bands:
-  - {from: 2008.6, to: 2009.5, label: "2008–09 crisis"}   # annual-verified; q/q pending CBS
-  - {from: 2020.0,  to: 2020.9, label: "COVID-19"}        # annual-verified
-  - {from: 2023.8,  to: 2024.5, label: "war"}             # CANDIDATE — q/q test pending CBS
+  - {from: 2020.0, to: 2020.9, label: "COVID-19"}        # annual-verified on the staged vintage
 
 currency:
   code: ILS
