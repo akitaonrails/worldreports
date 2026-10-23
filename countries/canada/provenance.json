@@ -2,6 +2,7 @@
  "01-economy": [
   "international/gdp_pc.csv",
   "macro/economy.csv",
+  "macro/economy_statcan.csv",
   "macro/growth_prices.csv"
  ],
  "02-fiscal": [
@@ -21,7 +22,8 @@
  "04-trade": [
   "international/gdp_usd.csv",
   "trade/partners.csv",
-  "trade/trade.csv"
+  "trade/trade.csv",
+  "trade/trade_statcan.csv"
  ],
  "05-markets": [
   "macro/growth_prices.csv",
@@ -33,9 +35,11 @@
  "06-people": [
   "markets/usdcad_h10.csv",
   "social/gini.csv",
+  "social/gini_statcan.csv",
   "social/income.csv",
   "social/minimum_wage.csv",
-  "social/poverty.csv"
+  "social/poverty.csv",
+  "social/poverty_statcan.csv"
  ],
  "07-world": [
   "international/cpi.csv",
@@ -45,19 +49,27 @@
  ],
  "08-demography": [
   "international/population.csv",
-  "social/demography.csv"
+  "social/components_statcan.csv",
+  "social/demography.csv",
+  "social/demography_statcan.csv",
+  "social/population_statcan.csv"
  ],
  "09-security": [
   "social/causes_of_death.csv",
   "social/opioids.csv",
-  "social/security.csv"
+  "social/security.csv",
+  "social/security_statcan.csv"
  ],
  "10-mortality": [
-  "social/causes_of_death.csv"
+  "social/causes_of_death.csv",
+  "social/mortality_statcan.csv",
+  "social/population_statcan.csv"
  ],
  "11-credit": [
   "credit/debt_service.csv",
+  "credit/debt_service_statcan.csv",
   "credit/household_credit.csv",
+  "credit/household_credit_statcan.csv",
   "credit/mortgage_rates.csv",
   "credit/npl.csv",
   "markets/rates.csv"
