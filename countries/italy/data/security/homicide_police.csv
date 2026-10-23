@@ -1,0 +1,27 @@
+# ISTAT 73_67, crimes reported by the police forces to the judiciary — Ministero dell'Interno SDI data via ISTAT. National, all offender statuses (Y_KNOWN_OFFENDER_IDEN=9), offences recorded in the year (REFERENCE_PERIOD_CRIME=YRDUR).
+# intenhom = completed intentional homicides (omicidi volontari consumati); per100k is ISTAT's own rate (CRIMET), published to one decimal.
+# mafiahom and infanthom are SUBSETS of intenhom (draw as subsets, never stacked as peers); attemphom (attempted) is a separate offence.
+# Counted at the place of the offence by the police; the death-certificate count is homicide_vital_from_istat.csv.
+# PENDING at fetch: column(s) attemphom, mafiahom, infanthom omitted — the flow did not answer; rerun fetch_istat.py.
+year,intenhom,intenhom_per100k
+2006,621,1.1
+2007,627,1.1
+2008,611,1.0
+2009,586,1.0
+2010,526,0.9
+2011,550,0.9
+2012,528,0.9
+2013,502,0.8
+2014,475,0.8
+2015,469,0.8
+2016,400,0.7
+2017,368,0.6
+2018,331,0.6
+2019,318,0.5
+2020,289,0.5
+2021,304,0.5
+2022,331,0.6
+2023,341,0.6
+2024,326,0.6
+2025,,
+2026,,

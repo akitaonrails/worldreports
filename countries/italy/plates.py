@@ -27,7 +27,7 @@ Two conventions run through the file:
   that moves a figure moves the sentence with it. Spot values quoted in
   DATA_NOTES.md are pinned in tests against the same CSVs.
 - **Counts become rates** through ctx.per_1000 / ctx.per_100k against the
-  Eurostat 1-January population (`social/demography_from_estat.csv`) —
+  Eurostat 1-January population (`social/demography.csv`) —
   the same territory and the same registered-resident scope as the
   counts; where ISTAT publishes its own rate (the police homicide rate)
   the plate uses ISTAT's.
@@ -129,7 +129,7 @@ def _pop(ctx):
     """The rate denominator: Eurostat demo_gind resident population,
     1 January, persons. Same territory and legal scope as ISTAT's births,
     deaths, flows and certificates (DATA_NOTES.md)."""
-    return _map(ctx, "social/demography_from_estat.csv", "population")
+    return _map(ctx, "social/demography.csv", "population")
 
 
 def _cause(ctx, code: str):
@@ -141,7 +141,7 @@ def _cause(ctx, code: str):
     grouping. The codes are ICD shortlist labels, not numbers.
     """
     import csv
-    path = ctx.c.data("social/causes_of_death_from_istat.csv")
+    path = ctx.c.data("social/causes_of_death.csv")
     out = {}
     with path.open(encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(ln for ln in fh
@@ -174,12 +174,12 @@ def plate_economy(ctx, ig) -> None:
     p = ctx.p
 
     ax = ig.slot("economy.growth", "Real GDP growth (% per year)")
-    gy, gv = _yr(ctx, "macro/gdp_from_estat.csv", "real_growth")
+    gy, gv = _yr(ctx, "macro/gdp_estat.csv", "real_growth")
     ctx.bars(ax, gy, gv, lambda v: p.VERDE if v >= 0 else p.ROSSO)
     # ISTAT's own quarterly levels, summed; the line only where four
     # quarters are published, so 2026 (two quarters) simply ends.
-    lv = _map(ctx, "macro/gdp_from_istat.csv", "gdp_eurmn")
-    qn = _map(ctx, "macro/gdp_from_istat.csv", "quarters")
+    lv = _map(ctx, "macro/gdp_istat.csv", "gdp_eurmn")
+    qn = _map(ctx, "macro/gdp_istat.csv", "quarters")
     igrow = {y: (lv[y] / lv[y - 1] - 1) * 100
              for y in lv if y - 1 in lv and qn.get(y, 0) >= 4
              and qn.get(y - 1, 0) >= 4}
@@ -201,7 +201,7 @@ def plate_economy(ctx, ig) -> None:
           "two publishers of one statistic, equal within EUR 5mn a year")
 
     ax = ig.slot("economy.gdp_per_person", "GDP per person (US$, current)")
-    py, pv = _yr(ctx, "international/gdp_pc_from_wb.csv", "gdp_per_person_usd")
+    py, pv = _yr(ctx, "international/gdp_pc.csv", "gdp_per_person_usd")
     ctx.line(ax, py, pv, p.BLUE)
     ig.add_recessions(ax, label=False)
     ctx.endlabel(ax, py, pv, p.BLUE, lambda v: f"US${v:,.0f}", dy=8)
@@ -214,9 +214,9 @@ def plate_economy(ctx, ig) -> None:
     ax = ig.slot("economy.inflation", "Consumer price inflation "
                  "(% per year) and the ECB's definition")
     ax.axhline(2, color=p.VERDE_D, lw=1.0, ls=":", zorder=2)
-    cy, cv = _yr(ctx, "macro/hicp_from_estat.csv", "hicp")
+    cy, cv = _yr(ctx, "macro/hicp.csv", "hicp")
     ctx.line(ax, cy, cv, p.ROSSO, label="HICP, harmonised (Eurostat)")
-    ni = _map(ctx, "macro/nic_from_istat.csv", "index_b2015")
+    ni = _map(ctx, "macro/nic.csv", "index_b2015")
     nrate = {y: (ni[y] / ni[y - 1] - 1) * 100 for y in ni if y - 1 in ni}
     _natl(ctx, ax, sorted(nrate), [nrate[y] for y in sorted(nrate)],
           p.NAVY, "NIC, national index (base 2015 years only)")
@@ -235,9 +235,9 @@ def plate_economy(ctx, ig) -> None:
 
     ax = ig.slot("economy.unemployment", "Unemployment rate "
                  "(% of the labour force)")
-    uy, uv = _yr(ctx, "macro/unemployment_from_istat.csv", "unemp_rate_avg")
+    uy, uv = _yr(ctx, "macro/unemployment_istat.csv", "unemp_rate_avg")
     ctx.line(ax, uy, uv, p.NAVY, label="ISTAT labour survey (backcast to 2006)")
-    ey, ev = _yr(ctx, "macro/unemployment_from_estat.csv", "estat")
+    ey, ev = _yr(ctx, "macro/unemployment_estat.csv", "estat")
     _natl(ctx, ax, ey, ev, p.GOLD, "Eurostat (2009+)")
     ig.add_recessions(ax, label=False)
     peak = max(zip(uy, uv), key=lambda t: t[1])
@@ -259,8 +259,8 @@ def plate_fiscal(ctx, ig) -> None:
 
     ax = ig.slot("fiscal.revenue_expenditure", "Revenue and expenditure "
                  "(% of GDP)")
-    ry, rv = _yr(ctx, "fiscal/revenue_from_estat.csv", "revenue")
-    ey, ev = _yr(ctx, "fiscal/revenue_from_estat.csv", "expenditure")
+    ry, rv = _yr(ctx, "fiscal/revenue.csv", "revenue")
+    ey, ev = _yr(ctx, "fiscal/revenue.csv", "expenditure")
     ctx.line(ax, ry, rv, p.VERDE, label="Revenue")
     ctx.line(ax, ey, ev, p.ROSSO, label="Expenditure")
     ig.add_recessions(ax, label=False)
@@ -275,9 +275,9 @@ def plate_fiscal(ctx, ig) -> None:
           "RGS computes; the BDAP endpoint never answered (meta.pending)")
 
     ax = ig.slot("fiscal.balance", "Overall and primary balance (% of GDP)")
-    dy_, dv = _yr(ctx, "fiscal/deficit_from_estat.csv", "deficit")
+    dy_, dv = _yr(ctx, "fiscal/deficit.csv", "deficit")
     ctx.bars(ax, dy_, dv, lambda v: p.ROSSO if v < 0 else p.VERDE)
-    py, pv = _yr(ctx, "fiscal/deficit_from_estat.csv", "primary")
+    py, pv = _yr(ctx, "fiscal/deficit.csv", "primary")
     ctx.line(ax, py, pv, p.NAVY, label="Primary balance")
     _barkey(ax, p.ROSSO, "Overall balance")
     ig.add_recessions(ax, label=False)
@@ -291,14 +291,14 @@ def plate_fiscal(ctx, ig) -> None:
           "quoting the Superbonus years (DATA_NOTES)")
 
     ax = ig.slot("fiscal.debt", "Gross debt (% of GDP)")
-    qy, qv = _yr(ctx, "fiscal/debt_from_estat.csv", "gross_pct_gdp")
+    qy, qv = _yr(ctx, "fiscal/debt.csv", "gross_pct_gdp")
     ctx.line(ax, qy, qv, p.ROSSO)
     ig.add_recessions(ax, label=False)
     pk = max(zip(qy, qv), key=lambda t: t[1])
     ax.annotate(f"{pk[1]:.1f}% in {pk[0]}", pk, textcoords="offset points",
                 xytext=(-6, 4), ha="right", fontsize=8.8, fontweight="bold",
                 color=p.ROSSO)
-    bn = _map(ctx, "fiscal/debt_from_estat.csv", "gross_eurbn_q4")
+    bn = _map(ctx, "fiscal/debt.csv", "gross_eurbn_q4")
     _note(p, ax, 0.02, 0.04, f"the ratio peaked at {pk[1]:.1f}% in {pk[0]}; "
           f"the stock crossed\nEUR 3 trillion in 2025 "
           f"({bn[2025]:,.1f}bn at Q4) while the ratio fell "
@@ -307,7 +307,7 @@ def plate_fiscal(ctx, ig) -> None:
     _foot(p, ax, "Eurostat EDP government debt, Maastricht definition")
 
     ax = ig.slot("fiscal.interest", "Interest paid (% of GDP)")
-    iy, iv = _yr(ctx, "fiscal/deficit_from_estat.csv", "interest")
+    iy, iv = _yr(ctx, "fiscal/deficit.csv", "interest")
     ctx.line(ax, iy, iv, p.GOLD)
     ig.add_recessions(ax, label=False)
     ax.annotate(f"{_at(iy, iv, 2012):.1f}% in 2012", (2012, _at(iy, iv, 2012)),
@@ -335,7 +335,7 @@ COFOG7 = [
 
 def plate_spending(ctx, ig) -> None:
     p = ctx.p
-    C = "fiscal/spending_by_function_from_estat.csv"
+    C = "fiscal/spending_by_function.csv"
     t = ctx.table(C)
     yrs = [y for y in t["year"] if y >= W0 and y <= 2024]  # COFOG ends 2024
 
@@ -378,7 +378,7 @@ def plate_spending(ctx, ig) -> None:
 
     ax = ig.slot("spending.investment", "Investment rate, whole economy "
                  "(GFCF, % of GDP)")
-    iy, iv = _yr(ctx, "fiscal/investment_from_estat.csv", "gfcf_pct_gdp")
+    iy, iv = _yr(ctx, "fiscal/investment.csv", "gfcf_pct_gdp")
     ctx.line(ax, iy, iv, p.BLUE)
     ig.add_recessions(ax, label=False)
     trough = min(zip(iy, iv), key=lambda t: t[1])
@@ -393,7 +393,7 @@ def plate_spending(ctx, ig) -> None:
 
     ax = ig.slot("spending.public_investment", "Public investment "
                  "(government GFCF, % of GDP)")
-    gy, gv = _yr(ctx, "fiscal/investment_from_estat.csv", "gov_gfcf_pct_gdp")
+    gy, gv = _yr(ctx, "fiscal/investment.csv", "gov_gfcf_pct_gdp")
     ctx.line(ax, gy, gv, p.TEAL)
     ig.add_recessions(ax, label=False)
     low = min(zip(gy, gv), key=lambda t: t[1])
@@ -412,9 +412,9 @@ def plate_spending(ctx, ig) -> None:
 # -------------------------------------------------------------------- trade
 def plate_trade(ctx, ig) -> None:
     p = ctx.p
-    gdp = _map(ctx, "macro/gdp_from_estat.csv", "nominal_eurbn")
-    x = _map(ctx, "trade/trade_from_estat.csv", "exports_eurbn")
-    m = _map(ctx, "trade/trade_from_estat.csv", "imports_eurbn")
+    gdp = _map(ctx, "macro/gdp_estat.csv", "nominal_eurbn")
+    x = _map(ctx, "trade/trade.csv", "exports_eurbn")
+    m = _map(ctx, "trade/trade.csv", "imports_eurbn")
     xpc = {y: x[y] / gdp[y] * 100 for y in x if y in gdp}
     mpc = {y: m[y] / gdp[y] * 100 for y in m if y in gdp}
     bal = {y: (x[y] - m[y]) / gdp[y] * 100 for y in x if y in gdp}
@@ -424,7 +424,7 @@ def plate_trade(ctx, ig) -> None:
              label="Exports, goods and services")
     ctx.line(ax, sorted(mpc), [mpc[y] for y in sorted(mpc)], p.ROSSO,
              label="Imports, goods and services")
-    wy, wv = _yr(ctx, "international/openness_from_wb.csv", "trade_pct_gdp")
+    wy, wv = _yr(ctx, "international/openness.csv", "trade_pct_gdp")
     _natl(ctx, ax, wy, wv, p.NAVY, "World Bank (X+M)/GDP, older vintage")
     ig.add_recessions(ax, label=False)
     ax.legend(loc="upper left", fontsize=7.4, frameon=False)
@@ -476,9 +476,9 @@ def plate_markets(ctx, ig) -> None:
     p = ctx.p
 
     ax = ig.slot("markets.policy_rate", "Policy rate vs inflation (%)")
-    dy_, dv = _yr(ctx, "markets/policy_rate_from_ecb.csv", "dfr")
+    dy_, dv = _yr(ctx, "markets/policy_rate.csv", "dfr")
     ctx.line(ax, dy_, dv, p.NAVY, label="ECB deposit facility rate, year-end")
-    cy, cv = _yr(ctx, "macro/hicp_from_estat.csv", "hicp")
+    cy, cv = _yr(ctx, "macro/hicp.csv", "hicp")
     ctx.line(ax, cy, cv, p.ROSSO, label="HICP (from the economy plate)")
     ig.add_recessions(ax, label=False)
     _mark(ig, ax, "wit", dy=0.55)
@@ -492,7 +492,7 @@ def plate_markets(ctx, ig) -> None:
 
     ax = ig.slot("markets.bond_10y", "10-year government bond yield "
                  "(%, annual average)")
-    yy, yv = _yr(ctx, "markets/yield_10y_from_estat.csv", "yield_10y")
+    yy, yv = _yr(ctx, "markets/yield_10y.csv", "yield_10y")
     ctx.line(ax, yy, yv, p.ROSSO)
     ig.add_recessions(ax, label=False)
     _mark(ig, ax, "monti", dy=0.66)
@@ -510,7 +510,7 @@ def plate_markets(ctx, ig) -> None:
 
     ax = ig.slot("markets.currency", "Currency against the US$ "
                  "(index 2006 = 100)")
-    fx = _map(ctx, "markets/eurusd_from_ecb.csv", "avg")
+    fx = _map(ctx, "markets/eurusd.csv", "avg")
     iy, iv = ctx.index_2006(fx)
     ctx.line(ax, iy, iv, p.BLUE)
     ig.add_recessions(ax, label=False)
@@ -527,7 +527,7 @@ def plate_markets(ctx, ig) -> None:
 
     ax = ig.slot("markets.equities", "Main equity index in US$ "
                  "(index 2006 = 100)")
-    ft = _map(ctx, "markets/ftsemib_from_yahoo.csv", "close")
+    ft = _map(ctx, "markets/ftsemib.csv", "close")
     usd = {y: ft[y] * fx[y] for y in ft if y in fx}
     ey, ev = ctx.index_2006(usd)
     ctx.line(ax, ey, ev, p.GOLD)
@@ -548,8 +548,8 @@ def plate_markets(ctx, ig) -> None:
 # ------------------------------------------------------------------- credit
 def plate_credit(ctx, ig) -> None:
     p = ctx.p
-    ln = _map(ctx, "credit/household_debt_from_bdi.csv", "loans_eurbn")
-    gdp = _map(ctx, "macro/gdp_from_estat.csv", "nominal_eurbn")
+    ln = _map(ctx, "credit/household_debt.csv", "loans_eurbn")
+    gdp = _map(ctx, "macro/gdp_estat.csv", "nominal_eurbn")
     debt_gdp = {y: ln[y] / gdp[y] * 100 for y in ln if y in gdp}
 
     ax = ig.slot("credit.household_debt", "Household debt (% of GDP)")
@@ -568,9 +568,9 @@ def plate_credit(ctx, ig) -> None:
 
     ax = ig.slot("credit.lending_rate", "Household lending rate vs policy "
                  "rate (%)")
-    ry, rv = _yr(ctx, "credit/lending_rate_from_bdi.csv", "house_new_avg")
+    ry, rv = _yr(ctx, "credit/lending_rate.csv", "house_new_avg")
     ctx.line(ax, ry, rv, p.ROSSO, label="New mortgage rate (BdI, MIR)")
-    dy_, dv = _yr(ctx, "markets/policy_rate_from_ecb.csv", "dfr")
+    dy_, dv = _yr(ctx, "markets/policy_rate.csv", "dfr")
     ctx.line(ax, dy_, dv, p.NAVY, label="ECB deposit rate, year-end")
     ig.add_recessions(ax, label=False)
     ax.annotate(f"{_at(ry, rv, 2020):.2f}% in 2020", (2020, _at(ry, rv, 2020)),
@@ -587,9 +587,9 @@ def plate_credit(ctx, ig) -> None:
           "new lending")
 
     ax = ig.slot("credit.npl", "Non-performing loans (% of loans)")
-    ny, nv = _yr(ctx, "credit/npl_from_bdi.csv", "npl_gross_ratio_fsi")
+    ny, nv = _yr(ctx, "credit/npl.csv", "npl_gross_ratio_fsi")
     ctx.line(ax, ny, nv, p.ROSSO, label="Gross NPL ratio (IMF FSI, 2011+)")
-    by, bv = _yr(ctx, "credit/npl_from_bdi.csv", "bad_loans_ratio_computed",
+    by, bv = _yr(ctx, "credit/npl.csv", "bad_loans_ratio_computed",
                  until=2023)
     _natl(ctx, ax, by, bv, p.NAVY, "sofferenze ratio (BdI, ended Mar 2024)")
     ig.add_recessions(ax, label=False)
@@ -607,7 +607,7 @@ def plate_credit(ctx, ig) -> None:
 
     ax = ig.slot("credit.lens", "Lens — the same debt against disposable "
                  "income")
-    gy, gv = _yr(ctx, "credit/household_debt_from_bdi.csv",
+    gy, gv = _yr(ctx, "credit/household_debt.csv",
                  "debt_pct_gdi_computed")
     ctx.line(ax, gy, gv, p.VERDE)
     ig.add_recessions(ax, label=False)
@@ -627,9 +627,9 @@ def plate_people(ctx, ig) -> None:
     p = ctx.p
 
     ax = ig.slot("people.gini", "Income inequality, Gini (0–100)")
-    gy, gv = _yr(ctx, "social/gini_from_estat.csv", "silc")
+    gy, gv = _yr(ctx, "social/gini_estat.csv", "silc")
     ctx.line(ax, gy, gv, p.VERDE, label="EU-SILC via Eurostat (Italy from 2014)")
-    wy, wv = _yr(ctx, "social/gini_from_wb.csv", "gini")
+    wy, wv = _yr(ctx, "social/gini_wb.csv", "gini")
     _natl(ctx, ax, wy, wv, p.NAVY, "World Bank SILC cut — never joined")
     ig.add_recessions(ax, label=False)
     _note(p, ax, 0.02, 0.96, f"one survey, two readings: the Bank runs "
@@ -641,10 +641,10 @@ def plate_people(ctx, ig) -> None:
           "Bank's own definition of the same survey")
 
     ax = ig.slot("people.poverty", "Poverty rate (% of people)")
-    ay, av = _yr(ctx, "social/poverty_from_estat.csv", "arop60")
+    ay, av = _yr(ctx, "social/poverty.csv", "arop60")
     ctx.line(ax, ay, av, p.VERDE, label="At risk after transfers, 60% median "
                 "(EU-SILC)")
-    ny, nv = _yr(ctx, "social/poverty_abs_from_istat.csv", "abs_hh")
+    ny, nv = _yr(ctx, "social/poverty_abs.csv", "abs_hh")
     _natl(ctx, ax, ny, nv, p.ROSSO, "ISTAT absolute poverty, households "
           "(2014+)")
     ig.add_recessions(ax, label=False)
@@ -664,9 +664,9 @@ def plate_people(ctx, ig) -> None:
           "honest statement")
 
     ax = ig.slot("people.lens", "Lens — two poverty lines, one country")
-    ay, av = _yr(ctx, "social/poverty_from_estat.csv", "arop60")
+    ay, av = _yr(ctx, "social/poverty.csv", "arop60")
     ctx.line(ax, ay, av, p.VERDE, label="At-risk-of-poverty, persons (EU-SILC)")
-    ry, rv = _yr(ctx, "social/poverty_abs_from_istat.csv", "rel_hh")
+    ry, rv = _yr(ctx, "social/poverty_abs.csv", "rel_hh")
     _natl(ctx, ax, ry, rv, p.ROSSO, "ISTAT relative poverty, households")
     ig.add_recessions(ax, label=False)
     _note(p, ax, 0.98, 0.55, "the national relative line (equivalence-scale "
@@ -684,7 +684,7 @@ def plate_world(ctx, ig) -> None:
     p = ctx.p
 
     ax = ig.slot("world.gdp", "GDP at current prices (US$ bn)")
-    gy, gv = _yr(ctx, "international/gdp_usd_from_wb.csv", "gdp_usd")
+    gy, gv = _yr(ctx, "international/gdp_usd.csv", "gdp_usd")
     gv = [v / 1e9 for v in gv]
     ctx.line(ax, gy, gv, p.VERDE)
     ig.add_recessions(ax, label=False)
@@ -696,7 +696,7 @@ def plate_world(ctx, ig) -> None:
     _foot(p, ax, "World Bank NY.GDP.MKTP.CD, current US$ at market rates")
 
     ax = ig.slot("world.hdi", "Human Development Index (0–1)")
-    hy, hv = _yr(ctx, "international/hdi_from_undp.csv", "hdi", until=2023)
+    hy, hv = _yr(ctx, "international/hdi.csv", "hdi", until=2023)
     ctx.line(ax, hy, hv, p.BLUE)
     ig.add_recessions(ax, label=False)
     ax.annotate(f"{hv[-1]:.3f} in {hy[-1]}: very-high band", (hy[-1], hv[-1]),
@@ -714,7 +714,7 @@ def plate_world(ctx, ig) -> None:
           "SOURCES.yaml meta.pending until then")
 
     ax = ig.slot("world.reserves", "Official reserves (US$ bn)")
-    ry, rv = _yr(ctx, "international/reserves_from_wb.csv", "reserves_usd")
+    ry, rv = _yr(ctx, "international/reserves.csv", "reserves_usd")
     rv = [v / 1e9 for v in rv]
     ctx.line(ax, ry, rv, p.GOLD)
     ig.add_recessions(ax, label=False)
@@ -733,7 +733,7 @@ def plate_world(ctx, ig) -> None:
 # -------------------------------------------------------------- demography
 def plate_demography(ctx, ig) -> None:
     p = ctx.p
-    D = "social/demography_from_estat.csv"
+    D = "social/demography.csv"
     pop = _pop(ctx)
 
     ax = ig.slot("demography.population", "Population (index 2006 = 100)")
@@ -788,16 +788,16 @@ def plate_demography(ctx, ig) -> None:
                  "migration (per 1,000 people)")
     n = {y: (b[y] - d[y]) for y in b if y in d}
     ny, nv = ctx.per_1000(n, {y: pop[y] for y in n})
-    imm = _map(ctx, "migration/immigration_from_estat.csv",
+    imm = _map(ctx, "migration/immigration.csv",
                "by_citizenship_total")
-    emi = _map(ctx, "migration/emigration_from_estat.csv",
+    emi = _map(ctx, "migration/emigration.csv",
                "by_citizenship_total")
     net = {y: imm[y] - emi[y] for y in imm if y in emi and emi[y]}
     my, mv = ctx.per_1000(net, {y: pop[y] for y in net})
     ctx.line(ax, ny, nv, p.ROSSO, label="Natural increase")
     ctx.line(ax, my, mv, p.VERDE, label="Net migration (Eurostat, to 2024)")
     ig.add_recessions(ax, label=False)
-    fl = _map(ctx, "migration/migration_flows_from_istat.csv", "balance")
+    fl = _map(ctx, "migration/migration_flows.csv", "balance")
     ax.annotate(f"ISTAT 2025: {fl[2025]:+,.0f} people", (2025, mv[-1]),
                 textcoords="offset points", xytext=(-4, 8), ha="right",
                 fontsize=8.2, fontweight="bold", color=p.VERDE)
@@ -818,15 +818,15 @@ def plate_security(ctx, ig) -> None:
     pop = _pop(ctx)
 
     ax = ig.slot("security.homicide", "Homicide rate (per 100,000)")
-    py, pv = _yr(ctx, "security/homicide_police_from_istat.csv",
+    py, pv = _yr(ctx, "security/homicide_police.csv",
                  "intenhom_per100k")
     ctx.line(ax, py, pv, p.ROSSO, label="Police count, ISTAT's published rate")
-    a = _map(ctx, "security/homicide_vital_from_istat.csv", "assault_deaths")
+    a = _map(ctx, "security/homicide_vital.csv", "assault_deaths")
     ay, av = ctx.per_100k(a, {y: pop[y] for y in a})
     _natl(ctx, ax, ay, av, p.NAVY, "Death certificates, computed")
     ig.add_recessions(ax, label=False)
     _note(p, ax, 0.02, 0.96, "two counts, never spliced: police record more in "
-          f"every year\n(2023: {_map(ctx, 'security/homicide_police_from_istat.csv', 'intenhom')[2023]:,.0f} "
+          f"every year\n(2023: {_map(ctx, 'security/homicide_police.csv', 'intenhom')[2023]:,.0f} "
           f"against {a[2023]:,.0f}); Italy's true story is the steady fall, "
           "halving\nacross the window — organised crime included", size=7.4)
     ax.legend(loc="lower left", fontsize=7.4, frameon=False)
@@ -875,7 +875,7 @@ def plate_security(ctx, ig) -> None:
 def plate_mortality(ctx, ig) -> None:
     p = ctx.p
     pop = _pop(ctx)
-    d = _map(ctx, "social/demography_from_estat.csv", "deaths")
+    d = _map(ctx, "social/demography.csv", "deaths")
 
     ax = ig.slot("mortality.death_rate", "Crude death rate (per 1,000 people)")
     dy_, dv = ctx.per_1000(d, {y: pop[y] for y in d})
@@ -951,11 +951,11 @@ def plate_migration(ctx, ig) -> None:
     p = ctx.p
     pop = _pop(ctx)
 
-    imm = _map(ctx, "migration/immigration_from_estat.csv",
+    imm = _map(ctx, "migration/immigration.csv",
                "by_citizenship_total")
-    emi = _map(ctx, "migration/emigration_from_estat.csv",
+    emi = _map(ctx, "migration/emigration.csv",
                "by_citizenship_total")
-    istat = ctx.rows("migration/migration_flows_from_istat.csv") or {}
+    istat = ctx.rows("migration/migration_flows.csv") or {}
     ifl = {int(y): {k: float(r[k]) for k in
                     ("immigration", "emigration", "emigration_italian")
                     if (r.get(k) or "").strip()}
@@ -1007,7 +1007,7 @@ def plate_migration(ctx, ig) -> None:
 
     ax = ig.slot("migration.foreign_born", "Foreign-born share of the "
                  "population (% of population)")
-    stk = ctx.rows("migration/stock_from_estat.csv") or {}
+    stk = ctx.rows("migration/stock.csv") or {}
     fb = {int(y): float(r["by_birth_foreign"]) / float(r["by_birth_total"])
           * 100 for y, r in sorted(stk.items())
           if (r.get("by_birth_foreign") or "").strip() and int(y) >= W0}
@@ -1024,7 +1024,7 @@ def plate_migration(ctx, ig) -> None:
                 fontsize=8.4, fontweight="bold", color=p.VERDE)
     _note(p, ax, 0.02, 0.96, f"born elsewhere {fb[max(fb)]:.1f}%, holding another "
           f"passport {fc[max(fc)]:.1f}%:\nthe two lines pull apart because "
-          f"naturalisation ({_map(ctx, 'migration/naturalisation_from_estat.csv', 'acquisitions')[2024]:,.0f} "
+          f"naturalisation ({_map(ctx, 'migration/naturalisation.csv', 'acquisitions')[2024]:,.0f} "
           f"in 2024)\nmoves people from the green line to the red one",
           size=7.4)
     ax.legend(loc="center right", fontsize=7.6, frameon=False)
@@ -1033,11 +1033,11 @@ def plate_migration(ctx, ig) -> None:
 
     ax = ig.slot("migration.lens", "Lens — citizenship churn: who leaves and "
                  "who acquires")
-    acq = _map(ctx, "migration/naturalisation_from_estat.csv", "acquisitions")
+    acq = _map(ctx, "migration/naturalisation.csv", "acquisitions")
     ctx.line(ax, *ctx.per_1000(acq, {y: pop[y] for y in acq}), p.VERDE,
              label="New Italian citizens (Eurostat)")
     eit = {int(y): float(r["by_citizenship_national"]) for y, r in
-           sorted(ctx.rows("migration/emigration_from_estat.csv").items())
+           sorted(ctx.rows("migration/emigration.csv").items())
            if (r.get("by_citizenship_national") or "").strip()
            and int(y) >= W0}
     ctx.line(ax, *ctx.per_1000(eit, {y: pop[y] for y in eit}), p.ROSSO,
