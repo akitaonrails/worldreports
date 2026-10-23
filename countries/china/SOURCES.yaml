@@ -102,6 +102,68 @@ economy:
     official: false
     notes: "Fetcher sidecar behind gdp_pc_usd.csv; diff before adopting."
 
+  # ---- prices and jobs: the economy slots the blocked NBS would fill ----
+  inflation_intl.csv:
+    source: World Bank FP.CPI.TOTL.ZG + IMF DataMapper PCPIPCH (WEO)
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=2005:2026 ; https://www.imf.org/external/datamapper/api/v1/PCPIPCH/CHN"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecars economy/inflation_intl_from_wb.csv + economy/inflation_intl_from_imf.csv; curated staged from both, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23 and refetched the same day. WB annual CPI: 2023 0.23,
+      2024 0.22, 2025 0.06; IMF CHN: 2009 −0.7 (deflation inside a +9% growth
+      year), 2019 2.9, 2025 0.0 (WEO projections beyond 2025 not staged). The
+      fetcher asserts the two publishers agree within 5% in 2019. The NBS CPI
+      (pending, 403-blocked) is the national line of record and joins beside
+      these, never spliced; the CPI is never drawn on a growth panel.
+  inflation_intl_from_wb.csv:
+    source: World Bank — FP.CPI.TOTL.ZG
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind inflation_intl.csv; diff before adopting."
+  inflation_intl_from_imf.csv:
+    source: IMF DataMapper — PCPIPCH (WEO, outturn years only)
+    url: "LIVE — https://www.imf.org/external/datamapper/api/v1/PCPIPCH/CHN"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind inflation_intl.csv; diff before adopting."
+  unemployment_intl.csv:
+    source: World Bank — SL.UEM.TOTL.ZS (ILO modelled estimate)
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SL.UEM.TOTL.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar economy/unemployment_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: 2025 4.6, 2020 5.0 — the ILO modelled estimate, the
+      only unemployment series this machine can fetch: the NBS surveyed urban
+      rate (~5%, different definition and sample) and the registered rate are
+      pending (403). The harmonised line stands in for economy slot 4 exactly
+      as the IMF broad-debt line stands in for fiscal slot 3; when the NBS
+      line opens it rides beside, never replaces by splicing.
+  unemployment_intl_from_wb.csv:
+    source: World Bank — SL.UEM.TOTL.ZS
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SL.UEM.TOTL.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind unemployment_intl.csv; diff before adopting."
+  gfcf_pct_gdp.csv:
+    source: World Bank — NE.GDI.FTOT.ZS (GFCF, % of GDP, national accounts)
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/NE.GDI.FTOT.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar economy/gfcf_pct_gdp_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: 2024 39.65, series ends 2024 (WB lag). The
+      2010-2021 plateau (always above 40) breaks the spine's 0–40 reference:
+      the axis grows and carries the marker — China's investment rate is the
+      finding. The property crisis shows here as the line's fall from the
+      plateau; no property-price series is staged (NBS blocked), so no price
+      lens is drawn (DATA_NOTES).
+  gfcf_pct_gdp_from_wb.csv:
+    source: World Bank — NE.GDI.FTOT.ZS
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/NE.GDI.FTOT.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind gfcf_pct_gdp.csv; diff before adopting."
+
 # --------------------------------------------------------------------------
 # markets — policy rate, currency, index, reserves. PBoC/SAFE official + market.
 # --------------------------------------------------------------------------
@@ -148,6 +210,43 @@ markets:
     refreshed_by: fetch/fetch_markets.py
     official: false
     notes: "Fetcher sidecar behind sse_index.csv; 2005 row kept as rebasing context."
+  spx_index.csv:
+    source: market — S&P 500, redistributed by Yahoo Finance
+    url: "LIVE — https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1mo (needs a browser User-Agent)"
+    refreshed_by: "fetch/fetch_markets.py → sidecar markets/spx_index_from_yahoo.csv; curated staged from it (window-clipped to 2006+), values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23. Year-end closes 2007 1468.36, 2015 2043.94, 2024
+      5881.63 — matching the record exactly; the 2026 row is a running
+      reading. Drawn in markets slot 4 dashed, beside the SSE Composite in
+      US$, both indexed 2006 = 100 (the spine's convention), converted from
+      the staged fx_cny_per_usd.csv; nobody publishes a stock index as a
+      statistic, hence official: false.
+  spx_index_from_yahoo.csv:
+    source: Yahoo Finance chart API — ^GSPC monthly bars
+    url: "LIVE — https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1mo"
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: "Fetcher sidecar behind spx_index.csv; 2005 row kept as rebasing context."
+  fx_cny_per_usd.csv:
+    source: World Bank — PA.NUS.FCRF (official exchange rate, CNY per US$, annual average)
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/PA.NUS.FCRF?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar markets/fx_cny_per_usd_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: 2025 7.19; 2006 7.97, 2014 6.14 (the firm years
+      before the 2015-811 devaluation). This is the series the currency slot
+      indexes (2006 = 100, rising = STRONGER renminbi) and the equity slot
+      converts with. The PBoC 中间价 central parity and the CFETS market
+      close are the two national series (pending, endpoints unisolated);
+      when either opens it joins beside this one, never blended — the two
+      fixings never merge with each other either.
+  fx_cny_per_usd_from_wb.csv:
+    source: World Bank — PA.NUS.FCRF
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/PA.NUS.FCRF?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind fx_cny_per_usd.csv; diff before adopting."
 
 # --------------------------------------------------------------------------
 # fiscal — revenue, deficit, debt. MOF (narrow) + IMF (broad), side by side.
@@ -246,6 +345,25 @@ people:
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind gini_intl.csv; holes 2006-2007, 2009 and 2023+ stay holes."
+  poverty_intl.csv:
+    source: World Bank PIP — SI.POV.UMIC (poverty headcount, US$8.30/day, 2021 PPP)
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.UMIC?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar people/poverty_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: 2022 21.3% and survey years 2008-2022 only. The
+      US$8.30 line is the poverty line the Bank sets for a country at China's
+      income level: 2008 72.8% — above the spine's 0–50 reference, so the
+      axis grows and says so — falling to 21.3% by 2022. China's own official
+      poverty standard (a much lower line, last published 2020 and then
+      discontinued) has no fetchable series and is not drawn; the survey
+      years stay survey years and the holes past 2022 stay holes.
+  poverty_intl_from_wb.csv:
+    source: World Bank — SI.POV.UMIC
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.UMIC?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind poverty_intl.csv; survey-year holes stay holes."
 
 # --------------------------------------------------------------------------
 # demography — births, deaths, population, life expectancy. NBS + WB/UN cross-check.
@@ -270,6 +388,28 @@ demography:
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind population_intl.csv; diff before adopting."
+  vital_intl.csv:
+    source: World Bank WDI — SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM (UN WPP 2024-revision vintage)
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/{code}?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar demography/vital_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: TFR 2023 1.00, 2024 1.01 — below replacement by
+      a factor of two; crude birth 2024 6.77 per 1,000 vs crude death 7.76 —
+      the two lines CROSSED in 2023-24; net migration is a COUNT (2025
+      −268,126, negative every year in the window), per 1,000 computed on
+      the plate over the same-vintage population. All four series end 2024
+      or 2025 with the WPP vintage; holes stay holes. These are WPP modelled
+      rates — internally consistent with the staged population series (same
+      revision), which is what makes the derived birth counts defensible
+      (DATA_NOTES). NBS birth/death registrations, with the 2010/2020 census
+      rebases, are pending (403) and will be their own labelled lines.
+  vital_intl_from_wb.csv:
+    source: World Bank — SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/{code}?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind vital_intl.csv; diff before adopting."
 
 # --------------------------------------------------------------------------
 # migration — diaspora/international stock (small) vs INTERNAL floating pop (big).
@@ -316,6 +456,70 @@ international:
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind hdi.csv; window-clipped copy of the HDR25 CHN row."
+  corruption_intl.csv:
+    source: Transparency International — Corruption Perceptions Index, 2012-method series
+    url: "LIVE — https://images.transparencycdn.org/images/CPI2025_Results.xlsx (sheet 'CPI Historical')"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar international/corruption_intl_from_ti.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: CHN 2012 39, 2021-22 45 (best years), 2025 43.
+      Scores 0–100 on the method introduced in 2012; the earlier 0–10 scores
+      are a different method and are not in TI's time series, so the series
+      starts 2012 — a seam in the file, not a gap to interpolate. Note:
+      Canada's fetcher used the CPI2025-Results-and-trends.xlsx workbook,
+      whose CDN object now answers 403 AccessDenied from this machine; the
+      plain CPI2025_Results.xlsx at this address is live and carries the
+      same CPI Historical sheet.
+
+# --------------------------------------------------------------------------
+# credit — bank health. Household credit is BIS-territory and blocked-ish;
+# the one fetchable canonical slot is the IMF FSI non-performing ratio.
+# --------------------------------------------------------------------------
+credit:
+  npl_intl.csv:
+    source: World Bank — FB.AST.NPER.ZS (IMF Financial Soundness Indicators)
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/FB.AST.NPER.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar credit/npl_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: 2024 1.51% of gross loans, series 2010-2024. This
+      is the regulators' reported ratio as the FSI collects it; the property
+      crisis story reads it as an undercount, and the plate says so without
+      adjusting the number. The CBIRC/CNFA national series is not in an
+      accessible machine form (pending); BIS household credit for China is
+      not staged — the household-credit trio stays pending (DATA_NOTES).
+  npl_intl_from_wb.csv:
+    source: World Bank — FB.AST.NPER.ZS
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/FB.AST.NPER.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind npl_intl.csv; diff before adopting."
+
+# --------------------------------------------------------------------------
+# security — deaths per 100,000, harmonised publishers only. China publishes
+# no accessible comparable national series (SOURCES.yaml pending, honest).
+# --------------------------------------------------------------------------
+security:
+  security_intl.csv:
+    source: World Bank — VC.IHR.PSRC.P5 (UNODC homicide), SH.STA.SUIC.P5 (WHO suicide), SH.STA.TRAF.P5 (WHO road traffic)
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/{code}?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar security/security_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: homicide 2020 0.50 per 100,000 (UNODC series
+      ends 2020), suicide 2021 8.95 (WHO age-standardised, ends 2021), road
+      traffic 2019 17.4 (WHO, ends 2019). Published rates used directly,
+      never recomputed; the series' different end years stay different end
+      years. This replaces the Phase A expectation of "likely none": the
+      UNODC/WHO estimates DO cover China, and they — not scraped police
+      figures — are what the chapter draws (see the pending entry, amended
+      by observation).
+  security_intl_from_wb.csv:
+    source: World Bank — VC.IHR.PSRC.P5, SH.STA.SUIC.P5, SH.STA.TRAF.P5
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/{code}?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind security_intl.csv; each series keeps its own end year."
 
 # --------------------------------------------------------------------------
 # PENDING — unreachable / not-yet-isolated publishers. Do not block; the lane
@@ -385,11 +589,15 @@ pending:
       off a secondary report.
   - id: security-homicide-none
     what: >-
-      Security/homicide: likely NO credible public series. China does not publish
-      an accessible criminal-homicide series comparable to other atlas countries.
-      Pending honestly — do NOT scrape an estimate. If nothing official surfaces,
-      the Security chapter departs from the spine (record in DATA_NOTES.md in a
-      later phase, as SOURCING_A_COUNTRY.md §1 requires for departures).
+      Security/homicide: AMENDED BY OBSERVATION (2026-10-23). China publishes
+      no accessible criminal-homicide series of its own, but the harmonised
+      publishers do cover China: UNODC homicide (VC.IHR.PSRC.P5, to 2020),
+      WHO suicide (SH.STA.SUIC.P5, to 2021) and WHO road-traffic deaths
+      (SH.STA.TRAF.P5, to 2019) are staged in security/security_intl.csv.
+      The Security chapter therefore stays on the spine with the harmonised
+      rates, and what is pending honestly is the NATIONAL series: the
+      police-reported and Ministry-of-Transport figures, not published in an
+      accessible comparable form — do NOT scrape an estimate for them.
   - id: quarterly-band-confirm
     what: >-
       bands: [] is justified on annual evidence (no negative real-GDP year in

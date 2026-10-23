@@ -1,0 +1,29 @@
+# S&P 500, price index in US$ (year-end close), redistributed by Yahoo Finance -
+# no official statistician publishes a stock index, so official: false and labelled
+# on the plate. Verified 2026-10-23: year-end closes 2007 1468.36, 2015 2043.94,
+# 2024 5881.63, matching the record exactly. The 2026 row is a RUNNING reading
+# (latest bar 2026-10-22), not an annual total. Drawn in markets slot 4 beside the
+# SSE Composite, both indexed 2006 = 100, the S&P dashed - the same convention
+# Canada's plate uses.
+year,close
+2006,1418.30
+2007,1468.36
+2008,903.25
+2009,1115.10
+2010,1257.64
+2011,1257.60
+2012,1426.19
+2013,1848.36
+2014,2058.90
+2015,2043.94
+2016,2238.83
+2017,2673.61
+2018,2506.85
+2019,3230.78
+2020,3756.07
+2021,4766.18
+2022,3839.50
+2023,4769.83
+2024,5881.63
+2025,6845.50
+2026,7663.43

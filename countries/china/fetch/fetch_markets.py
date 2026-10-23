@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh the SSE Composite year-end closes into a sidecar CSV.
+"""Refresh the SSE Composite and S&P 500 year-end closes into sidecar CSVs.
 
 Usage:  python3 -I countries/china/fetch/fetch_markets.py
 
@@ -7,6 +7,10 @@ Usage:  python3 -I countries/china/fetch/fetch_markets.py
              index in CNY — the index the country argues about, the one
              that carried the 2007 bubble (peak 6124.04 on 2007-10-16)
              and the June 2015 crash.
+  ^GSPC      S&P 500, price index in USD — the spine's markets slot 4
+             draws the main index in US$ with the S&P 500 in US$ dashed
+             beside it, so both series come from the same redistributor
+             on the same convention.
 
 Nobody publishes a stock index as a statistic, so this comes from a
 redistributor (Yahoo Finance) and is marked official: false in
@@ -34,12 +38,18 @@ Year-ends asserted against the exchange's own record as redistributed
 trading day of each asserted December): 2007-12-28 5261.56, 2015-12-31
 3539.18, 2024-12-31 3351.76. The print record for 2007 quotes 5261.24;
 Yahoo's history runs 0.32 points (0.006%) higher for that one bar and
-the sidecar records what the redistributor says, unrounded.
+the sidecar records what the redistributor says, unrounded. The S&P 500
+year-ends asserted 2026-10-23 match the record exactly: 2007-12-31
+1468.36, 2015-12-31 2043.94, 2024-12-31 5881.63. ^GSPC's gmtoffset is
+US Eastern and shifts with daylight saving, so it is not pinned to an
+identity — the month-start stamps it does carry never move a December
+bar across the year boundary, and the spot asserts exist to catch that.
 
 A month still in progress reports a close too, so the current year's
 row is a live reading, not an annual total — the plate labels it.
 
-Output: data/markets/sse_index_from_yahoo.csv
+Output: data/markets/sse_index_from_yahoo.csv,
+        data/markets/spx_index_from_yahoo.csv
 """
 from __future__ import annotations
 
@@ -146,23 +156,26 @@ def year_ends(payload: dict) -> dict[int, tuple[str, float]]:
 
 
 def main() -> None:
-    series = fetch()
-    for year, close in SPOT:
-        got = series.get(year)
-        if got is None or abs(got[1] - close) > 0.05:
-            raise RuntimeError(f"sse {year} close is {got}, not {close}")
-        print(f"  spot {year}: {got[1]:,.2f} (bar {got[0]}) — as expected")
-    DATA.mkdir(parents=True, exist_ok=True)
-    lines = ["year,close"]
-    for y in range(Y0, Y1 + 1):
-        hit = series.get(y)
-        lines.append(f"{y},{hit[1]:.2f}" if hit else f"{y},")
-    (DATA / "sse_index_from_yahoo.csv").write_text("\n".join(lines) + "\n")
-    latest = max(series)
-    print(f"  -> data/markets/sse_index_from_yahoo.csv "
-          f"(latest bar {series[latest][0]}: {series[latest][1]:,.2f}; "
-          "running year, not an annual total)")
-    print("Done. Diff the sidecar before adopting.")
+    for symbol, cache_name, sidecar, spot, meta_want in SYMBOLS:
+        series = fetch(symbol, cache_name, meta_want)
+        for year, close in spot:
+            got = series.get(year)
+            if got is None or abs(got[1] - close) > 0.05:
+                raise RuntimeError(f"{symbol} {year} close is {got}, "
+                                   f"not {close}")
+            print(f"  spot {symbol} {year}: {got[1]:,.2f} "
+                  f"(bar {got[0]}) — as expected")
+        DATA.mkdir(parents=True, exist_ok=True)
+        lines = ["year,close"]
+        for y in range(Y0, Y1 + 1):
+            hit = series.get(y)
+            lines.append(f"{y},{hit[1]:.2f}" if hit else f"{y},")
+        (DATA / sidecar).write_text("\n".join(lines) + "\n")
+        latest = max(series)
+        print(f"  -> data/markets/{sidecar} "
+              f"(latest bar {series[latest][0]}: {series[latest][1]:,.2f}; "
+              "running year, not an annual total)")
+    print("Done. Diff the sidecars before adopting.")
 
 
 if __name__ == "__main__":

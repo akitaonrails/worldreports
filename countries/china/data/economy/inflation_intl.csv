@@ -1,0 +1,28 @@
+# Consumer price inflation, % per year (annual average of the year-over-year) - the
+# international readings: World Bank FP.CPI.TOTL.ZG and IMF WEO PCPIPCH, two harmonised
+# publishers of one quantity, never spliced with the NBS official line. Verified 2026-10-23:
+# WB 2023 0.2, IMF 2023 0.2; the two agree within a hundredth in 2019 (2.90 vs 2.9).
+# The 2009 dip is deflation inside a +9% growth year - CPI and GDP never mix on a panel;
+# and the 2023-25 readings near zero are the PBoC's own price-stability argument. The NBS
+# CPI line (blocked, pending) joins beside these when the route opens; never averaged.
+year,wb_cpi_inflation_pct,imf_cpi_inflation_pct
+2006,1.65,1.50
+2007,4.82,4.80
+2008,5.93,5.80
+2009,-0.73,-0.70
+2010,3.18,3.30
+2011,5.55,5.40
+2012,2.62,2.60
+2013,2.62,2.60
+2014,1.92,2.00
+2015,1.44,1.50
+2016,2.00,2.00
+2017,1.59,1.60
+2018,2.07,2.10
+2019,2.90,2.90
+2020,2.42,2.50
+2021,0.98,0.90
+2022,1.97,2.00
+2023,0.23,0.20
+2024,0.22,0.20
+2025,0.06,0.00
