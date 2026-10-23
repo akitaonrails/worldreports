@@ -4,11 +4,9 @@
 # cannot. Every number that comes from that layer is flagged official: false
 # in SOURCES.yaml; this file only names who the dek credits.
 #
-# The `vi` locale is new to the atlas. It needs AFFIX/CURRENCY_AFFIX columns
-# in core/sitebuild.py (VND: no decimals, the đồng sign ₫ written after the
-# number, "nghìn tỷ" for trillions), a `vi` entry in site/ui.json, and a
-# `vi` name in every other country's country.yaml — all Phase B work, none
-# of it done here. The plate fonts already cover Vietnamese: Liberation Sans
+# The `vi` locale was introduced with this country. Its VND number formats,
+# shared UI copy, and cross-country names now live in the atlas core. The
+# plate fonts already cover Vietnamese: Liberation Sans
 # and Noto Sans (regular and bold) carry all 90 precomposed letters of
 # U+1EA0–U+1EF9 plus đ/Đ, ơ, ư and ₫ (checked 2026-10-22). Matplotlib does
 # not stack combining marks, so every string must stay NFC; the NSO's own
@@ -24,6 +22,7 @@ name:
   pt: "Vietnã"
   es: "Vietnam"
   ko: "베트남"
+  he: "וייטנאם"
   vi: "Việt Nam"
 
 locales:
