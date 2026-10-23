@@ -381,7 +381,7 @@ def plate_demography(ctx, ig) -> None:
     ig.add_recessions(ax, label=False)
     last = max(pop)
     ctx.endlabel(ax, iy, iv, p.BLUE, lambda v: f"{pop[last] / 1e6:.1f}M",
-                 dy=-14)
+                 dy=12)
     crossed = [y for y in sorted(pop) if pop[y] >= 10_000_000]
     _note(p, ax, 0.02, 0.96, f"the ten-millionth resident registered in "
           f"{crossed[0]};\nthe axis grew past the shared range — the marker "
