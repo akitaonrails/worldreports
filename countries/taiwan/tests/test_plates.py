@@ -9,9 +9,8 @@ SUBTOTAL being stacked beside the three items it already contains; the
 CBC monthly CPI (min -0.25%) spliced onto DGBAS year-averages (min -0.88%);
 and developer building-loans read as household debt.
 
-Park decisions get pinned too: every pending slot must stay pending with no
-invented line, because a parked WTO/Customs/NPA source drawn from a guess is
-worse than an empty panel.
+Park decisions get pinned too: remaining pending slots must stay pending with
+no invented line, while newly staged official series must draw their values.
 """
 
 from __future__ import annotations
@@ -87,10 +86,12 @@ def test_gdp_per_person_is_the_published_column():
     assert "39,515" in " ".join(texts("plate_economy", "GDP per person"))
 
 
-def test_unemployment_stays_parked():
-    """DGBAS keeps the monthly table behind a fetch wall: the panel is
-    pending, not estimated."""
-    is_pending("plate_economy", "Unemployment")
+def test_unemployment_uses_dgbas_total_annual_rate():
+    data = by_year("economy/unemployment.csv")
+    drawn = plate(SLUG, "plate_economy").panel("Unemployment").points("DGBAS total")
+    assert num(data[2009], "unemployment_rate_pct") == 5.85
+    assert drawn[2009.0] == pytest.approx(5.85)
+    assert drawn[2025.0] == pytest.approx(3.35)
 
 
 # -------------------------------------------------------------------- fiscal
@@ -248,8 +249,13 @@ def test_npl_and_policy_rate_points():
     assert max(drawn.values()) == pytest.approx(3.375) and drawn[2025.0] == pytest.approx(2.0)
 
 
-def test_lending_rate_slot_stays_parked():
-    is_pending("plate_credit", "Household lending rate")
+def test_new_housing_rate_is_compared_with_policy_without_splicing():
+    housing = by_year("credit/new_housing_rate.csv")
+    panel = plate(SLUG, "plate_credit").panel("Household lending rate")
+    assert panel.points("Five-bank")[2025.0] == pytest.approx(
+        num(housing[2025], "new_housing_loan_rate_pct"))
+    assert panel.points("rediscount")[2025.0] == pytest.approx(2.0)
+    assert panel.points("Five-bank")[2020.0] == pytest.approx(1.423)
 
 
 # ------------------------------------------------------------------- markets
@@ -377,10 +383,12 @@ def test_gdp_and_reserves_us_dollar_columns():
     assert "2025: US$603bn" in " ".join(texts("plate_world", "Official reserves"))
 
 
-def test_hdi_and_cpi_indices_stay_parked():
-    """No national publisher computes them; pending is the honest answer."""
+def test_hdi_absent_but_ti_cpi_is_drawn():
     is_pending("plate_world", "Human Development")
-    is_pending("plate_world", "Corruption Perceptions")
+    cpi = by_year("world/corruption.csv")
+    drawn = plate(SLUG, "plate_world").panel("Corruption Perceptions").points("Taiwan")
+    assert num(cpi[2012], "cpi_score") == 61
+    assert drawn[2025.0] == pytest.approx(68)
 
 
 # -------------------------------------------------------------- global rules

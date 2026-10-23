@@ -113,16 +113,15 @@ line is the beside-line.
 ## Pending slots (ctx.pending) and skipped chapters
 
 Claimed and pending, each with its reason on the panel:
-fiscal.interest (IMF GGXWDINT not staged this pass — report, fetchable),
-trade.destinations (customs/Comtrade not staged), markets.policy_rate and
-markets.bond_10y (BoI beyond FX parked), world.cpi (Transparency
-International not staged), migration.foreign_born (UN DESA migrant stock
-not staged).
+`markets.policy_rate` and `markets.bond_10y` (BoI beyond FX parked).
+The former fiscal-interest, trade-destination, world-CPI and migrant-stock
+gaps were filled on 2026-10-23 from IMF Fiscal Monitor, UN Comtrade,
+Transparency International and World Bank/UN DESA respectively.
 No chapters are drawn for **spending** (no COFOG staged), **people** (no
 Gini/poverty/minimum wage staged — OECD IDD version unresolved, WB Gini
 definition unverified), **credit** (BIS answers "No results for query"
 for IL; BoI side parked) and **mortality** (CBS-only). A chapter of six
-pending panels is worse than no chapter; the slots and routes are named
+pending panels is worse than no chapter; the remaining routes are named
 in SOURCES.yaml meta.pending.
 
 ## Other honesty notes carried on the plates

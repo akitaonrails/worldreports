@@ -427,10 +427,6 @@
   "zh-Hant": "實質GDP成長率(每年%)",
   "pt": "Crescimento do PIB real (% ao ano)"
  },
- "Real growth and income from the DGBAS national accounts; inflation published twice, by the DGBAS and by the Central Bank; the jobs panel is pending (see DATA_NOTES).": {
-  "zh-Hant": "實質成長與所得來自主計總處國民所得統計;物價由主計總處與中央銀行各發布一次,兩條線並陳;就業面板待補(見 DATA_NOTES)。",
-  "pt": "Crescimento real e renda pelas contas nacionais da DGBAS; a inflação publicada duas vezes, pela DGBAS e pelo Banco Central; o painel de emprego está pendente (ver DATA_NOTES)."
- },
  "Registrations ÷ population (DGBAS)": {
   "zh-Hant": "登記除以人口(DGBAS)",
   "pt": "Registros ÷ população (DGBAS)"
@@ -446,10 +442,6 @@
  "Singapore": {
   "zh-Hant": "新加坡",
   "pt": "Singapura"
- },
- "Size and reserves from Taiwan's own publishers; the two ranking panels say honestly that the UN and Transparency International do not carry the country.": {
-  "zh-Hant": "經濟規模與外匯存底來自臺灣自己的發布者;兩個排名面板坦白說明聯合國與透明國際不收錄這個國家。",
-  "pt": "Tamanho e reservas pelos publicadores do próprio Taiwan; os dois painéis de ranking dizem com honestidade que a ONU e a Transparência Internacional não cobrem o país."
  },
  "Social protection vs everything else (% of GDP)": {
   "zh-Hant": "社會保障對比其餘一切(佔GDP的%)",
@@ -474,6 +466,10 @@
  "Sources: DGBAS A018101010 national-income key table · DGBAS CPI (2021=100) · CBC EF07M01 CPI y/y": {
   "zh-Hant": "來源:DGBAS A018101010 國民所得關鍵表 · DGBAS CPI(2021=100)· CBC EF07M01 CPI 年增率",
   "pt": "Fontes: tabela-chave de renda nacional da DGBAS A018101010 · CPI da DGBAS (2021=100) · CPI interanual CBC EF07M01"
+ },
+ "Sources: DGBAS A018101010 national-income key table · DGBAS CPI (2021=100) · DGBAS A040107010 unemployment · CBC EF07M01 CPI y/y": {
+  "zh-Hant": "來源：DGBAS A018101010國民所得主要指標 · DGBAS CPI（2021=100） · DGBAS A040107010失業率 · CBC EF07M01 CPI年增率",
+  "pt": "Fontes: quadro-chave de renda nacional DGBAS A018101010 · CPI DGBAS (2021=100) · desemprego DGBAS A040107010 · CPI a/a CBC EF07M01"
  },
  "Sources: DGBAS A018101010 population · DGBAS A170101020 deaths by cause": {
   "zh-Hant": "來源:DGBAS A018101010 人口 · A170101020 死因統計",
@@ -550,10 +546,6 @@
  "Trade balance, goods (% of GDP)": {
   "zh-Hant": "貿易餘絀,商品(佔GDP的%)",
   "pt": "Balança comercial, bens (% do PIB)"
- },
- "Transparency International's ranking does not cover Taiwan — pending, not invented": {
-  "zh-Hant": "透明國際的排名不涵蓋臺灣——待補,而非臆造",
-  "pt": "o ranking da Transparência Internacional não cobre Taiwan — pendente, não inventado"
  },
  "US$ bn": {
   "zh-Hant": "十億美元",
@@ -711,10 +703,6 @@
   "zh-Hant": "整個區間從未逆差——崩跌讓順差",
   "pt": "nunca houve déficit na janela — o colapso encolhe o"
  },
- "no harmonised publisher carries Taiwan, and the DGBAS unemployment tile was never staged — pending, not invented": {
-  "zh-Hant": "沒有任何統一體系的發布者收錄臺灣,主計總處的就業資料從未取得——待補,而非臆造",
-  "pt": "nenhum publicador harmonizado cobre Taiwan, e o bloco de desemprego da DGBAS nunca foi coletado — pendente, não inventado"
- },
  "no published government GFCF series was staged — pending": {
   "zh-Hant": "沒有任何公佈的政府毛固定資本形成序列被取得——待補",
   "pt": "nenhuma série publicada de FBCF do governo foi coletada — pendente"
@@ -790,10 +778,6 @@
  "the CBC's CPMI strip was not verified end to end in Phase A — pending, not invented": {
   "zh-Hant": "央行的 CPMI 利率帶在Phase A未全程驗證——待補,而非臆造",
   "pt": "a faixa CPMI do CBC não foi verificada de ponta a ponta na Fase A — pendente, não inventada"
- },
- "the CBC's five-bank new-housing rates (EH45M01) were catalogued but never staged — pending": {
-  "zh-Hant": "央行五家銀行新屋貸款利率(EH45M01)已列入目錄但從未取得——待補",
-  "pt": "as taxas de imóvel novo de cinco bancos do CBC (EH45M01) foram catalogadas mas nunca coletadas — pendente"
  },
  "the CBC's national definition, not BIS: the BIS credit framework does not carry Taiwan (see DATA_NOTES)": {
   "zh-Hant": "央行的國家定義,不是 BIS:BIS 信用框架不收錄臺灣(見 DATA_NOTES)",
@@ -954,5 +938,17 @@
  "Social welfare": {
   "zh-Hant": "社會福利",
   "pt": "Bem-estar social"
- }
+ },
+ "DGBAS total unemployment rate": {"zh-Hant": "DGBAS 總失業率", "pt": "Taxa de desemprego total da DGBAS"},
+ "DGBAS A040107010; total unemployment rate, annual average": {"zh-Hant": "DGBAS A040107010；總失業率，年平均", "pt": "DGBAS A040107010; taxa de desemprego total, média anual"},
+ "Five-bank new housing loans": {"zh-Hant": "五大銀行新承作購屋貸款", "pt": "Novos financiamentos habitacionais dos cinco bancos"},
+ "CBC rediscount rate": {"zh-Hant": "中央銀行重貼現率", "pt": "Taxa de redesconto do CBC"},
+ "CBC EH45M01 annual mean of monthly new-business rates; policy line is December rediscount rate": {"zh-Hant": "CBC EH45M01 每月新承作利率的年平均；政策線為12月重貼現率", "pt": "CBC EH45M01, média anual das taxas mensais de novas operações; a linha básica é a taxa de redesconto de dezembro"},
+ "Taiwan": {"zh-Hant": "臺灣", "pt": "Taiwan"},
+ "Transparency International CPI Historical; comparable 2012 method, 0–100": {"zh-Hant": "透明國際CPI歷史工作表；可比的2012年方法，0–100", "pt": "CPI Historical da Transparência Internacional; método comparável de 2012, 0–100"},
+ "In the World, on Uneven Statistical Ground": {"zh-Hant": "在世界之中，統計地位不均", "pt": "No Mundo, em Terreno Estatístico Desigual"},
+ "Real growth and income from the DGBAS national accounts; inflation published twice, by the DGBAS and by the Central Bank; unemployment is DGBAS's annual total rate.": {"zh-Hant": "實質成長與所得來自DGBAS國民帳；通膨由DGBAS與中央銀行分別發布；失業是DGBAS年度總失業率。", "pt": "Crescimento real e renda pelas contas nacionais da DGBAS; inflação publicada pela DGBAS e pelo Banco Central; desemprego é a taxa total anual da DGBAS."},
+ "Size and reserves from Taiwan's own publishers; HDI is absent, while Transparency International does cover Taiwan.": {"zh-Hant": "規模與準備資產來自臺灣自有發布者；HDI缺席，但透明國際收錄臺灣。", "pt": "Tamanho e reservas pelos publicadores de Taiwan; o IDH está ausente, mas a Transparência Internacional cobre Taiwan."},
+ "Sources: CBC EF99Y01 loan balances · CBC EH45M01 housing rate · CBC EF07M01 overdue ratio · GDP: DGBAS A018101010": {"zh-Hant": "來源：CBC EF99Y01貸款餘額 · CBC EH45M01購屋貸款利率 · CBC EF07M01逾放比率 · GDP：DGBAS A018101010", "pt": "Fontes: saldos de empréstimos CBC EF99Y01 · taxa habitacional CBC EH45M01 · índice de atraso CBC EF07M01 · PIB: DGBAS A018101010"},
+ "Sources: DGBAS A018101010 GDP · CBC EF07M01 reserves · Transparency International CPI 2025": {"zh-Hant": "來源：DGBAS A018101010 GDP · CBC EF07M01準備資產 · 透明國際CPI 2025", "pt": "Fontes: PIB DGBAS A018101010 · reservas CBC EF07M01 · CPI 2025 da Transparência Internacional"}
 }

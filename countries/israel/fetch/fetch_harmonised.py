@@ -15,15 +15,17 @@ the plate draws both and labels the difference (SOURCING §4).
               unemployment (ILO modelled), CPI inflation, exports and
               imports (% of GDP), population (total and female),
               fertility, crude birth and death rates, net migration (a
-              count), homicide (UNODC), suicide and road deaths (WHO),
+              count), migrant stock (% of population), homicide (UNODC),
+              suicide and road deaths (WHO),
               the annual-average FX rate (PA.NUS.FCRF, the FX-history
               stopgap while the BoI daily file is dead)
   IMF         DataMapper (WEO + Fiscal Monitor): real GDP growth, CPI
               inflation, general-government revenue, expenditure,
-              balance and gross debt
+              overall and primary balances, derived interest and gross debt
   UNDP        HDR25 composite indices: the whole HDI back-series from
               one vintage (HDR recomputes history at each methodology
               change, so one vintage only)
+  TI          CPI 2025 workbook: comparable 2012-method corruption score
   OECD        SDMX REST DSD_LFS@DF_IALFS_INDIC: Israel's own LFS on the
               OECD harmonised key (quarterly to 2026-Q2 in the payload;
               the annual observations are what this sidecar stages)
@@ -64,13 +66,16 @@ from __future__ import annotations
 import csv
 import io
 import json
+import re
 import sys
 import time
 import urllib.request
+import zipfile
 from pathlib import Path
 
 NAME = "Israel"
 ISO3 = "ISR"
+TI = "https://images.transparencycdn.org/images/CPI2025_Results.xlsx"
 
 # Series this country stages from another fetcher, so not fetched twice.
 WB_SKIP: dict[str, str] = {}
@@ -98,6 +103,7 @@ SPOT = [
     ("security/security_from_wb.csv", "road_deaths_per_100k", 2019, 3.9),
     ("markets/usdils_from_wb.csv", "ils_per_usd", 2024, 3.69971964970892),
     ("markets/usdils_from_wb.csv", "ils_per_usd", 2025, 3.45189166666666),
+    ("migration/migrant_stock_from_wb.csv", "migrant_stock_pct", 2024, 22.3),
     ("macro/gdp_growth_from_imf.csv", "gdp_growth_pct", 2008, 3.2),
     ("macro/gdp_growth_from_imf.csv", "gdp_growth_pct", 2009, 1.2),
     ("macro/gdp_growth_from_imf.csv", "gdp_growth_pct", 2020, -1.9),
@@ -108,11 +114,14 @@ SPOT = [
     ("fiscal/general_government_from_imf.csv", "revenue_pct_gdp", 2024, 35.648523533676),
     ("fiscal/general_government_from_imf.csv", "expenditure_pct_gdp", 2024, 43.721115833044),
     ("fiscal/general_government_from_imf.csv", "balance_pct_gdp", 2024, -8.0725922993677),
+    ("fiscal/general_government_from_imf.csv", "primary_balance_pct_gdp", 2024, -5.29),
+    ("fiscal/general_government_from_imf.csv", "interest_pct_gdp", 2024, 2.78),
     ("fiscal/general_government_from_imf.csv", "gross_debt_pct_gdp", 2020, 71.4),
     ("fiscal/general_government_from_imf.csv", "gross_debt_pct_gdp", 2024, 67.7),
     ("international/hdi_from_undp.csv", "hdi", 2006, 0.867),
     ("international/hdi_from_undp.csv", "hdi", 2023, 0.919),
     ("international/hdi_from_undp.csv", "hdi_rank_2023", 2023, 27.0),
+    ("international/cpi_from_ti.csv", "cpi_score", 2025, 62.0),
     ("social/labour_from_oecd.csv", "unemployment_pct", 2006, 8.4),
     ("social/labour_from_oecd.csv", "unemployment_pct", 2020, 4.333333),
     ("social/labour_from_oecd.csv", "youth_unemployment_pct", 2024, 4.64),
@@ -201,6 +210,7 @@ WB_SERIES = [
     ("SH.STA.SUIC.P5", "security/security_from_wb.csv", "suicide_per_100k", 2),
     ("SH.STA.TRAF.P5", "security/security_from_wb.csv", "road_deaths_per_100k", 1),
     ("PA.NUS.FCRF", "markets/usdils_from_wb.csv", "ils_per_usd", 4),
+    ("SM.POP.TOTL.ZS", "migration/migrant_stock_from_wb.csv", "migrant_stock_pct", 1),
 ]
 
 # Cross-check-only WB series: not staged, pulled to stand beside the
@@ -219,6 +229,7 @@ IMF_SERIES = [
     ("GGR_G01_GDP_PT", "revenue_pct_gdp", 2, "fiscal/general_government_from_imf.csv"),
     ("G_X_G01_GDP_PT", "expenditure_pct_gdp", 2, "fiscal/general_government_from_imf.csv"),
     ("GGXCNL_G01_GDP_PT", "balance_pct_gdp", 1, "fiscal/general_government_from_imf.csv"),
+    ("GGXONLB_G01_GDP_PT", "primary_balance_pct_gdp", 1, "fiscal/general_government_from_imf.csv"),
     ("GGXWDG_NGDP", "gross_debt_pct_gdp", 1, "fiscal/general_government_from_imf.csv"),
 ]
 IMF_XCHECK = [("GG_DEBT_GDP", "fiscal/gross_debt_from_imf_xcheck.csv",
@@ -407,6 +418,51 @@ def undp_hdi() -> tuple[dict[int, float], dict[int, float]]:
     return hdi, rank
 
 
+def ti_cpi() -> dict[int, float]:
+    """Comparable 2012-method CPI scores from TI's pinned 2025 workbook."""
+    def rows(raw: bytes) -> list[dict[str, str]]:
+        z = zipfile.ZipFile(io.BytesIO(raw))
+        book = z.read("xl/workbook.xml").decode()
+        rels = z.read("xl/_rels/workbook.xml.rels").decode()
+        sheets = dict(re.findall(
+            r'<sheet [^>]*name="([^"]+)"[^>]*r:id="([^"]+)"', book))
+        targets = dict(re.findall(
+            r'Id="([^"]+)"[^>]*Target="([^"]+)"', rels))
+        rid = sheets["CPI Historical"]
+        path = "xl/" + targets[rid].lstrip("/").removeprefix("xl/")
+        shared = z.read("xl/sharedStrings.xml").decode()
+        strings = ["".join(re.findall(r"<t[^>]*>(.*?)</t>", cell, re.S))
+                   for cell in re.findall(r"<si>(.*?)</si>", shared, re.S)]
+        out = []
+        for row in re.findall(r"<row[^>]*>(.*?)</row>",
+                              z.read(path).decode(), re.S):
+            cells = {}
+            for match in re.finditer(
+                    r'<c r="([A-Z]+)\d+"([^>]*?)(?:/>|>(.*?)</c>)',
+                    row, re.S):
+                ref, attrs, body = match.groups()
+                value = re.search(r"<v>(.*?)</v>", body or "")
+                text = value.group(1) if value else ""
+                cells[ref] = strings[int(text)] if 't="s"' in attrs and text \
+                    else text
+            out.append(cells)
+        return out
+
+    def check(raw: bytes) -> None:
+        if raw[:2] != b"PK" or not rows(raw):
+            raise ValueError("not TI's CPI Historical workbook")
+
+    sheet = rows(get(TI, "ti_CPI2025.xlsx", check))
+    head = next(r for r in sheet if (r.get("A") or "").startswith("Country"))
+    columns = {value: ref for ref, value in head.items() if value}
+    out = {int(float(r[columns["Year"]])): float(r[columns["CPI score"]])
+           for r in sheet if r.get(columns["ISO3"]) == ISO3
+           and r.get(columns["CPI score"])}
+    if sorted(out) != list(range(2012, 2026)):
+        raise FetchError(f"TI CPI years incomplete: {sorted(out)}")
+    return out
+
+
 # --------------------------------------------------------------- assembly
 def collect() -> dict[str, dict[int, dict[str, float]]]:
     """Every sidecar this country gets, as {rel: {year: {column: value}}}."""
@@ -444,6 +500,14 @@ def collect() -> dict[str, dict[int, dict[str, float]]]:
         print(f"  {code:<18} {len(series):>3} years "
               f"{min(series)}-{max(series)}")
         put(rel, column, series, dec)
+    fiscal = tables["fiscal/general_government_from_imf.csv"]
+    interest = {
+        year: row["primary_balance_pct_gdp"] - row["balance_pct_gdp"]
+        for year, row in fiscal.items()
+        if "primary_balance_pct_gdp" in row and "balance_pct_gdp" in row
+    }
+    put("fiscal/general_government_from_imf.csv", "interest_pct_gdp",
+        interest, 1)
     for code, rel, column, dec in IMF_XCHECK:
         series = imf(code)
         put(rel, column, series, dec)
@@ -465,6 +529,11 @@ def collect() -> dict[str, dict[int, dict[str, float]]]:
     put("international/hdi_from_undp.csv", "hdi", hdi, 3)
     put("international/hdi_from_undp.csv", "hdi_rank_2023", rank, 0)
     print(f"  hdi              {len(hdi):>3} years {min(hdi)}-{max(hdi)}")
+
+    print("Transparency International — CPI Historical sheet")
+    cpi = ti_cpi()
+    put("international/cpi_from_ti.csv", "cpi_score", cpi, 0)
+    print(f"  CPI score         {len(cpi):>3} years {min(cpi)}-{max(cpi)}")
 
     print("OECD — SDMX REST DSD_LFS@DF_IALFS_INDIC (Israel's LFS, "
           "harmonised key)")

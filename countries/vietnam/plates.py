@@ -306,7 +306,9 @@ def plate_world(ctx, ig):
     ax.legend(loc="lower right", fontsize=7.4, frameon=False)
 
     ax = ig.slot("world.cpi", "Corruption Perceptions Index (0–100)")
-    ctx.pending(ax); _foot(p, ax, "Transparency International history not staged")
+    _line(ctx, ax, "international/cpi_ti.csv", "cpi_score", p.PURPLE,
+          "Transparency International")
+    _foot(p, ax, "Comparable 2012-method CPI series; higher = perceived cleaner")
 
     ax = ig.slot("world.reserves", "Official reserves (US$ bn)")
     y, v = _yr(ctx, "international/reserves.csv", "reserves_usd")
@@ -430,7 +432,7 @@ PLATES = (
     dict(id="05", slug="markets", topic="markets", builder=plate_markets, title="Markets", subtitle="Lending, the đồng and the VN-Index; missing official histories stay visible.", source="Sources: NSO/SBV · World Bank · CafeF", alt="Four panels on Vietnam's markets."),
     dict(id="06", slug="credit", topic="credit", builder=plate_credit, title="Credit and Money", subtitle="Economy-wide credit is an explicit substitute for unavailable household debt.", source="Sources: NSO/SBV · ADB · World Bank", alt="Four panels on credit and money in Vietnam."),
     dict(id="07", slug="people", topic="people", builder=plate_people, title="People and Incomes", subtitle="Survey seams and changing poverty standards stay separate.", source="Sources: NSO · World Bank", alt="Four panels on inequality, poverty and income in Vietnam."),
-    dict(id="08", slug="world", topic="world", builder=plate_world, title="Vietnam in the World", subtitle="International comparables beside Vietnam's national HDI.", source="Sources: IMF · UNDP · NSO · World Bank", alt="Four panels placing Vietnam in international context."),
+    dict(id="08", slug="world", topic="world", builder=plate_world, title="Vietnam in the World", subtitle="International comparables beside Vietnam's national HDI.", source="Sources: IMF · UNDP · NSO · World Bank · Transparency International", alt="Four panels placing Vietnam in international context, including the comparable 2012-method Corruption Perceptions Index."),
     dict(id="09", slug="demography", topic="demography", builder=plate_demography, title="Demography", subtitle="Population growth slows as fertility falls below replacement.", source="Sources: NSO · World Bank · UN", alt="Four panels on Vietnam's demography."),
     dict(id="10", slug="security", topic="security", builder=plate_security, title="Security and Road Safety", subtitle="Modelled violence rates beside police and justice-system counts.", source="Sources: WHO · World Bank/UNODC · NSO", alt="Four panels on security and road deaths in Vietnam."),
     dict(id="11", slug="mortality", topic="mortality", builder=plate_mortality, title="Mortality", subtitle="A short death register beside WHO's modelled cause estimates.", source="Sources: NSO · WHO GHE", alt="Four panels on mortality in Vietnam."),

@@ -160,7 +160,9 @@ There are also several smaller ones:
 3. **Household arrears register.** None exists, so the BFS SILC payment-arrears survey is staged in its place.
 4. **SNB balance of payments and household financial accounts before 2016.** The API does not serve them. Eurostat `nasa_10_f_bs` provides the long series, drawn beside the SNB figures and never spliced.
 5. **stooq `^smi`.** JS-walled; it would only have been a cross-check.
-6. **Transparency International, IMD and WEF.** To be curated by hand at build phase.
+6. **IMD and WEF competitiveness comparisons.** Optional; neither occupies
+   a canonical slot. Transparency International CPI was resolved after
+   discovery from the pinned CPI 2025 workbook.
 
 Also unopened but listed as CURRENT: firearm deaths (`je-d-14.03.04.01.13`) and assisted suicide (`je-d-14.03.04.01.14`). I have not verified mortgage rates for 2006 to 2009-04.
 

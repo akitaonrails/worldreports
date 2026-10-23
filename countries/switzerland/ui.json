@@ -1,7 +1,7 @@
 {
   "de": {
-    "line": "{n} Tafeln mit amtlichen Daten, {window}",
-    "dek": "Jede Zahl stammt von der Stelle, die sie veröffentlicht — BFS, SNB, EFV, BAZG und, für vergleichbare Reihen, Eurostat, BIZ, Weltbank, IWF und UNDP. Jede Tafel wird aus den versionierten CSV-Dateien neu erzeugt; Grafik und Zahl können deshalb nicht auseinanderlaufen. Schweizer und harmonisierte Definitionen stehen nebeneinander, werden aber nie zu einer künstlichen Zeitreihe verbunden.",
+    "line": "{n} Tafeln mit dokumentierten Daten, {window}",
+    "dek": "Die Tafeln stützen sich vor allem auf BFS, SNB, EFV und BAZG. Vergleichbare Reihen kommen unter anderem von Eurostat, BIZ, Weltbank, IWF, UNDP, UNODC, WHO und Transparency International; Yahoo Finance liefert den klar gekennzeichneten Marktindex. Jede Tafel wird aus den versionierten CSV-Dateien neu erzeugt; Grafik und Zahl können deshalb nicht auseinanderlaufen. Schweizer und harmonisierte Definitionen stehen nebeneinander, werden aber nie zu einer künstlichen Zeitreihe verbunden.",
     "notes": [
       "2026 ist ein unvollständiges Jahr. Jährliche Summen und Durchschnitte enden 2025; tatsächlich aktuelle Werte wie Leitzins, Wechselkurs und Aktienindex sind als solche erkennbar.",
       "Alle Jahreswerte folgen dem Kalenderjahr. Das gilt auch für den Schweizer Staatshaushalt. EFV-Statusfelder unterscheiden Rechnung, Budget und Prognose; die Tafeln verwischen diese Stufen nicht.",
@@ -18,11 +18,14 @@
       {"term": "Warenhandel", "detail": "Bundesamt für Zoll und Grenzsicherheit (BAZG) — Zollgebiet Schweiz–Liechtenstein, Total 1 und Total 2 getrennt"},
       {"term": "Vergleichbare Reihen", "detail": "Eurostat · BIZ · Weltbank/UNODC/WHO · IWF · UNDP · Transparency International"},
       {"term": "Marktindex", "detail": "Yahoo Finance — SMI-Jahresschluss, die einzige nichtamtliche Marktquelle"}
+    ],
+    "unavailable": [
+      {"term": "Nationaler gesetzlicher Mindestlohn", "detail": "Nicht anwendbar: Die Schweiz hat keinen nationalen gesetzlichen Mindestlohn; kantonale Mindestlöhne sind keine nationale Reihe."}
     ]
   },
   "en": {
-    "line": "{n} plates of official data, {window}",
-    "dek": "Every number comes from the institution that publishes it — the Federal Statistical Office, the Swiss National Bank, the Federal Finance Administration and Swiss Customs, with Eurostat, the BIS, World Bank, IMF and UNDP for comparable series. Every plate is regenerated from committed CSVs, so chart and number cannot drift apart. Swiss and harmonised definitions sit beside one another but are never spliced into an invented history.",
+    "line": "{n} plates of documented data, {window}",
+    "dek": "The plates draw primarily on the Federal Statistical Office, Swiss National Bank, Federal Finance Administration and Swiss Customs. Comparable series also come from Eurostat, the BIS, World Bank, IMF, UNDP, UNODC, WHO and Transparency International; Yahoo Finance supplies the clearly labelled market index. Every plate is regenerated from committed CSVs, so chart and number cannot drift apart. Swiss and harmonised definitions sit beside one another but are never spliced into an invented history.",
     "notes": [
       "2026 is a partial year. Annual totals and averages stop at 2025; genuinely current readings such as the policy rate, exchange rate and equity index remain identifiable as current observations.",
       "Every annual series uses the calendar year, including Swiss public finance. FFA status fields distinguish outturn, budget and forecast, and the plates do not blur those stages.",
@@ -39,11 +42,14 @@
       {"term": "Goods trade", "detail": "Federal Office for Customs and Border Security (FOCBS/BAZG) — Swiss–Liechtenstein customs area, Total 1 and Total 2 kept apart"},
       {"term": "Comparable series", "detail": "Eurostat · BIS · World Bank/UNODC/WHO · IMF · UNDP · Transparency International"},
       {"term": "Market index", "detail": "Yahoo Finance — SMI year-end close, the sole non-official market source"}
+    ],
+    "unavailable": [
+      {"term": "National statutory minimum wage", "detail": "Not applicable: Switzerland has no national statutory minimum wage; cantonal floors are not a national series."}
     ]
   },
   "pt": {
-    "line": "{n} pranchas de dados oficiais, {window}",
-    "dek": "Cada número vem da instituição que o publica — o Escritório Federal de Estatística, o Banco Nacional Suíço, a Administração Federal de Finanças e a Alfândega, com Eurostat, BIS, Banco Mundial, FMI e PNUD nas séries comparáveis. Cada prancha é regenerada a partir dos CSVs versionados, por isso gráfico e número não podem divergir. Definições suíças e harmonizadas aparecem lado a lado, mas nunca são emendadas numa história inventada.",
+    "line": "{n} pranchas de dados documentados, {window}",
+    "dek": "As pranchas usam principalmente dados do Escritório Federal de Estatística, do Banco Nacional Suíço, da Administração Federal de Finanças e da Alfândega. As séries comparáveis também vêm do Eurostat, BIS, Banco Mundial, FMI, PNUD, UNODC, OMS e Transparency International; o Yahoo Finance fornece o índice de mercado, claramente identificado. Cada prancha é regenerada a partir dos CSVs versionados, por isso gráfico e número não podem divergir. Definições suíças e harmonizadas aparecem lado a lado, mas nunca são emendadas numa história inventada.",
     "notes": [
       "2026 é um ano incompleto. Totais e médias anuais param em 2025; leituras realmente correntes, como juro básico, câmbio e índice de ações, continuam identificáveis como observações atuais.",
       "Toda série anual usa o ano civil, inclusive as contas públicas suíças. Os campos de status da AFF distinguem realizado, orçamento e previsão, e as pranchas não confundem essas etapas.",
@@ -60,6 +66,9 @@
       {"term": "Comércio de bens", "detail": "Escritório Federal de Alfândega e Segurança de Fronteiras (BAZG) — área Suíça–Liechtenstein, Total 1 e Total 2 separados"},
       {"term": "Séries comparáveis", "detail": "Eurostat · BIS · Banco Mundial/UNODC/OMS · FMI · PNUD · Transparência Internacional"},
       {"term": "Índice de mercado", "detail": "Yahoo Finance — fechamento anual do SMI, a única fonte de mercado não oficial"}
+    ],
+    "unavailable": [
+      {"term": "Salário mínimo legal nacional", "detail": "Não aplicável: a Suíça não tem salário mínimo legal nacional; os pisos cantonais não formam uma série nacional."}
     ]
   }
 }

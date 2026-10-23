@@ -96,3 +96,19 @@ def test_no_plate_reads_fetch_sidecars():
     import json
     prov=json.loads((DATA.parent/"provenance.json").read_text())
     assert not [f for fs in prov.values() for f in fs if "_from_" in f or "_check" in f]
+
+
+def test_ti_cpi_is_drawn_from_the_reviewed_historical_series():
+    cpi = years("international/cpi_ti.csv", "cpi_score")
+    panel = plate(SLUG, "plate_world").panel("Corruption")
+    assert panel.points("Transparency International")[2025] == \
+        pytest.approx(cpi[2025])
+    assert min(panel.points("Transparency International")) == 2012
+
+
+def test_unavailable_disclosures_exist_in_every_published_language():
+    import json
+
+    ui = json.loads((Country.load(SLUG).dir / "ui.json").read_text())
+    assert set(ui) == {"vi", "en", "pt"}
+    assert all(locale["unavailable"] for locale in ui.values())

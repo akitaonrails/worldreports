@@ -36,8 +36,10 @@ Quirks (all in SOURCES.yaml header): **EDITION dimension** on national accounts 
 3. **ISTAT Coeweb** (trade composition) — connection never established; trade levels from Eurostat P6/P7 + WB openness.
 4. **stooq ^ftsemib** — JS-walled; Yahoo staged instead.
 5. **BdI new-portal SPA API** — undocumented; infostat asin service is the verified path.
-6. **Transparency International CPI** — hand-curated at build phase (France pattern).
-7. **Labour pre-2021 continuity** — current-regulation flows vs `_UNT2020` old-regulation twins; Eurostat LFS hole 2006–08; fetcher must check backcast before drawing across 2020 (two columns if needed, never spliced).
+6. **Labour pre-2021 continuity** — current-regulation flows vs `_UNT2020` old-regulation twins; Eurostat LFS hole 2006–08; fetcher must check backcast before drawing across 2020 (two columns if needed, never spliced).
+
+Resolved after discovery: Transparency International CPI is staged from the
+pinned CPI 2025 workbook, comparable method only (2012–2025).
 
 ## Flagged for later phases (not done, per brief)
 

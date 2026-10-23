@@ -15,11 +15,10 @@ continuing it. ISTAT went quiet mid-fetch and six of its series are
 `meta.pending` in SOURCES.yaml; none of them blocks a canonical slot, and
 the two slots whose national detail is genuinely unavailable (mafia
 homicides in security, and the ISTAT NIC bases before 2016) say so
-plainly instead of being filled from elsewhere. Three canonical panels
-have no staged series at all behind them and are drawn as pending notes:
-top export destinations (customs, unreachable), the corruption index
-(hand-curated, pending), and the minimum wage — the last a true
-statement, not a gap: Italy has none by statute.
+plainly instead of being filled from elsewhere. The destination panel now
+uses an Italy-reporter UN Comtrade customs-goods snapshot, and the corruption
+panel uses TI's comparable 2012–2025 workbook series. The minimum-wage panel
+is the remaining canonical absence: Italy has none by statute.
 
 Two conventions run through the file:
 
@@ -30,7 +29,9 @@ Two conventions run through the file:
   Eurostat 1-January population (`social/demography.csv`) —
   the same territory and the same registered-resident scope as the
   counts; where ISTAT publishes its own rate (the police homicide rate)
-  the plate uses ISTAT's.
+  the plate uses ISTAT's. UN Comtrade supplies the customs-goods destination
+  snapshot that Coeweb could not serve, and TI's pinned workbook supplies the
+  comparable post-2012 corruption index.
 """
 from __future__ import annotations
 
@@ -61,6 +62,12 @@ def _map(ctx, rel: str, col: str, since: int = W0, until: int | None = None):
     return {y: float(r[col]) for y, r in sorted(rows.items())
             if y >= since and (until is None or y <= until)
             and (r.get(col) or "").strip()}
+
+
+def _records(ctx, rel: str) -> list[dict]:
+    """Rows from a non-time-series CSV such as a partner snapshot."""
+    table = ctx.table(rel) or {}
+    return [dict(zip(table, values)) for values in zip(*table.values())]
 
 
 def _at(years, vals, year):
@@ -447,11 +454,19 @@ def plate_trade(ctx, ig) -> None:
     _foot(p, ax, "computed from the same P6/P7 and GDP columns — goods and "
           "services, never customs")
 
-    ax = ig.slot("trade.destinations", "Top export destinations "
-                 "(% of goods exports)")
-    ctx.pending(ax)
-    _foot(p, ax, "customs partner data (Coeweb) was unreachable; the Comext "
-          "fetch is in SOURCES.yaml meta.pending — no substitute is drawn")
+    ax = ig.slot("trade.destinations", "Top export destinations, 2023 "
+                 "(% of goods exports)", unit=False)
+    destinations_ax = ax
+    partners = [r for r in _records(ctx, "trade/trade_comtrade_partner.csv")
+                if r["flow"] == "X" and r["partner"] != "World"]
+    partners.sort(key=lambda r: float(r["share_of_flow_pct"]), reverse=True)
+    short = {"United States": "US", "United Kingdom": "UK"}
+    names = [short.get(r["partner"], r["partner"]) for r in partners[:8]]
+    values = [float(r["share_of_flow_pct"]) for r in partners[:8]]
+    positions = list(range(len(names)))
+    ax.bar(positions, values, color=p.ROSSO, alpha=0.88)
+    _foot(p, ax, "UN Comtrade 2023; Italy reporter, customs goods; "
+          "World-total shares")
 
     ax = ig.slot("trade.lens", "Lens — the euro amounts behind the shares")
     ctx.line(ax, sorted(x), [x[y] for y in sorted(x)], p.VERDE,
@@ -469,6 +484,11 @@ def plate_trade(ctx, ig) -> None:
     _foot(p, ax, "the same Eurostat table, in the currency the invoices are "
           "written in")
     _finish(ctx, ig)
+    # This panel is a one-year categorical snapshot. The shared spine still
+    # controls its 0–40% y scale; replace the time-axis defaults with partner
+    # labels only after the common styling pass.
+    destinations_ax.set_xlim(-0.6, len(names) - 0.4)
+    destinations_ax.set_xticks(positions, names, fontsize=6.8)
 
 
 # ------------------------------------------------------------------ markets
@@ -708,10 +728,11 @@ def plate_world(ctx, ig) -> None:
     _foot(p, ax, "UNDP HDR 2025; 0.800 and above = very high human development")
 
     ax = ig.slot("world.cpi", "Corruption Perceptions Index (score, 0–100)")
-    ctx.pending(ax)
-    _foot(p, ax, "Transparency International's series needs hand-curation "
-          "across the 2012 method change (×10 old scores); it sits in "
-          "SOURCES.yaml meta.pending until then")
+    cy, cv = _yr(ctx, "international/cpi.csv", "score")
+    ctx.line(ax, cy, cv, p.PURPLE)
+    ctx.endlabel(ax, cy, cv, p.PURPLE, lambda v: f"{v:.0f}", dy=8)
+    _foot(p, ax, "Transparency International CPI 2025 workbook; comparable "
+          "2012 method onward")
 
     ax = ig.slot("world.reserves", "Official reserves (US$ bn)")
     ry, rv = _yr(ctx, "international/reserves.csv", "reserves_usd")
@@ -1101,13 +1122,13 @@ PLATES = (
              "back to 3.9% in 2025 in the PNRR years."),
     dict(id="04", slug="trade", topic="trade", builder=plate_trade,
          title="Trade — An Export Country With an Energy Bill",
-         subtitle="National-accounts goods and services; the customs "
-                  "partner table is pending, so the euro amounts stand in.",
-         source="Sources: Eurostat P6/P7 · World Bank WDI",
+         subtitle="National-accounts goods and services beside a labelled "
+                  "UN Comtrade customs-goods partner snapshot.",
+         source="Sources: Eurostat P6/P7 · World Bank WDI · UN Comtrade",
          alt="Four panels on Italian trade. Exports run near 32% of GDP and "
              "imports peaked at 37% in 2022 on imported energy; the balance "
-             "swung from about +3% of GDP in 2019 to −1.7% in 2022; top "
-             "destinations are pending (customs unreachable); the lens "
+             "swung from about +3% of GDP in 2019 to −1.7% in 2022; Germany, "
+             "the United States and France lead the 2023 customs destinations; the lens "
              "panel shows exports and imports in euro billions, imports "
              "peaking near 731bn in 2022."),
     dict(id="05", slug="markets", topic="markets", builder=plate_markets,
@@ -1139,7 +1160,7 @@ PLATES = (
     dict(id="07", slug="people", topic="people", builder=plate_people,
          title="People — Inequality, Poverty, and No Minimum Wage",
          subtitle="Two readings of EU-SILC, two national poverty lines, and "
-                  "one honest pending: Italy sets pay floors through "
+                  "an explicit absence: Italy sets pay floors through "
                   "collective agreements.",
          source="Sources: Eurostat ILC · ISTAT 34_727 · World Bank",
          alt="Four panels on Italian incomes. The Gini reads 31.0 in 2025 "
@@ -1153,12 +1174,12 @@ PLATES = (
          title="Italy Among the Others",
          subtitle="The dollar size, the development index, and reserves "
                   "that jumped when gold did.",
-         source="Sources: World Bank WDI · UNDP HDR 2025",
+         source="Sources: World Bank WDI · UNDP HDR 2025 · Transparency International",
          alt="Four panels on Italy in the world. GDP in current US dollars "
              "hovers near two trillion, at 2.4 trillion in 2024 on the "
              "Bank's older vintage; the HDI reads 0.915 in 2023, flat for "
-             "a decade; the corruption index is pending until hand-"
-             "curated across the 2012 method change; reserves leapt from "
+             "a decade; TI's comparable corruption index runs from 42 in "
+             "2012 to 53 in 2025; reserves leapt from "
              "US$290bn to 434bn in 2025 on the gold price, not purchases."),
     dict(id="09", slug="demography", topic="demography",
          builder=plate_demography,

@@ -1,7 +1,7 @@
 {
   "zh-Hans": {
     "line": "{n}张数据图版，{window}",
-    "dek": "本页的可绘制数据来自世界银行、IMF、联合国开发计划署、联合国Comtrade、透明国际和市场再分发商。国家统计局机器接口在本次制作环境中返回403，海关总署返回412，央行、外汇局和财政部的序列接口尚未定位；因此这里绝不把国际读数冒充国家官方序列，也不把两种口径拼成一条线。每张图版都由版本管理中的CSV重新生成。",
+    "dek": "本页的可绘制数据来自世界银行、IMF、BIS、联合国开发计划署、联合国Comtrade、透明国际和市场再分发商。国家统计局机器接口在本次制作环境中返回403，海关总署返回412，央行、外汇局和财政部的序列接口尚未定位；因此这里绝不把国际读数冒充国家官方序列，也不把两种口径拼成一条线。每张图版都由版本管理中的CSV重新生成。",
     "notes": [
       "2026年是不完整年份。年度总量与均值止于2025年；2026年的股票指数是进行中的市场读数。",
       "中国规则是并列而非替代：国家统计局、海关总署、央行、外汇局和财政部数据恢复后，将作为单独标注的国家序列加入，不与世界银行、IMF或联合国序列拼接或平均。",
@@ -9,20 +9,27 @@
       "财政部预算内债务的范围比IMF广义一般政府债务窄，并且不包括地方融资平台。现阶段只绘制IMF序列，并明确其范围。",
       "贸易开放度是世界银行货物与服务的国际收支口径；伙伴图是2023年联合国Comtrade海关货物快照。两者不是同一总体，Comtrade响应中也没有台湾伙伴代码。",
       "人口、出生、死亡和迁移使用世界银行/联合国人口展望的中国大陆口径。人口普查换基、户口人口和流动人口是不同概念，恢复后也不会拼接。",
-      "不良贷款覆盖整个银行体系，不是住户拖欠。基尼和贫困线来自国际调查体系，不是国家统计局基尼或中国国家贫困线；中国也没有单一全国最低工资。"
+      "BIS住户信贷覆盖住户与非营利机构；偿债率是更广义的私人非金融部门口径。不良贷款覆盖整个银行体系，不是住户拖欠。基尼和贫困线来自国际调查体系；中国也没有单一全国最低工资。"
     ],
     "colophon": [
       {"term": "经济、人口、贫困与可比比率", "detail": "世界银行世界发展指标和PIP；国家统计局国家序列受阻时的统一口径层"},
-      {"term": "增长、通胀与广义政府债务", "detail": "IMF《世界经济展望》和DataMapper；财政部窄口径保持分开"},
+      {"term": "增长、通胀与广义政府财政", "detail": "IMF《世界经济展望》与《财政监测》；财政部窄口径保持分开"},
+      {"term": "住户信贷与偿债率", "detail": "BIS总信贷与偿债率数据库；分别标示住户及广义私人非金融部门口径"},
       {"term": "货物贸易伙伴", "detail": "联合国Comtrade 2023年中国报告方快照；不与海关总署序列拼接"},
-      {"term": "人类发展与清廉指数", "detail": "UNDP《人类发展报告2025》；透明国际CPI 2025官方工作簿"},
+      {"term": "人类发展与清廉指数", "detail": "UNDP《人类发展报告2025》；透明国际CPI 2025工作簿"},
       {"term": "市场指数", "detail": "雅虎金融再分发的上证综合指数和标普500，标为非官方"},
       {"term": "待恢复的国家层", "detail": "国家统计局、海关总署、中国人民银行、国家外汇管理局和财政部；阻断情况记录于SOURCES.yaml"}
+    ],
+    "unavailable": [
+      {"term": "国家季度与官方宏观层", "detail": "国家统计局机器接口返回403，季度GDP、城镇调查失业率、国家基尼与人口普查序列无法可靠取得。"},
+      {"term": "职能支出与公共投资", "detail": "尚未找到可比的COFOG映射或单独政府固定资本形成序列。"},
+      {"term": "央行利率与债券收益率", "detail": "人民银行门户可访问，但LPR/旧贷款基准制度、住户贷款利率和10年期国债收益率的机器端点尚未定位。"},
+      {"term": "国家安全、死亡与迁移流量", "detail": "可比的警务、死因、超额死亡和移入移出流量表未能从可访问的国家来源取得。"}
     ]
   },
   "en": {
     "line": "{n} plates of data, {window}",
-    "dek": "The drawable layer comes from the World Bank, IMF, UNDP, UN Comtrade, Transparency International and market redistributors. The NBS machine API returned 403 in this production environment, Customs returned 412, and the PBoC, SAFE and MOF series endpoints have not been isolated. International readings are therefore never passed off as Chinese national series, and incompatible perimeters are never spliced. Every plate is regenerated from committed CSVs.",
+    "dek": "The drawable layer comes from the World Bank, IMF, BIS, UNDP, UN Comtrade, Transparency International and market redistributors. The NBS machine API returned 403 in this production environment, Customs returned 412, and the PBoC, SAFE and MOF series endpoints have not been isolated. International readings are therefore never passed off as Chinese national series, and incompatible perimeters are never spliced. Every plate is regenerated from committed CSVs.",
     "notes": [
       "2026 is a partial year. Annual totals and averages stop at 2025; the 2026 equity observation is a running market reading.",
       "China's rule is beside, not instead: when NBS, Customs, PBoC, SAFE and MOF data return, they join as separately labelled national series and are never spliced or averaged with World Bank, IMF or UN readings.",
@@ -30,20 +37,27 @@
       "MOF on-budget debt has a narrower perimeter than IMF broad general-government debt and excludes local-government financing vehicles. Only the IMF line is currently drawn, with its perimeter stated.",
       "Trade openness is World Bank goods and services on a balance-of-payments basis; the partner panels are a 2023 UN Comtrade customs-goods snapshot. They are not the same universe, and Taiwan has no partner code in the Comtrade response.",
       "Population, births, deaths and migration use the World Bank/UN Population Prospects mainland-China perimeter. Census rebases, hukou population and floating population are different concepts and will not be spliced when available.",
-      "The NPL ratio covers the banking system, not household arrears. Gini and poverty lines come from international survey systems, not the NBS Gini or China's national poverty line; China also has no single national minimum wage."
+      "BIS household credit covers households and NPISH; its debt-service reading has the broader private non-financial-sector perimeter. The NPL ratio covers the banking system, not household arrears. China also has no single national minimum wage."
     ],
     "colophon": [
       {"term": "Economy, population, poverty, comparable rates", "detail": "World Bank WDI and PIP — the harmonised layer while NBS national series are blocked"},
-      {"term": "Growth, inflation, broad government debt", "detail": "IMF World Economic Outlook and DataMapper; the narrower MOF perimeter stays separate"},
+      {"term": "Growth, inflation, broad government finance", "detail": "IMF World Economic Outlook and Fiscal Monitor; the narrower MOF perimeter stays separate"},
+      {"term": "Household credit and debt service", "detail": "BIS total-credit and debt-service databases; household and broader private non-financial-sector perimeters are labelled separately"},
       {"term": "Goods-trade partners", "detail": "UN Comtrade 2023 China-reporter snapshot; never spliced to the Customs series"},
-      {"term": "Human development and corruption index", "detail": "UNDP Human Development Report 2025; Transparency International's official CPI 2025 workbook"},
+      {"term": "Human development and corruption index", "detail": "UNDP Human Development Report 2025; Transparency International's CPI 2025 workbook"},
       {"term": "Market indexes", "detail": "Yahoo Finance redistribution of the SSE Composite and S&P 500, marked non-official"},
       {"term": "National layer still pending", "detail": "NBS, Customs, PBoC, SAFE and MOF; blocking evidence is recorded in SOURCES.yaml"}
+    ],
+    "unavailable": [
+      {"term": "Quarterly and national macro layer", "detail": "The NBS machine API returned 403, preventing a reliable pull of quarterly GDP, surveyed urban unemployment, the national Gini and census-vintage series."},
+      {"term": "Functional spending and public investment", "detail": "No comparable COFOG mapping or separately identified government fixed-capital-formation series could be obtained."},
+      {"term": "Central-bank rates and bond yield", "detail": "The PBoC portal is reachable, but endpoints for the LPR/old benchmark regimes, household lending and the 10-year government yield were not isolated."},
+      {"term": "National security, mortality and gross migration", "detail": "Comparable police, cause-of-death, excess-death and immigration/emigration flow tables could not be obtained from accessible national sources."}
     ]
   },
   "pt": {
     "line": "{n} pranchas de dados, {window}",
-    "dek": "A camada desenhável vem do Banco Mundial, FMI, PNUD, UN Comtrade, Transparência Internacional e redistribuidores de mercado. A API automatizada do NBS respondeu 403 neste ambiente, a Alfândega respondeu 412 e os endpoints do PBoC, SAFE e Ministério das Finanças não foram isolados. Leituras internacionais nunca são apresentadas como séries nacionais chinesas e perímetros incompatíveis nunca são emendados. Cada prancha é regenerada a partir dos CSVs versionados.",
+    "dek": "A camada desenhável vem do Banco Mundial, FMI, BIS, PNUD, UN Comtrade, Transparência Internacional e redistribuidores de mercado. A API automatizada do NBS respondeu 403 neste ambiente, a Alfândega respondeu 412 e os endpoints do PBoC, SAFE e Ministério das Finanças não foram isolados. Leituras internacionais nunca são apresentadas como séries nacionais chinesas e perímetros incompatíveis nunca são emendados. Cada prancha é regenerada a partir dos CSVs versionados.",
     "notes": [
       "2026 é um ano incompleto. Totais e médias anuais param em 2025; a observação acionária de 2026 é uma leitura de mercado em andamento.",
       "A regra da China é colocar lado a lado, não substituir: quando NBS, Alfândega, PBoC, SAFE e Ministério voltarem, entrarão como séries nacionais identificadas separadamente, nunca emendadas nem combinadas pela média com Banco Mundial, FMI ou ONU.",
@@ -51,15 +65,22 @@
       "A dívida orçamentária do Ministério tem perímetro mais estreito que a dívida ampla do governo geral do FMI e exclui veículos de financiamento local. Só a linha do FMI é desenhada, com o perímetro declarado.",
       "Abertura comercial é bens e serviços do Banco Mundial em base de balanço de pagamentos; os painéis de parceiros são um retrato de bens aduaneiros do UN Comtrade em 2023. Não são o mesmo universo, e Taiwan não tem código de parceiro na resposta.",
       "População, nascimentos, mortes e migração usam o perímetro da China continental do Banco Mundial/ONU. Revisões censitárias, população hukou e população flutuante são conceitos distintos e não serão emendados.",
-      "A taxa de NPL cobre o sistema bancário, não a inadimplência das famílias. Gini e linhas de pobreza vêm de sistemas internacionais de pesquisa, não do Gini do NBS nem da linha nacional; a China também não tem um único salário mínimo nacional."
+      "O crédito familiar do BIS cobre famílias e instituições sem fins lucrativos; a leitura de serviço da dívida tem o perímetro mais amplo do setor privado não financeiro. A taxa de NPL cobre o sistema bancário. A China também não tem um único salário mínimo nacional."
     ],
     "colophon": [
       {"term": "Economia, população, pobreza, taxas comparáveis", "detail": "WDI e PIP do Banco Mundial — camada harmonizada enquanto as séries nacionais do NBS estão bloqueadas"},
-      {"term": "Crescimento, inflação, dívida ampla", "detail": "World Economic Outlook e DataMapper do FMI; o perímetro mais estreito do Ministério fica separado"},
+      {"term": "Crescimento, inflação e finanças públicas amplas", "detail": "World Economic Outlook e Fiscal Monitor do FMI; o perímetro mais estreito do Ministério fica separado"},
+      {"term": "Crédito familiar e serviço da dívida", "detail": "Bases de crédito total e serviço da dívida do BIS; os perímetros familiar e privado não financeiro mais amplo são rotulados separadamente"},
       {"term": "Parceiros do comércio de bens", "detail": "Retrato UN Comtrade 2023 com China declarante; nunca emendado à série aduaneira"},
-      {"term": "Desenvolvimento humano e corrupção", "detail": "Relatório de Desenvolvimento Humano 2025 do PNUD; planilha oficial IPC 2025 da Transparência Internacional"},
+      {"term": "Desenvolvimento humano e corrupção", "detail": "Relatório de Desenvolvimento Humano 2025 do PNUD; planilha IPC 2025 da Transparência Internacional"},
       {"term": "Índices de mercado", "detail": "Redistribuição Yahoo Finance do SSE Composite e S&P 500, marcada como não oficial"},
       {"term": "Camada nacional ainda pendente", "detail": "NBS, Alfândega, PBoC, SAFE e Ministério; evidência dos bloqueios em SOURCES.yaml"}
+    ],
+    "unavailable": [
+      {"term": "Camada trimestral e macro nacional", "detail": "A API automatizada do NBS respondeu 403, impedindo coleta confiável de PIB trimestral, desemprego urbano pesquisado, Gini nacional e séries com base censitária."},
+      {"term": "Gasto por função e investimento público", "detail": "Não foi possível obter um mapeamento COFOG comparável nem uma série separada de formação de capital fixo do governo."},
+      {"term": "Juros do banco central e rendimento soberano", "detail": "O portal do PBoC responde, mas os endpoints dos regimes LPR/benchmark antigo, crédito familiar e título público de 10 anos não foram isolados."},
+      {"term": "Segurança, mortalidade e fluxos migratórios nacionais", "detail": "Tabelas comparáveis de polícia, causas de morte, excesso de mortes e imigração/emigração não puderam ser obtidas de fontes nacionais acessíveis."}
     ]
   }
 }

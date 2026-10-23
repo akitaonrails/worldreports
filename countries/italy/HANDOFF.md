@@ -139,11 +139,11 @@ after the first connection-level failure. When the run lands:
 | economy | S growth (Eurostat) | S GDP/person (WB) | S HICP + NIC beside (NIC 2006–15 pending ISTAT); ECB 2% line | S ISTAT RFL 2006+, Eurostat beside |
 | fiscal | S revenue/expenditure | S balance + primary | S EDP debt | S interest D41PAY |
 | spending | S COFOG 7 groups (to 2024) | S social protection vs rest | S GFCF % GDP | S government GFCF |
-| trade | S P6/P7 % GDP (WB openness beside) | S balance, computed | **F** top export destinations: Coeweb unreachable, so use Eurostat Comext (`DS-045409`/`ext_st_eu27_2020sitc`) or UN Comtrade | lens: free choice (e.g. P6 goods vs services) |
+| trade | S P6/P7 % GDP (WB openness beside) | S balance, computed | S 2023 UN Comtrade Italy-reporter customs-goods destinations, World denominator | lens: free choice (e.g. P6 goods vs services) |
 | markets | S DFR vs HICP | S BTP 10y | S EUR/USD index 2006=100 | S FTSE MIB in US$ with ECB rate; **F** S&P 500 (add `^GSPC` to fetch_markets, as France does) |
 | credit | **F** BIS WS_TC `Q.IT.H.A.M.770.A` (BdI loans/GDP = 36.1 already agree, but the slot is BIS) | S MIR house-purchase rate vs DFR | S FSI gross NPL (2011+), bad-loans ratio beside | lens: S debt/GDI; or **F** BIS WS_DSR |
 | people | S SILC Gini 2014+ with WB Gini 2005–23 beside (Eurostat has no IT before 2014) | S ISTAT absolute poverty 2014+ / AROP 2006+; **F** WB PIP US$8.30 line if Italy has it | **P** no statutory minimum wage (CCNL sector floors) | lens: S relative poverty / AROP |
-| world | S GDP US$ | S HDI (to 2023) | **F** TI CPI, hand-curated with the 2012 seam (`meta.pending`) | S reserves (2025 gold jump) |
+| world | S GDP US$ | S HDI (to 2023) | S TI CPI 2025 workbook, comparable 2012–2025 method | S reserves (2025 gold jump) |
 | demography | S population index (Eurostat 2006+) | S TFR demo_find (+ ISTAT split pending) | S crude birth/death per 1,000, computed | S natural increase + net migration (ISTAT flows); Eurostat CNMIGRATRT optional |
 | security | S police (ISTAT rate) + certificates; **F** UNODC `VC.IHR.PSRC.P5` (WB API) | S suicide 17_2 per 100k (to 2023) | S/F transport accidents 17_1_1 is all modes; road-only needs ISTAT road accidents or Eurostat `tran_sf_roadus` | lens: mafia homicides, pending ISTAT |
 | mortality | S crude death rate | S excess deaths vs 2015–19, computed (2020 +16.4%) | S COVID-19 per 100k (2020 131.5) | S lens from causes |
@@ -156,8 +156,7 @@ manifest entry, before the plate is drawn (spine rule 11).
 ## What the next session should build
 
 1. **The harmonised fetches** marked F above: BIS WS_TC (and WS_DSR),
-   S&P 500, UNODC homicide, Comext/Comtrade partner shares, road deaths,
-   WB PIP, and the TI CPI by hand. Re-run the ISTAT fetcher if the host
+   S&P 500, UNODC homicide, road deaths, and WB PIP. Re-run the ISTAT fetcher if the host
    is back.
 2. **Curated CSVs**, each diffed against its sidecar and trimmed to
    2006–2026. Their manifest entries go beside the sidecar entries.

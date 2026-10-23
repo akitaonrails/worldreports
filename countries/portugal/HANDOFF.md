@@ -118,10 +118,9 @@ reasoning in DATA_NOTES.
    Eurostat demo_gind beside, not spliced.
 6. **The 2024 asylum-decisions break** (positive = 10 of 1,005): read the
    Eurostat ESMS footnote before annotating.
-7. **Transparency International CPI**: curate by hand with the 2012 break.
-8. *(not in meta)* INE's HICP twin (0014655) is not staged. It is not
+7. *(not in meta)* INE's HICP twin (0014655) is not staged. It is not
    needed, because the Eurostat HICP is the same instrument.
-9. *(not in meta)* The World Bank's 2024–25 GDP and per-person figures are
+8. *(not in meta)* The World Bank's 2024–25 GDP and per-person figures are
    on the old national-accounts vintage. Refresh before the world plate,
    and expect them to move.
 

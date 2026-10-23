@@ -10,7 +10,8 @@
   "fiscal/general_government.csv"
  ],
  "03-trade": [
-  "trade/trade.csv"
+  "trade/trade.csv",
+  "trade/trade_partners_comtrade.csv"
  ],
  "04-markets": [
   "markets/sp500.csv",
@@ -19,6 +20,7 @@
   "markets/usdils_boi.csv"
  ],
  "05-world": [
+  "international/cpi_ti.csv",
   "international/hdi.csv",
   "international/world.csv"
  ],
@@ -32,6 +34,7 @@
  ],
  "08-migration": [
   "demography/demography.csv",
+  "migration/migrant_stock_wb.csv",
   "migration/olim_flow.csv",
   "migration/permits.csv"
  ]

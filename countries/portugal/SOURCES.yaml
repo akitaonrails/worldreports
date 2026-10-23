@@ -109,13 +109,6 @@ meta:
         break is almost certainly the SEF→AIMA hand-over, but its metadata
         note was not read. Read the ESMS footnote before the migration
         plate annotates it.
-    - name: Transparency International Corruption Perceptions Index
-      publisher: Transparency International
-      url: https://www.transparency.org/en/cpi
-      official: false
-      notes: >-
-        Not staged by fetch_comparables.py. Curate by hand for the world
-        chapter with the 2012 methodology break, as France and Canada do.
 
 macro:
   gdp_from_ine.csv:
@@ -427,6 +420,16 @@ credit:
       must not be spliced on. The fall from 17.9 to 2.1 is the chapter.
 
 social:
+  minimum_wage_from_estat.csv:
+    source: Eurostat — earn_mw_cur (monthly minimum wage, EUR, half-yearly)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/earn_mw_cur?geo=PT&currency=EUR&freq=S
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Euro per month on a twelve-month basis. Portugal pays the statutory
+      wage in fourteen instalments, so Eurostat publishes the legal monthly
+      amount × 14/12. S2 is the rate in force on 1 July and is drawn after
+      conversion with the ECB annual-average US$/EUR rate. Spot check: 2024
+      S2 = €957 (the €820 legal monthly amount × 14/12, rounded).
   gini_from_ine.csv:
     source: INE — ICOR, indicator 0004212 (Gini of net monetary income per equivalent adult)
     url: https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0004212&lang=PT
@@ -753,6 +756,15 @@ international:
       hdr.undp.org 403s the default urllib UA, send a browser UA). The
       HDR recomputes the whole back-series at each methodology change.
       Index 0–1, 2006–2023.
+  cpi_from_ti.csv:
+    source: Transparency International — Corruption Perceptions Index 2025
+    url: https://images.transparencycdn.org/images/CPI2025_Results.xlsx
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      CPI 2025 workbook, sheet "CPI Timeseries 2012 - 2025". Score 0–100;
+      only the comparable 2012 methodology onward is retained. Spot checks:
+      2012 63, 2024 57, 2025 56.
 published:
   asylum_estat.csv:
     source: "Eurostat — migr_asyappctza (applicants) and migr_asydcfsta (first-instance decisions)"
@@ -766,6 +778,12 @@ published:
     source: "INE — Óbitos por causa de morte (lista sucinta europeia), indicators 0008206 and 0013166"
     refreshed_by: "reviewed publication copy of causes_of_death_from_ine.csv"
     notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  cpi_ti.csv:
+    source: "Transparency International — Corruption Perceptions Index 2025"
+    url: https://images.transparencycdn.org/images/CPI2025_Results.xlsx
+    official: false
+    refreshed_by: "reviewed publication copy of international/cpi_from_ti.csv"
+    notes: "Reviewed 2026-10-23; comparable 2012 methodology onward."
   crime_ine.csv:
     source: "INE / DGPJ — taxa de criminalidade, indicators 0008074 (NUTS-2013) and 0012260 (NUTS-2024)"
     refreshed_by: "reviewed publication copy of crime_from_ine.csv"
@@ -874,6 +892,11 @@ published:
     source: "Banco de Portugal — BPstat series 12533735 (and 12710779)"
     refreshed_by: "reviewed publication copy of mortgage_rate_from_bpstat.csv"
     notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  minimum_wage_estat.csv:
+    source: "Eurostat — earn_mw_cur (monthly minimum wage, twelve-month basis)"
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/earn_mw_cur?geo=PT&currency=EUR&freq=S
+    refreshed_by: "reviewed publication copy of social/minimum_wage_from_estat.csv"
+    notes: "Reviewed 2026-10-23; S2 is the 1 July statutory rate."
   naturalisation_estat.csv:
     source: "Eurostat — migr_acq (acquisitions of citizenship)"
     refreshed_by: "reviewed publication copy of naturalisation_from_estat.csv"

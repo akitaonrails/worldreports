@@ -31,7 +31,12 @@ can fetch, and the official NBS line stays on the pending list.
                suicide (WHO estimates), road traffic deaths (WHO estimates)
   IMF          DataMapper: real GDP growth (NGDP_RPCH), CPI inflation
                (PCPIPCH), general-government gross debt, % of GDP
-               (GGXWDG_NGDP)
+               (GGXWDG_NGDP), and Fiscal Monitor revenue, expenditure,
+               overall balance and primary balance
+  BIS          household credit, % of GDP (WS_TC), and the private
+               non-financial-sector debt-service ratio (WS_DSR). China has
+               no household-only DSR, so the latter is labelled private
+               sector everywhere it is drawn.
   UNDP         HDR25 composite indices, one complete time series (HDI)
   Transparency Corruption Perceptions Index — the 2012-method time series
                (CPI2025_Results.xlsx, sheet "CPI Historical")
@@ -96,6 +101,8 @@ HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64)", "Accept": "*/*"}
 WB = ("https://api.worldbank.org/v2/country/{iso3}/indicator/{code}"
       "?format=json&per_page=200&date={d0}:{d1}")
 IMF = "https://www.imf.org/external/datamapper/api/v1/{code}/CHN"
+BIS = ("https://stats.bis.org/api/v2/data/dataflow/BIS/{flow}/"
+       "{key}?startPeriod=2005&format=csvfile")
 HDR = ("https://hdr.undp.org/sites/default/files/2025_HDR/"
        "HDR25_Composite_indices_complete_time_series.csv")
 # TI's images CDN answers 403 HTML for the "results-and-trends" workbook
@@ -172,6 +179,14 @@ IMF_SERIES = [
      "cpi_inflation_pct", 2),
     ("GGXWDG_NGDP", "fiscal/debt_intl_pct_gdp_from_imf.csv",
      "gg_gross_debt_pct_gdp", 1),
+    ("GGR_G01_GDP_PT", "fiscal/finance_intl_from_imf.csv",
+     "revenue_pct_gdp", 2),
+    ("G_X_G01_GDP_PT", "fiscal/finance_intl_from_imf.csv",
+     "expenditure_pct_gdp", 2),
+    ("GGXCNL_G01_GDP_PT", "fiscal/finance_intl_from_imf.csv",
+     "overall_balance_pct_gdp", 2),
+    ("GGXONLB_G01_GDP_PT", "fiscal/finance_intl_from_imf.csv",
+     "primary_balance_pct_gdp", 2),
 ]
 
 HDR_FILE = "international/hdi_from_undp.csv"
@@ -200,6 +215,21 @@ SPOT = [
      0.1),
     ("fiscal/debt_intl_pct_gdp_from_imf.csv", "gg_gross_debt_pct_gdp",
      2025, 98.6),
+    ("fiscal/finance_intl_from_imf.csv", "revenue_pct_gdp", 2025, 25.01),
+    ("fiscal/finance_intl_from_imf.csv", "expenditure_pct_gdp", 2025, 32.88),
+    ("fiscal/finance_intl_from_imf.csv", "overall_balance_pct_gdp", 2025,
+     -7.87),
+    ("fiscal/finance_intl_from_imf.csv", "primary_balance_pct_gdp", 2025,
+     -6.91),
+    ("credit/household_credit_from_bis.csv", "hh_credit_pct_gdp_q4", 2025,
+     58.0),
+    ("credit/household_credit_from_bis.csv", "hh_credit_pct_gdp_qavg", 2025,
+     59.23),
+    ("credit/household_credit_from_bis.csv", "hh_credit_pct_gdp_quarters",
+     2025, 4),
+    ("credit/private_dsr_from_bis.csv", "private_dsr_pct_q4", 2025, 18.8),
+    ("credit/private_dsr_from_bis.csv", "private_dsr_pct_qavg", 2025, 18.85),
+    ("credit/private_dsr_from_bis.csv", "private_dsr_pct_quarters", 2025, 4),
     ("international/hdi_from_undp.csv", "hdi", 2023, 0.797),
     ("economy/inflation_intl_from_wb.csv", "cpi_inflation_pct", 2023,
      0.2),
@@ -358,6 +388,50 @@ def imf(code: str) -> tuple[dict[int, float], dict[int, float]]:
     return out, raw_all
 
 
+def bis(flow: str, key: str, version: str) -> dict[str, float]:
+    """One BIS quarterly series as ``YYYY-Qn -> value``."""
+    def check(raw: bytes) -> None:
+        rows = list(csv.DictReader(io.StringIO(raw.decode("utf-8"))))
+        need = {"TIME_PERIOD", "OBS_VALUE", "BORROWERS_CTY", "TITLE_TS"}
+        if not rows or not need <= set(rows[0]):
+            raise ValueError("not a BIS SDMX-CSV payload")
+        if {r["BORROWERS_CTY"] for r in rows} != {"CN"}:
+            raise ValueError("BIS payload is for another borrower country")
+        if len({r["TITLE_TS"] for r in rows}) != 1:
+            raise ValueError("BIS payload contains more than one series")
+        if any("-Q" not in r["TIME_PERIOD"] for r in rows):
+            raise ValueError("BIS payload is not quarterly")
+
+    url = BIS.format(flow=f"{flow}/{version}", key=key)
+    raw = get(url, f"bis_{flow}_{key}.csv", check)
+    return {r["TIME_PERIOD"]: float(r["OBS_VALUE"])
+            for r in csv.DictReader(io.StringIO(raw.decode("utf-8")))
+            if r["OBS_VALUE"] not in ("", "NaN")}
+
+
+def annualise(quarters: dict[str, float], prefix: str) -> dict[int, dict]:
+    """Keep Q4, the available-quarter mean, and its observation count."""
+    by_year: dict[int, dict[int, float]] = {}
+    for period, value in quarters.items():
+        year, quarter = int(period[:4]), int(period[-1])
+        if FIRST_YEAR <= year <= LAST_YEAR:
+            by_year.setdefault(year, {})[quarter] = value
+    out = {}
+    for year, qs in by_year.items():
+        row = {f"{prefix}_qavg": sum(qs.values()) / len(qs),
+               f"{prefix}_quarters": len(qs)}
+        if 4 in qs:
+            row[f"{prefix}_q4"] = qs[4]
+        out[year] = row
+    return out
+
+
+def bis_decimals(column: str) -> int:
+    if column.endswith("quarters"):
+        return 0
+    return 1 if column.endswith("q4") else 2
+
+
 def undp_hdi() -> dict[int, float]:
     """China's HDI row from the HDR25 composite-indices file.
 
@@ -509,6 +583,38 @@ def collect() -> dict[str, dict[int, dict[str, float]]]:
                     "none — re-derive the bands before refetching")
         put(rel, column, series, dec)
 
+    # Fiscal Monitor and WEO publish the same overall balance. Refuse to
+    # combine the Fiscal Monitor columns if their shared reading has drifted
+    # to a different vintage.
+    weo, _ = imf("GGXCNL_NGDP")
+    fm = {y: row["overall_balance_pct_gdp"]
+          for y, row in tables["fiscal/finance_intl_from_imf.csv"].items()
+          if "overall_balance_pct_gdp" in row}
+    common = set(weo) & set(fm)
+    worst = max(abs(weo[y] - fm[y]) for y in common)
+    if worst > 0.11:
+        raise FetchError(f"WEO and Fiscal Monitor balances differ by {worst:.2f}")
+    print(f"  WEO vs Fiscal Monitor balance: agree within {worst:.2f} pt")
+
+    print("BIS — household credit and private-sector debt service")
+    q = bis("WS_TC", "Q.CN.H.A.M.770.A", "2.0")
+    print(f"  WS_TC household credit  {len(q)} quarters {min(q)}..{max(q)}")
+    annual = annualise(q, "hh_credit_pct_gdp")
+    for column in ("hh_credit_pct_gdp_q4", "hh_credit_pct_gdp_qavg",
+                   "hh_credit_pct_gdp_quarters"):
+        put("credit/household_credit_from_bis.csv", column,
+            {y: row[column] for y, row in annual.items() if column in row},
+            bis_decimals(column))
+
+    q = bis("WS_DSR", "Q.CN.P", "1.0")
+    print(f"  WS_DSR private sector    {len(q)} quarters {min(q)}..{max(q)}")
+    annual = annualise(q, "private_dsr_pct")
+    for column in ("private_dsr_pct_q4", "private_dsr_pct_qavg",
+                   "private_dsr_pct_quarters"):
+        put("credit/private_dsr_from_bis.csv", column,
+            {y: row[column] for y, row in annual.items() if column in row},
+            bis_decimals(column))
+
     print("UNDP — HDR25 composite indices (one vintage)")
     hdi = undp_hdi()
     print(f"  HDI (CHN)        {len(hdi):>3} years "
@@ -608,7 +714,8 @@ def cross_checks(tables) -> None:
 def write(tables) -> None:
     for rel in sorted(tables):
         assert rel.rsplit(".csv", 1)[0].endswith(
-            ("_from_wb", "_from_imf", "_from_undp", "_from_ti")), \
+            ("_from_wb", "_from_imf", "_from_undp", "_from_ti",
+             "_from_bis")), \
             f"{rel}: a fetcher only writes sidecars"
         columns = collect.order[rel]
         path = DATA / rel

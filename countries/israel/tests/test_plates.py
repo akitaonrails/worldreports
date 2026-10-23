@@ -57,6 +57,58 @@ def test_fiscal_war_story_uses_general_government_values():
     assert float(fiscal[2024]["balance_pct_gdp"]) == pytest.approx(-8.1)
 
 
+def test_fiscal_primary_balance_and_interest_share_one_imf_vintage():
+    fiscal = by_year("fiscal/general_government.csv")
+    balance = plate(SLUG, "plate_fiscal").panel("Overall and primary")
+    interest = plate(SLUG, "plate_fiscal").panel("Interest paid")
+    assert balance.points("Primary balance")[2024] == pytest.approx(-5.3)
+    line = interest.data_lines()[0]
+    plotted = dict(zip(line.get_xdata(), line.get_ydata()))
+    assert plotted[2024] == pytest.approx(2.8)
+    assert float(fiscal[2024]["interest_pct_gdp"]) == pytest.approx(
+        float(fiscal[2024]["primary_balance_pct_gdp"])
+        - float(fiscal[2024]["balance_pct_gdp"])
+    )
+
+
+def test_comtrade_destinations_use_country_rows_and_the_world_denominator():
+    table = rows("trade/trade_partners_comtrade.csv")
+    assert table[0]["partner"] == "United States"
+    assert float(table[0]["share_of_exports_pct"]) == pytest.approx(29.42)
+    assert "837" not in {row["partner_code"] for row in table}
+    panel = plate(SLUG, "plate_trade").panel("destinations")
+    assert max(patch.get_width() for patch in panel.ax.patches) == \
+        pytest.approx(29.42)
+
+
+def test_trade_balance_subtracts_import_values_not_the_year_axis():
+    trade = by_year("trade/trade.csv")
+    want = (float(trade[2024]["exports_pct_gdp"])
+            - float(trade[2024]["imports_pct_gdp"]))
+    panel = plate(SLUG, "plate_trade").panel("Trade balance")
+    bars = {
+        round(patch.get_x() + patch.get_width() / 2):
+        patch.get_y() + patch.get_height()
+        for patch in panel.ax.patches
+        if patch.get_data_transform() is panel.ax.transData
+    }
+    assert bars[2024] == pytest.approx(want)
+
+
+def test_ti_cpi_and_un_migrant_stock_are_drawn_from_reviewed_files():
+    cpi = by_year("international/cpi_ti.csv")
+    cpi_panel = plate(SLUG, "plate_world").panel("Corruption")
+    cpi_points = dict(zip(cpi_panel.data_lines()[0].get_xdata(),
+                          cpi_panel.data_lines()[0].get_ydata()))
+    assert cpi_points[2025] == pytest.approx(float(cpi[2025]["cpi_score"]))
+    stock = by_year("migration/migrant_stock_wb.csv")
+    stock_panel = plate(SLUG, "plate_migration").panel("Foreign-born")
+    stock_points = dict(zip(stock_panel.data_lines()[0].get_xdata(),
+                            stock_panel.data_lines()[0].get_ydata()))
+    assert stock_points[2024] == pytest.approx(
+        float(stock[2024]["migrant_stock_pct"]))
+
+
 def test_population_rates_use_the_same_year_midyear_population():
     pop = by_year("demography/demography.csv")
     police = by_year("security/homicide_police.csv")
@@ -109,14 +161,18 @@ def test_permit_lens_excludes_visitors_diplomats_and_olim_classes():
 
 def test_unsupported_slots_are_explicitly_pending():
     checks = [
-        ("plate_fiscal", "Interest paid"),
-        ("plate_trade", "destinations"),
         ("plate_markets", "Policy rate"),
         ("plate_markets", "10-year"),
-        ("plate_world", "Corruption"),
-        ("plate_migration", "Foreign-born"),
     ]
     for builder, title in checks:
         panel = plate(SLUG, builder).panel(title)
         assert not panel.data_lines()
         assert any("pending" in text.lower() for text in panel.texts())
+
+
+def test_unavailable_disclosures_exist_in_every_published_language():
+    import json
+
+    ui = json.loads((Country.load(SLUG).dir / "ui.json").read_text())
+    assert set(ui) == {"he", "en", "pt"}
+    assert all(locale["unavailable"] for locale in ui.values())

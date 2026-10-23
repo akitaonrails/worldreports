@@ -794,10 +794,10 @@ def plate_world(ctx, ig) -> None:
 
     ax = ig.slot("world.cpi", "Corruption Perceptions Index "
                  "(0–100, higher = cleaner)")
-    ctx.pending(ax)
-    _note(p, ax, 0.5, 0.55, "pending: Transparency International's score is "
-          "hand-curated\nfor every country; Japan's row is not entered yet",
-          ha="center", va="center", size=7.6)
+    cy, cv = _yr(ctx, "published/cpi_ti.csv", "cpi_score")
+    ctx.line(ax, cy, cv, p.PURPLE)
+    ctx.endlabel(ax, cy, cv, p.PURPLE, lambda v: f"{v:.0f}", dy=8)
+    _foot(p, ax, "Transparency International; comparable 2012 method only")
 
     ax = ig.slot("world.reserves", "Official reserves (US$ bn, year-end)")
     ry, rv = _yr(ctx, "published/reserves_mof.csv",
@@ -885,10 +885,9 @@ def plate_demography(ctx, ig) -> None:
                 xytext=(0, -4), ha="center", va="top", fontsize=8.6,
                 fontweight="bold", color=p.RED)
     _note(p, ax, 0.02, 0.96, "natural change alone — the published rate, "
-          "Japanese nationals.\nThe migration line is pending: Japan keeps no "
-          "emigration register,\nand the Statistics Bureau's own net-migration "
-          "columns are a spine\nfetch. The UN's estimate would mix scopes "
-          "with these counts.", size=7.4)
+          "Japanese nationals.\nA migration line is not overlaid because "
+          "the UN model has a different scope;\nit is shown separately on "
+          "the migration plate.", size=7.4)
     _finish(ctx, ig)
 
 
@@ -1078,12 +1077,14 @@ def plate_migration(ctx, ig) -> None:
           "and a spine fetch", ha="center", va="center", size=7.6)
 
     ax = ig.slot("migration.net", "Net migration (per 1,000 people)")
-    ctx.pending(ax)
-    _note(p, ax, 0.5, 0.55, "pending: no national net-migration series is "
-          "staged, for the same\nreasons as the panel left; the UN's estimate "
-          "would sit beside\nthese counts' Japanese-national scope. The "
-          "World Bank's line is\na fetch — see DATA_NOTES", ha="center",
-          va="center", size=7.6)
+    my, mv = _yr(ctx, "published/net_migration_wb.csv", "net_migration")
+    pop = _total_pop(ctx)
+    points = [(y, v / pop[y] * 1000) for y, v in zip(my, mv) if y in pop]
+    ctx.bars(ax, [y for y, _ in points], [v for _, v in points],
+             lambda v: p.GREEN if v >= 0 else p.RED)
+    ig.add_recessions(ax, label=False)
+    _note(p, ax, 0.02, 0.96, "UN WPP modelled net migration via the World "
+          "Bank — not Japan's resident-movement register", size=7.6)
 
     ax = ig.slot("migration.foreign_born", "Foreign citizens as a share of "
                  "the population (%) — no country-of-birth data exist")
@@ -1231,14 +1232,14 @@ PLATES = (
              "rise as the 15+ population shrinks."),
     dict(id="08", slug="world", topic="world", builder=plate_world,
          title="Japan Among the Others — A Dollar Mirror",
-         subtitle="Size, development and reserves as the world measures "
-                  "them; the corruption index is entered by hand and waits.",
+         subtitle="Size, development, corruption and reserves as the world "
+                  "measures them.",
          source="Sources: World Bank · UNDP · Ministry of Finance · "
-                "(Transparency International pending)",
+                "Transparency International",
          alt="Four panels on Japan among other countries. GDP in US dollars "
              "falls from about $5.2tn to below $4.2tn and recovers, a "
              "currency move more than an economy move; the HDI runs near "
-             "0.92; the corruption panel states its pending curation; "
+             "0.92; the Corruption Perceptions Index reads 71 in 2025; "
              "reserves stand above $1.3tn."),
     dict(id="09", slug="demography", topic="demography",
          builder=plate_demography,
@@ -1252,7 +1253,8 @@ PLATES = (
              "to 123.8m on the estimates and 123.0m on the census base; "
              "fertility runs 1.26–1.45 and reads 1.14 in 2025; deaths overtake "
              "births inside the window; natural change turns negative from "
-             "2015, with the migration line pending and its reason stated."),
+             "2015; the differently scoped UN model is kept on the migration "
+             "plate."),
     dict(id="10", slug="security", topic="security", builder=plate_security,
          title="Security — The Low-Crime Country, Counted Twice",
          subtitle="Homicide, suicide and transport deaths from MHLW "
@@ -1284,11 +1286,12 @@ PLATES = (
          subtitle="What Japan counts: citizens abroad and residents at home "
                   "by register; flows it does not keep, stated plainly.",
          source="Sources: Immigration Services Agency · Statistics Bureau "
-                "estimates and census · Ministry of Justice · UNHCR (noted, "
-                "not drawn)",
-         alt="Four panels on migration. Two panels state plainly why "
-             "immigration, emigration and net-migration flows cannot be "
-             "drawn; the foreign-citizen share rises to about 3.1% and the "
+                "estimates and census · Ministry of Justice · World Bank/UN "
+                "WPP · UNHCR (noted, not drawn)",
+         alt="Four panels on migration. One panel states plainly why gross "
+             "immigration and emigration flows cannot be drawn; modelled UN "
+             "net migration is shown separately from national registers; the "
+             "foreign-citizen share rises to about 3.1% and the "
              "2025 census point sits beside it; the lens draws the two "
              "foreign-resident registers as separate segments, from 2.08m to "
              "4.13m, the 2012 seam marked."),

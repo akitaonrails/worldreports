@@ -9,9 +9,9 @@
 Phase A is done. The deliverables are written in the lane and **not committed** (`git status` shows only `?? countries/vietnam/` and this file):
 
 - `countries/vietnam/country.yaml`: slug `vietnam`, locales `vi` (first) + `en` (default, per precedent) + `pt`, window 2006–2026, `last_full_year: 2025`, `tick_every: 2`, VND, **`bands: []`** with the reasoning in a comment, a red/gold palette from the flag with a gold-tinted dark web chrome, and vi/en/pt seo and sources blocks. `name` is given in en/fr/pt/es/ko/vi; the wordmark is the endonym `Việt Nam`.
-- `countries/vietnam/SOURCES.yaml`: written before any CSV. It plans 51 `*_from_<source>.csv` sidecars across 12 directories and adds 9 `meta.pending` entries. Every endpoint was curled live on 2026-10-22. The two traps that run through the whole manifest (the NSO's two PX-Web doors and the 2010 GDP-scale break) are written up in the header.
+- `countries/vietnam/SOURCES.yaml`: written before any CSV. It plans 51 `*_from_<source>.csv` sidecars across 12 directories. Discovery recorded 9 `meta.pending` entries; the current manifest has 8 after TI CPI was staged. Every endpoint was curled live on 2026-10-22.
 
-**Verification.** Both YAMLs parse (51 planned sidecars, 9 pending entries).
+**Verification at discovery.** Both YAMLs parsed (51 planned sidecars, 9 pending entries); the current pending count is 8.
 - **Rest of the suite:** `pytest tests/ -k "not vietnam" --ignore=tests/test_site.py` gives **363 passed**. `test_site.py` errors for every country because the site build sideloads `countries/vietnam/chapters.py`, which does not exist yet. That is the documented manifest-only state, the same as the Spain, Italy and Portugal lanes.
 - **Vietnam's own tests:** 36 pass (palette, names, seo, manifest conventions, official-flag consistency). The rest fail only in the expected Phase A set: no i18n/chapters/plates/data/provenance yet. Two of those failures are real Phase B items rather than missing files:
 - `test_the_currency_is_one_the_site_can_write[vietnam]`: VND has no `CURRENCY_AFFIX`.
@@ -164,8 +164,10 @@ Nothing is committed.
 5. **DOLAB labour-export flows** (the key emigration flow). dolab and molisa time out; MOLISA's labour functions moved to MOHA in 2025. Hand-curate from year-end reports, as a flow and never on the stock axis.
 6. **MPS crime and homicide.** No national series exists, and the UNODC portal downloads redirect. The gap is named on the plate.
 7. **NSO National Summary Data Page** (`nsdp.nso.gov.vn`). The connection is reset. It may carry SDMX quarterly GDP and monthly CPI.
-8. **Transparency International CPI.** Hand-curate, as France and Canada did.
-9. **VN-Index from HOSE itself.** A React app with no endpoint. CafeF is staged instead.
+8. **VN-Index from HOSE itself.** A React app with no endpoint. CafeF is staged instead.
+
+Resolved since discovery: TI CPI is staged from the pinned CPI 2025 historical
+workbook (2026-10-23).
 
 ## Recorded for Phase B (not done, per brief)
 

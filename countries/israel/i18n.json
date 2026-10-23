@@ -331,9 +331,9 @@
     "he": "ביטחון — שני רישומי רצח, ותיקי 7 באוקטובר",
     "pt": "Segurança — dois registros de homicídio, e os arquivos de 7 de outubro"
   },
-  "Sources: IMF WEO (general government) · CBS Israel unreachable (SOURCES.yaml meta.pending)": {
-    "he": "מקורות: IMF WEO (ממשל כללי) · CBS ישראל אינו נגיש (SOURCES.yaml meta.pending)",
-    "pt": "Fontes: FMI WEO (governo geral) · CBS de Israel fora do ar (SOURCES.yaml meta.pending)"
+  "Sources: IMF Fiscal Monitor and WEO (general government) · CBS Israel unreachable (SOURCES.yaml meta.pending)": {
+    "he": "מקורות: IMF Fiscal Monitor ו-WEO (ממשל כללי) · CBS ישראל אינו נגיש (SOURCES.yaml meta.pending)",
+    "pt": "Fontes: Fiscal Monitor e WEO do FMI (governo geral) · CBS de Israel fora do ar (SOURCES.yaml meta.pending)"
   },
   "Sources: IMF WEO · World Bank WDI · OECD LFS (Israel) · CBS Israel unreachable (SOURCES.yaml meta.pending)": {
     "he": "מקורות: IMF WEO · WB WDI · OECD LFS (ישראל) · CBS ישראל אינו נגיש (SOURCES.yaml meta.pending)",
@@ -547,9 +547,9 @@
     "he": "דולרים בשערי שוק: הקפיצה ב-2025 היא חלק מן ה-",
     "pt": "em dólares a taxas de mercado: o salto de 2025 é em parte o"
   },
-  "in balance 20 of the 20 years — high-tech services": {
-    "he": "בעודף ב-20 מ-20 השנים — שירותי ההיי-טק",
-    "pt": "superávit em 20 dos 20 anos — serviços de alta tecnologia"
+  "in balance 15 of the 20 years — high-tech services": {
+    "he": "בעודף ב-15 מ-20 השנים — שירותי ההיי-טק",
+    "pt": "superávit em 15 dos 20 anos — serviços de alta tecnologia"
   },
   "in the war years — no band (see DATA_NOTES.md)": {
     "he": "בשנות המלחמה — אין פס (ראו DATA_NOTES.md)",
@@ -734,5 +734,89 @@
   "two publishers, two definitions (occurrence vs residence),": {
     "he": "שני מפרסמים, שתי הגדרות (אירוע מול מגורים),",
     "pt": "duas publicações, duas definições (ocorrência x residência),"
+  },
+  "China": {
+    "he": "סין",
+    "pt": "China"
+  },
+  "Derived within one IMF Fiscal Monitor vintage: primary balance minus overall balance": {
+    "he": "נגזר בתוך מהדורה אחת של ה-Fiscal Monitor של קרן המטבע: מאזן ראשוני פחות מאזן כולל",
+    "pt": "Derivado dentro de uma única edição do Fiscal Monitor do FMI: resultado primário menos resultado global"
+  },
+  "GDP and reserves in US dollars, UNDP development and Transparency International's comparable CPI.": {
+    "he": "תמ״ג ויתרות בדולרים, פיתוח לפי UNDP ומדד השחיתות בר-ההשוואה של Transparency International.",
+    "pt": "PIB e reservas em dólares, desenvolvimento do PNUD e CPI comparável da Transparency International."
+  },
+  "Germany": {
+    "he": "גרמניה",
+    "pt": "Alemanha"
+  },
+  "Hong Kong SAR, China": {
+    "he": "הונג קונג, אזור מנהלי מיוחד של סין",
+    "pt": "Hong Kong, RAE da China"
+  },
+  "IMF Fiscal Monitor; both balances are from one vintage": {
+    "he": "Fiscal Monitor של קרן המטבע; שני המאזנים מאותה מהדורה",
+    "pt": "Fiscal Monitor do FMI; ambos os resultados vêm da mesma edição"
+  },
+  "India": {
+    "he": "הודו",
+    "pt": "Índia"
+  },
+  "Ireland": {
+    "he": "אירלנד",
+    "pt": "Irlanda"
+  },
+  "Netherlands": {
+    "he": "הולנד",
+    "pt": "Países Baixos"
+  },
+  "Overall and primary balance (% of GDP)": {
+    "he": "מאזן כולל וראשוני (% מהתמ״ג)",
+    "pt": "Resultado global e primário (% do PIB)"
+  },
+  "Primary balance": {
+    "he": "מאזן ראשוני",
+    "pt": "Resultado primário"
+  },
+  "Sources: World Bank WDI · UN Comtrade · CBS Israel unreachable (SOURCES.yaml meta.pending)": {
+    "he": "מקורות: World Bank WDI · UN Comtrade · הלמ״ס אינו נגיש (SOURCES.yaml meta.pending)",
+    "pt": "Fontes: World Bank WDI · UN Comtrade · CBS de Israel inacessível (SOURCES.yaml meta.pending)"
+  },
+  "Sources: World Bank WDI · UNDP HDR 2025 · Transparency International CPI 2025": {
+    "he": "מקורות: World Bank WDI · UNDP HDR 2025 · Transparency International CPI 2025",
+    "pt": "Fontes: World Bank WDI · PNUD HDR 2025 · Transparency International CPI 2025"
+  },
+  "Transparency International; comparable 2012 method only": {
+    "he": "Transparency International; רק השיטה בת-ההשוואה מ-2012",
+    "pt": "Transparency International; apenas o método comparável desde 2012"
+  },
+  "UN Comtrade 2023; customs goods, not the services-inclusive national-accounts line above": {
+    "he": "UN Comtrade 2023; סחורות במכס, לא קו החשבונות הלאומיים הכולל שירותים שלמעלה",
+    "pt": "UN Comtrade 2023; bens alfandegários, não a série de contas nacionais acima que inclui serviços"
+  },
+  "United Kingdom": {
+    "he": "בריטניה",
+    "pt": "Reino Unido"
+  },
+  "United States": {
+    "he": "ארצות הברית",
+    "pt": "Estados Unidos"
+  },
+  "World Bank / UN DESA snapshot years; no interpolation and not the CBS register": {
+    "he": "שנות תמונת מצב של הבנק העולמי / UN DESA; ללא אינטרפולציה ולא מרשם הלמ״ס",
+    "pt": "Anos de referência do Banco Mundial / UN DESA; sem interpolação e não é o registro do CBS"
+  },
+  "Hong Kong": {
+    "he": "הונג קונג",
+    "pt": "Hong Kong"
+  },
+  "UK": {
+    "he": "בריטניה",
+    "pt": "Reino Unido"
+  },
+  "US": {
+    "he": "ארה״ב",
+    "pt": "EUA"
   }
 }

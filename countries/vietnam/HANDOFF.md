@@ -49,7 +49,7 @@ plate spine (`PLATE_SPINE.md`, `core/spine.py` once merged) first.
   red/gold palette and vi/en/pt seo and sources blocks.
 - **`SOURCES.yaml`.** Written before the CSVs, then corrected to what
   the fetchers do. It has one entry for each of the 51 sidecars, every
-  `refreshed_by` exists, and `meta.pending` lists nine sources that
+  `refreshed_by` exists, and `meta.pending` lists eight sources that
   could not be staged.
 - **`DATA_NOTES.md`.** The traps, the breaks, the spine departures and
   the cross-source table.
@@ -220,8 +220,8 @@ The labels used in this section:
 ### world
 1. **GDP, US$ bn.** Staged: WB with the seam, and IMF continuous.
 2. **HDI.** Staged: UNDP, with the NSO's own HDI beside it.
-3. **Corruption Perceptions Index.** **Pending**, hand-curated
-   (Transparency International, `meta.pending`).
+3. **Corruption Perceptions Index.** Staged from Transparency
+   International's CPI 2025 workbook, using only the comparable 2012-method series.
 4. **Reserves.** Staged: WB FI.RES.TOTL.CD.
 
 ### demography
@@ -287,17 +287,15 @@ The labels used in this section:
    named on the plate.
 7. **NSO NSDP page** (`nsdp.nso.gov.vn`): it may carry SDMX quarterly
    GDP and monthly CPI.
-8. **Transparency International CPI**: hand-curate it with the 2012
-   break.
-9. **VN-Index from HOSE**: CafeF is staged instead.
-10. **Spine fetches from the coverage list above**: WEO GG
+8. **VN-Index from HOSE**: CafeF is staged instead.
+9. **Spine fetches from the coverage list above**: WEO GG
     revenue/expenditure/interest 2023+, the 10y yield
     (AsianBondsOnline), ADB `FILR_PA`, WB SI.POV.UMIC, the minimum wage
     (ILOSTAT or decrees), WB/WHO suicide rate, WHO reported COVID
     deaths, and the CPI target.
-11. **Comtrade 2024–2025**: not yet loaded at the UN. The fetcher picks
+10. **Comtrade 2024–2025**: not yet loaded at the UN. The fetcher picks
     them up automatically.
-12. **ADB DF_MF_FIN market cap** (CM_MKT_LCAP_GD_ZS, 2008–2025): it is
+11. **ADB DF_MF_FIN market cap** (CM_MKT_LCAP_GD_ZS, 2008–2025): it is
     in the cache but not staged. Add it if the markets plate needs
     market cap before 2018.
 

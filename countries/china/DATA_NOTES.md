@@ -110,12 +110,12 @@ name goes in the panel note.
 ## Honest pending panels
 
 Slots whose only publisher is blocked or does not publish for China stay
-`ctx.pending` with the reason on the panel: the general-government
-revenue/expenditure/balance/interest perimeter (MOF narrow budget is
-pending, and no harmonised revenue/interest series is staged), COFOG
-spending functions, public investment, PBoC policy rate (LPR — a
-definitional break, two columns, never one), 10-year yield, household
-credit trio, China's national minimum wage (set by provinces — there is
-no single national statutory rate to plot), top export destinations as a
-time series, and China's covid-19 deaths (official counts stopped in
-2023 and are not comparable).
+`ctx.pending` with the reason on the panel: COFOG spending functions,
+public investment, PBoC policy rate (LPR — a definitional break, two columns,
+never one), 10-year yield, comparable household lending rates, China's
+national minimum wage (set by provinces — there is no single national
+statutory rate to plot), top export destinations as a time series, and
+China's covid-19 deaths (official counts stopped in 2023 and are not
+comparable). The IMF Fiscal Monitor now fills the harmonised fiscal-flow
+slots, and BIS fills household credit plus the broader private-sector DSR;
+neither is relabelled as a Chinese national series.

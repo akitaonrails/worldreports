@@ -10,6 +10,11 @@
       "מקורות לאומיים אחדים היו חסומים לגישה אוטומטית. משבצות ללא סדרה מאומתת מסומנות כחסרות במקום להציג מספר חלופי.",
       "הלוחות והעמוד מתפרסמים בעברית, באנגלית ובפורטוגזית."
     ],
+    "unavailable": [
+      {"term": "השכבה הלאומית של הלמ״ס", "detail": "פורטל הלמ״ס חסם גישה אוטומטית. חשבונות לאומיים, הכנסה, סיבות מוות וסדרות לאומיות נוספות אינם מוצגים עד שניתן יהיה לאמתם."},
+      {"term": "ריבית ותשואה של בנק ישראל", "detail": "היסטוריית ריבית המדיניות ותשואת אג״ח ממשלתית לעשר שנים לא אותרו בנקודת קצה יציבה; שתי המשבצות נשארות גלויות כחסרות."},
+      {"term": "זרמי הגירה ומקלט", "detail": "אין עדיין סדרה מאומתת ועקבית של הגירה יוצאת, מלאי היתרים ובקשות והחלטות מקלט."}
+    ],
     "colophon": [
       {"term": "חשבונות לאומיים, אוכלוסייה ודמוגרפיה", "detail": "הלמ״ס כמפרסם הלאומי; הבנק העולמי, קרן המטבע ו־OECD לשכבה ההשוואתית המאומתת"},
       {"term": "כספים ציבוריים", "detail": "IMF Fiscal Monitor ו־WEO — ממשלה כללית"},
@@ -30,6 +35,11 @@
       "Several national sources blocked automated access. A slot without a verified series is marked pending rather than filled with a substitute number.",
       "The plates and page are published in Hebrew, English and Portuguese."
     ],
+    "unavailable": [
+      {"term": "CBS national layer", "detail": "The CBS portal blocked automated access. National accounts, income, causes of death and other national series remain unpublished here until they can be verified."},
+      {"term": "Bank of Israel rates and yields", "detail": "Stable historical endpoints for the policy rate and ten-year government yield were not isolated; both slots remain visibly unavailable."},
+      {"term": "Migration and asylum flows", "detail": "No verified consistent series is staged for emigration, permit stocks, or asylum applications and decisions."}
+    ],
     "colophon": [
       {"term": "National accounts, population and demography", "detail": "CBS as national publisher; World Bank, IMF and OECD for the verified comparative layer"},
       {"term": "Public finances", "detail": "IMF Fiscal Monitor and WEO — general government"},
@@ -49,6 +59,11 @@
       "Registros policiais de homicídio, a taxa da UNODC, olim, autorizações e a estimativa de migração líquida são medidas diferentes. As pranchas as mantêm separadas e nunca as unem numa série.",
       "Várias fontes nacionais bloquearam o acesso automatizado. Uma posição sem série verificada aparece como pendente, em vez de receber um número substituto.",
       "As pranchas e a página são publicadas em hebraico, inglês e português."
+    ],
+    "unavailable": [
+      {"term": "Camada nacional do CBS", "detail": "O portal do CBS bloqueou o acesso automatizado. Contas nacionais, renda, causas de morte e outras séries nacionais ficam ausentes até poderem ser verificadas."},
+      {"term": "Juros e rendimentos do Banco de Israel", "detail": "Não foi possível isolar endpoints históricos estáveis para a taxa de política e o título público de dez anos; ambas as posições continuam visivelmente indisponíveis."},
+      {"term": "Fluxos migratórios e asilo", "detail": "Ainda não há série consistente verificada para emigração, estoque de autorizações ou pedidos e decisões de asilo."}
     ],
     "colophon": [
       {"term": "Contas nacionais, população e demografia", "detail": "CBS como publicador nacional; Banco Mundial, FMI e OCDE para a camada comparativa verificada"},

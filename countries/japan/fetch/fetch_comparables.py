@@ -18,7 +18,9 @@ both and labels the difference rather than choosing. All official: false.
                 NE.TRD.GNFS.ZS    trade as a share of GDP
                 SI.POV.GINI       Gini, sparse (2008–2020 only)
                 VC.IHR.PSRC.P5    intentional homicides per 100,000 (UNODC)
+                SM.POP.NETM       UN WPP modelled net migration count
   UNDP          HDI, from the HDR25 composite-indices file (one vintage)
+  TI            CPI 2025 workbook, comparable 2012-method score
   IMF           GGXWDG_NGDP, GGXCNL_NGDP, NGDPD (DataMapper / WEO)
   OECD          IDD Gini and 50%-line poverty, total population
   UNHCR         asylum applications and decisions, country of asylum JPN
@@ -48,10 +50,12 @@ from __future__ import annotations
 import csv
 import io
 import json
+import re
 import sys
 import time
 import urllib.error
 import urllib.request
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -68,6 +72,7 @@ OECD = ("https://sdmx.oecd.org/public/rest/data/OECD.WISE.INE,DSD_WISE_IDD@DF_ID
         "&format=csvfilewithlabels")
 UNHCR = ("https://api.unhcr.org/population/v1/{kind}/"
          "?coa=JPN&yearFrom=2006&yearTo=2025&cf_type=ISO&limit=1000&page={page}")
+TI = "https://images.transparencycdn.org/images/CPI2025_Results.xlsx"
 
 # hdr.undp.org answers 403 to the default urllib User-Agent; www.imf.org's
 # edge answers 403 to any UA starting "Mozilla/5.0" (UK lane, 2026-10-22).
@@ -85,6 +90,7 @@ WANTED = [  # (sidecar, code, column, decimals)
     ("international/openness_from_wb.csv", "NE.TRD.GNFS.ZS", "trade_pct_gdp", 1),
     ("social/gini_from_wb.csv", "SI.POV.GINI", "gini", 1),
     ("security/homicide_rate_from_wb.csv", "VC.IHR.PSRC.P5", "homicides_per_100k", 2),
+    ("migration/net_migration_from_wb.csv", "SM.POP.NETM", "net_migration", 0),
 ]
 UNITS = {
     "NY.GDP.MKTP.CD": "current US$",
@@ -94,6 +100,7 @@ UNITS = {
     "NE.TRD.GNFS.ZS": "% of GDP, exports + imports of goods and services",
     "SI.POV.GINI": "index 0–100, World Bank harmonised; sparse — gaps are not data",
     "VC.IHR.PSRC.P5": "per 100,000 people, UNODC definition (neither NPA's nor MHLW's)",
+    "SM.POP.NETM": "persons, UN WPP modelled net migration; not Japan's resident-movement register",
 }
 IMF_WANTED = [
     ("GGXWDG_NGDP", "gross_debt_pct_gdp", 1),
@@ -192,6 +199,53 @@ def hdr_hdi() -> dict[int, float]:
         break
     check(bool(out), "HDR: no JPN row")
     check(rank == "23", f"HDR: JPN hdi_rank_2023 = {rank}, expected 23")
+    return out
+
+
+def ti_cpi() -> dict[int, float]:
+    """Comparable CPI scores from TI's pinned 2025 historical sheet."""
+    def parse(body: bytes) -> list[dict[str, str]]:
+        z = zipfile.ZipFile(io.BytesIO(body))
+        book = z.read("xl/workbook.xml").decode()
+        rels = z.read("xl/_rels/workbook.xml.rels").decode()
+        sheets = dict(re.findall(
+            r'<sheet [^>]*name="([^"]+)"[^>]*r:id="([^"]+)"', book))
+        targets = dict(re.findall(
+            r'Id="([^"]+)"[^>]*Target="([^"]+)"', rels))
+        path = "xl/" + targets[sheets["CPI Historical"]].lstrip("/") \
+            .removeprefix("xl/")
+        shared = z.read("xl/sharedStrings.xml").decode()
+        strings = ["".join(re.findall(r"<t[^>]*>(.*?)</t>", cell, re.S))
+                   for cell in re.findall(r"<si>(.*?)</si>", shared, re.S)]
+        out = []
+        for row in re.findall(r"<row[^>]*>(.*?)</row>",
+                              z.read(path).decode(), re.S):
+            cells = {}
+            for match in re.finditer(
+                    r'<c r="([A-Z]+)\d+"([^>]*?)(?:/>|>(.*?)</c>)',
+                    row, re.S):
+                ref, attrs, raw = match.groups()
+                value = re.search(r"<v>(.*?)</v>", raw or "")
+                text = value.group(1) if value else ""
+                cells[ref] = strings[int(text)] if 't="s"' in attrs and text \
+                    else text
+            out.append(cells)
+        return out
+
+    def ok(body: bytes) -> None:
+        check(body[:2] == b"PK" and bool(parse(body)),
+              "TI CPI: not the historical workbook")
+
+    rows = parse(cached("ti_CPI2025.xlsx", TI, BROWSER, ok))
+    head = next(row for row in rows
+                if (row.get("A") or "").startswith("Country"))
+    columns = {value: ref for ref, value in head.items() if value}
+    out = {int(float(row[columns["Year"]])):
+           float(row[columns["CPI score"]])
+           for row in rows if row.get(columns["ISO3"]) == ISO3
+           and row.get(columns["CPI score"])}
+    check(sorted(out) == list(range(2012, 2026)),
+          f"TI CPI years incomplete: {sorted(out)}")
     return out
 
 
@@ -392,6 +446,15 @@ def main() -> None:
     path.write_text("\n".join(lines) + "\n")
     print(f"  data/international/hdi_from_undp.csv  {max(hdi) - YEAR_FROM + 1} rows "
           f"({YEAR_FROM}–{max(hdi)})")
+    cpi = ti_cpi()
+    cpi_path = ROOT / "data" / "international" / "cpi_from_ti.csv"
+    cpi_path.parent.mkdir(parents=True, exist_ok=True)
+    cpi_path.write_text(
+        "# Transparency International CPI 2025 workbook, JPN. official: false.\n"
+        "# Comparable 2012-method series; 0-100, higher = perceived cleaner.\n"
+        "year,cpi_score\n" +
+        "".join(f"{year},{cpi[year]:.0f}\n" for year in sorted(cpi)))
+    near(cpi.get(2025), 71, 0, "TI CPI 2025")
     imf = write_imf("international/gg_fiscal_from_imf.csv")
     idd = oecd_idd("social/gini_from_oecd.csv")
     asy = unhcr("migration/asylum_from_unhcr.csv")
@@ -411,6 +474,7 @@ def main() -> None:
           f"WB Gini span {min(gini)}–{max(gini)}, expected within 2008–2020")
     near(wb["VC.IHR.PSRC.P5"].get(2006), 0.48, 0.005, "WB homicide 2006")
     near(wb["VC.IHR.PSRC.P5"].get(2023), 0.23, 0.005, "WB homicide 2023")
+    near(wb["SM.POP.NETM"].get(2024), 153_357, 1, "WB net migration 2024")
     near(hdi.get(2006), 0.903, 0.0005, "HDI 2006")
     near(hdi.get(2023), 0.925, 0.0005, "HDI 2023")
     debt, nl = imf["GGXWDG_NGDP"], imf["GGXCNL_NGDP"]

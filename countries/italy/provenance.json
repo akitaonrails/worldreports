@@ -20,7 +20,8 @@
  "04-trade": [
   "international/openness.csv",
   "macro/gdp_estat.csv",
-  "trade/trade.csv"
+  "trade/trade.csv",
+  "trade/trade_comtrade_partner.csv"
  ],
  "05-markets": [
   "macro/hicp.csv",
@@ -43,6 +44,7 @@
   "social/poverty_abs.csv"
  ],
  "08-world": [
+  "international/cpi.csv",
   "international/gdp_usd.csv",
   "international/hdi.csv",
   "international/reserves.csv"

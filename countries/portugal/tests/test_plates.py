@@ -81,6 +81,27 @@ def test_silc_year_convention_is_not_spliced_to_ine():
     assert num(ine[2024], "gini") == pytest.approx(num(estat[2025], "silc"))
 
 
+def test_minimum_wage_uses_eurostats_twelve_month_equivalent():
+    wages, fx = years("minimum_wage_estat"), years("eurusd_ecb")
+    assert num(wages[2024], "eur_month_jul") == pytest.approx(957)
+    panel = plate(SLUG, "plate_people").panel("Minimum wage")
+    line = panel.data_lines()[0]
+    points = dict(zip(map(int, line.get_xdata()), map(float, line.get_ydata())))
+    assert points[2024] == pytest.approx(
+        num(wages[2024], "eur_month_jul") * num(fx[2024], "avg"))
+
+
+def test_cpi_is_the_complete_comparable_2012_2025_run():
+    cpi = years("cpi_ti")
+    assert sorted(cpi) == list(range(2012, 2026))
+    assert num(cpi[2012], "score") == 63
+    assert num(cpi[2025], "score") == 56
+    panel = plate(SLUG, "plate_world").panel("Corruption Perceptions Index")
+    line = panel.data_lines()[0]
+    points = dict(zip(map(int, line.get_xdata()), map(float, line.get_ydata())))
+    assert points[2012] == 63 and points[2025] == 56
+
+
 def test_demography_rates_use_the_revised_population():
     d = years("demography_ine")
     panel = plate(SLUG, "plate_demography").panel("Births and deaths")

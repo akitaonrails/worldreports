@@ -163,9 +163,12 @@ def plate_economy(ctx, ig) -> None:
           "CBC has no formal CPI target to draw")
 
     ax = ig.slot("economy.unemployment", "Unemployment rate (% of labour force)")
-    ctx.pending(ax)
-    _foot(p, ax, "no harmonised publisher carries Taiwan, and the DGBAS "
-          "unemployment tile was never staged — pending, not invented")
+    uy, uv = _yr(ctx, "economy/unemployment.csv", "unemployment_rate_pct")
+    ctx.line(ax, uy, uv, p.NAVY, label="DGBAS total unemployment rate")
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, uy, uv, p.NAVY, lambda v: f"{v:.2f}", dy=8)
+    ax.legend(loc="upper right", fontsize=7.6, frameon=False)
+    _foot(p, ax, "DGBAS A040107010; total unemployment rate, annual average")
 
     _finish(ctx, ig)
 
@@ -550,9 +553,15 @@ def plate_credit(ctx, ig) -> None:
 
     ax = ig.slot("credit.lending_rate",
                  "Household lending rate vs policy rate (%)")
-    ctx.pending(ax)
-    _foot(p, ax, "the CBC's five-bank new-housing rates (EH45M01) were "
-          "catalogued but never staged — pending")
+    ly, lv = _yr(ctx, "credit/new_housing_rate.csv",
+                 "new_housing_loan_rate_pct")
+    py, pv = _yr(ctx, "markets/policy_rate.csv", "rediscount_rate_pct")
+    ctx.line(ax, ly, lv, p.RED, label="Five-bank new housing loans")
+    _second(ctx, ax, py, pv, p.NAVY, "CBC rediscount rate")
+    ig.add_recessions(ax, label=False)
+    ax.legend(loc="upper right", fontsize=7.3, frameon=False)
+    _foot(p, ax, "CBC EH45M01 annual mean of monthly new-business rates; "
+          "policy line is December rediscount rate")
 
     ax = ig.slot("credit.npl", "Non-performing loans (% of loans)")
     ny, nv = _yr(ctx, "credit/npl.csv", "bank_npl_ratio_pct")
@@ -609,9 +618,12 @@ def plate_world(ctx, ig) -> None:
           "computes the HDI — a true absence, drawn honestly")
 
     ax = ig.slot("world.cpi", "Corruption Perceptions Index (score, 0–100)")
-    ctx.pending(ax)
-    _foot(p, ax, "Transparency International's ranking does not cover "
-          "Taiwan — pending, not invented")
+    cy, cv = _yr(ctx, "world/corruption.csv", "cpi_score")
+    ctx.line(ax, cy, cv, p.PURPLE, label="Taiwan")
+    ctx.endlabel(ax, cy, cv, p.PURPLE, lambda v: f"{v:.0f}", dy=8)
+    ax.legend(loc="lower right", fontsize=7.6, frameon=False)
+    _foot(p, ax, "Transparency International CPI Historical; comparable "
+          "2012 method, 0–100")
 
     ax = ig.slot("world.reserves", "Official reserves (US$ bn, year-end)")
     ry, rv = _yr(ctx, "world/reserves.csv", "fx_reserves_usd_mn")
@@ -832,17 +844,17 @@ PLATES = (
          title="The Open Economy's Roller Coaster",
          subtitle="Real growth and income from the DGBAS national accounts; "
                   "inflation published twice, by the DGBAS and by the Central "
-                  "Bank; the jobs panel is pending (see DATA_NOTES).",
+                  "Bank; unemployment is DGBAS's annual total rate.",
          source="Sources: DGBAS A018101010 national-income key table · DGBAS "
-                "CPI (2021=100) · CBC EF07M01 CPI y/y",
+                "CPI (2021=100) · DGBAS A040107010 unemployment · CBC EF07M01 CPI y/y",
          alt="Four panels on Taiwan's macroeconomy. Real growth falls to "
              "−1.6% in 2009 after the export collapse and rebounds to +8.8% "
              "in 2025, the window's fastest; 2020, pandemic or not, grew "
              "+3.4% and is not banded. GDP per person more than doubles, "
              "from US$16,934 in 2006 to US$39,515 in 2025. Inflation is "
              "drawn twice: the DGBAS sees −0.9% in 2009, the Central Bank's "
-             "period rate −0.3%. The jobs panel is pending — no harmonised "
-             "publisher carries Taiwan."),
+             "period rate −0.3%. Unemployment peaks at 5.85% in 2009 and "
+             "falls to 3.35% in 2025."),
     dict(id="02", slug="fiscal", topic="fiscal", builder=plate_fiscal,
          title="The Government's Books, Kept Twice",
          subtitle="All-levels accrual final accounts with the treasury's cash "
@@ -900,24 +912,24 @@ PLATES = (
          subtitle="Consumer loans near half of GDP and falling bad debt, on "
                   "the CBC's own definitions (BIS does not carry Taiwan); "
                   "the lens panel is the developers' boom.",
-         source="Sources: CBC EF99Y01 loan balances · CBC EF07M01 overdue "
-                "ratio · GDP: DGBAS A018101010",
-         alt="Four panels on credit. Consumer loans run from 52% of GDP in "
-             "2006 to 47% in 2025, a peak near 61% in 2008; bad loans fall "
-             "from 2.1% of all loans to 0.15%. The lending-rate panel is "
-             "pending. In the lens, building loans to developers double, "
+         source="Sources: CBC EF99Y01 loan balances · CBC EH45M01 housing "
+                "rate · CBC EF07M01 overdue ratio · GDP: DGBAS A018101010",
+         alt="Four panels on credit. Consumer loans decline from their 52% "
+             "of GDP peak in 2006 to 47% in 2025; bad loans fall "
+             "from 2.1% of all loans to 0.15%. New-housing rates are compared "
+             "with the rediscount rate. In the lens, building loans double, "
              "from 6.5% of GDP to 12.0%, peaking at 14.0% in 2023."),
     dict(id="07", slug="world", topic="world", builder=plate_world,
-         title="In the World, Without the World's Statistics",
-         subtitle="Size and reserves from Taiwan's own publishers; the two "
-                  "ranking panels say honestly that the UN and Transparency "
-                  "International do not carry the country.",
-         source="Sources: DGBAS A018101010 GDP · CBC EF07M01 reserves",
+         title="In the World, on Uneven Statistical Ground",
+         subtitle="Size and reserves from Taiwan's own publishers; HDI is "
+                  "absent, while Transparency International does cover Taiwan.",
+         source="Sources: DGBAS A018101010 GDP · CBC EF07M01 reserves · "
+                "Transparency International CPI 2025",
          alt="Four panels on Taiwan in the world. GDP reaches US$922 billion "
              "in 2025 on the publisher's own US$ column; official reserves "
              "rise from US$266 billion to US$603 billion, among the world's "
-             "largest. The development and corruption panels are pending: "
-             "the UN and TI do not cover Taiwan."),
+             "largest. HDI remains unavailable because the UN does not carry "
+             "Taiwan; TI's CPI rises from 61 in 2012 to 68 in 2025."),
     dict(id="08", slug="demography", topic="demography",
          builder=plate_demography,
          title="The Population Line Has Turned",

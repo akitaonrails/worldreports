@@ -82,21 +82,21 @@ def build(ctx) -> list[dict]:
                 he="ארבעה פאנלים על הפיסקליות הישראלית. ההכנסות 35%–40% מהתמ\"ג "
                    "וההוצאות 37%–45%; הגרעון הגיע ל-10.7%- ב-2020 ול-8.1%- "
                    "ב-2024, שנת המלחמה; החוב הגולמי ירד מ-85.7% ב-2005 ל-59.5% "
-                   "ב-2019, זינק ל-71.4% ב-2020 וניצב ב-67.9% ב-2025. פאנל "
-                   "הריבית מציין שהמקור טרם נשלף.",
+                   "ב-2019, זינק ל-71.4% ב-2020 וניצב ב-67.9% ב-2025. המאזן "
+                   "הראשוני והריבית הנגזרת משתמשים באותה מהדורת Fiscal Monitor.",
                 en="Four panels on Israeli public finances. Revenue runs "
                    "35–40% of GDP and expenditure 37–45%; the balance hits "
                    "-10.7% in 2020 and -8.1% in 2024, the war year; gross "
                    "debt falls from 85.7% (2005) to 59.5% (2019), jumps to "
-                   "71.4% (2020) and sits at 67.9% in 2025. The interest "
-                   "panel states its source is not staged yet.",
+                   "71.4% (2020) and sits at 67.9% in 2025. The primary "
+                   "balance and derived interest use the same Fiscal Monitor vintage.",
                 pt="Quatro painéis sobre as finanças públicas de Israel. "
                    "Receitas de 35–40% do PIB e despesas de 37–45%; o saldo "
                    "chega a -10,7% em 2020 e -8,1% em 2024, o ano de guerra; "
                    "a dívida bruta cai de 85,7% (2005) a 59,5% (2019), salta "
-                   "a 71,4% (2020) e fica em 67,9% em 2025. O painel de "
-                   "juros informa que sua fonte ainda não foi coletada."),
-            "sources": ["fiscal/general_government_from_imf.csv"],
+                   "a 71,4% (2020) e fica em 67,9% em 2025. O resultado "
+                   "primário e os juros derivados usam a mesma edição do Fiscal Monitor."),
+            "sources": ["fiscal/general_government.csv"],
         },
         {
             "id": "03-trade", "topic": "trade", "n": "03", "family": WORLD,
@@ -112,19 +112,19 @@ def build(ctx) -> list[dict]:
                 pt="Exportações e importações pela base de contas nacionais "
                    "do Banco Mundial; a linha nacional do CBS volta com o CBS."),
             "alt": T(
-                he="שני פאנלים מצוירים ושני חורים כנים. יצוא ויבוא כל אחד "
+                he="שלושה פאנלים מצוירים. יצוא ויבוא כל אחד "
                    "בכ-שליש מהתמ\"ג ומעלה, והמאזן נע בין ‎-3%‎ ל-‎+5%‎; פאנל "
-                   "יעדי היצוא ושפתון המסחר מציינים שאין קובץ שותפים במאגר.",
-                en="Two panels drawn and two honest gaps. Exports and "
+                   "יעדי 2023 משתמש ביצוא סחורות המכס של UN Comtrade ומחריג את קטגוריה 837.",
+                en="Three panels drawn. Exports and "
                    "imports each run a third of GDP or more and the balance "
-                   "swings between about -3% and +5%; the destinations panel "
-                   "and the topic's lens slot say no partner file is staged.",
-                pt="Dois painéis desenhados e duas lacunas honestas. "
+                   "swings between about -3% and +5%; the 2023 destinations "
+                   "use UN Comtrade customs-goods exports and exclude special category 837.",
+                pt="Três painéis desenhados. "
                    "Exportações e importações passam de um terço do PIB cada, "
-                   "e o saldo oscila entre cerca de -3% e +5%; o painel de "
-                   "destinos e o espaço de lente dizem que não há arquivo de "
-                   "parceiros no repositório."),
-            "sources": ["trade/trade_from_wb.csv"],
+                   "e o saldo oscila entre cerca de -3% e +5%; os destinos de "
+                   "2023 usam bens alfandegários do UN Comtrade e excluem a categoria especial 837."),
+            "sources": ["trade/trade_from_wb.csv",
+                        "trade/trade_partners_comtrade.csv"],
         },
         {
             "id": "04-markets", "topic": "markets", "n": "04",
@@ -175,29 +175,29 @@ def build(ctx) -> list[dict]:
                 en="Israel in the World — Size, Development and Reserves",
                 pt="Israel no Mundo — Tamanho, Desenvolvimento e Reservas"),
             "blurb": T(
-                he="תמ\"ג ורזרבות בדולרים ומדד הפיתוח של UNDP; פאנל השחיתות "
-                   "ממתין למקור שלו.",
-                en="GDP and reserves in US dollars and the UNDP's development "
-                   "index; the corruption panel waits for its source.",
-                pt="PIB e reservas em dólares e o índice de desenvolvimento "
-                   "do PNUD; o painel de corrupção espera sua fonte."),
+                he="תמ\"ג ורזרבות בדולרים, מדד הפיתוח של UNDP ומדד השחיתות בר-ההשוואה של Transparency International.",
+                en="GDP and reserves in US dollars, UNDP development and "
+                   "Transparency International's comparable CPI.",
+                pt="PIB e reservas em dólares, desenvolvimento do PNUD e o "
+                   "CPI comparável da Transparency International."),
             "alt": T(
-                he="ארבעה פאנלים, שלושה מצוירים. התמ\"ג בדולרים עלה מ-159 "
+                he="ארבעה פאנלים מצוירים. התמ\"ג בדולרים עלה מ-159 "
                    "מיליארד ל-611 מיליארד; מדד הפיתוח האנושי טפס מ-0.867 "
                    "ל-0.919 (2023, דירוג 27); הרזרבות הרשמיות עלו מ-29 ל-229 "
-                   "מיליארד דולר; פאנל מדד השחיתות מציין שהמקור טרם נשלף.",
-                en="Four panels, three drawn. GDP in US dollars rises from "
+                   "מיליארד דולר; מדד השחיתות נע מ-60 ב-2012 ל-62 ב-2025.",
+                en="Four panels drawn. GDP in US dollars rises from "
                    "about 159bn to 611bn; the Human Development Index climbs "
                    "from 0.867 to 0.919 (2023, rank 27); official reserves "
-                   "climb from about 29bn to 229bn dollars; the corruption "
-                   "panel says its source is not staged.",
-                pt="Quatro painéis, três desenhados. O PIB em dólares sobe "
+                   "climb from about 29bn to 229bn dollars; the CPI runs "
+                   "from 60 in 2012 to 62 in 2025.",
+                pt="Quatro painéis desenhados. O PIB em dólares sobe "
                    "de cerca de 159 bilhões para 611 bilhões; o IDH sobe de "
                    "0,867 para 0,919 (2023, posição 27); as reservas oficiais "
-                   "sobem de cerca de 29 para 229 bilhões de dólares; o "
-                   "painel de corrupção informa fonte ainda não coletada."),
+                   "sobem de cerca de 29 para 229 bilhões de dólares; o CPI "
+                   "vai de 60 em 2012 a 62 em 2025."),
             "sources": ["international/world_from_wb.csv",
-                        "international/hdi_from_undp.csv"],
+                        "international/hdi_from_undp.csv",
+                        "international/cpi_ti.csv"],
         },
         {
             "id": "06-demography", "topic": "demography", "n": "06",
@@ -302,8 +302,8 @@ def build(ctx) -> list[dict]:
                 he="ארבעה פאנלים על הגירה לישראל, לכל 1,000 תושבים. זרם העולים "
                    "— באים בחוק השבות — הגיע לשיא של 76,601 ב-2022, גל מלחמת "
                    "אוקראינה (כ-8 ל-1,000); אומדן הנדידה נטה של ה-UN הגיע לכ-5.2 "
-                   "באותה שנה, והפאנל קובע שאלה שני חפצים שונים; פאנל מדד "
-                   "ילידי־חוץ מציין שהמקור לא נשלף; פאנל השפתון מצייר היתרי "
+                   "באותה שנה, והפאנל קובע שאלה שני חפצים שונים; שיעור ילידי־חוץ "
+                   "של UN DESA יורד מ-26.6% ב-2010 ל-22.3% ב-2024; פאנל השפתון מצייר היתרי "
                    "תושבות ועבודה חדשים (זרם, רשומות לא בני־אדם) עם קו ההארכות "
                    "לצידם, ומחריג בשמות את מחלקות התיירות והדיפלומטיה.",
                 en="Four panels on Israeli migration, per 1,000 people. The "
@@ -311,8 +311,8 @@ def build(ctx) -> list[dict]:
                    "76,601 in 2022, the Ukraine-war wave (about 8 per 1,000); "
                    "the UN's net-migration estimate peaks near 5.2 per 1,000 "
                    "the same year, and the panel says the two are different "
-                   "objects; the foreign-born panel says its source is not "
-                   "staged; the lens draws new residence and work permits (a "
+                   "objects; the UN DESA foreign-born share falls from 26.6% "
+                   "in 2010 to 22.3% in 2024; the lens draws new residence and work permits (a "
                    "flow, records not people) with extensions beside them, "
                    "visitor and diplomatic classes excluded by name.",
                 pt="Quatro painéis sobre a migração para Israel, por mil "
@@ -320,13 +320,14 @@ def build(ctx) -> list[dict]:
                    "Retorno — atinge 76.601 em 2022, a onda da guerra da "
                    "Ucrânia (cerca de 8 por mil); a estimativa de migração "
                    "líquida da ONU atinge perto de 5,2 por mil no mesmo ano, "
-                   "e o painel diz que são objetos diferentes; o painel de "
-                   "estrangeiros-natos informa fonte não coletada; a lente "
+                   "e o painel diz que são objetos diferentes; a parcela de "
+                   "nascidos no exterior da UN DESA cai de 26,6% em 2010 para 22,3% em 2024; a lente "
                    "desenha novas permissões de residência e trabalho (um "
                    "fluxo, registros não pessoas) com prorrogações ao lado, "
                    "excluindo nominalmente as classes de turista e diplomáticas."),
             "sources": ["migration/olim_flow_from_datagovil.csv",
                         "migration/permits_from_datagovil.csv",
-                        "demography/demography_from_wb.csv"],
+                        "demography/demography_from_wb.csv",
+                        "migration/migrant_stock_wb.csv"],
         },
     ]

@@ -95,20 +95,14 @@ def build(ctx) -> list[dict]:
             "title": T(**{ZH: "開放經濟的雲霄飛車",
                           EN: "The Open Economy's Roller Coaster",
                           PT: "A Montanha-Russa da Economia Aberta"}),
-            "blurb": T(**{ZH: "實質成長、所得、物價由主計總處與中央銀行各發布一次;"
-                            "就業面板待補,並說明原因。",
-                          EN: "Real growth, income and prices published twice,"
-                              " by the DGBAS and by the Central Bank; the jobs"
-                              " panel is pending, with its reason.",
-                          PT: "Crescimento real, renda e preços publicados duas"
-                              " vezes, pela DGBAS e pelo Banco Central; o painel"
-                              " de emprego está pendente, com seu motivo."}),
+            "blurb": T(**{ZH: "實質成長、所得、物價來自主計總處與中央銀行;失業率為主計總處年平均總失業率。",
+                          EN: "Real growth, income and prices come from DGBAS and the Central Bank; unemployment is DGBAS's annual-average total rate.",
+                          PT: "Crescimento real, renda e preços vêm da DGBAS e do Banco Central; o desemprego é a taxa total média anual da DGBAS."}),
             "alt": T(**{ZH: "臺灣總體經濟的四個面板。實質成長在出口崩跌的 2009 年掉到"
                             "-1.6%,2025 年反彈到 +8.8%,是區間最快的一年;2020 年不論疫情"
                             "都成長 +3.4%,所以不畫衰退帶。每人 GDP 整個區間超過翻倍,從 "
                             "2006 年的 16,934 美元到 2025 年的 39,515 美元。通膨有兩條線:"
-                            "主計總處 2009 年看到 -0.9%,央行的期間率是 -0.3%。就業面板待補"
-                            "——沒有統一體系的發布者收錄臺灣。",
+                            "主計總處 2009 年看到 -0.9%,央行的期間率是 -0.3%。失業率在2009年達5.85%,2025年降至3.35%。",
                           EN: "Four panels on Taiwan's macroeconomy. Real growth"
                               " falls to -1.6% in 2009 after the export collapse"
                               " and rebounds to +8.8% in 2025, the window's"
@@ -117,8 +111,7 @@ def build(ctx) -> list[dict]:
                               " from US$16,934 in 2006 to US$39,515 in 2025."
                               " Inflation is drawn twice: the DGBAS sees -0.9%"
                               " in 2009, the Central Bank's period rate -0.3%."
-                              " The jobs panel is pending — no harmonised"
-                              " publisher carries Taiwan.",
+                              " Unemployment peaks at 5.85% in 2009 and falls to 3.35% in 2025.",
                           PT: "Quatro painéis sobre a macroeconomia de Taiwan."
                               " O crescimento real cai para -1,6% em 2009, após"
                               " o colapso das exportações, e rebate a +8,8% em"
@@ -128,10 +121,9 @@ def build(ctx) -> list[dict]:
                               " para US$ 39.515 em 2025. A inflação é desenhada"
                               " duas vezes: a DGBAS vê -0,9% em 2009, a taxa"
                               " periódica do Banco Central, -0,3%. O painel de"
-                              " emprego está pendente — nenhum publicador"
-                              " harmonizado cobre Taiwan."}),
+                              " desemprego atinge 5,85% em 2009 e cai para 3,35% em 2025."}),
             "sources": ["economy/gdp.csv", "economy/cpi.csv",
-                        "economy/cpi_yoy_cbc.csv"],
+                        "economy/cpi_yoy_cbc.csv", "economy/unemployment.csv"],
             "spark": ctx.col("economy/gdp.csv", "real_growth_pct"),
             "stats": [
                 S({ZH: "實質成長率", EN: "Real growth",
@@ -373,27 +365,27 @@ def build(ctx) -> list[dict]:
                               " inadimplência em queda, pelas definições do"
                               " CBC; o painel-lente são os empréstimos"
                               " imobiliários das construtoras."}),
-            "alt": T(**{ZH: "信用的四個面板。消費信貸從 2006 年佔 GDP 的 52% 到 2025 年"
-                            "的 47%,2008 年附近見頂約 61%;逾期放款比率從 2.13% 降到 0.15%。"
-                            "房貸利率面板待補。視野裡建商建築貸款翻倍,從 GDP 的 6.5% 到"
+            "alt": T(**{ZH: "信用的四個面板。消費信貸從 2006 年佔 GDP 的 52% 高點降至 2025 年"
+                            "的 47%;逾期放款比率從 2.13% 降到 0.15%。"
+                            "五大銀行新承作購屋貸款利率與政策利率並列。視野裡建商建築貸款翻倍,從 GDP 的 6.5% 到"
                             "12.0%,2023 年見頂 14.0%。",
                           EN: "Four panels on credit. Consumer loans run from"
-                              " 52% of GDP in 2006 to 47% in 2025, peaking"
-                              " near 61% in 2008; the overdue-to-loan ratio"
-                              " falls from 2.13% to 0.15%. The lending-rate"
-                              " panel is pending. In the lens, building loans"
+                              " their 52% of GDP peak in 2006 to 47% in 2025;"
+                              " the overdue-to-loan ratio"
+                              " falls from 2.13% to 0.15%. Five-bank new-home"
+                              " rates are compared with the policy rate. In the lens, building loans"
                               " to developers double, from 6.5% of GDP to"
                               " 12.0%, peaking at 14.0% in 2023.",
                           PT: "Quatro painéis sobre crédito. O crédito ao"
                               " consumidor vai de 52% do PIB em 2006 para 47%"
-                              " em 2025, com pico perto de 61% em 2008; o"
+                              " em 2025, partindo do pico de 52% em 2006; o"
                               " índice de atraso cai de 2,13% para 0,15%. O"
-                              " painel da taxa de crédito está pendente. Na"
+                              " taxa de novos financiamentos habitacionais dos cinco bancos é comparada à taxa básica. Na"
                               " lente, os empréstimos imobiliários às"
                               " construtoras dobram, de 6,5% para 12,0% do"
                               " PIB, com pico de 14,0% em 2023."}),
             "sources": ["credit/household_credit.csv", "credit/npl.csv",
-                        "economy/gdp.csv"],
+                        "credit/new_housing_rate.csv", "economy/gdp.csv"],
             "spark": household,
             "stats": [
                 S({ZH: "消費信貸", EN: "Consumer loans",
@@ -407,37 +399,27 @@ def build(ctx) -> list[dict]:
         },
         {
             "id": "07-world", "topic": "world", "n": "07", "family": WORLD,
-            "title": T(**{ZH: "在世界之中,沒有世界的統計",
-                          EN: "In the World, Without the World's Statistics",
-                          PT: "No Mundo, Sem as Estatísticas do Mundo"}),
-            "blurb": T(**{ZH: "規模與準備資產來自臺灣自己的發布者;兩個排名面板說明"
-                            "聯合國與透明國際不收錄臺灣。",
-                          EN: "Size and reserves from Taiwan's own publishers;"
-                              " the two ranking panels say the UN and"
-                              " Transparency International do not carry the"
-                              " country.",
-                          PT: "Tamanho e reservas pelos publicadores do próprio"
-                              " Taiwan; os dois painéis de ranking dizem que a"
-                              " ONU e a Transparência Internacional não cobrem"
-                              " o país."}),
+            "title": T(**{ZH: "在世界之中,統計地位不均",
+                          EN: "In the World, on Uneven Statistical Ground",
+                          PT: "No Mundo, em Terreno Estatístico Desigual"}),
+            "blurb": T(**{ZH: "規模與準備資產來自臺灣發布者;HDI缺席,但透明國際CPI收錄臺灣。",
+                          EN: "Size and reserves come from Taiwan's own publishers; HDI is absent, while Transparency International's CPI covers Taiwan.",
+                          PT: "Tamanho e reservas vêm dos publicadores de Taiwan; o IDH está ausente, mas o IPC da Transparência Internacional cobre Taiwan."}),
             "alt": T(**{ZH: "臺灣在世界中的四個面板。按發布者自備的美元欄,GDP 在 2025 年"
                             "達到 9,220 億美元;官方準備資產從 2,661 億美元升到 6,028 億,"
-                            "名列世界最大之列。人類發展與貪污面板待補:聯合國與透明國際"
-                            "不涵蓋臺灣。",
+                            "名列世界最大之列。聯合國不收錄臺灣,HDI仍缺;透明國際CPI則從2012年61升至2025年68。",
                           EN: "Four panels on Taiwan in the world. GDP reaches"
                               " US$922bn in 2025 on the publisher's own US$"
                               " column; official reserves rise from US$266bn"
                               " to US$603bn, among the world's largest. The"
-                              " development and corruption panels are pending:"
-                              " the UN and TI do not cover Taiwan.",
+                              " HDI is unavailable because the UN does not carry Taiwan; TI's CPI rises from 61 in 2012 to 68 in 2025.",
                           PT: "Quatro painéis sobre Taiwan no mundo. O PIB"
                               " atinge US$ 922 bilhões em 2025 pela própria"
                               " coluna em dólares do publicador; as reservas"
                               " oficiais sobem de US$ 266 bilhões para US$"
                               " 603 bilhões, entre as maiores do mundo. Os"
-                              " painéis de desenvolvimento e corrupção estão"
-                              " pendentes: a ONU e a TI não cobrem Taiwan."}),
-            "sources": ["economy/gdp.csv", "world/reserves.csv"],
+                              " o IDH segue indisponível porque a ONU não inclui Taiwan; o IPC da TI sobe de 61 em 2012 para 68 em 2025."}),
+            "sources": ["economy/gdp.csv", "world/reserves.csv", "world/corruption.csv"],
             "spark": [(y, v / 1e3) for y, v in
                       ctx.col("world/reserves.csv", "fx_reserves_usd_mn")],
             "spark_level": True,

@@ -9,6 +9,12 @@
       "年度は4月から翌年3月までで、開始年の年度として表記します。国民経済計算の暦年系列と混同しません。",
       "図版とページは日本語、英語、ポルトガル語で公開しています。"
     ],
+    "unavailable": [
+      {"term": "家計貸出金利と不良債権", "detail": "日本銀行の住宅・新規貸出金利と金融庁の不良債権比率は、定義を確認した時系列としてまだ収録できていません。"},
+      {"term": "最低賃金の全国換算", "detail": "最低賃金は都道府県別です。全国加重平均の履歴と月額への換算方法を一つの検証済み系列としてまだ収録していません。"},
+      {"term": "入国と出国の総フロー", "detail": "入管の入国件数は旅行イベントを含み、日本には対応する移住者の出国登録がないため、比較可能な二本の総フローは描いていません。"},
+      {"term": "出生国別人口", "detail": "検証済みの出生国別時系列は見つかっていません。図版は代替であることを明示して外国籍人口を表示します。"}
+    ],
     "colophon": [
       {"term": "国民経済計算・物価・労働", "detail": "内閣府、総務省統計局"},
       {"term": "財政・金融・市場", "detail": "財務省、日本銀行、IMF"},
@@ -27,6 +33,12 @@
       "Fiscal years run April to March and are keyed to their starting year. They are not presented as calendar-year national-accounts observations.",
       "The plates and this page are published in Japanese, English and Portuguese."
     ],
+    "unavailable": [
+      {"term": "Household lending and bad loans", "detail": "Bank of Japan housing/new-loan rates and the FSA bad-loan ratio have not yet been staged as definition-checked histories."},
+      {"term": "National minimum-wage conversion", "detail": "Minimum wages are prefectural. A reviewed history of the national weighted average and its monthly conversion is not yet staged."},
+      {"term": "Gross immigration and emigration", "detail": "ISA entries include travel events and Japan has no matching emigrant register, so two comparable gross migration flows cannot be drawn."},
+      {"term": "Country-of-birth population", "detail": "No verified national history by country of birth was found. The plate shows foreign citizenship and labels it as a substitute."}
+    ],
     "colophon": [
       {"term": "National accounts, prices and labour", "detail": "Cabinet Office and Statistics Bureau"},
       {"term": "Public finance, money and markets", "detail": "Ministry of Finance, Bank of Japan and IMF"},
@@ -44,6 +56,12 @@
       "Séries com definições distintas nunca são emendadas: as três dívidas públicas, os dois registros de estrangeiros, os dois regimes de códigos da COVID e as duas definições de pobreza permanecem separados.",
       "O ano fiscal vai de abril a março e leva o ano em que começa. Ele não é apresentado como observação de ano-calendário das contas nacionais.",
       "As pranchas e esta página são publicadas em japonês, inglês e português."
+    ],
+    "unavailable": [
+      {"term": "Crédito familiar e empréstimos problemáticos", "detail": "As taxas de crédito habitacional/novo do Banco do Japão e a razão de créditos problemáticos da FSA ainda não foram organizadas como séries com definição verificada."},
+      {"term": "Conversão nacional do salário mínimo", "detail": "Os pisos são definidos por prefeitura. Ainda falta uma história revisada da média nacional ponderada e do método de conversão mensal."},
+      {"term": "Imigração e emigração brutas", "detail": "As entradas da ISA incluem eventos de viagem e o Japão não possui registro equivalente de emigrantes; por isso não se desenham dois fluxos brutos comparáveis."},
+      {"term": "População por país de nascimento", "detail": "Não foi encontrada uma série nacional verificada por país de nascimento. A prancha mostra cidadania estrangeira e a identifica como substituto."}
     ],
     "colophon": [
       {"term": "Contas nacionais, preços e trabalho", "detail": "Gabinete do Governo e Escritório de Estatística"},

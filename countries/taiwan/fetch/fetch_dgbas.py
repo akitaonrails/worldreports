@@ -49,6 +49,7 @@ never overwrites a curated number; a person diffs these.
   data/economy/gdp_from_dgbas.csv                     (annual levels/growth/per-head/FX)
   data/economy/gdp_growth_quarterly_from_dgbas.csv    (quarterly y/y growth — dates the 2008-09 collapse)
   data/economy/cpi_from_dgbas.csv                     (annual CPI index + y/y inflation)
+  data/economy/unemployment_from_dgbas.csv            (annual unemployment rate, total)
   data/demography/population_from_dgbas.csv           (mid-year population, administrative register)
   data/mortality/causes_of_death_from_dgbas.csv       (annual deaths by cause, 合計, 2008 on)
 """
@@ -284,6 +285,24 @@ def collect():
           f"{min(cpi_ann)}-{max(cpi_ann)}")
     collect.cpi = cpi_ann
 
+    # --- unemployment A040107010 (total, annual average) ----------------
+    print("DGBAS A040107010 — unemployment rate, total")
+    u = dpas("A040107010", ym=9500, ymt=11508, cycle=41,
+             fldlst="000000000001")
+    ulabels = [r[0] for r in u["row"]]
+    # The field mask selects the table's final field: 失業率(%), total.
+    if len(u["orgdata"]) != 1:
+        raise FetchError("A040107010 field mask did not return one series")
+    unemployment = {}
+    for j, lbl in enumerate(ulabels):
+        yr, kind, _ = period(lbl)
+        if kind == "y" and 2006 <= yr <= 2025:
+            unemployment[yr] = u["orgdata"][0][j]
+    put("economy/unemployment_from_dgbas.csv", "unemployment_rate_pct",
+        unemployment, 2)
+    print(f"  A040107010 unemployment annual {len(unemployment)} years "
+          f"{min(unemployment)}-{max(unemployment)}")
+
     # --- deaths by cause A170101020 (合計, 11 causes, 2008 on) ------------
     print("DGBAS A170101020 — deaths by cause")
     d = dpas("A170101020", ym=9700, ymt=11400, cycle=4, fldlst="1111",
@@ -312,6 +331,8 @@ SPOT = [
     ("economy/gdp_from_dgbas.csv", "gdp_per_capita_usd", 2025, 39_515),
     ("demography/population_from_dgbas.csv", "population", 2006, 22_823_455),
     ("demography/population_from_dgbas.csv", "population", 2019, 23_596_027),
+    ("economy/unemployment_from_dgbas.csv", "unemployment_rate_pct", 2009, 5.85),
+    ("economy/unemployment_from_dgbas.csv", "unemployment_rate_pct", 2025, 3.35),
     ("mortality/causes_of_death_from_dgbas.csv", "deaths_all_cause", 2008, 142_283),
     ("mortality/causes_of_death_from_dgbas.csv", "deaths_all_cause", 2025, 199_576),
 ]

@@ -69,7 +69,7 @@ meta:
         (TYPE_CRIME=INTENHOM, verified 0.6 per 100k in 2024). The
         publisher-direct series is the one to hand-check the ISTAT
         transmission against when the security chapter is built.
-    - name: merchandise trade by partner and product
+    - name: Coeweb publisher-direct partner/product mirror
       publisher: ISTAT — Coeweb (foreign trade)
       url: https://www.coeweb.istat.it/
       official: true
@@ -77,8 +77,10 @@ meta:
         www.coeweb.istat.it never established a connection from this
         machine on 2026-10-22 (not a 403 — no connection). The trade
         chapter's levels come from the national accounts (Eurostat nama
-        P6/P7, staged below) and the World Bank openness series; the
-        partner/product composition panels wait for the build phase.
+        P6/P7, staged below) and the World Bank openness series. The
+        partner panel now uses the definition-safe UN Comtrade Italy-
+        reporter snapshot listed under trade/. Coeweb remains a preferred
+        publisher-direct mirror and product-detail source, not a blank panel.
         Customs-value goods and national-accounts goods-and-services are
         two different numbers; see SOURCING §4 before drawing either.
     - name: FTSE MIB daily closes from stooq
@@ -100,12 +102,6 @@ meta:
         machine path today is the legacy Base Dati Statistica inquiry app
         (see credit/ entries). Reversing the SPA's /api/ is fetcher-swarm
         work if a cleaner route is wanted.
-    - name: Transparency International CPI
-      publisher: Transparency International
-      official: false
-      notes: >-
-        Curated by hand with the 2012 methodology break, as France does —
-        left for the build phase.
     - name: ISTAT series not staged — esploradati.istat.it throttling
       publisher: ISTAT — I.Stat SDMX (esploradati.istat.it)
       url: https://esploradati.istat.it/SDMXWS/rest/data/
@@ -350,10 +346,23 @@ trade:
       €bn (columns exports_eurbn, imports_eurbn; 2026 blank). Their sum
       over GDP equals WB openness to ±0.05 point through 2009 and runs
       0.2-1.0 point below it afterwards (WB on an older vintage). Not the
-      customs-value goods trade: the partner/product
-      composition chapter waits on Coeweb (meta.pending) and is drawn on
-      the other definition, labelled.
+      customs-value goods trade: the partner panel uses UN Comtrade's
+      Italy-reporter snapshot on the other definition, labelled.
   trade_from_estat.csv: *curated_trade_trade_csv
+  trade_comtrade_partner.csv: &curated_trade_comtrade_partner_csv
+    source: UN Comtrade — Italy reporter 380, annual HS TOTAL, 2023
+    url: https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=380&period=2023&flowCode=X&cmdCode=TOTAL&format=json
+    refreshed_by: fetch/fetch_comtrade.py
+    official: true
+    notes: >-
+      Reviewed publication snapshot used by the destinations panel. Customs-
+      value goods exports, never spliced to the P6 goods-and-services series.
+      The source response's partner rows sum to the World total
+      (US$676.82bn); this reviewed file retains the leading partners and its
+      shares use that full denominator. The top eight include Germany 11.94%, US 10.73%, France
+      10.16%, Spain 5.29%, Switzerland 4.87%, UK 4.16%, Poland 3.16%, and
+      Belgium 3.08%.
+  trade_comtrade_partner_from_comtrade.csv: *curated_trade_comtrade_partner_csv
 
 markets:
   policy_rate.csv: &curated_markets_policy_rate_csv
@@ -806,8 +815,8 @@ international:
     official: false
     notes: >-
       Exports plus imports of goods and services as a share of GDP,
-      national-accounts basis — not the customs-value trade the pending
-      Coeweb chapter will draw.
+      national-accounts basis — not the customs-value trade in the UN
+      Comtrade partner panel.
   openness_from_wb.csv: *curated_international_openness_csv
   hdi.csv: &curated_international_hdi_csv
     source: UNDP — Human Development Report 2025, composite indices complete time series
@@ -822,3 +831,13 @@ international:
       (Latin-1, a 0xf4 byte trips strict decoding) — the fetcher decodes
       latin-1.
   hdi_from_undp.csv: *curated_international_hdi_csv
+  cpi.csv: &curated_international_cpi_csv
+    source: Transparency International — Corruption Perceptions Index 2025
+    url: https://images.transparencycdn.org/images/CPI2025_Results.xlsx
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Reviewed publication copy from the CPI 2025 workbook, sheet "CPI
+      Timeseries 2012 - 2025". Score 0–100; only the comparable 2012
+      methodology onward is retained. Spot checks: 2012 42, 2024 54, 2025 53.
+  cpi_from_ti.csv: *curated_international_cpi_csv

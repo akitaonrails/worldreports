@@ -6,7 +6,8 @@
   "economy/unemployment_intl.csv"
  ],
  "02-fiscal": [
-  "fiscal/debt_intl_pct_gdp.csv"
+  "fiscal/debt_intl_pct_gdp.csv",
+  "fiscal/finance_intl.csv"
  ],
  "03-spending": [
   "economy/gfcf_pct_gdp.csv"
@@ -21,7 +22,9 @@
   "markets/sse_index.csv"
  ],
  "06-credit": [
-  "credit/npl_intl.csv"
+  "credit/household_credit.csv",
+  "credit/npl_intl.csv",
+  "credit/private_dsr.csv"
  ],
  "07-people": [
   "people/gini_intl.csv",

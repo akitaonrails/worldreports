@@ -28,19 +28,19 @@ gini_from_estat.csv) are two readings of ONE survey on different income
 definitions — 2023: WB 34.3 vs SILC 31.5. Both are drawn, both labelled;
 this layer keeps the WB cut and the CSV comment records the gap.
 
-Transparency International's CPI is not here. It has no stable machine
-endpoint and its 2012 methodology break means the pre-2012 scores are
-not on the same scale — it is curated by hand at the build phase
-(meta.pending in SOURCES.yaml).
+Transparency International's CPI is read from the pinned CPI 2025 workbook.
+Only 2012 onward is retained because that is the comparable methodology.
 """
 from __future__ import annotations
 
 import csv
 import io
 import json
+import re
 import sys
 import time
 import urllib.request
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -51,6 +51,8 @@ WB = ("https://api.worldbank.org/v2/country/ITA/indicator/{code}"
 HDR = ("https://hdr.undp.org/sites/default/files/2025_HDR/"
        "HDR25_Composite_indices_complete_time_series.csv")
 ISO3 = "ITA"
+CPI_EDITION = 2025
+CPI = "https://images.transparencycdn.org/images/CPI2025_Results.xlsx"
 # hdr.undp.org answers 403 to the default urllib User-Agent.
 HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64)"}
 
@@ -143,6 +145,59 @@ def hdr_hdi() -> dict[int, float]:
     return out
 
 
+def ti_cpi() -> dict[int, float]:
+    """Italy's comparable CPI scores from TI's pinned 2025 workbook."""
+    CACHE.mkdir(exist_ok=True)
+    cache_file = CACHE / f"cpi{CPI_EDITION}.xlsx"
+    if not cache_file.exists():
+        req = urllib.request.Request(CPI, headers=HEADERS)
+        with urllib.request.urlopen(req, timeout=120) as response:
+            raw = response.read()
+        if not raw.startswith(b"PK"):
+            raise RuntimeError("CPI workbook is not OOXML")
+        cache_file.write_bytes(raw)
+    with zipfile.ZipFile(cache_file) as archive:
+        strings = ["".join(re.findall(r"<t[^>]*>(.*?)</t>", item, re.S))
+                   for item in re.findall(r"<si>(.*?)</si>",
+                                          archive.read("xl/sharedStrings.xml")
+                                          .decode(), re.S)]
+        book = archive.read("xl/workbook.xml").decode()
+        rels = archive.read("xl/_rels/workbook.xml.rels").decode()
+        rid = re.search(r'<sheet [^>]*name="CPI Timeseries[^"]*"[^>]*'
+                        r'r:id="([^"]+)"', book).group(1)
+        target = re.search(rf'Id="{rid}"[^>]*Target="([^"]+)"', rels) or \
+            re.search(rf'Target="([^"]+)"[^>]*Id="{rid}"', rels)
+        sheet = archive.read(
+            "xl/" + target.group(1).lstrip("/").removeprefix("xl/")).decode()
+
+    def cells(row: str) -> dict[str, str]:
+        out = {}
+        for match in re.finditer(
+                r'<c r="([A-Z]+)\d+"([^>]*?)(?:/>|>(.*?)</c>)', row, re.S):
+            ref, attrs, body = match.groups()
+            value_match = re.search(r"<v>(.*?)</v>", body or "")
+            value = value_match.group(1) if value_match else ""
+            if 't="s"' in attrs and value:
+                value = strings[int(value)]
+            out[ref] = value
+        return out
+
+    rows = [cells(row) for row in re.findall(r"<row[^>]*>(.*?)</row>",
+                                              sheet, re.S)]
+    header = next(row for row in rows if "Country / Territory" in row.values())
+    italy = next(row for row in rows if row.get("A") == "Italy")
+    out = {}
+    for ref, label in header.items():
+        match = re.fullmatch(r"cpi score (\d{4})", label.strip().lower())
+        if match and italy.get(ref):
+            out[int(match.group(1))] = float(italy[ref])
+    if (out.get(2012), out.get(2024), out.get(2025)) != (42, 54, 53):
+        raise RuntimeError(f"CPI spot values do not match: {out}")
+    if sorted(out) != list(range(2012, CPI_EDITION + 1)):
+        raise RuntimeError(f"CPI years incomplete: {sorted(out)}")
+    return out
+
+
 def write(rel: str, column: str, series: dict[int, float], dec: int,
           comment: str | None = None) -> None:
     if not series:
@@ -188,6 +243,7 @@ def main() -> None:
         write(rel, column, series[code], dec, comment)
     hdi = hdr_hdi()
     write("international/hdi_from_undp.csv", "hdi", hdi, 3)
+    write("international/cpi_from_ti.csv", "score", ti_cpi(), 0)
     spot_checks(series["NY.GDP.MKTP.CD"], series["SI.POV.GINI"], hdi)
     print("Done. Diff the sidecars before adopting.")
 

@@ -15,6 +15,9 @@
       {"term": "Rates, credit and the euro", "detail": "Banco de Portugal and ECB"},
       {"term": "International comparables", "detail": "World Bank and UNDP"},
       {"term": "PSI", "detail": "Yahoo Finance — non-official market redistributor"}
+    ],
+    "unavailable": [
+      {"term": "COVID-19 deaths by underlying cause", "detail": "The exact U07.1/U07.2 underlying-cause series was not available in the reviewed INE table; the panel remains blank rather than using a different mortality measure."}
     ]
   },
   "pt": {
@@ -33,6 +36,9 @@
       {"term": "Taxas, crédito e euro", "detail": "Banco de Portugal e BCE"},
       {"term": "Comparáveis internacionais", "detail": "Banco Mundial e PNUD"},
       {"term": "PSI", "detail": "Yahoo Finance — redistribuidor de mercado não oficial"}
+    ],
+    "unavailable": [
+      {"term": "Óbitos por COVID-19 segundo a causa básica", "detail": "A série exata U07.1/U07.2 por causa básica não estava disponível na tabela do INE analisada; o painel permanece vazio em vez de usar outra medida de mortalidade."}
     ]
   }
 }

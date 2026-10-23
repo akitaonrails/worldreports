@@ -12,7 +12,7 @@ statutory national minimum wage.
 The gaps named by the original handoff were closed: Eurostat public
 investment, BIS Q4 household credit, IMF FSI non-performing loans,
 World Bank/UNODC homicide, World Bank/WHO road deaths, World Bank poverty and
-the official Transparency International CPI 2025 workbook are all curated
+the Transparency International CPI 2025 workbook are all curated
 and declared in `SOURCES.yaml`. Plates keep CHF and US-dollar series apart,
 select EFV general government rather than mixing its five sectors, preserve
 the 2023 GDP-vintage seam, use Total 1 as the customs partner denominator,
@@ -264,7 +264,7 @@ The labels used below:
 | people 4 lens | staged | arrears, wages, the HABE transfers |
 | world 1 GDP US$ bn | staged | WB NY.GDP.MKTP.CD |
 | world 2 HDI | staged | UNDP HDR25 |
-| world 3 corruption (TI CPI) | hand-curate | TI CPI, by hand at build (meta.pending) |
+| world 3 corruption (TI CPI) | staged | TI CPI 2025 workbook, comparable 2012–2025 method |
 | world 4 reserves | staged | SNB snbimfra + WB |
 | demography 1 population index | staged | BFS balance; projection A-00-2025 as a note |
 | demography 2 TFR | staged | BFS |
@@ -306,8 +306,8 @@ instead, and the bank-wide NPL ratio is the canonical slot.
 3. **A household arrears register.** None exists, so the SILC survey is
    staged instead.
 4. **stooq ^smi** is JS-walled. It would only be a cross-check.
-5. **Transparency International CPI** (plus IMD/WEF, though the WEF has
-   left the spine): curate by hand.
+5. **IMD/WEF competitiveness comparisons** (optional; neither is a
+   canonical page slot). TI CPI is already staged.
 6. **Liechtenstein scope of the SNB cubes**: read the SNB notes per cube.
 7. **The spine gaps listed above** (fetch).
 8. **Minimum wage**: none statutory (a true statement for slot 3).

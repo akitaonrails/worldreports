@@ -17,6 +17,10 @@
       {"term": "Migrazione, cittadinanza e permessi", "detail": "ISTAT ed Eurostat — flussi, stock ed eventi amministrativi tenuti separati"},
       {"term": "Confronti internazionali", "detail": "Banca Mondiale · UNDP · IMF · Eurostat"},
       {"term": "Indice FTSE MIB", "detail": "Yahoo Finance — ridistributore non ufficiale; indice dei prezzi, dividendi esclusi"}
+    ],
+    "unavailable": [
+      {"term": "Salario minimo legale nazionale", "detail": "Non applicabile: l'Italia non ha un salario minimo legale nazionale; i minimi dei CCNL sono misure diverse."},
+      {"term": "Omicidi di criminalità organizzata", "detail": "Le colonne ISTAT 73_67 MAFFIAHOM/ATTEMPHOM non sono state recuperabili durante questa edizione; la tavola resta vuota invece di usare un sostituto."}
     ]
   },
   "en": {
@@ -37,6 +41,10 @@
       {"term": "Migration, citizenship and permits", "detail": "ISTAT and Eurostat — flows, stocks and administrative events kept separate"},
       {"term": "International comparisons", "detail": "World Bank · UNDP · IMF · Eurostat"},
       {"term": "FTSE MIB index", "detail": "Yahoo Finance — an unofficial redistributor; price index, dividends excluded"}
+    ],
+    "unavailable": [
+      {"term": "National statutory minimum wage", "detail": "Not applicable: Italy has no national statutory minimum wage; sectoral collective-agreement floors are different measures."},
+      {"term": "Organised-crime homicide", "detail": "ISTAT columns 73_67 MAFFIAHOM/ATTEMPHOM could not be retrieved for this edition; the plate remains blank rather than using a substitute."}
     ]
   },
   "pt": {
@@ -57,6 +65,10 @@
       {"term": "Migração, cidadania e autorizações", "detail": "ISTAT e Eurostat — fluxos, estoques e eventos administrativos mantidos separados"},
       {"term": "Comparações internacionais", "detail": "Banco Mundial · PNUD · FMI · Eurostat"},
       {"term": "Índice FTSE MIB", "detail": "Yahoo Finance — redistribuidor não oficial; índice de preços, sem dividendos"}
+    ],
+    "unavailable": [
+      {"term": "Salário mínimo legal nacional", "detail": "Não aplicável: a Itália não tem salário mínimo legal nacional; os pisos de acordos coletivos setoriais são medidas diferentes."},
+      {"term": "Homicídios ligados ao crime organizado", "detail": "Não foi possível recuperar as colunas 73_67 MAFFIAHOM/ATTEMPHOM do ISTAT nesta edição; a prancha permanece vazia em vez de usar um substituto."}
     ]
   }
 }

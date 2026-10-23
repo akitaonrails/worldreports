@@ -106,16 +106,15 @@ in 2019–2021".
 
 ## Pending (drawn as `ctx.pending` or as an absent chapter, with reason)
 
-- **economy slot 4, unemployment:** DGBAS carries a tile (A040107010)
-  but Phase A verified only its existence, and no harmonised publisher
-  (WB/IMF/ILO) covers Taiwan; not staged, not drawn as data.
+- **economy slot 4, unemployment:** filled from DGBAS A040107010, total
+  unemployment rate, annual average (2006–2025).
 - **markets slot 2, 10-year yield:** not in the staged CBC pulls; the
   CPMI strip was not verified end-to-end — pending, not invented.
 - **spending slots 3–4, investment rates (GFCF):** not in the staged
   DGBAS key table; pending.
-- **world slots 2–3 (HDI, Corruption Perceptions):** the UN does not
-  carry Taiwan and TI's CPI coverage is absent; a true statement, drawn
-  as pending.
+- **world slot 2 (HDI):** the UN does not carry Taiwan and no national
+  publisher computes the HDI; this remains a true absence. Slot 3 is filled
+  from Transparency International's CPI Historical sheet (2012 method).
 - **demography slots 2 and 4 (fertility, natural increase/migration):**
   monthly births live behind the MOI/RIS wall (SOURCES.yaml pending);
   deaths-only is drawn, births are not invented.
@@ -125,8 +124,9 @@ in 2019–2021".
 - **mortality slot 3 (COVID underlying cause):** the staged cause set
   does not carry the COVID code; pending, and it will be a second column
   against the excess series, never merged.
-- **credit slot 2 (lending rate):** CBC EH45M01 (five-bank new-housing
-  rates) was catalogued but not staged; pending.
+- **credit slot 2 (lending rate):** filled from CBC EH45M01 as the annual
+  mean of monthly five-bank new-housing new-business rates, beside the CBC
+  December rediscount rate. These are distinct rate concepts, not spliced.
 
 ## Population note (spine rule 5)
 

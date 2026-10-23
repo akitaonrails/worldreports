@@ -1,7 +1,7 @@
 {
   "zh-Hant": {
-    "line": "{n} 張官方數據圖板，{window}",
-    "dek": "每個數字都來自發布它的機構：行政院主計總處、中央銀行、財政部與世界貿易組織。每張圖板都由版本庫中的 CSV 重新產生，因此圖表與頁面數字不會分離。臺灣不在世界銀行、國際貨幣基金與聯合國多數可比資料中；本頁使用臺灣官方序列與仍收錄臺灣的國際來源，並在每個圖板上明確標示。",
+    "line": "{n} 張注明來源的數據圖板，{window}",
+    "dek": "國內序列來自行政院主計總處、中央銀行與財政部的官方統計；透明國際與世界貿易組織等國際比較來源另行標示。每張圖板都由版本庫中的 CSV 重新產生，因此圖表與頁面數字不會分離。臺灣不在世界銀行、國際貨幣基金與聯合國多數可比資料中；本頁不以代理值填補缺口。",
     "notes": [
       "2026 年尚未完整。年度總量與平均值截至 2025 年；真正即時的讀值會標為最新。",
       "2008 年第 3 季至 2009 年第 2 季的底色來自主計總處實質 GDP 季增率；2020 年沒有衰退底色，因全年與各季實質成長皆為正。",
@@ -16,12 +16,19 @@
       {"term": "利率、匯率、信用與準備資產", "detail": "中央銀行統計資料庫"},
       {"term": "中央政府財政與債務", "detail": "財政部及中央政府總決算官方表"},
       {"term": "商品貿易", "detail": "財政部關務署國際貿易統計"},
-      {"term": "國際貿易比較", "detail": "世界貿易組織；缺少臺灣列的全球資料庫不予代填"}
+      {"term": "國際貿易比較", "detail": "世界貿易組織；缺少臺灣列的全球資料庫不予代填"},
+      {"term": "清廉指數", "detail": "透明國際 CPI 2025 工作簿；2012 年方法，0–100"}
+    ],
+    "unavailable": [
+      {"term": "人類發展指數", "detail": "聯合國人類發展報告不收錄臺灣，國內亦沒有機關編製可比 HDI。"},
+      {"term": "投資與公債殖利率", "detail": "尚未取得可比的政府固定資本形成序列與官方 10 年期公債殖利率序列。"},
+      {"term": "生育與遷徙", "detail": "內政部戶政及移民署明細置於無法可靠擷取的查詢牆後，因此不推算生育率或淨遷徙。"},
+      {"term": "治安、道路與 COVID 死因", "detail": "警政統計及國健署完整死因表無法由此環境擷取，未以現有事故或超額死亡序列代替。"}
     ]
   },
   "en": {
-    "line": "{n} plates of official data, {window}",
-    "dek": "Every number comes from the institution that publishes it: the Directorate General of Budget, Accounting and Statistics, the Central Bank, the Ministry of Finance and the World Trade Organization. Every plate is regenerated from committed CSVs, so the charts and the figures on this page cannot drift apart. Taiwan is absent from most World Bank, IMF and UN comparison tables; this page uses Taiwan's official series and the international sources that do carry it, naming the source on every plate.",
+    "line": "{n} plates of sourced data, {window}",
+    "dek": "National series come from official tables published by DGBAS, the Central Bank and the Ministry of Finance; international comparison sources such as Transparency International and the World Trade Organization are identified separately. Every plate is regenerated from committed CSVs, so the charts and the figures on this page cannot drift apart. Taiwan is absent from most World Bank, IMF and UN comparison tables, and missing comparisons are not replaced with proxies.",
     "notes": [
       "2026 is incomplete. Annual totals and averages stop at 2025; readings that are genuinely current are marked <em>latest</em>.",
       "The shaded 2008 Q3–2009 Q2 episode follows DGBAS quarterly real GDP. There is no COVID recession band: real growth remained positive in 2020 as a whole and in every quarter.",
@@ -36,12 +43,19 @@
       {"term": "Rates, exchange, credit and reserves", "detail": "Central Bank of the Republic of China (Taiwan) statistical database"},
       {"term": "Central-government finance and debt", "detail": "Ministry of Finance and official central-government final accounts"},
       {"term": "Goods trade", "detail": "Ministry of Finance customs international-trade statistics"},
-      {"term": "International trade comparison", "detail": "World Trade Organization; global datasets without a Taiwan row are left pending"}
+      {"term": "International trade comparison", "detail": "World Trade Organization; global datasets without a Taiwan row are left pending"},
+      {"term": "Corruption index", "detail": "Transparency International CPI 2025 workbook; 2012 method, 0–100"}
+    ],
+    "unavailable": [
+      {"term": "Human Development Index", "detail": "The UN Human Development Report does not carry Taiwan, and no national publisher computes a comparable HDI."},
+      {"term": "Investment and bond yield", "detail": "No comparable government fixed-capital-formation series or official 10-year government-bond yield series was obtained."},
+      {"term": "Fertility and migration", "detail": "MOI household-register and NIA detail remains behind query walls that could not be fetched reliably, so fertility and net migration are not estimated."},
+      {"term": "Crime, roads and COVID deaths", "detail": "Police statistics and the HPA full cause-of-death table could not be fetched from this environment; existing accident and excess-death series are not used as proxies."}
     ]
   },
   "pt": {
-    "line": "{n} pranchas de dados oficiais, {window}",
-    "dek": "Todo número vem da instituição que o publica: a Direção-Geral de Orçamento, Contabilidade e Estatística, o Banco Central, o Ministério das Finanças e a Organização Mundial do Comércio. Cada prancha é regenerada a partir de CSVs versionados, portanto os gráficos e os números desta página não podem divergir. Taiwan não aparece na maioria das tabelas comparáveis do Banco Mundial, do FMI e da ONU; esta página usa as séries oficiais taiwanesas e as fontes internacionais que incluem Taiwan, identificadas em cada prancha.",
+    "line": "{n} pranchas de dados com fontes identificadas, {window}",
+    "dek": "As séries nacionais vêm de tabelas oficiais da DGBAS, do Banco Central e do Ministério das Finanças; fontes de comparação internacional, como a Transparência Internacional e a Organização Mundial do Comércio, são identificadas separadamente. Cada prancha é regenerada a partir de CSVs versionados, portanto os gráficos e os números desta página não podem divergir. Taiwan não aparece na maioria das tabelas comparáveis do Banco Mundial, do FMI e da ONU, e comparações ausentes não são substituídas por aproximações.",
     "notes": [
       "2026 está incompleto. Totais e médias anuais param em 2025; leituras realmente correntes recebem a marca <em>mais recente</em>.",
       "A faixa sombreada de 2008 T3 a 2009 T2 segue o PIB real trimestral da DGBAS. Não há faixa de recessão na COVID: o crescimento real ficou positivo em 2020 e em cada trimestre.",
@@ -56,7 +70,14 @@
       {"term": "Juros, câmbio, crédito e reservas", "detail": "Base estatística do Banco Central da República da China (Taiwan)"},
       {"term": "Finanças e dívida do governo central", "detail": "Ministério das Finanças e contas finais oficiais do governo central"},
       {"term": "Comércio de bens", "detail": "Estatísticas aduaneiras de comércio internacional do Ministério das Finanças"},
-      {"term": "Comparação de comércio internacional", "detail": "Organização Mundial do Comércio; bases globais sem Taiwan permanecem pendentes"}
+      {"term": "Comparação de comércio internacional", "detail": "Organização Mundial do Comércio; bases globais sem Taiwan permanecem pendentes"},
+      {"term": "Índice de corrupção", "detail": "Planilha do IPC 2025 da Transparência Internacional; método de 2012, 0–100"}
+    ],
+    "unavailable": [
+      {"term": "Índice de Desenvolvimento Humano", "detail": "O Relatório de Desenvolvimento Humano da ONU não inclui Taiwan, e nenhum publicador nacional calcula um IDH comparável."},
+      {"term": "Investimento e rendimento de títulos", "detail": "Não foi obtida uma série comparável de formação bruta de capital fixo do governo nem do rendimento oficial do título público de dez anos."},
+      {"term": "Fecundidade e migração", "detail": "Os detalhes do registro domiciliar do MOI e da imigração da NIA continuam atrás de consultas que não puderam ser extraídas com confiabilidade; fecundidade e migração líquida não são estimadas."},
+      {"term": "Crime, estradas e mortes por COVID", "detail": "As estatísticas policiais e a tabela completa de causas de morte da HPA não puderam ser obtidas neste ambiente; acidentes e excesso de mortes existentes não são usados como substitutos."}
     ]
   }
 }

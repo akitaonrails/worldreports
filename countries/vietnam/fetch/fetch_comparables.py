@@ -19,6 +19,7 @@ than choosing.
   IMF DataMapper  WEO: debt and net lending; NGDPD, growth, inflation,
                   current account, unemployment (projections apart)
   UNDP            HDR25 composite indices (one vintage)
+  Transparency    CPI 2025 workbook, comparable 2012-method series
   UN DESA         International Migrant Stock 2024, Table 1
   UN WPP          World Population Prospects 2024, medium variant
   WHO             GHO RS_198 (road deaths), VIOLENCE_HOMICIDERATE, and
@@ -118,6 +119,7 @@ GHE = "https://xmart-api-public.who.int/DEX_CMS/GHE_FULL?"
 COMTRADE = ("https://comtradeapi.un.org/public/v1/preview/C/A/HS"
             "?reporterCode=704&period={y}&partnerCode=0&flowCode=X,M"
             "&cmdCode=TOTAL")
+TI = "https://images.transparencycdn.org/images/CPI2025_Results.xlsx"
 
 GAP = 1.5
 _last: dict[str, float] = {}
@@ -543,6 +545,58 @@ The NSO computes its own HDI (V14.01: 2023 0.746); a different computation, neve
            for y in years])
 
 
+def ti_cpi() -> None:
+    """Stage Vietnam's comparable CPI from TI's pinned 2025 workbook."""
+    def parse(blob: bytes) -> list[dict[str, str]]:
+        z = zipfile.ZipFile(io.BytesIO(blob))
+        book = z.read("xl/workbook.xml").decode()
+        rels = z.read("xl/_rels/workbook.xml.rels").decode()
+        sheets = dict(re.findall(
+            r'<sheet [^>]*name="([^"]+)"[^>]*r:id="([^"]+)"', book))
+        targets = dict(re.findall(
+            r'Id="([^"]+)"[^>]*Target="([^"]+)"', rels))
+        path = "xl/" + targets[sheets["CPI Historical"]].lstrip("/") \
+            .removeprefix("xl/")
+        shared = z.read("xl/sharedStrings.xml").decode()
+        strings = ["".join(re.findall(r"<t[^>]*>(.*?)</t>", cell, re.S))
+                   for cell in re.findall(r"<si>(.*?)</si>", shared, re.S)]
+        rows = []
+        for row in re.findall(r"<row[^>]*>(.*?)</row>",
+                              z.read(path).decode(), re.S):
+            cells = {}
+            for match in re.finditer(
+                    r'<c r="([A-Z]+)\d+"([^>]*?)(?:/>|>(.*?)</c>)',
+                    row, re.S):
+                ref, attrs, raw = match.groups()
+                value = re.search(r"<v>(.*?)</v>", raw or "")
+                text = value.group(1) if value else ""
+                cells[ref] = strings[int(text)] if 't="s"' in attrs and text \
+                    else text
+            rows.append(cells)
+        return rows
+
+    def check_ti(blob: bytes) -> None:
+        if blob[:2] != b"PK" or not parse(blob):
+            fail("TI CPI: not the historical workbook")
+
+    rows = parse(fetch(TI, "ti_CPI2025.xlsx", check_ti))
+    head = next(row for row in rows
+                if (row.get("A") or "").startswith("Country"))
+    columns = {value: ref for ref, value in head.items() if value}
+    scores = {int(float(row[columns["Year"]])):
+              float(row[columns["CPI score"]])
+              for row in rows if row.get(columns["ISO3"]) == ISO3
+              and row.get(columns["CPI score"])}
+    if sorted(scores) != list(range(2012, 2026)):
+        fail(f"TI CPI years incomplete: {sorted(scores)}")
+    near(scores.get(2025), 41, 0, "TI CPI 2025")
+    write("international/cpi_from_ti.csv", """
+Source: Transparency International, CPI 2025 workbook, CPI Historical sheet. official: false.
+Comparable 2012-method series; scores are 0-100 and higher means perceived cleaner.
+""", ["year", "cpi_score"],
+          [[year, fmt(scores[year], 0)] for year in sorted(scores)])
+
+
 # ---------------------------------------------------------------- UN DESA
 
 def is_xlsx(blob: bytes) -> None:
@@ -844,11 +898,12 @@ The NSO's customs-based trade (V09.01) is the curated series; this is Vietnam's 
 # ---------------------------------------------------------------- main
 
 def main() -> None:
-    print("Comparables for Vietnam: World Bank, ADB, IMF, UNDP, UN DESA, "
+    print("Comparables for Vietnam: World Bank, ADB, IMF, UNDP, TI, UN DESA, "
           "WPP, WHO, Comtrade")
     s = world_bank()
     imf_weo(s)
     undp()
+    ti_cpi()
     undesa()
     wpp(s)
     who()

@@ -12,7 +12,7 @@ Publication pass: 2026-10-23. Every reviewed `*_from_*` sidecar now has a
 stable publication twin. The spine-gap sources named in the Phase-A handoff
 were fetched and reviewed: Eurostat public investment, BIS household credit,
 IMF FSI NPL, UNODC homicide, WHO road mortality and the World Bank's
-US$8.30 poverty threshold. Transparency International's official CPI 2025
+US$8.30 poverty threshold. Transparency International's CPI 2025
 workbook supplies the comparable 2012-method scores through 2025. The older
 notes below that call any of these items “not staged” describe the research
 state, not the published state.

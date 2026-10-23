@@ -687,9 +687,9 @@
   "it": "NIC, indice nazionale (solo anni a base 2015)",
   "pt": "NIC, índice nacional (só anos na base 2015)"
  },
- "National-accounts goods and services; the customs partner table is pending, so the euro amounts stand in.": {
-  "it": "Beni e servizi dai conti nazionali; la tabella dei partner doganali è in sospeso, quindi entrano gli importi in euro.",
-  "pt": "Bens e serviços das contas nacionais; a tabela de parceiros aduaneiros está pendente, então os valores em euro entram no lugar."
+ "National-accounts goods and services beside a labelled UN Comtrade customs-goods partner snapshot.": {
+  "it": "Beni e servizi dei conti nazionali accanto a una fotografia dei partner per i beni doganali UN Comtrade, chiaramente etichettata.",
+  "pt": "Bens e serviços das contas nacionais ao lado de um retrato claramente identificado dos parceiros de bens aduaneiros do UN Comtrade."
  },
  "Natural increase": {
   "it": "Incremento naturale",
@@ -827,6 +827,10 @@
   "it": "Fonti: Eurostat P6/P7 · Banca Mondiale WDI",
   "pt": "Fontes: Eurostat P6/P7 · Banco Mundial WDI"
  },
+ "Sources: Eurostat P6/P7 · World Bank WDI · UN Comtrade": {
+  "it": "Fonti: Eurostat P6/P7 · Banca Mondiale WDI · UN Comtrade",
+  "pt": "Fontes: Eurostat P6/P7 · Banco Mundial WDI · UN Comtrade"
+ },
  "Sources: Eurostat demo_gind · ISTAT 39_494 European shortlist": {
   "it": "Fonti: demo_gind Eurostat · shortlist europea ISTAT 39_494",
   "pt": "Fontes: demo_gind do Eurostat · lista europeia do ISTAT 39_494"
@@ -850,6 +854,10 @@
  "Sources: World Bank WDI · UNDP HDR 2025": {
   "it": "Fonti: Banca Mondiale WDI · PNUD HDR 2025",
   "pt": "Fontes: Banco Mundial WDI · PNUD HDR 2025"
+ },
+ "Sources: World Bank WDI · UNDP HDR 2025 · Transparency International": {
+  "it": "Fonti: Banca Mondiale WDI · PNUD HDR 2025 · Transparency International",
+  "pt": "Fontes: Banco Mundial WDI · PNUD HDR 2025 · Transparency International"
  },
  "Spending by function, general government (% of GDP)": {
   "it": "Spesa per funzione, amministrazioni pubbliche (% del PIL)",
@@ -903,17 +911,13 @@
   "it": "Commercio — un paese esportatore con una bolletta energetica",
   "pt": "Comércio — um país exportador com uma conta de energia"
  },
- "Transparency International's series needs hand-curation across the 2012 method change (×10 old scores); it sits in SOURCES.yaml meta.pending until then": {
-  "it": "La serie di Transparency International richiede una curatione manuale sul cambio di metodo del 2012 (vecchi punteggi ×10); resta in meta.pending di SOURCES.yaml fino ad allora",
-  "pt": "A série da Transparency International precisa de curadoria manual na mudança de método de 2012 (notas antigas ×10); fica em meta.pending do SOURCES.yaml até lá"
- },
  "Two homicide counts that never cross, a flat suicide line, and a pending slot for organised crime.": {
   "it": "Due conteggi di omicidi che non si incrociano mai, una linea dei suicidi piatta e uno slot in sospeso per la criminalità organizzata.",
   "pt": "Duas contagens de homicídios que nunca se cruzam, uma linha de suicídios plana e um espaço pendente para o crime organizado."
  },
- "Two readings of EU-SILC, two national poverty lines, and one honest pending: Italy sets pay floors through collective agreements.": {
-  "it": "Due letture della EU-SILC, due soglie di povertà nazionali e un pending onesto: l'Italia fissa i minimi salariali con i contratti collettivi.",
-  "pt": "Duas leituras da EU-SILC, duas linhas nacionais de pobreza e uma pendência honesta: a Itália define pisos salariais por acordos coletivos."
+ "Two readings of EU-SILC, two national poverty lines, and an explicit absence: Italy sets pay floors through collective agreements.": {
+  "it": "Due letture della EU-SILC, due soglie di povertà nazionali e un'assenza esplicita: l'Italia fissa i minimi salariali con i contratti collettivi.",
+  "pt": "Duas leituras da EU-SILC, duas linhas nacionais de pobreza e uma ausência explícita: a Itália define pisos salariais por acordos coletivos."
  },
  "UNDP HDR 2025; 0.800 and above = very high human development": {
   "it": "PNUD HDR 2025; 0,800 e oltre = sviluppo umano molto alto",
@@ -1050,10 +1054,6 @@
  "crosses 1.25 in 2020 and keeps falling; replacement (2.1) is never": {
   "it": "scende sotto 1,25 nel 2020 e continua a calare; il ricambio (2,1) non è mai",
   "pt": "cruza 1,25 em 2020 e segue caindo; a reposição (2,1) nunca é"
- },
- "customs partner data (Coeweb) was unreachable; the Comext fetch is in SOURCES.yaml meta.pending — no substitute is drawn": {
-  "it": "i dati doganali per partner (Coeweb) erano irraggiungibili; il fetch Comext è in meta.pending di SOURCES.yaml — nessun sostituto è tracciato",
-  "pt": "os dados aduaneiros por parceiro (Coeweb) estavam inacessíveis; a coleta Comext está em meta.pending do SOURCES.yaml — nenhum substituto é desenhado"
  },
  "data pending — run fetchers / add CSV": {
   "it": "dati in sospeso — eseguire i fetcher / aggiungere CSV",
@@ -1502,6 +1502,62 @@
  "the key is pinned in the fetcher": {
   "it": "la chiave è fissata nel fetcher",
   "pt": "a chave está fixada no fetcher"
+ },
+ "UN Comtrade 2023; customs goods, Italy reporter; shares of the World export total": {
+  "it": "UN Comtrade 2023; beni doganali, dichiarante Italia; quote del totale mondiale delle esportazioni",
+  "pt": "UN Comtrade 2023; bens aduaneiros, declarante Itália; parcelas do total mundial das exportações"
+ },
+ "UN Comtrade 2023; Italy reporter, customs goods; World-total shares": {
+  "it": "UN Comtrade 2023; dichiarante Italia, beni doganali; quote del totale mondiale",
+  "pt": "UN Comtrade 2023; declarante Itália, bens aduaneiros; parcelas do total mundial"
+ },
+ "UK": {
+  "it": "RU",
+  "pt": "RU"
+ },
+ "US": {
+  "it": "USA",
+  "pt": "EUA"
+ },
+ "Belgium": {
+  "it": "Belgio",
+  "pt": "Bélgica"
+ },
+ "France": {
+  "it": "Francia",
+  "pt": "França"
+ },
+ "Germany": {
+  "it": "Germania",
+  "pt": "Alemanha"
+ },
+ "Poland": {
+  "it": "Polonia",
+  "pt": "Polônia"
+ },
+ "Spain": {
+  "it": "Spagna",
+  "pt": "Espanha"
+ },
+ "Switzerland": {
+  "it": "Svizzera",
+  "pt": "Suíça"
+ },
+ "United Kingdom": {
+  "it": "Regno Unito",
+  "pt": "Reino Unido"
+ },
+ "United States": {
+  "it": "Stati Uniti",
+  "pt": "Estados Unidos"
+ },
+ "Top export destinations, 2023 (% of goods exports)": {
+  "it": "Principali destinazioni delle esportazioni, 2023 (% delle esportazioni di beni)",
+  "pt": "Principais destinos das exportações, 2023 (% das exportações de bens)"
+ },
+ "Transparency International CPI 2025 workbook; comparable 2012 method onward": {
+  "it": "Cartella CPI 2025 di Transparency International; metodo comparabile dal 2012",
+  "pt": "Pasta de trabalho CPI 2025 da Transparency International; método comparável desde 2012"
  },
  "nothing else is drawn here": {
   "it": "nient'altro è tracciato qui",

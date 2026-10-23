@@ -2,7 +2,7 @@
 
 **Delivered (uncommitted, in the lane as instructed; `git status` shows only `?? countries/japan/` plus this file):**
 - `countries/japan/country.yaml`: slug `japan`, locales ja/en/pt (ja first, en default per precedent), window 2006–2026, `last_full_year: 2025`, `tick_every: 2`, JPY, five bands, a Hinomaru-derived palette with violet-sumi web chrome, ja/en/pt seo and sources blocks.
-- `countries/japan/SOURCES.yaml`: 45 planned `*_from_<source>.csv` datasets in 11 directories, plus 7 `meta.pending` entries. Written before any CSV exists, and every URL in it was curl'd live today.
+- `countries/japan/SOURCES.yaml`: 45 planned `*_from_<source>.csv` datasets in 11 directories. Discovery recorded 7 `meta.pending` entries; the current manifest has 5 after central-debt history and TI CPI were staged.
 
 **Verification:** both files parse as YAML. `pytest tests/ -k "not japan" --ignore=tests/test_site.py` gives **363 passed**, so the baseline is intact. With Japan included, 36 Japan tests pass (palette, web hex, seo in all three locales, years, locales, slug, font). The 21 failures are the expected Phase A set:
 - missing `i18n.json`, `data/`, `plates.py`, `chapters.py` and `provenance.json`;
@@ -111,8 +111,10 @@
 3. **Monthly Labour Survey wages.** The file id is not pinned, and the 2019 sampling-scandal break must be annotated.
 4. **ISA asylum press releases.** The URL was not found; UNHCR data is staged instead.
 5. **MOFA Japanese abroad.** Returned 403.
-6. **MOF central-government debt before 2021.** Archived at the NDL.
-7. **Transparency International CPI.** Hand-curated at build time.
+
+Resolved since discovery: MOF central-government debt before 2021 is staged
+from the NDL archive, and TI CPI is staged from the pinned CPI 2025 historical
+workbook (2026-10-23).
 
 Also unpinned but noted in their entries: the IPSS projection table files (the page is verified; only PDFs are linked), the BoJ IR04 lending-rate codes, and household disposable income from ESRI for the debt-to-income ratio.
 

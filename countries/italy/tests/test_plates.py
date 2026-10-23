@@ -320,20 +320,34 @@ def test_the_milan_loss_and_the_spread_peak_are_pinned():
     assert any("5.49% in 2012" in s for s in bond.texts())
 
 
-# -------------------------------------------------------------- pending
-def test_the_pending_slots_are_pending_not_substituted():
-    """Three spine slots wait on sources that never answered this month —
-    customs destinations (Coeweb dead), TI's CPI (method break), and the
-    minimum wage (there is no statutory one to stage). Each says so on
-    the panel, in the spine's pending form, with no invented series."""
-    for needle, promise in (
-        ("Top export destinations", "no substitute is drawn"),
-        ("Corruption Perceptions Index", "hand-curation"),
-        ("Minimum wage", "collective agreements"),
-    ):
-        panel = plate(SLUG, "plate_" + (
-            "trade" if "export" in needle else
-            "world" if "Corruption" in needle else "people")).panel(needle)
-        assert not panel.data_lines(), f"{needle}: a series was drawn anyway"
-        assert any("data pending" in s for s in panel.texts())
-        assert any(promise in s for s in panel.texts())
+# ---------------------------------------------------- newly staged sources
+def test_trade_destinations_use_comtrade_world_as_the_denominator():
+    """The customs-goods bars are the reviewed Italy-reporter snapshot;
+    they are not divided by the national-accounts exports series."""
+    table = rows("trade/trade_comtrade_partner.csv")
+    world = next(r for r in table if r["partner"] == "World")
+    germany = next(r for r in table if r["partner"] == "Germany")
+    expected = float(germany["value_usd"]) / float(world["value_usd"]) * 100
+    assert float(germany["share_of_flow_pct"]) == pytest.approx(expected, abs=.005)
+    panel = plate(SLUG, "plate_trade").panel("Top export destinations")
+    heights = [float(patch.get_height()) for patch in panel.ax.patches]
+    assert max(heights) == pytest.approx(float(germany["share_of_flow_pct"]))
+    assert any("customs goods" in text for text in panel.texts())
+
+
+def test_cpi_is_the_complete_comparable_2012_2025_run():
+    cpi = by_year("international/cpi.csv")
+    assert sorted(cpi) == list(range(2012, 2026))
+    assert float(cpi[2012]["score"]) == 42
+    assert float(cpi[2025]["score"]) == 53
+    panel = plate(SLUG, "plate_world").panel("Corruption Perceptions Index")
+    line = panel.data_lines()[0]
+    points = dict(zip(map(int, line.get_xdata()), map(float, line.get_ydata())))
+    assert points[2012] == 42 and points[2025] == 53
+
+
+def test_minimum_wage_remains_explicitly_not_applicable():
+    panel = plate(SLUG, "plate_people").panel("Minimum wage")
+    assert not panel.data_lines()
+    assert any("no statutory minimum wage" in text.lower()
+               for text in panel.texts())

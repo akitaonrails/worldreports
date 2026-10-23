@@ -148,11 +148,13 @@ meta:
         stooq serves its 796-byte JS proof-of-work page under HTTP 200
         (verified 2026-10-22), same as ^tsx/^ibex/^psi. Yahoo ^SSMI is
         staged and complete for the window, so this is a cross-check only.
-    - name: Transparency International CPI, WEF competitiveness
-      publisher: Transparency International / IMD / WEF
-      url: https://www.transparency.org/en/cpi
+    - name: IMD / WEF competitiveness comparisons
+      publisher: IMD / WEF
+      url: https://www.imd.org/centers/wcc/world-competitiveness-center/
       official: false
-      notes: Hand-curated at build phase, as France/Canada did.
+      notes: >-
+        Optional comparisons not used by a canonical page slot. TI CPI is
+        already staged from TI's CPI 2025 workbook under international/.
 
 macro:
   gdp_from_bfs.csv:

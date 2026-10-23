@@ -81,7 +81,7 @@ def _pending(ig, ax, why):
 def _finish(ctx, ig):
     for a in ig.axes_flat:
         if a.get_visible():
-            ig.style_axis(a)
+            ig.style_axis(a, xticks_years=not getattr(a, "_categorical_x", False))
 
 
 def _pop(ctx):
@@ -180,10 +180,11 @@ def plate_fiscal(ctx, ig) -> None:
     _foot(p, ax, "IMF WEO (WEO vintage). The CBS national-accounts basis is "
           "parked with CBS")
 
-    ax = ig.slot("fiscal.balance", "Overall balance (bars); the primary "
-                 "balance waits")
+    ax = ig.slot("fiscal.balance", "Overall and primary balance (% of GDP)")
     by, bv = _yr(ctx, GG, "balance_pct_gdp")
     ctx.bars(ax, by, bv, lambda v: p.GREEN if v >= 0 else p.ALERT)
+    py, pv = _yr(ctx, GG, "primary_balance_pct_gdp")
+    ctx.line(ax, py, pv, p.NAVY, label="Primary balance")
     ig.add_recessions(ax, label=False)
     lo = min(zip(by, bv), key=lambda t: t[1])
     ax.annotate(f"{lo[1]:.1f}%", lo, textcoords="offset points",
@@ -197,8 +198,8 @@ def plate_fiscal(ctx, ig) -> None:
           f"the war year\n({_at(by, bv, 2024):.1f}% in 2024) read as deficits; "
           "GDP never contracted\nin the war years — no band "
           "(see DATA_NOTES.md)", size=7.8)
-    _foot(p, ax, "IMF WEO. The primary balance is not in the staged table — "
-          "added with the next vintage")
+    ax.legend(loc="lower left", fontsize=7.5, frameon=False)
+    _foot(p, ax, "IMF Fiscal Monitor; both balances are from one vintage")
 
     ax = ig.slot("fiscal.debt", "Gross debt (% of GDP)")
     dy, dv = _yr(ctx, GG, "gross_debt_pct_gdp")
@@ -215,9 +216,12 @@ def plate_fiscal(ctx, ig) -> None:
           "is parked — its own column when it lands")
 
     ax = ig.slot("fiscal.interest", "Interest paid (% of GDP)")
-    ctx.pending(ax)
-    _pending(ig, ax, "not in the staged WEO table — the IMF interest line "
-             "is a fetcher away (SOURCES.yaml)")
+    iy, iv = _yr(ctx, GG, "interest_pct_gdp")
+    ctx.line(ax, iy, iv, p.GOLD)
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, iy, iv, p.GOLD, lambda v: f"{v:.1f}%", dy=8)
+    _foot(p, ax, "Derived within one IMF Fiscal Monitor vintage: primary "
+          "balance minus overall balance")
     _finish(ctx, ig)
 
 
@@ -242,7 +246,7 @@ def plate_trade(ctx, ig) -> None:
 
     ax = ig.slot("trade.balance", "Trade balance, goods and services "
                  "(% of GDP)")
-    bal = [x - m for x, m in zip(xy, mv)]
+    bal = [x - m for x, m in zip(xv, mv)]
     ctx.bars(ax, xy, bal, lambda v: p.GREEN if v >= 0 else p.ALERT)
     ig.add_recessions(ax, label=False)
     deficits = [y for y, b in zip(xy, bal) if b < 0]
@@ -252,9 +256,16 @@ def plate_trade(ctx, ig) -> None:
 
     ax = ig.slot("trade.destinations", "Top export destinations "
                  "(% of goods exports)")
-    ctx.pending(ax)
-    _pending(ig, ax, "no customs/Comtrade partner file staged — the route is "
-             "parked in SOURCES.yaml")
+    t = ctx.table("trade/trade_partners_comtrade.csv") or {}
+    short = {"United States": "US", "United Kingdom": "UK",
+             "Hong Kong SAR, China": "Hong Kong"}
+    names = [short.get(name, name) for name in t.get("partner", [])][::-1]
+    shares = [float(v) for v in t.get("share_of_exports_pct", [])][::-1]
+    ax._categorical_x = True
+    ax.barh(names, shares, color=p.BLUE, alpha=0.88)
+    ax.set_xlim(0, max(shares) * 1.12)
+    _foot(p, ax, "UN Comtrade 2023; customs goods, not the services-inclusive "
+          "national-accounts line above")
 
     # Slot 4 is a lens slot, and Israel has no trade lens staged; an
     # unclaimed lens is left out by the spine, not filled with chrome.
@@ -352,9 +363,10 @@ def plate_world(ctx, ig) -> None:
           "whole back-series")
 
     ax = ig.slot("world.cpi", "Corruption Perceptions Index (0–100)")
-    ctx.pending(ax)
-    _pending(ig, ax, "Transparency International not staged in this pass — "
-             "named in SOURCES.yaml")
+    cy, cv = _yr(ctx, "international/cpi_ti.csv", "cpi_score")
+    ctx.line(ax, cy, cv, p.PURPLE)
+    ctx.endlabel(ax, cy, cv, p.PURPLE, lambda v: f"{v:.0f}", dy=8)
+    _foot(p, ax, "Transparency International; comparable 2012 method only")
 
     ax = ig.slot("world.reserves", "Official reserves (US$ bn, year-end)")
     ry, rv = _yr(ctx, "international/world.csv", "reserves_usd")
@@ -553,9 +565,10 @@ def plate_migration(ctx, ig) -> None:
 
     ax = ig.slot("migration.foreign_born", "Foreign-born share of the "
                  "population (%)")
-    ctx.pending(ax)
-    _pending(ig, ax, "no migrant-stock series staged (UN DESA / CBS register) — "
-             "see SOURCES.yaml")
+    sy, sv = _yr(ctx, "migration/migrant_stock_wb.csv", "migrant_stock_pct")
+    ctx.line(ax, sy, sv, p.TEAL)
+    _foot(p, ax, "World Bank / UN DESA snapshot years; no interpolation and "
+          "not the CBS register")
 
     ax = ig.slot("migration.lens", "Lens — new residence and work permits: a "
                  "flow (per 1,000 people)")
@@ -620,22 +633,24 @@ PLATES = (
          title="Public Finances — the Long Fall in Debt, and the War Years",
          subtitle="General government on the IMF's basis. The war of 2023- "
                   "shows in the balance and the debt, not in a growth band.",
-         source="Sources: IMF WEO (general government) · " + _PENDING_SRC,
+         source="Sources: IMF Fiscal Monitor and WEO (general government) · "
+                + _PENDING_SRC,
          alt="Four panels on Israeli public finances. Revenue runs 35-40% of "
              "GDP and expenditure 37-45%; the overall balance reaches -10.7% "
              "of GDP in 2020 and -8.1% in 2024, the war year; gross debt falls "
              "from 85.7% of GDP in 2005 to 59.5% in 2019, jumps to 71.4% in "
-             "2020 and sits near 68% in 2025; the interest panel is pending "
-             "this pass."),
+             "2020 and sits near 68% in 2025; primary balance and derived "
+             "interest use the same IMF Fiscal Monitor vintage."),
     dict(id="03", slug="trade", topic="trade", builder=plate_trade,
          title="Trade — A Services Surplus Carrying a Goods Deficit",
          subtitle="Exports and imports on the World Bank's national-accounts "
                   "basis; the CBS national-accounts line returns with CBS.",
-         source="Sources: World Bank WDI · " + _PENDING_SRC,
-         alt="Two panels drawn and two honest gaps. Exports and imports each "
+         source="Sources: World Bank WDI · UN Comtrade · " + _PENDING_SRC,
+         alt="Three panels drawn. Exports and imports each "
              "run a third of GDP or more and the balance swings between about "
-             "-3% and +5% of GDP; the destinations panel and this topic's "
-             "lens slot are pending because no partner file is staged."),
+             "-3% and +5% of GDP; the 2023 destinations panel uses UN "
+             "Comtrade customs-goods exports and excludes special category "
+             "837."),
     dict(id="04", slug="markets", topic="markets", builder=plate_markets,
          title="Markets — the Shekel and the Tel Aviv Exchange",
          subtitle="Two panels pending while the Bank of Israel portal stays "
@@ -653,14 +668,15 @@ PLATES = (
              "about 483, both indexed 2006 = 100."),
     dict(id="05", slug="world", topic="world", builder=plate_world,
          title="Israel in the World — Size, Development and Reserves",
-         subtitle="GDP and reserves in US dollars and the UNDP's development "
-                  "index; the corruption panel waits for its source.",
-         source="Sources: World Bank WDI · UNDP HDR 2025",
-         alt="Four panels with three drawn. GDP in US dollars rises from "
+         subtitle="GDP and reserves in US dollars, UNDP development and "
+                  "Transparency International's comparable CPI.",
+         source="Sources: World Bank WDI · UNDP HDR 2025 · Transparency "
+                "International CPI 2025",
+         alt="Four panels drawn. GDP in US dollars rises from "
              "about 159bn to 611bn; the Human Development Index climbs from "
              "0.867 to 0.919 (2023, rank 27); official reserves climb from "
-             "about 29bn to 229bn dollars; the Corruption Perceptions panel "
-             "states its source is not staged."),
+             "about 29bn to 229bn dollars; the Corruption Perceptions Index "
+             "runs from 60 in 2012 to 62 in 2025."),
     dict(id="06", slug="demography", topic="demography",
          builder=plate_demography,
          title="Demography — Ten Million, and the Highest Fertility in the "
@@ -703,8 +719,9 @@ PLATES = (
              "flow — arrivals under the Law of Return — peaks at 76,601 in "
              "2022, the Ukraine-war wave (about 8 per 1,000); the UN's net-"
              "migration estimate peaks near 5.2 per 1,000 the same year, and "
-             "the panel says the two are different objects; the foreign-born "
-             "share panel states its source is not staged; the lens panel "
+             "the panel says the two are different objects; the UN DESA "
+             "foreign-born share falls from 26.6% in 2010 to 22.3% in 2024; "
+             "the lens panel "
              "draws new residence and work permits issued (a flow, records "
              "not people) with the extension line beside them, visitor and "
              "diplomatic classes excluded by name."),

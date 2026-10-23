@@ -255,10 +255,10 @@ Points to annotate:
 
 ## Departures from the spine (confirmed at build)
 
-No chapter is forced out. Gaps are listed slot by slot in HANDOFF.md. The
-only true "pending" is people slot 3: Italy has **no statutory minimum
-wage**. Pay floors come from sector collective agreements (CCNL). The
-build kept it that way — the panel says so and draws nothing.
+No chapter is forced out. Gaps are listed slot by slot in HANDOFF.md. People
+slot 3 is a true absence rather than an unfinished fetch: Italy has **no
+statutory minimum wage**. Pay floors come from sector collective agreements
+(CCNL). The panel says so and draws nothing.
 
 ## Changes made in consolidation
 
@@ -326,10 +326,11 @@ build kept it that way — the panel says so and draws nothing.
     panel title says *all-transport basis* and the note says what the
     code is. The road-only count (ISTAT road-accident deaths, 30-day)
     stays pending.
-  - trade slot 3 (top export destinations, Comext unreachable), world
-    slot 3 (TI CPI, hand-curation pending) and people slot 3 (no
-    statutory minimum wage) are drawn in the spine's pending form; a
-    test asserts each says "data pending" and draws no line.
+  - trade slot 3 uses the 2023 Italy-reporter UN Comtrade customs-goods
+    snapshot, with shares divided by the World export total. World slot 3
+    uses TI's CPI 2025 workbook and keeps only its comparable 2012–2025
+    method. People slot 3 remains empty because no statutory national
+    minimum wage exists; the panel states that absence explicitly.
 - **Rates** are counts over the Eurostat 1-January population from the
   same file (`demo_gind`), the same territory and registered-resident
   scope; where ISTAT publishes its own rate (police homicides) its rate

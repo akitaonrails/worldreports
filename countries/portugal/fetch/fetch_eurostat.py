@@ -291,6 +291,28 @@ def main() -> None:
     expect(hicp, 2024, 2.7, "HICP")
     write("macro/hicp_from_estat.csv", rows(years, {"hicp": hicp}, dec=2))
 
+    # ---- statutory minimum wage --------------------------------------
+    # Portugal pays the legal monthly wage in fourteen instalments.
+    # earn_mw_cur publishes the harmonised twelve-month equivalent, twice
+    # yearly; S2 is the rate in force on 1 July and is the annual point.
+    mw = fetch("earn_mw_cur", geo=GEO, currency="EUR", freq="S")
+    t = mw["id"].index("time")
+    halves = {"S1": {}, "S2": {}}
+    for key, value in decode(mw).items():
+        year, _, half = key[t].partition("-")
+        if half in halves:
+            halves[half][int(year)] = value
+    need(halves["S2"], "earn_mw_cur S2")
+    expect(halves["S2"], 2024, 957, "minimum wage, 12-month basis", tol=0)
+    write("social/minimum_wage_from_estat.csv",
+          rows(years, {"eur_month_jan": halves["S1"],
+                       "eur_month_jul": halves["S2"]}, dec=2),
+          comment="""\
+          Eurostat earn_mw_cur, euro per month on a twelve-month basis.
+          Portugal pays the statutory wage in fourteen instalments, so the
+          harmonised value is the legal monthly amount times 14/12. S2 is
+          the rate in force on 1 July and is the annual point drawn.""")
+
     # ---- the 10-year benchmark yield ----------------------------------
     y10 = need(annual("irt_lt_mcby_a", geo=GEO, freq="A"), "irt_lt_mcby_a")
     expect(y10, 2012, 10.55, "10y yield", tol=0.01)

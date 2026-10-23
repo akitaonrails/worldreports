@@ -1,0 +1,17 @@
+# UN Comtrade public preview, Italy reporter 380, annual HS TOTAL, 2023.
+# Customs-value goods only. In the source response, all partner rows sum to
+# the World export total; this reviewed file retains the leading partners.
+# This is not the goods-and-services national-accounts series on the other
+# trade panels.
+year,flow,partner_code,partner,value_usd,share_of_flow_pct
+2023,X,World,"World",676819818432,100.00
+2023,X,276,"Germany",80799805325,11.94
+2023,X,842,"United States",72634196246,10.73
+2023,X,251,"France",68733503665,10.16
+2023,X,724,"Spain",35803963681,5.29
+2023,X,757,"Switzerland",32988836568,4.87
+2023,X,826,"United Kingdom",28170667121,4.16
+2023,X,616,"Poland",21374698668,3.16
+2023,X,56,"Belgium",20869402205,3.08
+2023,X,156,"China",20728303835,3.06
+2023,X,528,"Netherlands",20001191306,2.96

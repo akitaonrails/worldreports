@@ -96,10 +96,21 @@ def plate_economy(ctx, ig):
 
 def plate_fiscal(ctx, ig):
     p = ctx.p
+    F = "fiscal/finance_intl.csv"
     ax = ig.slot("fiscal.revenue_expenditure", "Revenue and expenditure (% of GDP)")
-    _pending(ctx, ig, ax, "General-government flows are not staged; MOF's budget is a narrower perimeter")
+    y, rev = _yr(ctx, F, "revenue_pct_gdp")
+    _, exp = _yr(ctx, F, "expenditure_pct_gdp")
+    ctx.line(ax, y, rev, p.GREEN, label="Revenue")
+    ctx.line(ax, y, exp, p.RED, label="Expenditure")
+    ax.legend(loc="upper left", fontsize=7.3, frameon=False)
+    _foot(p, ax, "IMF Fiscal Monitor, broad general government; MOF's budget is narrower")
     ax = ig.slot("fiscal.balance", "Overall and primary balance (% of GDP)")
-    _pending(ctx, ig, ax, "No comparable general-government balance and interest pair is staged")
+    fy, overall = _yr(ctx, F, "overall_balance_pct_gdp")
+    _, primary = _yr(ctx, F, "primary_balance_pct_gdp")
+    ctx.bars(ax, fy, overall, lambda n: p.GREEN if n >= 0 else p.RED)
+    ctx.line(ax, fy, primary, p.BLUE, label="Primary balance")
+    ax.legend(loc="lower left", fontsize=7.3, frameon=False)
+    _foot(p, ax, "IMF Fiscal Monitor; overall and primary balances from one vintage")
     ax = ig.slot("fiscal.debt", "Gross debt (% of GDP)")
     y, v = _yr(ctx, "fiscal/debt_intl_pct_gdp.csv", "gg_gross_debt_pct_gdp")
     ctx.line(ax, y, v, p.RED, label="IMF broad general government")
@@ -108,7 +119,10 @@ def plate_fiscal(ctx, ig):
     ax.legend(loc="upper left", fontsize=7.3, frameon=False)
     _foot(p, ax, "IMF WEO; MOF on-budget debt excludes LGFVs and must remain separate")
     ax = ig.slot("fiscal.interest", "Interest paid (% of GDP)")
-    _pending(ctx, ig, ax, "A general-government interest series is not available in the staged sources")
+    interest = [a - b for a, b in zip(primary, overall)]
+    ctx.line(ax, fy, interest, p.PURPLE, label="Interest paid")
+    ax.legend(loc="upper left", fontsize=7.3, frameon=False)
+    _foot(p, ax, "Derived within one IMF vintage: primary balance minus overall balance")
     _finish(ig)
 
 
@@ -197,7 +211,11 @@ def plate_markets(ctx, ig):
 def plate_credit(ctx, ig):
     p = ctx.p
     ax = ig.slot("credit.household_debt", "Household debt (% of GDP)")
-    _pending(ctx, ig, ax, "BIS household-credit series is not staged")
+    y, v = _yr(ctx, "credit/household_credit.csv", "hh_credit_pct_gdp_q4")
+    ctx.line(ax, y, v, p.RED, label="Households and NPISH")
+    ig.add_recessions(ax, label=False)
+    ax.legend(loc="upper left", fontsize=7.3, frameon=False)
+    _foot(p, ax, "BIS total credit, Q4 stock, adjusted for breaks")
     ax = ig.slot("credit.lending_rate", "Household lending rate vs policy rate (%)")
     _pending(ctx, ig, ax, "Comparable household lending and policy-rate regimes are not staged")
     ax = ig.slot("credit.npl", "Non-performing loans (% of loans)")
@@ -205,8 +223,12 @@ def plate_credit(ctx, ig):
     ctx.line(ax, y, v, p.PURPLE)
     ig.add_recessions(ax, label=False)
     _foot(p, ax, "IMF Financial Soundness Indicator via World Bank; bank-wide, not households")
-    ax = ig.slot("credit.lens", "Lens — household debt service")
-    _pending(ctx, ig, ax, "No comparable household debt-service series is staged")
+    ax = ig.slot("credit.lens", "Lens — private-sector debt service (% of income)")
+    y, v = _yr(ctx, "credit/private_dsr.csv", "private_dsr_pct_q4")
+    ctx.line(ax, y, v, p.BLUE, label="Private non-financial sector")
+    ig.add_recessions(ax, label=False)
+    ax.legend(loc="upper left", fontsize=7.3, frameon=False)
+    _foot(p, ax, "BIS Q.CN.P; broader than households and never labelled household DSR")
     _finish(ig)
 
 
@@ -373,7 +395,7 @@ TITLES = ("The Economy", "Public Finances", "Where the Money Goes", "Trade",
 PLATES = tuple(
     dict(id=f"{i:02d}", slug=topic, topic=topic, builder=builder, title=title,
          subtitle="Harmonised readings while national machine sources remain blocked; never spliced.",
-         source="Sources: World Bank · IMF · UNDP · UN Comtrade · Transparency International",
+         source="Sources: World Bank · IMF · BIS · UNDP · UN Comtrade · Transparency International",
          alt=f"Four data panels about China: {topic}, 2006–2026.")
     for i, (topic, builder, title) in enumerate(zip(TOPICS, BUILDERS, TITLES), 1)
 )

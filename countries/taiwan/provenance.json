@@ -2,7 +2,8 @@
  "01-economy": [
   "economy/cpi.csv",
   "economy/cpi_yoy_cbc.csv",
-  "economy/gdp.csv"
+  "economy/gdp.csv",
+  "economy/unemployment.csv"
  ],
  "02-fiscal": [
   "economy/gdp.csv",
@@ -29,11 +30,14 @@
  ],
  "06-credit": [
   "credit/household_credit.csv",
+  "credit/new_housing_rate.csv",
   "credit/npl.csv",
-  "economy/gdp.csv"
+  "economy/gdp.csv",
+  "markets/policy_rate.csv"
  ],
  "07-world": [
   "economy/gdp.csv",
+  "world/corruption.csv",
   "world/reserves.csv"
  ],
  "08-demography": [

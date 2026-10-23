@@ -110,6 +110,21 @@ economy:
       annual figure (2024 CBC Dec 2.10 vs DGBAS annual 2.18). The CBC and DGBAS
       index may differ on aggregation, so both are kept as separate columns.
 
+  unemployment.csv:
+    source: DGBAS nstatdb DPAS A040107010 — total unemployment rate, annual average
+    url: https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=220&kind=100&funid=A040107010&ym=9500&ymt=11508&cycle=41&outmode=8&fldlst=000000000001
+    official: true
+    refreshed_by: fetch/fetch_dgbas.py
+    notes: >-
+      VERIFIED. The field mask selects 失業率(%), total. Annual averages,
+      2006–2025; 2009 5.85%, 2025 3.35%.
+  unemployment_from_dgbas.csv:
+    source: Review sidecar for economy/unemployment.csv
+    url: https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=220&kind=100&funid=A040107010&ym=9500&ymt=11508&cycle=41&outmode=8&fldlst=000000000001
+    official: true
+    refreshed_by: fetch/fetch_dgbas.py
+    notes: Machine-refreshed sidecar; diff before adopting into unemployment.csv.
+
 fiscal:
   budget.csv:
     source: MOF 財政統計查詢 DPAS i2101 — all-levels final accounts (accrual), net revenue/expenditure/balance
@@ -240,6 +255,20 @@ markets:
       only, never spliced into one line.
 
 world:
+  corruption.csv:
+    source: Transparency International CPI 2025 workbook — CPI Historical
+    url: https://images.transparencycdn.org/images/CPI2025_Results.xlsx
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED. Taiwan (ISO3 TWN), CPI score 0–100, comparable 2012 method;
+      2012 61, 2025 68. Earlier 0–10 scores are not spliced.
+  corruption_from_ti.csv:
+    source: Review sidecar for world/corruption.csv
+    url: https://images.transparencycdn.org/images/CPI2025_Results.xlsx
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: Machine-refreshed sidecar; diff before adopting into corruption.csv.
   reserves.csv:
     source: Central Bank (CBC) cpx.cbc.gov.tw PCAxis EF07M01 — foreign-exchange reserves (外匯存底, mn USD), Dec
     url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EF07M01
@@ -263,6 +292,22 @@ world:
       table has 402 level columns and no interleaved growth (width asserted).
 
 credit:
+  new_housing_rate.csv:
+    source: Central Bank (CBC) EH45M01 — five-bank new housing loan new-business rate
+    url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EH45M01
+    official: true
+    refreshed_by: fetch/fetch_cbc.py
+    notes: >-
+      VERIFIED. Annual mean of monthly 購屋貸款 interest rates, percent per
+      annum, read from the rate cell paired after each new-loan amount; at least
+      six months required. 2025 2.284%. This is a new-business housing rate,
+      not an outstanding household-debt yield.
+  new_housing_rate_from_cbc.csv:
+    source: Review sidecar for credit/new_housing_rate.csv
+    url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EH45M01
+    official: true
+    refreshed_by: fetch/fetch_cbc.py
+    notes: Machine-refreshed sidecar; diff before adopting into new_housing_rate.csv.
   npl.csv:
     source: Central Bank (CBC) cpx.cbc.gov.tw PCAxis EF07M01 — domestic-bank non-performing-loan ratio (逾放比率), Dec
     url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EF07M01

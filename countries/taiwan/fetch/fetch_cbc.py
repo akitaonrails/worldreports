@@ -49,6 +49,7 @@ Output: sidecars only.
   data/credit/npl_from_cbc.csv               (EF07M01 bank NPL ratio, Dec)
   data/economy/cpi_yoy_from_cbc.csv          (EF07M01 CPI y/y, Dec — cross-check)
   data/credit/household_credit_from_cbc.csv  (EF99Y01 consumer + building loans)
+  data/credit/new_housing_rate_from_cbc.csv  (EH45M01 five-bank new housing rate, annual mean)
   data/world/bop_goods_from_cbc.csv          (BPP2Y01 current acct + goods BoP)
 """
 from __future__ import annotations
@@ -192,6 +193,30 @@ def fx_annual_mean():
     return out
 
 
+def paired_rate_annual_mean(code, col_name):
+    """Annual mean of the rate paired after a monthly amount column.
+
+    EH45M01 is explicitly amount/rate interleaved: period, amount, rate for
+    each named loan purpose. ``table()`` deliberately returns the amounts;
+    this helper reads the adjacent rate cells and refuses any other shape.
+    """
+    p = get(code)
+    cols = [c["data"] for c in p["data"]["structure"]["Table1"]]
+    rows = p["data"]["dataSets"]
+    if len(rows[0]) - 1 != 2 * len(cols):
+        raise FetchError(f"{code} is not an amount/rate paired table")
+    ci = col_index(cols, col_name)
+    by_year = {}
+    for row in rows:
+        m = re.fullmatch(r"(\d{4})M\d{2}", row[0])
+        if m and FIRST <= int(m.group(1)) <= LAST:
+            value = _num(row[2 + 2 * ci])
+            if value is not None:
+                by_year.setdefault(int(m.group(1)), []).append(value)
+    return {year: statistics.mean(values) for year, values in by_year.items()
+            if len(values) >= 6}
+
+
 # -------------------------------------------------------------------- collect
 def collect():
     tables = {}
@@ -228,6 +253,9 @@ def collect():
         annual("EF99Y01", "消費者貸款-小計"), 0)
     put("credit/household_credit_from_cbc.csv", "building_loans_ntd_mn",
         annual("EF99Y01", "建築貸款"), 0)
+    print("CBC EH45M01 — five-bank new housing loan rate (annual mean)")
+    put("credit/new_housing_rate_from_cbc.csv", "new_housing_loan_rate_pct",
+        paired_rate_annual_mean("EH45M01", "購屋貸款"), 3)
     print("CBC BPP2Y01 — balance of payments (goods, current account)")
     put("world/bop_goods_from_cbc.csv", "current_account_usd_mn",
         annual("BPP2Y01", "經常帳-淨額"), 0)
@@ -248,6 +276,7 @@ SPOT = [
     ("markets/usdtwd_from_cbc.csv", "usd_twd_interbank_annual_mean", 2025, 31.2598),
     ("world/reserves_from_cbc.csv", "fx_reserves_usd_mn", 2025, 602553),
     ("credit/household_credit_from_cbc.csv", "consumer_loans_ntd_mn", 2025, 13_531_340),
+    ("credit/new_housing_rate_from_cbc.csv", "new_housing_loan_rate_pct", 2025, 2.284),
     ("world/bop_goods_from_cbc.csv", "bop_goods_exports_usd_mn", 2025, 583736),
 ]
 

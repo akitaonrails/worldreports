@@ -59,8 +59,8 @@ specification.
 - `SOURCES.yaml`, corrected in consolidation to what the fetchers do.
   - It has 45 entries and 45 sidecars, one-to-one, and every
     `refreshed_by` exists.
-  - It has 6 `meta.pending` entries. The central-debt-before-2021 item is
-    removed, because the debt history is staged via WARP.
+  - It has 5 `meta.pending` entries. The central-debt-before-2021 and
+    Transparency International items are removed because both are staged.
 - `DATA_NOTES.md`: the cross-file traps, the denominator rule, the seams
   and the cross-source table.
 - `DISCOVERY.md`, moved here from the lane root. `SOURCES.yaml` and
@@ -87,7 +87,7 @@ fetch` needs the network.
 | `fetch_mof.py` | MOF (+ NDL WARP) | zeisyu tax revenue, 財政統計 tables 1/4/20, central debt 2006–2026, JGB yields, reserves |
 | `fetch_customs.py` | Japan Customs | goods trade annual + 2026 YTD, eight partners × two directions |
 | `fetch_markets.py` | Yahoo (`official: false`) | Nikkei 225 monthly closes 1996-11 → 2026-10 |
-| `fetch_comparables.py` | WB, UNDP, IMF, OECD, UNHCR (`official: false`) | GDP US$, GDP/person, population, reserves, openness, Gini, homicide rate, HDI, IMF debt/balance, OECD IDD, asylum |
+| `fetch_comparables.py` | WB, UNDP, IMF, OECD, UNHCR, TI (`official: false`) | GDP US$, GDP/person, population, reserves, openness, Gini, homicide rate, UN-WPP net migration, HDI, TI CPI, IMF debt/balance, OECD IDD, asylum |
 | `fetch_mhlw.py` | MHLW | vital statistics long series, causes of death per edition, life tables, poverty |
 | `fetch_ipss.py` | IPSS | 2023 projection, nine variants, 2020–2070 |
 | `fetch_isa.py` | ISA / MOJ | foreign residents (two regimes), entrants, naturalisation |
@@ -245,12 +245,12 @@ denominator. The census and the estimates both give it.
 | people 4 | lens | staged | LFS participation and employment, child poverty |
 | world 1 | GDP, US$ bn | staged | `gdp_usd_from_wb` |
 | world 2 | HDI | staged | `hdi_from_undp` |
-| world 3 | CPI (TI) | **curate** | Transparency International, hand-curated (`meta.pending`), with the 2012 seam |
+| world 3 | CPI (TI) | staged | Transparency International CPI 2025 workbook, comparable 2012-method series |
 | world 4 | Reserves, US$ bn | staged | `reserves_from_mof` / `reserves_from_wb` |
 | demography 1 | Population index 2006=100 | staged | `population_from_stat` + census 2025 (seam). The IPSS projection is a note |
 | demography 2 | TFR + 2.1 line | staged | `vital_from_mhlw` |
 | demography 3 | Crude birth and death rates per 1,000 | staged | `vital_from_mhlw` (published, Japanese-national basis) |
-| demography 4 | Natural increase and net migration per 1,000 | staged / **fetch** | natural change rate staged. Net migration: the Statistics Bureau 人口推計 入国超過 (net international migration, total and by nationality), or WB SM.POP.NETM as the harmonised line |
+| demography 4 | Natural increase and net migration per 1,000 | staged | natural change remains on the Japanese-national panel; WB SM.POP.NETM (UN WPP model) is staged separately on migration because its scope differs |
 | security 1 | Homicide rate per 100k | staged | MHLW 他殺 ÷ Japanese pop. WB/UNODC beside it. Police 殺人 (incl. attempts) as a labelled third line or a note |
 | security 2 | Suicide per 100k | staged | MHLW 20200 ÷ Japanese pop. The NPA 自殺統計 (all residents) is an optional second line |
 | security 3 | Road traffic deaths per 100k | **fetch** | not staged. MHLW 20101 交通事故 is in the same cause tables (add the column to `fetch_mhlw.py`), or NPA 30-day traffic deaths, or WHO |
@@ -260,19 +260,19 @@ denominator. The census and the estimates both give it.
 | mortality 3 | COVID-19 per 100k | staged | 22200 (2020–22) and 22201 (2023+) as two segments ÷ Japanese pop |
 | mortality 4 | lens | staged | senility, aspiration pneumonia (2017 break), cancer |
 | migration 1 | Immigration and emigration per 1,000 | **fetch** / partly unavailable | no emigration register. The Statistics Bureau estimates' 入国者数 / 出国者数 (≥3-month movers) are the national flows, and need a fetch. ISA non-short-stay new entrants (staged) are events, not people |
-| migration 2 | Net migration per 1,000 | **fetch** | same source as demography 4 |
+| migration 2 | Net migration per 1,000 | staged | WB SM.POP.NETM, explicitly labelled as a UN WPP model rather than the national resident-movement register |
 | migration 3 | Foreign-born share (+ foreign-citizen share) | staged (citizen) / **unavailable** (born) | foreign-citizen share from census / estimates / ISA. **No country-of-birth cut exists**, so use `ctx.pending` with that reason |
 | migration 4 | lens | staged | ISA stocks by status, naturalisation, asylum (UNHCR; ISA curation pending) |
 
 Summary of the 48 slots:
 
-- **Fully staged: 31.** Spending 1–2 are on FY.
-- **Partly staged: 9.** The national or FY line is staged, but the
+- **Fully staged: 34.** Spending 1–2 are on FY; TI CPI and the UN-WPP
+  net-migration line are now included.
+- **Partly staged: 8.** The national or FY line is staged, but the
   canonical line needs a fetch or curation. These are fiscal 1, 2 and 4,
-  markets 1 and 4, credit 4, people 2, demography 4 and migration 3.
-- **Fetch-only: 7.** These are credit 1–3, people 3, security 3 and
-  migration 1–2.
-- **Curation-only: 1** (TI CPI).
+  markets 1 and 4, credit 4, people 2 and migration 3.
+- **Fetch-only: 6.** These are credit 1–3, people 3, security 3 and
+  migration 1.
 - **Unavailable:**
   - the country-of-birth half of migration 3;
   - an emigration register, which affects migration 1. Use the Statistics
@@ -296,11 +296,10 @@ the build.
 4. **ISA asylum press release**: now needed to settle UNHCR's 2024
    "recognized" 1,857 (refugees plus complementary protection?).
 5. **MOFA Japanese abroad**: returned 403.
-6. **Transparency International CPI**: hand-curate it.
-7. *(not in meta)* **pdfplumber** belongs in `requirements-fetch.txt`.
+6. *(not in meta)* **pdfplumber** belongs in `requirements-fetch.txt`.
    That is a root file, so it is for the merge.
-8. *(not in meta)* The spine "fetch" slots above.
-9. *(not in meta)* ESRI's FY2025 annual accounts (due Dec-2026) will
+7. *(not in meta)* The spine "fetch" slots above.
+8. *(not in meta)* ESRI's FY2025 annual accounts (due Dec-2026) will
    extend `gg_accounts` and `cofog`. The 2021–2025 population estimates
    will be re-based on the 2025 census, which moves every 2021–2024 rate.
 
@@ -316,9 +315,10 @@ the build.
 
 ## What the next session should build
 
-1. **The curated CSVs**, each diffed against its sidecar and trimmed to
-   2006–2026. Decide the FY/CY presentation for the fiscal and spending
-   plates once the CY harmonised fetch exists.
+1. **Remaining curated CSVs**, each diffed against its sidecar and trimmed
+   to 2006–2026. TI CPI and WB/UN-WPP net migration are already curated;
+   decide the FY/CY presentation for fiscal and spending once the calendar-
+   year harmonised fetch exists.
 2. **The spine fetches** listed above, each with a sidecar and a manifest
    entry.
 3. **plates.py** on the spine. The ones that need care:

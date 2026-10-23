@@ -15,8 +15,9 @@ without changing a byte of its data rows. `plates.py` reads only those stable
 publication copies; `provenance.json` and the country tests enforce that no
 `_from_` or `_check` file can reach a published chart. Missing histories remain
 visible pending panels rather than inferred values: the SBV policy rate, the
-ten-year government yield, the four-region statutory minimum wage, and the
-Transparency International CPI.
+ten-year government yield and the four-region statutory minimum wage. The
+Transparency International CPI was staged on 2026-10-23 from its pinned 2025
+workbook, using only the comparable 2012-method series.
 
 ---
 

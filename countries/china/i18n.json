@@ -75,10 +75,6 @@
     "pt": "Austrália",
     "zh-Hans": "澳大利亚"
   },
-  "BIS household-credit series is not staged": {
-    "pt": "A série de crédito às famílias do BIS não está preparada",
-    "zh-Hans": "尚未整理国际清算银行住户信贷序列"
-  },
   "Births": {
     "pt": "Nascimentos",
     "zh-Hans": "出生"
@@ -174,10 +170,6 @@
   "GDP per person (US$, current)": {
     "pt": "PIB por pessoa (US$ correntes)",
     "zh-Hans": "人均GDP（现价美元）"
-  },
-  "General-government flows are not staged; MOF's budget is a narrower perimeter": {
-    "pt": "Fluxos do governo geral não estão preparados; o orçamento do MF tem perímetro mais estreito",
-    "zh-Hans": "尚未整理一般政府收支；财政部预算口径更窄"
   },
   "Germany": {
     "pt": "Alemanha",
@@ -455,6 +447,10 @@
     "pt": "Fontes: Banco Mundial · FMI · PNUD · UN Comtrade · Transparência Internacional",
     "zh-Hans": "来源：世界银行 · IMF · UNDP · 联合国Comtrade · 透明国际"
   },
+  "Sources: World Bank · IMF · BIS · UNDP · UN Comtrade · Transparency International": {
+    "pt": "Fontes: Banco Mundial · FMI · BIS · PNUD · UN Comtrade · Transparência Internacional",
+    "zh-Hans": "来源：世界银行 · IMF · BIS · UNDP · 联合国Comtrade · 透明国际"
+  },
   "Spending by function, stacked (% of GDP)": {
     "pt": "Gasto por função, empilhado (% do PIB)",
     "zh-Hans": "按政府职能分类的支出（占GDP的%，堆叠）"
@@ -674,5 +670,17 @@
   "score, 0–100": {
     "pt": "nota, 0–100",
     "zh-Hans": "分数,0–100"
-  }
+  },
+  "Revenue": {"pt": "Receita", "zh-Hans": "收入"},
+  "Expenditure": {"pt": "Despesa", "zh-Hans": "支出"},
+  "Primary balance": {"pt": "Saldo primário", "zh-Hans": "初級餘額"},
+  "Interest paid": {"pt": "Juros pagos", "zh-Hans": "利息支出"},
+  "Households and NPISH": {"pt": "Famílias e ISFLSF", "zh-Hans": "住戶及非營利機構"},
+  "Private non-financial sector": {"pt": "Setor privado não financeiro", "zh-Hans": "私人非金融部門"},
+  "Lens — private-sector debt service (% of income)": {"pt": "Lente — serviço da dívida do setor privado (% da renda)", "zh-Hans": "視角—私人部門償債率（收入百分比）"},
+  "IMF Fiscal Monitor, broad general government; MOF's budget is narrower": {"pt": "Monitor Fiscal do FMI, governo geral amplo; o orçamento do Ministério das Finanças é mais restrito", "zh-Hans": "IMF《財政監測》廣義一般政府口徑；財政部預算口徑較窄"},
+  "IMF Fiscal Monitor; overall and primary balances from one vintage": {"pt": "Monitor Fiscal do FMI; saldos global e primário da mesma edição", "zh-Hans": "IMF《財政監測》；總餘額與初級餘額來自同一版本"},
+  "Derived within one IMF vintage: primary balance minus overall balance": {"pt": "Derivado dentro da mesma edição do FMI: saldo primário menos saldo global", "zh-Hans": "在同一IMF版本內推導：初級餘額減總餘額"},
+  "BIS total credit, Q4 stock, adjusted for breaks": {"pt": "Crédito total do BIS, estoque no 4º trimestre, ajustado por rupturas", "zh-Hans": "BIS總信貸，第四季度存量，已調整序列中斷"},
+  "BIS Q.CN.P; broader than households and never labelled household DSR": {"pt": "BIS Q.CN.P; mais amplo que famílias e nunca rotulado como serviço da dívida familiar", "zh-Hans": "BIS Q.CN.P；範圍廣於住戶，絕不標作住戶償債率"}
 }

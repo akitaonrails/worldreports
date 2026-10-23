@@ -82,11 +82,17 @@ def test_fiscal_debt_declares_the_broad_imf_perimeter():
     assert "remain separate" in text
 
 
-def test_pending_fiscal_flows_are_not_invented_from_narrow_budget_data():
+def test_imf_fiscal_flows_share_one_vintage_and_interest_is_derived():
+    data = by_year("fiscal/finance_intl.csv")
     panel = plate(SLUG, "plate_fiscal").panel("Revenue and expenditure")
-    assert not panel.data_lines()
-    assert any("MOF's budget is a narrower perimeter" in t
-               for t in panel.texts())
+    assert panel.points("Revenue")[2025] == pytest.approx(25.01)
+    assert panel.points("Expenditure")[2025] == pytest.approx(32.88)
+    balances = plate(SLUG, "plate_fiscal").panel("Overall and primary")
+    assert balances.points("Primary balance")[2025] == pytest.approx(-6.91)
+    interest = plate(SLUG, "plate_fiscal").panel("Interest paid")
+    assert interest.points("Interest paid")[2025] == pytest.approx(0.96)
+    assert float(data[2025]["primary_balance_pct_gdp"]) - \
+        float(data[2025]["overall_balance_pct_gdp"]) == pytest.approx(0.96)
 
 
 def test_trade_balance_is_one_world_bank_vintage():
@@ -127,6 +133,18 @@ def test_npl_is_bank_wide_and_not_household_arrears():
     panel = plate(SLUG, "plate_credit").panel("Non-performing loans")
     assert panel.data_lines()[0].get_ydata()[-1] == pytest.approx(npl[2024])
     assert any("bank-wide, not households" in t for t in panel.texts())
+
+
+def test_bis_household_credit_and_private_dsr_are_not_conflated():
+    household = by_year("credit/household_credit.csv")
+    dsr = by_year("credit/private_dsr.csv")
+    debt_panel = plate(SLUG, "plate_credit").panel("Household debt")
+    assert debt_panel.points("Households and NPISH")[2025] == pytest.approx(58.0)
+    lens = plate(SLUG, "plate_credit").panel("private-sector debt service")
+    assert lens.points("Private non-financial sector")[2025] == pytest.approx(18.8)
+    assert float(household[2025]["hh_credit_pct_gdp_q4"]) == 58.0
+    assert float(dsr[2025]["private_dsr_pct_q4"]) == 18.8
+    assert "never labelled household DSR" in " ".join(lens.texts())
 
 
 def test_poverty_thresholds_are_international_not_national():

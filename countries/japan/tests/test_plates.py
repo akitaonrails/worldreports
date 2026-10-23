@@ -130,3 +130,44 @@ def test_nikkei_is_explicitly_non_official_in_the_manifest():
     manifest = yaml.safe_load(
         (Country.load(SLUG).dir / "SOURCES.yaml").read_text(encoding="utf-8"))
     assert manifest["published"]["nikkei_yahoo.csv"]["official"] is False
+
+
+def test_ti_cpi_is_drawn_from_the_reviewed_historical_series():
+    cpi = years("cpi_ti")
+    panel = plate(SLUG, "plate_world").panel("Corruption")
+    plotted = dict(zip(panel.data_lines()[0].get_xdata(),
+                       panel.data_lines()[0].get_ydata()))
+    assert plotted[2025] == pytest.approx(num(cpi[2025], "cpi_score"))
+    assert plotted[2012] == pytest.approx(74)
+
+
+def test_net_migration_is_the_un_wpp_model_not_a_national_register():
+    migration = years("net_migration_wb")
+    population = years("population_stat")
+    want = num(migration[2024], "net_migration") / (
+        num(population[2024], "population_k") * 1_000
+    ) * 1_000
+    panel = plate(SLUG, "plate_migration").panel("Net migration")
+    bars = {
+        round(patch.get_x() + patch.get_width() / 2):
+        patch.get_y() + patch.get_height()
+        for patch in panel.ax.patches
+        if patch.get_data_transform() is panel.ax.transData
+    }
+    assert bars[2024] == pytest.approx(want)
+    migration_plate = next(
+        item for item in load_plates(Country.load(SLUG))
+        if item.topic == "migration"
+    )
+    assert "World Bank/UN WPP" in migration_plate.source
+    preamble = (DATA / "net_migration_wb.csv").read_text().splitlines()[:2]
+    assert any("not Japan's resident-movement register" in line
+               for line in preamble)
+
+
+def test_unavailable_disclosures_exist_in_every_published_language():
+    import json
+
+    ui = json.loads((Country.load(SLUG).dir / "ui.json").read_text())
+    assert set(ui) == {"ja", "en", "pt"}
+    assert all(locale["unavailable"] for locale in ui.values())

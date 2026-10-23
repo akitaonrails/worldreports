@@ -286,9 +286,17 @@ def plate_people(ctx, ig):
     _bands(ig, ax)
     _foot(ctx, ax, "EU-SILC, below 60% of national median income")
 
-    ax = ig.slot("people.minimum_wage", "Minimum wage")
-    ctx.pending(ax)
-    _foot(ctx, ax, "Official monthly minimum-wage history not staged — pending")
+    ax = ig.slot("people.minimum_wage",
+                 "Minimum wage (US$ per month, 12-month basis)")
+    wages = _d(ctx, "minimum_wage_estat", "eur_month_jul")
+    fx = _d(ctx, "eurusd_ecb", "avg")
+    years = [year for year in sorted(wages) if year in fx]
+    values = [wages[year] * fx[year] for year in years]
+    ctx.line(ax, years, values, p.RED)
+    ctx.endlabel(ax, years, values, p.RED, lambda n: f"US${n:,.0f}", dy=8)
+    _bands(ig, ax)
+    _foot(ctx, ax, "Eurostat earn_mw_cur; 12-month basis, converted at the "
+          "ECB annual-average US$/EUR rate")
 
     ax = ig.slot("people.lens", "Tax burden (% of GDP)")
     y, v = _yr(ctx, "tax_burden_estat", "estat")
@@ -311,8 +319,11 @@ def plate_world(ctx, ig):
     _bands(ig, ax)
 
     ax = ig.slot("world.cpi", "Corruption Perceptions Index (0–100)")
-    ctx.pending(ax)
-    _foot(ctx, ax, "Transparency International series not staged — pending")
+    y, v = _yr(ctx, "cpi_ti", "score")
+    ctx.line(ax, y, v, p.PURPLE)
+    ctx.endlabel(ax, y, v, p.PURPLE, lambda n: f"{n:.0f}", dy=8)
+    _foot(ctx, ax, "Transparency International CPI 2025 workbook; comparable "
+          "2012 method onward")
 
     ax = ig.slot("world.reserves", "International reserves (US$ bn)")
     y, v = _yr(ctx, "reserves_wb", "reserves_usd")
@@ -476,9 +487,9 @@ PLATES = (
     dict(id="06", slug="credit", topic="credit", builder=plate_credit,
          title="Credit — Household Deleveraging and Bank Repair", subtitle="Household debt, mortgage pricing and non-performing loans.", source="Source: Banco de Portugal BPstat", alt="Four panels on household debt, mortgage rates, non-performing loans and housing debt."),
     dict(id="07", slug="people", topic="people", builder=plate_people,
-         title="People — Inequality, Poverty and the Tax Burden", subtitle="EU-SILC measures, with their year convention kept explicit.", source="Sources: Eurostat EU-SILC · World Bank", alt="Four panels on inequality, relative poverty, the pending wage history and Portugal's tax burden."),
+         title="People — Inequality, Poverty and the Tax Burden", subtitle="EU-SILC measures, with their year convention kept explicit.", source="Sources: Eurostat EU-SILC · World Bank · Eurostat earn_mw_cur · ECB", alt="Four panels on inequality, relative poverty, Portugal's twelve-month-equivalent statutory minimum wage in US dollars, and the tax burden."),
     dict(id="08", slug="world", topic="world", builder=plate_world,
-         title="Portugal in the World — Size, Development and Reserves", subtitle="Comparable international measures from one vintage each.", source="Sources: World Bank · UNDP", alt="Four panels on GDP, human development, the pending corruption index and international reserves."),
+         title="Portugal in the World — Size, Development and Reserves", subtitle="Comparable international measures from one vintage each.", source="Sources: World Bank · UNDP · Transparency International", alt="Four panels on GDP, human development, Transparency International's comparable 2012–2025 corruption index, and international reserves."),
     dict(id="09", slug="demography", topic="demography", builder=plate_demography,
          title="Demography — A Revised Population and Migration-Led Growth", subtitle="The 2026 population revision is kept on the same denominator as the rates.", source="Sources: INE · Eurostat", alt="Four panels on population, fertility, births and deaths, and natural increase beside net migration."),
     dict(id="10", slug="security", topic="security", builder=plate_security,

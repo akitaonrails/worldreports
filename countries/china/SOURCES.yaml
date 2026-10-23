@@ -253,6 +253,26 @@ markets:
 # fiscal — revenue, deficit, debt. MOF (narrow) + IMF (broad), side by side.
 # --------------------------------------------------------------------------
 fiscal:
+  finance_intl.csv:
+    source: IMF Fiscal Monitor April 2026 — general government revenue, expenditure, overall balance and primary balance, % of GDP
+    url: "https://www.imf.org/external/datamapper/profile/CHN"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar fiscal/finance_intl_from_imf.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23 from DataMapper indicators GGR_G01_GDP_PT,
+      G_X_G01_GDP_PT, GGXCNL_G01_GDP_PT and GGXONLB_G01_GDP_PT. The fetcher
+      checks the Fiscal Monitor overall balance against WEO GGXCNL_NGDP and
+      refuses the combined file if the shared years differ by more than 0.11
+      percentage point; the current worst difference is 0.05 point. Interest
+      paid is primary minus overall balance within this one vintage, not a
+      separate or spliced source. 2025: revenue 25.01, expenditure 32.88,
+      overall balance -7.87, primary balance -6.91 (% of GDP).
+  finance_intl_from_imf.csv:
+    source: IMF Fiscal Monitor April 2026 — DataMapper JSON API, CHN row
+    url: "https://www.imf.org/external/datamapper/profile/CHN"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind finance_intl.csv; four indicators share one Fiscal Monitor vintage and are shape- and cross-checked before writing."
   debt_intl_pct_gdp.csv:
     source: IMF DataMapper — GGXWDG_NGDP (general government gross debt, % of GDP)
     url: "https://www.imf.org/external/datamapper/GGXWDG_NGDP@WEO/CHN"
@@ -515,10 +535,43 @@ international:
       same CPI Historical sheet.
 
 # --------------------------------------------------------------------------
-# credit — bank health. Household credit is BIS-territory and blocked-ish;
-# the one fetchable canonical slot is the IMF FSI non-performing ratio.
+# credit — household credit and private-sector debt service from BIS, plus
+# the bank-wide IMF FSI non-performing ratio. Definitions stay separate.
 # --------------------------------------------------------------------------
 credit:
+  household_credit.csv:
+    source: BIS — total credit statistics, WS_TC Q.CN.H.A.M.770.A, households and NPISH, % of GDP
+    url: "https://data.bis.org/topics/TOTAL_CREDIT/BIS%2CWS_TC%2C2.0/Q.CN.H.A.M.770.A"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar credit/household_credit_from_bis.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      Quarterly total household and NPISH credit, market value, adjusted for
+      breaks. The plate draws Q4, the annual stock convention; qavg and the
+      number of published quarters remain beside it so 2026-Q1 is never
+      called a full year. Q4 rises from 10.7% of GDP in 2006 to 60.6% in
+      2020 and reads 58.0% in 2025.
+  household_credit_from_bis.csv:
+    source: BIS — WS_TC Q.CN.H.A.M.770.A SDMX-CSV API
+    url: "https://stats.bis.org/api/v2/data/dataflow/BIS/WS_TC/2.0/Q.CN.H.A.M.770.A?startPeriod=2005&format=csvfile"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind household_credit.csv; country, series identity and quarterly periods are asserted before caching."
+  private_dsr.csv:
+    source: BIS — debt service ratios, WS_DSR Q.CN.P, private non-financial sector
+    url: "https://data.bis.org/topics/DSR/BIS%2CWS_DSR%2C1.0/Q.CN.P"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar credit/private_dsr_from_bis.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      This is the private non-financial-sector debt-service ratio, NOT a
+      household-only ratio: BIS does not publish Q.CN.H. The plate and legend
+      name the broader perimeter. Q4 is drawn; it rises from 11.9% in 2006 to
+      18.8% in 2025.
+  private_dsr_from_bis.csv:
+    source: BIS — WS_DSR Q.CN.P SDMX-CSV API
+    url: "https://stats.bis.org/api/v2/data/dataflow/BIS/WS_DSR/1.0/Q.CN.P?startPeriod=2005&format=csvfile"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind private_dsr.csv; never relabel as household debt service."
   npl_intl.csv:
     source: World Bank — FB.AST.NPER.ZS (IMF Financial Soundness Indicators)
     url: "https://api.worldbank.org/v2/country/CHN/indicator/FB.AST.NPER.ZS?format=json&per_page=200&date=2005:2026"
@@ -530,7 +583,7 @@ credit:
       crisis story reads it as an undercount, and the plate says so without
       adjusting the number. The CBIRC/CNFA national series is not in an
       accessible machine form (pending); BIS household credit for China is
-      not staged — the household-credit trio stays pending (DATA_NOTES).
+      is staged separately from BIS; it is not an arrears series.
   npl_intl_from_wb.csv:
     source: World Bank — FB.AST.NPER.ZS
     url: "https://api.worldbank.org/v2/country/CHN/indicator/FB.AST.NPER.ZS?format=json&per_page=200&date=2005:2026"
