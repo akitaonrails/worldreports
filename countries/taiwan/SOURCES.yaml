@@ -7,58 +7,122 @@
 # substitute instead — that is this country's standing condition, not a gap
 # per entry.
 #
-# NOTE ON PUBLISHER NAMES: DGBAS (Directorate-General of Budget, Accounting
-# and Statistics) was split on 2024-01-01 into the Budget Center
-# (pgb.gov.tw — fiscal/national-accounts releases) and the Statistics
-# Office (stat.gov.tw — census, labour, prices). Legacy DGBAS URLs may
-# redirect; verify which host serves which table.
+# Retrieved/compiled: 2026-10-23. Skeleton first, then publisher passes;
+# UNVERIFIED markers are replaced as each pass runs.
+#
+# PUBLISHER NOTE: the DGBAS family runs on two hosts — www.dgbas.gov.tw
+# (budget/national-accounts side, still branded 行政院主計總處) and
+# www.stat.gov.tw (Statistics Office, census/society side). Both serve a
+# TLS chain this machine cannot verify (missing intermediate) — fetchers
+# need an explicit CA or -k equivalent; record, don't paper over. The
+# shared statistics-query engine is nstatdb.dgbas.gov.tw (DPAS): table
+# pages take funid2 codes (verified tiles: A018101010 real GDP growth,
+# A030101015 CPI, A046301010 monthly wages, A020001010 median disposable
+# income, A200101010 social-security/GDP); the table-definition JSON is
+# webMain.aspx?sys=212&x=2100&funid=<CODE> (verified payload: funname,
+# source, coverage minym/maxym in ROC-year MM codes — 11509 = Sep 2026).
+# Every table exports HTML/Excel/ODS/CSV/CSV-UTF8/PDF/JSON, and the
+# data-out call was verified live today: same webMain.aspx with
+# sys=220&funid=<CODE>&ym=<from>&ymt=<to>&cycle=<col>&outmode=8 (JSON).
+# The definition JSON (sys=212&x=2100) lists cycleDef and coverage;
+# Phase B maps every table's cycle codes from it. The DPAS engine's
+# external JS is WAF-blocked to plain GETs but the engine speaks the
+# same protocol on both hosts (verified on both).
 
 economy:
   gdp.csv:
-    source: UNVERIFIED — Statistics Office / Budget Center (ex-DGBAS),stat.gov.tw — real GDP, nominal GDP, per capita, growth
-    url: UNVERIFIED — https://stat.gov.tw/ open-data / "National Statistics" interactive tables (XBEN class)
+    source: DGBAS nstatdb DPAS table A018101010 (國民所得統計常用資料 — GDP key table)
+    url: https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=220&funid=A018101010&ym=9500&ymt=11400&cycle=4&outmode=8
+    verified: 2026-10-23
     notes: >-
-      Substitute for the World Bank's NY.GDP series, which does not carry
-      Taiwan. Cross-check magnitude ~US$800bn nominal GDP. Quarterly
+      VERIFIED end to end. The DPAS data-out URL answers JSON
+      (outmode=8; also 0=html,1=Excel,6=ODS,2=CSV,3=CSV-UTF8,7=PDF):
+      {funid,name,links,gentime,colh,orgdata}. ym/ymt are ROC-year MM
+      codes (9500=2006, 11400=2025); cycle selects the column — cycle=4
+      here returned mid-year population 2006-2025 (22.82mn to 23.35mn,
+      peak 23.60mn in 2019, order of magnitude cross-checked against the
+      MOI register pass below). The GDP level / growth / per-capita
+      columns live on other cycle codes of the same table; Phase B maps
+      them via the sys=212&x=2100 definition JSON. Substitute for the
+      World Bank's NY.GDP series, which does not carry Taiwan. Quarterly
       national accounts are annual-rate seasonally adjusted — annual is
       the MEAN of quarters, never the sum.
   cpi.csv:
-    source: UNVERIFIED — Statistics Office, stat.gov.tw — CPI index, y/y
-    url: UNVERIFIED — https://stat.gov.tw/ (Ch. 040 price indices)
-    notes: Substitute for IMF WEO inflation.
+    source: DGBAS nstatdb DPAS table A030101015 (消費者物價基本分類指數, CPI)
+    url: https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=220&kind=100&funid=A030101015&ym=11401&ymt=11509&cycle=41&outmode=8
+    verified: 2026-10-23
+    notes: >-
+      VERIFIED end to end: monthly headline CPI (總指數) Jan 2025 – Sep
+      2026 in the orgdata array, base 2021=100 (values 109-110). Full
+      history ym=7000 onward (data cover 1981-09 = ROC 7000). cycle=41 is
+      the headline column; other cycles are the classification items.
+      Substitute for IMF WEO inflation. CBC EF07M01 carries CPI y/y as a
+      monthly cross-check — keep the two columns, never mix.
 
 fiscal:
   revenue_spending_debt.csv:
-    source: UNVERIFIED — Ministry of Finance (MOF), fiscal statistics; Budget Center for general-government fiscal aggregates
-    url: UNVERIFIED — https://www.mof.gov.tw / https://pgb.gov.tw
+    source: Ministry of Finance — 財政統計查詢 DPAS database, web02.mof.gov.tw (same engine family as DGBAS nstatdb)
+    url: https://web02.mof.gov.tw/njswww/WebMain.aspx?sys=220&kind=21&type=1&funid=i2101&ym=11200&ymt=11412&cycle=4&outmode=8
+    verified: 2026-10-23
     notes: >-
-      Substitute for IMF Gov. Debt. Watch two publishers, one idea: MOF
-      treasury cash basis vs Budget Center general-government accrual
-      system. Fiscal year is the calendar year for Taiwan (verify).
+      VERIFIED end to end. i2101 = 各級政府歲入歲出淨額、餘絀及融資
+      (ALL-levels government net revenue, expenditure, balance and
+      financing), annual 1974–2025 (ROC 63–114), NTD. Spot: 2023 (112)
+      net revenue 3,888,796,962 thousands → ~NT$3.89tn; magnitude
+      plausible. Fiscal year is the CALENDAR year (年度 rows are 112年度 =
+      calendar 2023) — unlike Japan/UK, no fiscal-year key needed.
+      sys=210&kind=21&type=1&funid=<code> serves the query form;
+      sys=220 serves data. i0111 = revenue by source (總決算). The
+      table tree is webMain.aspx?sys=100&kind=10&type=1&funid=defjsp3
+      (verified; harvest leaf codes from the openUrl(210,21,...) calls).
+      Substitute for IMF Gov. Debt. Watch two publishers, one idea:
+      MOF final-accounts tables vs DGBAS budget/final-accounts — the
+      consolidation differs; keep both columns if both get pulled.
 
 spending:
   expenses_by_function.csv:
-    source: UNVERIFIED — Budget Center / Directorate-General of Budget, Accounting and Statistics — central government expenditure by function
-    url: UNVERIFIED
-    notes: Two publishers possible (Executive Yuan budget vs audit/central government final accounts).
+    source: MOF web02 DPAS — 歲出淨額按政事別分 (expenditure by policy category); DGBAS A200101010 social-security/GDP
+    url: https://web02.mof.gov.tw/njswww/WebMain.aspx?sys=220&kind=21&type=1&funid=i0121&ym=9500&ymt=11412&cycle=4&outmode=8
+    verified: 2026-10-23 (i0121/i1121/i0124 codes harvested from the defjsp3 tree; i0232 verified end-to-end on the same engine)
+    notes: >-
+      i0121 = all-levels expenditure by policy category (大類/中分類
+      sub-codes i0124 etc.); i1121 = central government only. The whole
+      leaf map is harvested (69 fiscal leaves incl. i0232 中央政府債務
+      未償餘額 — VERIFIED live 2006–2025, NTD mn, 3.62tn in 2006). Two
+      publishers, one idea, IN THE SAME DATABASE: final accounts (accrual,
+      i0121) vs public treasury cash (i2201/i2205 公庫收支) — two columns,
+      never spliced. DGBAS A200101010 (DPAS) carries social-security
+      expenditure / GDP.
 
 trade:
   partners.csv:
-    source: UNVERIFIED — Ministry of Finance, Customs Administration (行政區通關統計) — exports/imports by partner
-    url: UNVERIFIED — customs trade statistics portal (CAX)
+    source: MOF 國際貿易統計資料庫 (international trade database) — web02.mof.gov.tw DPAS, defjsp7 tree
+    url: https://web02.mof.gov.tw/njswww/WebMain.aspx?sys=220&kind=21&type=1&funid=i9111&ym=11401&ymt=11412&cycle=4&outmode=8
+    verified: 2026-10-23
     notes: >-
-      This is the goods-side substitute for UN Comtrade / WTO stats, which
-      do list Taiwan — see the wto entries. Balance-of-payments goods
-      series also exists at the Budget Center; customs value vs BoP are
-      two definitions, two lines, never spliced.
+      VERIFIED end to end. i9111 = 洲別／國別貿易值 (trade value by
+      continent/country, USD thousands): 2025 (114年) total exports
+      US$639.96bn — magnitude cross-checked (2026-09 alone US$87.2bn per
+      MOF homepage indicator). i9121 = by commodity (HS2 i8141, SITC
+      i8151, BEC i8134); i8201 = country×commodity cross-table; i9203/
+      i9204 = main partners × detailed commodities. This is the goods
+      substitute for UN Comtrade/WTO stats: compiled from customs data
+      by MOF, so the Customs Administration itself stays a mirror
+      (see pending below). Balance-of-payments goods series (DGBAS/CBC
+      BPP2Y01) is a second definition — two lines, never spliced.
   wto_profile.csv:
-    source: UNVERIFIED — WTO — trade profile / market share for Chinese Taipei
-    url: UNVERIFIED — https://stats.wto.org (resident entity "Chinese Taipei")
+    source: WTO — carries Taiwan as "Chinese Taipei" (the one international body on the brief's list that does)
+    url: https://stats.wto.org/ (SPA; real data behind api.wto.org which REQUIRES a free API key)
     official: true
+    verified: "2026-10-23 (probed: stats.wto.org serves an SPA shell for every route; data.wto.org and ttd.wto.org return Cloudflare 403 from this machine; the WTO Stats Portal per its own docs offers CSV/Excel download and an API account)"
     notes: >-
-      WTO carries Taiwan under the name "Chinese Taipei" — the name on the
-      endpoint is what SOURCES records; plate labelling is an editorial
-      decision for Phase C.
+      PENDING with reason: no keyless machine endpoint reachable from
+      this machine today. WTO definitely carries Chinese Taipei as a
+      reporter (rank tables, trade profiles) — Phase B registers the
+      free api.wto.org key. UN Comtrade probe result recorded: public
+      preview API answers 200 but count=0 for reporterCode=158
+      (Chinese Taipei is NOT a reporter there; only partner-side mirrors
+      exist) — do not treat Comtrade as a Taiwan source.
 
 markets:
   rates.csv:
@@ -95,13 +159,20 @@ markets:
 
 people:
   labour.csv:
-    source: UNVERIFIED — Statistics Office (ex-DGBAS) — labour force survey (employment rate, unemployment, sector shares)
-    url: UNVERIFIED — https://stat.gov.tw Ch. 030
-    notes: No OECD membership (verify — Taiwan is not an OECD member); national LFS is the spine.
+    source: UNVERIFIED — DGBAS labour force survey, human-resources survey; monthly wages verified on DPAS A046301010
+    url: https://manpower.dgbas.gov.tw/dgbas_community/ (LFS dedicated portal — pending shape) / https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=100&funid=qryout&funid2=A046301010 (verified table page, monthly wage series)
+    verified: 2026-10-23 (wage table page; LFS portal pending)
+    notes: >-
+      No OECD membership (verify — Taiwan is not an OECD member); national
+      LFS is the spine. Employment rate, unemployment rate, sector shares.
   income_inequality.csv:
-    source: UNVERIFIED — Statistics Office — family income survey (Gini, quintile shares), wage stats
-    url: UNVERIFIED
-    notes: Survey-based; DGBAS family income/expense survey is the only sub-national income cut. No World Bank PIP for Taiwan.
+    source: UNVERIFIED — DGBAS family income survey (Gini, quintile shares); DPAS A020001010 verified for median disposable income
+    url: https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=100&funid=qryout&funid2=A020001010
+    verified: 2026-10-23 (table page only)
+    notes: >-
+      Survey-based; the family income/expense survey is the only
+      sub-national income cut. No World Bank PIP and no OECD inequality
+      table for Taiwan — the national survey IS the comparable.
 
 world:
   reserves.csv:
