@@ -31,6 +31,10 @@ locales:
   - {code: pt,      html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
 default_locale: en
 
+# On the plate spine (PLATE_SPINE.md): every plate declares its topic and
+# claims its panels by slot, on the shared frame and reference scales.
+spine: true
+
 # The x-axis span every plate shares, and the last year whose annual totals
 # are complete.
 years: {from: 2006, to: 2026}
