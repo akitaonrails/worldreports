@@ -1,14 +1,33 @@
 # Switzerland — handoff
 
-Written 2026-10-22 after the research pass, the fetch swarm and
-consolidation, on branch `switzerland`, cut from `main` at 2b0e367.
+## Publication completion — 2026-10-23
 
-**What this session produced:** the research, the sources manifest,
-eight fetchers and the staged sidecars.
+Switzerland is now a complete spine country. The publication contains 12
+plates in German, English and Portuguese; 60 reviewed stable datasets plus
+six added spine-gap datasets; localized chapter and page copy; committed
+PNG, SVG and thumbnail output; and recorded provenance for all 46 files the
+plates actually read. `ctx.pending` remains only for the true absence of a
+statutory national minimum wage.
 
-**What it did not produce:** plates, chapters, i18n, ui, events, curated
-CSVs or tests. Because `country.yaml` exists, the shared suite discovers
-Switzerland and fails on those missing files. That is expected.
+The gaps named by the original handoff were closed: Eurostat public
+investment, BIS Q4 household credit, IMF FSI non-performing loans,
+World Bank/UNODC homicide, World Bank/WHO road deaths, World Bank poverty and
+the official Transparency International CPI 2025 workbook are all curated
+and declared in `SOURCES.yaml`. Plates keep CHF and US-dollar series apart,
+select EFV general government rather than mixing its five sectors, preserve
+the 2023 GDP-vintage seam, use Total 1 as the customs partner denominator,
+and keep migration flows, asylum flows and S-status stock distinct.
+
+`countries/switzerland/tests/test_plates.py` provides 24 semantic and
+clipping checks. The focused publication gate completed with **77 passed**;
+the layout inspector reports **zero faults** for de, en and pt. The final
+full-repository gate and its exact count belong at the bottom of this file
+after the integration run.
+
+The remainder of this document is the archival Phase-A handoff. Statements
+that work was still missing or that a spine gap still needed fetching are
+superseded by the completion note above; the source-specific cautions remain
+useful.
 
 Read [`../../ADDING_A_COUNTRY.md`](../../ADDING_A_COUNTRY.md),
 [`../../SOURCING_A_COUNTRY.md`](../../SOURCING_A_COUNTRY.md) and the

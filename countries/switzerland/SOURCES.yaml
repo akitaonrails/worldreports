@@ -1484,6 +1484,12 @@ migration:
       pick the totals before writing.
 
 international:
+  cpi.csv:
+    source: Transparency International — Corruption Perceptions Index 2025 full dataset
+    url: https://www.transparency.org/en/cpi/2025/media-kit
+    official: false
+    refreshed_by: human review of CPI2025_Results.xlsx
+    notes: "The comparable 0–100 methodology begins in 2012; no pre-2012 0–10 observations are joined to it."
   gdp_usd_from_wb.csv:
     source: World Bank — World Development Indicators, NY.GDP.MKTP.CD (CHE)
     url: https://api.worldbank.org/v2/country/CHE/indicator/NY.GDP.MKTP.CD?format=json

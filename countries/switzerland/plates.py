@@ -24,6 +24,15 @@ def _rows(ctx, rel):
     return [dict(zip(table, values)) for values in zip(*table.values())]
 
 
+def _yr_where(ctx, rel, col, field, value, since=W0):
+    """Return an annual series for one explicit published perimeter."""
+    out = sorted((int(row["year"]), float(row[col]))
+                 for row in _rows(ctx, rel)
+                 if int(row["year"]) >= since and row.get(field) == value
+                 and row.get(col) == row.get(col))
+    return [year for year, _ in out], [number for _, number in out]
+
+
 def _annual_monthly(ctx, rel, col, how="mean"):
     grouped = defaultdict(list)
     for row in _rows(ctx, rel):
@@ -128,8 +137,10 @@ def plate_fiscal(ctx, ig):
     _, x = _yr(ctx, E, "expenditure_pct_gdp")
     ctx.line(ax, y, r, p.GREEN, label="Revenue, Eurostat")
     ctx.line(ax, y, x, p.RED, label="Expenditure, Eurostat")
-    ey, er = _yr(ctx, "fiscal/general_government_efv.csv", "revenue_pct_gdp")
-    _, ex = _yr(ctx, "fiscal/general_government_efv.csv", "expenditure_pct_gdp")
+    ey, er = _yr_where(ctx, "fiscal/general_government_efv.csv",
+                       "revenue_pct_gdp", "sector", "general_government")
+    _, ex = _yr_where(ctx, "fiscal/general_government_efv.csv",
+                      "expenditure_pct_gdp", "sector", "general_government")
     ctx.line(ax, ey, er, p.GREEN_D, ls="--", label="Revenue, EFV")
     ctx.line(ax, ey, ex, p.RED_D, ls="--", label="Expenditure, EFV")
     ig.add_recessions(ax, label=False)
@@ -148,7 +159,8 @@ def plate_fiscal(ctx, ig):
     y, d = _yr(ctx, "international/gg_debt_imf.csv", "gross_debt_pct_gdp")
     py, pv = _yr(ctx, "international/gg_debt_imf.csv", "gross_debt_pct_gdp_proj")
     ctx.line(ax, y + py, d + pv, p.RED, label="IMF total liabilities")
-    my, mv = _yr(ctx, "fiscal/general_government_efv.csv", "maastricht_debt_pct_gdp")
+    my, mv = _yr_where(ctx, "fiscal/general_government_efv.csv",
+                       "maastricht_debt_pct_gdp", "sector", "general_government")
     ctx.line(ax, my, mv, p.BLUE, ls="--", label="EFV Maastricht debt")
     ig.add_recessions(ax, label=False)
     ax.legend(loc="upper left", fontsize=7.3, frameon=False)
@@ -228,13 +240,15 @@ def plate_trade(ctx, ig):
     rows = _partner_rows(ctx)
     totals = {int(r["year"]): float(r["exports_chf_mn"]) for r in rows
               if r["partner_code"] == "TOTAL1" and int(r["year"]) >= W0}
-    partners = ["United States", "Germany", "China", "France", "Italy"]
+    partners = [("USA", "United States"), ("Germany", "Germany"),
+                ("China", "China"), ("France", "France"),
+                ("Italy", "Italy")]
     ax = ig.slot("trade.destinations", "Top export destinations (% of goods exports)")
-    for i, name in enumerate(partners):
+    for i, (name, label) in enumerate(partners):
         pts = sorted((int(r["year"]), float(r["exports_chf_mn"]) / totals[int(r["year"])] * 100)
                      for r in rows if r["partner"] == name and int(r["year"]) in totals)
         if pts:
-            ctx.line(ax, [x for x, _ in pts], [v for _, v in pts], p.cycle(i), label=name)
+            ctx.line(ax, [x for x, _ in pts], [v for _, v in pts], p.cycle(i), label=label)
     ig.add_recessions(ax, label=False)
     ax.legend(loc="upper right", fontsize=7.0, ncol=2, frameon=False)
     _foot(p, ax, "BAZG Swiss–Liechtenstein customs area; Total 1 denominator")
@@ -275,7 +289,7 @@ def plate_markets(ctx, ig):
     y, fx = _annual_monthly(ctx, "markets/fx_snb.csv", "usd_chf_avg")
     iy, iv = ctx.index_2006({a: 1 / b for a, b in zip(y, fx)})
     ctx.line(ax, iy, iv, p.RED)
-    _mark(ig, ax, "franc_floor", dy=0.90)
+    _mark(ig, ax, "franc_floor", dy=0.98)
     _mark(ig, ax, "franc_unpeg", dy=0.78)
     ig.add_recessions(ax, label=False)
 
@@ -320,7 +334,7 @@ def plate_credit(ctx, ig):
     _, housing = _yr(ctx, "social/arrears_bfs.csv", "rent_or_mortgage_pct")
     ctx.line(ax, y, any_arrears, p.RED, label="Any payment arrears")
     ctx.line(ax, y, housing, p.BLUE, label="Rent or mortgage arrears")
-    ax.legend(loc="upper right", fontsize=7.3, frameon=False)
+    ax.legend(loc="center right", fontsize=7.3, frameon=False)
     _foot(p, ax, "BFS SILC survey; people, not delinquent loans")
     _finish(ig)
 
@@ -351,7 +365,7 @@ def plate_people(ctx, ig):
 
     ax = ig.slot("people.lens", "Lens — real wages and redistribution")
     rows = [r for r in _rows(ctx, "macro/wages_bfs.csv")
-            if r["classification"] == "TOTAL" and r["real_pct"] == r["real_pct"]]
+            if r["real_pct"] == r["real_pct"]]
     rows.sort(key=lambda r: int(r["year"]))
     ctx.bars(ax, [int(r["year"]) for r in rows], [float(r["real_pct"]) for r in rows],
              lambda n: p.GREEN if n >= 0 else p.RED)
@@ -372,11 +386,8 @@ def plate_world(ctx, ig):
     ig.add_recessions(ax, label=False)
 
     ax = ig.slot("world.cpi", "Corruption Perceptions Index (score, 0–100)")
-    if ctx.has("international/cpi.csv"):
-        y, v = _yr(ctx, "international/cpi.csv", "score")
-        ctx.line(ax, y, v, p.PURPLE)
-    else:
-        ctx.pending(ax)
+    y, v = _yr(ctx, "international/cpi.csv", "score")
+    ctx.line(ax, y, v, p.PURPLE)
     _foot(p, ax, "Transparency International; methodology seam at 2012")
 
     ax = ig.slot("world.reserves", "Official reserves (US$ bn)")
@@ -495,7 +506,7 @@ def plate_mortality(ctx, ig):
     ay, av = _yr(ctx, "mortality/assisted_suicide_bfs.csv", "assisted_suicides")
     y, v = ctx.per_100k(dict(zip(ay, av)), pop)
     ctx.line(ax, y, v, p.GOLD, label="Assisted suicide")
-    ax.legend(loc="upper left", fontsize=7.0, frameon=False)
+    ax.legend(loc="center right", fontsize=7.0, frameon=False)
     _finish(ig)
 
 

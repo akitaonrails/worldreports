@@ -1,0 +1,81 @@
+{
+ "01-economy": [
+  "international/gdp_pc_wb.csv",
+  "macro/cpi_bfs.csv",
+  "macro/gdp_bfs.csv",
+  "macro/gdp_estat.csv",
+  "macro/hicp_estat.csv",
+  "macro/unemployment_estat.csv",
+  "macro/unemployment_rate_bfs.csv"
+ ],
+ "02-fiscal": [
+  "fiscal/general_government_efv.csv",
+  "fiscal/general_government_estat.csv",
+  "international/gg_debt_imf.csv"
+ ],
+ "03-spending": [
+  "fiscal/public_investment_estat.csv",
+  "fiscal/spending_by_function_estat.csv",
+  "macro/gdp_bfs.csv"
+ ],
+ "04-trade": [
+  "macro/gdp_bfs.csv",
+  "trade/goods_by_partner_bazg.csv"
+ ],
+ "05-markets": [
+  "macro/cpi_bfs.csv",
+  "markets/fx_snb.csv",
+  "markets/policy_rate_snb.csv",
+  "markets/smi_yahoo.csv",
+  "markets/yields_snb.csv"
+ ],
+ "06-credit": [
+  "credit/household_credit_bis.csv",
+  "credit/household_debt_estat.csv",
+  "credit/npl_wb.csv",
+  "markets/mortgage_rates_snb.csv",
+  "markets/policy_rate_snb.csv",
+  "social/arrears_bfs.csv"
+ ],
+ "07-people": [
+  "macro/wages_bfs.csv",
+  "social/gini_bfs.csv",
+  "social/gini_estat.csv",
+  "social/poverty_bfs.csv",
+  "social/poverty_estat.csv",
+  "social/poverty_wb.csv"
+ ],
+ "08-world": [
+  "international/cpi.csv",
+  "international/gdp_usd_wb.csv",
+  "international/hdi_undp.csv",
+  "international/reserves_snb.csv",
+  "international/reserves_wb.csv"
+ ],
+ "09-demography": [
+  "demography/balance_bfs.csv",
+  "demography/fertility_bfs.csv"
+ ],
+ "10-security": [
+  "demography/balance_bfs.csv",
+  "mortality/assisted_suicide_bfs.csv",
+  "mortality/causes_of_death_bfs.csv",
+  "security/firearm_deaths_bfs.csv",
+  "security/homicide_police_bfs.csv",
+  "security/homicide_wb.csv",
+  "security/road_deaths_wb.csv"
+ ],
+ "11-mortality": [
+  "demography/balance_bfs.csv",
+  "mortality/assisted_suicide_bfs.csv",
+  "mortality/causes_of_death_bfs.csv"
+ ],
+ "12-migration": [
+  "demography/balance_bfs.csv",
+  "migration/asylum_estat.csv",
+  "migration/citizenship_estat.csv",
+  "migration/flows_bfs.csv",
+  "migration/stock_by_permit_bfs.csv",
+  "migration/stock_estat.csv"
+ ]
+}
