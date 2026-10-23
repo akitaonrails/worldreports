@@ -282,3 +282,116 @@ whose statistics I have worked with.
 - **Don't trust a round number you did not source.** Every figure I checked
   against a secondary table that disagreed with an official one, the official
   one was right.
+
+---
+
+## 7. Drawing on the plate spine (October 2026)
+
+Every plate now follows PLATE_SPINE.md: one 2 × 2 frame, the same
+indicator in the same unit on the same scale as every other country, so a
+Korean plate can be wiped over a French one panel for panel. What that
+took, and the judgement calls behind it.
+
+### Chapters and topics
+
+| chapter | topic | what changed |
+|---|---|---|
+| 01_economy | economy | nominal GDP in won → world slot 1 (in US$); unemployment moves in from people |
+| 02_fiscal | fiscal | IMF general government from 2012, Bank of Korea SNA before it, as a seam; interest paid added |
+| 03_spending | spending | COFOG regrouped to the spine's seven groups; R&D → a note; government GFCF added |
+| 04_trade | trade | exports, imports and balance now % of GDP (goods and services); products → lens |
+| 05_markets | markets | KTB 10-year added; the won as an index (up = stronger); KOSPI in US$ |
+| 06_people | people | 3 × 2 → 2 × 2; HDI → world; unemployment → economy; elderly poverty → lens |
+| 07_world | world | GDP in US$, HDI, CPI with the pre-2012 seam, reserves; openness → trade; NIIP → a note |
+| 08_demography | demography | population as an index; crude rates per 1,000; net migration added |
+| 09_safety | security | homicide, suicide, roads per 100,000; workplace deaths → lens |
+| 10_credit | credit | BIS household debt (BOK beside it); debt service ratio → lens |
+| 11_mortality | mortality | new: crude death rate, excess deaths, COVID-19, the big killers |
+
+### Counts into rates, and which population
+
+- **Homicide.** Statistics Korea's Causes of Death release counts deaths
+  of Korean nationals and divides by 주민등록 연앙인구, the mid-year
+  registered population of Korean nationals (index.go.kr 1012, 수치해석
+  방법). The plate used to divide the assault count by the projection
+  population in macro/gdp.csv, which counts foreign residents as well and
+  was 0.7 million larger in 2024: a scope mismatch that ran the rate about
+  1.4% low. The release does not print its denominator, but it prints the
+  all-cause rate to four significant figures beside the total it came
+  from, so `kostat_population()` recovers it as deaths (social/vital.csv)
+  ÷ all-cause rate (social/mortality.csv, new column `all_causes`) ×
+  100,000. On it, 2024's 314 deaths give 0.62, which rounds to the 0.6
+  the release prints. The test pins both.
+- **Workplace deaths.** MOEL's 사고사망만인율 is per 10,000 workers
+  insured against industrial accidents. The lens shows it ×10, per 100,000
+  insured workers, and says so on its axis: it is not a rate per head of
+  population and does not sit on the same denominator as the other three
+  panels. The count, which includes occupational disease while the rate
+  counts accidents only, is quoted in a note: 2,238 deaths in 2006, 2,248
+  in 2025, while the rate fell from 9.6 to 3.8.
+- **Minimum wage.** ₩ per hour × 209 ÷ the year's average ₩/US$
+  (macro/won.csv `avg`). 209 is the monthly conversion the Minimum Wage
+  Commission publishes with every decision — a 40-hour week plus the paid
+  weekly rest day, 48 × 365 / 7 / 12 ≈ 209 — and it is used for every
+  year. Before the 40-hour week reached every workplace (2011), the
+  government also quoted a 226-hour figure for 44-hour workplaces; the
+  plate does not switch, so the series measures one thing throughout. 2026
+  is the decided wage over a part-year average rate, drawn dashed.
+- **Net migration.** Statistics Korea's international migration count
+  (new file social/migration.csv, index.go.kr 1014) covers Koreans and
+  foreigners, so it is divided by the mid-year total population of the
+  projection (social/population.csv), which covers both. The crude birth
+  and death rates beside it are the published ones (new columns in
+  social/vital.csv), on the registered Korean-national denominator; the
+  two denominators differ by under 1.5%, and each matches its own count.
+- **Crude death rate.** The Causes of Death all-cause rate ÷ 100, per
+  1,000; the same number as the vital statistics' 조사망률 with two more
+  digits.
+- **Excess deaths.** Deaths each year against the 2015–2019 average
+  count, as the spine defines it for every country. It is not
+  age-adjusted, so in a country ageing as fast as Korea the years before
+  2015 sit 7–15% below zero and the axis grows downward past the
+  reference range, with the marker. That is the data, not a fault.
+
+### Harmonised series
+
+The plates never draw a sidecar. Each harmonised series was reviewed and
+copied into a curated file: intl/world.csv, fiscal/general_government_imf.csv,
+trade/trade_gdp.csv, macro/household_bis.csv, social/security_intl.csv,
+social/poverty_wb.csv, social/gini_wb.csv.
+
+- **Fiscal, before 2012.** The IMF's general-government series for Korea
+  starts in 2012. The Bank of Korea's own SNA account covers the earlier
+  years and is drawn as its own thinner segment, never joined to the IMF
+  line; where both exist it runs about 0.6 pt of GDP higher. The IMF's
+  gross debt is Korea's D2; D1 rides beside it as the number the budget
+  debate uses.
+- **Interest paid.** ECOS 200Y153 item 1208, interest paid by general
+  government: 1.42% of GDP in 2025. The IMF's net figure (primary minus
+  overall balance) is 0.3%, because the pension fund earns most of it back;
+  a note says so. The OECD table 12 endpoint returned nothing for Korea, so
+  there is no second publisher for the gross figure.
+- **10-year yield.** ECOS 721Y001, annual average, cross-checked against
+  the OECD's long-term rate.
+- **Corruption Perceptions Index before 2012.** The 0–10 scores (5.1 to
+  5.6) were read off Transparency International's own pages for each year
+  and drawn ×10 as paler bars, a seam with a note.
+
+### What moved, and what went
+
+- The tax burden panel is now a note on fiscal slot 1 (its 2022 peak).
+- R&D (4.94% of GDP in 2023, second only to Israel) is a note on the
+  investment panel: spending has no lens slot.
+- The international investment position is a note on reserves (net
+  creditor since 2014).
+- The ageing share and the 2072 projection are notes on the population
+  panel; the projection is no longer drawn, because the spine's time axis
+  ends in 2026.
+- The real (CPI-deflated) minimum wage is gone: the spine's unit is US$ a
+  month, and the old "2026 won" line was really in 2025 won.
+- The KOSPI-in-won and S&P-in-won comparison is replaced by KOSPI in US$
+  against the S&P 500, which says the same thing (the currency is half the
+  story) in the unit every country uses.
+- Trade openness is trade slot 1 now; nominal GDP in won is a note on
+  world slot 1.
+- The CPI axis no longer starts at zero, so a year of deflation would show.

@@ -64,6 +64,20 @@ def write(rel: str, text: str) -> None:
     print(f"  -> data/{rel}")
 
 
+def spot(series: dict[int, float], year: int, expected: float, tol: float,
+         what: str) -> None:
+    """Fail rather than write when a known value does not come back.
+
+    An API that changes units between editions, or serves an empty cube
+    under HTTP 200, still produces a CSV; a pinned value is what tells the
+    two apart from a real revision.
+    """
+    got = series.get(year)
+    if got is None or abs(got - expected) > tol:
+        raise SystemExit(f"{what}: {year} is {got}, expected {expected} "
+                         f"± {tol}; nothing written")
+
+
 def main() -> None:
     years = list(range(Y0, Y1 + 1))
     print("Fetching Eurostat series for France...")
@@ -129,12 +143,15 @@ def main() -> None:
     parts = {c: annual("gov_10a_exp", geo=GEO, na_item="TE", unit="PC_GDP",
                        sector="S13", cofog99=c, freq="A")
              for c in ("GF02", "GF03", "GF05", "GF06", "GF08")}
-    cofog["defence_order"] = {
-        y: parts["GF02"].get(y, 0) + parts["GF03"].get(y, 0)
-        for y in parts["GF02"]}
-    cofog["other"] = {
-        y: sum(parts[c].get(y, 0) for c in ("GF05", "GF06", "GF08"))
-        for y in parts["GF05"]}
+    # A sum is only written where every part is published: a division the
+    # source has not released yet is a hole, never a zero. `.get(y, 0)`
+    # here once would have turned a late GF03 into a defence-and-order
+    # figure that was defence alone.
+    def summed(codes):
+        common = set.intersection(*(set(parts[c]) for c in codes))
+        return {y: sum(parts[c][y] for c in codes) for y in common}
+    cofog["defence_order"] = summed(("GF02", "GF03"))
+    cofog["other"] = summed(("GF05", "GF06", "GF08"))
     cofog["total"] = annual("gov_10a_exp", geo=GEO, na_item="TE",
                             unit="PC_GDP", sector="S13", cofog99="TOTAL",
                             freq="A")
@@ -179,6 +196,99 @@ def main() -> None:
           rows(years, {"pop_mn": {y: v / 1e6 for y, v in pop.items()},
                        "births": births, "deaths": deaths, "tfr": tfr},
                dec=4))
+
+
+    # ---- the plate spine's gap series --------------------------------
+    # Each of these fills a canonical slot France had no committed series
+    # for. They are sidecars like everything else here; the curated copy
+    # the plate draws is written by hand after the diff is read.
+
+    # Ten-year benchmark yields, the EMU convergence-criterion series
+    # (annual average of monthly secondary-market yields). Germany is the
+    # reference the OAT is quoted against, so it rides beside it.
+    oat = annual("irt_lt_mcby_a", geo="FR", freq="A")
+    bund = annual("irt_lt_mcby_a", geo="DE", freq="A")
+    spot(oat, 2023, 2.99, 0.02, "irt_lt_mcby_a FR")
+    spot(bund, 2023, 2.43, 0.02, "irt_lt_mcby_a DE")
+    write("markets/bond_yields_from_estat.csv",
+          rows(years, {"fr_10y": oat, "de_10y": bund}, dec=2))
+
+    # Exports and imports of goods AND services, national accounts (P6,
+    # P7), the spine's trade basis. The customs series in trade.csv is
+    # goods only, on a FAB/FAB basis, and stays the national line.
+    x_gs = annual("nama_10_gdp", geo=GEO, na_item="P6", unit="PC_GDP",
+                  freq="A")
+    m_gs = annual("nama_10_gdp", geo=GEO, na_item="P7", unit="PC_GDP",
+                  freq="A")
+    spot(x_gs, 2022, 36.6, 0.15, "nama_10_gdp P6")
+    write("trade/trade_na_from_estat.csv",
+          rows(years, {"exports_pct_gdp": x_gs, "imports_pct_gdp": m_gs,
+                       "balance_pct_gdp": {y: x_gs[y] - m_gs[y]
+                                           for y in x_gs if y in m_gs}},
+               dec=1))
+
+    # Crude rates as Eurostat publishes them (per 1,000 of the average
+    # population), and that average population itself, which is the
+    # denominator every rate France computes on the spine is put over.
+    vit = {k: annual("demo_gind", geo=GEO, indic_de=k, freq="A")
+           for k in ("AVG", "JAN", "GBIRTHRT", "GDEATHRT", "NATGROWRT",
+                     "CNMIGRATRT")}
+    spot(vit["GDEATHRT"], 2020, 9.9, 0.05, "demo_gind GDEATHRT")
+    spot(vit["AVG"], 2019, 67_382_061, 5_000, "demo_gind AVG")
+    write("social/vital_rates_from_estat.csv",
+          rows(years, {"pop_avg": vit["AVG"], "pop_jan": vit["JAN"],
+                       "birth_rate": vit["GBIRTHRT"],
+                       "death_rate": vit["GDEATHRT"],
+                       "natural_rate": vit["NATGROWRT"],
+                       "net_migration_rate": vit["CNMIGRATRT"]}, dec=1))
+
+    # Migration: the flows and stocks France reports under Regulation
+    # 862/2007, all from INSEE's population estimates, plus the asylum,
+    # permit and citizenship series of the interior ministry.
+    common = dict(geo=GEO, age="TOTAL", sex="T", unit="NR", freq="A")
+    imm = annual("migr_imm1ctz", citizen="TOTAL", agedef="COMPLET", **common)
+    emi = annual("migr_emi1ctz", citizen="TOTAL", agedef="COMPLET", **common)
+    born_abroad = annual("migr_pop3ctb", c_birth="FOR", **common)
+    by_birth = annual("migr_pop3ctb", c_birth="TOTAL", **common)
+    nationals = annual("migr_pop1ctz", citizen="NAT", **common)
+    by_citizenship = annual("migr_pop1ctz", citizen="TOTAL", **common)
+    asylum = annual("migr_asyappctza", geo=GEO, citizen="TOTAL", age="TOTAL",
+                    sex="T", applicant="FRST", unit="PER", freq="A")
+    permits = annual("migr_resfirst", geo=GEO, reason="TOTAL",
+                     duration="TOTAL", citizen="TOTAL", unit="PER", freq="A")
+    acq = annual("migr_acq", citizen="TOTAL", agedef="COMPLET", **common)
+    spot(imm, 2022, 490_655, 1_000, "migr_imm1ctz")
+    spot(born_abroad, 2025, 9_633_730, 10_000, "migr_pop3ctb FOR")
+    write("migration/migration_from_estat.csv",
+          rows(years, {"immigration": imm, "emigration": emi,
+                       "foreign_born": born_abroad,
+                       "pop_by_birth": by_birth,
+                       "nationals": nationals,
+                       "pop_by_citizenship": by_citizenship,
+                       "asylum_first_time": asylum,
+                       "first_permits": permits,
+                       "citizenship_acquired": acq}, dec=0))
+
+    # Causes of death (Inserm-CépiDc, as reported to Eurostat): crude
+    # rates per 100,000 and the counts behind them, residents in France.
+    # And road deaths from the CARE database (ONISR, 30-day definition),
+    # with Eurostat's own rate per million inhabitants.
+    cod = {}
+    for name, icd in (("suicide", "X60-X84_Y870"),
+                      ("homicide", "X85-Y09_Y871"),
+                      ("transport", "V_Y85")):
+        cod[f"{name}_rate"] = annual("hlth_cd_acdr2", geo=GEO, icd10=icd,
+                                     sex="T", age="TOTAL", unit="RT",
+                                     freq="A")
+        cod[f"{name}_count"] = annual("hlth_cd_aro", geo=GEO, icd10=icd,
+                                      sex="T", age="TOTAL", unit="NR",
+                                      resid="TOT_IN", freq="A")
+    road = dict(geo=GEO, sex="T", age="TOTAL", pers_cat="TOTAL", freq="A")
+    cod["road_killed"] = annual("tran_sf_roadus", unit="NR", **road)
+    cod["road_per_million"] = annual("tran_sf_roadus", unit="P_MHAB", **road)
+    spot(cod["suicide_count"], 2019, 8_861, 20, "hlth_cd_aro suicide")
+    spot(cod["road_killed"], 2019, 3_238, 10, "tran_sf_roadus")
+    write("social/causes_from_estat.csv", rows(years, cod, dec=2))
 
     print("Done. Diff the *_from_estat.csv sidecars before adopting.")
 

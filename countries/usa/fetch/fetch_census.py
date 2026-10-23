@@ -26,10 +26,33 @@ Births and net migration before 2010 are left EMPTY. The 2000s vintage files
 publish intercensal population but not its components, and an estimate built
 here to fill the gap would be this repo's number rather than the Bureau's.
 
+For the plate spine, two sidecars (fetch/curate.py accepts them):
+
+  One continuous July 1 resident population, 2006 on, from the series the
+  Bureau itself now publishes as its best history: the 2000-2010
+  intercensal estimates (us-est00int-tot.csv, the July rows), the 2010-2020
+  intercensal estimates (nc-est2020int-agesex-res.csv, all ages, both
+  sexes), then Vintage 2025. The intercensal series are re-anchored on the
+  census at each end, so unlike the Vintage 2019 estimates in
+  population.csv there is no step at 2020. This is the denominator of every
+  rate per 100,000 or per 1,000 on these plates, and it is the same series
+  the World Bank carries as SP.POP.TOTL, which is checked year by year.
+
+  The Bureau's own published rates per 1,000 for the components of change
+  (RBIRTH, RDEATH, RNATURALINC / RNATURALCHG, RNETMIG), from the Vintage
+  2019 and Vintage 2025 files. They are on the July-to-June estimate year
+  and are kept apart by vintage.
+
 Outputs:
   data/social/population.csv   year,population,births,deaths,net_migration,
                                natural_increase,growth_pct,vintage
   data/social/projections.csv  year,population,births,deaths,net_migration
+  data/social/population_july1_from_census.csv  year,population,series
+  data/social/components_from_census.csv        year,vintage,birth_rate,
+                               death_rate,natural_rate,net_migration_rate
+
+Usage:  python3 countries/usa/fetch/fetch_census.py [--spine]
+        --spine refreshes only the two sidecars.
 """
 from __future__ import annotations
 
@@ -64,6 +87,10 @@ VINTAGES = (
 
 YEAR_FROM, YEAR_TO = 2006, 2026
 PROJ_TO = 2100
+
+INTERCENSAL_2000S = f"{BASE}/2000-2010/intercensal/national/us-est00int-tot.csv"
+INTERCENSAL_2010S = (f"{BASE}/2010-2020/intercensal/national/asrh/"
+                     "nc-est2020int-agesex-res.csv")
 
 
 def download(name: str, url: str) -> str | None:
@@ -129,7 +156,87 @@ def projections() -> dict[int, float]:
     return out
 
 
+def july1_population() -> dict[int, tuple[float, str]]:
+    """{year: (resident population on 1 July, which series)}, 2006 on."""
+    out: dict[int, tuple[float, str]] = {}
+    text = download("us-est00int-tot.csv", INTERCENSAL_2000S)
+    for row in csv.DictReader(io.StringIO(text or "")):
+        y = int(row["YEAR"])
+        if row["MONTH"] == "7" and YEAR_FROM <= y <= 2009:
+            out[y] = (float(row["TOT_POP"]), "intercensal_2000_2010")
+    text = download("nc-est2020int-agesex-res.csv", INTERCENSAL_2010S)
+    for row in csv.DictReader(io.StringIO(text or "")):
+        if row["SEX"] == "0" and row["AGE"] == "999":
+            for y in range(2010, 2020):
+                out[y] = (float(row[f"POPESTIMATE{y}"]), "intercensal_2010_2020")
+    text = download("v2025.csv", VINTAGES[0][1])
+    row = us_row(text or "")
+    for y in VINTAGES[0][2]:
+        v = number(row or {}, f"POPESTIMATE{y}")
+        if v is not None:
+            out[y] = (v, "v2025")
+    return out
+
+
+def spine() -> None:
+    """The two sidecars the plate spine draws from. See the docstring."""
+    pop = july1_population()
+    # Spot values: the Bureau's published July 1 totals.
+    for y, want in ((2006, 298_379_912), (2019, 330_226_227),
+                    (2025, 341_784_857)):
+        got = pop.get(y, (None,))[0]
+        if got != want:
+            raise SystemExit(f"  !! July 1 {y}: {got} against {want}; "
+                             f"nothing written")
+    # Cross-check: the World Bank's SP.POP.TOTL is this same series.
+    wb = DATA / "social" / "demography_from_wb.csv"
+    if wb.exists():
+        for r in csv.DictReader(wb.open()):
+            y = int(r["year"])
+            if y in pop and r["population"]:
+                if abs(float(r["population"]) / pop[y][0] - 1) > 1e-6:
+                    print(f"  ?? {y}: World Bank {r['population']} vs "
+                          f"Census {pop[y][0]:.0f}")
+    lines = ["year,population,series"]
+    for y in range(YEAR_FROM, YEAR_TO + 1):
+        p, tag = pop.get(y, (None, ""))
+        lines.append(f"{y},{fmt(p)},{tag}")
+    (DATA / "social" / "population_july1_from_census.csv").write_text(
+        "\n".join(lines) + "\n")
+    print("  -> data/social/population_july1_from_census.csv")
+
+    rates: dict[int, list[str]] = {}
+    for tag, url, years, base in VINTAGES:
+        row = us_row(download(f"{tag}.csv", url) or "")
+        if row is None:
+            raise SystemExit(f"  !! {tag}: no United States row")
+        natural = "RNATURALCHG" if tag == "v2025" else "RNATURALINC"
+        for y in years:
+            if y == base or y in rates:
+                continue
+            got = [number(row, f"{f}{y}") for f in
+                   ("RBIRTH", "RDEATH", natural, "RNETMIG")]
+            if all(v is not None for v in got):
+                rates[y] = [tag] + [fmt(v, 3) for v in got]
+    for y, i, want in ((2019, 3, 1.818), (2024, 3, 8.081), (2011, 2, 4.706)):
+        if rates.get(y, [None] * 5)[i + 1] != f"{want:.3f}":
+            raise SystemExit(f"  !! components {y}: {rates.get(y)}; "
+                             f"nothing written")
+    lines = ["year,vintage,birth_rate,death_rate,natural_rate,"
+             "net_migration_rate"]
+    for y in range(YEAR_FROM, YEAR_TO + 1):
+        lines.append(",".join([str(y)] + rates.get(y, [""] * 5)))
+    (DATA / "social" / "components_from_census.csv").write_text(
+        "\n".join(lines) + "\n")
+    print("  -> data/social/components_from_census.csv")
+
+
 def main() -> None:
+    import sys
+    if "--spine" in sys.argv:
+        print("Fetching Census series for the plate spine...")
+        spine()
+        return
     print("Fetching Census population...")
 
     # ---- estimates, newest vintage first so it wins any overlap ----------
@@ -196,6 +303,7 @@ def main() -> None:
     (DATA / "social" / "projections.csv").write_text(
         "year,population\n" + "\n".join(rows) + "\n")
     print("  -> data/social/projections.csv")
+    spine()
     print("Done.")
 
 

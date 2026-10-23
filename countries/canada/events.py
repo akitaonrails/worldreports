@@ -31,7 +31,10 @@ MARKS = {
     "crisis": (2008.75, "Global financial crisis"),
     "oil": (2015.0, "oil-price shock"),
     "covid": (2020.1, "COVID-19"),
-    "hikes": (2022.2, "rate hikes begin"),
-    "fx_break": (2017.2, "noon rate retired"),
+    "hikes": (2022.2, "the fastest hikes in decades"),
+    "fx_break": (2017.2, "the noon rate is retired"),
     "immigration_reversal": (2024.8, "levels plan reversed"),
+    "ccb": (2016.5, "Canada Child Benefit"),
+    "permit_cap": (2024.0, "permit cap"),
+    "us_tariffs": (2025.1, "US tariffs"),
 }

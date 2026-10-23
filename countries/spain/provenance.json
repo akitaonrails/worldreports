@@ -1,0 +1,81 @@
+{
+ "01-economy": [
+  "macro/gdp.csv",
+  "macro/inflation.csv",
+  "macro/unemployment.csv"
+ ],
+ "02-fiscal": [
+  "fiscal/debt.csv",
+  "fiscal/deficit.csv",
+  "fiscal/revenue.csv"
+ ],
+ "03-spending": [
+  "fiscal/investment.csv",
+  "fiscal/spending_by_function.csv"
+ ],
+ "04-trade": [
+  "macro/gdp.csv",
+  "trade/destinations.csv",
+  "trade/export_products.csv",
+  "trade/trade.csv"
+ ],
+ "05-markets": [
+  "macro/inflation.csv",
+  "markets/eurusd.csv",
+  "markets/ibex.csv",
+  "markets/policy_rate.csv",
+  "markets/sp500.csv",
+  "markets/yield_10y.csv"
+ ],
+ "06-people": [
+  "macro/employment.csv",
+  "markets/eurusd.csv",
+  "social/gini.csv",
+  "social/minimum_wage.csv",
+  "social/poverty.csv"
+ ],
+ "07-world": [
+  "international/cpi.csv",
+  "international/gdp_usd.csv",
+  "international/hdi.csv",
+  "international/reserves.csv",
+  "macro/gdp.csv",
+  "markets/eurusd.csv"
+ ],
+ "08-demography": [
+  "migration/emigration.csv",
+  "migration/immigration.csv",
+  "social/demography.csv",
+  "social/population.csv"
+ ],
+ "09-security": [
+  "social/causes_of_death.csv",
+  "social/homicides.csv",
+  "social/population.csv",
+  "social/security.csv"
+ ],
+ "10-mortality": [
+  "social/causes_of_death.csv",
+  "social/demography.csv",
+  "social/population.csv"
+ ],
+ "11-credit": [
+  "credit/debt_service.csv",
+  "credit/household_credit.csv",
+  "credit/household_debt.csv",
+  "credit/lending_rates.csv",
+  "credit/npl.csv",
+  "markets/policy_rate.csv"
+ ],
+ "12-migration": [
+  "migration/asylum.csv",
+  "migration/emigration.csv",
+  "migration/immigration.csv",
+  "migration/migration_flows_emcr_ine.csv",
+  "migration/migration_flows_ine.csv",
+  "migration/naturalisation.csv",
+  "migration/permits.csv",
+  "migration/stock.csv",
+  "social/population.csv"
+ ]
+}

@@ -25,7 +25,7 @@ from types import SimpleNamespace
 
 import yaml
 
-from core import plotting
+from core import numstyle, plotting
 
 ROOT = Path(__file__).resolve().parent.parent
 COUNTRIES_DIR = ROOT / "countries"
@@ -134,6 +134,11 @@ class Country:
     seo: dict                     # title, description, keywords, spatial
     sources: dict                 # the institutions named in the dek
     dir: Path = field(repr=False)
+    spine: bool = False           # held to PLATE_SPINE.md by test_spine
+    # locale code -> number style, for the locales that do not write
+    # numbers the way the language's base style does: {"pt": "pt-PT"}.
+    # See core.numstyle and number_style().
+    number_styles: dict = field(default_factory=dict)
 
     # ---------------------------------------------------------- loading
     @staticmethod
@@ -142,6 +147,19 @@ class Country:
         d = (COUNTRIES_DIR / slug).resolve()
         if d.parent != COUNTRIES_DIR.resolve() or not d.is_dir():
             raise DataIsolationError(f"no such country: {slug!r}")
+        return Country.from_dir(d, slug)
+
+    @staticmethod
+    def from_dir(d: Path, slug: str | None = None) -> "Country":
+        """A country from its directory's country.yaml.
+
+        `load` is the way in for the atlas: it resolves a slug under
+        countries/ and refuses anything else. This is what it calls once
+        it has, and what a test uses to build a throwaway country in a
+        temporary directory.
+        """
+        d = Path(d).resolve()
+        slug = slug or d.name
         cfg = yaml.safe_load((d / "country.yaml").read_text(encoding="utf-8"))
         if cfg["slug"] != slug:
             raise ValueError(
@@ -161,6 +179,19 @@ class Country:
         if len(set(codes)) != len(codes):
             raise ValueError(f"{slug}: duplicate locale codes in {codes}")
 
+        styles = dict(cfg.get("number_style") or {})
+        for code, style in styles.items():
+            if code not in codes:
+                raise ValueError(
+                    f"{slug}: number_style names {code!r}, which is not "
+                    f"among its locales {codes}")
+            if numstyle.STYLES.get(style) != code:
+                known = sorted(s for s, lang in numstyle.STYLES.items()
+                               if lang == code)
+                raise ValueError(
+                    f"{slug}: number_style {code}: {style!r} is not a "
+                    f"{code!r} style; core.numstyle knows {known}")
+
         y = cfg["years"]
         return Country(
             slug=slug,
@@ -179,6 +210,8 @@ class Country:
             seo=cfg["seo"],
             sources=cfg.get("sources", {}),
             dir=d,
+            spine=bool(cfg.get("spine", False)),
+            number_styles=styles,
         )
 
     @staticmethod
@@ -244,6 +277,16 @@ class Country:
             if l.code == code:
                 return l
         raise KeyError(f"{self.slug} does not publish in {code!r}")
+
+    def number_style(self, code: str) -> str:
+        """The number style a locale is written in: see core.numstyle.
+
+        The language's own style unless country.yaml says otherwise, so
+        Brazil's "pt" is Brazilian and Portugal's, with
+        `number_style: {pt: pt-PT}`, is European. The catalogs and the
+        chrome stay keyed by the locale code either way.
+        """
+        return self.number_styles.get(code, code)
 
     @property
     def locale_codes(self) -> tuple:

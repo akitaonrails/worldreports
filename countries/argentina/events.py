@@ -49,4 +49,7 @@ MARKS = {
 # The stretch where the official consumer price index cannot be used. INDEC
 # was intervened in January 2007 and the national CPI only restarts in
 # December 2016; the 2016 statistical emergency withdrew what lay between.
-INDEC_GAP = (2007.0, 2016.9)
+# On the plates' annual axis a year is centred on its tick, so the band runs
+# from half a year before 2007 to half a year after 2016: it covers exactly
+# the ten annual readings 2007-2016 and none either side.
+INDEC_GAP = (2006.5, 2016.5)

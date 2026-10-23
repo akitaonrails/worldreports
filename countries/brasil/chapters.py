@@ -15,6 +15,13 @@ from __future__ import annotations
 MONEY, WORLD, PEOPLE = "money", "world", "people"
 
 
+def per_100k(ctx, count_col, pop_mn_col):
+    """(year, rate) pairs: a count over the same year's population in
+    millions, ×100,000 — the same conversion the plates draw."""
+    pop = dict(pop_mn_col)
+    return [(y, v / (pop[y] * 1e6) * 1e5) for y, v in count_col if y in pop]
+
+
 def headline(ctx) -> list[dict]:
     """The figures the page leads with, above the plates.
 
@@ -50,9 +57,9 @@ def build(ctx) -> list[dict]:
         {
             "id": "01_economy", "topic": "economy", "n": "01", "family": MONEY,
             "title": ctx.text(en="The Brazilian Economy", pt="A Economia Brasileira"),
-            "blurb": ctx.text(en="Nominal size, real growth, income per person and inflation "
-                "— the four numbers the rest depend on.", pt="Tamanho nominal, crescimento real, renda por pessoa e "
-                "inflação — os quatro números dos quais o resto depende."),
+            "blurb": ctx.text(en="Real growth, income per person in dollars, inflation "
+                "against the target and unemployment at a series low.", pt="Crescimento real, renda por pessoa em dólares, inflação "
+                "contra a meta e desemprego na mínima da série."),
             "spark": ctx.col("macro/gdp.csv", "nominal_rbi"),
             "stats": [
                 ctx.stat({"en": "GDP", "pt": "PIB"},
@@ -65,27 +72,31 @@ def build(ctx) -> list[dict]:
         },
         {
             "id": "02_fiscal", "topic": "fiscal", "n": "02", "family": MONEY,
-            "title": ctx.text(en="Taxes, Balance & Debt", pt="Impostos, Resultado e Dívida"),
-            "blurb": ctx.text(en="What the state collects, whether it spends more than it "
-                "raises, and what that does to the debt stock.", pt="O que o Estado arrecada, se gasta mais do que arrecada, e o "
-                "que isso faz com o estoque da dívida."),
-            "spark": ctx.col("fiscal/debt.csv", "gross"),
+            "title": ctx.text(en="Balance, Debt & Interest", pt="Resultado, Dívida e Juros"),
+            "blurb": ctx.text(en="General government on the IMF's basis, beside the "
+                "measures Brazil argues in: the primary result, DBGG, DLSP and the "
+                "interest bill.", pt="O governo geral pelo critério do FMI, ao lado das "
+                "medidas do debate brasileiro: resultado primário, DBGG, DLSP e a "
+                "conta de juros."),
+            "spark": ctx.col("fiscal/general_government.csv", "gross_debt_pct_gdp"),
             "spark_level": True,
             "stats": [
-                ctx.stat({"en": "Gross debt", "pt": "Dívida bruta"},
-                     ctx.col("fiscal/debt.csv", "gross"), "pct_gdp", kind="level"),
-                ctx.stat({"en": "Tax burden", "pt": "Carga tributária"},
-                     ctx.col("fiscal/tax_burden.csv", "value"), "pct_gdp"),
-                ctx.stat({"en": "Primary result", "pt": "Resultado primário"},
-                     ctx.col("fiscal/primary_result.csv", "value"), "pct_gdp_s"),
+                ctx.stat({"en": "Gross debt (IMF)", "pt": "Dívida bruta (FMI)"},
+                     ctx.col("fiscal/general_government.csv", "gross_debt_pct_gdp"),
+                     "pct_gdp", kind="level"),
+                ctx.stat({"en": "Overall balance", "pt": "Resultado nominal"},
+                     ctx.col("fiscal/general_government.csv", "balance_pct_gdp"),
+                     "pct_gdp_s"),
+                ctx.stat({"en": "Interest (NFSP)", "pt": "Juros (NFSP)"},
+                     ctx.col("fiscal/nfsp.csv", "interest"), "pct_gdp"),
             ],
         },
         {
             "id": "03_spending", "topic": "spending", "n": "03", "family": MONEY,
             "title": ctx.text(en="Where the Money Goes", pt="Para Onde Vai o Dinheiro"),
-            "blurb": ctx.text(en="Federal spending by function — pensions against everything "
-                "else the budget has to carry.", pt="Gasto federal por função — a Previdência contra tudo mais "
-                "que o Orçamento precisa carregar."),
+            "blurb": ctx.text(en="Spending by function — social protection against "
+                "everything else — and how little the economy invests.", pt="Gasto por função — a proteção social contra todo o "
+                "resto — e quão pouco a economia investe."),
             "spark": ctx.col("fiscal/spending_by_function_rbi.csv", "previdencia"),
             "stats": [
                 ctx.stat({"en": "Pensions", "pt": "Previdência"},
@@ -131,26 +142,27 @@ def build(ctx) -> list[dict]:
         },
         {
             "id": "08_people", "topic": "people", "n": "08", "family": PEOPLE,
-            "title": ctx.text(en="Development, Jobs & Poverty", pt="Desenvolvimento, Trabalho e Pobreza"),
-            "blurb": ctx.text(en="Human development, inequality, unemployment, the minimum "
-                "wage and how far poverty actually fell.", pt="Desenvolvimento humano, desigualdade, desemprego, o salário "
-                "mínimo e quanto a pobreza realmente caiu."),
-            "spark": ctx.col("macro/unemployment.csv", "value"),
+            "title": ctx.text(en="Inequality, Poverty & Wages", pt="Desigualdade, Pobreza e Salários"),
+            "blurb": ctx.text(en="Inequality, how far poverty actually fell, and a "
+                "minimum wage that gained far more in reais than in dollars.", pt="A desigualdade, quanto a pobreza realmente caiu e "
+                "um salário mínimo que ganhou muito mais em reais do que em dólares."),
+            "spark": ctx.col("social/poverty.csv", "poverty_pct"),
             "stats": [
-                ctx.stat({"en": "Unemployment", "pt": "Desemprego"},
-                     ctx.col("macro/unemployment.csv", "value"), "pct"),
-                ctx.stat({"en": "HDI", "pt": "IDH"},
-                     ctx.col("social/hdi.csv", "value"), "dec3"),
-                ctx.stat({"en": "Poverty", "pt": "Pobreza"},
+                ctx.stat({"en": "Gini (IBGE)", "pt": "Gini (IBGE)"},
+                     ctx.col("social/gini.csv", "ibge"), "dec3"),
+                ctx.stat({"en": "Poverty, US$8.30 a day", "pt": "Pobreza, US$ 8,30 por dia"},
                      ctx.col("social/poverty.csv", "poverty_pct"), "pct"),
+                ctx.stat({"en": "Minimum wage, R$ a month", "pt": "Salário mínimo, R$ por mês"},
+                     ctx.col("macro/minimum_wage.csv", "value"), "count",
+                     kind="level"),
             ],
         },
         {
             "id": "07_world", "topic": "world", "n": "07", "family": WORLD,
             "title": ctx.text(en="Brazil in the World", pt="O Brasil no Mundo"),
-            "blurb": ctx.text(en="How the outside world scores Brazil, how closed its economy "
-                "is, and the reserves behind it.", pt="Como o mundo avalia o Brasil, quão fechada é sua economia, "
-                "e as reservas por trás disso."),
+            "blurb": ctx.text(en="The economy in dollars, how the UNDP and Transparency "
+                "International score Brazil, and the reserves behind the real.", pt="A economia em dólares, como o PNUD e a Transparência "
+                "Internacional avaliam o Brasil, e as reservas por trás do real."),
             "spark": ctx.col("macro/reserves.csv", "eop_usbi"),
             "spark_level": True,
             "stats": [
@@ -158,8 +170,8 @@ def build(ctx) -> list[dict]:
                      ctx.col("macro/reserves.csv", "eop_usbi"), "usd_bn", kind="level"),
                 ctx.stat({"en": "Corruption index", "pt": "Índice de corrupção"},
                      ctx.col("international/cpi.csv", "score"), "score100"),
-                ctx.stat({"en": "Competitiveness", "pt": "Competitividade"},
-                     ctx.col("international/wef.csv", "rank"), "rank"),
+                ctx.stat({"en": "HDI", "pt": "IDH"},
+                     ctx.col("social/hdi.csv", "value"), "dec3"),
             ],
         },
         {
@@ -190,15 +202,16 @@ def build(ctx) -> list[dict]:
             "stats": [
                 ctx.stat({"en": "Homicide rate", "pt": "Taxa de homicídios"},
                      ctx.col("social/homicides.csv", "rate"), "per100k"),
-                ctx.stat({"en": "Police killings", "pt": "Mortes por intervenção policial"},
-                     ctx.col("social/violence_fbsp.csv", "police_killings"), "count"),
+                ctx.stat({"en": "Killed by police", "pt": "Mortos pela polícia"},
+                     per_100k(ctx, ctx.col("social/violence_fbsp.csv", "police_killings"),
+                              ctx.col("social/population.csv", "pop_mn")), "per100k"),
                 ctx.stat({"en": "Femicides", "pt": "Feminicídios"},
                      ctx.col("social/violence_fbsp.csv", "femicides"), "count"),
             ],
         },
         {
             "id": "11_epidemics", "topic": "mortality", "n": "11", "family": PEOPLE,
-            "title": ctx.text(en="Epidemics", pt="Epidemias"),
+            "title": ctx.text(en="Mortality & Epidemics", pt="Mortalidade e Epidemias"),
             "blurb": ctx.text(en="COVID killed 425,218 in 2021 alone. Dengue set its record "
                 "in 2024, and influenza in 2025.", pt="A COVID matou 425.218 só em 2021. A dengue bateu recorde "
                 "em 2024, e a influenza em 2025."),
@@ -207,10 +220,10 @@ def build(ctx) -> list[dict]:
             # carries the shape a sparkline can actually show
             "spark": ctx.col("social/epidemic_deaths.csv", "dengue"),
             "stats": [
+                ctx.stat({"en": "Registered deaths", "pt": "Óbitos registrados"},
+                     ctx.col("social/deaths.csv", "registered"), "count"),
                 ctx.stat({"en": "COVID-19 deaths", "pt": "Óbitos por COVID-19"},
                      ctx.col("social/epidemic_deaths.csv", "covid"), "count"),
-                ctx.stat({"en": "Influenza deaths", "pt": "Óbitos por influenza"},
-                     ctx.col("social/epidemic_deaths.csv", "influenza"), "count"),
                 ctx.stat({"en": "Dengue deaths", "pt": "Óbitos por dengue"},
                      ctx.col("social/epidemic_deaths.csv", "dengue"), "count"),
             ],

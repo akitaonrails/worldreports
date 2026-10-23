@@ -44,4 +44,5 @@ MARKS = {
     "covid": (2020.1, "COVID-19"),
     "cice": (2019.0, "CICE becomes a contribution cut"),
     "energy": (2022.2, "Energy price shock"),
+    "dissolution": (2024.45, "2024: dissolution"),
 }

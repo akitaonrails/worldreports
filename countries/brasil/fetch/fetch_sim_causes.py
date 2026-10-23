@@ -3,8 +3,17 @@
 
 Usage:  python3 scripts/fetch_sim_causes.py
 
-Outputs:
-  data/social/epidemic_deaths.csv   year,covid,influenza,dengue  (2000-)
+Outputs (sidecars — a person diffs them into the curated files):
+  data/social/epidemic_deaths_from_sim.csv   year,covid,influenza,dengue  (2000-)
+  data/social/deaths_from_sim.csv            year,registered,suicide,road  (2000-)
+
+The second file is read off the same tables: `registered` is the table's
+own Total row (every registered death of a Brazilian resident), `suicide`
+sums X60-X84 (intentional self-harm) and `road` sums V01-V89, the
+Ministry's "acidentes de transporte terrestre". These are certificates as
+coded; the WHO's road-traffic estimate redistributes ill-defined and
+unspecified deaths onto causes, so it reads two or so points higher per
+100,000. Both are drawn, labelled.
 
 Same instrument as the homicide series in fetch_violence.py: SIM death
 certificates, counted by the victim's residence, classified by the
@@ -79,6 +88,13 @@ CAUSES = {
     "dengue": ["A90", "A91", "A97"],
 }
 
+# Summed into deaths_from_sim.csv. Ranges of ICD-10 categories, inclusive.
+RANGES = {
+    "suicide": ("X", 60, 84),
+    "road": ("V", 1, 89),
+}
+TOTAL = re.compile(r'^"?Total"?;\s*(\d+)\s*$')
+
 # TabNet prefixes some rows with a footnote marker — #, @ and & all appear,
 # the last on exactly the A97 row that carries dengue from 2025 — and the
 # count is the unquoted field after the quoted label.
@@ -126,13 +142,41 @@ def categories(html: str) -> dict[str, int]:
     return out
 
 
+def total(html: str) -> int:
+    """The table's own Total row: every registered death that year."""
+    pre = re.search(r"<PRE>(.*?)</PRE>", html, re.S | re.I)
+    for raw in pre.group(1).splitlines():
+        hit = TOTAL.match(raw.strip())
+        if hit:
+            return int(hit.group(1))
+    raise ValueError("no Total row in the <PRE> block")
+
+
+def in_range(cats: dict[str, int], letter: str, lo: int, hi: int) -> int:
+    return sum(v for k, v in cats.items()
+               if k[0] == letter and lo <= int(k[1:]) <= hi)
+
+
+# Spot values read off TabNet by hand on 2026-10-22; a fetch that does not
+# reproduce them writes nothing.
+SPOT = {2019: 1_349_801}
+
+
 def main() -> None:
     print("SIM / DATASUS TabNet — deaths by ICD-10 category...")
-    rows = {}
+    rows, deaths = {}, {}
     for year in range(YEAR_FROM, YEAR_TO + 1):
-        cats = categories(query(year))
+        html = query(year)
+        cats = categories(html)
         rows[year] = {name: sum(cats.get(c, 0) for c in codes)
                       for name, codes in CAUSES.items()}
+        deaths[year] = {"registered": total(html),
+                        **{k: in_range(cats, *r) for k, r in RANGES.items()}}
+        # the categories must add up to the Total row, or a row was missed
+        if sum(cats.values()) != deaths[year]["registered"]:
+            raise SystemExit(f"{year}: categories sum to {sum(cats.values())}"
+                             f", the Total row says "
+                             f"{deaths[year]['registered']}")
         print(f"  [{year}] " + "  ".join(
             f"{k}={v:,}" for k, v in rows[year].items()))
 
@@ -142,9 +186,20 @@ def main() -> None:
         cells = ["" if year == YEAR_TO and vals[c] == 0 else str(vals[c])
                  for c in ("covid", "influenza", "dengue")]
         lines.append(f"{year}," + ",".join(cells))
-    out = DATA / "social" / "epidemic_deaths.csv"
+    for year, want in SPOT.items():
+        if deaths[year]["registered"] != want:
+            raise SystemExit(f"{year}: {deaths[year]['registered']} registered"
+                             f" deaths, expected {want}; nothing written")
+    out = DATA / "social" / "epidemic_deaths_from_sim.csv"
     out.write_text("\n".join(lines) + "\n")
-    print(f"  -> data/social/epidemic_deaths.csv ({YEAR_FROM}-{YEAR_TO})")
+    print(f"  -> {out.relative_to(ROOT)} ({YEAR_FROM}-{YEAR_TO})")
+
+    lines = ["year,registered,suicide,road"]
+    for year, d in deaths.items():
+        lines.append(f"{year},{d['registered']},{d['suicide']},{d['road']}")
+    out = DATA / "social" / "deaths_from_sim.csv"
+    out.write_text("\n".join(lines) + "\n")
+    print(f"  -> {out.relative_to(ROOT)} ({YEAR_FROM}-{YEAR_TO})")
     print("Done.")
 
 

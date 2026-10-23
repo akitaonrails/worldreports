@@ -36,12 +36,18 @@ class Plate:
                                           figure, titles it and saves it
       dict(id="01", slug="output",        the figure, its title and its
            builder=..., title=...,        alt text are declared here and
-           subtitle=..., alt=...)         the function only draws panels
+           subtitle=..., alt=...,         the function only draws panels
+           topic="economy")
 
     The declarative shape is better — the title and the alt text are
     reviewable without reading the drawing code — so new countries should
     use it, and `alt` is required there because it is the only thing a
     screen-reader user gets instead of the image.
+
+    `topic` puts a declarative plate on the spine (core/spine.py): the
+    figure is built on the spine frame and the builder claims its panels
+    with `ig.slot(key, title)`. A function plate passes `topic=` to
+    `ctx.fig` itself. None is a plate not migrated yet.
     """
 
     name: str
@@ -51,6 +57,7 @@ class Plate:
     source: str = ""
     alt: str | None = None
     filename: str | None = None
+    topic: str | None = None
 
     @property
     def declarative(self) -> bool:
@@ -66,7 +73,7 @@ def normalise(entries) -> list[Plate]:
             out.append(Plate(name=e.get("builder").__name__, draw=e["builder"],
                              title=e["title"], subtitle=e.get("subtitle", ""),
                              source=e.get("source", ""), alt=e.get("alt"),
-                             filename=f"{stem}.png"))
+                             filename=f"{stem}.png", topic=e.get("topic")))
         else:
             name, fn = e
             out.append(Plate(name=name, draw=fn))
@@ -95,6 +102,22 @@ def load_plates(country: Country):
     return normalise(plates)
 
 
+def draw(ctx, plate: Plate) -> None:
+    """Draw and save one plate, whichever shape it was declared in.
+
+    The one place the two shapes are told apart, so the renderer and every
+    harness that replaces `Infographic.save` to look inside a plate build
+    the figure the same way — the same frame, the same topic.
+    """
+    if plate.declarative:
+        fig = ctx.fig(plate.title, plate.subtitle, source=plate.source,
+                      topic=plate.topic)
+        plate.draw(ctx, fig)
+        fig.save(ctx.out(plate.filename))
+    else:
+        plate.draw(ctx)
+
+
 def render_country(country: Country, langs=None, out_dir=None, only=None,
                    strict=True) -> list[str]:
     """Draw every plate for one country. Returns the problems found."""
@@ -117,13 +140,7 @@ def render_country(country: Country, langs=None, out_dir=None, only=None,
             if only and plate.name not in only and plate.filename not in only:
                 continue
             try:
-                if plate.declarative:
-                    fig = ctx.fig(plate.title, plate.subtitle,
-                                  source=plate.source)
-                    plate.draw(ctx, fig)
-                    fig.save(ctx.out(plate.filename))
-                else:
-                    plate.draw(ctx)
+                draw(ctx, plate)
             except Exception as e:  # noqa: BLE001
                 problems.append(f"{country.slug}/{lang}/{plate.name}: "
                                 f"{type(e).__name__}: {e}")

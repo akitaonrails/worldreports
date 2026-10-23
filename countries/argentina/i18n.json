@@ -1,7 +1,63 @@
 {
+ "%": {
+  "es": "%",
+  "pt": "%"
+ },
+ "% above 2015–2019 average": {
+  "es": "% sobre el promedio 2015–2019",
+  "pt": "% acima da média de 2015–2019"
+ },
+ "% above {0}–{1} average": {
+  "es": "% sobre el promedio {0}–{1}",
+  "pt": "% acima da média de {0}–{1}"
+ },
+ "% of GDP": {
+  "es": "% del PIB",
+  "pt": "% do PIB"
+ },
+ "% of goods exports": {
+  "es": "% de las exportaciones de bienes",
+  "pt": "% das exportações de bens"
+ },
+ "% of labour force": {
+  "es": "% de la población activa",
+  "pt": "% da força de trabalho"
+ },
+ "% of loans": {
+  "es": "% de los préstamos",
+  "pt": "% dos empréstimos"
+ },
+ "% of people": {
+  "es": "% de las personas",
+  "pt": "% das pessoas"
+ },
+ "% of population": {
+  "es": "% de la población",
+  "pt": "% da população"
+ },
+ "% per year": {
+  "es": "% anual",
+  "pt": "% ao ano"
+ },
+ "%, annual average": {
+  "es": "%, promedio anual",
+  "pt": "%, média anual"
+ },
+ "(H{0}N{1}) is its highest. A fatal flu is certified": {
+  "es": "(H{0}N{1}) es su máximo. Una gripe fatal se certifica",
+  "pt": "(H{0}N{1}) é o seu máximo. Uma gripe fatal é certificada"
+ },
+ "(rank {0}). Scores before {1} are on another": {
+  "es": "(puesto {0}). Los puntajes anteriores a {1} usan otra",
+  "pt": "(posição {0}). As notas anteriores a {1} usam outra"
+ },
  "+{0} linked": {
   "es": "+{0} vinculadas",
   "pt": "+{0} vinculadas"
+ },
+ "+{0}% in {1}": {
+  "es": "+{0}% en {1}",
+  "pt": "+{0}% em {1}"
  },
  "164,785 deaths in all, confirmed and probable together. The\ncause code is truncated to three characters in the published\nfile, so the two cannot be separated here.": {
   "es": "164.785 muertes en total, confirmadas y probables juntas. El\ncódigo de causa viene truncado a tres caracteres en el archivo\npublicado, así que no se pueden separar acá.",
@@ -35,9 +91,37 @@
   "es": "Todas las defunciones, con la parte de COVID-19, en miles",
   "pt": "Todos os óbitos, com a parcela de COVID-19, em milhares"
  },
+ "All registered deaths against their {0}–{1} mean,": {
+  "es": "Todas las muertes registradas frente a su media {0}–{1},",
+  "pt": "Todos os óbitos registrados frente à média de {0}–{1},"
+ },
+ "Argentina among the others": {
+  "es": "La Argentina entre los demás",
+  "pt": "A Argentina entre os outros"
+ },
  "Argentina's homicide rate is among the lowest in\nSouth America and has fallen by half since 2014.": {
   "es": "La tasa de homicidios de la Argentina es de las más bajas\nde Sudamérica y se redujo a la mitad desde 2014.",
   "pt": "A taxa de homicídios da Argentina é das mais baixas da\nAmérica do Sul e caiu pela metade desde 2014."
+ },
+ "BADLAR, private banks (proxy, not a policy rate)": {
+  "es": "BADLAR, bancos privados (aproximación, no es tasa de política)",
+  "pt": "BADLAR, bancos privados (aproximação, não é taxa básica)"
+ },
+ "BCRA gross reserves, year end": {
+  "es": "reservas brutas del BCRA, fin de año",
+  "pt": "reservas brutas do BCRA, fim de ano"
+ },
+ "BCRA policy rate, annual average": {
+  "es": "tasa de política del BCRA, promedio anual",
+  "pt": "taxa básica do BCRA, média anual"
+ },
+ "BCRA, bank retail lines, December": {
+  "es": "BCRA, líneas bancarias a familias, diciembre",
+  "pt": "BCRA, linhas bancárias às famílias, dezembro"
+ },
+ "BIS, all lenders, year end": {
+  "es": "BIS, todos los prestamistas, fin de año",
+  "pt": "BIS, todos os credores, fim de ano"
  },
  "Births and deaths registered, thousands": {
   "es": "Nacimientos y defunciones registrados, en miles",
@@ -47,6 +131,18 @@
   "es": "Los nacimientos cayeron 46,8% en diez años, de 777.012 en 2014\na 413.135 en 2024. Las dos líneas convergen, todavía no se cruzan.",
   "pt": "Os nascimentos caíram 46,8% em dez anos, de 777.012 em 2014 para\n413.135 em 2024. As duas linhas convergem, ainda não se cruzaram."
  },
+ "Blue at year end over the official": {
+  "es": "Blue a fin de año sobre el oficial",
+  "pt": "Blue no fim do ano sobre o oficial"
+ },
+ "Both at the official rate, which under the cepos most": {
+  "es": "Ambos al tipo de cambio oficial, al que bajo los cepos",
+  "pt": "Ambos ao câmbio oficial, ao qual, sob os cepos, a maioria"
+ },
+ "Brazil": {
+  "es": "Brasil",
+  "pt": "Brasil"
+ },
  "COVID-19": {
   "es": "COVID-19",
   "pt": "COVID-19"
@@ -55,17 +151,53 @@
   "es": "COVID-19 (CIE-10 U07)",
   "pt": "COVID-19 (CID-10 U07)"
  },
+ "COVID{0} deaths, underlying cause": {
+  "es": "Muertes por COVID{0}, causa básica",
+  "pt": "Mortes por COVID{0}, causa básica"
+ },
+ "Central bank gross reserves, US$ bn, year end": {
+  "es": "Reservas brutas del BCRA, US$ bn, fin de año",
+  "pt": "Reservas brutas do BCRA, US$ bi, fim de ano"
+ },
  "Central bank reserves, US$ billion, year end": {
   "es": "Reservas del banco central, miles de millones de US$, fin de año",
   "pt": "Reservas do banco central, bilhões de US$, fim de ano"
+ },
+ "Cepo cambiario": {
+  "es": "Cepo cambiario",
+  "pt": "Cepo cambial"
+ },
+ "Cepo returns": {
+  "es": "Vuelve el cepo",
+  "pt": "O cepo volta"
+ },
+ "Chile": {
+  "es": "Chile",
+  "pt": "Chile"
+ },
+ "China": {
+  "es": "China",
+  "pt": "China"
  },
  "Consolidated spending series ends in 2023.": {
   "es": "La serie de gasto consolidado termina en 2023.",
   "pt": "A série de gasto consolidado termina em 2023."
  },
+ "Consumer price inflation (Dec/Dec)": {
+  "es": "Inflación minorista (dic./dic.)",
+  "pt": "Inflação ao consumidor (dez./dez.)"
+ },
  "Consumer price inflation, % per year": {
   "es": "Inflación minorista, % anual",
   "pt": "Inflação ao consumidor, % ao ano"
+ },
+ "Converted at the official rate, which under the cepos": {
+  "es": "Convertido al tipo de cambio oficial, al que bajo los cepos",
+  "pt": "Convertido pelo câmbio oficial, ao qual, sob os cepos,"
+ },
+ "Corruption Perceptions Index": {
+  "es": "Índice de Percepción de la Corrupción",
+  "pt": "Índice de Percepção da Corrupção"
  },
  "Country risk, EMBI+ Argentina, basis points": {
   "es": "Riesgo país, EMBI+ Argentina, puntos básicos",
@@ -79,29 +211,81 @@
   "es": "Crédito, deuda de las familias y el precio del dinero, 2006-2026",
   "pt": "Crédito, dívida das famílias e o preço do dinheiro, 2006-2026"
  },
+ "Crude birth and death rates": {
+  "es": "Tasas brutas de natalidad y mortalidad",
+  "pt": "Taxas brutas de natalidade e mortalidade"
+ },
+ "Crude death rate": {
+  "es": "Tasa bruta de mortalidad",
+  "pt": "Taxa bruta de mortalidade"
+ },
+ "DEIS deaths V{0}–V{1} all land transport": {
+  "es": "muertes DEIS V{0}–V{1} todo el transporte terrestre",
+  "pt": "óbitos DEIS V{0}–V{1} todo o transporte terrestre"
+ },
+ "DEIS deaths X{0}–X{1} crude": {
+  "es": "muertes DEIS X{0}–X{1} tasa bruta",
+  "pt": "óbitos DEIS X{0}–X{1} taxa bruta"
+ },
+ "DEIS deaths over INDEC population": {
+  "es": "muertes DEIS sobre población INDEC",
+  "pt": "óbitos DEIS sobre a população do INDEC"
+ },
+ "Death rate, excess deaths, COVID{0} pneumonia": {
+  "es": "Mortalidad, exceso de muertes, COVID{0} neumonía",
+  "pt": "Mortalidade, excesso de mortes, COVID{0} pneumonia"
+ },
  "Deaths from COVID-19 and from pneumonia, thousands": {
   "es": "Muertes por COVID-19 y por neumonía, en miles",
   "pt": "Mortes por COVID-19 e por pneumonia, em milhares"
+ },
+ "December, year to date.": {
+  "es": "diciembre, en lo que va del año.",
+  "pt": "dezembro, no acumulado do ano."
+ },
+ "Deflated by the national CPI, so from {0} only.": {
+  "es": "Deflactadas por el IPC nacional: solo desde {0}",
+  "pt": "Deflacionadas pelo IPC nacional: só a partir de {0}"
  },
  "Direct femicide victims, rate per 100,000 women": {
   "es": "Víctimas directas de femicidio, tasa por cada 100.000 mujeres",
   "pt": "Vítimas diretas de feminicídio, taxa por 100.000 mulheres"
  },
+ "Direct investment by the nation only, not the": {
+  "es": "Inversión directa de la Nación solamente, sin las",
+  "pt": "Investimento direto só da Nação, sem as"
+ },
  "Dollar GDP moves with the exchange rate as well as with output.\nThe real-growth panel below is the one to read for activity.": {
   "es": "El PIB en dólares se mueve con el tipo de cambio tanto como con el\nproducto. Para la actividad, leer el panel de crecimiento real.",
   "pt": "O PIB em dólares se move com o câmbio tanto quanto com o produto.\nPara a atividade, leia o painel de crescimento real abaixo."
+ },
+ "Dollar GDP, human development, corruption perceptions, reserves": {
+  "es": "PIB en dólares, desarrollo humano, percepción de la corrupción, reservas",
+  "pt": "PIB em dólares, desenvolvimento humano, percepção da corrupção, reservas"
  },
  "Dollar GDP, real growth, income per head, 2006-2026": {
   "es": "PIB en dólares, crecimiento real e ingreso por habitante, 2006-2026",
   "pt": "PIB em dólares, crescimento real e renda por habitante, 2006-2026"
  },
+ "Excess deaths": {
+  "es": "Exceso de muertes",
+  "pt": "Excesso de mortes"
+ },
  "Exchange-rate gap, parallel over official, %": {
   "es": "Brecha cambiaria, paralelo sobre oficial, %",
   "pt": "Spread cambial, paralelo sobre oficial, %"
  },
+ "Export duties: {0}% of GDP in {1} {2}% in {3}": {
+  "es": "Derechos de exportación: {0}% del PIB en {1} {2}% en {3}",
+  "pt": "Direitos de exportação: {0}% do PIB em {1} {2}% em {3}"
+ },
  "Exports and imports, US$ billion": {
   "es": "Exportaciones e importaciones, miles de millones de US$",
   "pt": "Exportações e importações, bilhões de US$"
+ },
+ "Exports and imports, goods and services": {
+  "es": "Exportaciones e importaciones, bienes y servicios",
+  "pt": "Exportações e importações, bens e serviços"
  },
  "Exports by category, US$ billion": {
   "es": "Exportaciones por rubro, miles de millones de US$",
@@ -111,13 +295,29 @@
   "es": "Exportaciones, importaciones y composición de las ventas, 2006-2026",
   "pt": "Exportações, importações e composição das vendas, 2006-2026"
  },
+ "Exports, imports, destinations and what is sold": {
+  "es": "Exportaciones, importaciones, destinos y qué se vende",
+  "pt": "Exportações, importações, destinos e o que se vende"
+ },
+ "Fell in {0} of {1} years.": {
+  "es": "Cayó en {0} de {1} años.",
+  "pt": "Caiu em {0} de {1} anos."
+ },
  "Femicide victims counted, where the registry states them": {
   "es": "Víctimas de femicidio contadas, donde el registro las declara",
   "pt": "Vítimas de feminicídio contadas, onde o registro as declara"
  },
+ "Fewer births, a population still growing": {
+  "es": "Menos nacimientos, una población que todavía crece",
+  "pt": "Menos nascimentos, uma população que ainda cresce"
+ },
  "Fewer births, and one bad year of deaths": {
   "es": "Menos nacimientos, y un año malo de muertes",
   "pt": "Menos nascimentos, e um ano ruim de mortes"
+ },
+ "First half of {0} after the December {1}": {
+  "es": "Primer semestre de {0} tras la devaluación de diciembre de {1}:",
+  "pt": "Primeiro semestre de {0} após a desvalorização de dezembro de {1}:"
  },
  "Flat for a decade at roughly one victim per 100,000\nwomen, then falling in 2024 and 2025.": {
   "es": "Plana durante una década en torno a una víctima cada\n100.000 mujeres, y en baja en 2024 y 2025.",
@@ -163,49 +363,189 @@
   "es": "Combustibles y energía, participación en las exportaciones, %",
   "pt": "Combustíveis e energia, participação nas exportações, %"
  },
+ "Fuel: {0}% of exports in {1}": {
+  "es": "Combustibles: {0}% de lo exportado en {1}",
+  "pt": "Combustíveis: {0}% das exportações em {1}"
+ },
+ "GDP at current prices": {
+  "es": "PIB a precios corrientes",
+  "pt": "PIB a preços correntes"
+ },
  "GDP per capita, US$": {
   "es": "PIB per cápita, US$",
   "pt": "PIB per capita, US$"
+ },
+ "GDP per person": {
+  "es": "PIB por habitante",
+  "pt": "PIB per capita"
+ },
+ "General government revenue, balance, debt and interest": {
+  "es": "Ingresos, resultado, deuda e intereses del gobierno general",
+  "pt": "Receita, resultado, dívida e juros do governo geral"
  },
  "Gini coefficient of per-capita family income": {
   "es": "Coeficiente de Gini del ingreso per cápita familiar",
   "pt": "Coeficiente de Gini da renda per capita familiar"
  },
+ "Gini, 0–100": {
+  "es": "Gini, 0–100",
+  "pt": "Gini, 0–100"
+ },
+ "Gini, {0}–{1}": {
+  "es": "Gini, {0}–{1}",
+  "pt": "Gini, {0}–{1}"
+ },
+ "Government bond yield, US$ debt": {
+  "es": "Rendimiento de los bonos del Estado, deuda en US$",
+  "pt": "Rendimento dos títulos públicos, dívida em US$"
+ },
+ "Gross debt, general government": {
+  "es": "Deuda bruta, gobierno general",
+  "pt": "Dívida bruta, governo geral"
+ },
  "Gross domestic product, US$ billion": {
   "es": "Producto interno bruto, miles de millones de US$",
   "pt": "Produto interno bruto, bilhões de US$"
+ },
+ "Gross reserves; the same series meets": {
+  "es": "Reservas brutas; la misma serie se compara",
+  "pt": "Reservas brutas; a mesma série se compara"
+ },
+ "Growth, income per head, inflation and unemployment, {0}–{1}": {
+  "es": "Crecimiento, ingreso por habitante, inflación y desempleo, {0}–{1}",
+  "pt": "Crescimento, renda por habitante, inflação e desemprego, {0}–{1}"
+ },
+ "HDI, 0–1": {
+  "es": "IDH, 0–1",
+  "pt": "IDH, 0–1"
+ },
+ "HDI, {0}–{1}": {
+  "es": "IDH, {0}–{1}",
+  "pt": "IDH, {0}–{1}"
+ },
+ "Higher is cleaner. {0} in {1} {2} in {3}": {
+  "es": "Más alto es más limpio. {0} en {1} {2} en {3}",
+  "pt": "Mais alto é mais limpo. {0} em {1} {2} em {3}"
  },
  "Homicide and femicide": {
   "es": "Homicidio y femicidio",
   "pt": "Homicídio e feminicídio"
  },
+ "Homicide rate": {
+  "es": "Tasa de homicidios",
+  "pt": "Taxa de homicídios"
+ },
  "Homicide victims, count": {
   "es": "Víctimas de homicidio, cantidad",
   "pt": "Vítimas de homicídio, número"
+ },
+ "Homicide, suicide, the roads and femicide": {
+  "es": "Homicidio, suicidio, las rutas y el femicidio",
+  "pt": "Homicídio, suicídio, as estradas e o feminicídio"
  },
  "Household borrowing by type, % of GDP": {
   "es": "Endeudamiento de las familias por línea, % del PIB",
   "pt": "Endividamento das famílias por linha, % do PIB"
  },
+ "Household debt": {
+  "es": "Deuda de los hogares",
+  "pt": "Dívida das famílias"
+ },
+ "Household debt, what money costs and what goes bad": {
+  "es": "Deuda de los hogares, el precio del dinero y lo que no se paga",
+  "pt": "Dívida das famílias, o preço do dinheiro e o que não se paga"
+ },
+ "Human Development Index": {
+  "es": "Índice de Desarrollo Humano",
+  "pt": "Índice de Desenvolvimento Humano"
+ },
+ "ICD{0} U{1} confirmed and probable": {
+  "es": "CIE{0} U{1} confirmadas y probables",
+  "pt": "CID{0} U{1} confirmadas e prováveis"
+ },
+ "ILO modelled estimate": {
+  "es": "estimación modelada de la OIT",
+  "pt": "estimativa modelada da OIT"
+ },
+ "IMF WEO": {
+  "es": "FMI, WEO",
+  "pt": "FMI, WEO"
+ },
+ "IMF primary surplus +{0}% of GDP in {1} the": {
+  "es": "Superávit primario FMI de +{0}% del PIB en {1} el",
+  "pt": "Superávit primário FMI de +{0}% do PIB em {1} o"
+ },
+ "INDEC EPH, {0} urban areas": {
+  "es": "INDEC EPH, {0} aglomerados urbanos",
+  "pt": "INDEC EPH, {0} aglomerados urbanos"
+ },
+ "INDEC intervened, {0}–{1}": {
+  "es": "INDEC intervenido, {0}–{1}",
+  "pt": "INDEC sob intervenção, {0}–{1}"
+ },
+ "INDEC projection": {
+  "es": "proyección del INDEC",
+  "pt": "projeção do INDEC"
+ },
+ "INDEC's coefficient ({0}–{1}) × {2} Urban EPH only.": {
+  "es": "Coeficiente del INDEC ({0}–{1}) × {2} Solo EPH urbana.",
+  "pt": "Coeficiente do INDEC ({0}–{1}) × {2} Só a EPH urbana."
+ },
+ "INDEC, current US$": {
+  "es": "INDEC, US$ corrientes",
+  "pt": "INDEC, US$ correntes"
+ },
+ "INDEC, national CPI": {
+  "es": "INDEC, IPC nacional",
+  "pt": "INDEC, IPC nacional"
+ },
+ "INDEC, national basket (both halves)": {
+  "es": "INDEC, canasta nacional (ambos semestres)",
+  "pt": "INDEC, cesta nacional (os dois semestres)"
+ },
  "INDEC, national index": {
   "es": "INDEC, índice nacional",
   "pt": "INDEC, índice nacional"
+ },
+ "INDEC, per-capita family income": {
+  "es": "INDEC, ingreso per cápita familiar",
+  "pt": "INDEC, renda familiar per capita"
  },
  "IPC San Luis (official, provincial)": {
   "es": "IPC San Luis (oficial, provincial)",
   "pt": "IPC San Luis (oficial, provincial)"
  },
+ "IPC San Luis, provincial (official)": {
+  "es": "IPC San Luis, provincial (oficial)",
+  "pt": "IPC San Luis, provincial (oficial)"
+ },
  "In pesos the minimum wage rises every year. Prices\nrose about 1,200-fold over the same window, so the\npeso figure is not a series; the dollar one is.": {
   "es": "En pesos el salario mínimo sube todos los años. Los\nprecios se multiplicaron unas 1.200 veces en el mismo\nperíodo: la cifra en pesos no es una serie, la de dólares sí.",
   "pt": "Em pesos o salário mínimo sobe todos os anos. Os preços\nse multiplicaram cerca de 1.200 vezes no mesmo período:\no número em pesos não é uma série, o em dólares é."
+ },
+ "Income inequality, Gini (higher = less equal)": {
+  "es": "Desigualdad del ingreso, Gini (más alto = menos igual)",
+  "pt": "Desigualdade de renda, Gini (mais alto = menos igual)"
  },
  "Industrial manufactures are the residual of the other\nthree: the category's own series is served empty.": {
   "es": "Las manufacturas de origen industrial son el residuo de los\notros tres rubros: su propia serie se sirve vacía.",
   "pt": "As manufaturas de origem industrial são o resíduo das outras\ntrês categorias: a série própria delas é servida vazia."
  },
+ "Inequality, poverty and the minimum wage": {
+  "es": "Desigualdad, pobreza y salario mínimo",
+  "pt": "Desigualdade, pobreza e salário mínimo"
+ },
  "Inflation, the exchange rate and reserves, 2006-2026": {
   "es": "Inflación, tipo de cambio y reservas, 2006-2026",
   "pt": "Inflação, câmbio e reservas, 2006-2026"
+ },
+ "Inflation, the official and parallel dollar, the gap and reserves": {
+  "es": "Inflación, el dólar oficial y el paralelo, la brecha y las reservas",
+  "pt": "Inflação, o dólar oficial e o paralelo, o spread e as reservas"
+ },
+ "Influenza is barely coded: {0} deaths in {1}": {
+  "es": "La gripe casi no se codifica: {0} muertes en {1}",
+  "pt": "A gripe quase não é codificada: {0} mortes em {1}"
  },
  "Influenza is not on this chart because Argentina barely codes\nit: 9 to 358 deaths a year, against 15,000-40,000 pneumonias.\nA fatal flu is certified as the pneumonia it became.": {
   "es": "La gripe no está en este gráfico porque en la Argentina casi no\nse codifica: de 9 a 358 muertes por año, contra 15.000-40.000\nneumonías. Una gripe mortal se certifica como la neumonía en que\nse convirtió.",
@@ -215,9 +555,45 @@
   "es": "Tasa de homicidios dolosos, por cada 100.000 habitantes",
   "pt": "Taxa de homicídios dolosos, por 100.000 habitantes"
  },
+ "Interest paid": {
+  "es": "Intereses pagados",
+  "pt": "Juros pagos"
+ },
+ "Investment rate, whole economy": {
+  "es": "Tasa de inversión, toda la economía",
+  "pt": "Taxa de investimento, toda a economia"
+ },
+ "Lens: direct femicide victims, per {0} women": {
+  "es": "Lente: víctimas directas de femicidio, cada {0} mujeres",
+  "pt": "Lente: vítimas diretas de feminicídio, por {0} mulheres"
+ },
+ "Lens: exports by category, US$ bn": {
+  "es": "Lente: exportaciones por rubro, US$ bn",
+  "pt": "Lente: exportações por categoria, US$ bi"
+ },
+ "Lens: pneumonia and influenza": {
+  "es": "Lente: neumonía y gripe",
+  "pt": "Lente: pneumonia e gripe"
+ },
+ "Lens: poverty each half year, %": {
+  "es": "Lente: pobreza por semestre, %",
+  "pt": "Lente: pobreza por semestre, %"
+ },
+ "Lens: real interest rates, % per year": {
+  "es": "Lente: tasas de interés reales, % anual",
+  "pt": "Lente: juros reais, % ao ano"
+ },
+ "Lethal violence and accidents, per {0} people": {
+  "es": "Violencia letal y accidentes, cada {0} habitantes",
+  "pt": "Violência letal e acidentes, por {0} habitantes"
+ },
  "Linked victims are additional people, not a share of the\nfigure below them. Only three years appear at all, because\nonly three reports state a count unambiguously — the rate\npanel beside this one is complete and this one is not, and\ninterpolating would invent the years it is missing.": {
   "es": "Las víctimas vinculadas son personas adicionales, no una parte\nde la cifra que tienen debajo. Aparecen solo tres años porque\nsolo tres informes declaran un total sin ambigüedad: el panel\nde la tasa, al lado, está completo y este no, e interpolar\ninventaría los años que faltan.",
   "pt": "As vítimas vinculadas são pessoas adicionais, não uma parcela do\nnúmero abaixo delas. Aparecem só três anos porque só três\nrelatórios declaram uma contagem sem ambiguidade: o painel da\ntaxa, ao lado, está completo e este não, e interpolar inventaria\nos anos que faltam."
+ },
+ "Low of US${0}bn in {1} Gross: the BCRA's": {
+  "es": "Mínimo de US${0}bn en {1} Brutas: no se restan",
+  "pt": "Mínimo de US${0} bi em {1} Brutas: não se descontam"
  },
  "Lower is more equal. The annual average hides a\nquarterly spike to 0.467 in the first quarter of 2024.": {
   "es": "Más bajo es más igualitario. El promedio anual esconde\nun salto trimestral a 0,467 en el primer trimestre de 2024.",
@@ -227,6 +603,10 @@
   "es": "Referencias de mercado, no estadísticas oficiales: cierres del Merval y del S&P 500 vía Yahoo Finance; EMBI+ Argentina vía Ámbito Financiero",
   "pt": "Referências de mercado, não estatísticas oficiais: fechamentos do Merval e do S&P 500 via Yahoo Finance; EMBI+ Argentina via Ámbito Financiero"
  },
+ "Merval in US$ against the S&P {0}": {
+  "es": "Merval en US$ frente al S&P {0}",
+  "pt": "Merval em US$ contra o S&P {0}"
+ },
  "Merval in dollars against the S&P 500, 2006 = 100": {
   "es": "El Merval en dólares frente al S&P 500, 2006 = 100",
   "pt": "O Merval em dólares frente ao S&P 500, 2006 = 100"
@@ -234,6 +614,10 @@
  "Merval in dollars, index points": {
   "es": "El Merval en dólares, puntos del índice",
   "pt": "O Merval em dólares, pontos do índice"
+ },
+ "Merval, at the official year-end rate": {
+  "es": "Merval, al oficial de fin de año",
+  "pt": "Merval, ao câmbio oficial de fim de ano"
  },
  "Merval, in US$": {
   "es": "Merval, en US$",
@@ -243,9 +627,33 @@
   "es": "Salario mínimo, US$ por mes al tipo de cambio oficial",
   "pt": "Salário mínimo, US$ por mês ao câmbio oficial"
  },
+ "Minimum wage, at the official rate": {
+  "es": "Salario mínimo, al tipo de cambio oficial",
+  "pt": "Salário mínimo, ao câmbio oficial"
+ },
+ "Monthly SMVM at the year's average official rate,": {
+  "es": "SMVM mensual al oficial promedio del año,",
+  "pt": "SMVM mensal ao câmbio oficial médio do ano,"
+ },
  "Mortgage lending did not shrink, it stopped:\n1.56% of GDP in 2008, 0.28% in 2024.": {
   "es": "El crédito hipotecario no se achicó, se detuvo:\n1,56% del PIB en 2008, 0,28% en 2024.",
   "pt": "O crédito imobiliário não encolheu, parou:\n1,56% do PIB em 2008, 0,28% em 2024."
+ },
+ "Mortgages: {0}% of GDP in {1}": {
+  "es": "Hipotecarios: {0}% del PIB en {1}",
+  "pt": "Hipotecas: {0}% do PIB em {1}"
+ },
+ "National government only (provinces run schools and": {
+  "es": "Solo el gobierno nacional (las provincias gestionan escuelas",
+  "pt": "Só o governo nacional (as províncias administram escolas"
+ },
+ "National-accounts basis. Goods exports by customs:": {
+  "es": "Base cuentas nacionales. Exportaciones de bienes por aduana:",
+  "pt": "Base contas nacionais. Exportações de bens pela alfândega:"
+ },
+ "Natural increase and net migration": {
+  "es": "Crecimiento vegetativo y migración neta",
+  "pt": "Crescimento vegetativo e migração líquida"
  },
  "Natural increase, births minus deaths, thousands": {
   "es": "Crecimiento vegetativo, nacimientos menos defunciones, en miles",
@@ -255,25 +663,93 @@
   "es": "Ninguno de los dos índices es una estadística oficial: BYMA no\npublica una serie abierta de su propio índice, así que los dos\ncierres vienen de un proveedor privado.",
   "pt": "Nenhum dos dois índices é estatística oficial: a BYMA não publica\nsérie aberta do próprio índice, então os dois fechamentos vêm de\num fornecedor privado."
  },
+ "Net interest: the IMF's primary balance less its": {
+  "es": "Intereses netos: el resultado primario del FMI menos su",
+  "pt": "Juros líquidos: o resultado primário do FMI menos o seu"
+ },
+ "No inflation target since {0}": {
+  "es": "Sin meta de inflación desde {0}",
+  "pt": "Sem meta de inflação desde {0}"
+ },
+ "No peso {0}-year benchmark exists. The gap": {
+  "es": "No existe un bono en pesos a {0} años de referencia. La brecha",
+  "pt": "Não existe título de referência em pesos de {0} anos. A distância"
+ },
+ "No single policy rate existed before December": {
+  "es": "No hubo una única tasa de política antes de diciembre de",
+  "pt": "Não houve uma taxa básica única antes de dezembro de"
+ },
  "Nominal rates say almost nothing here: 95.9% on a deposit in\n2023 was a 37% real loss. Saving was punished every year from\n2017 to 2024; from 2025 borrowing is punished instead.": {
   "es": "Las tasas nominales casi no dicen nada acá: 95,9% por un plazo\nfijo en 2023 fue una pérdida real de 37%. Ahorrar se castigó\ntodos los años de 2017 a 2024; desde 2025 se castiga endeudarse.",
   "pt": "As taxas nominais quase nada dizem aqui: 95,9% num depósito em\n2023 foi uma perda real de 37%. Poupar foi punido todos os anos\nde 2017 a 2024; a partir de 2025 quem se endivida é punido."
+ },
+ "Nominal, % a year. No policy rate before {0};": {
+  "es": "Nominales, % anual. Sin tasa de política antes de {0};",
+  "pt": "Nominais, % ao ano. Sem taxa básica antes de {0};"
+ },
+ "Non-performing loans": {
+  "es": "Cartera irregular",
+  "pt": "Inadimplência"
  },
  "Non-performing loans, % of credit to the private sector": {
   "es": "Irregularidad de la cartera, % del crédito al sector privado",
   "pt": "Inadimplência da carteira, % do crédito ao setor privado"
  },
+ "Official reserves": {
+  "es": "Reservas oficiales",
+  "pt": "Reservas oficiais"
+ },
+ "One bad year of deaths": {
+  "es": "Un año malo de muertes",
+  "pt": "Um ano ruim de mortes"
+ },
+ "Overall and primary balance": {
+  "es": "Resultado total y primario",
+  "pt": "Resultado total e primário"
+ },
  "Pensions against debt interest, % of GDP": {
   "es": "Previsión social frente a intereses de la deuda, % del PIB",
   "pt": "Previdência frente aos juros da dívida, % do PIB"
+ },
+ "Pensions alone: {0}% of GDP in {1}": {
+  "es": "Solo jubilaciones: {0}% del PIB en {1}",
+  "pt": "Só aposentadorias: {0}% do PIB em {1}"
  },
  "People below the poverty line, % — each half year": {
   "es": "Personas bajo la línea de pobreza, % — cada semestre",
   "pt": "Pessoas abaixo da linha de pobreza, % — cada semestre"
  },
+ "Personal-loan rate vs policy rate": {
+  "es": "Tasa de préstamos personales vs. tasa de política",
+  "pt": "Juros do crédito pessoal vs. taxa básica"
+ },
+ "Peso against the US$ (official)": {
+  "es": "El peso frente al US$ (oficial)",
+  "pt": "O peso contra o US$ (oficial)"
+ },
  "Pesos per US dollar, log scale": {
   "es": "Pesos por dólar, escala logarítmica",
   "pt": "Pesos por dólar, escala logarítmica"
+ },
+ "Pesos per US dollar, year end, log scale": {
+  "es": "Pesos por dólar, fin de año, escala logarítmica",
+  "pt": "Pesos por dólar, fim de ano, escala logarítmica"
+ },
+ "Policy rate vs inflation": {
+  "es": "Tasa de política vs. inflación",
+  "pt": "Taxa básica vs. inflação"
+ },
+ "Population": {
+  "es": "Población",
+  "pt": "População"
+ },
+ "Population, fertility, birth and death rates": {
+  "es": "Población, fecundidad, natalidad y mortalidad",
+  "pt": "População, fecundidade, natalidade e mortalidade"
+ },
+ "Poverty rate": {
+  "es": "Tasa de pobreza",
+  "pt": "Taxa de pobreza"
  },
  "Prices, the peso and the two dollars": {
   "es": "Los precios, el peso y los dos dólares",
@@ -291,6 +767,18 @@
   "es": "Gasto primario por finalidad, % del PIB",
   "pt": "Gasto primário por finalidade, % do PIB"
  },
+ "Public investment": {
+  "es": "Inversión pública",
+  "pt": "Investimento público"
+ },
+ "Rates either side of {0} are not strictly comparable.": {
+  "es": "Las tasas a cada lado de {0} no son estrictamente comparables.",
+  "pt": "As taxas de cada lado de {0} não são estritamente comparáveis."
+ },
+ "Real GDP growth": {
+  "es": "Crecimiento real del PIB",
+  "pt": "Crescimento real do PIB"
+ },
  "Real GDP growth, % per year": {
   "es": "Crecimiento real del PIB, % anual",
   "pt": "Crescimento real do PIB, % ao ano"
@@ -303,13 +791,49 @@
   "es": "Producto real, 2006 = 100",
   "pt": "Produto real, 2006 = 100"
  },
+ "Registered births: {0} in {1} {2}": {
+  "es": "Nacimientos registrados: {0} en {1} {2}",
+  "pt": "Nascimentos registrados: {0} em {1} {2}"
+ },
+ "Registered deaths over INDEC's population:": {
+  "es": "Muertes registradas sobre la población del INDEC:",
+  "pt": "Óbitos registrados sobre a população do INDEC:"
+ },
+ "Registro Nacional de Femicidios (CSJN)": {
+  "es": "Registro Nacional de Femicidios (CSJN)",
+  "pt": "Registro Nacional de Femicidios (CSJN)"
+ },
  "Reserves against country risk": {
   "es": "Reservas frente al riesgo país",
   "pt": "Reservas frente ao risco-país"
  },
+ "Revenue and expenditure": {
+  "es": "Ingresos y gastos",
+  "pt": "Receitas e despesas"
+ },
+ "Road traffic deaths": {
+  "es": "Muertes en siniestros viales",
+  "pt": "Mortes no trânsito"
+ },
  "S&P 500": {
   "es": "S&P 500",
   "pt": "S&P 500"
+ },
+ "SNIC, Ministerio de Seguridad": {
+  "es": "SNIC, Ministerio de Seguridad",
+  "pt": "SNIC, Ministerio de Seguridad"
+ },
+ "Saving lost in real terms {0}–{1}; {2}% in {3}": {
+  "es": "Ahorrar hizo perder en términos reales en {0}–{1}; {2}% en {3}",
+  "pt": "Poupar deu perda real em {0}–{1}; {2}% em {3}"
+ },
+ "Series ends {0}: {1}% of GDP.": {
+  "es": "La serie termina en {0}: {1}% del PIB.",
+  "pt": "A série termina em {0}: {1}% do PIB."
+ },
+ "Social protection vs everything else": {
+  "es": "Protección social vs. todo lo demás",
+  "pt": "Proteção social vs. todo o resto"
  },
  "Source: BCRA, api.bcra.gob.ar (daily balances, December averages); system indicators via apis.datos.gob.ar": {
   "es": "Fuente: BCRA, api.bcra.gob.ar (saldos diarios, promedios de diciembre); indicadores del sistema vía apis.datos.gob.ar",
@@ -327,37 +851,121 @@
   "es": "Fuente: Ministerio de Salud, DEIS — nacidos vivos, serie histórica de defunciones y defunciones por causa (CIE-10)",
   "pt": "Fonte: Ministerio de Salud, DEIS — nacidos vivos, serie histórica de defunciones e defunciones por causa (CID-10)"
  },
+ "Sources: BCRA; US Treasury; J.P. Morgan EMBI+ via Ámbito Financiero; Merval and S&P {0} closes via Yahoo Finance (market references, not official statistics)": {
+  "es": "Fuentes: BCRA; Tesoro de EE. UU.; EMBI+ de J.P. Morgan vía Ámbito Financiero; cierres del Merval y del S&P {0} vía Yahoo Finance (referencias de mercado, no estadísticas oficiales)",
+  "pt": "Fontes: BCRA; Tesouro dos EUA; EMBI+ do J.P. Morgan via Ámbito Financiero; fechamentos do Merval e do S&P {0} via Yahoo Finance (referências de mercado, não estatísticas oficiais)"
+ },
+ "Sources: BIS total credit statistics; BCRA, api.bcra.gob.ar and Principales Indicadores del Sistema Financiero": {
+  "es": "Fuentes: BIS, estadísticas de crédito total; BCRA, api.bcra.gob.ar y Principales Indicadores del Sistema Financiero",
+  "pt": "Fontes: BIS, estatísticas de crédito total; BCRA, api.bcra.gob.ar e Principales Indicadores del Sistema Financiero"
+ },
+ "Sources: IMF, World Economic Outlook and Fiscal Monitor; Secretaría de Hacienda, Esquema AIF and recursos tributarios": {
+  "es": "Fuentes: FMI, World Economic Outlook y Fiscal Monitor; Secretaría de Hacienda, Esquema AIF y recursos tributarios",
+  "pt": "Fontes: FMI, World Economic Outlook e Fiscal Monitor; Secretaría de Hacienda, Esquema AIF e recursos tributarios"
+ },
  "Sources: INDEC (national CPI, from Dec 2016); Dirección Provincial de Estadística y Censos de San Luis (2007-2016); BCRA; parallel rates via Ámbito Financiero": {
   "es": "Fuentes: INDEC (IPC nacional, desde dic. 2016); Dirección Provincial de Estadística y Censos de San Luis (2007-2016); BCRA; cotizaciones paralelas vía Ámbito Financiero",
   "pt": "Fontes: INDEC (IPC nacional, desde dez. 2016); Dirección Provincial de Estadística y Censos de San Luis (2007-2016); BCRA; cotações paralelas via Ámbito Financiero"
+ },
+ "Sources: INDEC (national CPI, from Dec {0}); DPEyC San Luis ({1}–{2}); BCRA; parallel rate via Ámbito Financiero": {
+  "es": "Fuentes: INDEC (IPC nacional, desde dic. {0}); DPEyC San Luis ({1}–{2}); BCRA; dólar paralelo vía Ámbito Financiero",
+  "pt": "Fontes: INDEC (IPC nacional, desde dez. {0}); DPEyC San Luis ({1}–{2}); BCRA; dólar paralelo via Ámbito Financiero"
+ },
+ "Sources: INDEC, Encuesta Permanente de Hogares; Ministerio de Trabajo (SMVM); World Bank PIP": {
+  "es": "Fuentes: INDEC, Encuesta Permanente de Hogares; Ministerio de Trabajo (SMVM); Banco Mundial PIP",
+  "pt": "Fontes: INDEC, Encuesta Permanente de Hogares; Ministerio de Trabajo (SMVM); Banco Mundial PIP"
  },
  "Sources: INDEC, Encuesta Permanente de Hogares; Ministerio de Trabajo (SMVM); via apis.datos.gob.ar": {
   "es": "Fuentes: INDEC, Encuesta Permanente de Hogares; Ministerio de Trabajo (SMVM); vía apis.datos.gob.ar",
   "pt": "Fontes: INDEC, Encuesta Permanente de Hogares; Ministerio de Trabajo (SMVM); via apis.datos.gob.ar"
  },
+ "Sources: INDEC, national accounts (base {0}), IPC and EPH; DPEyC San Luis; World Bank WDI": {
+  "es": "Fuentes: INDEC, cuentas nacionales (base {0}), IPC y EPH; DPEyC San Luis; Banco Mundial WDI",
+  "pt": "Fontes: INDEC, contas nacionais (base {0}), IPC e EPH; DPEyC San Luis; Banco Mundial WDI"
+ },
+ "Sources: Ministerio de Salud, DEIS (births and deaths); INDEC (population); World Bank / UN World Population Prospects": {
+  "es": "Fuentes: Ministerio de Salud, DEIS (nacimientos y defunciones); INDEC (población); Banco Mundial / ONU, World Population Prospects",
+  "pt": "Fontes: Ministerio de Salud, DEIS (nascimentos e óbitos); INDEC (população); Banco Mundial / ONU, World Population Prospects"
+ },
+ "Sources: Ministerio de Salud, DEIS, defunciones por causa (CIE{0}); INDEC (population)": {
+  "es": "Fuentes: Ministerio de Salud, DEIS, defunciones por causa (CIE{0}); INDEC (población)",
+  "pt": "Fontes: Ministerio de Salud, DEIS, defunciones por causa (CIE{0}); INDEC (população)"
+ },
  "Sources: Ministerio de Seguridad, SNIC (homicides); Corte Suprema de Justicia, Oficina de la Mujer — Registro Nacional de Femicidios (femicides)": {
   "es": "Fuentes: Ministerio de Seguridad, SNIC (homicidios); Corte Suprema de Justicia, Oficina de la Mujer — Registro Nacional de Femicidios (femicidios)",
   "pt": "Fontes: Ministerio de Seguridad, SNIC (homicídios); Corte Suprema de Justicia, Oficina de la Mujer — Registro Nacional de Femicidios (feminicídios)"
+ },
+ "Sources: Ministerio de Seguridad, SNIC; Ministerio de Salud, DEIS; UNODC and WHO via the World Bank; CSJN, Registro Nacional de Femicidios": {
+  "es": "Fuentes: Ministerio de Seguridad, SNIC; Ministerio de Salud, DEIS; UNODC y OMS vía Banco Mundial; CSJN, Registro Nacional de Femicidios",
+  "pt": "Fontes: Ministerio de Seguridad, SNIC; Ministerio de Salud, DEIS; UNODC e OMS via Banco Mundial; CSJN, Registro Nacional de Femicidios"
  },
  "Sources: Secretaría de Hacienda, Esquema Ahorro-Inversión-Financiamiento; Gasto Público Consolidado; via apis.datos.gob.ar": {
   "es": "Fuentes: Secretaría de Hacienda, Esquema Ahorro-Inversión-Financiamiento; Gasto Público Consolidado; vía apis.datos.gob.ar",
   "pt": "Fontes: Secretaría de Hacienda, Esquema Ahorro-Inversión-Financiamiento; Gasto Público Consolidado; via apis.datos.gob.ar"
  },
+ "Sources: Secretaría de Política Económica, Gasto Público Nacional por finalidad; Secretaría de Hacienda, Esquema AIF; World Bank WDI": {
+  "es": "Fuentes: Secretaría de Política Económica, Gasto Público Nacional por finalidad; Secretaría de Hacienda, Esquema AIF; Banco Mundial WDI",
+  "pt": "Fontes: Secretaría de Política Económica, Gasto Público Nacional por finalidad; Secretaría de Hacienda, Esquema AIF; Banco Mundial WDI"
+ },
+ "Sources: World Bank WDI (national accounts); INDEC, Intercambio Comercial Argentino; UN Comtrade": {
+  "es": "Fuentes: Banco Mundial WDI (cuentas nacionales); INDEC, Intercambio Comercial Argentino; UN Comtrade",
+  "pt": "Fontes: Banco Mundial WDI (contas nacionais); INDEC, Intercambio Comercial Argentino; UN Comtrade"
+ },
+ "Sources: World Bank WDI; UNDP Human Development Report; Transparency International; BCRA": {
+  "es": "Fuentes: Banco Mundial WDI; PNUD, Informe sobre Desarrollo Humano; Transparencia Internacional; BCRA",
+  "pt": "Fontes: Banco Mundial WDI; PNUD, Relatório de Desenvolvimento Humano; Transparência Internacional; BCRA"
+ },
+ "Spending by function, social protection, investment": {
+  "es": "Gasto por finalidad, protección social, inversión",
+  "pt": "Gasto por função, proteção social, investimento"
+ },
+ "Spending by function, stacked": {
+  "es": "Gasto por finalidad, apilado",
+  "pt": "Gasto por função, empilhado"
+ },
+ "Suicide rate": {
+  "es": "Tasa de suicidios",
+  "pt": "Taxa de suicídios"
+ },
  "Tax revenue, % of GDP": {
   "es": "Recursos tributarios, % del PIB",
   "pt": "Receita tributária, % do PIB"
+ },
+ "The EPH surveys the cities only, about two": {
+  "es": "La EPH releva solo las ciudades, unos dos",
+  "pt": "A EPH pesquisa só as cidades, cerca de dois"
  },
  "The Merval in dollars, country risk and reserves": {
   "es": "El Merval en dólares, el riesgo país y las reservas",
   "pt": "O Merval em dólares, o risco-país e as reservas"
  },
+ "The axis grows to hold {0}% in {1}": {
+  "es": "El eje se amplía para mostrar {0}% en {1}",
+  "pt": "O eixo se amplia para mostrar {0}% em {1}"
+ },
  "The credit expansion and this spike are the same\nevent seen a year apart.": {
   "es": "La expansión del crédito y este salto son el mismo\nhecho visto con un año de diferencia.",
   "pt": "A expansão do crédito e este salto são o mesmo\nfato visto com um ano de diferença."
  },
+ "The gap: parallel over official, %": {
+  "es": "La brecha: paralelo sobre oficial, %",
+  "pt": "O spread: paralelo sobre oficial, %"
+ },
  "The narrow bars are a part of the wide ones, not a second total.\nNote the scale: Chile and Brazil lend 50-70% of GDP. Argentina's\n2024-25 credit boom is large in relative terms only.": {
   "es": "Las barras angostas son parte de las anchas, no un segundo total.\nAtención a la escala: Chile y Brasil prestan 50-70% del PIB. El\nboom de crédito de 2024-25 es grande solo en términos relativos.",
   "pt": "As barras estreitas são parte das largas, não um segundo total.\nAtenção à escala: Chile e Brasil emprestam 50-70% do PIB. O boom\nde crédito de 2024-25 é grande apenas em termos relativos."
+ },
+ "The parallel rate is on the prices plate.": {
+  "es": "El paralelo está en la lámina de precios.",
+  "pt": "O paralelo está na prancha de preços."
+ },
+ "The policy rate, the price of dollar debt, the peso and the Merval": {
+  "es": "La tasa de política, el costo de la deuda en dólares, el peso y el Merval",
+  "pt": "A taxa básica, o custo da dívida em dólares, o peso e o Merval"
+ },
+ "The register codes many crash deaths as undetermined;": {
+  "es": "El registro codifica muchas muertes viales como indeterminadas;",
+  "pt": "O registro codifica muitas mortes no trânsito como indeterminadas;"
  },
  "The three segments are not one series. The treatment of\ncentral-bank transfers and pension income changes at each\nbreak by more than the deficit moves in a normal year.": {
   "es": "Los tres tramos no son una sola serie. El tratamiento de las\ntransferencias del banco central y de los ingresos de ANSES\ncambia en cada corte más de lo que el déficit se mueve en un año.",
@@ -367,9 +975,25 @@
   "es": "Las dos líneas son componentes de las barras, no totales aparte.",
   "pt": "As duas linhas são componentes das barras, não totais à parte."
  },
+ "Top export destinations, goods": {
+  "es": "Principales destinos de exportación, bienes",
+  "pt": "Principais destinos de exportação, bens"
+ },
+ "Total fertility rate": {
+  "es": "Tasa global de fecundidad",
+  "pt": "Taxa de fecundidade total"
+ },
+ "Trade balance": {
+  "es": "Balanza comercial",
+  "pt": "Balança comercial"
+ },
  "Trade balance, US$ billion": {
   "es": "Saldo comercial, miles de millones de US$",
   "pt": "Saldo comercial, bilhões de US$"
+ },
+ "Transparency International, {0} method": {
+  "es": "Transparencia Internacional, método {0}",
+  "pt": "Transparência Internacional, método {0}"
  },
  "Twenty years of Argentine output": {
   "es": "Veinte años de producto argentino",
@@ -383,9 +1007,53 @@
   "es": "Dos registros, dos formas distintas de estar completo",
   "pt": "Dois registros, dois tipos diferentes de completude"
  },
+ "UN Comtrade. Brazil: {0}% in {1}": {
+  "es": "UN Comtrade. Brasil: {0}% en {1}",
+  "pt": "UN Comtrade. Brasil: {0}% em {1}"
+ },
+ "UN WPP via the World Bank": {
+  "es": "ONU WPP vía Banco Mundial",
+  "pt": "ONU WPP via Banco Mundial"
+ },
+ "UNDP": {
+  "es": "PNUD",
+  "pt": "PNUD"
+ },
+ "UNODC": {
+  "es": "UNODC",
+  "pt": "UNODC"
+ },
+ "US {0}-year Treasury": {
+  "es": "Tesoro de EE. UU. a {0} años",
+  "pt": "Tesouro dos EUA de {0} anos"
+ },
+ "US {0}-year Treasury + EMBI+ Argentina spread": {
+  "es": "Tesoro de EE. UU. a {0} años + spread EMBI+ Argentina",
+  "pt": "Tesouro dos EUA de {0} anos + spread EMBI+ Argentina"
+ },
+ "US$ bn": {
+  "es": "US$ bn",
+  "pt": "US$ bi"
+ },
+ "US$ per month": {
+  "es": "US$ por mes",
+  "pt": "US$ por mês"
+ },
+ "US$, current": {
+  "es": "US$ corrientes",
+  "pt": "US$ correntes"
+ },
+ "US${0}bn in {1}": {
+  "es": "US${0}bn en {1}",
+  "pt": "US${0} bi em {1}"
+ },
  "Under the two cepos the official rate was a price\nat which most people could not buy. The gap is the\nstory, so both lines are drawn.": {
   "es": "Bajo los dos cepos el tipo oficial era un precio al\nque la mayoría no podía comprar. La brecha es la\nnoticia, por eso se dibujan las dos líneas.",
   "pt": "Sob os dois cepos o câmbio oficial era um preço\npelo qual a maioria não podia comprar. O spread\né a notícia, por isso as duas linhas aparecem."
+ },
+ "Unemployment": {
+  "es": "Desempleo",
+  "pt": "Desemprego"
  },
  "Unemployment rate, %": {
   "es": "Tasa de desempleo, %",
@@ -395,9 +1063,29 @@
   "es": "Desempleo, salario mínimo, pobreza y desigualdad",
   "pt": "Desemprego, salário mínimo, pobreza e desigualdade"
  },
+ "United States": {
+  "es": "Estados Unidos",
+  "pt": "Estados Unidos"
+ },
+ "Victims counted, where a report states them —": {
+  "es": "Víctimas contadas, cuando un informe las declara:",
+  "pt": "Vítimas contadas, quando um relatório as declara:"
+ },
  "Vital statistics and causes of death, 2006-2024": {
   "es": "Estadísticas vitales y causas de muerte, 2006-2024",
   "pt": "Estatísticas vitais e causas de morte, 2006-2024"
+ },
+ "WHO estimate, road traffic": {
+  "es": "estimación OMS, tránsito",
+  "pt": "estimativa OMS, trânsito"
+ },
+ "WHO models them back in. The two do not measure alike.": {
+  "es": "la OMS las reincorpora con un modelo. No miden lo mismo.",
+  "pt": "a OMS as reincorpora por modelo. As duas não medem igual."
+ },
+ "WHO, age-standardised estimate": {
+  "es": "OMS, estimación estandarizada por edad",
+  "pt": "OMS, estimativa padronizada por idade"
  },
  "What Argentina sells to the world": {
   "es": "Lo que la Argentina le vende al mundo",
@@ -411,9 +1099,49 @@
   "es": "Lo que el Estado recauda y lo que gasta",
   "pt": "O que o Estado arrecada e o que gasta"
  },
+ "Where the national budget goes": {
+  "es": "Adónde va el presupuesto nacional",
+  "pt": "Para onde vai o orçamento nacional"
+ },
+ "Withdrawn {0}–{1} Peak {2}% in {3}": {
+  "es": "Retirada {0}–{1} Máximo: {2}% en {3}",
+  "pt": "Retirada {0}–{1} Pico: {2}% em {3}"
+ },
  "Work, wages and who is poor": {
   "es": "Trabajo, salarios y quién es pobre",
   "pt": "Trabalho, salários e quem é pobre"
+ },
+ "World Bank (PIP), from the EPH": {
+  "es": "Banco Mundial (PIP), a partir de la EPH",
+  "pt": "Banco Mundial (PIP), a partir da EPH"
+ },
+ "World Bank / UN WPP": {
+  "es": "Banco Mundial / ONU WPP",
+  "pt": "Banco Mundial / ONU WPP"
+ },
+ "World Bank, at the official rate": {
+  "es": "Banco Mundial, al tipo de cambio oficial",
+  "pt": "Banco Mundial, ao câmbio oficial"
+ },
+ "World Bank, below US${0} a day": {
+  "es": "Banco Mundial, bajo US${0} por día",
+  "pt": "Banco Mundial, abaixo de US${0} por dia"
+ },
+ "World Bank, current US$": {
+  "es": "Banco Mundial, US$ corrientes",
+  "pt": "Banco Mundial, US$ correntes"
+ },
+ "World Bank, total incl. gold": {
+  "es": "Banco Mundial, total con oro",
+  "pt": "Banco Mundial, total com ouro"
+ },
+ "Year-end closes from a vendor (Yahoo): BYMA publishes": {
+  "es": "Cierres de fin de año de un proveedor (Yahoo): BYMA no publica",
+  "pt": "Fechamentos de fim de ano de um fornecedor (Yahoo): a BYMA não publica"
+ },
+ "after the December devaluation against a GDP": {
+  "es": "tras la devaluación de diciembre contra un PIB",
+  "pt": "após a desvalorização de dezembro contra um PIB"
  },
  "agricultural manufactures": {
   "es": "manufacturas de origen agropecuario",
@@ -427,13 +1155,33 @@
   "es": "crédito privado total",
   "pt": "crédito privado total"
  },
+ "and probable cannot be told apart.": {
+  "es": "y probables no se pueden separar.",
+  "pt": "e prováveis não podem ser separadas."
+ },
  "annual average": {
   "es": "promedio anual",
   "pt": "média anual"
  },
+ "as the pneumonia it became.": {
+  "es": "como la neumonía en que terminó.",
+  "pt": "como a pneumonia em que se tornou."
+ },
+ "between the lines is country risk: {0}bp": {
+  "es": "entre las líneas es el riesgo país: {0} pb",
+  "pt": "entre as linhas é o risco-país: {0} pb"
+ },
  "births": {
   "es": "nacimientos",
   "pt": "nascimentos"
+ },
+ "births (DEIS)": {
+  "es": "nacimientos (DEIS)",
+  "pt": "nascimentos (DEIS)"
+ },
+ "boom and its bad loans, a year apart.": {
+  "es": "del crédito y su mora, con un año de distancia.",
+  "pt": "do crédito e sua inadimplência, com um ano de distância."
  },
  "cepo I": {
   "es": "cepo I",
@@ -447,6 +1195,10 @@
   "es": "cobrada por un préstamo personal",
   "pt": "cobrada por um empréstimo pessoal"
  },
+ "children per woman": {
+  "es": "hijos por mujer",
+  "pt": "filhos por mulher"
+ },
  "country risk, bp (right)": {
   "es": "riesgo país, p.b. (der.)",
   "pt": "risco-país, p.b. (dir.)"
@@ -459,13 +1211,37 @@
   "es": "defunciones",
   "pt": "óbitos"
  },
+ "deaths (DEIS)": {
+  "es": "defunciones (DEIS)",
+  "pt": "óbitos (DEIS)"
+ },
  "debt service": {
   "es": "servicios de la deuda",
   "pt": "serviço da dívida"
  },
+ "debt service, national budget": {
+  "es": "servicios de la deuda, presupuesto nacional",
+  "pt": "serviço da dívida, orçamento nacional"
+ },
+ "defence and public order": {
+  "es": "defensa y seguridad",
+  "pt": "defesa e ordem pública"
+ },
+ "devaluation: {0}%. Second half: {1}%.": {
+  "es": "{0}%. Segundo semestre: {1}%.",
+  "pt": "{0}%. Segundo semestre: {1}%."
+ },
  "direct victims": {
   "es": "víctimas directas",
   "pt": "vítimas diretas"
+ },
+ "earned at the year's average prices.": {
+  "es": "generado a los precios promedio del año.",
+  "pt": "gerado aos preços médios do ano."
+ },
+ "economic affairs": {
+  "es": "asuntos económicos",
+  "pt": "assuntos econômicos"
  },
  "education": {
   "es": "educación",
@@ -475,29 +1251,129 @@
   "es": "subsidios a la energía",
   "pt": "subsídios à energia"
  },
+ "everything else": {
+  "es": "todo lo demás",
+  "pt": "todo o resto"
+ },
+ "expenditure, general government (IMF)": {
+  "es": "gasto, gobierno general (FMI)",
+  "pt": "despesa, governo geral (FMI)"
+ },
  "exports": {
   "es": "exportaciones",
   "pt": "exportações"
+ },
+ "exports (World Bank)": {
+  "es": "exportaciones (Banco Mundial)",
+  "pt": "exportações (Banco Mundial)"
+ },
+ "first and second half of each year": {
+  "es": "primer y segundo semestre de cada año",
+  "pt": "primeiro e segundo semestre de cada ano"
  },
  "first half": {
   "es": "primer semestre",
   "pt": "primeiro semestre"
  },
+ "first since {0} National series: three methods.": {
+  "es": "primero desde {0} Serie nacional: tres métodos.",
+  "pt": "primeiro desde {0} Série nacional: três métodos."
+ },
  "fuel and energy": {
   "es": "combustibles y energía",
   "pt": "combustíveis e energia"
+ },
+ "general government, primary − overall (IMF)": {
+  "es": "gobierno general, primario − total (FMI)",
+  "pt": "governo geral, primário − total (FMI)"
+ },
+ "general public services": {
+  "es": "servicios públicos generales",
+  "pt": "serviços públicos gerais"
+ },
+ "generated from committed CSVs": {
+  "es": "generado a partir de CSV versionados",
+  "pt": "gerado a partir de CSVs versionados"
+ },
+ "goods and services (bars)": {
+  "es": "bienes y servicios (barras)",
+  "pt": "bens e serviços (barras)"
+ },
+ "goods only, customs (INDEC)": {
+  "es": "solo bienes, aduana (INDEC)",
+  "pt": "só bens, alfândega (INDEC)"
+ },
+ "gross fixed capital formation (World Bank)": {
+  "es": "formación bruta de capital fijo (Banco Mundial)",
+  "pt": "formação bruta de capital fixo (Banco Mundial)"
+ },
+ "health": {
+  "es": "salud",
+  "pt": "saúde"
  },
  "health insurance": {
   "es": "obras sociales",
   "pt": "planos de saúde públicos"
  },
+ "hospitals). Functions mapped onto COFOG groups.": {
+  "es": "y hospitales). Finalidades llevadas a grupos COFOG.",
+  "pt": "e hospitais). Funções levadas a grupos COFOG."
+ },
  "imports": {
   "es": "importaciones",
   "pt": "importações"
  },
+ "imports (World Bank)": {
+  "es": "importaciones (Banco Mundial)",
+  "pt": "importações (Banco Mundial)"
+ },
+ "in US$: {0} in {1} {2} in {3} In pesos it": {
+  "es": "en US$: {0} en {1} {2} en {3} En pesos",
+  "pt": "em US$: {0} em {1} {2} em {3} Em pesos"
+ },
+ "in {0} down {1}%.": {
+  "es": "en {0} {1}% menos.",
+  "pt": "em {0} {1}% a menos."
+ },
+ "index 2006 = 100": {
+  "es": "índice 2006 = 100",
+  "pt": "índice 2006 = 100"
+ },
+ "index 2006 = 100, in US$": {
+  "es": "índice 2006 = 100, en US$",
+  "pt": "índice 2006 = 100, em US$"
+ },
+ "index 2006 = 100, up = stronger": {
+  "es": "índice 2006 = 100, arriba = más fuerte",
+  "pt": "índice 2006 = 100, para cima = mais forte"
+ },
+ "index {0} = {1}": {
+  "es": "índice {0} = {1}",
+  "pt": "índice {0} = {1}"
+ },
+ "index {0} = {1} in US$": {
+  "es": "índice {0} = {1} en US$",
+  "pt": "índice {0} = {1} em US$"
+ },
+ "index {0} = {1} up = stronger": {
+  "es": "índice {0} = {1} arriba = más fuerte",
+  "pt": "índice {0} = {1} para cima = mais forte"
+ },
  "industrial manufactures": {
   "es": "manufacturas de origen industrial",
   "pt": "manufaturas de origem industrial"
+ },
+ "inflation, INDEC (Dec/Dec)": {
+  "es": "inflación, INDEC (dic./dic.)",
+  "pt": "inflação, INDEC (dez./dez.)"
+ },
+ "inflation, IPC San Luis": {
+  "es": "inflación, IPC San Luis",
+  "pt": "inflação, IPC San Luis"
+ },
+ "influenza, J{0}–J{1}": {
+  "es": "gripe, J{0}–J{1}",
+  "pt": "gripe, J{0}–J{1}"
  },
  "linked victims, killed alongside them": {
   "es": "víctimas vinculadas, asesinadas junto a ellas",
@@ -507,9 +1383,37 @@
   "es": "media\n{0}%",
   "pt": "média\n{0}%"
  },
+ "method changed, {0}": {
+  "es": "cambio de método, {0}",
+  "pt": "mudança de método, {0}"
+ },
  "mortgages": {
   "es": "hipotecarios",
   "pt": "financiamento imobiliário"
+ },
+ "most people could not buy at. Peak US${0} in {1}": {
+  "es": "la mayoría no podía comprar. Máximo: US${0} en {1}",
+  "pt": "a maioria não podia comprar. Pico: US${0} em {1}"
+ },
+ "national public sector, {0} method": {
+  "es": "sector público nacional, método {0}",
+  "pt": "setor público nacional, método {0}"
+ },
+ "national tax collection (Hacienda)": {
+  "es": "recaudación tributaria nacional (Hacienda)",
+  "pt": "arrecadação tributária nacional (Hacienda)"
+ },
+ "natural increase, DEIS (bars)": {
+  "es": "crecimiento vegetativo, DEIS (barras)",
+  "pt": "crescimento vegetativo, DEIS (barras)"
+ },
+ "net migration, UN WPP estimate": {
+  "es": "migración neta, estimación ONU WPP",
+  "pt": "migração líquida, estimativa ONU WPP"
+ },
+ "no open history. Neither is an official statistic.": {
+  "es": "historia abierta. Ninguno es una estadística oficial.",
+  "pt": "histórico aberto. Nenhum é uma estatística oficial."
  },
  "no usable official index": {
   "es": "sin índice oficial utilizable",
@@ -531,6 +1435,34 @@
   "es": "tipo de cambio oficial",
   "pt": "câmbio oficial"
  },
+ "official rate, annual average": {
+  "es": "tipo de cambio oficial, promedio anual",
+  "pt": "câmbio oficial, média anual"
+ },
+ "on average in {0}": {
+  "es": "en promedio en {0}",
+  "pt": "em média em {0}"
+ },
+ "other": {
+  "es": "otros",
+  "pt": "outros"
+ },
+ "other countries on the world plate.": {
+  "es": "con otros países en la lámina mundial.",
+  "pt": "com outros países na prancha mundial."
+ },
+ "overall balance, IMF (bars)": {
+  "es": "resultado total, FMI (barras)",
+  "pt": "resultado total, FMI (barras)"
+ },
+ "overall balance, which it rounds to {0} point.": {
+  "es": "resultado total, que redondea a {0} punto.",
+  "pt": "resultado total, que ele arredonda a {0} ponto."
+ },
+ "own swap and repo debts are not netted out.": {
+  "es": "las deudas del BCRA por swaps y pases.",
+  "pt": "as dívidas do BCRA com swaps e compromissadas."
+ },
  "paid on a 30-day deposit": {
   "es": "pagada por un plazo fijo a 30 días",
   "pt": "paga por um depósito de 30 dias"
@@ -547,9 +1479,33 @@
   "es": "previsión social",
   "pt": "previdência"
  },
+ "people could not buy at. INDEC's is {0}% higher in {1}": {
+  "es": "la mayoría no podía comprar. El del INDEC es {0}% mayor en {1}",
+  "pt": "não podia comprar. O do INDEC é {0}% maior em {1}"
+ },
+ "per 1,000 people": {
+  "es": "cada 1.000 habitantes",
+  "pt": "por 1.000 habitantes"
+ },
+ "per 100,000": {
+  "es": "cada 100.000",
+  "pt": "por 100.000"
+ },
+ "per {0}": {
+  "es": "cada {0}",
+  "pt": "por {0}"
+ },
+ "per {0} people": {
+  "es": "cada {0} habitantes",
+  "pt": "por {0} habitantes"
+ },
  "personal loans": {
   "es": "préstamos personales",
   "pt": "empréstimos pessoais"
+ },
+ "personal loans, annual average": {
+  "es": "préstamos personales, promedio anual",
+  "pt": "crédito pessoal, média anual"
  },
  "pledge loans": {
   "es": "prendarios",
@@ -559,13 +1515,73 @@
   "es": "neumonía (J12-J18)",
   "pt": "pneumonia (J12-J18)"
  },
+ "pneumonia, J{0}–J{1}": {
+  "es": "neumonía, J{0}–J{1}",
+  "pt": "pneumonia, J{0}–J{1}"
+ },
  "primary products": {
   "es": "productos primarios",
   "pt": "produtos primários"
  },
+ "primary, general government (IMF)": {
+  "es": "primario, gobierno general (FMI)",
+  "pt": "primário, governo geral (FMI)"
+ },
+ "primary, national public sector ({0} methods)": {
+  "es": "primario, sector público nacional ({0} métodos)",
+  "pt": "primário, setor público nacional ({0} métodos)"
+ },
+ "private-sector loans, BCRA, December": {
+  "es": "préstamos al sector privado, BCRA, diciembre",
+  "pt": "empréstimos ao setor privado, BCRA, dezembro"
+ },
+ "provinces. {0}% of GDP in {1}": {
+  "es": "provincias. {0}% del PIB en {1}",
+  "pt": "províncias. {0}% do PIB em {1}"
+ },
+ "published file truncates the code, so confirmed": {
+  "es": "archivo publicado trunca el código: confirmadas",
+  "pt": "arquivo publicado trunca o código: confirmadas"
+ },
+ "rate at year end. Dotted: the cepos.": {
+  "es": "a fin de año. Punteado: los cepos.",
+  "pt": "no fim do ano. Pontilhado: os cepos."
+ },
+ "replacement, {0}": {
+  "es": "reemplazo, {0}",
+  "pt": "reposição, {0}"
+ },
  "reserves, US$ bn (left)": {
   "es": "reservas, miles de millones de US$ (izq.)",
   "pt": "reservas, bilhões de US$ (esq.)"
+ },
+ "residual of the other three.": {
+  "es": "son el residuo de los otros tres.",
+  "pt": "são o resíduo das outras três."
+ },
+ "revenue, general government (IMF)": {
+  "es": "ingresos, gobierno general (FMI)",
+  "pt": "receita, governo geral (FMI)"
+ },
+ "rises every year; prices rose faster.": {
+  "es": "sube todos los años; los precios, más.",
+  "pt": "sobe todo ano; os preços, mais."
+ },
+ "scale and method, and are not drawn.": {
+  "es": "escala y otro método, y no se dibujan.",
+  "pt": "escala e outro método, e não são desenhadas."
+ },
+ "scale extended": {
+  "es": "escala ampliada",
+  "pt": "escala ampliada"
+ },
+ "score, 0–100": {
+  "es": "puntaje, 0–100",
+  "pt": "nota, 0–100"
+ },
+ "score, {0}–{1}": {
+  "es": "puntaje, {0}–{1}",
+  "pt": "nota, {0}–{1}"
  },
  "second half": {
   "es": "segundo semestre",
@@ -575,13 +1591,37 @@
   "es": "asistencia social",
   "pt": "assistência social"
  },
+ "social protection": {
+  "es": "protección social",
+  "pt": "proteção social"
+ },
+ "social protection: pensions and transfers": {
+  "es": "protección social: jubilaciones y transferencias",
+  "pt": "proteção social: aposentadorias e transferências"
+ },
+ "the BCRA dropped it in July {0}": {
+  "es": "el BCRA la abandonó en julio de {0}",
+  "pt": "o BCRA a abandonou em julho de {0}"
+ },
+ "the peso buys {0}% of the dollars it did.": {
+  "es": "el peso compra el {0}% de los dólares de entonces.",
+  "pt": "o peso compra {0}% dos dólares de então."
+ },
  "the registry's method changed in 2017;\nreadings either side are not strictly comparable": {
   "es": "el registro cambió de metodología en 2017; los valores\nde uno y otro lado no son estrictamente comparables",
   "pt": "o registro mudou de metodologia em 2017; os valores de\num lado e do outro não são estritamente comparáveis"
  },
+ "thirds of the population. Peak {0}% in {1}": {
+  "es": "tercios de la población. Máximo: {0}% en {1}",
+  "pt": "terços da população. Pico: {0}% em {1}"
+ },
  "transport": {
   "es": "transporte",
   "pt": "transporte"
+ },
+ "until the year's GDP exists.": {
+  "es": "hasta que exista el PIB del año.",
+  "pt": "até existir o PIB do ano."
  },
  "withdrawn": {
   "es": "retirado",
@@ -595,20 +1635,120 @@
   "es": "fin de año",
   "pt": "fim de ano"
  },
+ "years real GDP fell": {
+  "es": "años en que cayó el PIB real",
+  "pt": "anos em que o PIB real caiu"
+ },
+ "{0} Not adjusted for an older population.": {
+  "es": "{0} Sin ajustar por una población más envejecida.",
+  "pt": "{0} Sem ajuste por uma população mais velha."
+ },
+ "{0} and above is \"very high\".": {
+  "es": "{0} o más es \"muy alto\".",
+  "pt": "{0} ou mais é \"muito alto\"."
+ },
+ "{0} and none after July {1}": {
+  "es": "{0} ni hubo una después de julio de {1}",
+  "pt": "{0} nem houve uma depois de julho de {1}"
+ },
+ "{0} children per woman in {1}": {
+  "es": "{0} hijos por mujer en {1}",
+  "pt": "{0} filhos por mulher em {1}"
+ },
+ "{0} deaths in all, {1}–{2} The": {
+  "es": "{0} muertes en total, {1}–{2} El",
+  "pt": "{0} mortes no total, {1}–{2} O"
+ },
+ "{0} goods, year to date: US$+{1}bn, not drawn": {
+  "es": "{0}, bienes en lo que va del año: US$+{1}bn, sin dibujar",
+  "pt": "{0}, bens no acumulado do ano: US$+{1} bi, não desenhado"
+ },
+ "{0} hatched: the rise since": {
+  "es": "{0} rayado: la suba desde",
+  "pt": "{0} hachurado: a alta desde"
+ },
  "{0} in {1}": {
   "es": "{0} en {1}",
   "pt": "{0} em {1}"
+ },
+ "{0} in {1} {2} in {3}": {
+  "es": "{0} en {1} {2} en {3}",
+  "pt": "{0} em {1} {2} em {3}"
+ },
+ "{0} in {1} {2} in {3}:": {
+  "es": "{0} en {1} {2} en {3}:",
+  "pt": "{0} em {1} {2} em {3}:"
+ },
+ "{0} million in {1} {2} million in {3}": {
+  "es": "{0} millones en {1} {2} millones en {3}",
+  "pt": "{0} milhões em {1} {2} milhões em {3}"
+ },
+ "{0} more births than deaths in {1}": {
+  "es": "{0} nacimientos más que defunciones en {1}",
+  "pt": "{0} nascimentos a mais que óbitos em {1}"
+ },
+ "{0} per {1} in {2}": {
+  "es": "{0} cada {1} en {2}",
+  "pt": "{0} por {1} em {2}"
+ },
+ "{0} per {1} in {2}: {3} deaths.": {
+  "es": "{0} cada {1} en {2}: {3} muertes.",
+  "pt": "{0} por {1} em {2}: {3} mortes."
+ },
+ "{0} pesos per dollar in {1} {2} in {3}:": {
+  "es": "{0} pesos por dólar en {1} {2} en {3}:",
+  "pt": "{0} pesos por dólar em {1} {2} em {3}:"
+ },
+ "{0} urban areas, about two thirds of the people.": {
+  "es": "{0} aglomerados urbanos, unos dos tercios de la gente.",
+  "pt": "{0} aglomerados urbanos, cerca de dois terços das pessoas."
+ },
+ "{0} victims, then {1}": {
+  "es": "{0} víctimas, luego {1}",
+  "pt": "{0} vítimas, depois {1}"
+ },
+ "{0}% at the {1} peak.": {
+  "es": "{0}% en el máximo de {1}.",
+  "pt": "{0}% no pico de {1}."
+ },
+ "{0}% in {1}": {
+  "es": "{0}% en {1}",
+  "pt": "{0}% em {1}"
+ },
+ "{0}% in {1} Industrial is the": {
+  "es": "{0}% en {1} Las manufacturas industriales",
+  "pt": "{0}% em {1} As manufaturas industriais"
+ },
+ "{0}% in {1} {2}% in {3}: the lending": {
+  "es": "{0}% en {1} {2}% en {3}: el auge",
+  "pt": "{0}% em {1} {2}% em {3}: o boom"
+ },
+ "{0}% in {1}: debt mostly in dollars, measured": {
+  "es": "{0}% en {1}: deuda mayormente en dólares, medida",
+  "pt": "{0}% em {1}: dívida majoritariamente em dólares, medida"
+ },
+ "{0}% of GDP in {1} {2}% in {3}": {
+  "es": "{0}% del PIB en {1} {2}% en {3}",
+  "pt": "{0}% do PIB em {1} {2}% em {3}"
+ },
+ "{0}: latest reading, hatched.": {
+  "es": "{0}: último dato, rayado.",
+  "pt": "{0}: último dado, hachurado."
+ },
+ "{0}: rise since December, year to date.": {
+  "es": "{0}: suba desde diciembre, en lo que va del año.",
+  "pt": "{0}: alta desde dezembro, no acumulado do ano."
  },
  "{0}: year to date": {
   "es": "{0}: parcial",
   "pt": "{0}: parcial"
  },
+ "{0}: {1} + {2} linked, {3}: {4} + {5} linked, {6}: {7}": {
+  "es": "{0}: {1} + {2} vinculadas, {3}: {4} + {5} vinculadas, {6}: {7}",
+  "pt": "{0}: {1} + {2} vinculadas, {3}: {4} + {5} vinculadas, {6}: {7}"
+ },
  "{0}k": {
   "es": "{0} mil",
   "pt": "{0} mil"
- },
- "generated from committed CSVs": {
-  "es": "generado a partir de CSV versionados",
-  "pt": "gerado a partir de CSVs versionados"
  }
 }

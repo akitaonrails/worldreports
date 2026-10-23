@@ -28,7 +28,7 @@ import tempfile
 from contextlib import contextmanager
 from pathlib import Path
 
-from core import context, i18n, style
+from core import context, i18n, render, style
 from core import country as country_mod
 from core.country import COUNTRIES_DIR, Country, DataIsolationError
 from core.render import load_plates
@@ -92,12 +92,7 @@ def for_country(country: Country) -> dict:
     with tempfile.TemporaryDirectory() as tmp, watching(country) as seen:
         ctx = context.Context(country, out_dir=Path(tmp))
         for plate in plates:
-            if plate.declarative:
-                fig = ctx.fig(plate.title, plate.subtitle, source=plate.source)
-                plate.draw(ctx, fig)
-                fig.save(ctx.out(plate.filename))
-            else:
-                plate.draw(ctx)
+            render.draw(ctx, plate)
         found = dict(seen)
     path = country.dir / "provenance.json"
     path.write_text(json.dumps(found, ensure_ascii=False, indent=1) + "\n",

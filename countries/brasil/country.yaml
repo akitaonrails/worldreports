@@ -8,6 +8,13 @@ name:
   pt: "Brasil"
   es: "Brasil"
   ko: "브라질"
+  it: "Brasile"
+  he: "ברזיל"
+  ja: "ブラジル"
+  zh-Hans: "巴西"
+  zh-Hant: "巴西"
+  vi: "Bra-xin"
+  de: "Brasilien"
 
 locales:
   - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
@@ -23,6 +30,8 @@ last_full_year: 2025
 # Label every Nth year on the x-axis. Twenty-one years of annual ticks do
 # not fit, so each country labels the stride its own plates were drawn with.
 tick_every: 2
+# Every plate is drawn on the shared plate spine (PLATE_SPINE.md).
+spine: true
 
 bands:
   - {from: 2014.0, to: 2016.9, label: "2014–16 recession"}

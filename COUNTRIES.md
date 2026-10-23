@@ -1,9 +1,20 @@
 # The queue
 
 Which countries are in, which are coming, and what each one needs that the
-last one did not. One at a time, in this order. Method:
-[SOURCING_A_COUNTRY.md](SOURCING_A_COUNTRY.md), then
-[ADDING_A_COUNTRY.md](ADDING_A_COUNTRY.md).
+last one did not. Method: [SOURCING_A_COUNTRY.md](SOURCING_A_COUNTRY.md),
+then [ADDING_A_COUNTRY.md](ADDING_A_COUNTRY.md).
+
+The work runs in three horizontal phases, not country-by-country verticals
+(decided 2026-10-22, after Canada's StatCan outage proved that a country
+stuck on one source idles the whole pipeline):
+
+1. **Data for all** — research pass, `SOURCES.yaml`, fetchers and staged
+   CSVs, in per-country worktree lanes, three at a time. A source that is
+   down or walled goes on the country's pending list and the lane moves on.
+2. **Plates for all** — `plates.py`, i18n catalogs, events, fact tests.
+   Sequential: the layout baseline and the string catalogs are shared.
+3. **Site for all** — `chapters.py`, `ui.json`, `make site`, merge, deploy.
+   A country merges to main only when all three phases are green for it.
 
 Every country publishes in **its own official language, plus English and
 Portuguese**, and every plate is drawn in each of them.
@@ -12,25 +23,31 @@ Portuguese**, and every plate is drawn in each of them.
 
 | Slug | Languages | Plates | Datasets |
 |------|-----------|--------|----------|
-| `argentina` | es · en · pt | 9 | 25 |
-| `brasil` | pt · en | 11 | 32 |
-| `france` | fr · en · pt | 11 | 36 |
-| `south-korea` | ko · en · pt | 10 | 37 |
-| `usa` | en · pt | 11 | 28 |
+| `argentina` | es · en · pt | 12 | 39 |
+| `brasil` | pt · en | 11 | 45 |
+| `canada` | en · fr · pt | 12 | 53 |
+| `france` | fr · en · pt | 12 | 46 |
+| `spain` | es · en · pt | 12 | 46 |
+| `south-korea` | ko · en · pt | 11 | 43 |
+| `united-kingdom` | en · pt | 12 | 45 |
+| `usa` | en · pt | 11 | 43 |
+
+The counts are the spine-vintage numbers (2026-10-22): plates are the drawn
+chapters per country, datasets the curated CSVs the plates read, sidecars and
+cross-check files not counted.
 
 ## Queued
 
 | # | Country | Slug | Languages | What it needs that we do not have |
 |---|---------|------|-----------|------------------------------------|
-| 1 | Canada | `canada` | en · fr · pt | Two national languages, both already in the atlas. Nothing new. Migration from IRCC and StatCan, which publish it unusually well. |
-| 2 | Spain | `spain` | es · en · pt | Nothing new. Eurostat alongside INE, as with France. **First migration chapter** (see below). |
-| 3 | United Kingdom | `united-kingdom` | en · pt | Post-Brexit: the Eurostat migration series carries UK values only to 2019. Migration from the ONS and the Home Office, across three methodologies in five years. |
-| 4 | Italy | `italy` | it · en · pt | A fourth Romance locale. New `AFFIX` column for `it`. Migration from Eurostat and ISTAT. |
-| 5 | Israel | `israel` | he · en · pt | **Right-to-left.** See below. |
-| 6 | Japan | `japan` | ja · en · pt | CJK: Noto Sans CJK JP, already installed. Fiscal year starts in April. |
-| 7 | China | `china` | zh-Hans · en · pt | CJK Simplified. Source reliability is the whole problem; see below. |
-| 8 | Taiwan | `taiwan` | zh-Hant · en · pt | CJK Traditional. Not in most international datasets; see below. |
-| 9 | Vietnam | `vietnam` | vi · en · pt | Vietnamese diacritics — check the plate font covers them. |
+| 1 | Italy | `italy` | it · en · pt | A fourth Romance locale. New `AFFIX` column for `it`. Migration from Eurostat and ISTAT. |
+| 2 | Israel | `israel` | he · en · pt | **Right-to-left.** See below. |
+| 3 | Japan | `japan` | ja · en · pt | CJK: Noto Sans CJK JP, already installed. Fiscal year starts in April. |
+| 4 | China | `china` | zh-Hans · en · pt | CJK Simplified. Source reliability is the whole problem; see below. |
+| 5 | Taiwan | `taiwan` | zh-Hant · en · pt | CJK Traditional. Not in most international datasets; see below. |
+| 6 | Vietnam | `vietnam` | vi · en · pt | Vietnamese diacritics — check the plate font covers them. |
+| 7 | Portugal | `portugal` | pt · en | Nothing new — Portuguese is already in the atlas. Eurostat alongside INE Portugal, as with France and Spain. |
+| 8 | Switzerland | `switzerland` | de · en · pt | A German locale — new `AFFIX` column for `de`. Not in the EU: EFTA member, so Eurostat carries it in many but not all tables — verify per dataset. CHF, not EUR; SNB, not ECB. |
 
 ## Known problems, written down before they are hit
 
@@ -63,10 +80,15 @@ as do the United Kingdom's and India's should it ever be queued. The USA
 already has this — its debt table keys on `fiscal_year` — so the mechanism
 exists; it just has to be used deliberately and labelled on the panel.
 
-**A fourth and fifth script.** `AFFIX` and `CURRENCY_AFFIX` in
-`core/sitebuild.py` are keyed by language, and every new locale needs a
-column in both. The catalog test fails until it has one, which is the
-intended behaviour.
+**Number styles.** `AFFIX` and `CURRENCY_AFFIX` in `core/sitebuild.py`
+and the unit rules in `core/i18n.py` are keyed by *number style*
+(`core/numstyle.py`), and every Phase B style — de, it, pt-PT, ja,
+zh-Hans, zh-Hant, vi, he — and currency — GBP, CHF, JPY, VND, CNY, TWD,
+ILS — already has its forms. `tests/test_numbers.py` reads every lane's
+country.yaml and fails on a locale or currency with no form, which is the
+intended behaviour. Portugal must declare `number_style: {pt: pt-PT}`.
+Hebrew has its numbers and affixes only; right-to-left layout is still
+the open problem described above.
 
 ## The migration chapter
 
@@ -79,9 +101,11 @@ and first-instance decisions, first and valid residence permits,
 acquisitions of citizenship — all verified live against the dissemination
 API before being written down here.
 
-That makes Spain, Italy and France straightforward and the United Kingdom
+That makes Spain, Italy, Portugal and France straightforward and the United Kingdom
 hard, because its Eurostat rows stop in 2019 and the ONS has changed
-method twice since. Hard is not a reason to leave it out; it is a reason
+method twice since. Switzerland sits between the two: EFTA membership puts
+it in many of the same tables, but coverage has to be verified dataset by
+dataset rather than assumed. Hard is not a reason to leave it out; it is a reason
 to draw the three regimes as three segments and say so on the panel.
 
 **This chapter needs more care than any other in the atlas**, and the

@@ -1,17 +1,25 @@
 {
  "01-economy": [
+  "international/world.csv",
   "macro/cpi.csv",
   "macro/gdp.csv",
   "macro/unemployment.csv"
  ],
  "02-fiscal": [
   "fiscal/budget.csv",
-  "fiscal/debt.csv"
+  "fiscal/debt.csv",
+  "fiscal/general_government.csv",
+  "fiscal/interest.csv",
+  "fiscal/spending.csv",
+  "macro/gdp.csv"
  ],
  "03-spending": [
-  "fiscal/spending.csv"
+  "fiscal/cofog.csv",
+  "fiscal/public_investment.csv",
+  "macro/economy_wdi.csv"
  ],
  "04-trade": [
+  "macro/gdp.csv",
   "trade/goods.csv",
   "trade/partners.csv",
   "trade/trade.csv"
@@ -20,35 +28,51 @@
   "macro/cpi.csv",
   "macro/dollar.csv",
   "macro/fed_funds.csv",
-  "macro/mortgage.csv",
   "macro/treasury.csv",
   "markets/sp500.csv"
  ],
  "06-people": [
+  "international/worldbank.csv",
   "macro/cpi.csv",
-  "social/income.csv",
+  "social/gini.csv",
   "social/minimum_wage.csv",
-  "social/poverty.csv"
+  "social/poverty.csv",
+  "social/poverty_intl.csv"
  ],
  "07-world": [
+  "international/corruption.csv",
+  "international/world.csv",
   "international/worldbank.csv",
   "social/hdi.csv"
  ],
  "08-demographics": [
-  "social/population.csv",
+  "international/worldbank.csv",
+  "social/components.csv",
+  "social/demography_wdi.csv",
+  "social/population_july1.csv",
   "social/projections.csv"
  ],
  "09-mortality": [
-  "social/mortality.csv"
+  "international/worldbank.csv",
+  "social/death_rates.csv",
+  "social/demography_wdi.csv",
+  "social/mortality.csv",
+  "social/population_july1.csv"
  ],
  "10-violence": [
+  "social/death_rates.csv",
+  "social/population_july1.csv",
+  "social/road_deaths.csv",
+  "social/security_intl.csv",
   "social/violence.csv"
  ],
  "11-credit": [
-  "credit/credit_access.csv",
   "credit/delinquency.csv",
+  "credit/household_credit.csv",
   "credit/household_debt.csv",
   "credit/rates.csv",
-  "macro/fed_funds.csv"
+  "macro/fed_funds.csv",
+  "macro/gdp.csv",
+  "macro/mortgage.csv"
  ]
 }

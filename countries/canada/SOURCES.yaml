@@ -58,6 +58,50 @@ markets:
       it. 2006 and 2007 need Statistics Canada's annual average
       (33-10-0163) instead. Direction: CAD per USD, so a RISING line is
       a weaker Canadian dollar.
+  usdcad_h10.csv:
+    source: Federal Reserve — H.10 daily foreign exchange rates, Canada (noon buying rate in New York)
+    url: https://www.federalreserve.gov/releases/h10/hist/dat00_ca.htm
+    refreshed_by: fetch/fetch_spine.py
+    notes: >-
+      Curated from the sidecar below, unchanged. The annual mean of the
+      daily noon buying rate, C$ per US$, with days and months saying
+      how much of each year is in it. It is the only exchange-rate
+      series that covers 2006-07, where the Bank of Canada's noon file
+      begins only in May 2007, so it is the base of the spine's currency
+      index — the Bank's own noon and daily series ride on top of it,
+      each indexed to the H.10 2006 average, and are never joined to it
+      or to each other.
+  usdcad_from_fed.csv:
+    source: Federal Reserve — H.10 daily foreign exchange rates, Canada (noon buying rate in New York)
+    url: https://www.federalreserve.gov/releases/h10/hist/dat00_ca.htm
+    refreshed_by: fetch/fetch_spine.py
+    notes: >-
+      Averaged from the daily rows by year and by month; the coverage
+      columns say what each annual figure is built from. A U.S. Federal
+      Reserve redistribution of Canadian-market quotes, not a Bank of
+      Canada publication.
+  equities.csv:
+    source: Yahoo Finance — S&P/TSX composite (^GSPTSE) and S&P 500 (^GSPC), monthly closes
+    url: https://query1.finance.yahoo.com/v8/finance/chart/^GSPTSE
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. NOT AN OFFICIAL
+      STATISTIC: no official body publishes an equity index, so this is
+      a redistributor feed flagged on the plate. Annual mean of the
+      month-end closes, the running month left out; the TSX is converted
+      to US$ each month at that month's H.10 average before averaging,
+      which is why 2014-15 shows the oil price in it.
+  equities_from_yahoo.csv:
+    source: Yahoo Finance — S&P/TSX composite (^GSPTSE) and S&P 500 (^GSPC), monthly closes
+    url: https://query1.finance.yahoo.com/v8/finance/chart/^GSPTSE
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+    notes: >-
+      Monthly closes as pulled, with the month count per year. A
+      redistributor: a revision at Yahoo would move a plate, which is
+      why the curated file is what is drawn and this sidecar is what is
+      diffed.
 
 fiscal:
   transactions_pct_gdp.csv:
@@ -131,6 +175,88 @@ fiscal:
       liabilities and is a different quantity again. Neither is the
       general-government debt in international/, and the three are
       routinely quoted as though they were one number.
+  general_government.csv:
+    source: 'IMF — World Economic Outlook and Fiscal Monitor, via DataMapper'
+    url: https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. The canonical fiscal
+      slot: GENERAL government (federal, provincial, territorial, local
+      and the CPP/QPP), CALENDAR years, % of GDP — comparable across the
+      atlas, and not the federal fiscal-year books in the FRT files.
+      Same IMF numbers Finance Canada reprints in
+      international/g7_*.csv, taken straight from the IMF.
+  general_government_from_imf.csv:
+    source: 'IMF — World Economic Outlook and Fiscal Monitor, via DataMapper (GGR_G01_GDP_PT (Fiscal Monitor), G_X_G01_GDP_PT (Fiscal Monitor), GGXCNL_NGDP (WEO), GGXONLB_G01_GDP_PT (Fiscal Monitor), GGXWDG_NGDP (WEO))'
+    url: 'https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      General government, % of GDP, calendar years. Balance and gross
+      debt are WEO indicators; revenue, expenditure and the primary
+      balance are not WEO codes on DataMapper (GGR_NGDP, GGX_NGDP and
+      GGXONLB_NGDP do not exist there) and come from the Fiscal Monitor,
+      served from the same database — the fetcher checks the WEO and
+      Fiscal Monitor balances agree within 0.1 pt before writing. Stops
+      at 2025: later IMF years are staff projections. 2025 itself may be
+      an IMF estimate. Columns: revenue_pct_gdp, expenditure_pct_gdp,
+      balance_pct_gdp, primary_balance_pct_gdp, gross_debt_pct_gdp. The
+      same IMF numbers that Finance Canada reprints in
+      international/g7_*.csv, taken straight from the IMF.
+  public_investment.csv:
+    source: 'OECD — National Accounts at a Glance, chapter 6, measure P51GS13'
+    url: 'https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_VI,/A.CAN.P51GS13...'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. General-government
+      gross fixed capital formation, % of GDP (spending slot 4).
+  public_investment_from_oecd.csv:
+    source: 'OECD — National Accounts at a Glance, chapter 6, OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_VI, measure P51GS13'
+    url: 'https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_VI,/A.CAN.P51GS13...'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      gov_gfcf_pct_gdp: general-government gross fixed capital
+      formation, % of GDP (spending slot 4).
+  cofog.csv:
+    source: 'IMF — Government Finance Statistics, expenditure by function (COFOG), flow GFS_COFOG, series CAN.S13....A'
+    url: 'https://api.imf.org/external/sdmx/2.1/data/IMF.STA,GFS_COFOG/CAN.S13....A?startPeriod=2005'
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. General-government
+      (S13) outlays by the ten COFOG divisions, % of GDP, calendar
+      years. 2008 onward only: earlier years are not in the IMF table.
+      The total is total outlays as COFOG measures them, 2–4 points of
+      GDP below the Fiscal Monitor expenditure line on the fiscal plate.
+  cofog_from_imf.csv:
+    source: 'IMF — Government Finance Statistics, expenditure by function (COFOG), flow GFS_COFOG, series CAN.S13....A'
+    url: 'https://api.imf.org/external/sdmx/2.1/data/IMF.STA,GFS_COFOG/CAN.S13....A?startPeriod=2005'
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+    notes: >-
+      The fetcher requires the ten divisions to add up to the published
+      total within 0.1 point before writing, per year. Statistics
+      Canada's own functional classification is the national line,
+      pending.
+  gfs_operations.csv:
+    source: 'IMF — Government Finance Statistics, statement of operations, flow GFS_SOO, series CAN.S13....A'
+    url: 'https://api.imf.org/external/sdmx/2.1/data/IMF.STA,GFS_SOO/CAN.S13....A?startPeriod=2005'
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. interest_payable is GFS
+      item 24, general government, % of GDP — the canonical fiscal slot
+      4 series. revenue / expenditure / net_lending are kept as a
+      cross-check on general_government.csv (same IMF database, a later
+      vintage).
+  gfs_operations_from_imf.csv:
+    source: 'IMF — Government Finance Statistics, statement of operations, flow GFS_SOO, series CAN.S13....A'
+    url: 'https://api.imf.org/external/sdmx/2.1/data/IMF.STA,GFS_SOO/CAN.S13....A?startPeriod=2005'
+    refreshed_by: fetch/fetch_spine.py
+    official: false
 
 international:
   g7_balance.csv:
@@ -263,6 +389,25 @@ international:
       whole back-series at each methodology change, so a trend assembled
       from successive annual reports is partly an artefact of the
       reports.
+  cpi.csv:
+    source: Transparency International — Corruption Perceptions Index, 2025 edition results and trends
+    url: https://images.transparencycdn.org/images/CPI2025-Results-and-trends.xlsx
+    refreshed_by: fetch/fetch_spine.py
+    notes: >-
+      Curated from the sidecar below, unchanged. The world slot 3 score:
+      0–100 on the method introduced in 2012. Earlier scores are 0–10
+      and are not in TI's own time series, so nothing is rescaled and
+      stitched: the series simply begins in 2012.
+  cpi_from_ti.csv:
+    source: Transparency International — Corruption Perceptions Index, 2025 edition results and trends
+    url: https://images.transparencycdn.org/images/CPI2025-Results-and-trends.xlsx
+    refreshed_by: fetch/fetch_spine.py
+    notes: >-
+      Read from the results-and-trends workbook, the whole time series
+      of one edition so the vintage never changes under the plate. The
+      workbook carries defined names openpyxl cannot locate, so the
+      fetcher reads the sheet XML directly and shape-checks before
+      caching.
 
 social:
   gini.csv:
@@ -283,6 +428,297 @@ social:
       Canadian Income Survey through its own income definition and lands
       in a different place from Statistics Canada's own figure. They are
       not two readings of one quantity.
+  demography.csv:
+    source: 'World Bank — World Development Indicators (SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM), from the UN World Population Prospects and national vital statistics'
+    url: https://api.worldbank.org/v2/country/CAN/indicator/SP.DYN.TFRT.IN?format=json
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. Total fertility rate,
+      crude birth and death rates (per 1,000), and net migration as a
+      COUNT — per-1,000 rates divide by the population of the same year.
+      Statistics Canada's own rates and components of growth are staged
+      in social/demography_statcan.csv and social/components_statcan.csv
+      as the national line.
+  demography_from_wb.csv:
+    source: 'World Bank — World Development Indicators (SP.POP.TOTL.FE.IN, SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM), from the UN World Population Prospects and national vital statistics'
+    url: 'https://api.worldbank.org/v2/country/CAN/indicator/SP.POP.TOTL.FE.IN?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Mid-year population (total and female), so a rate per 100,000
+      women can be computed on a mid-year denominator. Crude birth and
+      death rates are per 1,000 people. net_migration is a COUNT of
+      people (WPP estimate), not a rate: per 1,000 = net_migration /
+      population x 1,000 for the same year. WPP figures for recent years
+      are estimates and are revised with each WPP. Columns:
+      population_female, fertility, birth_rate_per_1000,
+      death_rate_per_1000, net_migration.
+  poverty.csv:
+    source: 'World Bank — Poverty and Inequality Platform, SI.POV.UMIC'
+    url: https://api.worldbank.org/v2/country/CAN/indicator/SI.POV.UMIC?format=json
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. Share of people below
+      US$8.30 a day (2021 PPP), survey years only — the gaps are years
+      without a survey, not zeros. Canada's official line is the Market
+      Basket Measure, staged in social/poverty_statcan.csv with each MBM
+      base as its own column; the two are different measures and never
+      one line.
+  poverty_from_wb.csv:
+    source: 'World Bank — Poverty and Inequality Platform, SI.POV.UMIC'
+    url: 'https://api.worldbank.org/v2/country/CAN/indicator/SI.POV.UMIC?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      poverty_830_pct: share of people below US$8.30 a day, 2021 PPP.
+      Survey years only; the gaps are years without a survey, not zeros.
+      The cross-country line beside the national poverty definition,
+      never spliced into it.
+  security.csv:
+    source: 'World Bank — World Development Indicators: VC.IHR.PSRC.P5 (UNODC), SH.STA.SUIC.P5 and SH.STA.TRAF.P5 (WHO Global Health Estimates)'
+    url: https://api.worldbank.org/v2/country/CAN/indicator/VC.IHR.PSRC.P5?format=json
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. All per 100,000. The
+      spine's canonical security series; the national police-reported
+      homicide is staged in social/security_from_statcan.csv (cube
+      35-10-0068) and rides beside these as a labelled line — police
+      counts and UNODC's intentional homicide disagree by definition,
+      in both directions, and are never spliced.
+  security_from_wb.csv:
+    source: 'World Bank — World Development Indicators: VC.IHR.PSRC.P5 (UNODC), SH.STA.SUIC.P5 and SH.STA.TRAF.P5 (WHO Global Health Estimates)'
+    url: 'https://api.worldbank.org/v2/country/CAN/indicator/VC.IHR.PSRC.P5?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      All per 100,000 people. Intentional homicide is UNODC's harmonised
+      count, which usually differs from the national police or death-
+      certificate series in both directions. Suicide and road-traffic
+      deaths are WHO modelled estimates (suicide age-standardised),
+      ending 2021 and 2019 respectively in this release; later years are
+      blank, not zero. Columns: homicide_per_100k, suicide_per_100k,
+      road_deaths_per_100k.
+  income.csv:
+    source: 'OECD — Income Distribution Database (DSD_WISE_IDD@DF_IDD), measure INC_DISP_GINI and PR_INC_DISP'
+    url: https://sdmx.oecd.org/public/rest/data/OECD.WISE.INE,DSD_WISE_IDD@DF_IDD,/CAN.A........
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. Gini of disposable
+      income on the OECD's 0–1 scale (the plate draws 0–100), and
+      poverty as % below HALF the median equivalised income — total,
+      under 18, over 65. One income definition throughout: the 2012
+      one, which the OECD carries back to 2005; the 2011 definition
+      stops in 2011 and would be a seam. Statistics Canada's own survey
+      Gini and the Market Basket Measure are the national lines,
+      pending.
+  income_from_oecd.csv:
+    source: 'OECD — Income Distribution Database (DSD_WISE_IDD@DF_IDD), measure INC_DISP_GINI and PR_INC_DISP'
+    url: https://sdmx.oecd.org/public/rest/data/OECD.WISE.INE,DSD_WISE_IDD@DF_IDD,/CAN.A........
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+  migrant_stock.csv:
+    source: 'World Bank — SM.POP.TOTL.ZS (UN DESA International Migrant Stock)'
+    url: https://api.worldbank.org/v2/country/CAN/indicator/SM.POP.TOTL.ZS?format=json
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. International migrants
+      (UN definition: foreign-born) as % of the population, five-yearly
+      estimates with markers, not a census. The census share is
+      Statistics Canada's, pending.
+  migrant_stock_from_wb.csv:
+    source: 'World Bank — SM.POP.TOTL.ZS (UN DESA International Migrant Stock)'
+    url: https://api.worldbank.org/v2/country/CAN/indicator/SM.POP.TOTL.ZS?format=json
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+  minimum_wage.csv:
+    source: 'OECD — minimum wages at current prices (DSD_EARNINGS@MW_CURP), employment-weighted across provinces and territories'
+    url: https://sdmx.oecd.org/public/rest/data/OECD.ELS.SAE,DSD_EARNINGS@MW_CURP,/CAN......
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. Canada has no single
+      statutory national minimum — each province and territory sets
+      its own, and the OECD figure weights them by employment. C$:
+      hourly and the OECD's full-time annual equivalent; the plate
+      converts the annual figure to US$ per month at the H.10 annual
+      average rate.
+  minimum_wage_from_oecd.csv:
+    source: 'OECD — minimum wages at current prices (DSD_EARNINGS@MW_CURP), employment-weighted across provinces and territories'
+    url: https://sdmx.oecd.org/public/rest/data/OECD.ELS.SAE,DSD_EARNINGS@MW_CURP,/CAN......
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+  opioids.csv:
+    source: Public Health Agency of Canada — Health Infobase, apparent opioid toxicity deaths
+    url: https://health-infobase.canada.ca/src/data/substance-related-harms/SubstanceHarmsData.zip
+    refreshed_by: fetch/fetch_spine.py
+    notes: >-
+      Curated from the sidecar below, unchanged. Deaths and the crude
+      rate per 100,000 PHAC publishes with them; the national series
+      begins in 2016. coroner and medical examiner judgements —
+      "apparent" toxicity, revised as investigations close.
+  opioids_from_phac.csv:
+    source: Public Health Agency of Canada — Health Infobase, apparent opioid toxicity deaths
+    url: https://health-infobase.canada.ca/src/data/substance-related-harms/SubstanceHarmsData.zip
+    refreshed_by: fetch/fetch_spine.py
+    notes: >-
+      Pulled from the SubstanceHarmsData extract: Substance=Opioids,
+      Source=Deaths, Region=Canada, by year, overall numbers.
+  causes_of_death.csv:
+    source: 'OECD — Health Statistics, causes of mortality (DSD_HEALTH_STAT@DF_COM): Statistics Canada''s death registrations by underlying cause'
+    url: https://sdmx.oecd.org/public/rest/data/OECD.ELS.HD,DSD_HEALTH_STAT@DF_COM,/CAN............
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. deaths is a count;
+      every other column is a CRUDE rate per 100,000 (both sexes) as
+      the OECD publishes it. Underlying cause, so COVID-19 counts where
+      it was recorded on the certificate as the underlying cause. The
+      latest years can move as coroners' investigations close. The
+      registrations straight from Statistics Canada (13-10-0394) are
+      staged in social/mortality_statcan.csv as the national line.
+  causes_of_death_from_oecd.csv:
+    source: 'OECD — Health Statistics, causes of mortality (DSD_HEALTH_STAT@DF_COM): Statistics Canada''s death registrations by underlying cause'
+    url: https://sdmx.oecd.org/public/rest/data/OECD.ELS.HD,DSD_HEALTH_STAT@DF_COM,/CAN............
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+  gini_statcan.csv:
+    source: 'Statistics Canada — Gini coefficients of adjusted market, total and after-tax income (11-10-0134, CANSIM 206-0033)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110013401'
+    refreshed_by: fetch/fetch_statcan.py (curated via fetch/_curate_statcan.py)
+    notes: >-
+      Statistics Canada's own survey Gini, 0-1 as published (the plate
+      draws 0-100), three income concepts. It is NOT a second reading of
+      the World Bank figure in gini.csv: different income definition,
+      different survey history. The candidate 11-10-0190 was verified
+      and dropped: it is the income-level table, not the Gini table.
+  gini_from_statcan.csv:
+    source: 'Statistics Canada — Gini coefficients of adjusted market, total and after-tax income (11-10-0134, CANSIM 206-0033)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110013401'
+    refreshed_by: fetch/fetch_statcan.py
+    notes: >-
+      As pulled, 1976 on: the adjusted-income Gini on the three
+      concepts, Canada only. Survey-based; early years ride on a
+      different survey instrument than the 2016-onward Canadian Income
+      Survey, which the spot checks cannot see — treat pre-1976
+      extensions of any Gini line as a different statistic.
+  poverty_statcan.csv:
+    source: 'Statistics Canada — Low income statistics by age, gender and economic family type (11-10-0135, CANSIM 206-0041)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110013501'
+    refreshed_by: fetch/fetch_statcan.py (curated via fetch/_curate_statcan.py)
+    notes: >-
+      All persons. TWO MBM BASES AS TWO COLUMNS: the 2018-base series
+      (2015-2023) and the 2023-base series (2020-) use different
+      thresholds; joining them across the rebase is exactly the seam
+      this repo exists to prevent. LIM-AT is a relative measure kept
+      beside for context. The official national poverty line is the MBM.
+  poverty_from_statcan.csv:
+    source: 'Statistics Canada — Low income statistics by age, gender and economic family type (11-10-0135, CANSIM 206-0041)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110013501'
+    refreshed_by: fetch/fetch_statcan.py
+    notes: >-
+      The percentage-of-persons statistics for All persons on three
+      lines (MBM 2018 base, MBM 2023 base, LIM-AT). Threshold tables
+      (11-10-0103/0066/0230) carry the MBM dollar thresholds; they are
+      not rates and are not pulled. The 2008-base MBM series stops
+      because StatCan superseded it — it is not fetched at all.
+  population_statcan.csv:
+    source: 'Statistics Canada — Population estimates, quarterly (17-10-0009, CANSIM 051-0005)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1710000901'
+    refreshed_by: fetch/fetch_statcan.py (curated via fetch/_curate_statcan.py)
+    notes: >-
+      The July 1 demographic estimate — the national population vintage
+      and the only Canadian one that separates non-permanent residents.
+      Census revisions re-base it between vintages; changes are computed
+      within this one series, never across the World Bank estimate.
+  population_from_statcan.csv:
+    source: 'Statistics Canada — Population estimates, quarterly (17-10-0009, CANSIM 051-0005)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1710000901'
+    refreshed_by: fetch/fetch_statcan.py
+    notes: >-
+      The July reference rows of the quarterly series, 1961 on (the
+      quarterly table carries 1946 on; the atlas window starts later).
+      2026 is the latest published estimate, labelled as the running
+      year's point, not a year's result.
+  components_statcan.csv:
+    source: 'Statistics Canada — Estimates of the components of demographic growth, annual (17-10-0008, CANSIM 051-0004)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1710000801'
+    refreshed_by: fetch/fetch_statcan.py (curated via fetch/_curate_statcan.py)
+    notes: >-
+      July 1 to June 30 periods keyed by the STARTING year, like the
+      fiscal files: 2024 is 2024-07-01 to 2025-06-30. Components are
+      published separately and not netted here: net_emigration is
+      emigrants minus returning emigrants, and net non-permanent
+      residents is its own series — the 2023-24 growth story lives in
+      that column.
+  components_from_statcan.csv:
+    source: 'Statistics Canada — Estimates of the components of demographic growth, annual (17-10-0008, CANSIM 051-0004)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1710000801'
+    refreshed_by: fetch/fetch_statcan.py
+    notes: >-
+      As pulled, 1971 on, Canada only. The quarterly sibling
+      (17-10-0040) was verified live and left to the migration chapter:
+      it answers as components of international migration, not the
+      non-permanent-resident stock (17-10-0121, from 2021 only, or the
+      inactive 17-10-0023).
+  demography_statcan.csv:
+    source: 'Statistics Canada — Crude birth rate, age-specific fertility rates and total fertility rate (13-10-0418, CANSIM 102-4505)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1310041801'
+    refreshed_by: fetch/fetch_statcan.py (curated via fetch/_curate_statcan.py)
+    notes: >-
+      Calendar registration years, place of residence of mother. The
+      crude death rate has no published national series in this cube:
+      integration divides the deaths in components_statcan.csv by the
+      July 1 population (the conversion is recorded in DATA_NOTES.md).
+  demography_from_statcan.csv:
+    source: 'Statistics Canada — Crude birth rate, age-specific fertility rates and total fertility rate (13-10-0418, CANSIM 102-4505)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1310041801'
+    refreshed_by: fetch/fetch_statcan.py
+    notes: >-
+      As pulled, 1991 on. Registration-based counts and rates; late
+      years move as registrations complete.
+  security_statcan.csv:
+    source: 'Statistics Canada — Number, rate and percentage changes in rates of homicide victims (35-10-0068, CANSIM 253-0001)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3510006801'
+    refreshed_by: fetch/fetch_statcan.py (curated via fetch/_curate_statcan.py)
+    notes: >-
+      Police-reported homicide victims and the published rate per
+      100,000, 1961 on. Counted at the place of occurrence by police
+      services; the death-registered assault count (X85-Y09, in
+      mortality_statcan.csv) and UNODC's harmonised figure are different
+      counts of an adjacent thing, never spliced into this line.
+  security_from_statcan.csv:
+    source: 'Statistics Canada — Number, rate and percentage changes in rates of homicide victims (35-10-0068, CANSIM 253-0001)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3510006801'
+    refreshed_by: fetch/fetch_statcan.py
+    notes: >-
+      As pulled, Canada only. The broad UCR cube (35-10-0177) was
+      verified live and dropped for this slot: it is every detailed
+      violation, and the homicide table is 253-0001.
+  mortality_statcan.csv:
+    source: 'Statistics Canada — Leading causes of death, total population, by age group (13-10-0394, CANSIM 102-0561)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1310039401'
+    refreshed_by: fetch/fetch_statcan.py (curated via fetch/_curate_statcan.py)
+    notes: >-
+      Death registrations, all ages, both sexes, underlying cause: all
+      causes, COVID-19 (U07.1/U07.2/U10.9, from 2020), neoplasms,
+      heart diseases, intentional self-harm, assault, accidents,
+      influenza and pneumonia. The code follows the certifier, so
+      deaths at police hands sit inside assault; late years move as
+      investigations close.
+  mortality_from_statcan.csv:
+    source: 'Statistics Canada — Leading causes of death, total population, by age group (13-10-0394, CANSIM 102-0561)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1310039401'
+    refreshed_by: fetch/fetch_statcan.py
+    notes: >-
+      Counts of deaths as pulled, 2000 on (the cube's window), all-ages
+      both-sexes rows only. The full table download is ~110 MB; the
+      sidecar keeps the Canada/all-ages slice the mortality chapter
+      draws.
 
 migration:
   pr_admissions.csv:
@@ -338,3 +774,255 @@ migration:
       two differ by more than a factor of two because a study permit
       runs for several years. The stock belongs to Statistics Canada's
       non-permanent-resident estimate.
+
+credit:
+  household_credit.csv:
+    source: BIS — total credit statistics, WS_TC Q.CA.H.A.M.770.A
+    url: https://stats.bis.org/api/v2/data/dataflow/BIS/WS_TC/2.0/Q.CA.H.A.M.770.A?format=csv
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. Credit to households and
+      NPISHs from all lenders, % of GDP; hh_credit_pct_gdp_q4 is the
+      year-end quarter the spine draws. The BIS series is wider than any
+      bank-loan series and adjusted for breaks; Statistics Canada's
+      credit market debt to disposable income ratio is the national
+      line, staged in credit/household_credit_statcan.csv — a different
+      denominator, so two labelled lines, never one.
+  debt_service.csv:
+    source: BIS — debt service ratios, WS_DSR Q.CA.H
+    url: https://stats.bis.org/api/v2/data/dataflow/BIS/WS_DSR/1.0/Q.CA.H?format=csv
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. Households' interest
+      plus amortisation as % of household disposable income (the credit
+      lens slot). A BIS estimate built on an assumed average maturity;
+      see the sidecar entry.
+  mortgage_rates.csv:
+    source: Bank of Canada — Valet (V80691335; V122667775/V12266781 and V122667724/V122667730, funds advanced)
+    url: https://www.bankofcanada.ca/valet/observations/V80691335/json
+    refreshed_by: fetch/fetch_spine.py
+    notes: >-
+      Curated from the sidecar below, unchanged. The 5-year rate the
+      major banks post (annual mean of the weekly series — few borrowers
+      pay it) beside the rate actually charged on new residential
+      mortgages, insured and uninsured, weighted by the funds advanced
+      (monthly, from 2013; the *_months column says the coverage).
+  mortgage_rates_from_boc.csv:
+    source: Bank of Canada — Valet (V80691335; V122667775/V12266781 and V122667724/V122667730, funds advanced)
+    url: https://www.bankofcanada.ca/valet/observations/V80691335/json
+    refreshed_by: fetch/fetch_spine.py
+    notes: >-
+      The posted rate is what the banks advertise; the new-mortgage rate
+      is what borrowers sign, computed from the insured (V82) and
+      uninsured (V81) rates weighted by the funds advanced (V122667724
+      and V122667730). Quoting the posted rate as "the mortgage rate"
+      under-states what was paid through 2020-21 by well over a point.
+  npl.csv:
+    source: World Bank — WDI FB.AST.NPER.ZS (IMF Financial Soundness Indicators)
+    url: https://api.worldbank.org/v2/country/CAN/indicator/FB.AST.NPER.ZS?format=json
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. Bank non-performing
+      loans as % of gross loans, IMF FSI via the World Bank. The
+      definition is the IMF's, not a national one — the panel's legend
+      says so.
+  npl_from_wb.csv:
+    source: World Bank — WDI FB.AST.NPER.ZS (IMF Financial Soundness Indicators)
+    url: https://api.worldbank.org/v2/country/CAN/indicator/FB.AST.NPER.ZS?format=json
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+  debt_service_from_bis.csv:
+    source: 'BIS — debt service ratios, WS_DSR Q.CA.H'
+    url: 'https://stats.bis.org/api/v2/data/dataflow/BIS/WS_DSR/1.0/Q.CA.H?format=csv'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Interest plus amortisation on household debt as % of household
+      disposable income. A BIS estimate built on an assumed average
+      maturity and the aggregate lending rate. Q4 value, quarter mean
+      and the number of quarters, as in the credit file.
+  household_credit_statcan.csv:
+    source: 'Statistics Canada — Financial indicators of households and NPISHs, national balance sheet accounts (38-10-0235, CANSIM 378-0123)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3810023501'
+    refreshed_by: fetch/fetch_statcan.py (curated via fetch/_curate_statcan.py)
+    notes: >-
+      Credit market debt to DISPOSABLE INCOME (a ratio near 170, not a
+      per cent of GDP near 100 — different denominators, both correct).
+      Seasonally adjusted quarterly stock; Q4 is the year-end value, the
+      quarter mean and count ride beside it as elsewhere in credit/.
+  household_credit_from_statcan.csv:
+    source: 'Statistics Canada — Financial indicators of households and NPISHs, national balance sheet accounts (38-10-0235, CANSIM 378-0123)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3810023501'
+    refreshed_by: fetch/fetch_statcan.py
+    notes: >-
+      Households and NPISHs series as pulled, 1990 on, annualised by the
+      house convention (Q4, quarter mean, quarter count). The candidate
+      36-10-0639 was verified and dropped: it holds credit liabilities
+      in dollars, not the ratio.
+  debt_service_statcan.csv:
+    source: 'Statistics Canada — Debt service indicators of households, national balance sheet accounts (11-10-0065)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110006501'
+    refreshed_by: fetch/fetch_statcan.py (curated via fetch/_curate_statcan.py)
+    notes: >-
+      What households actually paid: debt service ratio (interest plus
+      obligated principal) as % of disposable income, seasonally
+      adjusted at annual rates, plus the mortgage split. It runs about
+      1.2 points above the BIS modelled ratio because it measures
+      payments, not an assumed-maturity model — two lines, never one.
+  debt_service_from_statcan.csv:
+    source: 'Statistics Canada — Debt service indicators of households, national balance sheet accounts (11-10-0065)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110006501'
+    refreshed_by: fetch/fetch_statcan.py
+    notes: >-
+      Seasonally adjusted at annual rates only; the unadjusted column of
+      the cube is deliberately not pulled, so the sidecar cannot be
+      mis-spliced across the two adjustments.
+  household_credit_from_bis.csv:
+    source: 'BIS — total credit statistics, WS_TC Q.CA.H.A.M.770.A'
+    url: 'https://stats.bis.org/api/v2/data/dataflow/BIS/WS_TC/2.0/Q.CA.H.A.M.770.A?format=csv'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Credit to households and NPISHs from all sectors, market value, %
+      of GDP, adjusted for breaks. hh_credit_pct_gdp_q4 is the Q4 (year-
+      end) value the spine draws; _qavg is the mean of the quarters
+      published and _quarters says how many, so the running year reads
+      as one quarter, not a year. Wider than bank-loan series: every
+      lender and debt securities are in it.
+
+macro:
+  economy.csv:
+    source: 'World Bank — World Development Indicators (NE.GDI.FTOT.ZS, SL.UEM.TOTL.ZS)'
+    url: https://api.worldbank.org/v2/country/CAN/indicator/NE.GDI.FTOT.ZS?format=json
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. Whole-economy GFCF
+      (spending slot 3) and the ILO modelled unemployment estimate
+      (economy slot 4) — harmonised, and not the national Labour Force
+      Survey headline, which is staged in macro/economy_statcan.csv as
+      the labelled national line beside it.
+  growth_prices.csv:
+    source: 'World Bank — World Development Indicators (NY.GDP.MKTP.KD.ZG, FP.CPI.TOTL.ZG)'
+    url: https://api.worldbank.org/v2/country/CAN/indicator/NY.GDP.MKTP.KD.ZG?format=json
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. Real GDP growth and
+      CPI inflation, annual average. Both are Statistics Canada's own
+      figures as redistributed by the World Bank; StatCan's own tables
+      (36-10-0699 expenditure-based GDP, 18-10-0005 CPI annual average)
+      are staged in macro/economy_statcan.csv as the national line, and
+      the two are never spliced.
+  growth_prices_from_wb.csv:
+    source: 'World Bank — World Development Indicators (NY.GDP.MKTP.KD.ZG, FP.CPI.TOTL.ZG)'
+    url: https://api.worldbank.org/v2/country/CAN/indicator/NY.GDP.MKTP.KD.ZG?format=json
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+  economy_from_wb.csv:
+    source: 'World Bank — World Development Indicators (NE.GDI.FTOT.ZS, SL.UEM.TOTL.ZS)'
+    url: 'https://api.worldbank.org/v2/country/CAN/indicator/NE.GDI.FTOT.ZS?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      gfcf_pct_gdp is whole-economy gross fixed capital formation, % of
+      GDP (spending slot 3). unemployment_pct is the ILO modelled
+      estimate, % of the labour force — harmonised, and not the national
+      LFS headline, which stays the national line. Columns:
+      gfcf_pct_gdp, unemployment_pct.
+  economy_statcan.csv:
+    source: 'Statistics Canada — GDP expenditure-based (36-10-0699), CPI annual average (18-10-0005), Labour Force Survey (14-10-0327)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3610069901'
+    refreshed_by: fetch/fetch_statcan.py (curated via fetch/_curate_statcan.py)
+    notes: >-
+      The national line beside the World Bank series in economy.csv and
+      growth_prices.csv: real GDP growth at chained-FCE2017 percentage
+      change, CPI inflation as the year-over-year change of the
+      published 2002=100 annual-average index (a documented conversion),
+      and the LFS unemployment rate for the population aged 15+ (not
+      seasonally adjusted, the annual table). Never spliced into the
+      harmonised line; the cross-checks in the sidecar entry below say
+      how far apart they are.
+  economy_from_statcan.csv:
+    source: 'Statistics Canada — GDP expenditure-based (36-10-0699), CPI annual average (18-10-0005), Labour Force Survey (14-10-0327)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3610069901'
+    refreshed_by: fetch/fetch_statcan.py
+    notes: >-
+      As pulled, full history from each table's start: real growth,
+      current-dollar GDP (the denominator the trade ratios divide by),
+      the all-items CPI index level 2002=100 (the fetcher never derives
+      the inflation rate; curation does), and the LFS unemployment rate.
+      The cube's title, currency and CURRENT status are asserted against
+      getCubeMetadata before any data is read, and the payload must be
+      JSON or a real zip: StatCan served an outage page under HTTP 200
+      on 2026-10-22.
+
+trade:
+  trade.csv:
+    source: 'World Bank — World Development Indicators (NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS)'
+    url: https://api.worldbank.org/v2/country/CAN/indicator/NE.EXP.GNFS.ZS?format=json
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. Exports and imports of
+      goods AND services, national-accounts basis, % of GDP — the
+      spine's trade slot 1; the balance drawn in slot 2 is their
+      difference and is not stored. Statistics Canada's own
+      national-accounts line is staged in trade/trade_statcan.csv; the
+      customs candidate (12-10-0011) was verified and rejected — goods
+      only, different quantity.
+  partners.csv:
+    source: 'IMF — International Trade in Goods (IMTS), flow IMTS, series CAN.XG_FOB_USD+TBG_USD'
+    url: https://api.imf.org/external/sdmx/2.1/data/IMF.STA,IMTS/CAN.XG_FOB_USD+TBG_USD..A?startPeriod=2005
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+    notes: >-
+      Curated from the sidecar below, unchanged. Goods exports (FOB) by
+      partner and goods balances, current US$ as units, not millions.
+      Partners ranked once, on the last full year's exports, among
+      single countries; the rest of the world only in the world column.
+      Goods only — slot 1 above is goods and services.
+  partners_from_imf.csv:
+    source: 'IMF — International Trade in Goods (IMTS), flow IMTS, series CAN.XG_FOB_USD+TBG_USD'
+    url: https://api.imf.org/external/sdmx/2.1/data/IMF.STA,IMTS/CAN.XG_FOB_USD+TBG_USD..A?startPeriod=2005
+    refreshed_by: fetch/fetch_spine.py
+    official: false
+    notes: >-
+      The fetcher takes the six largest partners on the last full year
+      and requires the world aggregate to be in the payload before
+      writing; regional aggregate codes (G001 and friends) are the world
+      total, not a partner row.
+  trade_from_wb.csv:
+    source: 'World Bank — World Development Indicators (NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS)'
+    url: 'https://api.worldbank.org/v2/country/CAN/indicator/NE.EXP.GNFS.ZS?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Exports and imports of goods AND services, national-accounts
+      basis, % of GDP — not a customs goods series. The trade balance is
+      their difference and is not stored. Columns: exports_pct_gdp,
+      imports_pct_gdp.
+  trade_statcan.csv:
+    source: 'Statistics Canada — GDP expenditure-based, Canada, annual (36-10-0699): current-dollar exports/imports of goods and services over current-dollar GDP'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3610069901'
+    refreshed_by: fetch/fetch_statcan.py (curated via fetch/_curate_statcan.py)
+    notes: >-
+      The national line for trade slots 1-2, same definition as the
+      World Bank file beside it (goods and services, national accounts)
+      and the same numbers before redistribution rounding — the WB
+      series is Statistics Canada's own outturn re-presented. The
+      candidate customs table (12-10-0011) was dropped on verification:
+      customs-basis goods only, not the quantity this slot measures.
+      The balance is the difference and is not stored.
+  trade_from_statcan.csv:
+    source: 'Statistics Canada — GDP expenditure-based, Canada, annual (36-10-0699)'
+    url: 'https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3610069901'
+    refreshed_by: fetch/fetch_statcan.py
+    notes: >-
+      Published current-dollar millions (millions of CAD, "Less:
+      imports" stored positive as the imports line) plus the % of GDP
+      ratios the fetcher computes from the same cube and vintage in one
+      pass, so the ratio can never mix two vintages.

@@ -30,6 +30,7 @@ matplotlib.rcParams["figure.max_open_warning"] = 0
 
 from core import context, i18n, style  # noqa: E402
 from core.country import Country  # noqa: E402
+from core import render  # noqa: E402
 from core.render import load_plates  # noqa: E402
 
 
@@ -102,16 +103,18 @@ class Panel:
         return [(x, left[x], right[x]) for x in shared]
 
     def bars(self) -> list[float]:
-        """Bar heights, in data coordinates.
+        """Bar tops (y + height), in data coordinates, so a stacked
+        bar is checked where it ends, not by its own height alone.
 
         Only the patches drawn in data space: a recession band is an
         axvspan whose height is 1.0 in axes fraction, and counting it as a
         bar of height 1 would compare an axis fraction against a Gini
         coefficient.
         """
-        return [float(p.get_height()) for p in self.ax.patches
-                if p.get_transform() is self.ax.transData
-                and hasattr(p, "get_height")]
+        return [float(p.get_y()) + float(p.get_height())
+                for p in self.ax.patches
+                if p.get_data_transform() is self.ax.transData
+                and hasattr(p, "get_height") and hasattr(p, "get_y")]
 
     def texts(self) -> list[str]:
         return [t.get_text() for t in self.ax.texts if t.get_text().strip()]
@@ -191,9 +194,7 @@ def _render(slug: str, lang: str) -> dict:
     real_save = style.Infographic.save
 
     def capture(self, path):
-        self._draw_header()
-        self._draw_footer()
-        i18n.localize(self.fig)
+        self.compose()
         captured[current["name"]] = self.fig
         return Path(path)
 
@@ -202,12 +203,7 @@ def _render(slug: str, lang: str) -> dict:
         ctx = context.Context(country)
         for plate in load_plates(country):
             current["name"] = plate.name
-            if plate.declarative:
-                fig = ctx.fig(plate.title, plate.subtitle, source=plate.source)
-                plate.draw(ctx, fig)
-                fig.save(ctx.out(plate.filename))
-            else:
-                plate.draw(ctx)
+            render.draw(ctx, plate)
     finally:
         style.Infographic.save = real_save
         i18n.set_lang("en")
