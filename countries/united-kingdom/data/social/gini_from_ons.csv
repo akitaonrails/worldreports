@@ -1,0 +1,28 @@
+# ONS, The effects of taxes and benefits on household income (hdiifye2025.xlsx),
+# Table 10, UK. Gini coefficient of equivalised disposable household
+# income (%, 0-100 scale), with the S80/S20, P90/P10 and Palma ratios and
+# the top 1% income share (from 2001/02 only). Incomes from 2001/02 are
+# adjusted for top-earner under-coverage (release note 11). FINANCIAL
+# YEARS (April-March): fiscal_year is the STARTING year, 2024 = 2024/25 =
+# FYE 2025. Rows before the atlas window (incl. 1977-1993 calendar years)
+# are left in the workbook.
+fiscal_year,s80_s20_ratio,p90_p10_ratio,palma_ratio,gini_pct,top1_share_pct
+2006,6.1,4.6,1.6,37.0,8.5
+2007,6.6,4.6,1.7,38.6,9.8
+2008,5.7,4.3,1.5,35.6,8.2
+2009,5.8,4.3,1.5,36.6,8.9
+2010,5.3,4.1,1.4,34.1,7.0
+2011,5.2,4.0,1.3,33.8,7.0
+2012,5.5,4.1,1.4,34.4,6.8
+2013,5.8,4.2,1.5,35.3,8.2
+2014,5.7,4.2,1.4,34.7,7.0
+2015,5.6,3.9,1.4,35.1,8.5
+2016,5.2,3.9,1.3,33.4,7.0
+2017,5.8,4.2,1.4,35.0,7.7
+2018,6.2,4.6,1.5,36.0,8.0
+2019,5.8,4.3,1.4,35.4,8.2
+2020,5.9,4.3,1.4,34.4,7.4
+2021,6.2,4.5,1.5,35.5,8.1
+2022,5.5,4.2,1.3,33.1,6.7
+2023,5.6,4.2,1.3,32.9,6.6
+2024,5.6,4.2,1.3,32.7,6.2

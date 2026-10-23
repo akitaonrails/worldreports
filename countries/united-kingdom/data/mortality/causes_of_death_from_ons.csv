@@ -1,0 +1,430 @@
+# ONS deaths REGISTERED in ENGLAND AND WALES (incl. non-residents) by
+# UNDERLYING cause, ICD-10 chapter, all people, all ages excluding
+# neonatal deaths (DR's convention), all places, calendar years. Long
+# format. 2016 onward = Series DR (annualdeathregistrations2025.xlsx) Table 5;
+# 2006-2015 = 21st Century Mortality dataset aggregated to the same
+# chapters (U50.9 in Chapter 20). Every chapter of the two sources matches
+# to the death on 2016-2022 (asserted). Underlying cause
+# only - not 'deaths involving'. Coding breaks to annotate, not smooth:
+# the 2011 ICD-10 v2010 update and the 2014 MUSE-to-IRIS software change.
+year,chapter,icd10_codes,chapter_name,deaths,source
+2006,all,"A00 to R99, U00 to Y89",All causes,500254,21st_century_mortality
+2006,ch1,A00 to B99,Certain infectious and parasitic diseases,7632,21st_century_mortality
+2006,ch2,C00 to D48,Neoplasms,138777,21st_century_mortality
+2006,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1013,21st_century_mortality
+2006,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",7153,21st_century_mortality
+2006,ch5,F00 to F99,Mental and behavioural disorders,14863,21st_century_mortality
+2006,ch6,G00 to G99,Diseases of the nervous system,15193,21st_century_mortality
+2006,ch7,H00 to H59,Diseases of the eye and adnexa,7,21st_century_mortality
+2006,ch8,H60 to H95,Diseases of the ear and mastoid process,18,21st_century_mortality
+2006,ch9,I00 to I99,Diseases of the circulatory system,174637,21st_century_mortality
+2006,ch10,J00 to J99,Diseases of the respiratory system,68599,21st_century_mortality
+2006,ch11,K00 to K93,Diseases of the digestive system,25786,21st_century_mortality
+2006,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,1812,21st_century_mortality
+2006,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,4238,21st_century_mortality
+2006,ch14,N00 to N99,Diseases of the genitourinary system,10722,21st_century_mortality
+2006,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",41,21st_century_mortality
+2006,ch16,P00 to P96,Certain conditions originating in the perinatal period,160,21st_century_mortality
+2006,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1214,21st_century_mortality
+2006,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",10880,21st_century_mortality
+2006,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,17509,21st_century_mortality
+2006,ch22,U00 to U85,Codes for special purposes,0,21st_century_mortality
+2007,all,"A00 to R99, U00 to Y89",All causes,501770,21st_century_mortality
+2007,ch1,A00 to B99,Certain infectious and parasitic diseases,8169,21st_century_mortality
+2007,ch2,C00 to D48,Neoplasms,140080,21st_century_mortality
+2007,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1029,21st_century_mortality
+2007,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",7214,21st_century_mortality
+2007,ch5,F00 to F99,Mental and behavioural disorders,16582,21st_century_mortality
+2007,ch6,G00 to G99,Diseases of the nervous system,16355,21st_century_mortality
+2007,ch7,H00 to H59,Diseases of the eye and adnexa,7,21st_century_mortality
+2007,ch8,H60 to H95,Diseases of the ear and mastoid process,13,21st_century_mortality
+2007,ch9,I00 to I99,Diseases of the circulatory system,170338,21st_century_mortality
+2007,ch10,J00 to J99,Diseases of the respiratory system,68974,21st_century_mortality
+2007,ch11,K00 to K93,Diseases of the digestive system,25670,21st_century_mortality
+2007,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,1822,21st_century_mortality
+2007,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,4304,21st_century_mortality
+2007,ch14,N00 to N99,Diseases of the genitourinary system,11301,21st_century_mortality
+2007,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",47,21st_century_mortality
+2007,ch16,P00 to P96,Certain conditions originating in the perinatal period,180,21st_century_mortality
+2007,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1235,21st_century_mortality
+2007,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",11030,21st_century_mortality
+2007,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,17420,21st_century_mortality
+2007,ch22,U00 to U85,Codes for special purposes,0,21st_century_mortality
+2008,all,"A00 to R99, U00 to Y89",All causes,506791,21st_century_mortality
+2008,ch1,A00 to B99,Certain infectious and parasitic diseases,6499,21st_century_mortality
+2008,ch2,C00 to D48,Neoplasms,141143,21st_century_mortality
+2008,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,952,21st_century_mortality
+2008,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",7426,21st_century_mortality
+2008,ch5,F00 to F99,Mental and behavioural disorders,18438,21st_century_mortality
+2008,ch6,G00 to G99,Diseases of the nervous system,17521,21st_century_mortality
+2008,ch7,H00 to H59,Diseases of the eye and adnexa,9,21st_century_mortality
+2008,ch8,H60 to H95,Diseases of the ear and mastoid process,24,21st_century_mortality
+2008,ch9,I00 to I99,Diseases of the circulatory system,168238,21st_century_mortality
+2008,ch10,J00 to J99,Diseases of the respiratory system,71751,21st_century_mortality
+2008,ch11,K00 to K93,Diseases of the digestive system,25997,21st_century_mortality
+2008,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,1895,21st_century_mortality
+2008,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,4398,21st_century_mortality
+2008,ch14,N00 to N99,Diseases of the genitourinary system,11886,21st_century_mortality
+2008,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",44,21st_century_mortality
+2008,ch16,P00 to P96,Certain conditions originating in the perinatal period,234,21st_century_mortality
+2008,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1139,21st_century_mortality
+2008,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",11149,21st_century_mortality
+2008,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,18048,21st_century_mortality
+2008,ch22,U00 to U85,Codes for special purposes,0,21st_century_mortality
+2009,all,"A00 to R99, U00 to Y89",All causes,489097,21st_century_mortality
+2009,ch1,A00 to B99,Certain infectious and parasitic diseases,5750,21st_century_mortality
+2009,ch2,C00 to D48,Neoplasms,140497,21st_century_mortality
+2009,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1026,21st_century_mortality
+2009,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",7123,21st_century_mortality
+2009,ch5,F00 to F99,Mental and behavioural disorders,18021,21st_century_mortality
+2009,ch6,G00 to G99,Diseases of the nervous system,17408,21st_century_mortality
+2009,ch7,H00 to H59,Diseases of the eye and adnexa,5,21st_century_mortality
+2009,ch8,H60 to H95,Diseases of the ear and mastoid process,29,21st_century_mortality
+2009,ch9,I00 to I99,Diseases of the circulatory system,159779,21st_century_mortality
+2009,ch10,J00 to J99,Diseases of the respiratory system,67559,21st_century_mortality
+2009,ch11,K00 to K93,Diseases of the digestive system,25230,21st_century_mortality
+2009,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,1849,21st_century_mortality
+2009,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,4141,21st_century_mortality
+2009,ch14,N00 to N99,Diseases of the genitourinary system,11998,21st_century_mortality
+2009,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",63,21st_century_mortality
+2009,ch16,P00 to P96,Certain conditions originating in the perinatal period,237,21st_century_mortality
+2009,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1261,21st_century_mortality
+2009,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",9243,21st_century_mortality
+2009,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,17878,21st_century_mortality
+2009,ch22,U00 to U85,Codes for special purposes,0,21st_century_mortality
+2010,all,"A00 to R99, U00 to Y89",All causes,491094,21st_century_mortality
+2010,ch1,A00 to B99,Certain infectious and parasitic diseases,5037,21st_century_mortality
+2010,ch2,C00 to D48,Neoplasms,141446,21st_century_mortality
+2010,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1017,21st_century_mortality
+2010,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",7185,21st_century_mortality
+2010,ch5,F00 to F99,Mental and behavioural disorders,19916,21st_century_mortality
+2010,ch6,G00 to G99,Diseases of the nervous system,18483,21st_century_mortality
+2010,ch7,H00 to H59,Diseases of the eye and adnexa,11,21st_century_mortality
+2010,ch8,H60 to H95,Diseases of the ear and mastoid process,20,21st_century_mortality
+2010,ch9,I00 to I99,Diseases of the circulatory system,158084,21st_century_mortality
+2010,ch10,J00 to J99,Diseases of the respiratory system,67276,21st_century_mortality
+2010,ch11,K00 to K93,Diseases of the digestive system,25662,21st_century_mortality
+2010,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,1869,21st_century_mortality
+2010,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,4165,21st_century_mortality
+2010,ch14,N00 to N99,Diseases of the genitourinary system,12406,21st_century_mortality
+2010,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",35,21st_century_mortality
+2010,ch16,P00 to P96,Certain conditions originating in the perinatal period,224,21st_century_mortality
+2010,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1189,21st_century_mortality
+2010,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",9868,21st_century_mortality
+2010,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,17201,21st_century_mortality
+2010,ch22,U00 to U85,Codes for special purposes,0,21st_century_mortality
+2011,all,"A00 to R99, U00 to Y89",All causes,482164,21st_century_mortality
+2011,ch1,A00 to B99,Certain infectious and parasitic diseases,5410,21st_century_mortality
+2011,ch2,C00 to D48,Neoplasms,143181,21st_century_mortality
+2011,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,999,21st_century_mortality
+2011,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",6497,21st_century_mortality
+2011,ch5,F00 to F99,Mental and behavioural disorders,31048,21st_century_mortality
+2011,ch6,G00 to G99,Diseases of the nervous system,18548,21st_century_mortality
+2011,ch7,H00 to H59,Diseases of the eye and adnexa,19,21st_century_mortality
+2011,ch8,H60 to H95,Diseases of the ear and mastoid process,23,21st_century_mortality
+2011,ch9,I00 to I99,Diseases of the circulatory system,139706,21st_century_mortality
+2011,ch10,J00 to J99,Diseases of the respiratory system,67690,21st_century_mortality
+2011,ch11,K00 to K93,Diseases of the digestive system,24582,21st_century_mortality
+2011,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,1659,21st_century_mortality
+2011,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,4180,21st_century_mortality
+2011,ch14,N00 to N99,Diseases of the genitourinary system,9500,21st_century_mortality
+2011,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",44,21st_century_mortality
+2011,ch16,P00 to P96,Certain conditions originating in the perinatal period,195,21st_century_mortality
+2011,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1100,21st_century_mortality
+2011,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",10193,21st_century_mortality
+2011,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,17590,21st_century_mortality
+2011,ch22,U00 to U85,Codes for special purposes,0,21st_century_mortality
+2012,all,"A00 to R99, U00 to Y89",All causes,497231,21st_century_mortality
+2012,ch1,A00 to B99,Certain infectious and parasitic diseases,5109,21st_century_mortality
+2012,ch2,C00 to D48,Neoplasms,145395,21st_century_mortality
+2012,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,943,21st_century_mortality
+2012,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",6710,21st_century_mortality
+2012,ch5,F00 to F99,Mental and behavioural disorders,35865,21st_century_mortality
+2012,ch6,G00 to G99,Diseases of the nervous system,21173,21st_century_mortality
+2012,ch7,H00 to H59,Diseases of the eye and adnexa,20,21st_century_mortality
+2012,ch8,H60 to H95,Diseases of the ear and mastoid process,21,21st_century_mortality
+2012,ch9,I00 to I99,Diseases of the circulatory system,141362,21st_century_mortality
+2012,ch10,J00 to J99,Diseases of the respiratory system,70708,21st_century_mortality
+2012,ch11,K00 to K93,Diseases of the digestive system,24573,21st_century_mortality
+2012,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,1675,21st_century_mortality
+2012,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,4330,21st_century_mortality
+2012,ch14,N00 to N99,Diseases of the genitourinary system,9762,21st_century_mortality
+2012,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",46,21st_century_mortality
+2012,ch16,P00 to P96,Certain conditions originating in the perinatal period,205,21st_century_mortality
+2012,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1149,21st_century_mortality
+2012,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",10723,21st_century_mortality
+2012,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,17462,21st_century_mortality
+2012,ch22,U00 to U85,Codes for special purposes,0,21st_century_mortality
+2013,all,"A00 to R99, U00 to Y89",All causes,504893,21st_century_mortality
+2013,ch1,A00 to B99,Certain infectious and parasitic diseases,5305,21st_century_mortality
+2013,ch2,C00 to D48,Neoplasms,145344,21st_century_mortality
+2013,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,956,21st_century_mortality
+2013,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",6778,21st_century_mortality
+2013,ch5,F00 to F99,Mental and behavioural disorders,38233,21st_century_mortality
+2013,ch6,G00 to G99,Diseases of the nervous system,22504,21st_century_mortality
+2013,ch7,H00 to H59,Diseases of the eye and adnexa,12,21st_century_mortality
+2013,ch8,H60 to H95,Diseases of the ear and mastoid process,22,21st_century_mortality
+2013,ch9,I00 to I99,Diseases of the circulatory system,140301,21st_century_mortality
+2013,ch10,J00 to J99,Diseases of the respiratory system,74229,21st_century_mortality
+2013,ch11,K00 to K93,Diseases of the digestive system,24358,21st_century_mortality
+2013,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,1720,21st_century_mortality
+2013,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,4221,21st_century_mortality
+2013,ch14,N00 to N99,Diseases of the genitourinary system,9631,21st_century_mortality
+2013,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",47,21st_century_mortality
+2013,ch16,P00 to P96,Certain conditions originating in the perinatal period,167,21st_century_mortality
+2013,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1126,21st_century_mortality
+2013,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",11018,21st_century_mortality
+2013,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,18921,21st_century_mortality
+2013,ch22,U00 to U85,Codes for special purposes,0,21st_century_mortality
+2014,all,"A00 to R99, U00 to Y89",All causes,499554,21st_century_mortality
+2014,ch1,A00 to B99,Certain infectious and parasitic diseases,5182,21st_century_mortality
+2014,ch2,C00 to D48,Neoplasms,147000,21st_century_mortality
+2014,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,960,21st_century_mortality
+2014,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",7176,21st_century_mortality
+2014,ch5,F00 to F99,Mental and behavioural disorders,41113,21st_century_mortality
+2014,ch6,G00 to G99,Diseases of the nervous system,24432,21st_century_mortality
+2014,ch7,H00 to H59,Diseases of the eye and adnexa,4,21st_century_mortality
+2014,ch8,H60 to H95,Diseases of the ear and mastoid process,23,21st_century_mortality
+2014,ch9,I00 to I99,Diseases of the circulatory system,135904,21st_century_mortality
+2014,ch10,J00 to J99,Diseases of the respiratory system,66572,21st_century_mortality
+2014,ch11,K00 to K93,Diseases of the digestive system,24219,21st_century_mortality
+2014,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,1753,21st_century_mortality
+2014,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,3844,21st_century_mortality
+2014,ch14,N00 to N99,Diseases of the genitourinary system,8811,21st_century_mortality
+2014,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",46,21st_century_mortality
+2014,ch16,P00 to P96,Certain conditions originating in the perinatal period,195,21st_century_mortality
+2014,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1369,21st_century_mortality
+2014,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",11091,21st_century_mortality
+2014,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,19860,21st_century_mortality
+2014,ch22,U00 to U85,Codes for special purposes,0,21st_century_mortality
+2015,all,"A00 to R99, U00 to Y89",All causes,527752,21st_century_mortality
+2015,ch1,A00 to B99,Certain infectious and parasitic diseases,5783,21st_century_mortality
+2015,ch2,C00 to D48,Neoplasms,147757,21st_century_mortality
+2015,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1130,21st_century_mortality
+2015,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",7669,21st_century_mortality
+2015,ch5,F00 to F99,Mental and behavioural disorders,48317,21st_century_mortality
+2015,ch6,G00 to G99,Diseases of the nervous system,28373,21st_century_mortality
+2015,ch7,H00 to H59,Diseases of the eye and adnexa,16,21st_century_mortality
+2015,ch8,H60 to H95,Diseases of the ear and mastoid process,34,21st_century_mortality
+2015,ch9,I00 to I99,Diseases of the circulatory system,138614,21st_century_mortality
+2015,ch10,J00 to J99,Diseases of the respiratory system,75534,21st_century_mortality
+2015,ch11,K00 to K93,Diseases of the digestive system,25101,21st_century_mortality
+2015,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,1901,21st_century_mortality
+2015,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,4063,21st_century_mortality
+2015,ch14,N00 to N99,Diseases of the genitourinary system,9359,21st_century_mortality
+2015,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",29,21st_century_mortality
+2015,ch16,P00 to P96,Certain conditions originating in the perinatal period,190,21st_century_mortality
+2015,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1257,21st_century_mortality
+2015,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",11849,21st_century_mortality
+2015,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,20776,21st_century_mortality
+2015,ch22,U00 to U85,Codes for special purposes,0,21st_century_mortality
+2016,all,"A00 to R99, U00 to Y89",All causes,523119,series_dr_table5
+2016,ch1,A00 to B99,Certain infectious and parasitic diseases,5715,series_dr_table5
+2016,ch2,C00 to D48,Neoplasms,149437,series_dr_table5
+2016,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1042,series_dr_table5
+2016,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",7902,series_dr_table5
+2016,ch5,F00 to F99,Mental and behavioural disorders,48210,series_dr_table5
+2016,ch6,G00 to G99,Diseases of the nervous system,30329,series_dr_table5
+2016,ch7,H00 to H59,Diseases of the eye and adnexa,12,series_dr_table5
+2016,ch8,H60 to H95,Diseases of the ear and mastoid process,30,series_dr_table5
+2016,ch9,I00 to I99,Diseases of the circulatory system,133705,series_dr_table5
+2016,ch10,J00 to J99,Diseases of the respiratory system,72241,series_dr_table5
+2016,ch11,K00 to K93,Diseases of the digestive system,25140,series_dr_table5
+2016,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,1967,series_dr_table5
+2016,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,3878,series_dr_table5
+2016,ch14,N00 to N99,Diseases of the genitourinary system,9152,series_dr_table5
+2016,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",44,series_dr_table5
+2016,ch16,P00 to P96,Certain conditions originating in the perinatal period,184,series_dr_table5
+2016,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1326,series_dr_table5
+2016,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",11924,series_dr_table5
+2016,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,20881,series_dr_table5
+2016,ch22,U00 to U85,Codes for special purposes,0,series_dr_table5
+2017,all,"A00 to R99, U00 to Y89",All causes,531305,series_dr_table5
+2017,ch1,A00 to B99,Certain infectious and parasitic diseases,5368,series_dr_table5
+2017,ch2,C00 to D48,Neoplasms,149652,series_dr_table5
+2017,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1099,series_dr_table5
+2017,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",8435,series_dr_table5
+2017,ch5,F00 to F99,Mental and behavioural disorders,50765,series_dr_table5
+2017,ch6,G00 to G99,Diseases of the nervous system,33051,series_dr_table5
+2017,ch7,H00 to H59,Diseases of the eye and adnexa,7,series_dr_table5
+2017,ch8,H60 to H95,Diseases of the ear and mastoid process,46,series_dr_table5
+2017,ch9,I00 to I99,Diseases of the circulatory system,133511,series_dr_table5
+2017,ch10,J00 to J99,Diseases of the respiratory system,73455,series_dr_table5
+2017,ch11,K00 to K93,Diseases of the digestive system,25627,series_dr_table5
+2017,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,2132,series_dr_table5
+2017,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,3751,series_dr_table5
+2017,ch14,N00 to N99,Diseases of the genitourinary system,9106,series_dr_table5
+2017,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",26,series_dr_table5
+2017,ch16,P00 to P96,Certain conditions originating in the perinatal period,188,series_dr_table5
+2017,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1412,series_dr_table5
+2017,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",12448,series_dr_table5
+2017,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,21226,series_dr_table5
+2017,ch22,U00 to U85,Codes for special purposes,0,series_dr_table5
+2018,all,"A00 to R99, U00 to Y89",All causes,539738,series_dr_table5
+2018,ch1,A00 to B99,Certain infectious and parasitic diseases,5442,series_dr_table5
+2018,ch2,C00 to D48,Neoplasms,149868,series_dr_table5
+2018,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1104,series_dr_table5
+2018,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",8751,series_dr_table5
+2018,ch5,F00 to F99,Mental and behavioural disorders,50804,series_dr_table5
+2018,ch6,G00 to G99,Diseases of the nervous system,35618,series_dr_table5
+2018,ch7,H00 to H59,Diseases of the eye and adnexa,12,series_dr_table5
+2018,ch8,H60 to H95,Diseases of the ear and mastoid process,30,series_dr_table5
+2018,ch9,I00 to I99,Diseases of the circulatory system,132233,series_dr_table5
+2018,ch10,J00 to J99,Diseases of the respiratory system,76728,series_dr_table5
+2018,ch11,K00 to K93,Diseases of the digestive system,25699,series_dr_table5
+2018,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,2049,series_dr_table5
+2018,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,3821,series_dr_table5
+2018,ch14,N00 to N99,Diseases of the genitourinary system,8846,series_dr_table5
+2018,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",33,series_dr_table5
+2018,ch16,P00 to P96,Certain conditions originating in the perinatal period,172,series_dr_table5
+2018,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1351,series_dr_table5
+2018,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",14060,series_dr_table5
+2018,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,23117,series_dr_table5
+2018,ch22,U00 to U85,Codes for special purposes,0,series_dr_table5
+2019,all,"A00 to R99, U00 to Y89",All causes,528973,series_dr_table5
+2019,ch1,A00 to B99,Certain infectious and parasitic diseases,5113,series_dr_table5
+2019,ch2,C00 to D48,Neoplasms,150865,series_dr_table5
+2019,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1071,series_dr_table5
+2019,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",8873,series_dr_table5
+2019,ch5,F00 to F99,Mental and behavioural disorders,47201,series_dr_table5
+2019,ch6,G00 to G99,Diseases of the nervous system,35987,series_dr_table5
+2019,ch7,H00 to H59,Diseases of the eye and adnexa,11,series_dr_table5
+2019,ch8,H60 to H95,Diseases of the ear and mastoid process,40,series_dr_table5
+2019,ch9,I00 to I99,Diseases of the circulatory system,129421,series_dr_table5
+2019,ch10,J00 to J99,Diseases of the respiratory system,72440,series_dr_table5
+2019,ch11,K00 to K93,Diseases of the digestive system,25351,series_dr_table5
+2019,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,2055,series_dr_table5
+2019,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,3772,series_dr_table5
+2019,ch14,N00 to N99,Diseases of the genitourinary system,8581,series_dr_table5
+2019,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",24,series_dr_table5
+2019,ch16,P00 to P96,Certain conditions originating in the perinatal period,148,series_dr_table5
+2019,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1416,series_dr_table5
+2019,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",13710,series_dr_table5
+2019,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,22894,series_dr_table5
+2019,ch22,U00 to U85,Codes for special purposes,0,series_dr_table5
+2020,all,"A00 to R99, U00 to Y89",All causes,606203,series_dr_table5
+2020,ch1,A00 to B99,Certain infectious and parasitic diseases,4332,series_dr_table5
+2020,ch2,C00 to D48,Neoplasms,151116,series_dr_table5
+2020,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1199,series_dr_table5
+2020,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",9974,series_dr_table5
+2020,ch5,F00 to F99,Mental and behavioural disorders,47654,series_dr_table5
+2020,ch6,G00 to G99,Diseases of the nervous system,40629,series_dr_table5
+2020,ch7,H00 to H59,Diseases of the eye and adnexa,9,series_dr_table5
+2020,ch8,H60 to H95,Diseases of the ear and mastoid process,33,series_dr_table5
+2020,ch9,I00 to I99,Diseases of the circulatory system,132857,series_dr_table5
+2020,ch10,J00 to J99,Diseases of the respiratory system,61979,series_dr_table5
+2020,ch11,K00 to K93,Diseases of the digestive system,27353,series_dr_table5
+2020,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,2002,series_dr_table5
+2020,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,3696,series_dr_table5
+2020,ch14,N00 to N99,Diseases of the genitourinary system,8834,series_dr_table5
+2020,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",34,series_dr_table5
+2020,ch16,P00 to P96,Certain conditions originating in the perinatal period,156,series_dr_table5
+2020,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1263,series_dr_table5
+2020,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",16990,series_dr_table5
+2020,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,22326,series_dr_table5
+2020,ch22,U00 to U85,Codes for special purposes,73767,series_dr_table5
+2021,all,"A00 to R99, U00 to Y89",All causes,584545,series_dr_table5
+2021,ch1,A00 to B99,Certain infectious and parasitic diseases,5484,series_dr_table5
+2021,ch2,C00 to D48,Neoplasms,148359,series_dr_table5
+2021,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1172,series_dr_table5
+2021,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",9827,series_dr_table5
+2021,ch5,F00 to F99,Mental and behavioural disorders,41087,series_dr_table5
+2021,ch6,G00 to G99,Diseases of the nervous system,37902,series_dr_table5
+2021,ch7,H00 to H59,Diseases of the eye and adnexa,13,series_dr_table5
+2021,ch8,H60 to H95,Diseases of the ear and mastoid process,22,series_dr_table5
+2021,ch9,I00 to I99,Diseases of the circulatory system,134405,series_dr_table5
+2021,ch10,J00 to J99,Diseases of the respiratory system,54832,series_dr_table5
+2021,ch11,K00 to K93,Diseases of the digestive system,28517,series_dr_table5
+2021,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,2206,series_dr_table5
+2021,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,3672,series_dr_table5
+2021,ch14,N00 to N99,Diseases of the genitourinary system,8619,series_dr_table5
+2021,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",46,series_dr_table5
+2021,ch16,P00 to P96,Certain conditions originating in the perinatal period,175,series_dr_table5
+2021,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1314,series_dr_table5
+2021,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",16205,series_dr_table5
+2021,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,23319,series_dr_table5
+2021,ch22,U00 to U85,Codes for special purposes,67369,series_dr_table5
+2022,all,"A00 to R99, U00 to Y89",All causes,575371,series_dr_table5
+2022,ch1,A00 to B99,Certain infectious and parasitic diseases,6793,series_dr_table5
+2022,ch2,C00 to D48,Neoplasms,152831,series_dr_table5
+2022,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1145,series_dr_table5
+2022,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",10600,series_dr_table5
+2022,ch5,F00 to F99,Mental and behavioural disorders,44077,series_dr_table5
+2022,ch6,G00 to G99,Diseases of the nervous system,41381,series_dr_table5
+2022,ch7,H00 to H59,Diseases of the eye and adnexa,17,series_dr_table5
+2022,ch8,H60 to H95,Diseases of the ear and mastoid process,34,series_dr_table5
+2022,ch9,I00 to I99,Diseases of the circulatory system,140506,series_dr_table5
+2022,ch10,J00 to J99,Diseases of the respiratory system,63945,series_dr_table5
+2022,ch11,K00 to K93,Diseases of the digestive system,30344,series_dr_table5
+2022,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,2437,series_dr_table5
+2022,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,4162,series_dr_table5
+2022,ch14,N00 to N99,Diseases of the genitourinary system,9103,series_dr_table5
+2022,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",24,series_dr_table5
+2022,ch16,P00 to P96,Certain conditions originating in the perinatal period,156,series_dr_table5
+2022,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1465,series_dr_table5
+2022,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",18842,series_dr_table5
+2022,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,25024,series_dr_table5
+2022,ch22,U00 to U85,Codes for special purposes,22485,series_dr_table5
+2023,all,"A00 to R99, U00 to Y89",All causes,579525,series_dr_table5
+2023,ch1,A00 to B99,Certain infectious and parasitic diseases,7714,series_dr_table5
+2023,ch2,C00 to D48,Neoplasms,152748,series_dr_table5
+2023,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1226,series_dr_table5
+2023,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",10720,series_dr_table5
+2023,ch5,F00 to F99,Mental and behavioural disorders,44018,series_dr_table5
+2023,ch6,G00 to G99,Diseases of the nervous system,42726,series_dr_table5
+2023,ch7,H00 to H59,Diseases of the eye and adnexa,24,series_dr_table5
+2023,ch8,H60 to H95,Diseases of the ear and mastoid process,43,series_dr_table5
+2023,ch9,I00 to I99,Diseases of the circulatory system,140487,series_dr_table5
+2023,ch10,J00 to J99,Diseases of the respiratory system,71235,series_dr_table5
+2023,ch11,K00 to K93,Diseases of the digestive system,30914,series_dr_table5
+2023,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,2545,series_dr_table5
+2023,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,4376,series_dr_table5
+2023,ch14,N00 to N99,Diseases of the genitourinary system,9060,series_dr_table5
+2023,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",51,series_dr_table5
+2023,ch16,P00 to P96,Certain conditions originating in the perinatal period,156,series_dr_table5
+2023,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1531,series_dr_table5
+2023,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",20602,series_dr_table5
+2023,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,27502,series_dr_table5
+2023,ch22,U00 to U85,Codes for special purposes,11847,series_dr_table5
+2024,all,"A00 to R99, U00 to Y89",All causes,566759,series_dr_table5
+2024,ch1,A00 to B99,Certain infectious and parasitic diseases,8007,series_dr_table5
+2024,ch2,C00 to D48,Neoplasms,152842,series_dr_table5
+2024,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1169,series_dr_table5
+2024,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",10765,series_dr_table5
+2024,ch5,F00 to F99,Mental and behavioural disorders,43611,series_dr_table5
+2024,ch6,G00 to G99,Diseases of the nervous system,44581,series_dr_table5
+2024,ch7,H00 to H59,Diseases of the eye and adnexa,18,series_dr_table5
+2024,ch8,H60 to H95,Diseases of the ear and mastoid process,46,series_dr_table5
+2024,ch9,I00 to I99,Diseases of the circulatory system,135151,series_dr_table5
+2024,ch10,J00 to J99,Diseases of the respiratory system,68851,series_dr_table5
+2024,ch11,K00 to K93,Diseases of the digestive system,30280,series_dr_table5
+2024,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,2253,series_dr_table5
+2024,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,4289,series_dr_table5
+2024,ch14,N00 to N99,Diseases of the genitourinary system,8940,series_dr_table5
+2024,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",48,series_dr_table5
+2024,ch16,P00 to P96,Certain conditions originating in the perinatal period,166,series_dr_table5
+2024,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1581,series_dr_table5
+2024,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",19995,series_dr_table5
+2024,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,27530,series_dr_table5
+2024,ch22,U00 to U85,Codes for special purposes,6636,series_dr_table5
+2025,all,"A00 to R99, U00 to Y89",All causes,569205,series_dr_table5
+2025,ch1,A00 to B99,Certain infectious and parasitic diseases,8383,series_dr_table5
+2025,ch2,C00 to D48,Neoplasms,152979,series_dr_table5
+2025,ch3,D50 to D89,Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism,1252,series_dr_table5
+2025,ch4,E00 to E90,"Endocrine, nutritional and metabolic diseases",11926,series_dr_table5
+2025,ch5,F00 to F99,Mental and behavioural disorders,44279,series_dr_table5
+2025,ch6,G00 to G99,Diseases of the nervous system,49192,series_dr_table5
+2025,ch7,H00 to H59,Diseases of the eye and adnexa,14,series_dr_table5
+2025,ch8,H60 to H95,Diseases of the ear and mastoid process,48,series_dr_table5
+2025,ch9,I00 to I99,Diseases of the circulatory system,133527,series_dr_table5
+2025,ch10,J00 to J99,Diseases of the respiratory system,69613,series_dr_table5
+2025,ch11,K00 to K93,Diseases of the digestive system,30410,series_dr_table5
+2025,ch12,L00 to L99,Diseases of the skin and subcutaneous tissue,2315,series_dr_table5
+2025,ch13,M00 to M99,Diseases of the musculoskeletal system and connective tissue,4540,series_dr_table5
+2025,ch14,N00 to N99,Diseases of the genitourinary system,8918,series_dr_table5
+2025,ch15,O00 to O99,"Pregnancy, childbirth and the puerperium",35,series_dr_table5
+2025,ch16,P00 to P96,Certain conditions originating in the perinatal period,148,series_dr_table5
+2025,ch17,Q00 to Q99,"Congenital malformations, deformations and chromosomal abnormalities",1578,series_dr_table5
+2025,ch18,R00 to R99,"Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified",19380,series_dr_table5
+2025,ch20,"U509, V01 to Y89",External causes of morbidity and mortality,27573,series_dr_table5
+2025,ch22,U00 to U85,Codes for special purposes,3095,series_dr_table5

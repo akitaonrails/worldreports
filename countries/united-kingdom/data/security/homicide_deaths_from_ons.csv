@@ -1,0 +1,32 @@
+# ONS 21st Century Mortality dataset (21stcmortality.xlsx), deaths
+# REGISTERED in ENGLAND AND WALES (incl. non-residents), calendar years,
+# UNDERLYING cause, summed here over 4-character ICD-10 codes.
+# assault_x85_y09 = ICD-10 X85-Y09 (assault). homicide_ons_definition =
+# X85-Y09 + U50.9 + Y87.1, the ONS "homicide and probable homicide"
+# grouping (U50.9 = homicide/probable homicide pending inquest; it carries
+# 250-570 deaths a year from 2007). CODING BREAK 2006/2007: before 2007
+# the ONS coded deaths pending inquest to Y33.9 (event of undetermined
+# intent; ~435 in 2006), which this grouping does not include, so the
+# 2006 value is NOT comparable with later years. The dataset ends at 2022;
+# later years are not yet published at code level and are absent, not
+# estimated. Series DR's Table 4 shows homicide only where it ranks in an
+# age band, never as an all-ages total. Death-certificate counts - the
+# pair of the Home Office Homicide Index, never spliced with it.
+year,assault_x85_y09,homicide_ons_definition
+2006,339,342
+2007,369,790
+2008,338,760
+2009,318,708
+2010,319,675
+2011,329,699
+2012,283,612
+2013,309,606
+2014,293,548
+2015,299,634
+2016,299,604
+2017,249,722
+2018,297,638
+2019,242,701
+2020,147,685
+2021,197,755
+2022,181,754

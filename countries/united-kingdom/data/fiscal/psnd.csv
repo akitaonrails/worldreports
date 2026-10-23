@@ -1,0 +1,29 @@
+# ONS public sector finances (PUSF), release 21-10-2026. PSND ex =
+# public sector net debt excluding public sector banks: HF6W in £ BILLION
+# and HF6X as % of GDP, NSA. MONTH-END STOCKS, never summed. *_dec columns
+# are the December reading of `year` (= the generator's annual row);
+# *_fy_end columns are the end-March reading closing the financial year
+# that STARTS in `year` (2024 = end of FY 2024-25, March 2025), blank
+# until published. PSND ex is not Maastricht gross debt; the harmonised
+# comparison is the IMF series in international/.
+year,psnd_ex_dec_gbp_bn,psnd_ex_dec_pct_gdp,psnd_ex_fy_end_gbp_bn,psnd_ex_fy_end_pct_gdp
+2006,539.0,35.8,535.2,35.1
+2007,574.7,36.2,567.2,35.6
+2008,749.9,47.7,787.2,50.3
+2009,958.6,60.7,1027.9,64.4
+2010,1152.5,70.0,1168.7,70.6
+2011,1250.6,73.8,1261.1,73.8
+2012,1354.3,77.2,1366.2,77.0
+2013,1452.6,79.0,1461.1,78.6
+2014,1551.1,81.5,1552.3,81.1
+2015,1602.9,81.7,1595.0,80.6
+2016,1690.7,82.4,1714.6,82.5
+2017,1746.4,81.6,1760.1,81.5
+2018,1800.7,81.1,1778.0,79.4
+2019,1837.2,83.9,1814.8,84.1
+2020,2154.2,97.4,2157.7,95.2
+2021,2364.5,95.8,2379.7,93.9
+2022,2499.2,92.6,2542.7,92.7
+2023,2694.0,95.2,2684.1,93.7
+2024,2816.4,94.1,2806.7,92.9
+2025,2924.5,94.2,2916.8,93.2
