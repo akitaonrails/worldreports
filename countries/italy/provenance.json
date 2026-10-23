@@ -1,0 +1,74 @@
+{
+ "01-economy": [
+  "international/gdp_pc_from_wb.csv",
+  "macro/gdp_from_estat.csv",
+  "macro/gdp_from_istat.csv",
+  "macro/hicp_from_estat.csv",
+  "macro/nic_from_istat.csv",
+  "macro/unemployment_from_estat.csv",
+  "macro/unemployment_from_istat.csv"
+ ],
+ "02-fiscal": [
+  "fiscal/debt_from_estat.csv",
+  "fiscal/deficit_from_estat.csv",
+  "fiscal/revenue_from_estat.csv"
+ ],
+ "03-spending": [
+  "fiscal/investment_from_estat.csv",
+  "fiscal/spending_by_function_from_estat.csv"
+ ],
+ "04-trade": [
+  "international/openness_from_wb.csv",
+  "macro/gdp_from_estat.csv",
+  "trade/trade_from_estat.csv"
+ ],
+ "05-markets": [
+  "macro/hicp_from_estat.csv",
+  "markets/eurusd_from_ecb.csv",
+  "markets/ftsemib_from_yahoo.csv",
+  "markets/policy_rate_from_ecb.csv",
+  "markets/yield_10y_from_estat.csv"
+ ],
+ "06-credit": [
+  "credit/household_debt_from_bdi.csv",
+  "credit/lending_rate_from_bdi.csv",
+  "credit/npl_from_bdi.csv",
+  "macro/gdp_from_estat.csv",
+  "markets/policy_rate_from_ecb.csv"
+ ],
+ "07-people": [
+  "social/gini_from_estat.csv",
+  "social/gini_from_wb.csv",
+  "social/poverty_abs_from_istat.csv",
+  "social/poverty_from_estat.csv"
+ ],
+ "08-world": [
+  "international/gdp_usd_from_wb.csv",
+  "international/hdi_from_undp.csv",
+  "international/reserves_from_wb.csv"
+ ],
+ "09-demography": [
+  "migration/emigration_from_estat.csv",
+  "migration/immigration_from_estat.csv",
+  "migration/migration_flows_from_istat.csv",
+  "social/demography_from_estat.csv"
+ ],
+ "10-security": [
+  "security/homicide_police_from_istat.csv",
+  "security/homicide_vital_from_istat.csv",
+  "social/causes_of_death_from_istat.csv",
+  "social/demography_from_estat.csv"
+ ],
+ "11-mortality": [
+  "social/causes_of_death_from_istat.csv",
+  "social/demography_from_estat.csv"
+ ],
+ "12-migration": [
+  "migration/emigration_from_estat.csv",
+  "migration/immigration_from_estat.csv",
+  "migration/migration_flows_from_istat.csv",
+  "migration/naturalisation_from_estat.csv",
+  "migration/stock_from_estat.csv",
+  "social/demography_from_estat.csv"
+ ]
+}

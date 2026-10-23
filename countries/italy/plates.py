@@ -104,6 +104,16 @@ def _mark(ig, ax, key, dy=0.97):
     ig.add_event(ax, x, label, dy=dy)
 
 
+def _markL(ig, ax, key, dy=0.97):
+    """One of events.MARKS with the label to the LEFT of the line, for
+    panels whose rising bars would otherwise stand under the text."""
+    x, label = events.MARKS[key]
+    ig.add_event(ax, x, "", dy=dy)
+    ax.text(x - 0.12, dy, label, transform=ax.get_xaxis_transform(),
+            fontsize=7.8, color=ig.p.MUTED, ha="right", va="top",
+            clip_on=False)
+
+
 def _bands_labelled_at(ig, ax, y, p):
     """The recession bands with their names at height `y` (axes fraction),
     for a slot-1 panel whose data fill the bottom where add_recessions puts
@@ -176,8 +186,8 @@ def plate_economy(ctx, ig) -> None:
     _natl(ctx, ax, sorted(igrow), [igrow[y] for y in sorted(igrow)],
           p.NAVY, "ISTAT, sum of quarters")
     _barkey(ax, p.VERDE, "Eurostat (bars)")
-    _bands_labelled_at(ig, ax, 0.90, p)
-    _mark(ig, ax, "stall", dy=0.72)
+    _bands_labelled_at(ig, ax, 0.98, p)
+    _markL(ig, ax, "stall", dy=0.72)
     for y in (2009, 2020):
         v = _at(gy, gv, y)
         ax.annotate(f"{v:+.1f}%", (y, v), textcoords="offset points",
@@ -237,9 +247,10 @@ def plate_economy(ctx, ig) -> None:
     _note(p, ax, 0.02, 0.96, f"one series from 2006: ISTAT backcast the "
           f"post-2021 regulation;\nEurostat starts in 2009 and sits within "
           f"0.1 point — {uv[-1]:.1f}% vs {ev[-1]:.1f}% in {uy[-1]}")
-    ax.legend(loc="center right", fontsize=7.6, frameon=False)
+    ax.legend(loc="lower right", fontsize=7.6, frameon=False)
     _foot(p, ax, "the national line leads because it covers the whole window; "
           "the harmonised line adds nothing visible")
+    _finish(ctx, ig)
 
 
 # ------------------------------------------------------------------- fiscal
@@ -288,10 +299,10 @@ def plate_fiscal(ctx, ig) -> None:
                 xytext=(-6, 4), ha="right", fontsize=8.8, fontweight="bold",
                 color=p.ROSSO)
     bn = _map(ctx, "fiscal/debt_from_estat.csv", "gross_eurbn_q4")
-    _note(p, ax, 0.02, 0.96, f"the ratio peaked at {pk[1]:.1f}% in {pk[0]}; "
+    _note(p, ax, 0.02, 0.04, f"the ratio peaked at {pk[1]:.1f}% in {pk[0]}; "
           f"the stock crossed\nEUR 3 trillion in 2025 "
           f"({bn[2025]:,.1f}bn at Q4) while the ratio fell "
-          f"to {qv[-1]:.1f}%", size=7.6)
+          f"to {qv[-1]:.1f}%", size=7.6, va="bottom")
     ctx.endlabel(ax, qy, qv, p.ROSSO, lambda v: f"{v:.1f}%", dy=8)
     _foot(p, ax, "Eurostat EDP government debt, Maastricht definition")
 
@@ -307,6 +318,7 @@ def plate_fiscal(ctx, ig) -> None:
           "deficit, is the burden", size=7.6)
     ctx.endlabel(ax, iy, iv, p.GOLD, lambda v: f"{v:.1f}%", dy=8)
     _foot(p, ax, "Eurostat EDP, D41PAY interest expenditure")
+    _finish(ctx, ig)
 
 
 # ----------------------------------------------------------------- spending
@@ -336,14 +348,14 @@ def plate_spending(ctx, ig) -> None:
     ax.stackplot(yrs, *[v for _, v, _ in layers],
                  labels=[n for n, _, _ in layers],
                  colors=[c for _, _, c in layers], alpha=0.9, lw=0)
-    _bands_labelled_at(ig, ax, 0.86, p)
+    _bands_labelled_at(ig, ax, 0.78, p)
     ax.legend(loc="upper left", fontsize=7.0, ncol=4, frameon=False)
     oth = dict(zip(yrs, group(["other"])))
     ax.annotate(f"“other” {oth[2023]:.1f}% in 2023", (2023, sum(
         l[1][yrs.index(2023)] for l in layers)),
-        textcoords="offset points", xytext=(14, -6), ha="left", va="center",
+        textcoords="offset points", xytext=(0, 10), ha="center", va="bottom",
         fontsize=8.2, fontweight="bold", color=p.INK)
-    _note(p, ax, 0.02, 0.78, "Eurostat COFOG, to 2024. the 2021–23 bump in "
+    _note(p, ax, 0.02, 0.70, "Eurostat COFOG, to 2024. the 2021–23 bump in "
           "“other” (housing)\nis the building bonuses — see the fiscal plate",
           size=7.4)
 
@@ -357,7 +369,7 @@ def plate_spending(ctx, ig) -> None:
     ig.add_recessions(ax, label=False)
     ax.legend(loc="upper left", fontsize=7.8, frameon=False)
     ax.annotate(f"{sp[yrs.index(2020)]:.1f}% in 2020", (2020, sp[yrs.index(2020)]),
-                textcoords="offset points", xytext=(-8, 6), ha="right",
+                textcoords="offset points", xytext=(-8, -14), ha="right",
                 fontsize=8.4, fontweight="bold", color=p.ROSSO)
     _note(p, ax, 0.98, 0.04, f"pensions carry it: Italy's oldest money",
           ha="right", va="bottom", size=7.6)
@@ -386,8 +398,8 @@ def plate_spending(ctx, ig) -> None:
     ig.add_recessions(ax, label=False)
     low = min(zip(gy, gv), key=lambda t: t[1])
     ax.annotate(f"{low[1]:.1f}% in {low[0]}", low, textcoords="offset points",
-                xytext=(4, 6), ha="left", fontsize=8.4, fontweight="bold",
-                color=p.TEAL)
+                xytext=(0, -14), ha="center", va="top", fontsize=8.4,
+                fontweight="bold", color=p.TEAL)
     _mark(ig, ax, "pnrr", dy=0.72)
     _note(p, ax, 0.02, 0.96, f"the state itself spends only ~{gv[0]:.0f}% of GDP; "
           f"it fell to {low[1]:.1f}%\nand is climbing back in the PNRR years "
@@ -416,9 +428,9 @@ def plate_trade(ctx, ig) -> None:
     _natl(ctx, ax, wy, wv, p.NAVY, "World Bank (X+M)/GDP, older vintage")
     ig.add_recessions(ax, label=False)
     ax.legend(loc="upper left", fontsize=7.4, frameon=False)
-    _note(p, ax, 0.02, 0.55, f"the 2022–23 rows are inflated by imported "
+    _note(p, ax, 0.98, 0.03, f"the 2022–23 rows are inflated by imported "
           f"energy prices:\nimports peaked at {mpc[2022]:.0f}% of GDP "
-          f"({m[2022]:,.0f}bn)", size=7.6)
+          f"({m[2022]:,.0f}bn)", size=7.6, ha="right", va="bottom")
     _foot(p, ax, "Eurostat national accounts P6/P7 over GDP; the World Bank "
           "openness series carries the pre-2026 vintage")
 
@@ -451,10 +463,9 @@ def plate_trade(ctx, ig) -> None:
     ax.annotate(f"{pk[1]:,.0f} in {pk[0]}", pk, textcoords="offset points",
                 xytext=(-10, 4), ha="right", fontsize=8.6, fontweight="bold",
                 color=p.ROSSO)
-    _note(p, ax, 0.02, 0.06, "levels in euros, which rule 4 keeps off the "
-          "shared slots,\nhere where they can be read", size=7.4,
-          va="bottom")
-    ax.legend(loc="upper left", fontsize=7.6, frameon=False)
+    _note(p, ax, 0.02, 0.98, "levels in euros, which rule 4 keeps off the "
+          "shared slots,\nhere where they can be read", size=7.4)
+    ax.legend(loc="lower right", fontsize=7.6, frameon=False)
     _foot(p, ax, "the same Eurostat table, in the currency the invoices are "
           "written in")
     _finish(ctx, ig)
@@ -484,7 +495,7 @@ def plate_markets(ctx, ig) -> None:
     yy, yv = _yr(ctx, "markets/yield_10y_from_estat.csv", "yield_10y")
     ctx.line(ax, yy, yv, p.ROSSO)
     ig.add_recessions(ax, label=False)
-    _mark(ig, ax, "monti", dy=0.97)
+    _mark(ig, ax, "monti", dy=0.66)
     _mark(ig, ax, "wit", dy=0.80)
     peak = max(zip(yy, yv), key=lambda t: t[1])
     ax.annotate(f"{peak[1]:.2f}% in {peak[0]}", peak,
@@ -586,13 +597,13 @@ def plate_credit(ctx, ig) -> None:
     ax.annotate(f"{peak[1]:.1f}% in {peak[0]}", peak,
                 textcoords="offset points", xytext=(-6, 4), ha="right",
                 fontsize=8.8, fontweight="bold", color=p.ROSSO)
-    _note(p, ax, 0.02, 0.96, f"the bank clean-up of 2015–17 cut bad debt from "
-          f"{peak[1]:.1f}% to\n{nv[-1]:.1f}%. the FSI ratio predates the 2015 "
-          "EBA definition;\nthe two measures are never joined, and the 2024 "
-          "mixed row of the\ndiscontinued series is not drawn", size=7.4)
-    ax.legend(loc="center left", fontsize=7.4, frameon=False)
+    _note(p, ax, 0.55, 0.98, f"the bank clean-up of 2015–17 cut bad debt from "
+          f"{peak[1]:.1f}%\nto {nv[-1]:.1f}%. the FSI ratio predates the 2015 "
+          "EBA definition;\nthe 2024 mixed row of the discontinued series is "
+          "not drawn", size=7.2)
+    ax.legend(loc="center right", fontsize=7.4, frameon=False)
     _foot(p, ax, "IMF FSI gross NPL ratio (harmonised) with BdI's sofferenze "
-          "beside it (national, gross)")
+          "beside it (national, gross) — never joined")
 
     ax = ig.slot("credit.lens", "Lens — the same debt against disposable "
                  "income")
@@ -600,11 +611,11 @@ def plate_credit(ctx, ig) -> None:
                  "debt_pct_gdi_computed")
     ctx.line(ax, gy, gv, p.VERDE)
     ig.add_recessions(ax, label=False)
-    _note(p, ax, 0.02, 0.96, f"loans divided by household disposable income "
-          f"rather than GDP:\n{gv[0]:.1f}% to {max(gv):.1f}%, back to "
-          f"{gv[-1]:.1f}%. the numerator is BdI's,\nthe denominator Eurostat's "
-          "B6G S14_S15 — one _computed column,\nnever joined with the GDP "
-          "ratio in slot 1", size=7.4)
+    _note(p, ax, 0.50, 0.03, f"loans divided by household disposable income\n"
+          f"rather than GDP: {gv[0]:.1f}% to {max(gv):.1f}%, back to "
+          f"{gv[-1]:.1f}%.\nthe numerator is BdI's, the denominator is\n"
+          "Eurostat's B6G S14_S15 — one _computed\ncolumn, never joined with "
+          "the GDP ratio", size=7.4, va="bottom")
     ctx.endlabel(ax, gy, gv, p.VERDE, lambda v: f"{v:.0f}%", dy=8)
     _foot(p, ax, "the denominator Italy argues about: households feel income, "
           "not GDP (BdI FSR reads 56.1 for 2024)")
@@ -642,7 +653,7 @@ def plate_people(ctx, ig) -> None:
           f"({nv[-1]:.1f}% in {ny[-1]}); the World Bank's US$8.30 line is "
           "not\ncomputed for Italy, so it is not drawn (meta.pending)",
           size=7.4)
-    ax.legend(loc="lower left", fontsize=7.4, frameon=False)
+    ax.legend(loc="center", fontsize=7.4, frameon=False)
     _foot(p, ax, "Eurostat ilc_li02 (survey-year axis) and ISTAT 34_727 new "
           "series; the old basket ends 2013")
 
@@ -658,11 +669,11 @@ def plate_people(ctx, ig) -> None:
     ry, rv = _yr(ctx, "social/poverty_abs_from_istat.csv", "rel_hh")
     _natl(ctx, ax, ry, rv, p.ROSSO, "ISTAT relative poverty, households")
     ig.add_recessions(ax, label=False)
-    _note(p, ax, 0.02, 0.96, "the national relative line (equivalence-scale "
+    _note(p, ax, 0.98, 0.55, "the national relative line (equivalence-scale "
           f"families) swings\n{min(rv):.1f}–{max(rv):.1f}% while the EU's "
           f"person line sits near {av[-1]:.0f}%:\nthe same Italian "
-          "families, counted differently", size=7.4)
-    ax.legend(loc="lower left", fontsize=7.4, frameon=False)
+          "families, counted differently", size=7.4, ha="right")
+    ax.legend(loc="center left", fontsize=7.4, frameon=False)
     _foot(p, ax, "EU-SILC persons against ISTAT's household family-unit basis "
           "(34_727); both full window they cover")
     _finish(ctx, ig)
@@ -731,7 +742,7 @@ def plate_demography(ctx, ig) -> None:
     ig.add_recessions(ax, label=False)
     pk = max(zip(iy, iv), key=lambda t: t[1])
     ax.annotate(f"peak {pk[1]:.1f} in {pk[0]}", pk, textcoords="offset points",
-                xytext=(-6, -12), ha="right", fontsize=8.4, fontweight="bold",
+                xytext=(6, -22), ha="left", fontsize=8.4, fontweight="bold",
                 color=p.VERDE)
     _note(p, ax, 0.02, 0.96, f"58,943,464 on 1 Jan 2025 (Eurostat = ISTAT to "
           f"the person);\n2026 is ISTAT's estimate. the peak is {pk[0]} and "
@@ -853,9 +864,10 @@ def plate_security(ctx, ig) -> None:
 
     ax = ig.slot("security.lens", "Lens — mafia and attempted homicides")
     ctx.pending(ax)
-    _foot(p, ax, "the story slot is organised-crime homicide, and ISTAT's "
-          "columns (73_67 MAFFIAHOM/ATTEMPHOM) are still pending — the key is "
-          "pinned in the fetcher; nothing else is drawn here")
+    _note(p, ax, 0.50, 0.96, "the story slot is organised-crime homicide, and "
+          "ISTAT's\ncolumns (73_67 MAFFIAHOM/ATTEMPHOM) are still "
+          "pending —\nthe key is pinned in the fetcher", ha="center", size=7.4)
+    _foot(p, ax, "nothing else is drawn here")
     _finish(ctx, ig)
 
 
@@ -888,10 +900,10 @@ def plate_mortality(ctx, ig) -> None:
     ax.annotate(f"{pk[1]:+.1f}% in {pk[0]}", pk, textcoords="offset points",
                 xytext=(0, 4), ha="center", va="bottom", fontsize=8.8,
                 fontweight="bold", color=p.ROSSO)
-    _note(p, ax, 0.02, 0.30, "2020, the first Western lockdown country: "
+    _note(p, ax, 0.98, 0.80, "2020, the first Western lockdown country: "
           f"{ex[2020]:+.1f}% above\nthe 2015–19 mean; 2021–22 stayed hot "
           f"({ex[2021]:+.1f}%, {ex[2022]:+.1f}%),\nand ordinary flu years "
-          "(2017, 2025) also print above zero", size=7.6)
+          "(2017, 2025) also print above zero", size=7.6, ha="right")
     _foot(p, ax, "computed from the register counts; the base is the plain "
           "2015–2019 mean, as the spine prescribes")
 
@@ -922,12 +934,13 @@ def plate_mortality(ctx, ig) -> None:
         ys, vs = ctx.per_100k(mp, {y: pop[y] for y in mp})
         ctx.line(ax, ys, vs, col, label=lab)
     ig.add_recessions(ax, label=False)
-    ax.legend(loc="upper left", fontsize=7.4, frameon=False)
-    _note(p, ax, 0.02, 0.55, f"the quiet reversal: circulatory deaths fall "
+    ax.legend(loc="center left", fontsize=7.4, frameon=False)
+    _note(p, ax, 0.98, 0.42, f"the quiet reversal: circulatory deaths fall "
           f"from {heart[2006]/pop[2006]*100_000:.0f} to "
           f"{heart[2023]/pop[2023]*100_000:.0f};\ndementia climbs toward "
           f"{dem[2023]/pop[2023]*100_000:.0f} — the cardiology win and the "
-          "ageing bill,\nboth written in the same certificates file", size=7.4)
+          "ageing bill,\nboth written in the same certificates file", size=7.4,
+          ha="right")
     _foot(p, ax, "codes 7, 2_1, 5_1 of the same nested shortlist — peers on "
           "this panel, not a sum")
     _finish(ctx, ig)
@@ -1007,14 +1020,14 @@ def plate_migration(ctx, ig) -> None:
              label="Foreign citizens (FOR_STLS)")
     ig.add_recessions(ax, label=False)
     ax.annotate(f"{fb[max(fb)]:.1f}% in {max(fb)}", (max(fb), fb[max(fb)]),
-                textcoords="offset points", xytext=(-14, 2), ha="right",
+                textcoords="offset points", xytext=(-14, 8), ha="right",
                 fontsize=8.4, fontweight="bold", color=p.VERDE)
     _note(p, ax, 0.02, 0.96, f"born elsewhere {fb[max(fb)]:.1f}%, holding another "
           f"passport {fc[max(fc)]:.1f}%:\nthe two lines pull apart because "
           f"naturalisation ({_map(ctx, 'migration/naturalisation_from_estat.csv', 'acquisitions')[2024]:,.0f} "
           f"in 2024)\nmoves people from the green line to the red one",
           size=7.4)
-    ax.legend(loc="lower left", fontsize=7.6, frameon=False)
+    ax.legend(loc="center right", fontsize=7.6, frameon=False)
     _foot(p, ax, "Eurostat migr_pop1ctz / migr_res3ctb; the citizenship code "
           "is FOR_STLS — citizen=FOR returns an empty cube for Italy")
 
@@ -1035,12 +1048,12 @@ def plate_migration(ctx, ig) -> None:
           p.NAVY, "ISTAT register")
     ig.add_recessions(ax, label=False)
     ax.legend(loc="upper left", fontsize=7.0, frameon=False)
-    _note(p, ax, 0.02, 0.55, f"the AIRE line: citizens leaving, from about 1 "
-          f"to 3 per thousand, mostly young;\nregistration lags the fact. the "
+    _note(p, ax, 0.98, 0.03, f"the AIRE line: citizens leaving, from about 1 to\n"
+          f"3 per thousand, mostly young; registration\nlags the fact. the "
           f"peak of new citizenships was\n{max(acq.values()):,.0f} in "
-          f"{max(acq, key=lambda y: acq[y])}. first permits (433,099 in 2025) "
-          "and asylum\n(158,605 in 2024) stay out — permits are documents, "
-          "not arrivals", size=7.2)
+          f"{max(acq, key=lambda y: acq[y])}. first permits (433,099 in 2025)\n"
+          "and asylum (158,605 in 2024) stay out —\npermits are documents, "
+          "not arrivals", size=7.2, ha="right", va="bottom")
     _foot(p, ax, "Eurostat migr_acq + migr_emi1ctz national split, and ISTAT "
           "28_185 Italian-citizen cancellations")
     _finish(ctx, ig)
