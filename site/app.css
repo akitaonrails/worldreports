@@ -166,8 +166,12 @@ a { color: inherit; }
      wordmark starts inboard of the margin every other element aligns to.
      How much depends on the letter — B and F are not the same — so each
      country sets --mark-bearing from its country.yaml. */
-  margin-left: calc(-1 * var(--mark-bearing, 0.068em));
+  margin-inline-start: calc(-1 * var(--mark-bearing, 0.068em));
 }
+
+html[dir="rtl"] .masthead__inner,
+html[dir="rtl"] .index,
+html[dir="rtl"] .colophon { text-align: right; }
 
 .masthead__line {
   font-size: clamp(1.02rem, 1.8vw, 1.45rem);

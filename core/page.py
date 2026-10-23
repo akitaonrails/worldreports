@@ -710,7 +710,7 @@ def country_page(country: Country, locale: str, chapters: list[dict],
         if chapters else ""
 
     return f"""<!doctype html>
-<html lang="{e(loc.html_lang)}">
+<html lang="{e(loc.html_lang)}" dir="{e(loc.direction)}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -793,7 +793,7 @@ def negotiator(country: Country, shared: dict, local: dict,
         f'lang="{e(l.html_lang)}">{e(l.endonym)}</a></li>'
         for l in country.locales)
     return f"""<!doctype html>
-<html lang="{e(country.locale(country.default_locale).html_lang)}">
+<html lang="{e(country.locale(country.default_locale).html_lang)}" dir="{e(country.locale(country.default_locale).direction)}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">

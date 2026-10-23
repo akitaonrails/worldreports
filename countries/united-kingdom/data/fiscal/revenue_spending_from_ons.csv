@@ -1,0 +1,31 @@
+# ONS public sector finances (PUSF), release 21-10-2026. receipts =
+# JW2O, public sector excluding PS banks, total current receipts; tme =
+# KX5Q, total managed expenditure excluding PS banks; both £ million,
+# current prices, NSA. (JW2V, named in the research pass, is the current
+# budget deficit as % of GDP - not receipts.) Identity asserted on every
+# month: J5II = JW2O - KX5Q. *_calendar columns are calendar years (the
+# generator's annual rows); *_fiscal columns are the financial year
+# STARTING in April of `year`, summed from monthly rows. *_pct_gdp columns
+# are COMPUTED against YBHA nominal GDP: calendar-year YBHA, or for fiscal
+# years the sum of YBHA quarters Q2..Q4 of `year` and Q1 of year+1.
+year,receipts_calendar_gbp_mn,tme_calendar_gbp_mn,receipts_calendar_pct_gdp,tme_calendar_pct_gdp,receipts_fiscal_gbp_mn,tme_fiscal_gbp_mn,receipts_fiscal_pct_gdp,tme_fiscal_pct_gdp
+2006,541225,584832,36.8,39.7,551519,592445,37.1,39.8
+2007,574126,615939,37.1,39.8,584147,629204,37.3,40.1
+2008,583553,671562,36.5,42.0,569457,685790,35.8,43.2
+2009,551778,712809,35.4,45.8,560687,720331,35.8,46.0
+2010,591779,740401,36.6,45.8,601067,743040,36.8,45.5
+2011,622538,744742,37.3,44.6,623655,745755,37.1,44.3
+2012,632060,762449,36.7,44.2,635936,759546,36.6,43.7
+2013,655899,759529,36.6,42.4,662943,765389,36.6,42.2
+2014,680500,784889,36.3,41.8,689685,787749,36.4,41.6
+2015,706070,791458,36.6,41.0,714264,794365,36.8,40.9
+2016,740799,808434,36.9,40.3,755635,812735,37.2,40.0
+2017,779818,835992,37.1,39.8,780837,842250,36.8,39.7
+2018,799897,851273,36.7,39.1,813554,857627,37.0,39.0
+2019,827620,877466,36.6,38.8,828075,886838,36.5,39.1
+2020,786900,1056827,36.9,49.6,792959,1103793,37.5,52.1
+2021,887816,1045765,38.1,44.8,922217,1038195,38.2,43.0
+2022,1006535,1110890,38.9,42.9,1034576,1158392,39.1,43.8
+2023,1084117,1229598,39.2,44.4,1096559,1231793,39.3,44.1
+2024,1121344,1269904,38.6,43.7,1140539,1290348,38.7,43.8
+2025,1198860,1350267,39.4,44.3,1231387,1365598,40.0,44.4
