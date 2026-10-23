@@ -5,14 +5,21 @@ the spine's order, so a Canadian panel sits over the same panel of every
 other country in the comparison viewer: same indicator, same unit, same
 y-scale (PLATE_SPINE.md, core/spine.py).
 
-Twelve chapters. Five rest on Canadian publishers that answered: the
-Department of Finance's Fiscal Reference Tables, the Bank of Canada, IRCC
-and PHAC. Seven — economy, trade, people, demography, security, mortality
-and credit — are built from the harmonised publishers (World Bank, IMF,
-OECD, BIS, UNODC/WHO) because Statistics Canada's data platform has served
-an outage page under HTTP 200 since 2026-10-22. Each of their panels says
-so, and HANDOFF.md lists exactly which slots take a Statistics Canada line
-when the platform returns. No Statistics Canada number is typed in here.
+Twelve chapters. Five rest on Canadian publishers: the Department of
+Finance's Fiscal Reference Tables, the Bank of Canada, IRCC and PHAC.
+The other seven — economy, trade, people, demography, security,
+mortality and credit — keep the harmonised publishers (World Bank, IMF,
+OECD, BIS, UNODC/WHO) as the spine's canonical lines, and the curated
+Statistics Canada series (`data/**/*_statcan.csv`) ride beside them as
+labelled national lines, exactly in the slots HANDOFF.md maps. Where a
+published rate exists (the police-reported homicide rate, the LFS, the
+crude birth rate) the plate uses it; where only counts exist (deaths,
+components of growth) the plate divides them by the matching July 1
+population, the conversions DATA_NOTES.md documents. Definitional pairs
+— MBM bases, police-reported vs UNODC homicide, debt to GDP vs debt to
+disposable income, BIS vs StatCan debt service — are always two clearly
+labelled lines, never one joined series. No Statistics Canada number is
+typed in here.
 
 Two conventions run through the file:
 
@@ -33,7 +40,6 @@ events = sibling(__file__, "events")
 
 W0 = 2006        # the shared plate window opens here
 FY_SHIFT = 0.25  # an April-March fiscal year, drawn at its midpoint
-PENDING = "Statistics Canada's own line is added when its platform returns"
 
 
 # ------------------------------------------------------------ small helpers
@@ -78,6 +84,24 @@ def _foot(p, ax, text):
             va="top", fontsize=7.2, color=p.FAINT, style="italic")
 
 
+def _natl(ctx, ax, years, vals, color, label, **kw):
+    """A labelled Statistics Canada line riding beside the canonical one.
+
+    Thin, small markers, dotted (the fiscal plate's convention): the
+    harmonised series stays the spine's line and the national one is
+    visibly the second reading, never a continuation of the first.
+    """
+    kw.setdefault("lw", 1.6)
+    kw.setdefault("ms", 2.6)
+    ctx.line(ax, years, vals, color, label=label, ls=(0, (1, 1.4)),
+             dashed_partial=False, **kw)
+
+
+def _barkey(ax, color, label):
+    """An invisible bar carrying a legend entry for a bar series."""
+    ax.bar([], [], color=color, label=label)
+
+
 def _mark(ig, ax, key, dy=0.97):
     """One of events.MARKS on a panel."""
     x, label = events.MARKS[key]
@@ -109,6 +133,9 @@ def plate_economy(ctx, ig) -> None:
     ax = ig.slot("economy.growth", "Real GDP growth (% per year)")
     gy, gv = _yr(ctx, G, "real_growth_pct")
     ctx.bars(ax, gy, gv, lambda v: p.GREEN if v >= 0 else p.RED)
+    sy, sv = _yr(ctx, "macro/economy_statcan.csv", "real_growth_pct")
+    _natl(ctx, ax, sy, sv, p.NAVY, "Statistics Canada (36-10-0699)")
+    _barkey(ax, p.GREEN, "World Bank (redistribution)")
     ig.add_recessions(ax, inside=True)
     for y in (2009, 2020):
         v = _at(gy, gv, y)
@@ -118,8 +145,9 @@ def plate_economy(ctx, ig) -> None:
     _note(p, ax, 0.02, 0.96, "the 2015 oil-price contraction never shows in "
           "an annual figure:\n2015 still grew "
           f"{_at(gy, gv, 2015):.1f}% — it is not banded (see DATA_NOTES)")
-    _foot(p, ax, "World Bank series of Statistics Canada's national accounts. "
-          + PENDING)
+    ax.legend(loc="upper right", fontsize=7.6, frameon=False)
+    _foot(p, ax, "World Bank series of Statistics Canada's national accounts "
+          "(bars); the line is StatCan cube 36-10-0699, never spliced into it")
 
     ax = ig.slot("economy.gdp_per_person", "GDP per person (US$, current)")
     py, pv = _yr(ctx, "international/gdp_pc.csv", "gdp_per_person_usd")
@@ -129,26 +157,32 @@ def plate_economy(ctx, ig) -> None:
     _note(p, ax, 0.02, 0.30, f"US$ per person, 2014 to 2015: {_at(py, pv, 2014):,.0f} to "
           f"{_at(py, pv, 2015):,.0f} — the oil price\ntaking the "
           "Canadian dollar down with it, not output")
-    _foot(p, ax, "World Bank, current US$ at market exchange rates. " + PENDING)
+    _foot(p, ax, "World Bank, current US$ at market exchange rates")
 
     ax = ig.slot("economy.inflation", "Consumer price inflation "
                  "(% per year) and the 2% target")
     ax.axhspan(1, 3, color=p.GREEN, alpha=0.07, zorder=0)
     ax.axhline(2, color=p.GREEN_D, lw=1.0, ls=":", zorder=2)
     cy, cv = _yr(ctx, G, "cpi_inflation_pct")
-    ctx.line(ax, cy, cv, p.RED, label="CPI, annual average")
+    ctx.line(ax, cy, cv, p.RED, label="CPI, annual average (World Bank)")
+    sy, sv = _yr(ctx, "macro/economy_statcan.csv", "cpi_inflation_pct")
+    _natl(ctx, ax, sy, sv, p.NAVY, "CPI change (StatCan 18-10-0005)")
     ig.add_recessions(ax, label=False)
     peak = max(zip(cy, cv), key=lambda t: t[1])
     ax.annotate(f"{peak[1]:.1f}% in {peak[0]}", peak,
                 textcoords="offset points", xytext=(-8, 4), ha="right",
                 fontsize=8.8, fontweight="bold", color=p.RED)
     _note(p, ax, 0.02, 0.96, "Bank of Canada target: 2%, inside a 1–3% band")
-    _foot(p, ax, "World Bank series of Statistics Canada's CPI. " + PENDING)
+    ax.legend(loc="lower left", fontsize=7.6, frameon=False)
+    _foot(p, ax, "World Bank redistribution of StatCan's CPI and StatCan's "
+          "own 18-10-0005 annual average — one statistic, two publishers")
 
     ax = ig.slot("economy.unemployment", "Unemployment rate "
                  "(% of the labour force)")
     uy, uv = _yr(ctx, "macro/economy.csv", "unemployment_pct")
     ctx.line(ax, uy, uv, p.NAVY, label="ILO modelled estimate")
+    ly, lv = _yr(ctx, "macro/economy_statcan.csv", "lfs_unemployment_pct")
+    _natl(ctx, ax, ly, lv, p.GOLD, "Labour Force Survey (StatCan, annual)")
     ig.add_recessions(ax, label=False)
     peak = max(zip(uy, uv), key=lambda t: t[1])
     ax.annotate(f"{peak[1]:.1f}% in {peak[0]}", peak,
@@ -157,7 +191,9 @@ def plate_economy(ctx, ig) -> None:
     low = min(zip(uy, uv), key=lambda t: t[1])
     _note(p, ax, 0.02, 0.96, f"low of {low[1]:.1f}% in {low[0]}; "
           f"{uv[-1]:.1f}% in {uy[-1]}")
-    _foot(p, ax, "ILO estimate via the World Bank. " + PENDING)
+    ax.legend(loc="upper right", fontsize=7.6, frameon=False)
+    _foot(p, ax, "ILO estimate via the World Bank, beside StatCan's LFS "
+          "annual table (14-10-0327) — they agree by calibration, not identity")
     _finish(ctx, ig)
 
 
@@ -311,8 +347,7 @@ def plate_spending(ctx, ig) -> None:
     ax.annotate(f"{pk[1]:.1f}% in {pk[0]}: the oil-sands boom",
                 pk, textcoords="offset points", xytext=(0, 9),
                 ha="center", fontsize=8.4, fontweight="bold", color=p.BLUE)
-    _foot(p, ax, "World Bank series of Statistics Canada's national accounts. "
-          + PENDING)
+    _foot(p, ax, "World Bank series of Statistics Canada's national accounts")
 
     ax = ig.slot("spending.public_investment", "Public investment "
                  "(government GFCF, % of GDP)")
@@ -324,7 +359,7 @@ def plate_spending(ctx, ig) -> None:
                 "programme", pk, textcoords="offset points", xytext=(6, 8),
                 ha="left", fontsize=8.2, fontweight="bold", color=p.TEAL)
     ctx.endlabel(ax, gy, gv, p.TEAL, lambda v: f"{v:.1f}%", dy=8)
-    _foot(p, ax, "OECD, general government. " + PENDING)
+    _foot(p, ax, "OECD, general government")
     _finish(ctx, ig)
 
 
@@ -342,24 +377,36 @@ def plate_trade(ctx, ig) -> None:
                  "and services (% of GDP)")
     xy, xv = _yr(ctx, T, "exports_pct_gdp")
     my, mv = _yr(ctx, T, "imports_pct_gdp")
-    ctx.line(ax, xy, xv, p.GREEN, label="Exports")
-    ctx.line(ax, my, mv, p.RED, label="Imports")
+    ctx.line(ax, xy, xv, p.GREEN, label="Exports (World Bank)")
+    ctx.line(ax, my, mv, p.RED, label="Imports (World Bank)")
+    sy, sv = _yr(ctx, "trade/trade_statcan.csv", "exports_pct_gdp")
+    sy2, sv2 = _yr(ctx, "trade/trade_statcan.csv", "imports_pct_gdp")
+    _natl(ctx, ax, sy, sv, p.GREEN_D, "Exports (StatCan national accounts)")
+    _natl(ctx, ax, sy2, sv2, p.RED_D, "Imports (StatCan national accounts)")
     ig.add_recessions(ax, inside=True)
-    ax.legend(loc="upper right", fontsize=8.0, frameon=False)
+    ax.legend(loc="upper right", fontsize=7.6, ncol=2, frameon=False)
     _note(p, ax, 0.02, 0.96, f"{xv[-1] + mv[-1]:.0f}% of GDP crosses the border "
           f"each way combined ({xy[-1]})")
-    _foot(p, ax, "World Bank, national-accounts basis. " + PENDING)
+    _foot(p, ax, "World Bank, national-accounts basis; the dotted pair is "
+          "StatCan cube 36-10-0699 — the same statistic, not a customs series")
 
     ax = ig.slot("trade.balance", "Trade balance, goods and services "
                  "(% of GDP)")
     bal = [x - m for x, m in zip(xv, mv)]
     ctx.bars(ax, xy, bal, lambda v: p.GREEN if v >= 0 else p.RED)
+    sexp, simp = dict(zip(sy, sv)), dict(zip(sy2, sv2))
+    sby = [y for y in sorted(sexp) if y in simp]
+    _natl(ctx, ax, sby, [sexp[y] - simp[y] for y in sby], p.NAVY,
+          "Balance (StatCan difference)")
+    _barkey(ax, p.GREEN, "Balance (World Bank difference)")
     ig.add_recessions(ax, label=False)
     deficits = [y for y, b in zip(xy, bal) if b < 0]
     _note(p, ax, 0.02, 0.96, f"in deficit in {len(deficits)} of the "
           f"{len(bal)} years since {xy[0]}: the oil price largely\n"
           "decides the sign")
-    _foot(p, ax, "World Bank, national-accounts basis. " + PENDING)
+    ax.legend(loc="upper right", fontsize=7.6, frameon=False)
+    _foot(p, ax, "their difference, computed here and never stored; both "
+          "publishers' differences are drawn, never averaged")
 
     PT = "trade/partners.csv"
     t = ctx.table(PT)
@@ -391,8 +438,7 @@ def plate_trade(ctx, ig) -> None:
     ax.annotate(f"{us[y1]:.0f}%", (y1, us[y1]), textcoords="offset points",
                 xytext=(0, -12), ha="center", va="top", fontsize=8.4,
                 fontweight="bold", color=p.RED)
-    _foot(p, ax, f"IMF IMTS, goods only; partners ranked once on {y1}. "
-          + PENDING)
+    _foot(p, ax, f"IMF IMTS, goods only; partners ranked once on {y1}")
 
     ax = ig.slot("trade.lens", "Lens — goods balance: the United States "
                  "vs the rest (% of GDP)")
@@ -512,11 +558,15 @@ def plate_people(ctx, ig) -> None:
     gy, gv = _yr(ctx, I, "gini")
     gv = [v * 100 for v in gv]
     wy, wv = _yr(ctx, "social/gini.csv", "gini")
+    sy, sv = _yr(ctx, "social/gini_statcan.csv", "gini_aftertax")
+    sv = [v * 100 for v in sv]
     ctx.line(ax, gy, gv, p.NAVY, label="OECD, disposable income "
              "(Canadian Income Survey)")
     ctx.line(ax, wy, wv, p.FAINT, lw=1.6, ms=3.0, label="World Bank")
+    ctx.line(ax, sy, sv, p.GOLD, lw=1.8, ms=3.2,
+             label="StatCan, after-tax adjusted income")
     ig.add_recessions(ax, inside=True)
-    ax.legend(loc="upper right", fontsize=7.8, frameon=False)
+    ax.legend(loc="upper right", fontsize=7.4, frameon=False)
     # The dip is the panel's lowest point and the axes bottom is the
     # reference Gini floor: the label rides under the point, where the
     # lines never follow it.
@@ -524,7 +574,8 @@ def plate_people(ctx, ig) -> None:
                 "benefits", (2020, _at(gy, gv, 2020)),
                 textcoords="offset points", xytext=(0, -10), ha="center",
                 va="top", fontsize=8.2, fontweight="bold", color=p.NAVY)
-    _foot(p, ax, PENDING)
+    _foot(p, ax, "three income definitions, three lines: the legend names "
+          "each; they measure adjacent things, never one series twice")
 
     ax = ig.slot("people.poverty", "Poverty rate (% of people)")
     py, pv = _yr(ctx, I, "poverty_50_pct")
@@ -532,12 +583,22 @@ def plate_people(ctx, ig) -> None:
     wy, wv = _yr(ctx, "social/poverty.csv", "poverty_830_pct")
     ctx.line(ax, wy, wv, p.FAINT, lw=1.6, ms=3.0,
              label="below US$8.30 a day (World Bank)")
+    m1y, m1v = _yr(ctx, "social/poverty_statcan.csv", "mbm_2018_pct")
+    m2y, m2v = _yr(ctx, "social/poverty_statcan.csv", "mbm_2023_pct")
+    ctx.line(ax, m1y, m1v, p.GOLD, lw=2.0, ms=3.6,
+             label="Market Basket Measure, 2018 base (StatCan)")
+    ctx.line(ax, m2y, m2v, p.TEAL, lw=2.0, ms=3.6,
+             label="Market Basket Measure, 2023 base (StatCan)")
     ig.add_recessions(ax, label=False)
-    ax.legend(loc="upper right", fontsize=7.8, frameon=False)
-    _note(p, ax, 0.02, 0.62, "Canada's official line is the Market Basket "
-          "Measure,\npublished by Statistics Canada — pending its outage",
-          size=7.6)
-    _foot(p, ax, "relative poverty, not the national definition")
+    ax.legend(loc="upper right", fontsize=7.4, frameon=False)
+    both = [y for y in m1y if y in dict(zip(m2y, m2v))]
+    gap = sum(_at(m2y, m2v, y) - _at(m1y, m1v, y) for y in both) / len(both)
+    _note(p, ax, 0.02, 0.62, f"the official line is StatCan's Market Basket "
+          "Measure — its 2018 and\n2023 bases are two lines, never one: "
+          f"the newer basket reads {gap:.1f}\npoints higher across "
+          f"{both[0]}–{both[-1]}", size=7.6)
+    _foot(p, ax, "relative poverty from the OECD and the World Bank; the "
+          "national definition (MBM) on its two bases, never rebased onto one line")
 
     ax = ig.slot("people.minimum_wage", "Minimum wage (US$ per month)")
     M = "social/minimum_wage.csv"
@@ -553,8 +614,7 @@ def plate_people(ctx, ig) -> None:
     _note(p, ax, 0.98, 0.04, f"C${hv[-1]:.2f} an hour in {hy[-1]}; no single "
           "national minimum —\neach province sets its own, converted at "
           "the annual average rate", ha="right", va="bottom", size=7.6)
-    _foot(p, ax, "OECD minimum wages, at the Federal Reserve H.10 rate. "
-          + PENDING)
+    _foot(p, ax, "OECD minimum wages, at the Federal Reserve H.10 rate")
 
     ax = ig.slot("people.lens", "Lens — child and old-age poverty "
                  "(% below half the median income)")
@@ -570,7 +630,7 @@ def plate_people(ctx, ig) -> None:
     _note(p, ax, 0.98, 0.04, f"under-18s: {_at(cy, cv, 2015):.1f}% in 2015, "
           f"{_at(cy, cv, 2020):.1f}% in 2020, {cv[-1]:.1f}% in {cy[-1]}",
           ha="right", va="bottom", size=7.6)
-    _foot(p, ax, "OECD Income Distribution Database. " + PENDING)
+    _foot(p, ax, "OECD Income Distribution Database")
     _finish(ctx, ig)
 
 
@@ -626,14 +686,22 @@ def plate_world(ctx, ig) -> None:
 def plate_demography(ctx, ig) -> None:
     p = ctx.p
     D = "social/demography.csv"
+    POP = "social/population_statcan.csv"
+    COMP = "social/components_statcan.csv"
     pop = dict(zip(*_yr(ctx, "international/population.csv", "population",
                         since=2005)))
+    npop = dict(zip(*_yr(ctx, POP, "population_july1", since=2005)))
 
     ax = ig.slot("demography.population", "Population (index 2006 = 100)")
     iy, iv = ctx.index_2006(pop)
     iy, iv = zip(*[(y, v) for y, v in zip(iy, iv) if y >= W0])
-    ctx.line(ax, iy, iv, p.BLUE)
-    ig.add_recessions(ax, inside=True)
+    ctx.line(ax, iy, iv, p.BLUE, label="World Bank mid-year (UN WPP)")
+    niy, niv = ctx.index_2006(npop)
+    niy, niv = zip(*[(y, v) for y, v in zip(niy, niv) if y >= W0])
+    ctx.line(ax, niy, niv, p.NAVY, lw=1.6,
+             ms=2.6, ls=(0, (1, 1.4)), dashed_partial=False,
+             label="StatCan July 1 estimate (17-10-0009)")
+    ig.add_recessions(ax, label=False)
     last = max(pop)
     # The index line runs at the top of the reference range by 2025, so
     # the level label goes under the line's end and hangs right of it —
@@ -643,34 +711,45 @@ def plate_demography(ctx, ig) -> None:
     g23 = (pop[2023] / pop[2022] - 1) * 100
     _note(p, ax, 0.02, 0.96, f"+{g23:.1f}% in 2023 alone, unmatched in the "
           "G7 —\nmost of it non-permanent residents")
-    _foot(p, ax, "World Bank, mid-year (Statistics Canada's 1 July estimate). "
-          + PENDING)
+    ax.legend(loc="lower right", fontsize=7.6, frameon=False)
+    _foot(p, ax, "the national line is StatCan's July 1 vintage — the one "
+          "that separates non-permanent residents; the UN line is mid-year")
 
     ax = ig.slot("demography.fertility", "Total fertility rate "
                  "(children per woman)")
     ty, tv = _yr(ctx, D, "fertility")
     ax.axhline(2.1, color=p.FAINT, lw=1.0, ls=":")
-    ctx.line(ax, ty, tv, p.PURPLE)
+    ctx.line(ax, ty, tv, p.PURPLE, label="World Bank")
+    sty, stv = _yr(ctx, "social/demography_statcan.csv", "total_fertility_rate")
+    _natl(ctx, ax, sty, stv, p.NAVY, "StatCan (13-10-0418)")
     ig.add_recessions(ax, label=False)
     ctx.endlabel(ax, ty, tv, p.PURPLE, lambda v: f"{v:.2f}", dy=-14)
     _note(p, ax, 0.98, 0.74, "2.1 = replacement", ha="right", size=7.8)
     _note(p, ax, 0.02, 0.18, f"{max(tv):.2f} at the {ty[tv.index(max(tv))]} "
           f"peak; {tv[-1]:.2f} in {ty[-1]}, among the lowest in the G7",
           va="bottom", size=7.8)
-    _foot(p, ax, "World Bank. " + PENDING)
+    ax.legend(loc="upper left", fontsize=7.6, frameon=False)
+    _foot(p, ax, "World Bank redistribution; StatCan's own registration-"
+          "based rate — the two agree to a hundredth")
 
     ax = ig.slot("demography.birth_death", "Crude birth and death rates "
                  "(per 1,000 people)")
     by, bv = _yr(ctx, D, "birth_rate_per_1000")
     dy, dv = _yr(ctx, D, "death_rate_per_1000")
-    ctx.line(ax, by, bv, p.GREEN, label="Births")
-    ctx.line(ax, dy, dv, p.RED_D, label="Deaths")
+    ctx.line(ax, by, bv, p.GREEN, label="Births (World Bank)")
+    ctx.line(ax, dy, dv, p.RED_D, label="Deaths (World Bank)")
+    sby, sbv = _yr(ctx, "social/demography_statcan.csv", "birth_rate_per_1000")
+    _natl(ctx, ax, sby, sbv, p.GREEN_D, "Births (StatCan, published rate)")
+    sdy, sdv = ctx.per_1000(_yr(ctx, COMP, "deaths", since=W0), npop)
+    _natl(ctx, ax, sdy, sdv, p.GOLD,
+          "Deaths (StatCan July–June ÷ July 1 population)")
     ig.add_recessions(ax, label=False)
-    ax.legend(loc="upper right", fontsize=8.0, frameon=False)
+    ax.legend(loc="upper right", fontsize=7.4, frameon=False)
     _note(p, ax, 0.02, 0.96, "the gap is natural increase, and it is closing: "
           f"{bv[0] - dv[0]:.1f} per 1,000 in {by[0]},\n"
           f"{bv[-1] - dv[-1]:.1f} in {by[-1]}", size=7.8)
-    _foot(p, ax, "World Bank. " + PENDING)
+    _foot(p, ax, "World Bank rates; StatCan's crude birth rate as published, "
+          "its deaths counted July–June over that period's July 1 estimate")
 
     ax = ig.slot("demography.natural_migration", "Natural increase and net "
                  "migration (per 1,000 people)")
@@ -679,15 +758,38 @@ def plate_demography(ctx, ig) -> None:
     my, mv = _yr(ctx, D, "net_migration")
     ry, rv = ctx.per_1000(dict(zip(my, mv)), pop)
     ctx.bars(ax, ni_y, ni_v, lambda v: p.GREEN)
-    ctx.line(ax, ry, rv, p.BLUE, label="Net migration (UN WPP estimate)")
-    ax.plot([], [], color=p.GREEN, lw=6, label="Natural increase")
+    ctx.line(ax, ry, rv, p.BLUE, label="Net migration (UN estimate)")
+    _barkey(ax, p.GREEN, "Natural increase (World Bank rates)")
+    comp = ctx.table(COMP)
+    inc, mig = {}, {}
+    for y, b, d, im, ne, npr in zip(comp["year"], comp["births"],
+                                    comp["deaths"], comp["immigrants"],
+                                    comp["net_emigration"],
+                                    comp["net_non_permanent_residents"]):
+        if y >= W0:
+            inc[y] = b - d
+            mig[y] = im - ne + npr
+    sny, snv = ctx.per_1000(inc, npop)
+    smy, smv = ctx.per_1000(mig, npop)
+    _natl(ctx, ax, sny, snv, p.GREEN_D,
+          "Natural increase (StatCan components)")
+    _natl(ctx, ax, smy, smv, p.NAVY,
+          "Net migration (StatCan components)")
     ig.add_recessions(ax, label=False)
-    ax.legend(loc="upper left", fontsize=7.8, frameon=False)
+    ax.legend(loc="upper left", fontsize=7.2, frameon=False)
     pk = max(zip(ry, rv), key=lambda t: t[1])
     ax.annotate(f"{pk[1]:.1f} in {pk[0]}", pk, textcoords="offset points",
                 xytext=(0, 7), ha="center", fontsize=8.4, fontweight="bold",
                 color=p.BLUE)
-    _foot(p, ax, "World Bank; net migration ÷ mid-year population. " + PENDING)
+    spk = max(zip(smy, smv), key=lambda t: t[1])
+    ax.annotate(f"{spk[1]:.1f} in {spk[0]}", spk, textcoords="offset points",
+                xytext=(0, -13), ha="center", va="top", fontsize=8.4,
+                fontweight="bold", color=p.NAVY)
+    _note(p, ax, 0.98, 0.04, "StatCan components are July–June years over "
+          "the July 1 population\nof the same period start — the vintage "
+          "the record 2023 peak lives in", ha="right", va="bottom", size=7.6)
+    _foot(p, ax, "World Bank and UN estimates, beside StatCan's own "
+          "components of growth (17-10-0008) — each pair, never one line")
     _finish(ctx, ig)
 
 
@@ -701,6 +803,9 @@ def plate_security(ctx, ig) -> None:
                  "scale)")
     hy, hv = _yr(ctx, S, "homicide_per_100k")
     ctx.line(ax, hy, hv, p.RED, split_year=max(hy), label="UNODC")
+    sy, sv = _yr(ctx, "social/security_statcan.csv", "homicide_rate_per_100k")
+    ctx.line(ax, sy, sv, p.NAVY, lw=1.6, ms=2.6, ls=(0, (1, 1.4)),
+             split_year=max(sy), label="Police-reported (StatCan UCR)")
     ig.add_recessions(ax, inside=True)
     lo = min(zip(hy, hv), key=lambda t: t[1])
     hi = max(zip(hy, hv), key=lambda t: t[1])
@@ -708,9 +813,16 @@ def plate_security(ctx, ig) -> None:
                 xytext=(0, -12), ha="center", va="top", fontsize=8.2,
                 fontweight="bold", color=p.RED)
     ax.annotate(f"{hi[1]:.2f} in {hi[0]}", hi, textcoords="offset points",
-                xytext=(0, 8), ha="center", fontsize=8.2,
+                xytext=(0, 12), ha="center", va="bottom", fontsize=8.2,
                 fontweight="bold", color=p.RED)
-    _foot(p, ax, "UNODC via the World Bank. " + PENDING)
+    ax.legend(loc="upper right", fontsize=7.8, frameon=False)
+    apart = max(abs(_at(sy, sv, y) - v) for y, v in zip(hy, hv) if y in sy)
+    _note(p, ax, 0.98, 0.10, f"police-reported incidents and UNODC's "
+          "harmonised count differ\nby at most "
+          f"{apart:.2f} per 100,000 — two counts of an adjacent thing, "
+          "never one line", ha="right", va="bottom", size=7.6)
+    _foot(p, ax, "UNODC via the World Bank, beside StatCan's police-reported "
+          "table (35-10-0068); the coroner-registered count is a third")
 
     ax = ig.slot("security.suicide", "Suicide rate (per 100,000)")
     wy, wv = _yr(ctx, S, "suicide_per_100k")
@@ -723,8 +835,7 @@ def plate_security(ctx, ig) -> None:
     ax.legend(loc="upper right", fontsize=7.8, frameon=False)
     _note(p, ax, 0.02, 0.10, "the latest registration years can rise as "
           "coroners'\ninvestigations close", va="bottom", size=7.6)
-    _foot(p, ax, "OECD (Statistics Canada's registrations) and WHO. "
-          + PENDING)
+    _foot(p, ax, "OECD (Statistics Canada's registrations) and WHO")
 
     ax = ig.slot("security.road_deaths", "Road traffic deaths "
                  "(per 100,000)")
@@ -739,7 +850,7 @@ def plate_security(ctx, ig) -> None:
     _note(p, ax, 0.02, 0.10, f"WHO's road series ends in {max(ry)}; the "
           "registrations include\nrail, water and air, so they sit a "
           "little above it", va="bottom", size=7.6)
-    _foot(p, ax, "WHO via the World Bank, and the OECD. " + PENDING)
+    _foot(p, ax, "WHO via the World Bank, and the OECD")
 
     ax = ig.slot("security.lens", "Lens — apparent opioid toxicity deaths "
                  "(per 100,000)")
@@ -767,20 +878,29 @@ def plate_security(ctx, ig) -> None:
 def plate_mortality(ctx, ig) -> None:
     p = ctx.p
     C = "social/causes_of_death.csv"
+    npop_m = dict(zip(*_yr(ctx, "social/population_statcan.csv",
+                           "population_july1", since=2005)))
 
     ax = ig.slot("mortality.death_rate", "Crude death rate "
                  "(per 1,000 people)")
     cy, cv = _yr(ctx, C, "all_causes_per_100k")
     cv = [v / 100 for v in cv]
-    ctx.line(ax, cy, cv, p.RED_D, split_year=max(cy))
+    ctx.line(ax, cy, cv, p.RED_D, split_year=max(cy),
+             label="OECD (registrations ÷ its own population)")
+    scy = dict(zip(*_yr(ctx, "social/mortality_statcan.csv",
+                        "deaths_all_causes", since=2005)))
+    scy2, scv2 = ctx.per_1000(scy, npop_m)
+    _natl(ctx, ax, scy2, scv2, p.NAVY,
+          "StatCan deaths ÷ July 1 population")
     ig.add_recessions(ax, inside=True)
     # The line falls away from the 2022 peak into its last year: the end
     # label clears the tail it would otherwise sit on.
     ctx.endlabel(ax, cy, cv, p.RED_D, lambda v: f"{v:.2f}", dy=18)
     _note(p, ax, 0.02, 0.96, "rising for twenty years as the baby boom ages, "
           f"with a {max(cv):.2f}\npeak in {cy[cv.index(max(cv))]}")
+    ax.legend(loc="upper right", fontsize=7.4, frameon=False)
     _foot(p, ax, "Statistics Canada's death registrations, as published by "
-          "the OECD. " + PENDING)
+          "the OECD — and divided again here by StatCan's own July 1 counts")
 
     ax = ig.slot("mortality.excess_deaths", "Excess deaths "
                  "(% above the 2015–2019 average)")
@@ -790,29 +910,40 @@ def plate_mortality(ctx, ig) -> None:
     ex_y = [y for y in dy if y >= 2015]
     ex_v = [(d[y] / base - 1) * 100 for y in ex_y]
     ctx.bars(ax, ex_y, ex_v, lambda v: p.RED if v > 0 else p.GREEN)
+    sd = dict(zip(*_yr(ctx, "social/mortality_statcan.csv",
+                       "deaths_all_causes", since=2015)))
+    sbase = sum(sd[y] for y in range(2015, 2020)) / 5
+    _natl(ctx, ax, sorted(sd), [(sd[y] / sbase - 1) * 100 for y in sorted(sd)],
+          p.NAVY, "StatCan's own registrations, same house rule")
+    _barkey(ax, p.RED, "OECD's redistribution of the same registrations")
     ig.add_recessions(ax, label=False)
     pk = max(zip(ex_y, ex_v), key=lambda t: t[1])
     ax.annotate(f"+{pk[1]:.1f}%", pk, textcoords="offset points",
-                xytext=(0, 4), ha="center", fontsize=8.6, fontweight="bold",
+                xytext=(0, 9), ha="center", fontsize=8.6, fontweight="bold",
                 color=p.RED)
     _note(p, ax, 0.02, 0.96, f"deaths counted against {base:,.0f} a year, the "
           "2015–2019 mean;\nnot adjusted for a population that grew and "
           "aged", size=7.8)
-    _foot(p, ax, "computed from the registered deaths in slot 1")
+    ax.legend(loc="lower right", fontsize=7.4, frameon=False)
+    _foot(p, ax, "both bases are 2015–2019 means of their own counts; the "
+          "house rule is unadjusted, and the panel says so")
 
     ax = ig.slot("mortality.covid", "COVID-19 deaths, underlying cause "
                  "(per 100,000)")
     vy, vv = _yr(ctx, C, "covid19_per_100k")
     ctx.bars(ax, vy, vv, lambda v: p.PURPLE)
+    _barkey(ax, p.PURPLE, "OECD's published rate")
+    cvy, cvv = ctx.per_100k(dict(zip(*_yr(ctx, "social/mortality_statcan.csv",
+                                          "deaths_covid_19", since=2020))),
+                            npop_m)
+    _natl(ctx, ax, cvy, cvv, p.NAVY, "StatCan deaths ÷ July 1 population")
     ig.add_recessions(ax, label=False)
-    for y, v in zip(vy, vv):
-        ax.annotate(f"{v:.1f}", (y, v), textcoords="offset points",
-                    xytext=(0, 3), ha="center", fontsize=8.0,
-                    fontweight="bold", color=p.PURPLE)
     _note(p, ax, 0.02, 0.96, f"the worst year was {vy[vv.index(max(vv))]}, "
           "the year of Omicron,\nnot the first year of the pandemic",
           size=7.8)
-    _foot(p, ax, "OECD (Statistics Canada's registrations). " + PENDING)
+    ax.legend(loc="upper right", fontsize=7.4, frameon=False)
+    _foot(p, ax, "OECD (Statistics Canada's registrations) and StatCan's own "
+          "counts over the July 1 estimate — the codes follow the coroner")
 
     ax = ig.slot("mortality.lens", "Lens — the two big killers "
                  "(per 100,000)")
@@ -826,7 +957,7 @@ def plate_mortality(ctx, ig) -> None:
     ax.legend(loc="lower left", fontsize=7.8, frameon=False)
     _note(p, ax, 0.02, 0.96, "crude rates: an ageing population holds them "
           "up even as\nage-specific risk falls", size=7.8)
-    _foot(p, ax, "OECD (Statistics Canada's registrations). " + PENDING)
+    _foot(p, ax, "OECD (Statistics Canada's registrations)")
     _finish(ctx, ig)
 
 
@@ -837,17 +968,27 @@ def plate_credit(ctx, ig) -> None:
     ax = ig.slot("credit.household_debt", "Household debt (% of GDP, "
                  "year-end)")
     hy, hv = _yr(ctx, "credit/household_credit.csv", "hh_credit_pct_gdp_q4")
-    ctx.line(ax, hy, hv, p.RED)
-    ig.add_recessions(ax, inside=True)
+    ctx.line(ax, hy, hv, p.RED, label="BIS, share of GDP")
+    ig.add_recessions(ax, label=False)
+    sy, sv = _yr(ctx, "credit/household_credit_statcan.csv",
+                 "hh_debt_to_disp_income_q4")
+    ctx.line(ax, sy, sv, p.PURPLE, label="StatCan, share of "
+             "disposable income")
     pk = max(zip(hy, hv), key=lambda t: t[1])
     ax.annotate(f"{pk[1]:.1f}% in {pk[0]}", pk, textcoords="offset points",
                 xytext=(0, 8), ha="center", fontsize=8.6, fontweight="bold",
                 color=p.RED)
-    _note(p, ax, 0.02, 0.96, f"{hv[0]:.0f}% in {hy[0]}: a decade of cheap "
-          "mortgages put Canada\namong the most indebted households in "
-          "the G7", size=7.8)
-    _foot(p, ax, "BIS, all lenders. Statistics Canada's debt-to-income "
-          "ratio is added when its data platform returns")
+    spk = max(zip(sy, sv), key=lambda t: t[1])
+    ax.annotate(f"{spk[1]:.1f}% in {spk[0]}", spk, textcoords="offset points",
+                xytext=(0, -20), ha="center", va="top", fontsize=8.6,
+                fontweight="bold", color=p.PURPLE)
+    _note(p, ax, 0.98, 0.16, f"{hv[0]:.0f}% in {hy[0]}: cheap credit put "
+          "Canada\namong the most indebted\nhouseholds in the G7", size=7.8,
+          ha="right")
+    ax.legend(loc="lower left", fontsize=7.4, frameon=False)
+    _foot(p, ax, "BIS credit to households over GDP; StatCan measures the "
+          "same balance sheet against disposable income — different "
+          "denominators, two lines")
 
     ax = ig.slot("credit.lending_rate", "Mortgage rates vs the policy "
                  "rate (%)")
@@ -878,22 +1019,31 @@ def plate_credit(ctx, ig) -> None:
     lo = min(zip(qy, qv), key=lambda t: t[1])
     _note(p, ax, 0.02, 0.96, f"never above {pk[1]:.1f}% of loans; {qv[-1]:.2f}% "
           f"in {qy[-1]},\nup from a low of {lo[1]:.2f}% in {lo[0]}", size=7.8)
-    _foot(p, ax, "World Bank / IMF FSI. " + PENDING)
+    _foot(p, ax, "World Bank / IMF FSI")
 
     ax = ig.slot("credit.lens", "Lens — what servicing the debt costs "
                  "(% of disposable income)")
     dy, dv = _yr(ctx, "credit/debt_service.csv", "hh_dsr_pct_q4")
     ax.set_ylabel("% of disposable income", fontsize=8.6, color=p.MUTED)
-    ctx.line(ax, dy, dv, p.GOLD, label="households, interest + principal "
-             "(BIS)")
+    ctx.line(ax, dy, dv, p.GOLD, label="BIS model, interest + principal")
+    sy, sv = _yr(ctx, "credit/debt_service_statcan.csv", "hh_dsr_pct_q4")
+    my, mv = _yr(ctx, "credit/debt_service_statcan.csv",
+                 "mortgage_dsr_pct_q4")
+    _natl(ctx, ax, sy, sv, p.NAVY, "StatCan's own payments measure")
+    ctx.line(ax, my, mv, p.BLUE, lw=1.8, ms=3.2,
+             label="the mortgage payments alone (StatCan)")
     ig.add_recessions(ax, label=False)
-    ax.set_ylim(0, max(dv) * 1.35)
-    ctx.endlabel(ax, dy, dv, p.GOLD, lambda v: f"{v:.1f}%", dy=8)
-    ax.legend(loc="lower left", fontsize=7.8, frameon=False)
+    ax.set_ylim(0, max(dv + sv) * 1.35)
+    ax.legend(loc="lower left", fontsize=7.4, frameon=False)
     pk = max(zip(dy, dv), key=lambda t: t[1])
     _note(p, ax, 0.02, 0.96, f"{pk[1]:.1f}% in {pk[0]}: the hikes reached "
           "the payments as mortgages renewed", size=7.8)
-    _foot(p, ax, "BIS debt service ratio. " + PENDING)
+    ym = max(set(sy) & set(my))
+    _note(p, ax, 0.98, 0.045, f"in {ym}, mortgages alone are "
+          f"{mv[my.index(ym)]:.1f} of the {sv[sy.index(ym)]:.1f} points "
+          "StatCan counts", size=7.8, ha="right", va="bottom")
+    _foot(p, ax, "BIS models the ratio on an assumed maturity; StatCan "
+          "measures what was actually paid — the two disagree by design")
     _finish(ctx, ig)
 
 
@@ -920,8 +1070,9 @@ def plate_migration(ctx, ig) -> None:
     _note(p, ax, 0.02, 0.96, "IRCC's open data begins in 2015:\n2006–14 are "
           f"not in this series. India: {india / pk[1] * 100:.0f}% of "
           f"the {pk[0]} admissions", size=7.8)
-    _note(p, ax, 0.02, 0.72, "emigration is Statistics Canada's estimate — "
-          "pending", size=7.6, color=p.FAINT)
+    _note(p, ax, 0.02, 0.72, "emigration here is the UN's estimate; "
+          "StatCan's own is in the demography plate", size=7.6,
+          color=p.FAINT)
     _foot(p, ax, "IRCC (cells rounded to fives) ÷ the mid-year population; "
           "2026, a part-year, is not drawn")
 
@@ -936,8 +1087,8 @@ def plate_migration(ctx, ig) -> None:
                 xytext=(0, 4), ha="center", fontsize=8.6, fontweight="bold",
                 color=p.BLUE)
     _note(p, ax, 0.02, 0.96, "UN estimate, permanent and temporary residents "
-          "together;\nStatistics Canada's components of growth are "
-          "pending", size=7.8)
+          "together;\nStatCan's own components of growth are in the "
+          "demography plate", size=7.8)
     _foot(p, ax, "World Bank (UN World Population Prospects) ÷ the mid-year "
           "population")
 
@@ -979,21 +1130,23 @@ def plate_migration(ctx, ig) -> None:
 
 # The plates, in the order the page lists them; the ids are the spine's
 # chapter numbers, and the five that existed before keep theirs.
-_SRC_HARM = "Statistics Canada pending (data platform outage)"
 PLATES = (
     dict(id="01", slug="economy", topic="economy", builder=plate_economy,
          title="The Canadian Economy — Growth, Income, Prices and Jobs",
-         subtitle="Built from the World Bank and ILO series of Canada's own "
-                  "statistics while Statistics Canada's platform is down.",
-         source="Sources: World Bank WDI (Statistics Canada national "
-                "accounts and CPI) · ILO · " + _SRC_HARM,
+         subtitle="World Bank and ILO lines with Statistics Canada's own "
+                  "series beside them — growth, prices and the Labour "
+                  "Force Survey.",
+         source="Sources: World Bank WDI · ILO · Statistics Canada "
+                "36-10-0699, 18-10-0005, 14-10-0327",
          alt="Four panels on the Canadian economy, 2006–2025. Real GDP "
-             "fell 2.9% in 2009 and 5.0% in 2020; GDP per person in US "
+             "fell 2.9% in 2009 and 5.0% in 2020, on StatCan's own "
+             "chained-FCE2017 series 4.7% in 2022; GDP per person in US "
              "dollars dropped from about 51,000 to 44,000 between 2014 and "
              "2015 as the oil price took the Canadian dollar down, and "
              "stands near 55,700 in 2025; consumer price inflation peaked "
              "at 6.8% in 2022 against the Bank of Canada's 2% target; "
-             "unemployment peaked at 9.7% in 2020."),
+             "unemployment peaked at 9.7% in 2020, and the Labour Force "
+             "Survey reads 5.7% in 2019."),
     dict(id="02", slug="fiscal", topic="fiscal", builder=plate_fiscal,
          title="Public Finances — All Governments, and Ottawa's Own Books",
          subtitle="General government on the IMF's basis, calendar years; "
@@ -1022,13 +1175,15 @@ PLATES = (
              "investment peaks at 4.8% of GDP in 2010 and is 4.2% in 2025."),
     dict(id="04", slug="trade", topic="trade", builder=plate_trade,
          title="Trade — One Customer, and Everyone Else",
-         subtitle="Exports and imports on the national-accounts basis, and "
-                  "where the goods go.",
-         source="Sources: World Bank WDI · IMF International Trade in Goods "
-                "(IMTS) · " + _SRC_HARM,
+         subtitle="Exports and imports on the national-accounts basis, "
+                  "StatCan's own pair beside them, and where the goods go.",
+         source="Sources: World Bank WDI · IMF International Trade in "
+                "Goods (IMTS) · Statistics Canada 36-10-0699",
          alt="Four panels on Canadian trade. Exports and imports of goods "
              "and services each run near a third of GDP; the balance swings "
-             "with the oil price; the United States takes about 82% of "
+             "with the oil price, and on StatCan's own national accounts "
+             "the goods-and-services gap is −0.2% of GDP in 2024; the "
+             "United States takes about 82% of "
              "Canada's goods exports in 2006 and 72% in 2025, with the "
              "United Kingdom, China, Japan and the Netherlands far behind; "
              "the goods surplus with the US pays for a deficit with the rest "
@@ -1049,14 +1204,19 @@ PLATES = (
              "the S&P 500 rises more than fivefold."),
     dict(id="06", slug="people", topic="people", builder=plate_people,
          title="People — Inequality, Poverty and the Minimum Wage",
-         subtitle="The OECD's and the World Bank's readings of Canada's "
-                  "income surveys, while Statistics Canada's are offline.",
+         subtitle="The OECD's and the World Bank's readings beside "
+                  "Statistics Canada's own survey lines — three Gini "
+                  "readings and two MBM bases.",
          source="Sources: OECD income and minimum-wage tables · World "
-                "Bank PIP · Federal Reserve H.10 · " + _SRC_HARM,
+                "Bank PIP · Federal Reserve H.10 · Statistics Canada "
+                "11-10-0134, 11-10-0135",
          alt="Four panels on living standards. The Gini of disposable "
              "income falls from about 32 to 28 in 2020 and is near 31 in "
-             "2023; relative poverty dips to 8.6% in 2020; the "
-             "employment-weighted minimum wage reaches about US$2,050 a "
+             "2023, while StatCan's own after-tax Gini reads 28.1 in 2020 "
+             "and 30.1 in 2023; relative poverty dips to 8.6% in 2020, and "
+             "StatCan's own Market Basket Measure is drawn on two bases "
+             "that are never joined; the employment-weighted minimum wage "
+             "reaches about US$2,050 a "
              "month in 2025; child poverty falls from 17% in 2015 to 7% in "
              "2020 after the Canada Child Benefit, and is back at 14% in "
              "2023."),
@@ -1075,23 +1235,28 @@ PLATES = (
     dict(id="08", slug="demography", topic="demography",
          builder=plate_demography,
          title="Demography — the Fastest-Growing Population in the G7",
-         subtitle="Population, fertility, births, deaths and migration, "
-                  "from the World Bank while Statistics Canada is offline.",
-         source="Sources: World Bank WDI (UN World Population Prospects, "
-                "Statistics Canada vital statistics) · " + _SRC_HARM,
+         subtitle="Population, fertility, births, deaths and migration: "
+                  "the World Bank's lines with StatCan's July 1 vintage "
+                  "and growth components beside them.",
+         source="Sources: World Bank WDI (UN World Population Prospects) "
+                "· Statistics Canada 17-10-0009, 17-10-0008, 13-10-0418",
          alt="Four panels on Canada's population. It grows from 32.6 "
              "million in 2006 to 41.7 million in 2025, an index of 128, "
              "with 2.8% growth in 2023 alone; fertility falls from 1.70 in "
-             "2008 to 1.25 in 2024; births and deaths per 1,000 converge; "
+             "2008 to 1.25 in 2024, StatCan's own rate reading 1.26; "
+             "births and deaths per 1,000 converge, StatCan's crude rates "
+             "computed over its July 1 counts; "
              "net migration reaches about 12 per 1,000 people in 2022 while "
-             "natural increase shrinks toward one."),
+             "natural increase shrinks toward one, and StatCan's components "
+             "show the non-permanent-resident surge."),
     dict(id="09", slug="security", topic="security", builder=plate_security,
          title="Security — Homicide, Suicide, the Roads and the Opioid "
                "Crisis",
          subtitle="Deaths per 100,000 people from UNODC, the WHO, the "
                   "OECD's cause-of-death tables and PHAC.",
          source="Sources: UNODC and WHO via the World Bank · OECD Health "
-                "Statistics · Public Health Agency of Canada · " + _SRC_HARM,
+                "Statistics · Public Health Agency of Canada · Statistics "
+                "Canada 35-10-0068",
          alt="Four panels on violent and accidental death. The homicide "
              "rate runs between about 1.4 and 2.3 per 100,000; suicide "
              "near 11 to 12; road deaths fall from 9 to about 5; apparent "
@@ -1103,7 +1268,7 @@ PLATES = (
          subtitle="Registered deaths by underlying cause, as Statistics "
                   "Canada reports them to the OECD.",
          source="Sources: OECD Health Statistics (Statistics Canada death "
-                "registrations) · " + _SRC_HARM,
+                "registrations) · Statistics Canada 13-10-0394, 17-10-0009",
          alt="Four panels on mortality. The crude death rate rises from 7.0 "
              "per 1,000 in 2006 to 8.7 in 2022; deaths run 22% above the "
              "2015–2019 average in 2022; COVID-19 as the underlying cause "
@@ -1112,23 +1277,28 @@ PLATES = (
              "100,000."),
     dict(id="11", slug="credit", topic="credit", builder=plate_credit,
          title="Credit — Household Debt and What It Costs",
-         subtitle="Household debt from the BIS, mortgage rates from the "
-                  "Bank of Canada, bad loans from the IMF.",
+         subtitle="Household debt from the BIS with StatCan's "
+                  "debt-to-income line beside it, and servicing costs "
+                  "measured twice.",
          source="Sources: BIS · Bank of Canada — Valet · World Bank / IMF "
-                "Financial Soundness Indicators · " + _SRC_HARM,
+                "Financial Soundness Indicators · Statistics Canada "
+                "38-10-0235, 11-10-0065",
          alt="Four panels on household credit. Household debt climbs from "
-             "76% of GDP in 2006 to 113% in 2020 and is about 100% in 2025; "
+             "76% of GDP in 2006 to 113% in 2020 and is about 100% in 2025, "
+             "while StatCan's own debt-to-disposable-income ratio peaks at "
+             "182% in 2022; "
              "the rate on new mortgages rises from about 2% in 2021 to 5.8% "
              "in 2023; non-performing bank loans peak at 1.3% in 2009; the "
              "debt service ratio reaches 14.6% of disposable income in "
-             "2023."),
+             "2023, and StatCan's own payments measure shows mortgages as "
+             "about half of it."),
     dict(id="12", slug="migration", topic="migration",
          builder=plate_migration,
          title="Migration — Who Arrives, and How the Policy Reversed",
          subtitle="Admissions, permits and net migration per 1,000 people; "
                   "IRCC's open data begins in 2015.",
-         source="Sources: IRCC open data · World Bank WDI (UN WPP, UN DESA) "
-                "· " + _SRC_HARM,
+         source="Sources: IRCC open data · World Bank WDI (UN WPP, "
+                "UN DESA)",
          alt="Four panels on Canadian migration, per 1,000 people. "
              "Permanent-resident admissions run from about 7.6 per 1,000 in "
              "2015 to 11.7 in 2024 (480,955 people), then are cut; net "
