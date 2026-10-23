@@ -677,10 +677,10 @@ def plate_world(ctx, ig) -> None:
     gv = [v / 1e9 for v in gv]
     ctx.line(ax, gy, gv, p.VERDE)
     ig.add_recessions(ax, label=False)
-    _note(p, ax, 0.02, 0.30, f"US${gv[-1]:,.0f}bn in 2024 — still the euroarea's "
-          "second economy,\nbut the Bank's vintage predates ISTAT's 2026 "
-          "revision, which\ntakes 2025 to EUR 2,265bn on the national side",
-          size=7.4)
+    _note(p, ax, 0.02, 0.30, f"US${gv[-1]:,.0f}bn in {gy[-1]} — still the "
+          "euroarea's second economy,\nbut the Bank's vintage predates "
+          "ISTAT's 2026 revision, which\ntakes 2025 to EUR 2,265bn on the "
+          "national side", size=7.4)
     ctx.endlabel(ax, gy, gv, p.VERDE, lambda v: f"US${v:,.0f}bn", dy=8)
     _foot(p, ax, "World Bank NY.GDP.MKTP.CD, current US$ at market rates")
 
@@ -734,8 +734,8 @@ def plate_demography(ctx, ig) -> None:
                 xytext=(-6, -12), ha="right", fontsize=8.4, fontweight="bold",
                 color=p.VERDE)
     _note(p, ax, 0.02, 0.96, f"58,943,464 on 1 Jan 2025 (Eurostat = ISTAT to "
-          f"the person);\n2026 is ISTAT's estimate. the peak is 2011 and the "
-          "line\nhas fallen since — an ageing decline, not a shock", size=7.6)
+          f"the person);\n2026 is ISTAT's estimate. the peak is {pk[0]} and "
+          "the line\nhas fallen since — an ageing decline, not a shock", size=7.6)
     ctx.endlabel(ax, iy, iv, p.VERDE, lambda v: f"{v:.1f}", dy=8)
     _foot(p, ax, "Eurostat demo_gind; ISTAT's post-census flow 22_289 confirms "
           "2019 onward")
@@ -904,8 +904,8 @@ def plate_mortality(ctx, ig) -> None:
     ax.annotate(f"{cv[0]:.1f} in {cy[0]}", (cy[0], cv[0]),
                 textcoords="offset points", xytext=(0, 4), ha="center",
                 fontsize=8.8, fontweight="bold", color=p.ROSSO)
-    _note(p, ax, 0.02, 0.96, f"{c[2020]:,} with COVID as underlying cause in "
-          "2020 (certificate\ncount; the register's excess is larger). the "
+    _note(p, ax, 0.02, 0.96, f"{c[2020]:,.0f} with COVID as underlying cause "
+          "in 2020 (certificate\ncount; the register's excess is larger). the "
           "shortlist carries\n20* codes only from 2020; 2023 is the staged "
           "end", size=7.6)
     _foot(p, ax, "ISTAT certificates, code 20 (identified + not identified), "
@@ -924,9 +924,9 @@ def plate_mortality(ctx, ig) -> None:
     ig.add_recessions(ax, label=False)
     ax.legend(loc="upper left", fontsize=7.4, frameon=False)
     _note(p, ax, 0.02, 0.55, f"the quiet reversal: circulatory deaths fall "
-          f"from {heart[2006]/pop[2006]*1000:.0f} to "
-          f"{heart[2023]/pop[2023]*1000:.0f};\ndementia climbs toward "
-          f"{dem[2023]/pop[2023]*1000:.0f} — the cardiology win and the "
+          f"from {heart[2006]/pop[2006]*100_000:.0f} to "
+          f"{heart[2023]/pop[2023]*100_000:.0f};\ndementia climbs toward "
+          f"{dem[2023]/pop[2023]*100_000:.0f} — the cardiology win and the "
           "ageing bill,\nboth written in the same certificates file", size=7.4)
     _foot(p, ax, "codes 7, 2_1, 5_1 of the same nested shortlist — peers on "
           "this panel, not a sum")
@@ -1057,8 +1057,9 @@ PLATES = (
                 "World Bank WDI",
          alt="Four panels on the Italian economy, 2006–2025. Real GDP fell "
              "5.3% in 2009 and 8.7% in 2020 and rebounded 9.2% in 2021 into "
-             "a long stall near one percent; GDP per person stood near "
-             "US$40,400 in 2024, barely above 2008; HICP inflation peaked at "
+             "a long stall near one percent; GDP per person read US$40,430 "
+             "in 2024, still short of the US$40,829 of 2008; HICP inflation "
+             "peaked at "
              "8.7% in 2022 with the national NIC near 8.1%; unemployment "
              "peaked at 12.8% in 2014 and stood near 6% in 2025, on one "
              "backcast ISTAT series from 2006."),
@@ -1090,8 +1091,8 @@ PLATES = (
          subtitle="National-accounts goods and services; the customs "
                   "partner table is pending, so the euro amounts stand in.",
          source="Sources: Eurostat P6/P7 · World Bank WDI",
-         alt="Four panels on Italian trade. Exports run near 60% of GDP and "
-             "imports peaked at 73% in 2022 on imported energy; the balance "
+         alt="Four panels on Italian trade. Exports run near 32% of GDP and "
+             "imports peaked at 37% in 2022 on imported energy; the balance "
              "swung from about +3% of GDP in 2019 to −1.7% in 2022; top "
              "destinations are pending (customs unreachable); the lens "
              "panel shows exports and imports in euro billions, imports "
@@ -1107,8 +1108,9 @@ PLATES = (
              "zero and back to 2.50% in 2026 while Italian HICP peaked at "
              "8.7%; the BTP ten-year yield peaked at 5.49% in 2012, at the "
              "height of the spread crisis; the euro indexed against the "
-             "dollar bottomed near 89 in 2022; the FTSE MIB in US dollars "
-             "halved by 2012 and ends the window near its 2006 level."),
+             "dollar bottomed near 84 in 2022 as the parity scare ran; the "
+             "FTSE MIB in US dollars halved by 2012 and ends the window near "
+             "its 2006 level."),
     dict(id="06", slug="credit", topic="credit", builder=plate_credit,
          title="Credit — The Banks Cleaned House",
          subtitle="Household debt on the BIS basis via Eurostat numerators; "
@@ -1152,7 +1154,7 @@ PLATES = (
                   "and net migration no longer covering the difference.",
          source="Sources: Eurostat demo_gind, demo_find · ISTAT 22_289, "
                 "25_74, 26_29",
-         alt="Four panels on Italy's population. The index peaks in 2011 "
+         alt="Four panels on Italy's population. The index peaks in 2014 "
              "and declines to 58,943,464 in 2025; total fertility falls "
              "from 1.37 to 1.18 children per woman, the lowest in the "
              "staged series; crude birth and death rates cross in 2007 "
