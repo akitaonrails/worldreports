@@ -70,7 +70,9 @@
   "compare.hint": "Drag across the plate to wipe between the two.",
   "compare.lang": "shown in {lang}",
   "compare.loading": "Loading…",
-  "sources.show": "Show all {n} datasets"
+  "sources.show": "Show all {n} datasets",
+  "availability.title": "Data we could not obtain",
+  "availability.lead": "Known gaps are listed explicitly; no substitute or invented value is used."
  },
  "pt": {
   "skip": "Ir para as pranchas",
@@ -130,7 +132,9 @@
   "compare.hint": "Arraste sobre a prancha para alternar entre as duas.",
   "compare.lang": "exibido em {lang}",
   "compare.loading": "Carregando…",
-  "sources.show": "Mostrar os {n} conjuntos de dados"
+  "sources.show": "Mostrar os {n} conjuntos de dados",
+  "availability.title": "Dados que não conseguimos obter",
+  "availability.lead": "As lacunas conhecidas são declaradas explicitamente; nenhum valor substituto ou inventado é usado."
  },
  "fr": {
   "skip": "Aller aux planches",
@@ -190,7 +194,9 @@
   "compare.hint": "Faites glisser sur la planche pour passer de l'une à l'autre.",
   "compare.lang": "affiché en {lang}",
   "compare.loading": "Chargement…",
-  "sources.show": "Afficher les {n} jeux de données"
+  "sources.show": "Afficher les {n} jeux de données",
+  "availability.title": "Données que nous n’avons pas pu obtenir",
+  "availability.lead": "Les lacunes connues sont indiquées explicitement ; aucune valeur de remplacement ou inventée n’est utilisée."
  },
  "es": {
   "skip": "Ir a las planchas",
@@ -250,7 +256,9 @@
   "compare.hint": "Arrastre sobre la lámina para pasar de una a otra.",
   "compare.lang": "mostrado en {lang}",
   "compare.loading": "Cargando…",
-  "sources.show": "Mostrar los {n} conjuntos de datos"
+  "sources.show": "Mostrar los {n} conjuntos de datos",
+  "availability.title": "Datos que no pudimos obtener",
+  "availability.lead": "Las lagunas conocidas se indican de forma explícita; no se usan valores sustitutos ni inventados."
  },
  "ko": {
   "skip": "그래프로 건너뛰기",
@@ -310,6 +318,36 @@
   "compare.hint": "그래프 위를 드래그하면 두 장을 번갈아 볼 수 있습니다.",
   "compare.lang": "{lang}로 표시",
   "compare.loading": "불러오는 중…",
-  "sources.show": "데이터셋 {n}건 모두 보기"
+  "sources.show": "데이터셋 {n}건 모두 보기",
+  "availability.title": "확보하지 못한 데이터",
+  "availability.lead": "확인된 공백을 명시하며, 대체값이나 추정해서 만든 값은 사용하지 않습니다."
+ },
+ "it": {
+  "availability.title": "Dati che non è stato possibile ottenere",
+  "availability.lead": "Le lacune note sono dichiarate esplicitamente; non vengono usati valori sostitutivi o inventati."
+ },
+ "he": {
+  "availability.title": "נתונים שלא הצלחנו להשיג",
+  "availability.lead": "פערים ידועים מצוינים במפורש; לא נעשה שימוש בערכים חלופיים או מומצאים."
+ },
+ "ja": {
+  "availability.title": "取得できなかったデータ",
+  "availability.lead": "把握している欠落は明記し、代替値や推測で作った値は使用しません。"
+ },
+ "zh-Hans": {
+  "availability.title": "未能获取的数据",
+  "availability.lead": "已知缺口均明确列出，不使用替代值或臆造数据。"
+ },
+ "zh-Hant": {
+  "availability.title": "未能取得的資料",
+  "availability.lead": "已知缺口均明確列出，不使用替代值或臆造資料。"
+ },
+ "vi": {
+  "availability.title": "Dữ liệu chưa thể thu thập",
+  "availability.lead": "Các khoảng trống đã biết được nêu rõ; không dùng số liệu thay thế hoặc tự suy đoán."
+ },
+ "de": {
+  "availability.title": "Nicht verfügbare Daten",
+  "availability.lead": "Bekannte Lücken werden ausdrücklich genannt; Ersatzwerte oder erfundene Werte werden nicht verwendet."
  }
 }

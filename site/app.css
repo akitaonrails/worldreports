@@ -866,3 +866,26 @@ table.srctable .is-other { color: var(--faint); }
 }
 .sources__all[open] > summary::before { transform: rotate(90deg); }
 .sources__all > summary:hover { color: var(--ink); border-color: var(--faint); }
+
+/* A country page ends by naming the holes in its evidence.  These are kept
+   visually quieter than the plates but cannot be mistaken for a source-table
+   footnote: each missing concept and its reason is a discrete reading item. */
+.availability {
+  margin-top: clamp(2rem, 5vw, 4rem);
+  padding-top: clamp(1.4rem, 3vw, 2.2rem);
+  border-top: 1px solid var(--rule);
+}
+.availability > h2 { margin-bottom: .35rem; }
+.availability > .dek { max-width: 62rem; }
+.availability__list {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: .75rem; margin: 1.2rem 0 0; padding: 0; list-style: none;
+}
+.availability__list li {
+  display: grid; gap: .22rem; align-content: start;
+  border: 1px solid var(--rule); border-radius: .7rem;
+  padding: .85rem 1rem; background: var(--raised);
+  color: var(--muted); font-size: .88rem; line-height: 1.45;
+}
+.availability__list strong { color: var(--ink); font-weight: 650; }
+.availability__list span:empty { display: none; }

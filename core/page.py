@@ -599,6 +599,40 @@ def _sources(ch: Chrome, datasets: list[dict]) -> str:
   </section>"""
 
 
+def _availability(ch: Chrome) -> str:
+    """Known country-specific gaps, stated rather than silently omitted.
+
+    The entries live in the country's ``ui.json`` because a blocked portal,
+    an unpublished series, and a concept that does not exist are facts about
+    that country, not shared site furniture.  The heading and the promise not
+    to invent a substitute are shared chrome and therefore translated once in
+    ``site/ui.json``.
+
+    ``unavailable`` accepts the same small term/detail shape as ``colophon``.
+    Keeping it explicit is deliberate: SOURCES.yaml also records alternative
+    mirrors and failed probes that do not leave a hole on a plate, so deriving
+    this public list from every ``pending`` note would overstate what is
+    actually missing.
+    """
+    entries = ch.c("unavailable", []) or []
+    if not entries:
+        return ""
+    rows = []
+    for item in entries:
+        if isinstance(item, str):
+            rows.append(f"<li>{e(item)}</li>")
+            continue
+        term = e(item.get("term", ""))
+        detail = e(item.get("detail", ""))
+        rows.append(f"<li><strong>{term}</strong><span>{detail}</span></li>")
+    return f"""<section class="availability" id="data-gaps"
+             aria-labelledby="data-gaps-h">
+      <h2 id="data-gaps-h">{e(ch.t("availability.title"))}</h2>
+      <p class="dek">{e(ch.t("availability.lead"))}</p>
+      <ul class="availability__list">{"".join(rows)}</ul>
+    </section>"""
+
+
 def _colophon(country: Country, ch: Chrome, datasets: list[dict],
               built: str) -> str:
     entries = ch.c("colophon", []) or []
@@ -619,6 +653,7 @@ def _colophon(country: Country, ch: Chrome, datasets: list[dict],
         </p>
       </div>
     </div>
+    {_availability(ch)}
   </footer>"""
 
 

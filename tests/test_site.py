@@ -321,6 +321,52 @@ def test_the_site_is_served_at_its_own_domain(site):
         "GitHub Pages would run Jekyll and drop files beginning with _"
 
 
+def test_unavailable_data_copy_is_rendered_and_escaped(countries):
+    """A declared gap is public, localised page copy, never raw HTML."""
+    c = countries[0]
+    shared = {
+        "en": {
+            "availability.title": "Data we could not obtain",
+            "availability.lead": "Known gaps are listed explicitly.",
+        },
+        "pt": {
+            "availability.title": "Dados que não foi possível obter",
+            "availability.lead": "As lacunas conhecidas são declaradas.",
+        },
+    }
+    local = {
+        "en": {"unavailable": [
+            {"term": "Blocked <portal>",
+             "detail": "No reviewed series & no substitute."},
+        ]},
+        "pt": {"unavailable": [
+            {"term": "Portal bloqueado", "detail": "Série indisponível."},
+        ]},
+    }
+    en = page._availability(page.Chrome(c, "en", shared, local, 1))
+    pt = page._availability(page.Chrome(c, "pt", shared, local, 1))
+    assert 'id="data-gaps"' in en
+    assert "Data we could not obtain" in en
+    assert "Blocked &lt;portal&gt;" in en
+    assert "No reviewed series &amp; no substitute." in en
+    assert "Dados que não foi possível obter" in pt
+    assert "Portal bloqueado" in pt
+
+
+def test_a_country_without_declared_gaps_gets_no_empty_section(countries):
+    c = countries[0]
+    ch = page.Chrome(c, "en", {"en": {}}, {"en": {}}, 1)
+    assert page._availability(ch) == ""
+
+
+def test_unavailable_data_heading_exists_in_every_published_language(countries):
+    shared = page._ui()
+    codes = {loc.code for c in countries for loc in c.locales}
+    for code in codes:
+        assert shared.get(code, {}).get("availability.title"), code
+        assert shared.get(code, {}).get("availability.lead"), code
+
+
 # ------------------------------------------------------------- the plates
 def test_every_card_links_to_a_plate_that_exists(site, country):
     for loc in country.locales:
