@@ -108,9 +108,12 @@ seo:
   spatial: "Taiwan, counties and cities of Taiwan"
 
 # Named in the dek, and the institutions SOURCES.yaml must agree with.
-# The international layer (WB/IMF/UN) is deliberately absent — the WTO and
-# the Customs Administration stand in for it.
+# The international layer (WB/IMF/UN) is deliberately absent — the WTO,
+# the MOF trade database (compiled from customs records) and the CBC
+# stand in for it. MOI/MOH/NIA/NPA appear in SOURCES.yaml only as
+# pending substitutes; the dek names the bodies that actually carry
+# the spine.
 sources:
-  zh-Hant: "行政院主計總處、中央銀行、財政部、財政部關務署、內政部、衛生福利部"
-  en: "the Directorate-General of Budget, Accounting and Statistics, the Central Bank, the Ministry of Finance and its Customs Administration, the Ministry of the Interior, the Ministry of Health and Welfare"
-  pt: "a Direção-Geral de Orçamento, Contabilidade e Estatística, o Banco Central, o Ministério das Finanças e sua Administração Aduaneira, o Ministério do Interior, o Ministério da Saúde e do Bem-Estar"
+  zh-Hant: "行政院主計總處、中央銀行、財政部（含國際貿易統計）、世界貿易組織"
+  en: "the Directorate General of Budget, Accounting and Statistics, the Central Bank, the Ministry of Finance including its international trade statistics, and the World Trade Organization"
+  pt: "a Direção-Geral de Orçamento, Contabilidade e Estatística, o Banco Central, o Ministério das Finanças (incluindo as suas estatísticas de comércio internacional) e a Organização Mundial do Comércio"
