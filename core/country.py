@@ -84,6 +84,7 @@ class Locale:
     html_lang: str      # what goes in <html lang="...">: pt-BR, en, ko
     og_locale: str      # Open Graph wants the underscored form: pt_BR
     endonym: str        # the language's name in itself, for the switcher
+    direction: str = "ltr"  # HTML writing direction: ltr or rtl
 
 
 def within(base: Path, rel: str, slug: str = "") -> Path:
@@ -168,9 +169,15 @@ class Country:
         locales = tuple(
             Locale(code=l["code"], html_lang=l.get("html_lang", l["code"]),
                    og_locale=l.get("og_locale", l["code"]),
-                   endonym=l["endonym"])
+                   endonym=l["endonym"],
+                   direction=l.get("direction", "ltr"))
             for l in cfg["locales"]
         )
+        invalid_directions = [l.direction for l in locales
+                              if l.direction not in {"ltr", "rtl"}]
+        if invalid_directions:
+            raise ValueError(f"{slug}: invalid locale direction(s) "
+                             f"{invalid_directions}")
         codes = [l.code for l in locales]
         if cfg["default_locale"] not in codes:
             raise ValueError(
