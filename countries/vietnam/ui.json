@@ -1,0 +1,44 @@
+{
+  "vi": {
+    "line": "{n} bảng dữ liệu chính thức, {window}",
+    "dek": "Mỗi con số đến từ cơ quan công bố nó: Cục Thống kê, Ngân hàng Nhà nước hoặc tổ chức quốc tế được nêu rõ. Các bảng được tái tạo từ CSV đã lưu nên biểu đồ và dữ liệu không thể lệch nhau.",
+    "notes": [
+      "Số liệu năm 2025 là cả năm nhưng một số bảng còn sơ bộ hoặc ước tính; năm 2026 chỉ xuất hiện khi đó là quan sát thực sự hiện hành.",
+      "Việc đánh giá lại GDP bắt đầu từ năm 2010. Các mức trước và sau điểm gãy không được nối thành một chuỗi giả liên tục.",
+      "Các chỉ tiêu quốc gia và quốc tế có khác biệt về phạm vi hoặc phương pháp luôn được ghi nhãn và vẽ riêng.",
+      "Các khoảng trống như nợ hộ gia đình, dòng di cư quốc tế và lịch sử lãi suất chính sách được để trống thay vì được ước đoán."
+    ],
+    "colophon": [
+      {"term":"Số liệu quốc gia","detail":"Cục Thống kê và Ngân hàng Nhà nước Việt Nam qua cơ sở PX-Web"},
+      {"term":"Số liệu so sánh","detail":"ADB · IMF · Ngân hàng Thế giới · UNDP · WHO · Liên Hợp Quốc"}
+    ]
+  },
+  "en": {
+    "line": "{n} plates of official data, {window}",
+    "dek": "Every number comes from the body that publishes it: the National Statistics Office, the State Bank of Vietnam, or the named international source. The plates regenerate from committed CSVs, so charts and data cannot drift apart.",
+    "notes": [
+      "The 2025 observations cover the full year but some remain preliminary or estimated; 2026 appears only for genuinely current readings.",
+      "GDP was revalued from 2010. Levels on either side of that break are never joined into a false continuous series.",
+      "National and international measures with different scopes or methods are labelled and drawn separately.",
+      "Missing household debt, international flow and policy-rate histories remain visibly pending rather than guessed."
+    ],
+    "colophon": [
+      {"term":"National data","detail":"National Statistics Office and State Bank of Vietnam through the NSO PX-Web database"},
+      {"term":"Comparables","detail":"ADB · IMF · World Bank · UNDP · WHO · United Nations"}
+    ]
+  },
+  "pt": {
+    "line": "{n} pranchas de dados oficiais, {window}",
+    "dek": "Cada número vem do órgão que o publica: o Escritório Nacional de Estatística, o Banco do Estado do Vietnã ou a fonte internacional indicada. As pranchas são regeneradas a partir de CSVs versionados, impedindo divergências.",
+    "notes": [
+      "As observações de 2025 cobrem o ano completo, mas algumas continuam preliminares ou estimadas; 2026 aparece apenas em leituras realmente correntes.",
+      "O PIB foi reavaliado a partir de 2010. Os níveis dos dois lados da ruptura nunca são unidos numa série falsamente contínua.",
+      "Medidas nacionais e internacionais com escopos ou métodos diferentes são rotuladas e desenhadas separadamente.",
+      "As lacunas de dívida familiar, fluxos internacionais e juros de política ficam visivelmente pendentes, sem estimativas inventadas."
+    ],
+    "colophon": [
+      {"term":"Dados nacionais","detail":"Escritório Nacional de Estatística e Banco do Estado do Vietnã pela base PX-Web"},
+      {"term":"Comparáveis","detail":"ADB · FMI · Banco Mundial · PNUD · OMS · Nações Unidas"}
+    ]
+  }
+}

@@ -63,7 +63,7 @@ def plate_economy(ctx, ig):
     c, d = _yr(ctx, "international/gdp_usd_wb.csv", "gdp_per_person_usd", since=2010)
     ctx.line(ax, a, b, p.FAINT, label="World Bank, old GDP scale")
     ctx.line(ax, c, d, p.BLUE, label="World Bank, revalued GDP scale")
-    _mark(ig, ax, "gdp_scale")
+    _mark(ig, ax, "gdp_scale", dy=.56)
     ax.legend(loc="upper left", fontsize=7.4, frameon=False)
 
     ax = ig.slot("economy.inflation", "Consumer price inflation (% per year)")
@@ -243,6 +243,7 @@ def plate_credit(ctx, ig):
     ax = ig.slot("credit.household_debt", "Credit to the economy (% of GDP)")
     _line(ctx, ax, "credit/private_credit.csv", "private_credit_pct_gdp", p.NAVY,
           "Private-sector credit (World Bank)")
+    ax.legend(loc="upper left", fontsize=7.3, frameon=False)
     _foot(p, ax, "Vietnam has no household-debt series; this is an explicit substitute")
 
     ax = ig.slot("credit.lending_rate", "Average lending rate (%)")
@@ -272,7 +273,7 @@ def plate_people(ctx, ig):
     ctx.line(ax, c, [n*100 for n in d], p.NAVY, ls="--", label="NSO VHLSS, 2020-on")
     _line(ctx, ax, "social/inequality_wb.csv", "gini", p.GOLD,
           "World Bank consumption Gini")
-    _mark(ig, ax, "gini_break"); ax.legend(loc="upper right", fontsize=6.8, frameon=False)
+    _mark(ig, ax, "gini_break"); ax.legend(loc="lower left", fontsize=6.8, frameon=False)
 
     ax = ig.slot("people.poverty", "Poverty rate (% of households / people)")
     _line(ctx, ax, "social/poverty.csv", "poverty_national_pct", p.RED,
@@ -358,7 +359,7 @@ def plate_security(ctx, ig):
     c, d = _yr(ctx, "security/traffic_fire.csv", "traffic_deaths_from2022", since=2022)
     ctx.line(ax, *zip(*[(y, n/pop[y]*1e5) for y,n in zip(a,b) if y in pop]), p.NAVY, label="Police, old series")
     ctx.line(ax, *zip(*[(y, n/pop[y]*1e5) for y,n in zip(c,d) if y in pop]), p.NAVY, ls="--", label="Police, 2022-on")
-    _mark(ig, ax, "traffic_break"); ax.legend(loc="upper right", fontsize=6.8, frameon=False)
+    _mark(ig, ax, "traffic_break"); ax.legend(loc="lower left", fontsize=6.8, frameon=False)
 
     ax = ig.slot("security.lens", "Lens — justice-system cases (thousands)")
     y, v = _yr(ctx, "security/justice.csv", "cases_prosecuted")

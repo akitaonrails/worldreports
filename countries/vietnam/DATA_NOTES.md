@@ -8,6 +8,16 @@ consolidation were both done on 2026-10-22. `DISCOVERY.md` is the
 research pass's own report, kept as a record. Where it and this file
 disagree, this file and `SOURCES.yaml` are right.
 
+## Reviewed publication layer (2026-10-23)
+
+Phase B promoted every plotted input from its fetch sidecar to a stable name
+without changing a byte of its data rows. `plates.py` reads only those stable
+publication copies; `provenance.json` and the country tests enforce that no
+`_from_` or `_check` file can reach a published chart. Missing histories remain
+visible pending panels rather than inferred values: the SBV policy rate, the
+ten-year government yield, the four-region statutory minimum wage, and the
+Transparency International CPI.
+
 ---
 
 ## One national publisher, two doors, and only one door is used
