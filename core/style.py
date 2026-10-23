@@ -65,6 +65,9 @@ SCRIPT_FONTS = {
     "ko": ["Noto Sans CJK KR", "Noto Sans KR", "NanumGothic", "Malgun Gothic",
            "Noto Sans CJK JP", "Noto Sans CJK SC", "Noto Sans CJK HK",
            "Noto Sans CJK TC", "AppleGothic", "UnDotum"],
+    "ja": ["Noto Sans CJK JP", "Noto Sans JP", "Yu Gothic", "Meiryo"],
+    "zh-Hans": ["Noto Sans CJK SC", "Noto Sans SC", "Noto Sans CJK JP"],
+    "zh-Hant": ["Noto Sans CJK TC", "Noto Sans TC", "Noto Sans CJK JP"],
 }
 
 MONO_FONT = _pick(["Liberation Mono", "DejaVu Sans Mono"])
