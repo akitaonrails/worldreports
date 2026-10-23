@@ -380,8 +380,9 @@ def plate_demography(ctx, ig) -> None:
     ctx.line(ax, iy, iv, p.BLUE)
     ig.add_recessions(ax, label=False)
     last = max(pop)
-    ctx.endlabel(ax, iy, iv, p.BLUE, lambda v: f"{pop[last] / 1e6:.1f}M",
-                 dy=12)
+    ax.text(0.98, 0.10, f"{pop[last] / 1e6:.1f}M",
+            transform=ax.transAxes, fontsize=9.5, fontweight="bold",
+            color=p.BLUE, ha="right", va="bottom", zorder=6)
     crossed = [y for y in sorted(pop) if pop[y] >= 10_000_000]
     _note(p, ax, 0.02, 0.96, f"the ten-millionth resident registered in "
           f"{crossed[0]};\nthe axis grew past the shared range — the marker "
@@ -397,7 +398,7 @@ def plate_demography(ctx, ig) -> None:
     ig.add_recessions(ax, label=False)
     ctx.endlabel(ax, ty, tv, p.PURPLE, lambda v: f"{v:.2f}", dy=-14)
     _note(p, ax, 0.98, 0.72, "2.1 = replacement", ha="right", size=7.8)
-    _note(p, ax, 0.02, 0.08, f"never below {min(tv):.2f} across the window — "
+    _note(p, ax, 0.02, 0.18, f"never below {min(tv):.2f} across the window — "
           f"{tv[-1]:.2f} in {ty[-1]}", va="bottom", size=7.8)
     _foot(p, ax, "World Bank. The CBS vital-statistics line when CBS returns")
 
@@ -578,9 +579,10 @@ def plate_migration(ctx, ig) -> None:
     ax.set_ylabel("per 1,000 people", fontsize=8.6, color=p.MUTED)
     ax.set_ylim(0, max(nfv + efv) * 1.35)
     pk = max(zip(nfy, nfv), key=lambda t: t[1])
-    ax.annotate(f"{int(new_by_year[pk[0]]):,}", (pk[0], pk[1]),
-                textcoords="offset points", xytext=(0, 4), ha="center",
-                fontsize=8.4, fontweight="bold", color=p.GOLD)
+    permit_label = ax.annotate(
+        f"{int(new_by_year[pk[0]]):,}", (pk[0], pk[1]),
+        textcoords="offset points", xytext=(12, 18), ha="left",
+        fontsize=8.4, fontweight="bold", color=p.GOLD)
     ax.legend(loc="upper left", fontsize=7.6, frameon=False)
     _note(p, ax, 0.02, 0.24, "new permits only — extensions are the second "
           "flow and amendments\nare in the file but off this panel; visitor "

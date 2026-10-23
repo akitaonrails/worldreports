@@ -1,16 +1,13 @@
-# Israel. FIRST DRAFT (discovery pass, checkpoint 1). Every UNVERIFIED
-# marker below must be resolved against live endpoints before this file
-# is considered curated. Israel is the atlas's first right-to-left
-# country: the page, grid, and figure-text work for RTL is Phase B/C and
-# deliberately not done here — this file records only what the DATA layer
-# needs (locale codes, endonym, ILS, the data-layer notes in DISCOVERY.md).
+# Israel. The atlas's first right-to-left country. Hebrew figure text uses
+# the installed Noto Sans Hebrew face and bidi visual ordering; generated
+# pages declare RTL direction while English and Portuguese remain LTR.
 slug: israel
 spine: true
 flag_emoji: "🇮🇱"
 wordmark: ישראל
 # Hebrew letters sit on a baseline like Latin ones — no CJK em-box
 # centring — but the wordmark's first letter is א, an open left side.
-# Bearing is UNVERIFIED until the masthead is actually set in Phase B.
+# Bearing was verified with the generated masthead in Phase C.
 name:
   en: "Israel"
   fr: "Israël"
@@ -33,7 +30,7 @@ name:
 # convention — what core/numstyle.py expects for he is recorded in
 # DISCOVERY.md, not changed here).
 locales:
-  - {code: he, html_lang: he-IL, og_locale: he_IL, endonym: עברית}
+  - {code: he, html_lang: he-IL, og_locale: he_IL, endonym: עברית, direction: rtl}
   - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
   - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
 default_locale: en
@@ -111,7 +108,7 @@ palette:
   # The one saturated-blue ground in the atlas (see the collision note
   # above): flag blue pushed dark enough to hold ink on it.
   web:
-    mark_bearing: "0.04em"    # UNVERIFIED — א is open on the left; set in Phase B
+    mark_bearing: "0.04em"
     ground:   "#0B2447"
     raised:   "#11305C"
     raised_2: "#173B6F"

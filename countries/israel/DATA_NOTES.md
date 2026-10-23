@@ -4,35 +4,16 @@ Everything the plates assert about definitions, seams and conversions, in
 one place. SOURCES.yaml remains the publisher-level record; this is the
 plate-level one.
 
-## The RTL font gate (recorded, not worked around)
+## Hebrew and right-to-left rendering
 
-Israel is the atlas's first Hebrew country. `core.style.SCRIPT_FONTS` has
-no `he` entry (it has only `ko`), so `has_script_font("he")` returns True
-by its own rule — "a language with no script-font entry can be rendered by
-the Latin fallback" — and the layout probe runs for `israel/he`; it is
-**not** skipped, and `israel/he` must reach zero layout faults like en
-and pt (measured: zero). But the gate's True is vacuous on this machine:
-the Latin fallback chain is `LATIN_BODY = ["Noto Sans", "Liberation Sans",
-"DejaVu Sans"]` and `_pick` lands on **Noto Sans, which carries no Hebrew
-glyphs** — savefig warns "Glyph 1488 … missing from font(s) Noto Sans"
-and "Matplotlib currently does not support Hebrew natively", so the he
-plates render Hebrew runs as tofu boxes until core adds the entry. The
-face that would fix it, **Noto Sans Hebrew, is installed and visible to
-matplotlib's fontManager here** — `SCRIPT_FONTS["he"]` naming it is a
-one-line core change this lane must not make. The layout probe is a
-geometry check and cannot see tofu, which is exactly why this note
-exists. Nothing here is faked to hide it: no hand-mirroring, no reversed
-strings, no manual RLM tricks in plates.py, and no per-plate rcParams
-override fighting `style.apply_rc`.
-Consequences held here:
-
-- the he plates render with the same LTR geometry as every other locale
-  (logical-order text, no bidi marks anywhere);
-- the `SCRIPT_FONTS["he"]` entry naming the installed Noto Sans Hebrew —
-  and the site's AFFIX / CURRENCY_AFFIX carrying he — are core needs to
-  report, not to build;
-- the ILS is written `ILS` in plate text, never the U+20AA sign, so no
-  plate depends on a currency glyph.
+Israel is the atlas's first Hebrew country. The shared renderer selects
+**DejaVu Sans**, whose cmap covers both Hebrew and the Latin/numeric fragments
+used in data labels, and converts localized Hebrew runs
+from logical to visual order before Matplotlib lays them out. Generated
+Hebrew pages declare `dir="rtl"`; English and Portuguese pages remain LTR.
+The layout probe runs for `israel/he` and must reach zero faults like the
+other locales. Plate text uses `ILS` rather than depending on the shekel
+glyph.
 
 ## Bands: COVID-2020 only, verified against the staged vintage
 
