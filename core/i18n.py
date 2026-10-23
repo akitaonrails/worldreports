@@ -50,6 +50,7 @@ from pathlib import Path
 
 import matplotlib.text as mtext
 import matplotlib.ticker as mticker
+from bidi.algorithm import get_display
 
 from core import numstyle
 
@@ -567,6 +568,11 @@ def localize(fig) -> None:
         if not current:
             continue
         new = translate(current)
+        if LANG == "he":
+            # Matplotlib draws glyphs in code-point order and does not run
+            # Unicode's bidirectional algorithm. Catalogs and HTML remain in
+            # logical order; only the finished figure needs visual order.
+            new = "\n".join(get_display(line) for line in new.split("\n"))
         if new != current:
             text.set_text(new)
         setattr(text, _DONE, LANG)

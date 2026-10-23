@@ -58,6 +58,7 @@ LATIN_BODY = ["Noto Sans", "Liberation Sans", "DejaVu Sans"]
 # collection and font_manager indexes only its first face — fontconfig
 # lists "Noto Sans CJK KR" on a machine where matplotlib sees only JP.
 SCRIPT_FONTS = {
+    "he": ["Noto Sans Hebrew", "Arial Hebrew", "Arial"],
     "ko": ["Noto Sans CJK KR", "Noto Sans KR", "NanumGothic", "Malgun Gothic",
            "Noto Sans CJK JP", "Noto Sans CJK SC", "Noto Sans CJK HK",
            "Noto Sans CJK TC", "AppleGothic", "UnDotum"],
