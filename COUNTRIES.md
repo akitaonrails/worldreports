@@ -29,6 +29,7 @@ Portuguese**, and every plate is drawn in each of them.
 | `france` | fr · en · pt | 12 | 46 |
 | `spain` | es · en · pt | 12 | 46 |
 | `south-korea` | ko · en · pt | 11 | 43 |
+| `united-kingdom` | en · pt | 12 | 45 |
 | `usa` | en · pt | 11 | 43 |
 
 The counts are the spine-vintage numbers (2026-10-22): plates are the drawn
@@ -39,15 +40,14 @@ cross-check files not counted.
 
 | # | Country | Slug | Languages | What it needs that we do not have |
 |---|---------|------|-----------|------------------------------------|
-| 1 | United Kingdom | `united-kingdom` | en · pt | Post-Brexit: the Eurostat migration series carries UK values only to 2019. Migration from the ONS and the Home Office, across three methodologies in five years. |
-| 2 | Italy | `italy` | it · en · pt | A fourth Romance locale. New `AFFIX` column for `it`. Migration from Eurostat and ISTAT. |
-| 3 | Israel | `israel` | he · en · pt | **Right-to-left.** See below. |
-| 4 | Japan | `japan` | ja · en · pt | CJK: Noto Sans CJK JP, already installed. Fiscal year starts in April. |
-| 5 | China | `china` | zh-Hans · en · pt | CJK Simplified. Source reliability is the whole problem; see below. |
-| 6 | Taiwan | `taiwan` | zh-Hant · en · pt | CJK Traditional. Not in most international datasets; see below. |
-| 7 | Vietnam | `vietnam` | vi · en · pt | Vietnamese diacritics — check the plate font covers them. |
-| 8 | Portugal | `portugal` | pt · en | Nothing new — Portuguese is already in the atlas. Eurostat alongside INE Portugal, as with France and Spain. |
-| 9 | Switzerland | `switzerland` | de · en · pt | A German locale — new `AFFIX` column for `de`. Not in the EU: EFTA member, so Eurostat carries it in many but not all tables — verify per dataset. CHF, not EUR; SNB, not ECB. |
+| 1 | Italy | `italy` | it · en · pt | A fourth Romance locale. New `AFFIX` column for `it`. Migration from Eurostat and ISTAT. |
+| 2 | Israel | `israel` | he · en · pt | **Right-to-left.** See below. |
+| 3 | Japan | `japan` | ja · en · pt | CJK: Noto Sans CJK JP, already installed. Fiscal year starts in April. |
+| 4 | China | `china` | zh-Hans · en · pt | CJK Simplified. Source reliability is the whole problem; see below. |
+| 5 | Taiwan | `taiwan` | zh-Hant · en · pt | CJK Traditional. Not in most international datasets; see below. |
+| 6 | Vietnam | `vietnam` | vi · en · pt | Vietnamese diacritics — check the plate font covers them. |
+| 7 | Portugal | `portugal` | pt · en | Nothing new — Portuguese is already in the atlas. Eurostat alongside INE Portugal, as with France and Spain. |
+| 8 | Switzerland | `switzerland` | de · en · pt | A German locale — new `AFFIX` column for `de`. Not in the EU: EFTA member, so Eurostat carries it in many but not all tables — verify per dataset. CHF, not EUR; SNB, not ECB. |
 
 ## Known problems, written down before they are hit
 
