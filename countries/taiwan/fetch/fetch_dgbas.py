@@ -421,7 +421,10 @@ def write_quarterly():
     path = DATA / rel
     lines = ["year,quarter,gdp_growth_yoy_pct"]
     for (year, q) in sorted(collect.quarterly_growth):
-        lines.append(f"{year},{q},{collect.quarterly_growth[(year, q)]:.2f}")
+        # quarter is a LABEL (Q1..Q4), not a number: it is part of the row key
+        # (year, quarter) so four quarters of one year are not read as four
+        # duplicate-year rows by the data tests.
+        lines.append(f"{year},Q{q},{collect.quarterly_growth[(year, q)]:.2f}")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"  data/{rel}  {len(lines) - 1} quarterly rows "
