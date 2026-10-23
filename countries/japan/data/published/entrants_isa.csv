@@ -1,0 +1,31 @@
+# Immigration Services Agency, 出入国管理統計 年報 (annual): tables
+# 国籍・地域別 在留資格別 入国外国人 (all entrants) and 新規入国外国人 (new
+# entrants), 総数 and 短期滞在 columns. ENTRIES (events, not persons),
+# calendar year. Each year is read from the newest edition carrying it.
+# entrants_all includes foreign residents re-entering on re-entry permits.
+# new_entrants = first entries; new_entrants_short_stay = 短期滞在
+# (tourists, business visitors); new_entrants_non_short_stay = new_entrants
+# - new_entrants_short_stay, computed here: the only one of these that is
+# migration. A new entrant is not an immigrant, and departures are not
+# emigrants. 2020-2022 are the border closures.
+year,entrants_all,new_entrants,new_entrants_short_stay,new_entrants_non_short_stay
+2006,8107963,6733585,6407833,325752
+2007,9152186,7721258,7384510,336748
+2008,9146108,7711828,7367277,344551
+2009,7581330,6119394,5822719,296675
+2010,9443696,7919726,7632536,287190
+2011,7135407,5448019,5180961,267058
+2012,9172146,7549998,7246072,303926
+2013,11255221,9554415,9247673,306742
+2014,14150185,12388748,12052223,336525
+2015,19688247,17796147,17404987,391160
+2016,23218912,21092975,20665390,427585
+2017,27428782,25092020,24617024,474996
+2018,30102102,27574232,27054549,519683
+2019,31187179,28402509,27810548,591961
+2020,4307257,3581443,3360831,220612
+2021,353119,151726,71771,79955
+2022,4198045,3423531,2861731,561800
+2023,25830810,23751693,23132035,619658
+2024,36779964,34015766,33358681,657085
+2025,42430930,39184525,38458105,726420

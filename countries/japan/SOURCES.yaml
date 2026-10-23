@@ -955,3 +955,197 @@ migration:
       refugee recognitions (~190) plus complementary protection (~1,661)
       in one cell — unverified, see meta.pending.
       Decisions endpoint: https://api.unhcr.org/population/v1/asylum-decisions/?coa=JPN&yearFrom=2006&yearTo=2025&cf_type=ISO
+
+published:
+  asylum_unhcr.csv:
+    source: "UNHCR Refugee Data Finder API — asylum-applications and asylum-decisions, coa=JPN"
+    official: false
+    refreshed_by: "reviewed publication copy of asylum_from_unhcr.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  causes_mhlw.csv:
+    source: "MHLW — Vital Statistics final, 第8表 死因簡単分類別にみた性別死亡数 (per-year editions)"
+    refreshed_by: "reviewed publication copy of causes_from_mhlw.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  census_stat.csv:
+    source: "Statistics Bureau of Japan — 2020 and 2025 Population Census, basic tabulation table 2-3, imputed reference tables (不詳補完値)"
+    refreshed_by: "reviewed publication copy of census_from_stat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  central_debt_mof.csv:
+    source: "MOF — 国債及び借入金並びに政府保証債務現在高, 最近5年間の推移"
+    refreshed_by: "reviewed publication copy of central_debt_from_mof.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  cofog_esri.csv:
+    source: "Cabinet Office ESRI — Annual national accounts FY2024, table 7 一般政府の機能別支出 (COFOG)"
+    refreshed_by: "reviewed publication copy of cofog_from_esri.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  cpi_stat.csv:
+    source: "Statistics Bureau of Japan (MIC) — Consumer Price Index, 2020-base and 2025-base national long series (e-Stat 中分類指数 and 前年同月比)"
+    refreshed_by: "reviewed publication copy of cpi_from_stat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  cpi_tokyo_stat.csv:
+    source: "Statistics Bureau of Japan — CPI, Tokyo ku-area (preliminary), 2025 base, e-Stat long series"
+    refreshed_by: "reviewed publication copy of cpi_tokyo_from_stat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  current_account_boj.csv:
+    source: "Bank of Japan / MOF — Balance of Payments (BPM6), BP01 BPBP6JYNCB"
+    refreshed_by: "reviewed publication copy of current_account_from_boj.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  entrants_isa.csv:
+    source: "Immigration Services Agency — 出入国管理統計 (immigration control statistics), annual, table 25-00-05 新規入国外国人 by status"
+    refreshed_by: "reviewed publication copy of entrants_from_isa.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  foreign_residents_isa.csv:
+    source: "Immigration Services Agency — 在留外国人統計 (statistics on foreign residents), semi-annual"
+    refreshed_by: "reviewed publication copy of foreign_residents_from_isa.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gdp_esri.csv:
+    source: "Cabinet Office ESRI — Quarterly Estimates (QE), 2026 Apr–Jun second preliminary, gaku-mcy / gaku-mfy / gaku-jcy"
+    refreshed_by: "reviewed publication copy of gdp_from_esri.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gdp_pc_wb.csv:
+    source: "World Bank — NY.GDP.PCAP.CD"
+    official: false
+    refreshed_by: "reviewed publication copy of gdp_pc_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gdp_quarterly_esri.csv:
+    source: "Cabinet Office ESRI — QE real seasonally adjusted series, gaku-jk"
+    refreshed_by: "reviewed publication copy of gdp_quarterly_from_esri.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gdp_usd_wb.csv:
+    source: "World Bank — NY.GDP.MKTP.CD"
+    official: false
+    refreshed_by: "reviewed publication copy of gdp_usd_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  general_account_mof.csv:
+    source: "MOF — 財政統計 第1表 明治初年度以降一般会計歳入歳出予算決算 (and 第2表 from FY1963)"
+    refreshed_by: "reviewed publication copy of general_account_from_mof.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gg_accounts_esri.csv:
+    source: "Cabinet Office ESRI — Annual national accounts FY2024 (2020 base), table 6(2) 一般政府の部門別勘定"
+    refreshed_by: "reviewed publication copy of gg_accounts_from_esri.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gg_fiscal_imf.csv:
+    source: "IMF DataMapper (WEO) — GGXWDG_NGDP (gross debt), GGXCNL_NGDP (net lending), NGDPD"
+    official: false
+    refreshed_by: "reviewed publication copy of gg_fiscal_from_imf.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gg_liabilities_boj.csv:
+    source: "Bank of Japan — Flow of Funds (2008 SNA), General government, stocks (L900 − L700 liabilities; L300, L200, A900, L700)"
+    refreshed_by: "reviewed publication copy of gg_liabilities_from_boj.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gini_oecd.csv:
+    source: "OECD Income Distribution Database (DF_IDD), REF_AREA=JPN"
+    official: false
+    refreshed_by: "reviewed publication copy of gini_from_oecd.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gini_wb.csv:
+    source: "World Bank — SI.POV.GINI"
+    official: false
+    refreshed_by: "reviewed publication copy of gini_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  hdi_undp.csv:
+    source: "UNDP — Human Development Report 2025, composite indices complete time series"
+    official: false
+    refreshed_by: "reviewed publication copy of hdi_from_undp.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  homicide_deaths_mhlw.csv:
+    source: "MHLW — Vital Statistics, cause 20300 他殺 (assault)"
+    refreshed_by: "reviewed publication copy of homicide_deaths_from_mhlw.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  homicide_police_npa.csv:
+    source: "National Police Agency — 犯罪統計 (crime statistics), 刑法犯 罪種別 認知・検挙件数, 殺人"
+    refreshed_by: "reviewed publication copy of homicide_police_from_npa.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  homicide_rate_wb.csv:
+    source: "World Bank — VC.IHR.PSRC.P5 (UNODC intentional homicides per 100,000)"
+    official: false
+    refreshed_by: "reviewed publication copy of homicide_rate_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  household_debt_boj.csv:
+    source: "Bank of Japan — Flow of Funds, Households, Liabilities/Loans (FOF_FFAS430L200), housing loans (L241), consumer credit (L242)"
+    refreshed_by: "reviewed publication copy of household_debt_from_boj.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  jgb_mof.csv:
+    source: "MOF — 国債金利情報 (JGB constant-maturity yields), jgbcm_all.csv + jgbcm.csv"
+    refreshed_by: "reviewed publication copy of jgb_from_mof.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  labour_stat.csv:
+    source: "Statistics Bureau of Japan — Labour Force Survey, 長期時系列表2 (annual averages)"
+    refreshed_by: "reviewed publication copy of labour_from_stat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  life_expectancy_mhlw.csv:
+    source: "MHLW — Abridged Life Tables 2025 (簡易生命表), year series 参考資料2, plus census-year abridged and complete tables"
+    refreshed_by: "reviewed publication copy of life_expectancy_from_mhlw.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  monetary_base_boj.csv:
+    source: "Bank of Japan — MD01 MABS1AN11 (monetary base, average amounts outstanding)"
+    refreshed_by: "reviewed publication copy of monetary_base_from_boj.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  naturalisation_moj.csv:
+    source: "MOJ Civil Affairs Bureau — 帰化許可申請者数、帰化許可者数及び帰化不許可者数の推移"
+    refreshed_by: "reviewed publication copy of naturalisation_from_moj.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  nikkei_yahoo.csv:
+    source: "Nikkei Inc. (Nikkei Stock Average), redistributed by Yahoo Finance (^N225)"
+    official: false
+    refreshed_by: "reviewed publication copy of nikkei_from_yahoo.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  openness_wb.csv:
+    source: "World Bank — NE.TRD.GNFS.ZS"
+    official: false
+    refreshed_by: "reviewed publication copy of openness_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  population_stat.csv:
+    source: "Statistics Bureau of Japan — Population Estimates (人口推計), long series 2000–2020 and annual 1 October estimates"
+    refreshed_by: "reviewed publication copy of population_from_stat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  population_wb.csv:
+    source: "World Bank — SP.POP.TOTL"
+    official: false
+    refreshed_by: "reviewed publication copy of population_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  poverty_mhlw.csv:
+    source: "MHLW — Comprehensive Survey of Living Conditions 2025 (国民生活基礎調査), 表11 貧困率の年次推移 (09.xlsx)"
+    refreshed_by: "reviewed publication copy of poverty_from_mhlw.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  projection_ipss.csv:
+    source: "IPSS — Population Projections for Japan (2023), 2021–2070"
+    refreshed_by: "reviewed publication copy of projection_from_ipss.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  rates_boj.csv:
+    source: "Bank of Japan — Time-Series Data Search API, FM02 STRACLUCON / FM01 STRDCLUCON / IR01 MADR1M"
+    refreshed_by: "reviewed publication copy of rates_from_boj.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  reer_boj.csv:
+    source: "Bank of Japan — FM09 FX180110002 (real effective exchange rate, CY2020=100)"
+    refreshed_by: "reviewed publication copy of reer_from_boj.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  reserves_mof.csv:
+    source: "MOF — 外貨準備等の状況 (International Reserves/Foreign Currency Liquidity), historical.csv"
+    refreshed_by: "reviewed publication copy of reserves_from_mof.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  reserves_wb.csv:
+    source: "World Bank — FI.RES.TOTL.CD (IMF IFS)"
+    official: false
+    refreshed_by: "reviewed publication copy of reserves_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  tax_revenue_mof.csv:
+    source: "MOF — 一般会計税収の推移 (general-account tax revenue since FY1979)"
+    refreshed_by: "reviewed publication copy of tax_revenue_from_mof.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  trade_customs.csv:
+    source: "Japan Customs (MOF) — 普通貿易統計, 輸出入総額の推移 (d41ca annual, d41ma monthly)"
+    refreshed_by: "reviewed publication copy of trade_from_customs.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  trade_partners_customs.csv:
+    source: "Japan Customs — 国別・地域別 輸出 (d52caNNN) / 輸入 (d62caNNN) annual series by commodity"
+    refreshed_by: "reviewed publication copy of trade_partners_from_customs.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  usdjpy_boj.csv:
+    source: "Bank of Japan — FM08 FXERM07 (USD/JPY 17:00 JST, monthly average), FXERM06 (end of month)"
+    refreshed_by: "reviewed publication copy of usdjpy_from_boj.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  vital_mhlw.csv:
+    source: "MHLW — Vital Statistics 2025 final (人口動態統計 確定数), 第2表/第3表 人口動態総覧の年次推移"
+    refreshed_by: "reviewed publication copy of vital_from_mhlw.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."

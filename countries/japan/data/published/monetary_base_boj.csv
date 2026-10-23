@@ -1,0 +1,26 @@
+# Bank of Japan, monetary base and its current-account-balances component (MD01 MABS1AN11, MABS1AN113),
+# average amounts outstanding in the month. Published in 100 million yen; converted here to YEN BILLION (divided by 10).
+# Each year is its December reading; the running year is its latest month (asof_month). Stocks, never summed.
+# The monetary base WAS the operating target April 2013 - September 2016 (QQE): annotate the regime; it is not a policy rate.
+year,monetary_base_bn,current_account_balances_bn,asof_month
+2006,90466.4,9255.2,2006-12
+2007,90783.5,8222.4,2007-12
+2008,92435.1,9431.9,2008-12
+2009,97214.3,14490.3,2009-12
+2010,104023.8,19789.2,2010-12
+2011,118019.5,31911.1,2011-12
+2012,131983.7,43556.7,2012-12
+2013,193459.4,101847.8,2013-12
+2014,267401.6,172651.2,2014-12
+2015,346379.3,246137.5,2015-12
+2016,426392.2,321840.8,2016-12
+2017,474126.5,365142.5,2017-12
+2018,497003.4,384445.9,2018-12
+2019,512776.7,397881.5,2019-12
+2020,606549.1,485468.3,2020-12
+2021,657083.1,532420.3,2021-12
+2022,617222.4,489507.8,2022-12
+2023,665486.3,538029.8,2023-12
+2024,658524.0,531810.8,2024-12
+2025,594194.3,470861.5,2025-12
+2026,532846.4,413667.8,2026-09

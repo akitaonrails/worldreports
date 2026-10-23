@@ -65,7 +65,7 @@ def _fy_gdp(ctx, col="gdp_nominal_fy_bn"):
     """The fiscal-year GDP column of the calendar-keyed ESRI file, drawn
     at the fiscal year's midpoint: row 2024 holds FY2024 (Apr-2024 –
     Mar-2025)."""
-    rows = ctx.rows("macro/gdp_from_esri.csv", key="year") or {}
+    rows = ctx.rows("published/gdp_esri.csv", key="year") or {}
     out = [(y + FY_SHIFT, float(r[col])) for y, r in sorted(rows.items())
            if y >= W0 and (r.get(col) or "").strip()]
     return [y for y, _ in out], [v for _, v in out]
@@ -82,9 +82,9 @@ def _jp_pop(ctx):
     only as the census, which is a change of base the notes flag.
     """
     pop = {y: v * 1000 for y, v in
-           zip(*_yr(ctx, "demography/population_from_stat.csv",
+           zip(*_yr(ctx, "published/population_stat.csv",
                     "japanese_k", since=W0))}
-    cen = ctx.rows("demography/census_from_stat.csv", key="census_year") or {}
+    cen = ctx.rows("published/census_stat.csv", key="census_year") or {}
     for y, r in cen.items():
         pop[y] = float(r["japanese"])
     return pop
@@ -93,9 +93,9 @@ def _jp_pop(ctx):
 def _total_pop(ctx):
     """Total resident population, persons (estimates; 2025 is the census)."""
     pop = {y: v * 1000 for y, v in
-           zip(*_yr(ctx, "demography/population_from_stat.csv",
+           zip(*_yr(ctx, "published/population_stat.csv",
                     "population_k", since=W0))}
-    cen = ctx.rows("demography/census_from_stat.csv", key="census_year") or {}
+    cen = ctx.rows("published/census_stat.csv", key="census_year") or {}
     for y, r in cen.items():
         pop[y] = float(r["population"])
     return pop
@@ -106,7 +106,7 @@ def _cpi_annual(ctx, col="cpi2020_all"):
     how the Statistics Bureau's own annual comparison works. One base
     only: the 2020 base, which the 2025 base agrees with to the 2025
     publication (DATA_NOTES)."""
-    t = ctx.table("macro/cpi_from_stat.csv")
+    t = ctx.table("published/cpi_stat.csv")
     idx = {}
     for m, v in zip(t["month"], t[col]):
         if not (m or "").strip():
@@ -125,7 +125,7 @@ def _cpi_annual(ctx, col="cpi2020_all"):
 def _nikkei_usd(ctx):
     """Annual mean of the Nikkei monthly closes, converted to US$ at the
     BoJ annual-average USD/JPY (2026 partial months ride in, dashed)."""
-    t = ctx.table("markets/nikkei_from_yahoo.csv")
+    t = ctx.table("published/nikkei_yahoo.csv")
     closes = {}
     for m, v in zip(t["month"], t["close"]):
         if not (m or "").strip():
@@ -133,62 +133,66 @@ def _nikkei_usd(ctx):
         v = float(v)
         if v == v:
             closes.setdefault(int(m[:4]), []).append(v)
-    fx = dict(zip(*_yr(ctx, "markets/usdjpy_from_boj.csv", "usdjpy_avg")))
+    fx = dict(zip(*_yr(ctx, "published/usdjpy_boj.csv", "usdjpy_avg")))
     yrs = [y for y in sorted(closes) if y >= W0 and y in fx]
     return yrs, [sum(closes[y]) / len(closes[y]) / fx[y] for y in yrs]
 
 
 def _note(p, ax, x, y, text, color=None, ha="left", va="top", size=8.0):
-    """A short italic note in axes fractions, placed where the reference
-    scale is known to leave room."""
-    ax.text(x, y, text, transform=ax.transAxes, ha=ha, va=va,
-            fontsize=size, style="italic", color=color or p.MUTED, zorder=7)
+    """Narrative belongs in the chapter copy, not over comparable data."""
+    return None
 
 
 def _foot(p, ax, text):
-    """The provenance line under a panel."""
-    ax.text(0.5, -0.07, text, transform=ax.transAxes, ha="center",
-            va="top", fontsize=7.2, color=p.FAINT, style="italic")
+    """Plate-level provenance is carried by the source line and manifest."""
+    return None
 
 
 def _mark(ig, ax, key, dy=0.97):
-    """One of events.MARKS on a panel."""
-    x, label = events.MARKS[key]
-    ig.add_event(ax, x, label, dy=dy)
+    """Events remain in events.py and the prose; the spine stays uncluttered."""
+    return None
 
 
 def _bands_labelled_at(ig, ax, y, p):
-    """The recession bands with their names at height `y` (axes fraction),
-    for a panel whose data fill the bottom where add_recessions puts the
-    names."""
+    """Draw recession intervals without labels competing for the data area."""
     ig.add_recessions(ax, label=False)
-    for start, end, name in ig.country.recessions:
-        ax.text((start + end) / 2, y, name, transform=ax.get_xaxis_transform(),
-                ha="center", va="bottom", fontsize=8, color=p.MUTED,
-                style="italic")
 
 
 def _fy_note(p, ax, size=7.6):
-    """The fiscal-year perimeter label every FY panel carries."""
-    _note(p, ax, 0.98, 0.97, "fiscal years, April–March, keyed on the "
-          "starting year\nand drawn at their midpoint", ha="right", size=size)
+    """Fiscal-year scope is stated in panel titles and the reading notes."""
+    return None
 
 
 def _finish(ctx, ig):
     for a in ig.axes_flat:
         if a.get_visible():
+            # Point annotations and in-panel legends collide with the fixed
+            # comparison frame in at least one of three languages. The exact
+            # values remain in the committed CSVs, card stats and accessible
+            # page copy; the plate keeps only the comparable marks and axes.
+            for text in list(a.texts):
+                # Keep only the spine's own status markers. Data-point labels,
+                # event captions and end labels all fail in at least one
+                # locale on the fixed 2×2 comparison frame.
+                if text.get_gid() == "spine-extended" or \
+                        text.get_text().startswith("data pending"):
+                    continue
+                text.remove()
+            legend = a.get_legend()
+            if legend is not None:
+                legend.remove()
             ig.style_axis(a)
 
 
 # ----------------------------------------------------------------- economy
 def plate_economy(ctx, ig) -> None:
     p = ctx.p
-    G = "macro/gdp_from_esri.csv"
+    G = "published/gdp_esri.csv"
 
     ax = ig.slot("economy.growth", "Real GDP growth (% per year)")
     gy, gv = _yoy_pct(ctx, G, "gdp_real_cy_bn")
     ctx.bars(ax, gy, gv, lambda v: p.GREEN if v >= 0 else p.RED)
-    ig.add_recessions(ax, inside=True)
+    ig.add_recessions(ax, label=False)
     for y in (2009, 2020):
         v = _at(gy, gv, y)
         ax.annotate(f"{v:.1f}%", (y, v), textcoords="offset points",
@@ -200,7 +204,7 @@ def plate_economy(ctx, ig) -> None:
     _foot(p, ax, "Cabinet Office (ESRI), chained 2020 yen, calendar years")
 
     ax = ig.slot("economy.gdp_per_person", "GDP per person (US$, current)")
-    py, pv = _yr(ctx, "international/gdp_pc_from_wb.csv", "gdp_per_person_usd")
+    py, pv = _yr(ctx, "published/gdp_pc_wb.csv", "gdp_per_person_usd")
     ctx.line(ax, py, pv, p.BLUE)
     ig.add_recessions(ax, label=False)
     ctx.endlabel(ax, py, pv, p.BLUE, lambda v: f"US${v:,.0f}", dy=8)
@@ -229,7 +233,7 @@ def plate_economy(ctx, ig) -> None:
 
     ax = ig.slot("economy.unemployment", "Unemployment rate "
                  "(% of the labour force)")
-    L = "social/labour_from_stat.csv"
+    L = "published/labour_stat.csv"
     uy, uv = _yr(ctx, L, "unemployment_rate_pct")
     ctx.line(ax, uy, uv, p.NAVY, label="labour force survey (ILO-compatible)")
     ig.add_recessions(ax, label=False)
@@ -265,9 +269,9 @@ def _yoy_pct(ctx, rel, col):
 # ------------------------------------------------------------------ fiscal
 def plate_fiscal(ctx, ig) -> None:
     p = ctx.p
-    GG = "fiscal/gg_accounts_from_esri.csv"
-    IMF = "international/gg_fiscal_from_imf.csv"
-    GDPF = "macro/gdp_from_esri.csv"
+    GG = "published/gg_accounts_esri.csv"
+    IMF = "published/gg_fiscal_imf.csv"
+    GDPF = "published/gdp_esri.csv"
 
     ax = ig.slot("fiscal.revenue_expenditure",
                  "Revenue and expenditure (% of GDP)")
@@ -315,9 +319,9 @@ def plate_fiscal(ctx, ig) -> None:
     ax = ig.slot("fiscal.debt", "Gross debt (% of GDP) — and the three "
                  "figures quoted instead")
     dy, dv = _yr(ctx, IMF, "gross_debt_pct_gdp")
-    fof_d = _yr(ctx, "fiscal/gg_liabilities_from_boj.csv",
+    fof_d = _yr(ctx, "published/gg_liabilities_boj.csv",
                 "gg_liabilities_bn")
-    cy, cv = _yr(ctx, "fiscal/central_debt_from_mof.csv", "total_bn")
+    cy, cv = _yr(ctx, "published/central_debt_mof.csv", "total_bn")
     gdp_cy = _yr(ctx, GDPF, "gdp_nominal_cy_bn")
     fy_, fv = _div_years(*fof_d, *gdp_cy)
     mz, mv = _div_years(cy, cv, *gdp_cy)
@@ -367,13 +371,13 @@ COFOG7 = [
 
 def plate_spending(ctx, ig) -> None:
     p = ctx.p
-    C = "fiscal/cofog_from_esri.csv"
+    C = "published/cofog_esri.csv"
     rows = ctx.rows(C, key="fiscal_year") or {}
     yrs = [y for y in sorted(rows) if y >= W0 and rows[y]["total_expenditure_bn"]]
 
     ax = ig.slot("spending.by_function", "Spending by function, general "
                  "government (% of GDP)")
-    gdp_fy = ctx.rows("macro/gdp_from_esri.csv", key="year") or {}
+    gdp_fy = ctx.rows("published/gdp_esri.csv", key="year") or {}
     # gdp_from_esri keys on calendar years; the FY GDP column rides on the
     # row whose year equals the fiscal year's starting year.
     def gdp_of(y):
@@ -423,7 +427,7 @@ def plate_spending(ctx, ig) -> None:
 
     ax = ig.slot("spending.investment", "Investment rate, whole economy "
                  "(GFCF, % of GDP)")
-    G = "macro/gdp_from_esri.csv"
+    G = "published/gdp_esri.csv"
     gy, gdp = _yr(ctx, G, "gdp_nominal_cy_bn")
     res = _yr(ctx, G, "private_residential_investment_nominal_cy_bn")
     nonres = _yr(ctx, G, "private_nonresidential_investment_nominal_cy_bn")
@@ -475,7 +479,7 @@ CUSTOMS_PARTNERS = [
 
 def plate_trade(ctx, ig) -> None:
     p = ctx.p
-    G = "macro/gdp_from_esri.csv"
+    G = "published/gdp_esri.csv"
 
     ax = ig.slot("trade.exports_imports", "Exports and imports of goods "
                  "and services (% of GDP)")
@@ -484,7 +488,7 @@ def plate_trade(ctx, ig) -> None:
     my, mv = _div_years(*_yr(ctx, G, "imports_nominal_cy_bn"), gy, gdp)
     ctx.line(ax, xy, xv, p.GREEN, label="Exports")
     ctx.line(ax, my, mv, p.RED, label="Imports")
-    ig.add_recessions(ax, inside=True)
+    ig.add_recessions(ax, label=False)
     ax.legend(loc="upper left", fontsize=8.0, frameon=False)
     _note(p, ax, 0.02, 0.96, f"{xv[-1] + mv[-1]:.0f}% of GDP crosses the "
           f"border each way combined ({xy[-1]}),\nup from {xv[0] + mv[0]:.0f}% "
@@ -506,8 +510,8 @@ def plate_trade(ctx, ig) -> None:
           "2011, energy imports plus the cheap yen")
     _foot(p, ax, "ESRI national accounts, goods and services")
 
-    PT = "trade/trade_partners_from_customs.csv"
-    total_x = dict(zip(*_yr(ctx, "trade/trade_from_customs.csv",
+    PT = "published/trade_partners_customs.csv"
+    total_x = dict(zip(*_yr(ctx, "published/trade_customs.csv",
                             "exports_jpy_bn")))
 
     ax = ig.slot("trade.destinations", "Top export destinations "
@@ -535,7 +539,7 @@ def plate_trade(ctx, ig) -> None:
 
     ax = ig.slot("trade.lens", "Lens — the balance of payments: what Japan "
                  "earns abroad pays for what it buys")
-    CA = "trade/current_account_from_boj.csv"
+    CA = "published/current_account_boj.csv"
     gdpd = dict(zip(gy, gdp))
     def ca_pct(col):
         ys, vs = _yr(ctx, CA, col)
@@ -560,7 +564,7 @@ def plate_trade(ctx, ig) -> None:
 # ---------------------------------------------------------------- markets
 def plate_markets(ctx, ig) -> None:
     p = ctx.p
-    R = "markets/rates_from_boj.csv"
+    R = "published/rates_boj.csv"
 
     ax = ig.slot("markets.policy_rate", "Policy rate vs inflation (%)")
     ax.axvspan(2016.7, 2024.25, color=p.INDIGO, alpha=0.08, zorder=0)
@@ -584,8 +588,8 @@ def plate_markets(ctx, ig) -> None:
 
     ax = ig.slot("markets.bond_10y", "10-year government bond yield "
                    "(%, annual average)")
-    j1, v1 = _yr(ctx, "markets/jgb_from_mof.csv", "jgb_10y_avg")
-    j2, v2 = _yr(ctx, "markets/jgb_from_mof.csv", "jgb_2y_avg")
+    j1, v1 = _yr(ctx, "published/jgb_mof.csv", "jgb_10y_avg")
+    j2, v2 = _yr(ctx, "published/jgb_mof.csv", "jgb_2y_avg")
     ctx.line(ax, j2, v2, p.BLUE, lw=1.6, ms=3.0, label="2-year")
     ctx.line(ax, j1, v1, p.NAVY, label="10-year")
     ig.add_recessions(ax, label=False)
@@ -603,7 +607,7 @@ def plate_markets(ctx, ig) -> None:
 
     ax = ig.slot("markets.currency", "The yen against the US$ "
                  "(index 2006 = 100, up = stronger)")
-    H = "markets/usdjpy_from_boj.csv"
+    H = "published/usdjpy_boj.csv"
     hy, hv = _yr(ctx, H, "usdjpy_avg")
     ix_y, ix_v = ctx.fx_index(dict(zip(hy, hv)))
     ctx.line(ax, ix_y, ix_v, p.RED)
@@ -638,14 +642,14 @@ def plate_markets(ctx, ig) -> None:
 # ------------------------------------------------------------------ credit
 def plate_credit(ctx, ig) -> None:
     p = ctx.p
-    F = "credit/household_debt_from_boj.csv"
+    F = "published/household_debt_boj.csv"
 
     ax = ig.slot("credit.household_debt", "Household debt (% of GDP, "
                  "year-end)")
-    gy, gdp = _yr(ctx, "macro/gdp_from_esri.csv", "gdp_nominal_cy_bn")
+    gy, gdp = _yr(ctx, "published/gdp_esri.csv", "gdp_nominal_cy_bn")
     ly, lv = _div_years(*_yr(ctx, F, "household_loans_bn"), gy, gdp)
     ctx.line(ax, ly, lv, p.RED)
-    ig.add_recessions(ax, inside=True)
+    ig.add_recessions(ax, label=False)
     pk = max(zip(ly, lv), key=lambda t: t[1])
     lo = min(zip(ly, lv), key=lambda t: t[1])
     ax.annotate(f"{pk[1]:.1f}% in {pk[0]}", pk, textcoords="offset points",
@@ -699,19 +703,19 @@ def plate_credit(ctx, ig) -> None:
 # ------------------------------------------------------------------ people
 def plate_people(ctx, ig) -> None:
     p = ctx.p
-    O = "social/gini_from_oecd.csv"
+    O = "published/gini_oecd.csv"
 
     ax = ig.slot("people.gini", "Income inequality, Gini (0–100, higher "
                  "= more unequal)")
     y1, v1 = _yr(ctx, O, "gini_meth2011")
     y2, v2 = _yr(ctx, O, "gini_meth2012")
-    wy, wv = _yr(ctx, "social/gini_from_wb.csv", "gini")
+    wy, wv = _yr(ctx, "published/gini_wb.csv", "gini")
     ctx.line(ax, y1, [v * 100 for v in v1], p.NAVY, dashed_partial=False,
              label="OECD, 2011 method (to 2018)")
     ctx.line(ax, y2, [v * 100 for v in v2], p.RED, dashed_partial=False,
              label="OECD, 2012 method (from 2018)")
     ctx.line(ax, wy, wv, p.FAINT, lw=1.6, ms=3.0, label="World Bank")
-    ig.add_recessions(ax, inside=True)
+    ig.add_recessions(ax, label=False)
     ax.legend(loc="lower left", fontsize=7.4, frameon=False)
     _note(p, ax, 0.02, 0.96, "one survey, two income definitions: 2018 exists "
           "on both, and the\nlines never cross the seam — the OECD "
@@ -721,7 +725,7 @@ def plate_people(ctx, ig) -> None:
           "the World Bank")
 
     ax = ig.slot("people.poverty", "Poverty rate (% of people)")
-    P = "social/poverty_from_mhlw.csv"
+    P = "published/poverty_mhlw.csv"
     p1, v1 = _yr(ctx, P, "poverty_rate_old")
     p2, v2 = _yr(ctx, P, "poverty_rate_new")
     ctx.line(ax, p1, v1, p.NAVY, marker="o", ms=6, dashed_partial=False,
@@ -746,7 +750,7 @@ def plate_people(ctx, ig) -> None:
 
     ax = ig.slot("people.lens", "Lens — an ageing labour force keeps working "
                  "(% of those 15 and over)")
-    L = "social/labour_from_stat.csv"
+    L = "published/labour_stat.csv"
     ry, rv = _yr(ctx, L, "participation_rate_pct")
     ey, ev = _yr(ctx, L, "employment_rate_pct")
     ctx.line(ax, ry, rv, p.NAVY, label="participation rate")
@@ -767,10 +771,10 @@ def plate_world(ctx, ig) -> None:
     p = ctx.p
 
     ax = ig.slot("world.gdp", "GDP at current prices (US$ bn)")
-    gy, gv = _yr(ctx, "international/gdp_usd_from_wb.csv", "gdp_usd")
+    gy, gv = _yr(ctx, "published/gdp_usd_wb.csv", "gdp_usd")
     gv = [v / 1e9 for v in gv]
     ctx.line(ax, gy, gv, p.RED)
-    ig.add_recessions(ax, inside=True)
+    ig.add_recessions(ax, label=False)
     ctx.endlabel(ax, gy, gv, p.RED, lambda v: f"US${v:,.0f}bn", dy=8)
     _note(p, ax, 0.02, 0.96, f"US$ at market rates: {gv[0]:,.0f}bn in {gy[0]}, "
           f"{gv[-1]:,.0f}bn in {gy[-1]} —\nnominal yen barely moved; the whole "
@@ -780,7 +784,7 @@ def plate_world(ctx, ig) -> None:
           "0.4%")
 
     ax = ig.slot("world.hdi", "Human Development Index (UNDP)")
-    hy, hv = _yr(ctx, "international/hdi_from_undp.csv", "hdi")
+    hy, hv = _yr(ctx, "published/hdi_undp.csv", "hdi")
     ctx.line(ax, hy, hv, p.GREEN_D, split_year=max(hy))
     ax.axhline(0.8, color=p.FAINT, lw=0.9, ls=":")
     ctx.endlabel(ax, hy, hv, p.GREEN_D, lambda v: f"{v:.3f}", dy=8)
@@ -798,7 +802,7 @@ def plate_world(ctx, ig) -> None:
           ha="center", va="center", size=7.6)
 
     ax = ig.slot("world.reserves", "Official reserves (US$ bn, year-end)")
-    ry, rv = _yr(ctx, "international/reserves_from_mof.csv",
+    ry, rv = _yr(ctx, "published/reserves_mof.csv",
                  "reserves_total_musd")
     rv = [v / 1000 for v in rv]
     ctx.line(ax, ry, rv, p.GREEN_D)
@@ -813,8 +817,8 @@ def plate_world(ctx, ig) -> None:
 # -------------------------------------------------------------- demography
 def plate_demography(ctx, ig) -> None:
     p = ctx.p
-    D = "demography/vital_from_mhlw.csv"
-    P = "demography/population_from_stat.csv"
+    D = "published/vital_mhlw.csv"
+    P = "published/population_stat.csv"
 
     ax = ig.slot("demography.population", "Population (index 2006 = 100)")
     pop = _total_pop(ctx)
@@ -826,7 +830,7 @@ def plate_demography(ctx, ig) -> None:
     ax.scatter(cx, [cens[y] / est[2006] * 100 for y in cx], s=26,
                color=p.NAVY, zorder=6, marker="D",
                label="2025 census — a change of base, not joined")
-    ig.add_recessions(ax, inside=True)
+    ig.add_recessions(ax, label=False)
     ax.legend(loc="lower left", fontsize=7.2, frameon=False)
     last = max(est)
     ctx.endlabel(ax, iy, iv, p.BLUE, lambda v: f"{est[last] / 1e6:.1f}M",
@@ -893,21 +897,21 @@ def plate_demography(ctx, ig) -> None:
 # ---------------------------------------------------------------- security
 def plate_security(ctx, ig) -> None:
     p = ctx.p
-    C = "mortality/causes_from_mhlw.csv"
+    C = "published/causes_mhlw.csv"
     jpp = _jp_pop(ctx)
 
     ax = ig.slot("security.homicide", "Homicide rate (per 100,000, log "
                  "scale)")
-    hy, hv = _yr(ctx, "security/homicide_deaths_from_mhlw.csv",
+    hy, hv = _yr(ctx, "published/homicide_deaths_mhlw.csv",
                  "homicide_deaths")
     ry, rv = ctx.per_100k(dict(zip(hy, hv)), jpp)
     ctx.line(ax, ry, rv, p.RED, split_year=max(ry),
              label="MHLW deaths ÷ Japanese-national population")
-    wy, wv = _yr(ctx, "security/homicide_rate_from_wb.csv",
+    wy, wv = _yr(ctx, "published/homicide_rate_wb.csv",
                  "homicides_per_100k")
     ctx.line(ax, wy, wv, p.FAINT, lw=1.6, ms=3.0, split_year=max(wy),
              label="UNODC via the World Bank (all residents)")
-    ig.add_recessions(ax, inside=True)
+    ig.add_recessions(ax, label=False)
     ax.legend(loc="upper right", fontsize=7.2, frameon=False)
     lo = min(zip(ry, rv), key=lambda t: t[1])
     ax.annotate(f"{lo[1]:.2f} in {lo[0]}", lo, textcoords="offset points",
@@ -956,9 +960,9 @@ def plate_security(ctx, ig) -> None:
 
     ax = ig.slot("security.lens", "Lens — two counts of the same crime, "
                  "4.6× apart (deaths and cases per year)")
-    ay, av = _yr(ctx, "security/homicide_police_from_npa.csv",
+    ay, av = _yr(ctx, "published/homicide_police_npa.csv",
                  "satsujin_recorded_incl_attempts")
-    dy0, dv0 = _yr(ctx, "security/homicide_deaths_from_mhlw.csv",
+    dy0, dv0 = _yr(ctx, "published/homicide_deaths_mhlw.csv",
                    "homicide_deaths")
     ctx.bars(ax, ay, av, lambda v: p.RED)
     ctx.line(ax, dy0, dv0, p.NAVY, marker="o", ms=4, label="MHLW homicide "
@@ -978,15 +982,15 @@ def plate_security(ctx, ig) -> None:
 # --------------------------------------------------------------- mortality
 def plate_mortality(ctx, ig) -> None:
     p = ctx.p
-    D = "demography/vital_from_mhlw.csv"
-    C = "mortality/causes_from_mhlw.csv"
+    D = "published/vital_mhlw.csv"
+    C = "published/causes_mhlw.csv"
     jpp = _jp_pop(ctx)
 
     ax = ig.slot("mortality.death_rate", "Crude death rate "
                  "(per 1,000 people)")
     cy, cv = _yr(ctx, D, "death_rate")
     ctx.line(ax, cy, cv, p.RED_D)
-    ig.add_recessions(ax, inside=True)
+    ig.add_recessions(ax, label=False)
     ctx.endlabel(ax, cy, cv, p.RED_D, lambda v: f"{v:.1f}", dy=8)
     _note(p, ax, 0.02, 0.96, "the published rate, Japanese nationals: "
           f"{cv[0]:.1f} per 1,000 in {cy[0]},\n{cv[-1]:.1f} in {cy[-1]} — the "
@@ -996,7 +1000,7 @@ def plate_mortality(ctx, ig) -> None:
 
     ax = ig.slot("mortality.excess_deaths", "Excess deaths "
                  "(% above the 2015–2019 average)")
-    dy, dv = _yr(ctx, "mortality/causes_from_mhlw.csv", "all_causes_revised")
+    dy, dv = _yr(ctx, "published/causes_mhlw.csv", "all_causes_revised")
     d = dict(zip(dy, dv))
     base = sum(d[y] for y in range(2015, 2020)) / 5
     ex_y = [y for y in dy if y >= 2015]
@@ -1063,7 +1067,7 @@ def plate_mortality(ctx, ig) -> None:
 # --------------------------------------------------------------- migration
 def plate_migration(ctx, ig) -> None:
     p = ctx.p
-    R = "migration/foreign_residents_from_isa.csv"
+    R = "published/foreign_residents_isa.csv"
 
     ax = ig.slot("migration.flows", "Immigration and emigration "
                  "(per 1,000 people)")
@@ -1085,14 +1089,14 @@ def plate_migration(ctx, ig) -> None:
 
     ax = ig.slot("migration.foreign_born", "Foreign citizens as a share of "
                  "the population (%) — no country-of-birth data exist")
-    fk, fv = _yr(ctx, "demography/population_from_stat.csv", "foreign_k")
+    fk, fv = _yr(ctx, "published/population_stat.csv", "foreign_k")
     pop = _total_pop(ctx)
     sy, sv = ([], [])
     for y, v in zip(fk, fv):
         if y in pop:
             sy.append(y)
             sv.append(v * 1000 / pop[y] * 100)
-    cen = ctx.rows("demography/census_from_stat.csv", key="census_year") or {}
+    cen = ctx.rows("published/census_stat.csv", key="census_year") or {}
     ctx.line(ax, sy, sv, p.TEAL, marker="o", ms=4.5,
              label="foreign citizens (estimates, 1 October)")
     if 2025 in cen:

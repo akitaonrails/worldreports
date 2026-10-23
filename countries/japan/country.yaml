@@ -3,8 +3,7 @@
 # runs April–March (the `fiscal_year` convention Canada, the UK and the USA
 # already use), the national statistics portal e-Stat gates its API behind
 # an application ID but serves its files anonymously, and `ja` is a new
-# CJK locale (Noto Sans CJK JP is installed; core.style has no `ja` entry
-# yet — see the Phase B notes in SOURCES.yaml's header).
+# CJK locale (rendered with Noto Sans CJK JP).
 slug: japan
 flag_emoji: "🇯🇵"
 wordmark: 日本
@@ -15,6 +14,7 @@ name:
   es: "Japón"
   ko: "일본"
   ja: "日本"
+  he: "יפן"
 
 # ja first: the country's own language. `ja`, not `jp` — `jp` is the
 # country code, `ja` the ISO 639-1 language. English stays the fallback,
