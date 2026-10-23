@@ -1,0 +1,7 @@
+probe pass 2026-10-23, one request per endpoint
+2026-10-23T04:43:03+00:00 | nic_bases | HTTP 000 in 0.001414s | curl exit 6 | 
+2026-10-23T04:43:06+00:00 | crime_subsets | HTTP 000 in 30.001696s | curl exit 28 | 
+2026-10-23T04:43:39+00:00 | lifexp | HTTP 000 in 30.001387s | curl exit 28 | 
+2026-10-23T04:44:12+00:00 | fertility | HTTP 000 in 30.001806s | curl exit 28 | 
+2026-10-23T04:44:45+00:00 | permits | HTTP 000 in 30.001695s | curl exit 28 | 
+2026-10-23T04:45:18+00:00 | citizenship | HTTP 000 in 30.001468s | curl exit 28 | 
