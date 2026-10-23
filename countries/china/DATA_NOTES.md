@@ -5,6 +5,18 @@ which population every rate divides, and which seams and bands were decided
 — and decided NOT to draw. Where this file and `SOURCES.yaml` disagree, the
 manifest wins; this is the prose record.
 
+## Publication completion — 2026-10-23
+
+The reviewed harmonised inputs now feed all twelve comparison-spine chapters
+in Simplified Chinese, English and Portuguese. The national layer remains an
+explicitly declared absence, not a substitution: panels either name the
+World Bank, IMF, UNDP, UNODC/WHO or UN Comtrade reading, or show a pending
+marker with the blocked national route. No panel calls an international line
+an NBS, GACC, PBoC, SAFE or MOF series. The committed output contains all 36
+localized plates and thumbnails, and `provenance.json` records every stable
+CSV actually read. Semantic tests pin the perimeters, denominators, snapshot
+years and non-splicing rules described below.
+
 ## Bands: none, and that is the finding
 
 `country.yaml` carries `bands: []`. Verified against the STAGED vintage,
