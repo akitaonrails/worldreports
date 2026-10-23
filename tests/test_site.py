@@ -215,6 +215,14 @@ def test_each_page_declares_the_language_it_is_in(site, country):
             f"{country.slug}/{loc.code}: <html lang={doc.html_lang!r}>"
 
 
+def test_each_page_declares_its_writing_direction(site, country):
+    for loc in country.locales:
+        text = (site / country.slug / loc.code / "index.html") \
+            .read_text(encoding="utf-8")
+        assert f'<html lang="{loc.html_lang}" dir="{loc.direction}">' in text, \
+            f"{country.slug}/{loc.code}: wrong writing direction"
+
+
 def test_each_page_points_at_every_translation_of_itself(site, country):
     """hreflang is how a search engine knows these are one page in three
     languages rather than three pages competing with each other."""
