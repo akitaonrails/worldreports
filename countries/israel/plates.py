@@ -104,7 +104,7 @@ def plate_economy(ctx, ig) -> None:
     ax.annotate(f"{v20:.1f}%", (2020, v20), textcoords="offset points",
                 xytext=(0, -4), ha="center", va="top", fontsize=8.6,
                 fontweight="bold", color=p.ALERT)
-    _mark(ig, ax, "oct7", dy=0.55)
+    _mark(ig, ax, "oct7", dy=0.80)
     _note(p, ax, 0.02, 0.96, f"the crisis years grew: {_at(gy, gv, 2008):.1f}% "
           f"and {_at(gy, gv, 2009):.1f}% — no band;\nthe war years, too — "
           f"{_at(gy, gv, 2023):.1f}% and {_at(gy, gv, 2024):.1f}%")
@@ -133,7 +133,7 @@ def plate_economy(ctx, ig) -> None:
     ig.add_recessions(ax, label=False)
     peak = max(zip(iy, iv), key=lambda t: t[1])
     ax.annotate(f"{peak[1]:.1f}% in {peak[0]}", peak,
-                textcoords="offset points", xytext=(-8, 4), ha="right",
+                textcoords="offset points", xytext=(8, 4), ha="left",
                 fontsize=8.8, fontweight="bold", color=p.ALERT)
     _note(p, ax, 0.02, 0.96, "Bank of Israel target: 2%, inside a 1–3% band")
     _foot(p, ax, "Two republications of the CBS index — the CBS line when "
@@ -147,9 +147,11 @@ def plate_economy(ctx, ig) -> None:
     ctx.line(ax, wy, wv, p.FAINT, lw=1.6, ms=3.0,
              label="ILO modelled estimate (World Bank)")
     ig.add_recessions(ax, label=False)
-    ax.annotate(f"{ov[0]:.1f}% in {oy[0]}", (oy[0], ov[0]),
-                textcoords="offset points", xytext=(8, 2), ha="left",
-                fontsize=8.8, fontweight="bold", color=p.NAVY)
+    ax.annotate(f"{ov[0]:.1f}% in {oy[0]}", xy=(oy[0], ov[0]),
+                xytext=(2007.2, 1.4), textcoords="data",
+                fontsize=8.8, fontweight="bold", color=p.NAVY, ha="left",
+                va="bottom",
+                arrowprops=dict(arrowstyle="-", color=p.FAINT, lw=0.8))
     _note(p, ax, 0.02, 0.96, f"a survey, not the payroll register: {ov[-1]:.1f}% "
           f"in {oy[-1]}\nagainst {ov[0]:.1f}% in {oy[0]} — the CBS LFS line "
           "when CBS returns", size=7.8)
@@ -244,7 +246,7 @@ def plate_trade(ctx, ig) -> None:
     ctx.bars(ax, xy, bal, lambda v: p.GREEN if v >= 0 else p.ALERT)
     ig.add_recessions(ax, label=False)
     deficits = [y for y, b in zip(xy, bal) if b < 0]
-    _note(p, ax, 0.02, 0.96, f"in balance {len(bal) - len(deficits)} of the "
+    _note(p, ax, 0.02, 0.34, f"in balance {len(bal) - len(deficits)} of the "
           f"{len(bal)} years — high-tech services\ncarry a goods deficit")
     _foot(p, ax, "Computed from slot 1. The CBS line when CBS returns")
 
@@ -312,8 +314,7 @@ def plate_markets(ctx, ig) -> None:
              dashed_partial=False, label="S&P 500 (US$)")
     ctx.line(ax, tiy, tiv, p.BLUE, label="TA-125, converted to US$")
     ig.add_recessions(ax, label=False)
-    ctx.endlabel(ax, tiy, tiv, p.BLUE, lambda v: f"{v:.0f}", dy=-14)
-    ctx.endlabel(ax, siy, siv, p.MUTED, lambda v: f"{v:.0f}", dy=6)
+    ctx.endlabel(ax, tiy, tiv, p.BLUE, lambda v: f"{v:.0f}", dy=10)
     ax.legend(loc="upper left", fontsize=7.8, frameon=False)
     _note(p, ax, 0.02, 0.30, "Yahoo year-end closes (not official): levels run a "
           "few percent\noff TASE's own closes; 2026 is not converted — no "
@@ -395,7 +396,7 @@ def plate_demography(ctx, ig) -> None:
     ctx.line(ax, ty, tv, p.PURPLE)
     ig.add_recessions(ax, label=False)
     ctx.endlabel(ax, ty, tv, p.PURPLE, lambda v: f"{v:.2f}", dy=-14)
-    _note(p, ax, 0.98, 0.84, "2.1 = replacement", ha="right", size=7.8)
+    _note(p, ax, 0.98, 0.72, "2.1 = replacement", ha="right", size=7.8)
     _note(p, ax, 0.02, 0.18, f"never below {min(tv):.2f} across the window — "
           f"{tv[-1]:.2f} in {ty[-1]}", va="bottom", size=7.8)
     _foot(p, ax, "World Bank. The CBS vital-statistics line when CBS returns")
@@ -408,9 +409,10 @@ def plate_demography(ctx, ig) -> None:
     ctx.line(ax, dy, dv, p.ALERT, label="Deaths")
     ig.add_recessions(ax, label=False)
     ax.legend(loc="upper right", fontsize=8.0, frameon=False)
-    _note(p, ax, 0.02, 0.96, f"natural increase: {bv[0] - dv[0]:.1f} per 1,000 "
+    _note(p, ax, 0.98, 0.13, f"natural increase: {bv[0] - dv[0]:.1f} per 1,000 "
           f"in {by[0]}, {bv[-1] - dv[-1]:.1f} in {by[-1]} —\nthe births line "
-          f"keeps falling and the deaths line keeps rising", size=7.8)
+          f"keeps falling and the deaths line keeps rising",
+          ha="right", va="top", size=7.8)
     _foot(p, ax, "World Bank. The CBS vital-statistics line when CBS returns")
 
     ax = ig.slot("demography.natural_migration", "Natural increase and net "
@@ -426,9 +428,11 @@ def plate_demography(ctx, ig) -> None:
     ig.add_recessions(ax, label=False)
     ax.legend(loc="upper left", fontsize=7.8, frameon=False)
     pk = max(zip(ry, rv), key=lambda t: t[1])
-    ax.annotate(f"{pk[1]:.1f} in {pk[0]}", pk, textcoords="offset points",
-                xytext=(0, 7), ha="center", fontsize=8.4, fontweight="bold",
-                color=p.BLUE)
+    ax.annotate(f"{pk[1]:.1f} in {pk[0]}: the wave the UN's\nestimate misses "
+                "entirely", pk, xytext=(2015.5, 19),
+                textcoords="data", fontsize=8.0, fontweight="bold",
+                color=p.BLUE, ha="left", va="center",
+                arrowprops=dict(arrowstyle="-", color=p.FAINT, lw=0.8))
     _foot(p, ax, "World Bank (UN WPP) ÷ the mid-year population; the UN net "
           "figure is not the olim flow — see migration")
     _finish(ctx, ig)
