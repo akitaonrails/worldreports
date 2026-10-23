@@ -1,0 +1,25 @@
+# Deaths per 100,000 - the harmonised publishers, no credible national series is
+# public (see SOURCES.yaml pending): homicide UNODC via WB (VC.IHR.PSRC.P5, ends
+# 2020), suicide WHO estimate (SH.STA.SUIC.P5, ends 2021), road traffic deaths WHO
+# (SH.STA.TRAF.P5, ends 2019). Verified 2026-10-23: homicide 2020 0.50, suicide 2021
+# 8.95, road 2019 17.4. Each published rate is used directly, not recomputed. The
+# holes past the publishers' ends stay holes; the plate labels each series' last
+# year. China's own police-reported and Ministry-of-Transport figures are not
+# published in an accessible comparable series - parked, never scraped.
+year,homicide_per_100k,suicide_per_100k,road_deaths_per_100k
+2006,1.36,13.02,20.70
+2007,1.22,12.18,20.90
+2008,1.11,11.61,20.50
+2009,1.09,11.10,20.50
+2010,0.99,10.58,20.30
+2011,0.88,9.97,20.70
+2012,0.82,9.41,20.30
+2013,0.77,9.07,19.60
+2014,0.73,8.86,18.80
+2015,0.66,8.69,18.30
+2016,0.61,8.65,18.00
+2017,0.57,8.62,17.80
+2018,0.53,8.70,17.60
+2019,0.52,8.75,17.40
+2020,0.50,8.82,
+2021,,8.95,

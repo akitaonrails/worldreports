@@ -1,0 +1,653 @@
+# Data provenance — every series for China  (verification pass 1–2 applied;
+# fetch phase applied for the live sources — see refreshed_by)
+#
+# Written before any CSV, per SOURCING_A_COUNTRY.md §3. Endpoints were
+# curl'd live on 2026-10-22; the marker under each entry records the outcome.
+# Files now staged under data/ are listed with the fetcher that refreshes
+# them; a file listed here but parked under `pending` has no CSV yet and
+# nothing may invent one.
+#
+# THE CHINA RULE (COUNTRIES.md row 7): the NBS publishes a full set of numbers;
+# the atlas publishes what NBS publishes, marked official: true, and beside it
+# the World Bank / IMF / UN reading of the SAME quantity, marked official:
+# false, with a note stating where the two disagree and by how much. TWO LINES,
+# NEVER ONE SPLICED LINE. The NBS machine layer is 403-blocked from this
+# machine (see pending), so today only the international side of each pair is
+# staged; the official side rides beside it in the same file or joins when the
+# block lifts — never spliced, never averaged, never substituted.
+#
+# LIVE-PROBE SUMMARY (2026-10-22, from this machine):
+#   World Bank API ............ LIVE  (JSON, lastupdated 2026-10-08)
+#   IMF DataMapper API ........ LIVE  (JSON; /CHN doesn't filter — see quirks;
+#                                      Akamai 403s curl's TLS fingerprint — the
+#                                      fetchers' urllib browser UA gets through)
+#   UNDP HDR25 CSV ............ LIVE  (200, text/csv, ~2.0 MB)
+#   Yahoo 000001.SS ........... LIVE  (chart v8 JSON; SSE Composite)
+#   UN Comtrade public preview  LIVE  (200, no key, all partners returned for
+#                                      C/A/HS period=2023; 429s if polled fast)
+#   NBS data.stats.gov.cn ..... 403 BLOCKED (easyquery.htm refuses; portal HTML reachable)
+#   GACC customs.gov.cn ....... 412 BLOCKED (anti-bot precondition)
+#   PBoC pbc.gov.cn ........... portal 200 (machine endpoint not yet isolated)
+#   SAFE safe.gov.cn .......... portal 200
+#   MOF  mof.gov.cn ........... portal 200
+#
+# OFFICIAL-BLOCKED = the authoritative publisher exists but its machine layer is
+# unreachable from here (403/412); parked on the pending list, never scraped.
+
+# --------------------------------------------------------------------------
+# economy — GDP (level, growth, per-head). NBS-official beside WB/IMF.
+# --------------------------------------------------------------------------
+economy:
+  gdp_growth_intl.csv:
+    source: World Bank NY.GDP.MKTP.KD.ZG + IMF DataMapper NGDP_RPCH (ISO3=CHN)
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.KD.ZG?date=2006:2025&format=json"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecars economy/gdp_growth_intl_from_wb.csv + economy/gdp_growth_intl_from_imf.csv; curated staged from both, values unchanged (2026-10-22)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-22 and refetched by the fetcher the same day. WB annual
+      real growth (JSON [meta,[obs]]): 2025 4.96, 2024 4.96, 2023 5.42,
+      2022 3.13, 2021 8.57, 2020 2.34 (%). IMF CHN annual: 2006 12.7, 2007 14.2,
+      2008 9.6, 2009 9.4, 2010 10.6, 2011 9.5, 2012 7.8, 2013 7.8, 2014 7.5,
+      2015 7.0, 2016 6.8, 2017 6.9, 2018 6.8, 2019 6.1, 2020 2.3, 2021 8.6,
+      2022 3.1, 2023 5.4, 2024 5.0, 2025 5.0. Confirmed programmatically again
+      at fetch time: ZERO negative annual real-growth years for CHN across the
+      whole WEO body. This proves no annual contraction but cannot decide the
+      two-quarter band rule; the required NBS quarterly series is pending. The NBS official
+      reading (pending, 403-blocked) is usually a few tenths off these (e.g.
+      NBS 2023 5.2 vs WB 5.42 vs IMF 5.4); when it opens it joins as its own
+      labelled column, and the three are never averaged or spliced. DATAMAPPER
+      QUIRK: the `/CHN` path segment does NOT filter — the response carries all
+      229 countries under values.<IND>; the fetcher reads values.<IND>.CHN.
+  gdp_growth_intl_from_wb.csv:
+    source: World Bank — NY.GDP.MKTP.KD.ZG
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind gdp_growth_intl.csv; diff before adopting."
+  gdp_growth_intl_from_imf.csv:
+    source: IMF DataMapper — NGDP_RPCH (WEO, outturn years only; WEO projections beyond 2025 are never cached as data)
+    url: "https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/CHN"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind gdp_growth_intl.csv; diff before adopting."
+  gdp_usd.csv:
+    source: World Bank — NY.GDP.MKTP.CD (ISO3=CHN)
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.CD?date=2006:2025&format=json"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar economy/gdp_usd_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
+    official: false
+    notes: >-
+      VERIFIED. Current US$: 2025 19,498,039,388,042.6 (US$19.50tn), 2024
+      18,729,668,435,848, 2023 18,270,356,654,533, 2022 18,316,765,021,690,
+      2021 18,201,698,719,564. Magnitude check ~US$18-19tn PASSES. CAUTION:
+      the current-USD LEVEL DIPS from 2022 to 2023 (18.32tn -> 18.27tn) purely
+      from the exchange rate, while real growth was +5.4% that year — the
+      current-USD series is a size reading, never a growth reading. The NBS
+      level in current CNY (pending, 403-blocked) joins beside it, never
+      spliced; the two differ by the conversion, not by anything measured.
+  gdp_usd_from_wb.csv:
+    source: World Bank — NY.GDP.MKTP.CD
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.CD?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind gdp_usd.csv; diff before adopting."
+  gdp_pc_usd.csv:
+    source: World Bank — NY.GDP.PCAP.CD
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.PCAP.CD?date=2006:2025&format=json"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar economy/gdp_pc_usd_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
+    official: false
+    notes: "VERIFIED. 2025 = US$13,861.97 per person (current US$, harmonised)."
+  gdp_pc_usd_from_wb.csv:
+    source: World Bank — NY.GDP.PCAP.CD
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.PCAP.CD?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind gdp_pc_usd.csv; diff before adopting."
+
+  # ---- prices and jobs: the economy slots the blocked NBS would fill ----
+  inflation_intl.csv:
+    source: World Bank FP.CPI.TOTL.ZG + IMF DataMapper PCPIPCH (WEO)
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecars economy/inflation_intl_from_wb.csv + economy/inflation_intl_from_imf.csv; curated staged from both, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23 and refetched the same day. WB annual CPI: 2023 0.23,
+      2024 0.22, 2025 0.06; IMF CHN: 2009 −0.7 (deflation inside a +9% growth
+      year), 2019 2.9, 2025 0.0 (WEO projections beyond 2025 not staged). The
+      fetcher asserts the two publishers agree within 5% in 2019. The NBS CPI
+      (pending, 403-blocked) is the national line of record and joins beside
+      these, never spliced; the CPI is never drawn on a growth panel.
+  inflation_intl_from_wb.csv:
+    source: World Bank — FP.CPI.TOTL.ZG
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind inflation_intl.csv; diff before adopting."
+  inflation_intl_from_imf.csv:
+    source: IMF DataMapper — PCPIPCH (WEO, outturn years only)
+    url: "https://www.imf.org/external/datamapper/api/v1/PCPIPCH/CHN"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind inflation_intl.csv; diff before adopting."
+  unemployment_intl.csv:
+    source: World Bank — SL.UEM.TOTL.ZS (ILO modelled estimate)
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SL.UEM.TOTL.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar economy/unemployment_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: 2025 4.6, 2020 5.0 — the ILO modelled estimate, the
+      only unemployment series this machine can fetch: the NBS surveyed urban
+      rate (~5%, different definition and sample) and the registered rate are
+      pending (403). The harmonised line stands in for economy slot 4 exactly
+      as the IMF broad-debt line stands in for fiscal slot 3; when the NBS
+      line opens it rides beside, never replaces by splicing.
+  unemployment_intl_from_wb.csv:
+    source: World Bank — SL.UEM.TOTL.ZS
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SL.UEM.TOTL.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind unemployment_intl.csv; diff before adopting."
+  gfcf_pct_gdp.csv:
+    source: World Bank — NE.GDI.FTOT.ZS (GFCF, % of GDP, national accounts)
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NE.GDI.FTOT.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar economy/gfcf_pct_gdp_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: 2024 39.65, series ends 2024 (WB lag). The
+      2010-2021 plateau (always above 40) breaks the spine's 0–40 reference:
+      the axis grows and carries the marker — China's investment rate is the
+      finding. The property crisis shows here as the line's fall from the
+      plateau; no property-price series is staged (NBS blocked), so no price
+      lens is drawn (DATA_NOTES).
+  gfcf_pct_gdp_from_wb.csv:
+    source: World Bank — NE.GDI.FTOT.ZS
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NE.GDI.FTOT.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind gfcf_pct_gdp.csv; diff before adopting."
+
+# --------------------------------------------------------------------------
+# markets — policy rate, currency, index, reserves. PBoC/SAFE official + market.
+# --------------------------------------------------------------------------
+markets:
+  reserves_intl.csv:
+    source: World Bank — FI.RES.TOTL.CD (IMF IFS), ISO3=CHN
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/FI.RES.TOTL.CD?date=2006:2025&format=json"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar markets/reserves_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
+    official: false
+    notes: >-
+      VERIFIED. Reserves incl. gold, current US$, year-end: 2025
+      3,748,744,952,817.94 (US$3.75tn), 2024 US$3.46tn. The gold-revaluation
+      step in 2024-25 lifts the IFS figure; the SAFE national figure is the one
+      of record and joins beside this (pending, see pending list), never
+      spliced.
+  reserves_intl_from_wb.csv:
+    source: World Bank — FI.RES.TOTL.CD
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/FI.RES.TOTL.CD?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind reserves_intl.csv; diff before adopting."
+  sse_index.csv:
+    source: market — SSE Composite (上证综合指数), redistributed by Yahoo Finance
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/000001.SS?interval=1mo"
+    refreshed_by: "fetch/fetch_markets.py → sidecar markets/sse_index_from_yahoo.csv; curated staged from it (window-clipped to 2006+), values unchanged (2026-10-22)"
+    official: false
+    notes: >-
+      VERIFIED. JSON chart object; meta: symbol 000001.SS, exchange SHH
+      (Shanghai), instrumentType INDEX, currency CNY, firstTradeDate 1997-07,
+      gmtoffset 28800. Year-end closes asserted at fetch time (2007 5261.56,
+      2015 3539.18, 2024 3351.76) and cross-checked against Yahoo's own daily
+      bars for the last trading day of each December — the monthly bar IS the
+      year-end. The print record for 2007 quotes 5261.24: Yahoo's history runs
+      0.32 points (0.006%) higher for that one bar; the sidecar records the
+      redistributor's value, unrounded. Monthly bars are stamped at month start
+      in exchange time, so the fetcher applies the +08:00 offset — read as
+      bare UTC every bar lands one month early. stooq is JS-walled from this
+      machine, so Yahoo is the source. Nobody publishes a stock index as a
+      statistic, hence official: false; the 2026 row is a running reading, not
+      an annual total.
+  sse_index_from_yahoo.csv:
+    source: Yahoo Finance chart API — 000001.SS monthly bars
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/000001.SS?interval=1mo"
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: "Fetcher sidecar behind sse_index.csv; 2005 row kept as rebasing context."
+  spx_index.csv:
+    source: market — S&P 500, redistributed by Yahoo Finance
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1mo"
+    refreshed_by: "fetch/fetch_markets.py → sidecar markets/spx_index_from_yahoo.csv; curated staged from it (window-clipped to 2006+), values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23. Year-end closes 2007 1468.36, 2015 2043.94, 2024
+      5881.63 — matching the record exactly; the 2026 row is a running
+      reading. Drawn in markets slot 4 dashed, beside the SSE Composite in
+      US$, both indexed 2006 = 100 (the spine's convention), converted from
+      the staged fx_cny_per_usd.csv; nobody publishes a stock index as a
+      statistic, hence official: false.
+  spx_index_from_yahoo.csv:
+    source: Yahoo Finance chart API — ^GSPC monthly bars
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1mo"
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: "Fetcher sidecar behind spx_index.csv; 2005 row kept as rebasing context."
+  fx_cny_per_usd.csv:
+    source: World Bank — PA.NUS.FCRF (official exchange rate, CNY per US$, annual average)
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/PA.NUS.FCRF?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar markets/fx_cny_per_usd_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: 2025 7.19; 2006 7.97, 2014 6.14 (the firm years
+      before the 2015-811 devaluation). This is the series the currency slot
+      indexes (2006 = 100, rising = STRONGER renminbi) and the equity slot
+      converts with. The PBoC 中间价 central parity and the CFETS market
+      close are the two national series (pending, endpoints unisolated);
+      when either opens it joins beside this one, never blended — the two
+      fixings never merge with each other either.
+  fx_cny_per_usd_from_wb.csv:
+    source: World Bank — PA.NUS.FCRF
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/PA.NUS.FCRF?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind fx_cny_per_usd.csv; diff before adopting."
+
+# --------------------------------------------------------------------------
+# fiscal — revenue, deficit, debt. MOF (narrow) + IMF (broad), side by side.
+# --------------------------------------------------------------------------
+fiscal:
+  debt_intl_pct_gdp.csv:
+    source: IMF DataMapper — GGXWDG_NGDP (general government gross debt, % of GDP)
+    url: "https://www.imf.org/external/datamapper/GGXWDG_NGDP@WEO/CHN"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar fiscal/debt_intl_pct_gdp_from_imf.csv; curated staged from it, values unchanged (2026-10-22)"
+    official: false
+    notes: >-
+      The official DataMapper landing above is the independently resolvable
+      citation. The fetcher reads the JSON API at
+      /external/datamapper/api/v1/GGXWDG_NGDP/CHN, but IMF/Akamai may return
+      HTTP 403 depending on client and environment; the committed CSV pins the
+      reviewed 2026-10-22 response and is not an invented substitute. CHN row
+      (the `/CHN` API segment does NOT filter — extract
+      values.GGXWDG_NGDP.CHN from the 226-country body): 2006 25.2, 2009 33.9,
+      2010 33.1, then a steep climb 2018 55.7 -> 2020 70.6 -> 2023 84.1 ->
+      2025 98.6 (% of GDP; WEO projections past 2025 are not staged). This is
+      the IMF's broad general-government perimeter — a far larger number than
+      the MOF's narrow on-budget debt (pending, mof.gov.cn), because it
+      includes the local-government/LGFV-adjacent bodies the on-budget figure
+      excludes. That several-dozen-point gap IS the finding. Drawn beside the
+      MOF figure with the perimeter stated; never spliced.
+  debt_intl_pct_gdp_from_imf.csv:
+    source: IMF DataMapper — GGXWDG_NGDP (outturn years to 2025; projections beyond are never cached as data)
+    url: "https://www.imf.org/external/datamapper/GGXWDG_NGDP@WEO/CHN"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Fetcher sidecar behind debt_intl_pct_gdp.csv; diff before adopting. The
+      fetcher uses the DataMapper JSON API, which may receive an IMF/Akamai 403
+      depending on client and environment; the official landing URL above is
+      the stable citation and the committed sidecar pins the reviewed response.
+
+# --------------------------------------------------------------------------
+# trade — goods exports/imports by partner. GACC/NBS (blocked) vs UN Comtrade.
+# --------------------------------------------------------------------------
+trade:
+  trade_intl_openness.csv:
+    source: World Bank — NE.TRD.GNFS.ZS plus NE.EXP.GNFS.ZS / NE.IMP.GNFS.ZS
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NE.TRD.GNFS.ZS?date=2006:2025&format=json"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar trade/trade_intl_openness_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
+    official: false
+    notes: >-
+      VERIFIED. 2025 = 37.96% of GDP (exports 21.07 + imports 16.89; the
+      fetcher asserts the two parts sum to the total within 0.1). Goods+
+      services, BoP basis — the spine's trade slot-1 unit; fell from the
+      mid-2000s high (~60%+) — the openness story. It is a cross-check on
+      GACC's customs-goods figures, NOT the same quantity: a BoP total
+      includes services and is counted on a different basis (SOURCING §4).
+      GACC itself is 412-blocked (pending); nothing is spliced.
+  trade_intl_openness_from_wb.csv:
+    source: World Bank — NE.TRD.GNFS.ZS, NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NE.TRD.GNFS.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind trade_intl_openness.csv; diff before adopting."
+  trade_comtrade_partner.csv:
+    source: UN Comtrade public preview (reporter 156 = China), HS goods by partner
+    url: "https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=156&period=2023&cmdCode=TOTAL"
+    refreshed_by: "fetch/fetch_comtrade.py → sidecar trade/trade_comtrade_partner_from_comtrade.csv; curated staged from it, values unchanged (2026-10-22)"
+    official: false
+    notes: >-
+      VERIFIED 200 (no auth). 2023 snapshot: World rows US$3,379,747,834,884
+      (X) / US$2,556,763,018,595 (M), asserted at fetch time and matching
+      GACC's announced 2023 customs totals (~US$3.38tn / ~US$2.56tn) in order
+      of magnitude; the 220 partner rows sum EXACTLY to the World totals, so
+      this query is not row-capped and top-10 shares are true shares.
+      Comtrade is on its own harmonised definition — a cross-check on partner
+      totals, never a substitute for the GACC national figure and never
+      spliced with it or with the BoP-basis openness series. Quirks: 842 is
+      Comtrade's legacy United States, 344 is Hong Kong China; partner 156
+      (re-imports in processing trade, $104.3bn of M) is kept out of the
+      panel but inside the World denominator; Comtrade's China report carries
+      no Taiwan partner code — the ~$200bn GACC books as Taiwan imports lands
+      in the 'Other Asia nes' residual (490), and that attribution is the
+      atlas's reading, flagged in the CSV header, not a Comtrade field.
+  trade_comtrade_partner_from_comtrade.csv:
+    source: UN Comtrade public preview — period 2023, flows X and M, cmdCode TOTAL, all partners
+    url: "https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=156&period=2023&cmdCode=TOTAL"
+    refreshed_by: fetch/fetch_comtrade.py
+    official: false
+    notes: "Fetcher sidecar behind trade_comtrade_partner.csv; the World row and all partner sums are shape-asserted before caching."
+
+# --------------------------------------------------------------------------
+# people — labour, income, inequality. NBS vs ILO/WB.
+# --------------------------------------------------------------------------
+people:
+  gini_intl.csv:
+    source: World Bank — SI.POV.GINI (harmonised, own income definition)
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.GINI?date=2006:2024&format=json"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar people/gini_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
+    official: false
+    notes: >-
+      VERIFIED. 2022 = 36.0; 2023 onward are null — the WB series LAGS, and
+      the nulls stay null (a hole is a hole). 2006-2007 and 2009 are holes in
+      the WB series too. The NBS Gini (pending, 403-blocked; last published
+      ~2022) is a different income definition on a different survey and would
+      join as its own labelled column; two columns, never spliced.
+  gini_intl_from_wb.csv:
+    source: World Bank — SI.POV.GINI
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.GINI?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind gini_intl.csv; holes 2006-2007, 2009 and 2023+ stay holes."
+  poverty_intl.csv:
+    source: World Bank PIP — SI.POV.UMIC (poverty headcount, US$8.30/day, 2021 PPP)
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.UMIC?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar people/poverty_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: 2022 21.3% and survey years 2008-2022 only. The
+      US$8.30 line is the poverty line the Bank sets for a country at China's
+      income level: 2008 72.8% — above the spine's 0–50 reference, so the
+      axis grows and says so — falling to 21.3% by 2022. China's own official
+      poverty standard (a much lower line, last published 2020 and then
+      discontinued) has no fetchable series and is not drawn; the survey
+      years stay survey years and the holes past 2022 stay holes.
+  poverty_intl_from_wb.csv:
+    source: World Bank — SI.POV.UMIC
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.UMIC?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind poverty_intl.csv; survey-year holes stay holes."
+
+# --------------------------------------------------------------------------
+# demography — births, deaths, population, life expectancy. NBS + WB/UN cross-check.
+# --------------------------------------------------------------------------
+  pov_lines_intl.csv:
+    source: World Bank PIP pov_line_family — SI.POV.DDAY ($3.00/day 2021 PPP) + SI.POV.LMIC ($4.20/day 2021 PPP), ISO3=CHN
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.DDAY?format=json&per_page=200"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar people/pov_lines_intl_from_wb.csv; curated staged with values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      The international poverty-line family for China — one survey, three
+      lines, with the $8.30 upper-middle-income line already in
+      poverty_intl.csv. Spot-asserted at fetch time: 2020 $3.00 line 0.0%,
+      $4.20 line 1.7%. Headcount-ratio series carry survey-year gaps — the
+      breaks are shown, not smoothed. Feeds the people-lens panel.
+  pov_lines_intl_from_wb.csv:
+    source: World Bank — SI.POV.DDAY + SI.POV.LMIC
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.DDAY?format=json&per_page=200"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind pov_lines_intl.csv; diff before adopting."
+demography:
+  population_intl.csv:
+    source: World Bank — SP.POP.TOTL (UN World Population Prospects)
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SP.POP.TOTL?date=2006:2025&format=json"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar demography/population_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
+    official: false
+    notes: >-
+      VERIFIED. Peak 2022 = 1,412,175,000; 2023 1,410,710,000; 2024
+      1,408,975,000; 2025 1,406,585,000. Population ~1.41bn and FALLING since
+      2022 — the magnitude check PASSES. A UN WPP projection series on its own
+      vintage (the 2024 revision); the NBS year-end estimate is the national
+      one of record and joins beside this when the block lifts (pending),
+      never spliced — census years (2010, 2020) rebase the national vintage,
+      so change is computed within one vintage.
+  population_intl_from_wb.csv:
+    source: World Bank — SP.POP.TOTL
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SP.POP.TOTL?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind population_intl.csv; diff before adopting."
+  vital_intl.csv:
+    source: World Bank WDI — SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM (UN WPP 2024-revision vintage)
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SP.DYN.TFRT.IN?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar demography/vital_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: TFR 2023 1.00, 2024 1.01 — below replacement by
+      a factor of two; crude birth 2024 6.77 per 1,000 vs crude death 7.76 —
+      the two lines CROSSED in 2023-24; net migration is a COUNT (2025
+      −268,126, negative every year in the window), per 1,000 computed on
+      the plate over the same-vintage population. All four series end 2024
+      or 2025 with the WPP vintage; holes stay holes. These are WPP modelled
+      rates — internally consistent with the staged population series (same
+      revision), which is what makes the derived birth counts defensible
+      (DATA_NOTES). NBS birth/death registrations, with the 2010/2020 census
+      rebases, are pending (403) and will be their own labelled lines.
+  vital_intl_from_wb.csv:
+    source: World Bank — SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SP.DYN.TFRT.IN?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind vital_intl.csv; diff before adopting."
+
+# --------------------------------------------------------------------------
+# migration — diaspora/international stock (small) vs INTERNAL floating pop (big).
+# --------------------------------------------------------------------------
+migration:
+  migrant_stock_intl.csv:
+    source: World Bank — SM.POP.TOTL.ZS (UN DESA migrant stock, % of population)
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SM.POP.TOTL.ZS?date=2006:2024&format=json"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar migration/migrant_stock_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
+    official: false
+    notes: >-
+      VERIFIED. 2024 = 0.1% of population. UN DESA publishes five-year
+      vintages: inside the window the series exists at 2010, 2015, 2020 and
+      2024 only — the other years are holes and stay holes. China's
+      INTERNATIONAL migration is marginal on this definition — the real
+      migration story is internal (hukou vs resident population; the NBS
+      floating-population line is pending). Flow vs stock in separate panels.
+  migrant_stock_intl_from_wb.csv:
+    source: World Bank — SM.POP.TOTL.ZS
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SM.POP.TOTL.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind migrant_stock_intl.csv; diff before adopting."
+
+# --------------------------------------------------------------------------
+# world / comparables — the legibility layer.
+# --------------------------------------------------------------------------
+  urban_share_intl.csv:
+    source: UN World Population Prospects 2024 (urban population share) via World Bank SP.URB.TOTL.IN.ZS, ISO3=CHN
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SP.URB.TOTL.IN.ZS?format=json&per_page=200"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar migration/urban_share_intl_from_wb.csv; curated staged with values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      The legible reading of internal (rural-to-urban) migration — the
+      country's largest movement, invisible in the blocked NBS external-flow
+      books and in UN net-migration counts. Full annual 1960-2025; spot-
+      asserted 2025 at 66.3%. Feeds the migration-lens panel.
+  urban_share_intl_from_wb.csv:
+    source: World Bank — SP.URB.TOTL.IN.ZS
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SP.URB.TOTL.IN.ZS?format=json&per_page=200"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind urban_share_intl.csv; diff before adopting."
+international:
+  hdi.csv:
+    source: UNDP — Human Development Report 2025, composite indices complete time series
+    url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar international/hdi_from_undp.csv; curated staged from it, values unchanged (2026-10-22)"
+    official: false
+    notes: >-
+      VERIFIED. 200, text/csv, ~2.0 MB, one row per country (names are
+      cp1252, not UTF-8 — the fetcher decodes cp1252); the CHN row: rank 78,
+      2006 0.666, 2015 0.750, 2023 0.797, 2024 not published. ONE VINTAGE
+      throughout — the HDR recomputes the whole back-series at each
+      methodology change, so a trend assembled across report years is partly
+      an artefact of the reports.
+  hdi_from_undp.csv:
+    source: UNDP — HDR25_Composite_indices_complete_time_series.csv, CHN row
+    url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind hdi.csv; window-clipped copy of the HDR25 CHN row."
+  corruption_intl.csv:
+    source: Transparency International — Corruption Perceptions Index, 2012-method series
+    url: "https://images.transparencycdn.org/images/CPI2025_Results.xlsx"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar international/corruption_intl_from_ti.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: CHN 2012 39, 2021-22 45 (best years), 2025 43.
+      Scores 0–100 on the method introduced in 2012; the earlier 0–10 scores
+      are a different method and are not in TI's time series, so the series
+      starts 2012 — a seam in the file, not a gap to interpolate. Note:
+      Canada's fetcher used the CPI2025-Results-and-trends.xlsx workbook,
+      whose CDN object now answers 403 AccessDenied from this machine; the
+      plain CPI2025_Results.xlsx at this address is live and carries the
+      same CPI Historical sheet.
+
+# --------------------------------------------------------------------------
+# credit — bank health. Household credit is BIS-territory and blocked-ish;
+# the one fetchable canonical slot is the IMF FSI non-performing ratio.
+# --------------------------------------------------------------------------
+credit:
+  npl_intl.csv:
+    source: World Bank — FB.AST.NPER.ZS (IMF Financial Soundness Indicators)
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/FB.AST.NPER.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar credit/npl_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: 2024 1.51% of gross loans, series 2010-2024. This
+      is the regulators' reported ratio as the FSI collects it; the property
+      crisis story reads it as an undercount, and the plate says so without
+      adjusting the number. The CBIRC/CNFA national series is not in an
+      accessible machine form (pending); BIS household credit for China is
+      not staged — the household-credit trio stays pending (DATA_NOTES).
+  npl_intl_from_wb.csv:
+    source: World Bank — FB.AST.NPER.ZS
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/FB.AST.NPER.ZS?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind npl_intl.csv; diff before adopting."
+
+# --------------------------------------------------------------------------
+# security — deaths per 100,000, harmonised publishers only. China publishes
+# no accessible comparable national series (SOURCES.yaml pending, honest).
+# --------------------------------------------------------------------------
+security:
+  security_intl.csv:
+    source: World Bank — VC.IHR.PSRC.P5 (UNODC homicide), SH.STA.SUIC.P5 (WHO suicide), SH.STA.TRAF.P5 (WHO road traffic)
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/VC.IHR.PSRC.P5?format=json&per_page=200&date=2005:2026"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar security/security_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      VERIFIED 2026-10-23: homicide 2020 0.50 per 100,000 (UNODC series
+      ends 2020), suicide 2021 8.95 (WHO age-standardised, ends 2021), road
+      traffic 2019 17.4 (WHO, ends 2019). Published rates used directly,
+      never recomputed; the series' different end years stay different end
+      years. This replaces the Phase A expectation of "likely none": the
+      UNODC/WHO estimates DO cover China, and they — not scraped police
+      figures — are what the chapter draws (see the pending entry, amended
+      by observation).
+  security_intl_from_wb.csv:
+    source: World Bank — VC.IHR.PSRC.P5, SH.STA.SUIC.P5, SH.STA.TRAF.P5
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/VC.IHR.PSRC.P5?format=json&per_page=200&date=2005:2026"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind security_intl.csv; each series keeps its own end year."
+
+# --------------------------------------------------------------------------
+# PENDING — unreachable / not-yet-isolated publishers. Do not block; the lane
+# moves on. These entries are PROVENANCE CLAIMS about planned files, not a
+# dataset list: nothing under data/ exists for them yet, and no number may be
+# invented to fill one. Each names the file, the publisher, the blocked or
+# unisolated channel, and what a later phase must do instead of scraping.
+# --------------------------------------------------------------------------
+pending:
+  - id: nbs-api-blocked
+    files: >-
+      economy/gdp_growth_nbs.csv (official: true), economy/gdp_level_nbs.csv
+      (official: true), people/unemployment_nbs.csv (official: true),
+      people/gini_nbs.csv (official: true), demography/population_nbs.csv
+      (official: true), migration/floating_population_nbs.csv (official: true)
+    what: >-
+      NBS machine API (data.stats.gov.cn/easyquery.htm, dbcode hgyr annual /
+      hgjd quarterly, zb codes like A020101 for GDP) returned HTTP 403 on
+      every variant tried 2026-10-22 — root, /english/, with and without a
+      browser User-Agent, annual and the trade query shape (~1-1.8s each,
+      295-313-byte error bodies). The plain portals www.stats.gov.cn and
+      stats.gov.cn/english/ DO return HTTP 200 (root slow, ~6s). So the
+      NBS-official series the atlas wants (GDP level in CNY and real growth,
+      surveyed urban unemployment — the ~5% headline, distinct from the older
+      REGISTERED rate, national Gini last published ~2022, births/deaths/life
+      expectancy with census rebases at 2010 and 2020, and the hukou-vs-
+      resident floating population) cannot be pulled from the API here.
+      Do not scrape a 403. Next session: an authenticated/alternate NBS
+      route, the English HTML portal tables, or take the figure from a named
+      NBS communiqué/census bulletin and cite the document by title and date.
+      Every official NBS line joins BESIDE the staged international twin in
+      the same chapter, never spliced.
+  - id: gacc-blocked
+    files: >-
+      trade/trade_goods_nbs_gacc.csv (official: true, goods exports/imports
+      by partner and total, customs basis)
+    what: >-
+      General Administration of Customs www.customs.gov.cn returned HTTP 412
+      (Precondition Failed / anti-bot) from this machine. Goods-trade-by-
+      partner is parked. UN Comtrade (staged beside, see trade/) and the NBS
+      English portal are the reachable cross-checks; GACC itself needs an
+      alternate route in a later phase. GACC counts goods at customs value at
+      the border; the staged BoP-basis openness series is a different,
+      larger quantity (services included) — two labelled lines, never spliced.
+  - id: pboc-safe-mof-endpoints
+    files: >-
+      markets/policy_rate.csv (official: true; PBoC LPR since Aug 2019 +
+      benchmark lending rate before — a definitional break, two columns,
+      never one line), markets/usdcny.csv (official: true; PBoC/CFETS central
+      parity 中间价 AND the CFETS market close, two series, never one; CNY
+      per USD so a rising line is a WEAKER renminbi), markets/reserves_nbs_safe.csv
+      (official: true; SAFE reserve-assets series,
+      ~US$3.2-3.7tn, beside the staged reserves_intl.csv), fiscal/
+      fiscal_balance_mof.csv (official: true; MOF announced budget deficit —
+      a narrow general-public-budget concept, NOT the general-government
+      balance), fiscal/debt_narrow_mof.csv (official: true; MOF on-budget
+      central+local debt, excluding LGFVs, beside the staged IMF broad
+      perimeter).
+    what: >-
+      PBoC, SAFE and MOF portals are reachable (all 200: pbc.gov.cn 2.75s,
+      safe.gov.cn 3.46s, mof.gov.cn 1.61s) but the machine-readable series
+      endpoints (LPR history, USD/CNY fixing vs CFETS close, reserves,
+      budget execution) were not isolated on 2026-10-22. Planned fetchers:
+      fetch/fetch_pboc.py, fetch/fetch_safe.py, fetch/fetch_mof.py. Where a
+      communiqué is the only readable route, the figure is curated BY HAND
+      with the document named in the notes — never invented, never rounded
+      off a secondary report.
+  - id: security-homicide-none
+    what: >-
+      Security/homicide: AMENDED BY OBSERVATION (2026-10-23). China publishes
+      no accessible criminal-homicide series of its own, but the harmonised
+      publishers do cover China: UNODC homicide (VC.IHR.PSRC.P5, to 2020),
+      WHO suicide (SH.STA.SUIC.P5, to 2021) and WHO road-traffic deaths
+      (SH.STA.TRAF.P5, to 2019) are staged in security/security_intl.csv.
+      The Security chapter therefore stays on the spine with the harmonised
+      rates, and what is pending honestly is the NATIONAL series: the
+      police-reported and Ministry-of-Transport figures, not published in an
+      accessible comparable form — do NOT scrape an estimate for them.
+  - id: quarterly-band-confirm
+    what: >-
+      The staged WB and IMF series establish only that China has no negative
+      annual real-GDP year in the window; fetch_harmonised.py checks that
+      annual fact. Annual values cannot decide the two-consecutive-quarter
+      rule. The required QUARTERLY NBS series is blocked (403), so the
+      recession-band decision remains pending and unsupported. bands: [] means
+      no evidence-backed band is published; it does not assert no recession.
+      The 2020 shock and 2022 / 2024-25 slowdowns are PLATE EVENTS only and do
+      not settle the quarterly rule.

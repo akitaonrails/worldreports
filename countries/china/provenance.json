@@ -1,0 +1,53 @@
+{
+ "01-economy": [
+  "economy/gdp_growth_intl.csv",
+  "economy/gdp_pc_usd.csv",
+  "economy/inflation_intl.csv",
+  "economy/unemployment_intl.csv"
+ ],
+ "02-fiscal": [
+  "fiscal/debt_intl_pct_gdp.csv"
+ ],
+ "03-spending": [
+  "economy/gfcf_pct_gdp.csv"
+ ],
+ "04-trade": [
+  "trade/trade_comtrade_partner.csv",
+  "trade/trade_intl_openness.csv"
+ ],
+ "05-markets": [
+  "markets/fx_cny_per_usd.csv",
+  "markets/spx_index.csv",
+  "markets/sse_index.csv"
+ ],
+ "06-credit": [
+  "credit/npl_intl.csv"
+ ],
+ "07-people": [
+  "people/gini_intl.csv",
+  "people/pov_lines_intl.csv",
+  "people/poverty_intl.csv"
+ ],
+ "08-world": [
+  "economy/gdp_usd.csv",
+  "international/corruption_intl.csv",
+  "international/hdi.csv",
+  "markets/reserves_intl.csv"
+ ],
+ "09-demography": [
+  "demography/population_intl.csv",
+  "demography/vital_intl.csv"
+ ],
+ "10-security": [
+  "security/security_intl.csv"
+ ],
+ "11-mortality": [
+  "demography/vital_intl.csv"
+ ],
+ "12-migration": [
+  "demography/population_intl.csv",
+  "demography/vital_intl.csv",
+  "migration/migrant_stock_intl.csv",
+  "migration/urban_share_intl.csv"
+ ]
+}
