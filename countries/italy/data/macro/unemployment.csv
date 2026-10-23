@@ -1,0 +1,30 @@
+# ISTAT RFL (labour force survey), unemployment rate 15-74, quarterly seasonally adjusted, flow 151_884, EDITION pinned to 2026M9G11.
+# Annual figure = MEAN of the four SA quarters; a year with fewer quarters is blank, its count in `quarters`.
+# The current-regulation flow is BACKCAST: its latest edition starts 2006-Q1, so 2006-2020 here are on the post-2021 (EU 2019/1700) definitions — one series, no old-regulation splice needed.
+# Eurostat une_rt_a (unemployment_from_estat.csv) starts only in 2009 for Italy; this file covers 2006-2008.
+# Curated from macro/unemployment_from_estat.csv + macro/unemployment_from_istat.csv: one column set per publisher, values
+# unchanged, trimmed to 2006-2026; the two column sets are two releases of
+# one quantity — label both, splice neither.
+# The sidecars beside it are what the fetchers refresh.
+year,estat,unemp_rate_avg,quarters
+2006,,6.86,4
+2007,,6.20,4
+2008,,6.78,4
+2009,7.9,7.85,4
+2010,8.5,8.49,4
+2011,8.5,8.60,4
+2012,10.9,10.92,4
+2013,12.4,12.35,4
+2014,12.9,12.79,4
+2015,12.0,12.02,4
+2016,11.7,11.72,4
+2017,11.3,11.30,4
+2018,10.6,10.61,4
+2019,9.9,9.90,4
+2020,9.3,9.35,4
+2021,9.5,9.53,4
+2022,8.1,8.11,4
+2023,7.7,7.68,4
+2024,6.5,6.57,4
+2025,6.1,6.05,4
+2026,,,2

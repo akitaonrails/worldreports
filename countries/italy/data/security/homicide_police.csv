@@ -3,6 +3,8 @@
 # mafiahom and infanthom are SUBSETS of intenhom (draw as subsets, never stacked as peers); attemphom (attempted) is a separate offence.
 # Counted at the place of the offence by the police; the death-certificate count is homicide_vital_from_istat.csv.
 # PENDING at fetch: column(s) attemphom, mafiahom, infanthom omitted — the flow did not answer; rerun fetch_istat.py.
+# Curated from security/homicide_police_from_istat.csv: values and columns copied unchanged, trimmed to 2006-2026.
+# The sidecar beside it is what the fetcher refreshes.
 year,intenhom,intenhom_per100k
 2006,621,1.1
 2007,627,1.1

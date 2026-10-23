@@ -1,6 +1,8 @@
 # ISTAT 28_185 anagraphic registrations (_2) and cancellations (_5) for change of residence from / to abroad, national, by citizenship (IT Italian, FOR foreign).
 # Quirk: the immigration subflow files the national total under REF_AREA=ITTOT, the emigration subflow under REF_AREA=IT.
 # The register-based national twin of Eurostat migr_imm1ctz / migr_emi1ctz; where the two diverge (e.g. 2008-2011) the vintage/definition difference is the story, not a splice.
+# Curated from migration/migration_flows_from_istat.csv: values and columns copied unchanged, trimmed to 2006-2026.
+# The sidecar beside it is what the fetcher refreshes.
 year,immigration,immigration_italian,immigration_foreign,emigration,emigration_italian,emigration_foreign,balance
 2006,279714,37666,242048,58407,46308,12099,221307
 2007,527123,36693,490430,51113,36299,14814,476010

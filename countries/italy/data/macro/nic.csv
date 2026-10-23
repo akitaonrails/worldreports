@@ -4,6 +4,8 @@
 # rate_avg is ISTAT's own published annual-average rate of change (MEASURE 8), which ISTAT carries across its base changes.
 # 2026 is the running year: index_b2025 is the mean of the months published so far (count in `months`), not an annual mean.
 # PENDING at fetch: column(s) index_b1995, index_b2010, rate_avg omitted — the flow did not answer; rerun fetch_istat.py.
+# Curated from macro/nic_from_istat.csv: values and columns copied unchanged, trimmed to 2006-2026.
+# The sidecar beside it is what the fetcher refreshes.
 year,index_b2015,index_b2025,months
 2006,,,
 2007,,,

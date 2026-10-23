@@ -1,5 +1,7 @@
 # ISTAT 39_494, deaths whose underlying cause is assault (European shortlist 17_3, ICD-10 X85-Y09), national, by RESIDENCE of the victim.
 # The death-certificate count of homicide; the police count is homicide_police_from_istat.csv. They disagree in both directions and neither is wrong (SOURCING §4): two columns, two lines, both labelled.
+# Curated from security/homicide_vital_from_istat.csv: values and columns copied unchanged, trimmed to 2006-2026.
+# The sidecar beside it is what the fetcher refreshes.
 year,assault_deaths
 2006,475
 2007,490

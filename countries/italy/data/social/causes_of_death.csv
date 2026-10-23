@@ -2,6 +2,8 @@
 # The 39_493 twin counts by territory of EVENT — a different count, never mixed with this one.
 # Codes nest (2 > 2_1 > 2_1_1 ...; 'of which' rows are subsets): never sum the column. 99 = all causes; 20* (Covid-19) exist from 2020.
 # All-causes here (certificates, residents) is not the deaths figure in vital_from_istat.csv (population register) — two counts.
+# Curated from social/causes_of_death_from_istat.csv: values and columns copied unchanged, trimmed to 2006-2026.
+# The sidecar beside it is what the fetcher refreshes.
 year,code,cause,deaths
 2006,1,"infectious and parasitic diseases",7277
 2006,10,"diseases of the skin and subcutaneous tissue",901

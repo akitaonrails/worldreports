@@ -2,6 +2,8 @@
 # abs_hh = ABSOLUTE poverty (fixed basket); rel_hh = RELATIVE poverty (national line). The new series starts 2014 on the revised basket.
 # Flow 34_201 is the old, interrupted series (ends 2013): a definitional break — two columns if ever drawn, never spliced.
 # Individual incidence (INCID_POVASS_INDIV) uses different cross-dimension totals and is not staged here.
+# Curated from social/poverty_abs_from_istat.csv: values and columns copied unchanged, trimmed to 2006-2026.
+# The sidecar beside it is what the fetcher refreshes.
 year,abs_hh,rel_hh
 2006,,
 2007,,

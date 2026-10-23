@@ -41,7 +41,7 @@ def _causes(ctx, code: str) -> list[tuple[int, float]]:
     digit grouping. The codes are ICD shortlist labels, not numbers.
     """
     import csv
-    path = ctx.c.data("social/causes_of_death_from_istat.csv")
+    path = ctx.c.data("social/causes_of_death.csv")
     out = []
     with path.open(encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(ln for ln in fh
@@ -55,7 +55,7 @@ def _causes(ctx, code: str) -> list[tuple[int, float]]:
 def _per_pop(ctx, pairs, scale: float) -> list[tuple[int, float]]:
     """Counts over the Eurostat 1-January population — the same division
     the plates make, so card and plate print the same decimal."""
-    pop = dict(ctx.col("social/demography_from_estat.csv", "population"))
+    pop = dict(ctx.col("social/demography.csv", "population"))
     return [(y, v / pop[y] * scale) for y, v in pairs if y in pop]
 
 
@@ -63,32 +63,32 @@ def headline(ctx) -> list[dict]:
     """The figures the page leads with, above the plates."""
     return [
         ctx.stat({"it": "PIL", "en": "GDP", "pt": "PIB"},
-                 ctx.col("macro/gdp_from_estat.csv", "nominal_eurbn"),
+                 ctx.col("macro/gdp.csv", "nominal_eurbn"),
                  "money_bn"),
         ctx.stat({"it": "PIL pro capite, US$", "en": "GDP per person, US$",
                   "pt": "PIB por pessoa, US$"},
-                 ctx.col("international/gdp_pc_from_wb.csv",
+                 ctx.col("international/gdp_pc.csv",
                          "gdp_per_person_usd"), "count"),
         ctx.stat({"it": "Popolazione", "en": "Population", "pt": "População"},
                  [(y, v / 1e6) for y, v in
-                  ctx.col("social/demography_from_estat.csv", "population")],
+                  ctx.col("social/demography.csv", "population")],
                  "pop_mn", kind="level"),
         ctx.stat({"it": "Inflazione (IPCA)", "en": "Inflation (HICP)",
                   "pt": "Inflação (IPCA)"},
-                 ctx.col("macro/hicp_from_estat.csv", "hicp"), "pct"),
+                 ctx.col("macro/hicp.csv", "hicp"), "pct"),
         ctx.stat({"it": "Tasso di disoccupazione", "en": "Unemployment",
                   "pt": "Taxa de desemprego"},
-                 ctx.col("macro/unemployment_from_istat.csv",
+                 ctx.col("macro/unemployment.csv",
                          "unemp_rate_avg"), "pct"),
         ctx.stat({"it": "Debito pubblico lordo", "en": "Gross public debt",
                   "pt": "Dívida pública bruta"},
-                 ctx.col("fiscal/debt_from_estat.csv", "gross_pct_gdp"),
+                 ctx.col("fiscal/debt.csv", "gross_pct_gdp"),
                  "pct_gdp", kind="level"),
     ]
 
 
 def build(ctx) -> list[dict]:
-    pop = "social/demography_from_estat.csv"
+    pop = "social/demography.csv"
 
     deaths = dict(ctx.col(pop, "deaths"))
     base = sum(deaths[y] for y in range(2015, 2020)) / 5
@@ -118,22 +118,22 @@ def build(ctx) -> list[dict]:
                 pt="O crescimento real que nunca recupera a perda de 2008, "
                    "a renda per pessoa em dólares e um desemprego que só "
                    "cai pela metade no fim dos anos 2020."),
-            "spark": ctx.col("macro/gdp_from_estat.csv", "nominal_eurbn"),
+            "spark": ctx.col("macro/gdp.csv", "nominal_eurbn"),
             "stats": [
                 ctx.stat({"it": "PIL", "en": "GDP", "pt": "PIB"},
-                         ctx.col("macro/gdp_from_estat.csv", "nominal_eurbn"),
+                         ctx.col("macro/gdp.csv", "nominal_eurbn"),
                          "money_bn"),
                 ctx.stat({"it": "Crescita reale", "en": "Real growth",
                           "pt": "Crescimento real"},
-                         ctx.col("macro/gdp_from_estat.csv", "real_growth"),
+                         ctx.col("macro/gdp.csv", "real_growth"),
                          "pct_s"),
                 ctx.stat({"it": "Inflazione (IPCA)", "en": "Inflation (HICP)",
                           "pt": "Inflação (IPCA)"},
-                         ctx.col("macro/hicp_from_estat.csv", "hicp"), "pct"),
+                         ctx.col("macro/hicp.csv", "hicp"), "pct"),
                 ctx.stat({"it": "Disoccupazione (media annua)",
                           "en": "Unemployment (annual average)",
                           "pt": "Desemprego (média anual)"},
-                         ctx.col("macro/unemployment_from_istat.csv",
+                         ctx.col("macro/unemployment.csv",
                                  "unemp_rate_avg"), "pct"),
             ],
         },
@@ -154,20 +154,20 @@ def build(ctx) -> list[dict]:
                 pt="Uma das cargas tributárias mais pesadas da Europa, um "
                    "déficit que nunca fecha e uma dívida que a crise de "
                    "2011–12 levou acima de 130% do PIB."),
-            "spark": ctx.col("fiscal/debt_from_estat.csv", "gross_pct_gdp"),
+            "spark": ctx.col("fiscal/debt.csv", "gross_pct_gdp"),
             "spark_level": True,
             "stats": [
                 ctx.stat({"it": "Debito pubblico lordo",
                           "en": "Gross public debt", "pt": "Dívida pública"},
-                         ctx.col("fiscal/debt_from_estat.csv",
+                         ctx.col("fiscal/debt.csv",
                                  "gross_pct_gdp"), "pct_gdp", kind="level"),
                 ctx.stat({"it": "Indebitamento netto", "en": "Deficit",
                           "pt": "Déficit"},
-                         ctx.col("fiscal/deficit_from_estat.csv", "deficit"),
+                         ctx.col("fiscal/deficit.csv", "deficit"),
                          "pct_gdp_s"),
                 ctx.stat({"it": "Pressione fiscale", "en": "Tax burden",
                           "pt": "Carga tributária"},
-                         ctx.col("fiscal/tax_burden_from_estat.csv", "estat"),
+                         ctx.col("fiscal/tax_burden.csv", "estat"),
                          "pct_gdp"),
             ],
         },
@@ -188,22 +188,22 @@ def build(ctx) -> list[dict]:
                 pt="O gasto público por função: pensões dentro da proteção "
                    "social, e o salto de 2020 que ainda não tinha voltado "
                    "em 2024."),
-            "spark": ctx.col("fiscal/spending_by_function_from_estat.csv",
+            "spark": ctx.col("fiscal/spending_by_function.csv",
                              "total"),
             "spark_level": True,
             "stats": [
                 ctx.stat({"it": "Spesa totale", "en": "Total spending",
                           "pt": "Gasto total"},
-                         ctx.col("fiscal/spending_by_function_from_estat.csv",
+                         ctx.col("fiscal/spending_by_function.csv",
                                  "total"), "pct_gdp"),
                 ctx.stat({"it": "Protezione sociale",
                           "en": "Social protection", "pt": "Proteção social"},
-                         ctx.col("fiscal/spending_by_function_from_estat.csv",
+                         ctx.col("fiscal/spending_by_function.csv",
                                  "social_protection"), "pct_gdp"),
                 ctx.stat({"it": "Investimento pubblico",
                           "en": "Public investment",
                           "pt": "Investimento público"},
-                         ctx.col("fiscal/investment_from_estat.csv",
+                         ctx.col("fiscal/investment.csv",
                                  "gov_gfcf_pct_gdp"), "pct_gdp"),
             ],
         },
@@ -257,23 +257,23 @@ def build(ctx) -> list[dict]:
                 pt="Milão em dólares: metade do valor queimado até 2012 e "
                    "uma década que não o recuperou; o BTP de dez anos no "
                    "pico do spread."),
-            "spark": ctx.col("markets/ftsemib_from_yahoo.csv", "close"),
+            "spark": ctx.col("markets/ftsemib.csv", "close"),
             "spark_level": True,
             "stats": [
                 ctx.stat({"it": "FTSE MIB (fine anno)",
                           "en": "FTSE MIB (year-end)",
                           "pt": "FTSE MIB (fim de ano)"},
-                         ctx.col("markets/ftsemib_from_yahoo.csv", "close"),
+                         ctx.col("markets/ftsemib.csv", "close"),
                          "count", kind="level"),
                 ctx.stat({"it": "BTP decennale (media annua)",
                           "en": "10-year BTP (annual average)",
                           "pt": "BTP de 10 anos (média anual)"},
-                         ctx.col("markets/yield_10y_from_estat.csv",
+                         ctx.col("markets/yield_10y.csv",
                                  "yield_10y"), "pct2"),
                 ctx.stat({"it": "Tasso BCE (depositi, fine anno)",
                           "en": "ECB rate (deposit, year-end)",
                           "pt": "Taxa do BCE (depósitos, fim de ano)"},
-                         ctx.col("markets/policy_rate_from_ecb.csv", "dfr"),
+                         ctx.col("markets/policy_rate.csv", "dfr"),
                          "pct2", kind="level"),
             ],
         },
@@ -294,24 +294,24 @@ def build(ctx) -> list[dict]:
                 pt="Quanto custa empréstimo, quanto as famílias devem sobre "
                    "a própria renda disponível e as inadimplências que "
                    "caem do pico da crise."),
-            "spark": ctx.col("credit/household_debt_from_bdi.csv",
+            "spark": ctx.col("credit/household_debt.csv",
                              "debt_pct_gdi_computed"),
             "spark_level": True,
             "stats": [
                 ctx.stat({"it": "Debiti delle famiglie (prestiti)",
                           "en": "Household loans", "pt": "Empréstimos das "
                           "famílias"},
-                         ctx.col("credit/household_debt_from_bdi.csv",
+                         ctx.col("credit/household_debt.csv",
                                  "loans_eurbn"), "money_bn", kind="level"),
                 ctx.stat({"it": "Mutui nuovi (media annua)",
                           "en": "New mortgage rate (annual average)",
                           "pt": "Juros de novos imóveis (média anual)"},
-                         ctx.col("credit/lending_rate_from_bdi.csv",
+                         ctx.col("credit/lending_rate.csv",
                                  "house_new_avg"), "pct2"),
                 ctx.stat({"it": "Sofferenze su prestiti",
                           "en": "NPL share of loans",
                           "pt": "Inadimplência sobre empréstimos"},
-                         ctx.col("credit/npl_from_bdi.csv",
+                         ctx.col("credit/npl.csv",
                                  "npl_gross_ratio_fsi"), "pct"),
             ],
         },
@@ -334,21 +334,21 @@ def build(ctx) -> list[dict]:
                    "pobreza absoluta do ISTAT que sobe após 2019. Sem "
                    "salário mínimo legal: os pisos vêm dos acordos "
                    "coletivos."),
-            "spark": ctx.col("social/poverty_from_estat.csv", "arop60"),
+            "spark": ctx.col("social/poverty.csv", "arop60"),
             "stats": [
                 ctx.stat({"it": "A rischio di povertà (60%)",
                           "en": "At risk of poverty (60%)",
                           "pt": "Em risco de pobreza (60%)"},
-                         ctx.col("social/poverty_from_estat.csv", "arop60"),
+                         ctx.col("social/poverty.csv", "arop60"),
                          "pct"),
                 ctx.stat({"it": "Gini (EU-SILC)", "en": "Gini (EU-SILC)",
                           "pt": "Gini (EU-SILC)"},
-                         ctx.col("social/gini_from_estat.csv", "silc"),
+                         ctx.col("social/gini.csv", "silc"),
                          "dec2"),
                 ctx.stat({"it": "Povertà assoluta (ISTAT)",
                           "en": "Absolute poverty (ISTAT)",
                           "pt": "Pobreza absoluta (ISTAT)"},
-                         ctx.col("social/poverty_abs_from_istat.csv",
+                         ctx.col("social/poverty_abs.csv",
                                  "abs_hh"), "pct"),
             ],
         },
@@ -369,22 +369,22 @@ def build(ctx) -> list[dict]:
                 pt="O tamanho da economia em dólares, o desenvolvimento "
                    "humano e as reservas oficiais — sem número de ouro neste "
                    "arquivo depois de 2023."),
-            "spark": ctx.col("international/reserves_from_wb.csv",
+            "spark": ctx.col("international/reserves.csv",
                              "reserves_usd"),
             "spark_level": True,
             "stats": [
                 ctx.stat({"it": "PIL in dollari", "en": "GDP in US$",
                           "pt": "PIB em dólares"},
                          [(y, v / 1e9) for y, v in
-                          ctx.col("international/gdp_usd_from_wb.csv",
+                          ctx.col("international/gdp_usd.csv",
                                   "gdp_usd")], "usd_bn"),
                 ctx.stat({"it": "ISU", "en": "HDI", "pt": "IDH"},
-                         ctx.col("international/hdi_from_undp.csv", "hdi"),
+                         ctx.col("international/hdi.csv", "hdi"),
                          "dec3"),
                 ctx.stat({"it": "Riserve ufficiali", "en": "Reserves",
                           "pt": "Reservas"},
                          [(y, v / 1e9) for y, v in
-                          ctx.col("international/reserves_from_wb.csv",
+                          ctx.col("international/reserves.csv",
                                   "reserves_usd")], "usd_bn", kind="level"),
             ],
         },
@@ -443,18 +443,18 @@ def build(ctx) -> list[dict]:
                    "e sempre em queda; suicídios estáveis há duas décadas; "
                    "o registro mafioso à espera de o ISTAT reabrir seus "
                    "fluxos."),
-            "spark": ctx.col("security/homicide_police_from_istat.csv",
+            "spark": ctx.col("security/homicide_police.csv",
                              "intenhom"),
             "stats": [
                 ctx.stat({"it": "Omicidi volontari (polizia)",
                           "en": "Intentional homicides (police)",
                           "pt": "Homicídios dolosos (polícia)"},
-                         ctx.col("security/homicide_police_from_istat.csv",
+                         ctx.col("security/homicide_police.csv",
                                  "intenhom"), "count"),
                 ctx.stat({"it": "Tasso di omicidi (polizia)",
                           "en": "Homicide rate (police)",
                           "pt": "Taxa de homicídios (polícia)"},
-                         ctx.col("security/homicide_police_from_istat.csv",
+                         ctx.col("security/homicide_police.csv",
                                  "intenhom_per100k"), "per100k"),
                 ctx.stat({"it": "Tasso di suicidi",
                           "en": "Suicide rate", "pt": "Taxa de suicídios"},
@@ -512,23 +512,23 @@ def build(ctx) -> list[dict]:
                 pt="Um fluxo de entradas que bate com a Eurostat e uma "
                    "emigração italiana em alta desde 2015; as cidadanias "
                    "adquiridas como lente da troca."),
-            "spark": ctx.col("migration/immigration_from_estat.csv",
+            "spark": ctx.col("migration/immigration.csv",
                              "by_citizenship_total"),
             "stats": [
                 ctx.stat({"it": "Immigrati (cittadinanza)",
                           "en": "Immigrants (by citizenship)",
                           "pt": "Imigrantes (por cidadania)"},
-                         ctx.col("migration/immigration_from_estat.csv",
+                         ctx.col("migration/immigration.csv",
                                  "by_citizenship_total"), "count"),
                 ctx.stat({"it": "Emigrati (cittadinanza)",
                           "en": "Emigrants (by citizenship)",
                           "pt": "Emigrantes (por cidadania)"},
-                         ctx.col("migration/emigration_from_estat.csv",
+                         ctx.col("migration/emigration.csv",
                                  "by_citizenship_total"), "count"),
                 ctx.stat({"it": "Nuovi cittadini per naturalizzazione",
                           "en": "New citizens by naturalisation",
                           "pt": "Novos cidadãos por naturalização"},
-                         ctx.col("migration/naturalisation_from_estat.csv",
+                         ctx.col("migration/naturalisation.csv",
                                  "acquisitions"), "count"),
             ],
         },
