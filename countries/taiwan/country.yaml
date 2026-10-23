@@ -16,7 +16,10 @@ name:
   zh-Hant: "臺灣"
 
 # zh-Hant, not zh-CN or zh-TW as the code: the script is the identifier the
-# atlas carries, the way south-korea carries `ko` (language, not country).
+# atlas carries, the way south-korea carries `ko` (language, not country) —
+# and it is the exact key plate-spine's core/numstyle.py already has
+# (zh-Hant ladder 萬 1e4 / 億 1e8 / 兆 1e12, English marks), so Phase B
+# needs no new style, only an AFFIX/CURRENCY_AFFIX column (NT$ for TWD).
 # html_lang and og_locale take the zh-TW regional forms because the locale
 # registry has no zh-Hant og entry.
 locales:
@@ -31,22 +34,26 @@ years: {from: 2006, to: 2026}
 last_full_year: 2025
 tick_every: 2
 
-# TENTATIVE — to be verified in the research pass against CBC/DGBAS real
-# GDP vintages. Taiwan's exports fell ~40% year-on-year in late 2008 and
-# real GDP contracted 2009 (-2.4%); the contraction began in 3Q 2008.
-# COVID-19 does NOT get a band: Taiwan grew 2.6% in 2020 and never had
-# two negative quarters — the absence is the finding, record it in
-# DATA_NOTES.md rather than banding the window anyway.
+# VERIFIED against the current DGBAS vintage (DPAS A018101010, pulled
+# 2026-10-23): yoy real growth went negative 2008Q3 (-1.39) and stayed
+# negative through 2009Q3 — the trough quarter 2009Q1 at -7.87 — with
+# 2009 full-year at -1.61 (the current-vintage figure; the older base
+# said -2.4 and exports really did fall ~40% y/y in late 2008, which is
+# what the label says). COVID-19 gets NO band: 2020 was +3.42 with no
+# negative quarter — the absence of a COVID band is the finding, and it
+# goes in DATA_NOTES.md.
 bands:
   - {from: 2008.75, to: 2009.5, label: "export collapse"}
 
 currency:
   code: TWD
 
-# FLAG-DERIVED, distinct from the USA's and the UK's palettes (verify the
-# two sibling files' hexes before finalizing). The flag is a red field, a
-# blue canton and a white sun: red and blue darkened into chart-safe
-# siblings, the white is the paper.
+# FLAG-DERIVED, distinct from the USA's and the UK's (both checked
+# against their files: USA RED #B5293A / NAVY #1B3A6B, UK RED #B32438 /
+# NAVY #1B2E63 — both brighter and more magenta than this deep brick,
+# and every blue here is a slate darker than either sibling's). The
+# flag is a red field, a blue canton and a white sun: red and blue
+# darkened into chart-safe siblings, the white is the paper.
 palette:
   RED:     "#A22B31"
   RED_D:   "#7C1F24"
