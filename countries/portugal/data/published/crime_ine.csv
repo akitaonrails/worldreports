@@ -1,0 +1,22 @@
+# INE / DGPJ recorded-crime RATE per 1,000 inhabitants, Portugal, by
+# category. *_nuts2013 = 0008074 (2011–2022), *_nuts2024 = 0012260
+# (2021+); 2021–2022 are on both — never splice. NO homicide
+# category: homicide is in Eurostat crim_off_cat and in
+# causes_of_death_from_ine.csv (code 64). The rates' denominators
+# follow each vintage's population estimates.
+year,total_nuts2013,physical_integrity_nuts2013,street_theft_nuts2013,vehicle_theft_nuts2013,drink_driving_nuts2013,unlicensed_driving_nuts2013,property_nuts2013,total_nuts2024,physical_integrity_nuts2024,street_theft_nuts2024,vehicle_theft_nuts2024,drink_driving_nuts2024,unlicensed_driving_nuts2024,property_nuts2024
+2011,39.3,5.8,1.5,5.5,2.2,1.6,21.7,,,,,,,
+2012,38.5,5.4,1.4,4.6,2.4,1.5,20.9,,,,,,,
+2013,36.0,5.3,1.3,4.3,2.4,1.2,19.3,,,,,,,
+2014,33.8,5.3,1.2,4.0,2.0,0.9,18.5,,,,,,,
+2015,34.3,5.1,1.2,3.6,2.2,1.0,17.9,,,,,,,
+2016,32.0,5.1,1.0,3.2,2.0,0.9,16.6,,,,,,,
+2017,33.1,5.2,0.9,3.2,1.9,0.9,16.5,,,,,,,
+2018,32.2,5.1,0.8,3.3,1.8,0.9,16.5,,,,,,,
+2019,32.3,5.4,0.9,3.0,1.6,0.9,16.6,,,,,,,
+2020,28.7,4.7,0.7,2.9,1.3,1.2,14.7,,,,,,,
+2021,28.4,4.6,0.6,2.8,1.5,1.4,14.3,28.4,4.6,0.6,2.8,1.5,1.4,14.3
+2022,31.5,5.1,0.6,2.7,2.0,1.3,15.9,31.5,5.1,0.6,2.7,2.0,1.3,15.9
+2023,,,,,,,,33.2,5.1,0.6,2.5,2.2,1.4,16.9
+2024,,,,,,,,31.2,5.1,0.7,2.5,1.6,1.0,16.3
+2025,,,,,,,,32.0,5.0,0.6,2.4,2.0,1.3,16.2

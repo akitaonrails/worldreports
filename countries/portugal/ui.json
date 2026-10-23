@@ -1,0 +1,38 @@
+{
+  "en": {
+    "line": "{n} plates of official data, {window}",
+    "dek": "Every number comes from the institution that publishes it — INE, Banco de Portugal, Eurostat, the ECB, IGCP and DGO — and every plate is regenerated from committed CSVs.",
+    "notes": [
+      "2026 is partial. Annual totals and averages stop at 2025; genuine current levels are marked as the latest point.",
+      "INE revised population and migration from 2021 in June 2026. The plates use the revised population for same-year rates and mark the flow seam.",
+      "National and harmonised definitions remain separately labelled lines. Customs goods are not national-accounts exports; police offences are not certified deaths.",
+      "Portugal has no national policy rate: the monetary-policy line is the ECB deposit facility.",
+      "The plates and this page are published in English and European Portuguese."
+    ],
+    "colophon": [
+      {"term": "National accounts, prices, labour, demography and migration", "detail": "INE and Eurostat"},
+      {"term": "Public finances", "detail": "Eurostat, Banco de Portugal, IGCP and DGO"},
+      {"term": "Rates, credit and the euro", "detail": "Banco de Portugal and ECB"},
+      {"term": "International comparables", "detail": "World Bank and UNDP"},
+      {"term": "PSI", "detail": "Yahoo Finance — non-official market redistributor"}
+    ]
+  },
+  "pt": {
+    "line": "{n} pranchas de dados oficiais, {window}",
+    "dek": "Cada número vem da instituição que o publica — INE, Banco de Portugal, Eurostat, BCE, IGCP e DGO — e cada prancha é regenerada a partir de CSV versionados.",
+    "notes": [
+      "2026 é parcial. Os totais e médias anuais terminam em 2025; os níveis verdadeiramente atuais são assinalados como o ponto mais recente.",
+      "O INE reviu a população e a migração desde 2021 em junho de 2026. As pranchas usam a população revista nas taxas do mesmo ano e assinalam a rutura dos fluxos.",
+      "As definições nacionais e harmonizadas permanecem em linhas separadas e identificadas. Bens aduaneiros não são exportações das contas nacionais; crimes policiais não são óbitos certificados.",
+      "Portugal não tem uma taxa diretora nacional: a linha de política monetária é a facilidade permanente de depósito do BCE.",
+      "As pranchas e esta página são publicadas em inglês e português europeu."
+    ],
+    "colophon": [
+      {"term": "Contas nacionais, preços, trabalho, demografia e migração", "detail": "INE e Eurostat"},
+      {"term": "Finanças públicas", "detail": "Eurostat, Banco de Portugal, IGCP e DGO"},
+      {"term": "Taxas, crédito e euro", "detail": "Banco de Portugal e BCE"},
+      {"term": "Comparáveis internacionais", "detail": "Banco Mundial e PNUD"},
+      {"term": "PSI", "detail": "Yahoo Finance — redistribuidor de mercado não oficial"}
+    ]
+  }
+}

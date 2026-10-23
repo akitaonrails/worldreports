@@ -1,0 +1,30 @@
+# INE Estimativas anuais de imigração 0006055: permanent immigrants,
+# Portugal, both sexes, all ages, by nationality (portuguese /
+# foreign / unknown).
+# VINTAGE MAP (INE revision of 2026-06-22 — never mix vintages):
+#   INE 0004167 population, 0006055 immigration, 0006050 emigration,
+#   0013179 net migration = REVISED (administrative base from 2021).
+#   Eurostat migr_* = PRE-revision (immigration stops at 2023);
+#   Eurostat demo_gind = revised; World Bank population = pre-revision.
+#   INE and Eurostat flows agree exactly through 2020; the 2021 step is
+#   methodology, not migration — mark the seam, never draw one line.
+# 2008–2020 census/survey-based; 2021+ administrative base.
+year,immigrants,portuguese,foreign,unknown_nationality
+2008,29718,9586,20132,0
+2009,32307,17883,14424,0
+2010,27575,19222,8353,0
+2011,18820,11437,7383,0
+2012,14668,9491,5177,0
+2013,17757,12198,5559,0
+2014,23077,13004,10073,0
+2015,36849,20112,16737,0
+2016,37644,20386,17258,0
+2017,46649,26888,19761,0
+2018,55357,28982,26375,0
+2019,95382,43740,51642,0
+2020,83654,37770,45884,0
+2021,222775,74963,147785,27
+2022,495979,103610,392348,21
+2023,461751,90548,371189,14
+2024,394904,90516,304386,2
+2025,254253,89659,164585,9

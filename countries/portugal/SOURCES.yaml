@@ -158,7 +158,8 @@ macro:
     refreshed_by: fetch/fetch_ine.py
     notes: >-
       The official annual average inflation rate is the DECEMBER reading
-      of 0014649 (Dim1=S3A{year}12, Dim2=PT, Dim3=T total): verified
+      of 0014649 (Dim1 uses the S3Ayyyy12 December-period pattern,
+      Dim2=PT, Dim3=T total): verified
       Dec-2022 = 7.83, Dec-2024 = 2.42, Dec-2025 = 2.34 — matching INE's
       published taxa de variação média anual. Base is now 2025 (rebased
       in early 2026; fifth base in the window); the published rates are
@@ -752,3 +753,212 @@ international:
       hdr.undp.org 403s the default urllib UA, send a browser UA). The
       HDR recomputes the whole back-series at each methodology change.
       Index 0–1, 2006–2023.
+published:
+  asylum_estat.csv:
+    source: "Eurostat — migr_asyappctza (applicants) and migr_asydcfsta (first-instance decisions)"
+    refreshed_by: "reviewed publication copy of asylum_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  budget_outturn_bpstat.csv:
+    source: "Banco de Portugal — BPstat domain 10 (Budget Outturn; source of record DGO)"
+    refreshed_by: "reviewed publication copy of budget_outturn_from_bpstat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  causes_of_death_ine.csv:
+    source: "INE — Óbitos por causa de morte (lista sucinta europeia), indicators 0008206 and 0013166"
+    refreshed_by: "reviewed publication copy of causes_of_death_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  crime_ine.csv:
+    source: "INE / DGPJ — taxa de criminalidade, indicators 0008074 (NUTS-2013) and 0012260 (NUTS-2024)"
+    refreshed_by: "reviewed publication copy of crime_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  debt_estat.csv:
+    source: "Eurostat — gov_10dd_edpt1 (GD) and gov_10q_ggdebt (Q4 stock in €)"
+    refreshed_by: "reviewed publication copy of debt_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  deficit_estat.csv:
+    source: "Eurostat — gov_10dd_edpt1 (B9) and gov_10a_main (D41PAY)"
+    refreshed_by: "reviewed publication copy of deficit_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  demography_estat.csv:
+    source: "Eurostat — demo_gind (JAN, LBIRTH, DEATH) and demo_find (TOTFERRT)"
+    refreshed_by: "reviewed publication copy of demography_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  demography_ine.csv:
+    source: "INE — indicators 0004167 (population), 0008086 (births), 0008834 (deaths), 0001293 (TFR), 0001724 (life expectancy)"
+    refreshed_by: "reviewed publication copy of demography_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  emigration_estat.csv:
+    source: "Eurostat — migr_emi1ctz (by citizenship)"
+    refreshed_by: "reviewed publication copy of emigration_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  emigration_ine.csv:
+    source: "INE — Estimativas anuais de emigração, indicator 0006050"
+    refreshed_by: "reviewed publication copy of emigration_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  eurusd_ecb.csv:
+    source: "ECB Data Portal — EXR (USD per EUR reference rate, daily)"
+    refreshed_by: "reviewed publication copy of eurusd_from_ecb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  foreign_residents_ine.csv:
+    source: "INE (source of record SEF/AIMA) — indicators 0009107, 0010247, 0013220"
+    refreshed_by: "reviewed publication copy of foreign_residents_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gdp_estat.csv:
+    source: "Eurostat — nama_10_gdp (ESA 2010, Portugal's transmission)"
+    refreshed_by: "reviewed publication copy of gdp_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gdp_ine.csv:
+    source: "INE — Contas Nacionais Trimestrais, indicator 0013428; real growth from Contas Económicas Regionais, indicator 0014144"
+    refreshed_by: "reviewed publication copy of gdp_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gdp_pc_wb.csv:
+    source: "World Bank — NY.GDP.PCAP.CD"
+    official: false
+    refreshed_by: "reviewed publication copy of gdp_pc_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gdp_usd_wb.csv:
+    source: "World Bank — NY.GDP.MKTP.CD"
+    official: false
+    refreshed_by: "reviewed publication copy of gdp_usd_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gini_estat.csv:
+    source: "Eurostat — ilc_di12 (EU-SILC Gini)"
+    refreshed_by: "reviewed publication copy of gini_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gini_ine.csv:
+    source: "INE — ICOR, indicator 0004212 (Gini of net monetary income per equivalent adult)"
+    refreshed_by: "reviewed publication copy of gini_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gini_wb.csv:
+    source: "World Bank — SI.POV.GINI"
+    official: false
+    refreshed_by: "reviewed publication copy of gini_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  goods_trade_ine.csv:
+    source: "INE — Comércio Internacional, indicators 0004172 (exports) and 0004169 (imports), CPA 2008"
+    refreshed_by: "reviewed publication copy of goods_trade_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  hdi_undp.csv:
+    source: "UNDP — Human Development Report 2025, composite indices complete time series"
+    official: false
+    refreshed_by: "reviewed publication copy of hdi_from_undp.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  hicp_estat.csv:
+    source: "Eurostat — prc_hicp_aind (HICP annual rate of change); INE twin indicator 0014655 not staged"
+    refreshed_by: "reviewed publication copy of hicp_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  homicide_estat.csv:
+    source: "Eurostat — crim_off_cat, iccs=ICCS0101 (intentional homicide, police-recorded)"
+    refreshed_by: "reviewed publication copy of homicide_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  household_debt_bpstat.csv:
+    source: "Banco de Portugal — BPstat domain 18, series 12457924, 12458135, 12458131"
+    refreshed_by: "reviewed publication copy of household_debt_from_bpstat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  immigration_estat.csv:
+    source: "Eurostat — migr_imm1ctz (by citizenship) and migr_imm3ctb (by country of birth)"
+    refreshed_by: "reviewed publication copy of immigration_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  immigration_ine.csv:
+    source: "INE — Estimativas anuais de imigração, indicator 0006055"
+    refreshed_by: "reviewed publication copy of immigration_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  investment_estat.csv:
+    source: "Eurostat — nama_10_gdp (P51G) and gov_10a_main (P51G)"
+    refreshed_by: "reviewed publication copy of investment_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  ipc_ine.csv:
+    source: "INE — IPC, indicators 0014649 (taxa de variação média dos últimos 12 meses) and 0014647 (variação homóloga)"
+    refreshed_by: "reviewed publication copy of ipc_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  mortgage_rate_bpstat.csv:
+    source: "Banco de Portugal — BPstat series 12533735 (and 12710779)"
+    refreshed_by: "reviewed publication copy of mortgage_rate_from_bpstat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  naturalisation_estat.csv:
+    source: "Eurostat — migr_acq (acquisitions of citizenship)"
+    refreshed_by: "reviewed publication copy of naturalisation_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  net_migration_ine.csv:
+    source: "INE — saldo migratório, indicators 0013179 (NUTS-2024) and 0008269 (NUTS-2013)"
+    refreshed_by: "reviewed publication copy of net_migration_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  npl_bpstat.csv:
+    source: "Banco de Portugal — BPstat series 12504544 (banking-sector NPL ratio)"
+    refreshed_by: "reviewed publication copy of npl_from_bpstat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  openness_wb.csv:
+    source: "World Bank — NE.TRD.GNFS.ZS"
+    official: false
+    refreshed_by: "reviewed publication copy of openness_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  permits_estat.csv:
+    source: "Eurostat — migr_resfirst (first residence permits)"
+    refreshed_by: "reviewed publication copy of permits_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  policy_rate_ecb.csv:
+    source: "ECB Data Portal — FM (DFR and MRO, daily, year-end)"
+    refreshed_by: "reviewed publication copy of policy_rate_from_ecb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  population_wb.csv:
+    source: "World Bank — SP.POP.TOTL"
+    official: false
+    refreshed_by: "reviewed publication copy of population_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  poverty_estat.csv:
+    source: "Eurostat — ilc_li02 (at-risk-of-poverty, 60% of median)"
+    refreshed_by: "reviewed publication copy of poverty_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  poverty_ine.csv:
+    source: "INE — ICOR, indicators 0009821 (NUTS-2013 vintage) and 0014079 (NUTS-2024)"
+    refreshed_by: "reviewed publication copy of poverty_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  psi20_yahoo.csv:
+    source: "Yahoo Finance (redistributor) — PSI20.LS, monthly closes"
+    official: false
+    refreshed_by: "reviewed publication copy of psi20_from_yahoo.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  reserves_wb.csv:
+    source: "World Bank — FI.RES.TOTL.CD (IMF IFS)"
+    official: false
+    refreshed_by: "reviewed publication copy of reserves_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  revenue_estat.csv:
+    source: "Eurostat — gov_10a_main (TR, TE)"
+    refreshed_by: "reviewed publication copy of revenue_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  spending_by_function_estat.csv:
+    source: "Eurostat — gov_10a_exp (COFOG divisions, TE, % GDP)"
+    refreshed_by: "reviewed publication copy of spending_by_function_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  state_debt_igcp.csv:
+    source: "IGCP — Stock de dívida pública (monthly xlsx)"
+    refreshed_by: "reviewed publication copy of state_debt_from_igcp.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  stock_estat.csv:
+    source: "Eurostat — migr_pop1ctz (by citizenship) and migr_pop3ctb (by country of birth)"
+    refreshed_by: "reviewed publication copy of stock_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  tax_burden_estat.csv:
+    source: "Eurostat — gov_10a_taxag (D2+D5+D91+D61 net of D995)"
+    refreshed_by: "reviewed publication copy of tax_burden_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  trade_estat.csv:
+    source: "Eurostat — nama_10_gdp (P6, P7)"
+    refreshed_by: "reviewed publication copy of trade_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  unemployment_estat.csv:
+    source: "Eurostat — une_rt_a (LFS unemployment rate, 15-74)"
+    refreshed_by: "reviewed publication copy of unemployment_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  unemployment_ine.csv:
+    source: "INE — Inquérito ao Emprego, indicators 0012173 (Série 2021), 0006191 (Série 2011) and 0007976 (monthly, 16–74)"
+    refreshed_by: "reviewed publication copy of unemployment_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  yield_10y_bpstat.csv:
+    source: "Banco de Portugal — BPstat series 12099464 (10y Treasury-bond yield, monthly)"
+    refreshed_by: "reviewed publication copy of yield_10y_from_bpstat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  yield_10y_estat.csv:
+    source: "Eurostat — irt_lt_mcby_a (Maastricht criterion bond yield)"
+    refreshed_by: "reviewed publication copy of yield_10y_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."

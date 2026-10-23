@@ -1,0 +1,28 @@
+# INE saldo migratório (includes statistical adjustment), Portugal.
+# net_nuts2013 = 0008269 (2011–2023), net_nuts2024 = 0013179 (2021+).
+# Both carry the revised administrative base from 2021 (the overlap
+# years 2021–2023 were identical at fetch time); the seam is 2020→2021
+# methodology inside each column. Two indicators, never spliced.
+# VINTAGE MAP (INE revision of 2026-06-22 — never mix vintages):
+#   INE 0004167 population, 0006055 immigration, 0006050 emigration,
+#   0013179 net migration = REVISED (administrative base from 2021).
+#   Eurostat migr_* = PRE-revision (immigration stops at 2023);
+#   Eurostat demo_gind = revised; World Bank population = pre-revision.
+#   INE and Eurostat flows agree exactly through 2020; the 2021 step is
+#   methodology, not migration — mark the seam, never draw one line.
+year,net_nuts2013,net_nuts2024
+2011,-25178,
+2012,-37290,
+2013,-36029,
+2014,-26495,
+2015,-3528,
+2016,-629,
+2017,14896,
+2018,23757,
+2019,67163,
+2020,57768,
+2021,250079,250079
+2022,371277,371277
+2023,307288,307288
+2024,,216629
+2025,,70862

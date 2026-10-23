@@ -1,0 +1,45 @@
+# Dívida Direta do Estado (State direct debt) — the TREASURY
+# definition of the debt stock, managed by the IGCP at nominal
+# value, after swaps. NOT the Maastricht/EDP general-government
+# debt (debt_from_estat.csv) and NOT the cash-basis budget
+# outturn (BPstat/DGO). Three definitions, three files; never
+# splice. The gap changes SIGN: DDE ran €3–28bn BELOW the EDP
+# stock through 2018 and €10–40bn ABOVE it from 2021 (Dec-2025
+# €315.2bn vs €275.1bn) — EDP adds the rest of general
+# government and consolidates away State debt held inside it.
+# Monthly stocks read at the LAST month of each year — never
+# summed; the running year is its latest month
+# (2026-08), a level, not a year-end.
+# Break Dec-2015: the total began including derivative
+# cash-collateral margin accounts (margin_accounts_mn, first
+# nonzero Mar-2011). Modified duration breaks again 31-Dec-2018
+# (valuation methodology). EUR millions; percentages and years
+# from the IGCP historical-indicators workbook. Source hrefs
+# resolved from igcp.pt at fetch time (dated folder churns).
+year,direct_debt_mn,margin_accounts_mn,pct_euro,pct_fixed_rate,avg_maturity_years,modified_duration_years
+2001,72450.1,,99.36,68.99,4.61,3.02
+2002,79474.7,,99.88,73.39,4.54,3.19
+2003,83377.0,,100.00,72.83,4.30,2.92
+2004,90739.1,,99.98,82.92,3.64,2.98
+2005,101758.0,,99.99,89.65,4.87,3.40
+2006,108557.1,,100.00,85.50,5.84,2.91
+2007,112804.1,,99.99,86.52,6.03,2.71
+2008,118462.7,,100.00,89.99,6.19,3.76
+2009,132746.4,,100.00,87.93,6.06,3.49
+2010,151775.3,,100.00,89.32,5.78,3.78
+2011,174895.3,643.1,96.69,87.34,6.05,4.14
+2012,194465.6,858.2,95.01,84.63,6.89,4.51
+2013,204252.3,98.5,95.38,83.88,7.49,4.33
+2014,217126.4,925.6,96.80,81.50,7.44,4.92
+2015,226362.8,2105.9,99.85,84.26,8.01,5.07
+2016,236282.8,2108.1,99.99,85.69,7.84,5.37
+2017,238263.1,528.3,99.96,88.79,7.64,5.24
+2018,245558.5,396.7,100.00,91.40,7.36,4.86
+2019,251012.3,623.9,100.00,91.52,7.11,5.23
+2020,268316.3,414.5,100.00,92.09,7.04,5.36
+2021,278489.7,540.2,100.00,93.49,7.31,5.47
+2022,287019.4,668.2,100.00,92.71,7.11,4.44
+2023,295952.1,0.1,100.00,88.71,7.12,4.35
+2024,305709.6,0.0,100.00,88.03,7.14,4.27
+2025,315237.3,3.5,100.00,86.78,7.30,4.13
+2026,315856.5,6.7,100.00,85.03,7.67,4.28

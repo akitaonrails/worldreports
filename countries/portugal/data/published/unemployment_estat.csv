@@ -1,0 +1,26 @@
+# Eurostat LFS unemployment rate (une_rt_a), 15–74. PT values start
+# 2009 — 2006–2008 are absent in the source and stay blank; the INE
+# series (fetch_ine.py) covers them. Drawn beside the INE rate,
+# never spliced.
+year,estat
+2006,
+2007,
+2008,
+2009,11.2
+2010,12.6
+2011,13.5
+2012,16.6
+2013,17.2
+2014,14.6
+2015,13.0
+2016,11.5
+2017,9.2
+2018,7.2
+2019,6.6
+2020,7.1
+2021,6.7
+2022,6.2
+2023,6.5
+2024,6.5
+2025,6.0
+2026,
