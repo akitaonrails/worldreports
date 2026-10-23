@@ -5,9 +5,8 @@
 # day against what the nine fetchers named in `refreshed_by` actually
 # pull (the consolidation pass: CDIDs, file names, scopes and columns
 # below are the fetchers', not the discovery report's first guesses).
-# Nothing here is curated yet: every file is a `*_from_<source>.csv`
-# sidecar, and a later session turns the ones the plates use into
-# curated CSVs by diffing, not by trusting. Sidecars whose fetcher writes
+# Reviewed publication copies sit beside their `*_from_<source>.csv`
+# sidecars; plates read only the stable filenames. Sidecars whose fetcher writes
 # no '#' header (Home Office, Eurostat, comparables, uktradeinfo) have
 # their units stated in the notes here. The pending block under `meta` is
 # for publishers that exist but could not be staged (walled or
@@ -71,14 +70,6 @@ meta:
         scope on those plates and names it. A UK-wide assembly (summing
         three publishers with different recording practices) is a later
         editorial decision, not a fetch.
-    - name: Transparency International CPI
-      publisher: Transparency International
-      url: https://www.transparency.org/en/cpi
-      official: false
-      notes: >-
-        No stable machine endpoint; France and Canada curate it by hand
-        with the 2012 methodology break in the CSV. Do the same at build
-        phase.
     - name: homicide by death certificate, England & Wales, 2023 onward
       publisher: ONS — 21st Century Mortality dataset / Series DR
       url: https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/the21stcenturymortalityfilesdeathsdataset
@@ -104,6 +95,21 @@ meta:
         the gilt yield has no second source in the lane.
 
 macro:
+  gdp.csv:
+    source: "ONS — curated publication copy of gdp_from_ons.csv"
+    url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/grossdomesticproductgdp/timeseries/ybha/ukea
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+    notes: "Reviewed 2026-10-23; the plates read this file, never the fetch sidecar."
+  prices.csv:
+    source: "ONS — curated publication copy of prices_from_ons.csv"
+    url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/inflationandpriceindices/timeseries/l55o/mm23
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+    notes: "Reviewed 2026-10-23; CPIH and CPI remain separate columns."
+  labour.csv:
+    source: "ONS — curated publication copy of labour_from_ons.csv"
+    url: https://www.ons.gov.uk/generator?format=csv&uri=/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/mgsx/lms
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+    notes: "Reviewed 2026-10-23; the 2023-24 survey break is annotated on the plate."
   gdp_from_ons.csv:
     source: "ONS — UK Economic Accounts timeseries: YBHA (nominal GDP, £m), ABMI (real GDP, CVM £m), IHXW (GDP per head, CVM £)"
     url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/grossdomesticproductgdp/timeseries/ybha/ukea
@@ -156,6 +162,26 @@ macro:
       quality caveats as labour_from_ons.csv for the 2023-24 stretch.
 
 fiscal:
+  psnb.csv:
+    source: "ONS — curated publication copy of psnb_from_ons.csv"
+    url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/j5ii/pusf
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+  psnd.csv:
+    source: "ONS — curated publication copy of psnd_from_ons.csv"
+    url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/hf6x/pusf
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+  revenue_spending.csv:
+    source: "ONS — curated publication copy of revenue_spending_from_ons.csv"
+    url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/jw2o/pusf
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+  spending_by_function.csv:
+    source: "HM Treasury — curated publication copy of spending_by_function_from_hmt.csv"
+    url: https://www.gov.uk/government/statistics/public-expenditure-statistical-analyses-2026
+    refreshed_by: human review of fetch/fetch_hmt.py sidecar
+  gfs_operations.csv:
+    source: "IMF GFS — curated publication copy of gfs_operations_from_imf.csv"
+    url: https://api.imf.org/external/sdmx/2.1/data/IMF.STA,GFS_SOO/GBR.S13....A?startPeriod=2005
+    refreshed_by: human review of fetch/fetch_imf_gfs.py sidecar
   psnb_from_ons.csv:
     source: "ONS — Public sector finances: public sector net borrowing ex public sector banks (J5II), dataset PUSF"
     url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/j5ii/pusf
@@ -226,8 +252,28 @@ fiscal:
       from education (2011-12), Network Rail in transport from 2015-16.
       FINANCIAL years: fiscal_year is the starting year, never plotted
       against a calendar series without saying so.
+  gfs_operations_from_imf.csv:
+    source: "IMF Government Finance Statistics — general government S13, interest payable G24_T, % of GDP"
+    url: https://api.imf.org/external/sdmx/2.1/data/IMF.STA,GFS_SOO/GBR.S13....A?startPeriod=2005
+    refreshed_by: fetch/fetch_imf_gfs.py
+    official: false
+    notes: >-
+      Calendar-year interest payable by general government, % of GDP,
+      selected by the exact dimensions COUNTRY=GBR, SECTOR=S13,
+      INDICATOR=G24_T, TYPE_OF_TRANSFORMATION=POGDP_PT, FREQUENCY=A.
+      This is the canonical fiscal-interest slot. PESA's whole-public-sector
+      debt-interest subfunction is shown separately on its April–March key.
+      Verified 2006 2.081%, 2022 4.363%, 2024 2.970%.
 
 trade:
+  totals.csv:
+    source: "ONS — curated publication copy of trade_totals_from_ons.csv"
+    url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/nationalaccounts/balanceofpayments/timeseries/ikbh/mret
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+  goods_by_partner.csv:
+    source: "HMRC — curated publication copy of goods_by_partner_from_uktradeinfo.csv"
+    url: https://api.uktradeinfo.com/OTS
+    refreshed_by: human review of fetch/fetch_uktradeinfo.py sidecar
   trade_totals_from_ons.csv:
     source: "ONS — UK Trade / Balance of Payments: exports (IKBH) and imports (IKBI) of goods AND services, BoP basis, CP SA £m, dataset MRET; current account balance (HBOP), dataset PNBP"
     url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/nationalaccounts/balanceofpayments/timeseries/ikbh/mret
@@ -249,7 +295,8 @@ trade:
       (commodity × country × port), so the fetcher aggregates server-side
       ($apply groupby) per partner per month. Long format, ten fixed
       partners, 2006–2026: imports, exports and balance in £ BILLION;
-      import_share = % of the customs WORLD import total (special
+      import_share / export_share = % of the corresponding customs WORLD
+      import / export total (special
       buckets 951/952/958/959/962/977 included in the world total, in no
       partner); months = months summed (the running year is partial —
       2026 is 8 of 12). Pinned by the fetcher: the -990-class sentinels
@@ -260,7 +307,11 @@ trade:
       Asserted: world Dec-2025 within 5% of HMRC's commentary (exports
       £29.45bn vs £29.8bn), US 2024 exports within 8% of the ONS BoP
       headline (£57.5bn customs vs £59.3bn BoP), US import share within
-      0.5pp. Two traps for the build: EU trade before 2021 is Intrastat
+      0.5pp. Reviewed all-world export denominators are £413.1901bn in
+      2024, £426.2590bn in 2025 and £284.4747bn in the first eight months
+      of 2026. The resulting 2025 shares include US 15.78%, Germany 7.74%,
+      China 6.53%, Netherlands 5.93%, Switzerland 5.59% and Ireland 5.46%.
+      Two traps for the build: EU trade before 2021 is Intrastat
       survey data, after Brexit customs declarations (GB) — a source
       break at 2021; and Switzerland jumps from £17.0bn of imports in
       2024 to £43.2bn in 2025 (£46.9bn in 8 months of 2026), which is
@@ -269,6 +320,28 @@ trade:
       CUSTOMS VALUE, GOODS ONLY: never spliced with the BoP series.
 
 markets:
+  bank_rate.csv:
+    source: "Bank of England — curated publication copy of bank_rate_from_boe.csv"
+    url: https://www.bankofengland.co.uk/boeapps/database/Bank-Rate.asp
+    refreshed_by: human review of fetch/fetch_boe.py sidecar
+  gilt_yield.csv:
+    source: "Bank of England — curated publication copy of gilt_yield_from_boe.csv"
+    url: https://www.bankofengland.co.uk/statistics/yield-curves
+    refreshed_by: human review of fetch/fetch_boe.py sidecar
+  sterling.csv:
+    source: "Bank of England — curated publication copy of sterling_from_boe.csv"
+    url: https://www.bankofengland.co.uk/boeapps/database
+    refreshed_by: human review of fetch/fetch_boe.py sidecar
+  ftse.csv:
+    source: "Yahoo Finance — curated publication copy of ftse_from_yahoo.csv"
+    url: https://query1.finance.yahoo.com/v8/finance/chart/%5EFTSE
+    refreshed_by: human review of fetch/fetch_markets.py sidecar
+    official: false
+  sp500.csv:
+    source: "Yahoo Finance — curated publication copy of sp500_from_yahoo.csv"
+    url: https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC
+    refreshed_by: human review of fetch/fetch_markets.py sidecar
+    official: false
   bank_rate_from_boe.csv:
     source: Bank of England — Interactive Database (IADB), series IUDBEDR (Bank Rate, daily)
     url: https://www.bankofengland.co.uk/boeapps/iadb/fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/2006&Dateto=31/Dec/2026&SeriesCodes=IUDBEDR&UsingCodes=Y&VPD=Y&VFD=N
@@ -315,8 +388,53 @@ markets:
       is a live reading, labelled as such. Verified year-ends: 2007
       6,456.9 · 2024 8,173.0 · 2025 9,931.4. stooq is the fallback and
       is JS-walled (meta.pending).
+  sp500_from_yahoo.csv:
+    source: Yahoo Finance (redistributor) — ^GSPC, monthly closes
+    url: https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: >-
+      The S&P 500 in US dollars, drawn ONLY as the spine's dashed
+      comparison line on markets slot 4 (PLATE_SPINE.md: "Main equity
+      index in US$, with the S&P 500 in US$ dashed"). PRICE index, like
+      the FTSE. Same monthly-bar channel and the same year-end rule;
+      verified year-ends 2007 1,468.36 · 2024 5,881.63. No currency
+      conversion is applied because the index is already in dollars,
+      while the FTSE line is converted at
+      markets/sterling_from_boe.csv's year-end rate.
 
 social:
+  gini.csv:
+    source: "ONS — curated publication copy of gini_from_ons.csv"
+    url: https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+    notes: "Reviewed 2026-10-23; the people plate reads this file, never the fetch sidecar. UK financial years, keyed by starting year."
+  poverty.csv:
+    source: "DWP — curated publication copy of poverty_from_dwp.csv"
+    url: https://www.gov.uk/government/collections/households-below-average-income-hbai--2
+    refreshed_by: human review of fetch/fetch_dwp.py sidecar
+    notes: "Reviewed 2026-10-23; UK HBAI financial years, trimmed to the 2006–2026 plate window, with the 2021/22 administrative-data integration kept as a visible method seam."
+  minimum_wage.csv:
+    source: "Low Pay Commission — curated publication copy of minimum_wage_from_lpc.csv"
+    url: https://www.gov.uk/government/publications/low-pay-commission-report-2025
+    refreshed_by: human review of fetch/fetch_lpc.py sidecar
+    notes: >-
+      Reviewed 2026-10-23. Calendar-year average of the highest statutory
+      adult hourly rate in force, weighted by days. The monthly amount is a
+      transparent plate convention, not a legal UK monthly wage: 40 hours a
+      week times 52 divided by 12 (173.333 hours), converted at the staged
+      Bank of England annual-average USD per GBP. The 2026 exchange rate is
+      year-to-date.
+  minimum_wage_from_lpc.csv:
+    source: "Low Pay Commission — 2025 Report data tables, Historic rates sheet"
+    url: https://www.gov.uk/government/publications/low-pay-commission-report-2025
+    refreshed_by: fetch/fetch_lpc.py
+    notes: >-
+      The official workbook carries every effective date and age-specific
+      statutory rate from 1999 through April 2026. This file uses the highest
+      adult rate, whose eligibility age changed over time (22+, then 21+,
+      25+, 23+, and 21+); it is not a youth or apprentice rate. Calendar-year
+      averages are day-weighted before the full-time monthly conversion.
   gini_from_ons.csv:
     source: ONS — Household disposable income and inequality, FYE 2025 edition (hdiifye2025.xlsx, Table 10)
     url: https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality
@@ -352,6 +470,28 @@ social:
       everyone's income falls together.
 
 demography:
+  population.csv:
+    source: "ONS — curated publication copy of population_from_ons.csv"
+    url: https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatesforukenglandandwalesscotlandandnorthernireland
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+    notes: "Reviewed 2026-10-23; UK mid-year usual residents, one census-rebased vintage."
+  demography.csv:
+    source: "Eurostat — curated publication copy of demography_from_estat.csv (population and vital counts)"
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?geo=UK&indic_de=JAN
+    refreshed_by: human review of fetch/fetch_eurostat.py sidecar
+    notes: "Reviewed 2026-10-23; trimmed to 2006–2026. The plate reads UK births and deaths here. Eurostat fertility stops at 2018; the fertility panel instead uses the separately labelled World Bank series below, never a splice."
+  fertility.csv:
+    source: "World Bank — curated publication copy of fertility_from_wb.csv"
+    url: https://api.worldbank.org/v2/country/GBR/indicator/SP.DYN.TFRT.IN
+    refreshed_by: human review of fetch/fetch_comparables.py sidecar
+    official: false
+    notes: "Reviewed 2026-10-23; total fertility rate, 2006–2024, World Bank modelled series. It replaces no Eurostat observations and is drawn as one source throughout."
+  fertility_from_wb.csv:
+    source: "World Bank — World Development Indicators, SP.DYN.TFRT.IN"
+    url: https://api.worldbank.org/v2/country/GBR/indicator/SP.DYN.TFRT.IN
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: "Children per woman, 2006–2024 (2024: 1.551, pinned in the fetcher). The Eurostat demo_find series ends in 2018 and is not joined to this one."
   population_from_ons.csv:
     source: ONS — Mid-year population estimates, UK and the four nations, 1838–2025 series (ukpopulationestimates18382025.xlsx)
     url: https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatesforukenglandandwalesscotlandandnorthernireland
@@ -368,6 +508,11 @@ demography:
       2026: 69,554,275 — drawn beside as the harmonised layer, never
       spliced). Census rebasing is a vintage seam (SOURCING §4): use one
       vintage throughout.
+  vital.csv:
+    source: "ONS — curated publication copy of vital_from_ons.csv"
+    url: https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/deathsregisteredinenglandandwalesseriesdrreferencetables
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+    notes: "Reviewed 2026-10-23; England & Wales calendar-year registrations. The mortality plate uses the published crude rate and the deaths count for its fixed 2015–2019 baseline."
   vital_from_ons.csv:
     source: "ONS — Births in England and Wales: birth registrations (Table 6) and Deaths registered in England and Wales, Series DR (Table 1)"
     url: https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/livebirths/datasets/birthsinenglandandwalesbirthregistrations
@@ -414,6 +559,16 @@ demography:
       (1 Jan vs mid-year), which is visible in the levels.
 
 security:
+  homicide_police.csv:
+    source: "Home Office — curated publication copy of homicide_police_from_homeoffice.csv"
+    url: https://www.ons.gov.uk/peoplepopulationandcommunity/crimeandjustice/datasets/appendixtableshomicideinenglandandwales
+    refreshed_by: human review of fetch/fetch_homeoffice.py sidecar
+    notes: "Reviewed 2026-10-23; England & Wales offences by financial year ending March, drawn at the financial-year midpoint and rated with same-year England & Wales population."
+  homicide_deaths.csv:
+    source: "ONS — curated publication copy of homicide_deaths_from_ons.csv"
+    url: https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/the21stcenturymortalityfilesdeathsdataset
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+    notes: "Reviewed 2026-10-23; England & Wales calendar-year registrations. The ONS-definition line starts in 2007 after the Y33.9 to U50.9 coding break and is never joined to the police series."
   homicide_police_from_homeoffice.csv:
     source: Home Office Homicide Index, published in the ONS homicide appendix tables (Table 1)
     url: https://www.ons.gov.uk/peoplepopulationandcommunity/crimeandjustice/datasets/appendixtableshomicideinenglandandwales
@@ -460,6 +615,11 @@ security:
       on what that misses. Two columns, two lines, never spliced.
 
 mortality:
+  causes_of_death.csv:
+    source: "ONS — curated publication copy of causes_of_death_from_ons.csv"
+    url: https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/deathsregisteredinenglandandwalesseriesdrreferencetables
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+    notes: "Reviewed 2026-10-23; England & Wales underlying-cause chapter totals excluding neonatal deaths. The lens keeps five unjoined regimes around the 2011 ICD-10 update, IRIS replacing MMDS/NCHS in 2014, MUSE replacing IRIS in 2020, and the 2022 MUSE update. Chapter 22 is never substituted for exact U07.1/U07.2 COVID deaths."
   causes_of_death_from_ons.csv:
     source: "ONS — Deaths registered in England and Wales, Series DR 2025 (Table 5, ICD-10 chapter, 2016–2025) and the 21st Century Mortality dataset (2006–2015, aggregated to the same chapters)"
     url: https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/deathsregisteredinenglandandwalesseriesdrreferencetables
@@ -478,10 +638,31 @@ mortality:
       E&W scope, calendar years of registration, underlying cause. "Underlying cause"
       vs "deaths involving" differ enormously for an epidemic
       (SOURCING §4) — underlying only here, labelled. Pre-2010 files
-      are legacy .xls; MUSE→IRIS coding change (2014, and comparability
-      ratios exist) is a definitional break to annotate, not smooth.
+      are legacy .xls. ONS production history has four relevant breaks:
+      the 2011 ICD-10 update; IRIS replacing MMDS/NCHS in 2014; MUSE
+      replacing IRIS in 2020; and the MUSE update in 2022. The boundary
+      year belongs to the new regime. Each is annotated and the plotted
+      lines are segmented at all four, never smoothed across them.
 
 credit:
+  mortgage_rate.csv:
+    source: "Bank of England — curated publication copy of mortgage_rate_from_boe.csv"
+    url: https://www.bankofengland.co.uk/boeapps/database
+    refreshed_by: human review of fetch/fetch_boe.py sidecar
+  household_debt.csv:
+    source: "ONS — curated publication copy of household_debt_from_ons.csv"
+    url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+  household_credit.csv:
+    source: "BIS — curated publication copy of household_credit_from_bis.csv"
+    url: https://stats.bis.org/api/v2/data/dataflow/BIS/WS_TC/2.0/Q.GB.H.A.M.770.A?format=csv
+    refreshed_by: human review of fetch/fetch_credit.py sidecar
+    official: false
+  npl.csv:
+    source: "World Bank / IMF FSI — curated publication copy of npl_from_wb.csv"
+    url: https://api.worldbank.org/v2/country/GBR/indicator/FB.AST.NPER.ZS
+    refreshed_by: human review of fetch/fetch_credit.py sidecar
+    official: false
   household_debt_from_ons.csv:
     source: "ONS — UK Economic Accounts, households sector: debt-to-income ratio (CVZH / CVZI), quarterly, %, NSA"
     url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/grossdomesticproductgdp/timeseries/cvzh/ukea
@@ -534,8 +715,55 @@ credit:
       LPQAUYN, the first plausible-looking IADB candidate, is quarterly
       M4 broad money (£3.1tn), not household debt — verified
       description; do not use it here.
+  household_credit_from_bis.csv:
+    source: "BIS total credit statistics — Q.GB.H.A.M.770.A, households and NPISHs, all lenders, market value, % of GDP, break-adjusted"
+    url: https://stats.bis.org/api/v2/data/dataflow/BIS/WS_TC/2.0/Q.GB.H.A.M.770.A?format=csv
+    refreshed_by: fetch/fetch_credit.py
+    official: false
+    notes: >-
+      Quarterly percentage of GDP. The annual plate reading is Q4, a stock
+      observation, never an annual sum or average. qavg and quarters are kept
+      for audit; 2026 has one quarter and therefore no Q4 value. Verified Q4:
+      2006 91.2%, 2020 90.8%, 2024 74.9%, 2025 73.5%; 2026 Q1 72.6%.
+  npl_from_wb.csv:
+    source: "World Bank WDI FB.AST.NPER.ZS, sourced from IMF Financial Soundness Indicators"
+    url: https://api.worldbank.org/v2/country/GBR/indicator/FB.AST.NPER.ZS
+    refreshed_by: fetch/fetch_credit.py
+    official: false
+    notes: >-
+      Bank non-performing loans as % of total gross loans, calendar years;
+      publisher values are retained without interpolation. Verified 2008
+      1.56%, 2011 3.96%, 2020 0.98%, 2024 1.02%, 2025 0.95%.
 
 migration:
+  flows.csv:
+    source: "ONS — curated publication copy of flows_from_ons.csv"
+    url: https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/internationalmigration/datasets/longterminternationalimmigrationemigrationandnetmigrationflowsprovisional
+    refreshed_by: human review of fetch/fetch_ons.py sidecar
+    notes: >-
+      Reviewed 2026-10-23. The demography plate selects only YE December
+      net migration, converts it with the same-year ONS UK population,
+      and keeps the June 2021 method seam as two unjoined segments.
+  flows_estat.csv:
+    source: "Eurostat — curated publication copy of flows_from_estat.csv"
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_imm1ctz?geo=UK&citizen=TOTAL&age=TOTAL&sex=T&agedef=REACH
+    refreshed_by: human review of fetch/fetch_eurostat.py sidecar
+    notes: "Reviewed 2026-10-23; trimmed to the shared 2006–2026 atlas window. IPS-era calendar-year flows through 2019 are drawn as a separate labelled system beside ONS YE-December estimates and never spliced."
+  stocks.csv:
+    source: "Eurostat — curated publication copy of stocks_from_estat.csv"
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_pop1ctz?geo=UK&citizen=TOTAL&age=TOTAL&sex=T
+    refreshed_by: human review of fetch/fetch_eurostat.py sidecar
+    notes: "Reviewed 2026-10-23; trimmed to the shared 2006–2026 atlas window. The 1 January stocks stop in 2019. Foreign-born and foreign-citizen shares each use the internal total for their own Eurostat classification."
+  asylum.csv:
+    source: "Home Office — curated publication copy of asylum_from_homeoffice.csv"
+    url: https://www.gov.uk/government/statistical-data-sets/immigration-system-statistics-data-tables
+    refreshed_by: human review of fetch/fetch_homeoffice.py sidecar
+    notes: "Reviewed 2026-10-23; applications, initial decisions and initial grants are calendar-year flows, while awaiting an initial decision is a stock measured on 31 December. All four are shown without substituting citizenship grants for an asylum measure."
+  naturalisation.csv:
+    source: "Home Office — curated publication copy of citizenship_from_homeoffice.csv"
+    url: https://www.gov.uk/government/statistical-data-sets/immigration-system-statistics-data-tables
+    refreshed_by: human review of fetch/fetch_homeoffice.py sidecar
+    notes: "Reviewed 2026-10-23; annual grants of British citizenship, shown as a flow and not as migration or migrant stock."
   flows_from_estat.csv:
     source: Eurostat — migr_imm1ctz (by citizenship), migr_imm3ctb (by country of birth), migr_emi1ctz (emigration)
     url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_imm1ctz?geo=UK&citizen=TOTAL&age=TOTAL&sex=T&agedef=REACH
@@ -722,6 +950,76 @@ migration:
       with that label, never as "illegal immigration".
 
 international:
+  suicide.csv:
+    source: "World Bank — curated publication copy of suicide_from_wb.csv (WHO Global Health Observatory estimate)"
+    url: https://api.worldbank.org/v2/country/GBR/indicator/SH.STA.SUIC.P5
+    refreshed_by: human review of fetch/fetch_comparables.py sidecar
+    official: false
+    notes: "Reviewed 2026-10-23; publisher-supplied age-standardised UK rate per 100,000 through 2021, used unchanged."
+  road_deaths.csv:
+    source: "World Bank — curated publication copy of road_deaths_from_wb.csv (WHO Global Health Observatory estimate)"
+    url: https://api.worldbank.org/v2/country/GBR/indicator/SH.STA.TRAF.P5
+    refreshed_by: human review of fetch/fetch_comparables.py sidecar
+    official: false
+    notes: "Reviewed 2026-10-23; publisher-supplied UK road-traffic death rate per 100,000 through 2019, used unchanged."
+  cpi.csv:
+    source: "Transparency International — CPI annual archives (2006–2011) and CPI 2025 results workbook (2012–2025)"
+    url: https://www.transparency.org/en/cpi/2025
+    refreshed_by: hand-curated from official publisher files
+    official: false
+    notes: >-
+      Two columns and two unjoined segments. The official annual archive CSVs
+      for 2006–2011 use the old 0–10 method; the official CPI 2025 workbook
+      supplies the revised 0–100 series for 2012–2025. Transparency
+      International states that only 2012-onward scores are comparable over
+      time. The plate positions the old values times ten against the 0–100
+      axis solely to share one panel and labels that display transform; the
+      committed observations remain on their original 0–10 scale.
+  gdp_usd.csv:
+    source: "World Bank — curated publication copy of gdp_usd_from_wb.csv"
+    url: https://api.worldbank.org/v2/country/GBR/indicator/NY.GDP.MKTP.CD
+    refreshed_by: human review of fetch/fetch_comparables.py sidecar
+    official: false
+    notes: "Reviewed 2026-10-23; current US dollars, divided by 1 billion only at draw time."
+  gini.csv:
+    source: "World Bank — curated publication copy of gini_from_wb.csv"
+    url: https://api.worldbank.org/v2/country/GBR/indicator/SI.POV.GINI
+    refreshed_by: human review of fetch/fetch_comparables.py sidecar
+    official: false
+    notes: "Reviewed 2026-10-23; harmonised calendar-year Gini, ending in 2021, never spliced into the ONS financial-year series."
+  poverty.csv:
+    source: "World Bank — curated publication copy of poverty_from_wb.csv"
+    url: https://api.worldbank.org/v2/country/GBR/indicator/SI.POV.UMIC
+    refreshed_by: human review of fetch/fetch_comparables.py sidecar
+    official: false
+    notes: "Reviewed 2026-10-23; poverty headcount below US$8.30/day at 2021 PPP, % of population, ending in 2021. It remains separate from DWP's relative-income measures."
+  hdi.csv:
+    source: "UNDP — curated publication copy of hdi_from_undp.csv"
+    url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
+    refreshed_by: human review of fetch/fetch_comparables.py sidecar
+    official: false
+    notes: "Reviewed 2026-10-23; one Human Development Report 2025 vintage throughout."
+  reserves.csv:
+    source: "World Bank — curated publication copy of reserves_from_wb.csv"
+    url: https://api.worldbank.org/v2/country/GBR/indicator/FI.RES.TOTL.CD
+    refreshed_by: human review of fetch/fetch_comparables.py sidecar
+    official: false
+    notes: "Reviewed 2026-10-23; total reserves including gold in current US dollars, divided by 1 billion only at draw time."
+  gdp_pc.csv:
+    source: "World Bank — curated publication copy of gdp_pc_from_wb.csv"
+    url: https://api.worldbank.org/v2/country/GBR/indicator/NY.GDP.PCAP.CD
+    refreshed_by: human review of fetch/fetch_comparables.py sidecar
+    official: false
+  fiscal_imf.csv:
+    source: "IMF WEO and Fiscal Monitor — curated publication copy of fiscal_from_imf.csv"
+    url: https://www.imf.org/external/datamapper/api/v1/GGR_G01_GDP_PT/GBR
+    refreshed_by: human review of fetch/fetch_comparables.py sidecar
+    official: false
+  gfcf.csv:
+    source: "World Bank — curated publication copy of gfcf_from_wb.csv"
+    url: https://api.worldbank.org/v2/country/GBR/indicator/NE.GDI.FTOT.ZS
+    refreshed_by: human review of fetch/fetch_comparables.py sidecar
+    official: false
   gdp_usd_from_wb.csv:
     source: World Bank — World Development Indicators, NY.GDP.MKTP.CD
     url: https://api.worldbank.org/v2/country/GBR/indicator/NY.GDP.MKTP.CD
@@ -780,6 +1078,49 @@ international:
       (2023 and 2024 verified empty) — it lags, and the holes stay
       holes. Same survey family as the ONS series through a different
       income definition: two cuts of one survey, not two measurements.
+  poverty_from_wb.csv:
+    source: "World Bank — SI.POV.UMIC, Poverty and Inequality Platform"
+    url: https://api.worldbank.org/v2/country/GBR/indicator/SI.POV.UMIC
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Poverty headcount ratio below US$8.30 a day at 2021 PPP, per cent of
+      population, 2006–2021 (2021: 0.9, pinned in the fetcher). This is an
+      absolute international threshold and is not comparable in concept with
+      DWP HBAI's share below 60% of current median income.
+  suicide_from_wb.csv:
+    source: World Bank — SH.STA.SUIC.P5 (WHO Global Health Observatory estimate)
+    url: https://api.worldbank.org/v2/country/GBR/indicator/SH.STA.SUIC.P5
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Suicide mortality rate, age-standardised, per 100,000, 2006–2021
+      (2021: 9.55, verified). The only comparable suicide rate for the UK
+      in the lane: the ONS publishes England & Wales registrations, not a
+      UK age-standardised series, and the GHE's UK rows STOP at 2021 — the
+      hole is asserted in the fetcher so a revived series fails the run.
+      Age-standardised, so it is not comparable with a crude rate.
+  road_deaths_from_wb.csv:
+    source: World Bank — SH.STA.TRAF.P5 (WHO Global Health Observatory estimate)
+    url: https://api.worldbank.org/v2/country/GBR/indicator/SH.STA.TRAF.P5
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Road-traffic death rate, per 100,000, 2006–2019 (2019: 3.2,
+      verified), and the rows stop there. The UK's own count of reported
+      road deaths (DfT/ONS, GB scope) was not staged in Phase A, so this
+      WHO estimate is the only series in the slot; it is the publisher's
+      own rate, not a conversion, and the plate says where it ends.
+  gfcf_from_wb.csv:
+    source: World Bank — NE.GDI.FTOT.ZS
+    url: https://api.worldbank.org/v2/country/GBR/indicator/NE.GDI.FTOT.ZS
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Gross fixed capital formation, whole economy, % of GDP, 2006–2025
+      (2025: 18.9%, verified). The harmonised reading of the UK's
+      investment rate, which is low by G7 standards; the national
+      equivalent would be the ONS national accounts GFCF, not staged.
   hdi_from_undp.csv:
     source: UNDP — Human Development Report 2025, composite indices complete time series
     url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
@@ -792,12 +1133,13 @@ international:
       change, so a trend assembled from successive reports is partly an
       artefact of the reports.
   fiscal_from_imf.csv:
-    source: "IMF — World Economic Outlook database via the DataMapper API: GGXWDG_NGDP (general government gross debt % GDP) and GGXCNL_NGDP (net lending/borrowing % GDP)"
+    source: "IMF DataMapper — WEO gross debt/net lending plus Fiscal Monitor general-government revenue, expenditure, overall balance and primary balance"
     url: https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP/GBR
     refreshed_by: fetch/fetch_comparables.py
     official: false
     notes: >-
-      % of GDP, 1980–2031. Verified live: GBR history from 1980 and
+      % of GDP. WEO debt/net lending run 1980–2031; Fiscal Monitor flows
+      begin later. Verified live: GBR history and
       FORECASTS to 2031 — the forecast years sit in their own *_proj
       columns (2026–2031) and never share a row with the observed ones;
       never drawn as outturn. 2025 is in the observed column as the IMF
@@ -809,4 +1151,9 @@ international:
       UK no longer gets from Eurostat (gov_10dd_edpt1 carries no UK
       rows at all): general government on the national-accounts basis,
       CALENDAR years — comparable across the G7, incomparable with the
-      ONS PSF fiscal-year series, and never spliced with them.
+      ONS PSF fiscal-year series, and never spliced with them. The fiscal
+      plate's canonical revenue/expenditure and overall/primary slots use
+      Fiscal Monitor indicators GGR_G01_GDP_PT, G_X_G01_GDP_PT,
+      GGXCNL_G01_GDP_PT and GGXONLB_G01_GDP_PT. Spot checks: 2020
+      36.27/49.14/−12.87/−11.75; 2024 37.44/43.44/−6.00/−3.98; 2025
+      38.19/43.46/−5.27/−2.67.

@@ -19,6 +19,10 @@ labels the difference rather than choosing.
   UNDP          HDI, from the HDR composite-indices file
   IMF           GGXWDG_NGDP       general government gross debt, % GDP
                 GGXCNL_NGDP       net lending/borrowing, % GDP
+                GGR_G01_GDP_PT    general government revenue, % GDP
+                G_X_G01_GDP_PT    general government expenditure, % GDP
+                GGXCNL_G01_GDP_PT overall balance, % GDP
+                GGXONLB_G01_GDP_PT primary balance, % GDP
 
 The HDR file is a single vintage covering every year, which is the point:
 the HDI is recomputed for the whole back-series at each methodology
@@ -79,12 +83,29 @@ WANTED = [
     ("international/population_from_wb.csv", "SP.POP.TOTL", "population", 0),
     ("international/reserves_from_wb.csv", "FI.RES.TOTL.CD", "reserves_usd", 0),
     ("international/gini_from_wb.csv", "SI.POV.GINI", "gini", 1),
+    ("international/poverty_from_wb.csv", "SI.POV.UMIC",
+     "poverty_at_8_30_2021_ppp_pct", 1),
     ("international/openness_from_wb.csv", "NE.TRD.GNFS.ZS", "trade_pct_gdp", 1),
+    # The spine's security and spending slots need harmonised twins, and the
+    # UK's publishers do not put them in this shape: the WHO estimates the
+    # Global Health Observatory carries (via the World Bank) are the only
+    # comparable suicide and road-death rates for the UK, and they stop
+    # where the GHE's UK rows stop — 2021 and 2019. The holes stay holes.
+    ("international/suicide_from_wb.csv", "SH.STA.SUIC.P5",
+     "suicide_per_100k", 2),
+    ("international/road_deaths_from_wb.csv", "SH.STA.TRAF.P5",
+     "road_deaths_per_100k", 2),
+    ("international/gfcf_from_wb.csv", "NE.GDI.FTOT.ZS", "gfcf_pct_gdp", 1),
+    ("demography/fertility_from_wb.csv", "SP.DYN.TFRT.IN", "tfr", 3),
 ]
 
 IMF_WANTED = [
     ("GGXWDG_NGDP", "gross_debt_pct_gdp"),
     ("GGXCNL_NGDP", "net_lending_pct_gdp"),
+    ("GGR_G01_GDP_PT", "revenue_pct_gdp"),
+    ("G_X_G01_GDP_PT", "expenditure_pct_gdp"),
+    ("GGXCNL_G01_GDP_PT", "overall_balance_pct_gdp"),
+    ("GGXONLB_G01_GDP_PT", "primary_balance_pct_gdp"),
 ]
 
 
@@ -232,16 +253,19 @@ def write_imf(rel: str, wanted: list[tuple[str, str]]) -> None:
             if value is None:
                 row += ["", ""]
             elif y <= LAST_FULL_YEAR:
-                row += [f"{value:.1f}", ""]
+                row += [f"{value:.2f}", ""]
             else:
-                row += ["", f"{value:.1f}"]
+                row += ["", f"{value:.2f}"]
         lines.append(",".join(row))
     path.write_text("\n".join(lines) + "\n")
     print(f"  data/{rel}  {len(lines) - 1} rows")
 
 
 def verify(gdp: dict[int, float], population: dict[int, float],
-           hdi: dict[int, float], gini: dict[int, float]) -> None:
+           hdi: dict[int, float], gini: dict[int, float],
+           poverty: dict[int, float], fertility: dict[int, float],
+           suicide: dict[int, float], roads: dict[int, float],
+           gfcf: dict[int, float]) -> None:
     """Pin the numbers the discovery pass verified live, so a silent
     revision, a unit change or a truncated payload fails here instead of
     landing in a sidecar."""
@@ -253,6 +277,19 @@ def verify(gdp: dict[int, float], population: dict[int, float],
     # vintage. The holes stay holes — assert they were not filled in.
     assert 2023 not in gini and 2024 not in gini, \
         f"WB Gini 2023/2024 should be null: {sorted(gini)[-3:]}"
+    assert max(poverty) == 2021 and abs(poverty[2021] - 0.9) < 0.05, \
+        f"WB poverty row set changed: {sorted(poverty)[-3:]}"
+    assert max(fertility) == 2024 and abs(fertility[2024] - 1.551) < 0.002, \
+        f"WB fertility row set changed: {sorted(fertility)[-3:]}"
+    # The WHO estimates the GHE carries for the UK stop early, and the
+    # plates say so on the panel. Assert the last year, so a revived or a
+    # silently truncated series both fail the run rather than redrawing a
+    # security chapter differently. (Read live 2026-10-23.)
+    assert max(suicide) == 2021 and abs(suicide[2021] - 9.55) < 0.05, \
+        f"WB suicide row set changed: {sorted(suicide)[-3:]}"
+    assert max(roads) == 2019 and abs(roads[2019] - 3.2) < 0.05, \
+        f"WB road-death row set changed: {sorted(roads)[-3:]}"
+    assert abs(gfcf[2025] - 18.9) < 0.2, f"WB GFCF 2025: {gfcf.get(2025)}"
 
 
 def main() -> None:
@@ -266,7 +303,9 @@ def main() -> None:
     write("international/hdi_from_undp.csv", "hdi", hdi, 3)
     write_imf("international/fiscal_from_imf.csv", IMF_WANTED)
     verify(fetched["NY.GDP.MKTP.CD"], fetched["SP.POP.TOTL"], hdi,
-           fetched["SI.POV.GINI"])
+           fetched["SI.POV.GINI"], fetched["SI.POV.UMIC"],
+           fetched["SP.DYN.TFRT.IN"], fetched["SH.STA.SUIC.P5"],
+           fetched["SH.STA.TRAF.P5"], fetched["NE.GDI.FTOT.ZS"])
     print("Done. Diff the sidecars before adopting.")
 
 

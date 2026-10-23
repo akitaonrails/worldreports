@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
-"""Refresh the FTSE 100 closes into a sidecar CSV.
+"""Refresh the FTSE 100 and the S&P 500 closes into sidecar CSVs.
 
 Usage:  python3 -I countries/united-kingdom/fetch/fetch_markets.py
 
   ^FTSE  FTSE 100  (London Stock Exchange, price index)
+  ^GSPC  S&P 500   (price index, the spine's dashed comparison line)
+
+Markets slot 4 draws the country's index in US$ against the S&P 500 in
+US$, so the UK needs both: the FTSE converted at the Bank of England's
+year-end USD/GBP rate (markets/sterling_from_boe.csv) and the S&P, which
+needs no conversion. The S&P sidecar exists only to be the comparison
+line, and is marked official: false like the FTSE.
 
 Nobody official publishes an index close, so this comes from a
 redistributor and is marked official: false in SOURCES.yaml. stooq's
@@ -41,19 +48,27 @@ CHART = ("https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
 # A browser UA is required: the endpoint answers 429 to the default urllib one.
 HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64)"}
 
-SYMBOL = "%5EFTSE"
 Y0, Y1 = 2005, 2026   # 2005 leaves room for any rebasing the plate wants
 
-# Year-end closes verified against published FTSE 100 annual values on
-# 2026-10-22; small tolerance for Yahoo's adjustment drift.
-MUST_MATCH = {2007: 6456.9, 2024: 8173.0, 2025: 9931.4}
+#: (yahoo symbol, cache file, sidecar file, {year: pinned close})
+SYMBOLS = [
+    ("%5EFTSE", "yahoo_ftse.json", "ftse_from_yahoo.csv",
+     # Year-end closes verified against published FTSE 100 annual values
+     # on 2026-10-22; small tolerance for Yahoo's adjustment drift.
+     {2007: 6456.9, 2024: 8173.0, 2025: 9931.4}),
+    ("%5EGSPC", "yahoo_sp500.json", "sp500_from_yahoo.csv",
+     # The S&P 500 year-end closes, read from the same monthly-bar channel
+     # on 2026-10-23 and pinned so a payload that changes shape or units
+     # fails the run instead of redrawing the plate differently.
+     {2007: 1468.36, 2024: 5881.63}),
+]
 TOL = 1.0
 
 
-def fetch() -> dict[int, tuple[str, float]]:
+def fetch(symbol: str, cache_name: str) -> dict[int, tuple[str, float]]:
     """{year: (iso date, close)} for the last observation of each year."""
     CACHE.mkdir(exist_ok=True)
-    cache_file = CACHE / "yahoo_ftse.json"
+    cache_file = CACHE / cache_name
     if cache_file.exists():
         payload = json.loads(cache_file.read_text())
     else:
@@ -74,7 +89,7 @@ def fetch() -> dict[int, tuple[str, float]]:
                 last = e
                 time.sleep(3 * (attempt + 1))
         else:
-            raise RuntimeError(f"yahoo ftse: {last}")
+            raise RuntimeError(f"yahoo {symbol}: {last}")
     return year_ends(payload)
 
 
@@ -103,33 +118,48 @@ def year_ends(payload: dict) -> dict[int, tuple[str, float]]:
     return out
 
 
-def verify(series: dict[int, tuple[str, float]]) -> None:
-    for year, want in MUST_MATCH.items():
+def verify(series: dict[int, tuple[str, float]],
+           must_match: dict[int, float]) -> None:
+    for year, want in must_match.items():
         got = series.get(year)
         assert got is not None, f"{year}: no bar returned"
         assert abs(got[1] - want) <= TOL, (
             f"{year}: got {got[1]:,.2f}, want {want:,.2f} (tol {TOL})")
 
 
-def main() -> None:
-    print("Fetching FTSE 100 closes...")
-    series = fetch()
-    verify(series)
-    DATA.mkdir(parents=True, exist_ok=True)
-    lines = [
+#: The '#' header each sidecar carries: what the number is, and what it is
+#: not. Read back by the tests and the provenance page.
+HEADERS = {
+    "ftse_from_yahoo.csv": [
         "# PRICE index: the FTSE 100 excludes dividends. Its dividend yield is",
         "# among the highest of the major indices, so a price-only chart",
         "# understates London against any total-return series.",
-        "year,close",
-    ]
-    for y in range(Y0, Y1 + 1):
-        hit = series.get(y)
-        lines.append(f"{y},{hit[1]:.2f}" if hit else f"{y},")
-    (DATA / "ftse_from_yahoo.csv").write_text("\n".join(lines) + "\n")
-    latest = max(series)
-    print(f"  -> data/markets/ftse_from_yahoo.csv "
-          f"(latest bar {series[latest][0]}: {series[latest][1]:,.2f})")
-    print("Done. Diff the sidecar before adopting.")
+    ],
+    "sp500_from_yahoo.csv": [
+        "# PRICE index, US dollars, the S&P 500. Drawn only as the spine's",
+        "# dashed comparison line on markets slot 4; the FTSE is converted to",
+        "# US$ at the Bank of England year-end rate, this one needs no",
+        "# conversion. A year's value is the last trading day's close, so the",
+        "# 2026 row is a live bar, not an annual figure.",
+    ],
+}
+
+
+def main() -> None:
+    DATA.mkdir(exist_ok=True)
+    for symbol, cache_name, out_name, must_match in SYMBOLS:
+        print(f"Fetching {symbol} closes...")
+        series = fetch(symbol, cache_name)
+        verify(series, must_match)
+        lines = HEADERS[out_name] + ["year,close"]
+        for y in range(Y0, Y1 + 1):
+            hit = series.get(y)
+            lines.append(f"{y},{hit[1]:.2f}" if hit else f"{y},")
+        (DATA / out_name).write_text("\n".join(lines) + "\n")
+        latest = max(series)
+        print(f"  -> data/markets/{out_name} "
+              f"(latest bar {series[latest][0]}: {series[latest][1]:,.2f})")
+    print("Done. Diff the sidecars before adopting.")
 
 
 if __name__ == "__main__":

@@ -36,9 +36,9 @@ YE June 2021, then the late-2025 revisions. The current ONS edition
 (YE December 2025, published 21 May 2026) shows a different shape, and
 the plate has to follow it:
 
-1. **The IPS era**, which Eurostat carries for 1998–2019 (`flows_from_estat.csv`,
-   with a real hole at 2005). The ONS's own IPS-based LTIM series is not
-   staged.
+1. **The IPS era**, which Eurostat carries through 2019. The reviewed
+   `flows_estat.csv` publication copy is trimmed to the atlas window,
+   2006–2019; the ONS's own IPS-based LTIM series is not staged.
 2. **The ONS "new approach" back-series, YE June 2012 to YE March 2021.**
    It is admin-based for foreign nationals (EU+ from DWP/HMRC RAPID,
    non-EU+ from Home Office borders data), but British nationals still
@@ -69,6 +69,12 @@ June, September and December, rounded to the nearest thousand by the
 ONS. Only the YE December rows are calendar years, and the `status` flags
 (P, R, "P,R") come from the publisher.
 
+The demography plate also shows Eurostat's IPS-era calendar-year net flow
+(immigration less emigration) through 2019 beside the ONS YE-December line.
+They overlap in 2012–2019 but remain separately labelled segments. The ONS
+method marker is placed at **2021.5**, the actual YE June 2021 boundary in
+`events.py`, rather than shifted back onto the 2020 observation.
+
 ## Migration: the paperwork, and four asylum numbers
 
 - The Home Office's asylum **applications** match Eurostat's first-time
@@ -79,6 +85,9 @@ ONS. Only the YE December rows are calendar years, and the `status` flags
 - **Initial decisions** = grants + refusals, the Home Office headline.
   The sheet's own Decisions column folds in withdrawals and administrative
   outcomes, which the fetcher keeps in a column of their own.
+- The asylum lens keeps **initial grants** visible beside applications and
+  initial decisions; citizenship grants are a different administrative flow
+  and are not substituted for this fourth asylum measure.
 - The **backlog** is a 31 December stock, from 2010 onward.
 - **The asylum series is revised.** The YE December 2024 edition headlined
   108,138 claimants for 2024. This vintage says 104,764, after the Atlas
@@ -99,6 +108,14 @@ ONS. Only the YE December rows are calendar years, and the `status` flags
 2006, 190k above in 2019, and 2003 is lower than 2001. Use its
 national/foreign split, which is what the stock panel needs. The totals
 are wrong for the population itself.
+
+For a **share within a classification**, however, the denominator must be the
+matching Eurostat total: foreign-born divided by the birth-classification
+total, and foreign-citizen divided by the citizenship-classification total.
+The stock plate uses those two internal denominators and does not substitute
+the ONS population series. In the flow panels, the ONS net row is used as
+published; it is not reconstructed from the publisher's rounded immigration
+and emigration rows.
 
 ## Scopes: the UK, Great Britain, and England & Wales
 
@@ -134,13 +151,33 @@ but it collapses to 147 in 2020 because COVID delayed inquests and the
 deaths sat in U50.9 instead. **The certificate series ends at 2022**
 (2023–25 pending, see HANDOFF).
 
+The security plate converts both homicide counts with the ONS mid-year
+England-plus-Wales population for the corresponding labelled year. The police
+series remains a year-ending-March measure drawn at the financial-year
+midpoint; the certificate series remains a calendar-year registration measure.
+The common denominator makes their rates legible but does not turn them into
+one series.
+
 Causes of death: Series DR 2025 Table 5 supplies 2016–2025, and the
 21st Century Mortality file, grouped into the same chapters, supplies
 2006–2015. On the 2016–2022 overlap they match to the death in every
 chapter, and the fetcher asserts it. Both exclude **neonatal deaths**, so
 the `all` row runs about 1,700–2,400 below the all-ages deaths in
-`vital_from_ons.csv`. Two coding breaks are annotated, not smoothed: the
-2011 ICD-10 update and the 2014 MUSE-to-IRIS software change.
+`vital_from_ons.csv`. Four coding/production breaks are annotated, not
+smoothed. The 2011 ICD-10 update creates the first seam. In 2014 **IRIS
+replaced MMDS/NCHS**; MUSE was not the outgoing system. In 2020 **MUSE
+replaced IRIS**, and MUSE itself was updated in 2022. Each boundary year
+belongs to the incoming regime.
+
+The mortality plate uses Series DR's **published crude death rate** rather than
+recomputing it against the population file. Its excess-death bars use the
+all-ages `vital.csv` death counts against one fixed 2015–2019 arithmetic mean;
+they are not age-standardised. The COVID spine slot stays visibly pending:
+chapter 22 is U00–U85, not an exact U07.1/U07.2 extract, so drawing it as
+COVID-19 would be a false substitution. The cause lens uses chapters 2 and 9,
+which exclude neonatal deaths, and draws five unjoined segments: 2006–2010,
+2011–2013, 2014–2019, 2020–2021 and 2022 onward. This makes explicit that the
+2015–2025 portion is not one software regime.
 
 ## Fiscal years, calendar years, and a key that says which
 
@@ -153,6 +190,14 @@ April of `year`, summed from the monthly rows and blank until all twelve
 months are out. PSND carries December and end-March stocks. A plate must
 never draw a fiscal-year series on the same axis as a calendar one
 without saying so.
+
+The fiscal spine's canonical flow measures now come from the IMF Fiscal
+Monitor on one calendar-year general-government perimeter: revenue,
+expenditure, overall balance and primary balance. IMF GFS supplies exact
+general-government interest payable. ONS public-sector debt and the PESA
+interest subfunction remain separately labelled national comparators: ONS
+covers the whole public sector and nets liquid assets, while IMF debt is
+general-government gross. They are not alternate vintages of one series.
 
 Cross-checks: PSF total managed expenditure and PESA's TME agree to
 within 0.1% for every financial year to 2024-25. 2025-26 differs by 0.4%,
@@ -181,6 +226,12 @@ against the Bank of England's £1,941.4bn of MFI lending to individuals.
 These are two scopes, so the plate labels which one it draws and does
 not treat the gap as a disagreement.
 
+The BIS household-credit-to-GDP series is also a stock: the plate uses Q4,
+not the annual mean, and leaves 2026 blank because only Q1 is available.
+The bad-loan slot uses World Bank `FB.AST.NPER.ZS`, sourced from the IMF's
+Financial Soundness Indicators, rather than leaving a fetchable series
+pending.
+
 The BoE lending series are monthly **stocks**, read at December and never
 summed. They come from the IADB under codes pinned against the Tables A–K
 workbook, which itself carries only the latest months. The mortgage
@@ -191,7 +242,9 @@ IADB on every refresh.
 ## Trade: two bases, a source break, and probably gold
 
 The ONS BoP goods-and-services totals and HMRC's customs-value goods by
-partner are two different numbers. For US exports in 2024 they are
+partner are two different numbers. Partner export shares divide by HMRC's
+complete customs-world export total, including unallocated special buckets;
+they never use the selected partners as a denominator. For US exports in 2024 they are
 £59.3bn and £57.5bn. HMRC's EU trade comes from the Intrastat survey up
 to 2020 and from customs declarations from 2021 (Great Britain only), so
 the partner panel has a **source break at Brexit**. Imports from
@@ -210,6 +263,34 @@ are not two measurements of one number. The WB series has no 2022+, and
 those holes stay holes. HBAI has a seam at 2021/22, where the survey was
 integrated with administrative records. 2020/21 was collected under COVID
 restrictions on a reduced sample.
+
+The people plate likewise keeps two poverty concepts separate. DWP HBAI is
+relative low income below 60% of that year's median, before and after housing
+costs. World Bank `SI.POV.UMIC` is the absolute international threshold below
+US$8.30 a day at 2021 PPP and ends in 2021. Their very different levels are a
+definition result, not conflicting estimates.
+
+The minimum-wage panel starts from the Low Pay Commission workbook's complete
+effective-date history. It day-weights the highest statutory adult hourly rate
+within each calendar year, then computes a monthly equivalent at 40 hours per
+week × 52 ÷ 12 and converts it with the staged Bank of England annual-average
+USD/GBP. UK law defines an hourly floor; the monthly value is only the plate's
+common-hours convention. The adult eligibility age changed several times, so
+"adult rate" follows the applicable highest-rate band rather than one fixed age.
+
+## Fertility and corruption have explicit source seams
+
+Eurostat `demo_find` ends at 2018. The fertility panel now uses World Bank
+`SP.DYN.TFRT.IN` as one labelled modelled series throughout 2006–2024; it does
+not append World Bank years to Eurostat history. Eurostat remains the source of
+the UK-wide births and deaths in the neighbouring panels.
+
+Transparency International changed the CPI method and scale in 2012. Official
+annual archive files for 2006–2011 report scores on 0–10; the CPI 2025 workbook
+reports the revised 2012–2025 series on 0–100. These are separate columns and
+unjoined line segments. The old segment is positioned ×10 on the shared visual
+axis, explicitly labelled as such, while the committed values remain on their
+original scale. Only 2012 onward is comparable over time.
 
 ## Labour: the LFS broke
 

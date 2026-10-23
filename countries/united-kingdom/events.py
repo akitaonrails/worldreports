@@ -44,6 +44,13 @@ MARKS = {
     "estat_frozen": (2020.0, "Eurostat frozen at 2019"),
     "hbai_seam": (2021.5, "survey integrated with admin data"),
     "customs_break": (2021.0, "customs declarations replace Intrastat"),
-    "iris": (2014.6, "MUSE to IRIS"),
+    # Cause-of-death production changes apply to the registration year on
+    # the right of each boundary. They are deliberately separate: IRIS did
+    # not replace MUSE in 2014; it replaced the older MMDS/NCHS software,
+    # and MUSE replaced IRIS only in 2020.
+    "icd2011": (2011.0, "ICD-10 update"),
+    "iris": (2014.0, "IRIS replaces MMDS/NCHS"),
+    "muse": (2020.0, "MUSE replaces IRIS"),
+    "muse_update": (2022.0, "MUSE update"),
     "gold": (2025.0, "gold through Switzerland"),
 }

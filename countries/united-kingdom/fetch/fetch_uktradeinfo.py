@@ -63,9 +63,9 @@ reader can see the gap, not just the check:
 
 Outputs:
   data/trade/goods_by_partner_from_uktradeinfo.csv
-      year,country,imports,exports,balance,import_share,months
-      values in £ billion; import_share is of the customs world total,
-      special buckets included, as above.
+      year,country,imports,exports,balance,import_share,export_share,months
+      values in £ billion; import_share and export_share are of the
+      corresponding customs world total, special buckets included, as above.
 """
 from __future__ import annotations
 
@@ -274,6 +274,16 @@ def main() -> None:
 
     world_rows = months_grouped(Y0, Y1, None, "world")
     world = by_year(world_rows)
+    # Annual world denominators behind export_share.  These are deliberately
+    # pinned independently of the ten partner rows: summing selected partners
+    # was the original chart bug this column exists to prevent.
+    for year, want_bn in ((2024, 413.1901), (2025, 426.2590),
+                          (2026, 284.4747)):
+        got_bn = world[year]["exports"] / 1e9
+        if abs(got_bn - want_bn) > 0.1:
+            raise SystemExit(f"world {year} exports moved from the reviewed "
+                             f"£{want_bn:.4f}bn to £{got_bn:.4f}bn; diff the "
+                             "denominator before publishing")
 
     # Magnitude assertions BEFORE any partner fetch or write: if the
     # conventions have drifted, the world totals are where it shows.
@@ -329,11 +339,12 @@ def main() -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     n = 0
     with path.open("w", newline="", encoding="utf-8") as fh:
-        w = csv.writer(fh)
+        w = csv.writer(fh, lineterminator="\n")
         w.writerow(["year", "country", "imports", "exports", "balance",
-                    "import_share", "months"])
+                    "import_share", "export_share", "months"])
         for year in range(Y0, Y1 + 1):
             world_imp = world.get(year, {}).get("imports")
+            world_exp = world.get(year, {}).get("exports")
             for name, _ in PARTNERS:
                 cell = partners[name].get(year)
                 if not cell or not cell["months"]:
@@ -341,8 +352,10 @@ def main() -> None:
                 imp, exp = cell["imports"] / 1e9, cell["exports"] / 1e9
                 share = (f"{cell['imports'] / world_imp * 100:.2f}"
                          if world_imp else "")  # no denominator → blank, not 0
+                export_share = (f"{cell['exports'] / world_exp * 100:.2f}"
+                                if world_exp else "")
                 w.writerow([year, name, f"{imp:.1f}", f"{exp:.1f}",
-                            f"{exp - imp:.1f}", share,
+                            f"{exp - imp:.1f}", share, export_share,
                             cell["months"]])
                 n += 1
     print(f"  {path.relative_to(ROOT)}  {n} rows")
