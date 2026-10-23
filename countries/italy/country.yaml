@@ -26,6 +26,7 @@ default_locale: en
 years: {from: 2006, to: 2026}
 last_full_year: 2025
 tick_every: 2
+spine: true
 
 # Bands drawn behind the data, dated off the quarter-on-quarter sign of
 # seasonally adjusted real GDP (Eurostat namq_10_gdp, CLV_PCH_PRE, SCA,
