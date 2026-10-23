@@ -1,0 +1,152 @@
+# Switzerland. The first country here with four national languages and the
+# first outside the EU but inside much of Eurostat: an EFTA member that
+# transmits national accounts, government finance, HICP, labour-force,
+# SILC and the migration suite to Eurostat under bilateral agreements, but
+# not the excessive-deficit (EDP) tables and not the Maastricht yields —
+# coverage is verified per dataset in SOURCES.yaml, never assumed.
+#
+# Languages. German, French, Italian and Romansh are national languages;
+# German is the majority's (about 62% of the permanent resident population
+# name it as a main language, BFS structural survey), and the federal
+# statistical office publishes its tables German-first (the `-d-` in every
+# BFS asset number). So `de` is the official-first locale here. French and
+# Italian are not offered in v1 — they would be the obvious second and
+# third, and both are easy wins later (`fr` is already in the atlas; `it`
+# arrives with Italy). `de` is a NEW locale for the atlas and needs, in a
+# later phase: an AFFIX column and a CURRENCY_AFFIX `CHF` entry in
+# core/sitebuild.py, `de` chrome in site/ui.json, and a `name.de` in every
+# other country's country.yaml (the comparison menu names every country in
+# every language). `de-CH` is written without ß, which matters for copy.
+slug: switzerland
+flag_emoji: "🇨🇭"
+# The country's own name in the official-first language. "Helvetia" (the
+# stamps and coins, chosen precisely to favour no language) was the other
+# candidate; it reads as a brand rather than a place to most readers.
+wordmark: Schweiz
+name:
+  en: "Switzerland"
+  fr: "Suisse"
+  pt: "Suíça"
+  es: "Suiza"
+  ko: "스위스"
+  de: "Schweiz"
+  it: "Svizzera"
+  he: "שווייץ"
+  ja: "スイス"
+  zh-Hans: "瑞士"
+  zh-Hant: "瑞士"
+  vi: "Thụy Sĩ"
+
+locales:
+  - {code: de, html_lang: de-CH, og_locale: de_CH, endonym: Deutsch}
+  - {code: en, html_lang: en,    og_locale: en_GB, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+spine: true
+
+# The x-axis span every plate shares, and the last year whose annual totals
+# are complete. A flow for a year still running is not comparable with the
+# ones before it, so plates dash or hatch anything past it.
+#
+# 2025 is complete for the BFS annual national accounts (first estimate,
+# 25 Aug 2026), the CPI, STATPOP, vital statistics and police crime. It is
+# NOT yet an outturn for general-government finance: the EFV dataset marks
+# 2025 as "Prognosen" and the latest "Rechnung" is 2024; causes of death
+# stop at 2024. Those panels label their last point, they do not move this.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+
+# Dated off the quarter-on-quarter sign of real GDP, seasonally adjusted,
+# pulled 2026-10-22 from both the SECO real-time database (gdp_cssa, the
+# 2026-06-01 vintage, sport-event adjusted) and Eurostat namq_10_gdp CH
+# (SCA, CLV_PCH_PRE); the two agree on every sign that matters here:
+#   2008 Q4 – 2009 Q1: two consecutive contractions (SECO −2.1, −1.5;
+#     Eurostat −2.2, −1.7). 2008 Q3 was still positive in this vintage.
+#   2020 Q1 – Q2: COVID (SECO −1.1, −6.4).
+# Not banded, on the same evidence: 2015 Q1 (−0.0 SECO / −0.3 Eurostat), the
+# quarter the SNB removed the EUR/CHF 1.20 floor on 15 Jan 2015 — a single
+# quarter at most, so it is an EVENT on the markets/trade plates, not a
+# recession; likewise 2011 Q3 (the franc spike that led to the floor on
+# 6 Sep 2011), 2016 Q4, 2018 Q3, 2023 Q2 and 2025 Q3 (US tariff shock),
+# each a single negative quarter between positives.
+bands:
+  - {from: 2008.75, to: 2009.25, label: "2008–09 crisis"}
+  - {from: 2020.0, to: 2020.5, label: "COVID-19"}
+
+currency:
+  code: CHF
+
+# The flag is one red and a white cross — Canada's problem exactly: a single
+# hue cannot carry four panels and the white is the paper. The red is
+# darkened off the flag's #DA291C (Pantone 485 in the federal brand manual)
+# toward a cooler crimson than Canada's #B5272F or Spain's #A32630, so the
+# two do not read as the same atlas edition side by side. The siblings are
+# cool and alpine — slate, glacier blue, fir green, lake teal — chosen to
+# stay apart from the red and from each other in greyscale.
+palette:
+  RED:     "#B01E2D"
+  RED_D:   "#7F1521"
+  SLATE:   "#2A3F55"
+  BLUE:    "#3A6F96"
+  BLUE_D:  "#284F6E"
+  GREEN:   "#3F6E45"
+  GREEN_D: "#2C5131"
+  GOLD:    "#B08A2E"
+  PURPLE:  "#6A5A9C"
+  TEAL:    "#1E7A74"
+  primary: "#B01E2D"
+  alert:   "#B01E2D"
+  ink:     "#1E232B"
+  muted:   "#59606C"
+  faint:   "#9AA0AB"
+  paper:   "#FBFAF8"
+  card:    "#FFFFFF"
+  grid:    "#E6E4DF"
+  spine:   "#C8C6C0"
+  band:    "#EEEDE8"
+  series:  ["#B01E2D", "#3A6F96", "#3F6E45", "#B08A2E", "#6A5A9C", "#1E7A74", "#1E232B"]
+  # Red, the paper, red: the cross laid flat. The middle band is the page
+  # colour, so it is drawn with an outline automatically.
+  flag_bands: ["#B01E2D", "#FBFAF8", "#B01E2D"]
+  # A neutral graphite rather than Canada's red-black (#1A1012) or Spain's
+  # warm brown-black (#1E1210): a red money accent on a red ground is the
+  # one pair that cannot work, and the neutral ground keeps the red accent.
+  web:
+    # S is a round letter with open counters — between C and B.
+    mark_bearing: "0.05em"
+    ground:   "#14171B"
+    raised:   "#1D2126"
+    raised_2: "#262B31"
+    rule:     "#373D45"
+    ink:      "#EEF0F2"
+    muted:    "#A8AFB8"
+    faint:    "#6D747D"
+    money:    "#E46A5E"
+    world:    "#4FA7B5"
+    people:   "#D8A441"
+
+seo:
+  title:
+    de: "Schweiz — Tafeln aus amtlichen Daten, 2006–2026"
+    en: "Switzerland — plates of official data, 2006–2026"
+    pt: "Suíça — pranchas de dados oficiais, 2006–2026"
+  description:
+    de: "Datentafeln zu Wirtschaft, öffentlichen Finanzen, Aussenhandel, Märkten, Arbeit, Demografie, Migration, Sterblichkeit, Verschuldung und Kriminalität der Schweiz, ausschliesslich aus amtlichen Quellen erstellt und aus versionierten CSV-Dateien neu erzeugt."
+    en: "Data plates on Switzerland's economy, public finances, trade, markets, work, demography, migration, mortality, credit and crime, built only from official sources and regenerated from committed CSVs."
+    pt: "Pranchas de dados sobre a economia, as contas públicas, o comércio, os mercados, o trabalho, a demografia, a migração, a mortalidade, o crédito e o crime da Suíça, construídas apenas a partir de fontes oficiais."
+  keywords: [Schweiz, Switzerland, BFS, SNB, Eidgenössische Finanzverwaltung, Migration, official statistics]
+  # Switzerland as BFS counts it: the 26 cantons, excluding Liechtenstein.
+  # The BAZG foreign-trade statistics are NOT on that scope: they cover the
+  # Swiss–Liechtenstein customs territory, and say so on their panels.
+  # Whether the SNB cubes (bank credit, BoP, reserves) include
+  # Liechtenstein is an open question (SOURCES.yaml meta.pending); until it
+  # is answered an SNB panel names the SNB as its scope. Neither is ever
+  # mixed into a line with a Switzerland-only series.
+  spatial: "Switzerland"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+sources:
+  de: "das Bundesamt für Statistik (BFS), die Schweizerische Nationalbank (SNB), die Eidgenössische Finanzverwaltung (EFV), das SECO, das Bundesamt für Zoll und Grenzsicherheit (BAZG) und Eurostat"
+  en: "the Federal Statistical Office (FSO/BFS), the Swiss National Bank (SNB), the Federal Finance Administration (FFA/EFV), SECO, the Federal Office for Customs and Border Security (FOCBS/BAZG) and Eurostat"
+  pt: "o Departamento Federal de Estatística (BFS), o Banco Nacional Suíço (SNB), a Administração Federal de Finanças (EFV), a SECO, o Departamento Federal de Alfândegas e Segurança das Fronteiras (BAZG) e a Eurostat"

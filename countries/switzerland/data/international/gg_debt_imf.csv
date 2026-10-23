@@ -1,0 +1,48 @@
+# IMF WEO via DataMapper, GGXWDG_NGDP, Switzerland. Units: % of GDP,
+# general government gross debt (GFS) = EFV GFS total liabilities, NOT
+# Maastricht debt. Calendar years. Years after 2025 are WEO projections
+# and sit only in gross_debt_pct_gdp_proj. GDP denominator is the IMF's
+# own WEO vintage.
+year,gross_debt_pct_gdp,gross_debt_pct_gdp_proj
+1990,33.1,
+1991,34.8,
+1992,39.1,
+1993,43.8,
+1994,46.5,
+1995,49.4,
+1996,50.7,
+1997,53.0,
+1998,55.4,
+1999,52.0,
+2000,51.9,
+2001,50.8,
+2002,57.0,
+2003,56.3,
+2004,57.2,
+2005,54.2,
+2006,47.9,
+2007,45.9,
+2008,46.2,
+2009,44.3,
+2010,42.6,
+2011,42.9,
+2012,43.6,
+2013,42.9,
+2014,42.9,
+2015,43.1,
+2016,42.0,
+2017,42.0,
+2018,41.1,
+2019,41.0,
+2020,45.3,
+2021,43.3,
+2022,39.2,
+2023,40.2,
+2024,40.4,
+2025,40.1,
+2026,,38.3
+2027,,37.8
+2028,,37.1
+2029,,37.0
+2030,,36.2
+2031,,35.9

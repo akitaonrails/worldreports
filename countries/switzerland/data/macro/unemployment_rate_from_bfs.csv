@@ -1,0 +1,39 @@
+# BFS asset je-d-03.03.01.14 (damId 36710099, published 2026-08-18): Erwerbslosenquote gemäss ILO (SAKE), %, permanent resident
+# population. ilo_rate_annual_pct = annual average of the continuous
+# quarterly survey, 2010 onward (sheet Jahreswerte). ilo_rate_q2_pct = the
+# second-quarter value (sheet Quartalswerte): before 2010 the SAKE was a
+# Q2-only survey, so 2000-2009 exist ONLY as Q2 values; the Q2 column is
+# continued after 2010 for a like-for-like line. The two columns are
+# different statistics and are not spliced. swiss/foreign = annual by
+# nationality, 2010 onward. ILO SURVEY rate, not SECO's registered rate.
+# The last row may be a year in progress: its Q2 value is published, its
+# annual average is blank until the year is complete.
+# Years are CALENDAR years (Swiss public finance and statistics use the calendar year; nothing here is an April fiscal year).
+year,ilo_rate_annual_pct,ilo_rate_q2_pct,ilo_rate_swiss_annual_pct,ilo_rate_foreign_annual_pct
+2000,,2.66,,
+2001,,2.49,,
+2002,,2.92,,
+2003,,4.12,,
+2004,,4.32,,
+2005,,4.44,,
+2006,,3.99,,
+2007,,3.64,,
+2008,,3.35,,
+2009,,4.11,,
+2010,4.81,4.64,3.61,8.76
+2011,4.41,3.94,3.39,7.69
+2012,4.49,4.06,3.39,7.88
+2013,4.75,4.53,3.39,8.82
+2014,4.83,4.66,3.50,8.69
+2015,4.80,4.44,3.46,8.62
+2016,4.92,4.63,3.55,8.76
+2017,4.80,4.39,3.54,8.30
+2018,4.71,4.62,3.44,8.19
+2019,4.39,4.17,3.25,7.49
+2020,4.82,4.58,3.66,7.86
+2021,5.01,5.00,3.66,8.60
+2022,4.12,3.98,3.05,6.93
+2023,4.04,3.73,3.05,6.55
+2024,4.34,4.00,3.07,7.47
+2025,4.84,4.63,3.44,8.19
+2026,,4.88,,

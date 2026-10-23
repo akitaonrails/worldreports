@@ -1,0 +1,817 @@
+# BFS asset je-d-14.03.04.01.03 (damId 36262329, published 2025-12-22) (men) and BFS asset je-d-14.03.04.01.04 (damId 36262332, published 2025-12-22) (women): Sterbefälle und Sterbeziffern
+# wichtiger Todesursachen, residents. deaths_* in PERSONS; deaths_total =
+# men + women, summed here (blank if either is a hole); Prostata appears
+# in the men's file only and Gebärmutterhals in the women's only, so their
+# total is that sex and the other sex's columns are blank. rate_* =
+# age-standardised death rates per 100,000 by sex as BFS publishes them;
+# they cannot be summed, so there is no total rate. Long format, cause
+# labels as BFS writes them (German). Years: 2000 onward (the file has
+# 1970, 1980, 1990-). BREAKS (footnotes): ICD-8 -> ICD-10 between 1994 and
+# 1995; 'Unfälle insgesamt' include accidental poisoning by psychotropic
+# substances from 2006; SUIZID INCLUDES ASSISTED SUICIDE UNTIL 2008 and
+# excludes it from 2009 (it is coded to the underlying disease and counted
+# in assisted_suicide_from_bfs.csv) - the 2008/09 fall is classification.
+# COVID-19 is blank before 2020 (not applicable). No homicide row: BFS
+# publishes 'Unfälle und Gewalteinwirkungen' only.
+# Years are CALENDAR years (Swiss public finance and statistics use the calendar year; nothing here is an April fiscal year).
+year,cause,deaths_men,deaths_women,deaths_total,rate_men_per100k_std,rate_women_per100k_std
+2000,Alle Todesursachen,30411,32134,62545,750.2,457.0
+2000,Infektiöse Krankheiten,338,375,713,8.5,6.2
+2000,Tuberkulose,22,11,33,0.5,0.2
+2000,AIDS,83,44,127,2.1,1.1
+2000,COVID-19,,,,,
+2000,Bösartige Tumoren,8576,6936,15512,213.6,125.9
+2000,Magen,343,232,575,8.4,3.8
+2000,Dickdarm,677,570,1247,16.5,9.4
+2000,Lunge,2042,780,2822,52.0,15.9
+2000,Brust,9,1337,1346,0.2,26.4
+2000,Prostata,1307,,1307,30.8,
+2000,Diabetes mellitus,626,932,1558,15.1,12.2
+2000,Demenz,820,1739,2559,18.9,19.4
+2000,Kreislaufsystem,11011,13899,24910,264.8,167.6
+2000,Herzkrankheiten insgesamt,8486,10225,18711,204.8,123.2
+2000,Ischämische Herzkrankheiten,5346,5360,10706,129.1,64.8
+2000,Lungenembolie,139,269,408,3.4,3.8
+2000,Zerebrovaskuläre Krankheiten,1758,2820,4578,41.5,34.3
+2000,Atmungsorgane insgesamt,2417,2208,4625,57.4,28.1
+2000,Grippe,112,175,287,2.7,2.1
+2000,Pneumonie,795,1052,1847,18.8,12.2
+2000,Chronische Bronchitis,1100,579,1679,26.2,8.3
+2000,Asthma,81,100,181,2.0,1.5
+2000,Alkoholische Leberzirrhose,308,125,433,8.1,3.0
+2000,Harnorgane,232,354,586,5.5,4.5
+2000,Kongenitale Missbildungen,134,139,273,4.5,4.4
+2000,Perinatale Todesursachen,99,75,174,4.0,3.2
+2000,Unfälle und Gewalteinwirkungen,2375,1369,3744,62.8,25.0
+2000,Unfälle insgesamt,1299,895,2194,34.3,13.9
+2000,Strassenverkehrsunfälle,419,159,578,11.6,3.7
+2000,Suizid,979,399,1378,25.9,9.3
+2000,Gebärmutterhals,,85,85,,1.7
+2001,Alle Todesursachen,29873,31349,61222,716.0,434.0
+2001,Infektiöse Krankheiten,370,280,650,9.1,4.6
+2001,Tuberkulose,17,5,22,0.4,0.1
+2001,AIDS,82,31,113,2.0,0.8
+2001,COVID-19,,,,,
+2001,Bösartige Tumoren,8650,6739,15389,211.0,120.0
+2001,Magen,364,237,601,8.9,3.8
+2001,Dickdarm,628,571,1199,15.0,9.1
+2001,Lunge,2051,724,2775,51.0,14.9
+2001,Brust,2,1333,1335,0.1,25.9
+2001,Prostata,1316,,1316,29.9,
+2001,Diabetes mellitus,646,956,1602,14.9,11.9
+2001,Demenz,839,2042,2881,18.6,22.0
+2001,Kreislaufsystem,10775,13358,24133,250.0,156.0
+2001,Herzkrankheiten insgesamt,8242,9829,18071,192.0,114.0
+2001,Ischämische Herzkrankheiten,5051,5128,10179,117.0,59.5
+2001,Lungenembolie,119,241,360,2.8,3.3
+2001,Zerebrovaskuläre Krankheiten,1747,2649,4396,39.7,31.0
+2001,Atmungsorgane insgesamt,2000,1730,3730,45.8,22.0
+2001,Grippe,10,22,32,0.2,0.3
+2001,Pneumonie,606,774,1380,13.7,8.6
+2001,Chronische Bronchitis,1008,553,1561,23.1,7.9
+2001,Asthma,63,83,146,1.5,1.4
+2001,Alkoholische Leberzirrhose,357,128,485,9.4,3.0
+2001,Harnorgane,225,347,572,5.1,4.3
+2001,Kongenitale Missbildungen,130,116,246,4.6,3.9
+2001,Perinatale Todesursachen,96,80,176,4.1,3.6
+2001,Unfälle und Gewalteinwirkungen,2310,1357,3667,60.1,24.4
+2001,Unfälle insgesamt,1249,884,2133,32.3,13.7
+2001,Strassenverkehrsunfälle,362,118,480,9.9,2.8
+2001,Suizid,939,391,1330,24.6,8.9
+2001,Gebärmutterhals,,89,89,,1.6
+2002,Alle Todesursachen,29727,32041,61768,699.0,438.0
+2002,Infektiöse Krankheiten,323,304,627,7.9,4.9
+2002,Tuberkulose,12,12,24,0.3,0.2
+2002,AIDS,67,27,94,1.7,0.7
+2002,COVID-19,,,,,
+2002,Bösartige Tumoren,8356,6863,15219,199.0,121.0
+2002,Magen,352,210,562,8.4,3.4
+2002,Dickdarm,560,580,1140,13.2,9.1
+2002,Lunge,1929,774,2703,46.8,15.6
+2002,Brust,9,1340,1349,0.2,25.3
+2002,Prostata,1266,,1266,28.1,
+2002,Diabetes mellitus,697,921,1618,15.9,11.5
+2002,Demenz,987,2261,3248,21.6,23.9
+2002,Kreislaufsystem,10428,13310,23738,238.0,153.0
+2002,Herzkrankheiten insgesamt,7900,9829,17729,181.0,113.0
+2002,Ischämische Herzkrankheiten,4939,5111,10050,113.0,58.7
+2002,Lungenembolie,136,240,376,3.1,3.1
+2002,Zerebrovaskuläre Krankheiten,1716,2623,4339,38.2,30.6
+2002,Atmungsorgane insgesamt,2144,1918,4062,47.8,23.2
+2002,Grippe,23,60,83,0.5,0.6
+2002,Pneumonie,710,897,1607,15.8,9.8
+2002,Chronische Bronchitis,1032,556,1588,23.0,7.5
+2002,Asthma,68,88,156,1.5,1.2
+2002,Alkoholische Leberzirrhose,382,139,521,9.8,3.3
+2002,Harnorgane,243,328,571,5.4,3.9
+2002,Kongenitale Missbildungen,136,102,238,4.6,3.4
+2002,Perinatale Todesursachen,91,81,172,3.9,3.7
+2002,Unfälle und Gewalteinwirkungen,2218,1435,3653,56.7,25.0
+2002,Unfälle insgesamt,1122,886,2008,28.5,12.7
+2002,Strassenverkehrsunfälle,349,122,471,9.6,3.0
+2002,Suizid,980,466,1446,25.3,10.5
+2002,Gebärmutterhals,,93,93,,1.7
+2003,Alle Todesursachen,30285,32785,63070,698.0,441.0
+2003,Infektiöse Krankheiten,338,337,675,7.9,5.0
+2003,Tuberkulose,13,4,17,0.3,0.1
+2003,AIDS,70,20,90,1.7,0.5
+2003,COVID-19,,,,,
+2003,Bösartige Tumoren,8527,6902,15429,199.0,119.0
+2003,Magen,324,218,542,7.5,3.3
+2003,Dickdarm,590,589,1179,13.5,8.9
+2003,Lunge,1974,822,2796,47.1,16.2
+2003,Brust,6,1392,1398,0.1,25.8
+2003,Prostata,1318,,1318,28.7,
+2003,Diabetes mellitus,774,1061,1835,17.5,12.8
+2003,Demenz,1026,2359,3385,22.1,24.6
+2003,Kreislaufsystem,10575,13319,23894,236.0,152.0
+2003,Herzkrankheiten insgesamt,8019,9725,17744,180.0,110.0
+2003,Ischämische Herzkrankheiten,4988,4986,9974,112.0,56.9
+2003,Lungenembolie,123,263,386,2.8,3.3
+2003,Zerebrovaskuläre Krankheiten,1758,2824,4582,38.2,32.8
+2003,Atmungsorgane insgesamt,2194,1951,4145,48.5,23.7
+2003,Grippe,19,47,66,0.4,0.5
+2003,Pneumonie,682,876,1558,15.1,9.6
+2003,Chronische Bronchitis,1126,655,1781,24.8,8.9
+2003,Asthma,46,73,119,1.1,1.0
+2003,Alkoholische Leberzirrhose,355,138,493,9.0,3.2
+2003,Harnorgane,220,307,527,4.8,3.8
+2003,Kongenitale Missbildungen,144,121,265,4.6,3.9
+2003,Perinatale Todesursachen,79,61,140,3.4,2.8
+2003,Unfälle und Gewalteinwirkungen,2133,1488,3621,53.6,25.0
+2003,Unfälle insgesamt,1172,993,2165,29.1,14.4
+2003,Strassenverkehrsunfälle,371,132,503,10.1,3.0
+2003,Suizid,848,421,1269,21.5,9.1
+2003,Gebärmutterhals,,82,82,,1.5
+2004,Alle Todesursachen,28991,31189,60180,656.0,416.0
+2004,Infektiöse Krankheiten,297,298,595,7.0,4.4
+2004,Tuberkulose,9,7,16,0.2,0.1
+2004,AIDS,63,19,82,1.6,0.4
+2004,COVID-19,,,,,
+2004,Bösartige Tumoren,8451,6979,15430,193.0,118.0
+2004,Magen,311,219,530,7.1,3.3
+2004,Dickdarm,577,543,1120,13.0,8.0
+2004,Lunge,1934,858,2792,45.4,16.6
+2004,Brust,9,1379,1388,0.2,25.0
+2004,Prostata,1306,,1306,27.9,
+2004,Diabetes mellitus,656,907,1563,14.3,10.8
+2004,Demenz,962,2317,3279,20.0,23.9
+2004,Kreislaufsystem,9888,12563,22451,216.0,141.0
+2004,Herzkrankheiten insgesamt,7571,9368,16939,166.0,105.0
+2004,Ischämische Herzkrankheiten,4603,4595,9198,101.0,51.3
+2004,Lungenembolie,114,196,310,2.5,2.6
+2004,Zerebrovaskuläre Krankheiten,1626,2457,4083,34.8,28.1
+2004,Atmungsorgane insgesamt,2068,1780,3848,44.3,21.3
+2004,Grippe,20,48,68,0.4,0.5
+2004,Pneumonie,617,804,1421,13.3,8.8
+2004,Chronische Bronchitis,1028,580,1608,21.9,7.7
+2004,Asthma,55,67,122,1.2,0.9
+2004,Alkoholische Leberzirrhose,349,119,468,8.7,2.7
+2004,Harnorgane,212,269,481,4.5,3.3
+2004,Kongenitale Missbildungen,101,118,219,3.6,3.8
+2004,Perinatale Todesursachen,91,71,162,3.9,3.2
+2004,Unfälle und Gewalteinwirkungen,2147,1394,3541,53.5,23.4
+2004,Unfälle insgesamt,1173,892,2065,29.1,12.3
+2004,Strassenverkehrsunfälle,367,102,469,9.8,2.4
+2004,Suizid,857,427,1284,21.4,9.3
+2004,Gebärmutterhals,,94,94,,1.7
+2005,Alle Todesursachen,29708,31416,61124,654.0,408.0
+2005,Infektiöse Krankheiten,281,293,574,6.3,4.1
+2005,Tuberkulose,14,7,21,0.3,0.1
+2005,AIDS,50,22,72,1.2,0.5
+2005,COVID-19,,,,,
+2005,Bösartige Tumoren,8612,6809,15421,192.0,114.0
+2005,Magen,315,227,542,7.1,3.2
+2005,Dickdarm,630,531,1161,13.9,7.8
+2005,Lunge,2060,847,2907,47.0,16.5
+2005,Brust,8,1294,1302,0.2,23.3
+2005,Prostata,1264,,1264,26.0,
+2005,Diabetes mellitus,617,813,1430,13.1,9.8
+2005,Demenz,1088,2615,3703,22.0,26.2
+2005,Kreislaufsystem,10320,12541,22861,219.0,137.0
+2005,Herzkrankheiten insgesamt,7963,9300,17263,170.0,101.0
+2005,Ischämische Herzkrankheiten,4821,4541,9362,103.0,50.0
+2005,Lungenembolie,131,193,324,2.8,2.6
+2005,Zerebrovaskuläre Krankheiten,1635,2478,4113,34.3,27.7
+2005,Atmungsorgane insgesamt,2239,2032,4271,46.9,23.9
+2005,Grippe,37,92,129,0.8,0.9
+2005,Pneumonie,690,885,1575,14.6,9.4
+2005,Chronische Bronchitis,1141,630,1771,23.8,8.4
+2005,Asthma,46,74,120,1.0,1.0
+2005,Alkoholische Leberzirrhose,347,135,482,8.4,3.1
+2005,Harnorgane,206,244,450,4.2,2.8
+2005,Kongenitale Missbildungen,140,116,256,4.7,3.7
+2005,Perinatale Todesursachen,94,66,160,4.0,2.9
+2005,Unfälle und Gewalteinwirkungen,2113,1348,3461,51.3,22.6
+2005,Unfälle insgesamt,1122,878,2000,26.9,12.3
+2005,Strassenverkehrsunfälle,279,91,370,7.3,2.0
+2005,Suizid,899,400,1299,22.1,8.7
+2005,Gebärmutterhals,,88,88,,1.7
+2006,Alle Todesursachen,29212,31071,60283,625.0,399.0
+2006,Infektiöse Krankheiten,309,314,623,6.9,4.4
+2006,Tuberkulose,16,8,24,0.3,0.1
+2006,AIDS,54,23,77,1.3,0.5
+2006,COVID-19,,,,,
+2006,Bösartige Tumoren,8624,7037,15661,187.0,117.0
+2006,Magen,289,236,525,6.3,3.5
+2006,Dickdarm,611,506,1117,13.1,7.1
+2006,Lunge,1948,982,2930,43.1,18.3
+2006,Brust,6,1324,1330,0.1,23.7
+2006,Prostata,1283,,1283,25.7,
+2006,Diabetes mellitus,603,777,1380,12.5,8.9
+2006,Demenz,1070,2536,3606,20.7,24.8
+2006,Kreislaufsystem,10110,12282,22392,208.0,131.0
+2006,Herzkrankheiten insgesamt,7875,9108,16983,163.0,96.1
+2006,Ischämische Herzkrankheiten,4721,4451,9172,98.0,47.5
+2006,Lungenembolie,106,187,293,2.2,2.3
+2006,Zerebrovaskuläre Krankheiten,1568,2465,4033,31.7,27.1
+2006,Atmungsorgane insgesamt,1984,1702,3686,40.1,20.1
+2006,Grippe,3,5,8,0.1,0.1
+2006,Pneumonie,626,741,1367,12.5,7.6
+2006,Chronische Bronchitis,1015,631,1646,20.4,8.4
+2006,Asthma,31,68,99,0.6,0.9
+2006,Alkoholische Leberzirrhose,345,159,504,8.1,3.5
+2006,Harnorgane,228,324,552,4.6,3.6
+2006,Kongenitale Missbildungen,128,137,265,4.4,4.1
+2006,Perinatale Todesursachen,83,83,166,3.5,3.7
+2006,Unfälle und Gewalteinwirkungen,2218,1503,3721,52.8,24.6
+2006,Unfälle insgesamt,1264,987,2251,29.7,13.6
+2006,Strassenverkehrsunfälle,263,94,357,6.9,2.1
+2006,Suizid,863,445,1308,20.9,9.4
+2006,Gebärmutterhals,,86,86,,1.6
+2007,Alle Todesursachen,29544,31545,61089,615.0,394.0
+2007,Infektiöse Krankheiten,320,319,639,6.8,4.3
+2007,Tuberkulose,11,5,16,0.2,0.1
+2007,AIDS,41,16,57,1.0,0.4
+2007,COVID-19,,,,,
+2007,Bösartige Tumoren,8836,7184,16020,187.0,117.0
+2007,Magen,321,221,542,6.8,3.3
+2007,Dickdarm,638,576,1214,13.2,8.3
+2007,Lunge,2012,997,3009,43.9,18.4
+2007,Brust,8,1268,1276,0.2,22.1
+2007,Prostata,1260,,1260,24.5,
+2007,Diabetes mellitus,638,792,1430,12.9,8.8
+2007,Demenz,1210,2773,3983,22.8,26.4
+2007,Kreislaufsystem,10107,12506,22613,202.0,129.0
+2007,Herzkrankheiten insgesamt,7871,9306,17177,158.0,95.4
+2007,Ischämische Herzkrankheiten,4637,4398,9035,93.4,45.4
+2007,Lungenembolie,95,175,270,1.9,2.1
+2007,Zerebrovaskuläre Krankheiten,1585,2540,4125,30.9,26.9
+2007,Atmungsorgane insgesamt,2020,1713,3733,39.7,19.3
+2007,Grippe,12,25,37,0.2,0.3
+2007,Pneumonie,612,727,1339,11.9,7.4
+2007,Chronische Bronchitis,1044,671,1715,20.5,8.3
+2007,Asthma,22,65,87,0.5,0.8
+2007,Alkoholische Leberzirrhose,321,175,496,7.5,3.8
+2007,Harnorgane,309,414,723,5.9,4.3
+2007,Kongenitale Missbildungen,112,118,230,3.4,3.7
+2007,Perinatale Todesursachen,93,84,177,3.9,3.7
+2007,Unfälle und Gewalteinwirkungen,2306,1476,3782,53.8,23.1
+2007,Unfälle insgesamt,1280,981,2261,29.4,12.9
+2007,Strassenverkehrsunfälle,289,85,374,7.4,1.8
+2007,Suizid,920,440,1360,21.9,9.1
+2007,Gebärmutterhals,,91,91,,1.7
+2008,Alle Todesursachen,29474,31759,61233,596.0,386.0
+2008,Infektiöse Krankheiten,345,332,677,7.0,4.4
+2008,Tuberkulose,11,9,20,0.2,0.1
+2008,AIDS,31,16,47,0.7,0.4
+2008,COVID-19,,,,,
+2008,Bösartige Tumoren,8892,7061,15953,183.0,112.0
+2008,Magen,309,209,518,6.4,3.0
+2008,Dickdarm,575,519,1094,11.5,7.4
+2008,Lunge,2077,972,3049,43.9,17.5
+2008,Brust,6,1392,1398,0.1,23.6
+2008,Prostata,1312,,1312,24.9,
+2008,Diabetes mellitus,666,868,1534,12.8,9.5
+2008,Demenz,1330,2983,4313,24.4,27.4
+2008,Kreislaufsystem,9861,12460,22321,191.0,126.0
+2008,Herzkrankheiten insgesamt,7721,9235,16956,150.0,92.5
+2008,Ischämische Herzkrankheiten,4555,4306,8861,88.9,43.4
+2008,Lungenembolie,109,191,300,2.2,2.2
+2008,Zerebrovaskuläre Krankheiten,1526,2551,4077,28.7,26.4
+2008,Atmungsorgane insgesamt,1934,1707,3641,37.0,19.3
+2008,Grippe,10,8,18,0.2,0.1
+2008,Pneumonie,554,674,1228,10.5,6.7
+2008,Chronische Bronchitis,1051,701,1752,20.1,8.7
+2008,Asthma,26,65,91,0.5,0.8
+2008,Alkoholische Leberzirrhose,356,139,495,8.0,3.0
+2008,Harnorgane,354,425,779,6.6,4.4
+2008,Kongenitale Missbildungen,121,94,215,3.9,3.0
+2008,Perinatale Todesursachen,76,89,165,3.1,3.9
+2008,Unfälle und Gewalteinwirkungen,2210,1532,3742,50.3,23.5
+2008,Unfälle insgesamt,1257,1017,2274,28.0,13.0
+2008,Strassenverkehrsunfälle,279,83,362,6.9,1.8
+2008,Suizid,861,452,1313,20.1,9.3
+2008,Gebärmutterhals,,80,80,,1.4
+2009,Alle Todesursachen,30034,32442,62476,591.0,385.0
+2009,Infektiöse Krankheiten,331,345,676,6.6,4.5
+2009,Tuberkulose,14,0,14,0.3,0.0
+2009,AIDS,29,19,48,0.7,0.4
+2009,COVID-19,,,,,
+2009,Bösartige Tumoren,8824,7238,16062,177.0,113.0
+2009,Magen,304,182,486,6.1,2.8
+2009,Dickdarm,623,549,1172,12.3,7.5
+2009,Lunge,1922,1037,2959,39.6,18.4
+2009,Brust,12,1439,1451,0.3,24.0
+2009,Prostata,1277,,1277,23.3,
+2009,Diabetes mellitus,667,752,1419,12.5,7.8
+2009,Demenz,1375,3344,4719,24.3,29.8
+2009,Kreislaufsystem,9872,12356,22228,186.0,123.0
+2009,Herzkrankheiten insgesamt,7744,9281,17025,146.0,90.8
+2009,Ischämische Herzkrankheiten,4479,4098,8577,85.1,40.6
+2009,Lungenembolie,113,197,310,2.2,2.4
+2009,Zerebrovaskuläre Krankheiten,1511,2401,3912,27.9,24.5
+2009,Atmungsorgane insgesamt,2128,1963,4091,39.5,21.5
+2009,Grippe,21,48,69,0.4,0.5
+2009,Pneumonie,619,755,1374,11.3,7.3
+2009,Chronische Bronchitis,1136,788,1924,21.1,9.5
+2009,Asthma,26,88,114,0.5,1.0
+2009,Alkoholische Leberzirrhose,311,162,473,6.9,3.4
+2009,Harnorgane,374,423,797,6.6,4.4
+2009,Kongenitale Missbildungen,121,114,235,3.6,3.5
+2009,Perinatale Todesursachen,120,85,205,4.8,3.6
+2009,Unfälle und Gewalteinwirkungen,2219,1361,3580,49.6,20.2
+2009,Unfälle insgesamt,1292,1019,2311,28.1,12.7
+2009,Strassenverkehrsunfälle,276,80,356,6.9,1.8
+2009,Suizid,827,278,1105,19.3,6.2
+2009,Gebärmutterhals,,82,82,,1.4
+2010,Alle Todesursachen,30283,32366,62649,577.0,376.0
+2010,Infektiöse Krankheiten,360,354,714,7.0,4.3
+2010,Tuberkulose,10,9,19,0.2,0.1
+2010,AIDS,31,10,41,0.7,0.2
+2010,COVID-19,,,,,
+2010,Bösartige Tumoren,9054,7223,16277,176.0,111.0
+2010,Magen,307,174,481,6.0,2.6
+2010,Dickdarm,661,516,1177,12.8,7.2
+2010,Lunge,2059,1084,3143,41.1,18.7
+2010,Brust,10,1411,1421,0.2,22.8
+2010,Prostata,1421,,1421,25.1,
+2010,Diabetes mellitus,565,685,1250,10.4,7.2
+2010,Demenz,1598,3597,5195,27.4,31.7
+2010,Kreislaufsystem,9924,12035,21959,181.0,116.0
+2010,Herzkrankheiten insgesamt,7677,9176,16853,141.0,87.4
+2010,Ischämische Herzkrankheiten,4351,3963,8314,80.4,38.4
+2010,Lungenembolie,102,204,306,1.9,2.4
+2010,Zerebrovaskuläre Krankheiten,1589,2250,3839,28.3,22.4
+2010,Atmungsorgane insgesamt,2007,1719,3726,36.0,18.6
+2010,Grippe,1,2,3,0.0,0.0
+2010,Pneumonie,518,616,1134,9.2,5.9
+2010,Chronische Bronchitis,1078,735,1813,19.3,8.7
+2010,Asthma,23,81,104,0.5,0.8
+2010,Alkoholische Leberzirrhose,356,134,490,7.7,2.7
+2010,Harnorgane,399,471,870,7.1,4.6
+2010,Kongenitale Missbildungen,115,122,237,3.3,3.8
+2010,Perinatale Todesursachen,92,95,187,3.6,4.0
+2010,Unfälle und Gewalteinwirkungen,2112,1454,3566,45.6,20.4
+2010,Unfälle insgesamt,1303,1110,2413,27.2,13.1
+2010,Strassenverkehrsunfälle,257,79,336,6.1,1.6
+2010,Suizid,723,281,1004,16.5,6.2
+2010,Gebärmutterhals,,63,63,,1.1
+2011,Alle Todesursachen,30094,31997,62091,565.0,370.0
+2011,Infektiöse Krankheiten,376,399,775,7.2,4.8
+2011,Tuberkulose,10,6,16,0.2,0.1
+2011,AIDS,29,12,41,0.6,0.3
+2011,COVID-19,,,,,
+2011,Bösartige Tumoren,9202,7258,16460,176.0,109.0
+2011,Magen,329,207,536,6.4,3.1
+2011,Dickdarm,665,583,1248,12.6,7.8
+2011,Lunge,2035,1150,3185,39.9,19.5
+2011,Brust,5,1371,1376,0.1,21.6
+2011,Prostata,1366,,1366,24.0,
+2011,Diabetes mellitus,556,650,1206,10.1,6.7
+2011,Demenz,1609,3569,5178,27.2,31.2
+2011,Kreislaufsystem,9468,11494,20962,170.0,110.0
+2011,Herzkrankheiten insgesamt,7448,8737,16185,135.0,82.8
+2011,Ischämische Herzkrankheiten,4142,3561,7703,75.2,34.2
+2011,Lungenembolie,118,193,311,2.2,2.1
+2011,Zerebrovaskuläre Krankheiten,1418,2216,3634,24.9,22.1
+2011,Atmungsorgane insgesamt,1969,1764,3733,34.8,18.9
+2011,Grippe,3,11,14,0.1,0.1
+2011,Pneumonie,549,665,1214,9.6,6.2
+2011,Chronische Bronchitis,1048,724,1772,18.5,8.5
+2011,Asthma,35,61,96,0.7,0.7
+2011,Alkoholische Leberzirrhose,309,118,427,6.6,2.4
+2011,Harnorgane,415,460,875,7.1,4.6
+2011,Kongenitale Missbildungen,124,125,249,3.8,3.7
+2011,Perinatale Todesursachen,91,72,163,3.6,3.0
+2011,Unfälle und Gewalteinwirkungen,2141,1499,3640,45.3,20.6
+2011,Unfälle insgesamt,1289,1148,2437,26.2,13.4
+2011,Strassenverkehrsunfälle,224,76,300,5.2,1.6
+2011,Suizid,757,277,1034,17.0,5.8
+2011,Gebärmutterhals,,91,91,,1.5
+2012,Alle Todesursachen,30697,33476,64173,561.0,376.0
+2012,Infektiöse Krankheiten,335,417,752,6.3,4.8
+2012,Tuberkulose,5,6,11,0.1,0.1
+2012,AIDS,30,15,45,0.7,0.3
+2012,COVID-19,,,,,
+2012,Bösartige Tumoren,9024,7466,16490,168.0,110.0
+2012,Magen,332,191,523,6.2,2.6
+2012,Dickdarm,601,581,1182,11.1,7.5
+2012,Lunge,1947,1143,3090,37.2,19.2
+2012,Brust,4,1371,1375,0.1,21.0
+2012,Prostata,1278,,1278,21.7,
+2012,Diabetes mellitus,592,650,1242,10.3,6.4
+2012,Demenz,1746,3993,5739,28.7,33.9
+2012,Kreislaufsystem,9745,11929,21674,171.0,112.0
+2012,Herzkrankheiten insgesamt,7716,9164,16880,135.0,84.8
+2012,Ischämische Herzkrankheiten,4227,3764,7991,74.6,35.3
+2012,Lungenembolie,110,206,316,2.0,2.3
+2012,Zerebrovaskuläre Krankheiten,1454,2162,3616,24.8,21.0
+2012,Atmungsorgane insgesamt,2057,1849,3906,35.4,19.5
+2012,Grippe,10,22,32,0.2,0.2
+2012,Pneumonie,599,684,1283,10.2,6.2
+2012,Chronische Bronchitis,1057,791,1848,18.3,9.3
+2012,Asthma,22,60,82,0.4,0.7
+2012,Alkoholische Leberzirrhose,356,149,505,7.3,2.9
+2012,Harnorgane,423,521,944,7.1,5.0
+2012,Kongenitale Missbildungen,138,116,254,4.1,3.5
+2012,Perinatale Todesursachen,81,77,158,3.2,3.2
+2012,Unfälle und Gewalteinwirkungen,2151,1499,3650,44.7,20.4
+2012,Unfälle insgesamt,1311,1152,2463,26.1,13.2
+2012,Strassenverkehrsunfälle,219,77,296,5.1,1.6
+2012,Suizid,752,285,1037,16.6,6.0
+2012,Gebärmutterhals,,90,90,,1.5
+2013,Alle Todesursachen,31257,33704,64961,555.0,371.0
+2013,Infektiöse Krankheiten,352,415,767,6.4,4.8
+2013,Tuberkulose,7,5,12,0.1,0.0
+2013,AIDS,23,12,35,0.5,0.3
+2013,COVID-19,,,,,
+2013,Bösartige Tumoren,9200,7475,16675,167.0,107.0
+2013,Magen,344,225,569,6.4,3.2
+2013,Dickdarm,584,552,1136,10.3,7.4
+2013,Lunge,1960,1208,3168,36.5,19.4
+2013,Brust,5,1329,1334,0.1,20.0
+2013,Prostata,1356,,1356,22.4,
+2013,Diabetes mellitus,615,700,1315,10.6,6.8
+2013,Demenz,1797,4110,5907,28.5,34.5
+2013,Kreislaufsystem,9719,11793,21512,164.0,109.0
+2013,Herzkrankheiten insgesamt,7663,8984,16647,130.0,81.3
+2013,Ischämische Herzkrankheiten,4097,3628,7725,69.9,33.4
+2013,Lungenembolie,125,187,312,2.2,1.9
+2013,Zerebrovaskuläre Krankheiten,1465,2238,3703,24.3,21.5
+2013,Atmungsorgane insgesamt,2167,1949,4116,36.4,20.4
+2013,Grippe,26,47,73,0.5,0.5
+2013,Pneumonie,554,709,1263,9.2,6.4
+2013,Chronische Bronchitis,1152,811,1963,19.3,9.5
+2013,Asthma,29,66,95,0.5,0.6
+2013,Alkoholische Leberzirrhose,319,121,440,6.5,2.3
+2013,Harnorgane,408,503,911,6.7,4.7
+2013,Kongenitale Missbildungen,163,132,295,4.8,3.8
+2013,Perinatale Todesursachen,94,70,164,3.6,2.9
+2013,Unfälle und Gewalteinwirkungen,2177,1642,3819,44.0,21.0
+2013,Unfälle insgesamt,1312,1285,2597,25.3,13.7
+2013,Strassenverkehrsunfälle,194,84,278,4.3,1.5
+2013,Suizid,786,284,1070,16.9,6.0
+2013,Gebärmutterhals,,70,70,,1.2
+2014,Alle Todesursachen,30950,32988,63938,534.0,356.0
+2014,Infektiöse Krankheiten,395,357,752,7.0,4.0
+2014,Tuberkulose,6,3,9,0.1,0.0
+2014,AIDS,26,12,38,0.5,0.3
+2014,COVID-19,,,,,
+2014,Bösartige Tumoren,9297,7468,16765,164.0,105.0
+2014,Magen,343,215,558,6.2,3.0
+2014,Dickdarm,633,533,1166,10.9,6.6
+2014,Lunge,2012,1184,3196,36.3,18.7
+2014,Brust,8,1336,1344,0.1,19.9
+2014,Prostata,1331,,1331,21.3,
+2014,Diabetes mellitus,582,632,1214,9.7,6.1
+2014,Demenz,1873,3886,5759,28.8,31.9
+2014,Kreislaufsystem,9483,11489,20972,156.0,103.0
+2014,Herzkrankheiten insgesamt,7531,8817,16348,124.0,77.7
+2014,Ischämische Herzkrankheiten,3944,3380,7324,65.8,30.5
+2014,Lungenembolie,115,211,326,1.9,2.3
+2014,Zerebrovaskuläre Krankheiten,1321,2131,3452,21.2,20.1
+2014,Atmungsorgane insgesamt,1965,1869,3834,32.2,19.1
+2014,Grippe,26,24,50,0.5,0.3
+2014,Pneumonie,512,608,1120,8.3,5.4
+2014,Chronische Bronchitis,1008,840,1848,16.5,9.4
+2014,Asthma,21,67,88,0.4,0.7
+2014,Alkoholische Leberzirrhose,324,123,447,6.3,2.3
+2014,Harnorgane,437,550,987,6.9,5.0
+2014,Kongenitale Missbildungen,149,134,283,4.2,3.8
+2014,Perinatale Todesursachen,109,69,178,4.1,2.8
+2014,Unfälle und Gewalteinwirkungen,2122,1574,3696,41.3,20.1
+2014,Unfälle insgesamt,1293,1230,2523,23.9,13.2
+2014,Strassenverkehrsunfälle,180,64,244,4.0,1.3
+2014,Suizid,754,274,1028,15.8,5.6
+2014,Gebärmutterhals,,63,63,,1.1
+2015,Alle Todesursachen,32646,34960,67606,547.0,367.0
+2015,Infektiöse Krankheiten,397,431,828,6.9,4.4
+2015,Tuberkulose,8,4,12,0.1,0.1
+2015,AIDS,29,4,33,0.6,0.1
+2015,COVID-19,,,,,
+2015,Bösartige Tumoren,9571,7690,17261,164.0,106.0
+2015,Magen,332,198,530,5.8,2.6
+2015,Dickdarm,633,548,1181,10.4,6.8
+2015,Lunge,2054,1185,3239,36.3,18.3
+2015,Brust,6,1424,1430,0.1,20.3
+2015,Prostata,1356,,1356,21.0,
+2015,Diabetes mellitus,631,685,1316,10.1,6.6
+2015,Demenz,1965,4400,6365,29.1,35.3
+2015,Kreislaufsystem,9715,11878,21593,154.0,104.0
+2015,Herzkrankheiten insgesamt,7718,9230,16948,123.0,79.3
+2015,Ischämische Herzkrankheiten,4001,3372,7373,64.4,29.4
+2015,Lungenembolie,123,204,327,2.1,2.2
+2015,Zerebrovaskuläre Krankheiten,1455,2113,3568,22.7,19.4
+2015,Atmungsorgane insgesamt,2315,2299,4614,36.7,22.6
+2015,Grippe,79,165,244,1.3,1.4
+2015,Pneumonie,664,805,1469,10.2,7.0
+2015,Chronische Bronchitis,1112,912,2024,17.8,10.1
+2015,Asthma,26,59,85,0.5,0.7
+2015,Alkoholische Leberzirrhose,336,131,467,6.5,2.5
+2015,Harnorgane,517,615,1132,7.9,5.4
+2015,Kongenitale Missbildungen,154,132,286,4.4,3.5
+2015,Perinatale Todesursachen,96,80,176,3.5,3.1
+2015,Unfälle und Gewalteinwirkungen,2299,1528,3827,44.3,19.1
+2015,Unfälle insgesamt,1419,1179,2598,25.9,12.2
+2015,Strassenverkehrsunfälle,192,65,257,4.2,1.2
+2015,Suizid,792,279,1071,16.6,5.7
+2015,Gebärmutterhals,,75,75,,1.2
+2016,Alle Todesursachen,31283,33681,64964,508.0,351.5
+2016,Infektiöse Krankheiten,359,393,752,5.9,4.1
+2016,Tuberkulose,10,6,16,0.2,0.1
+2016,AIDS,15,4,19,0.3,0.1
+2016,COVID-19,,,,,
+2016,Bösartige Tumoren,9371,7830,17201,155.6,105.8
+2016,Magen,339,217,556,5.9,3.0
+2016,Dickdarm,603,533,1136,9.8,6.5
+2016,Lunge,1948,1298,3246,33.3,19.6
+2016,Brust,6,1405,1411,0.1,19.7
+2016,Prostata,1257,,1257,18.9,
+2016,Diabetes mellitus,573,701,1274,9.0,6.5
+2016,Demenz,1789,3975,5764,25.6,31.5
+2016,Kreislaufsystem,9357,11355,20712,144.3,98.1
+2016,Herzkrankheiten insgesamt,7432,8690,16122,114.9,74.0
+2016,Ischämische Herzkrankheiten,3854,3136,6990,60.1,27.3
+2016,Lungenembolie,132,210,342,2.2,2.3
+2016,Zerebrovaskuläre Krankheiten,1381,2097,3478,20.9,18.8
+2016,Atmungsorgane insgesamt,2183,1925,4108,33.4,18.9
+2016,Grippe,42,47,89,0.7,0.5
+2016,Pneumonie,571,619,1190,8.5,5.0
+2016,Chronische Bronchitis,1059,855,1914,16.4,9.4
+2016,Asthma,21,52,73,0.3,0.6
+2016,Alkoholische Leberzirrhose,312,129,441,5.8,2.3
+2016,Harnorgane,469,549,1018,6.9,4.6
+2016,Kongenitale Missbildungen,135,153,288,3.6,4.4
+2016,Perinatale Todesursachen,85,79,164,3.1,3.0
+2016,Unfälle und Gewalteinwirkungen,2173,1542,3715,40.6,18.6
+2016,Unfälle insgesamt,1329,1223,2552,23.3,12.2
+2016,Strassenverkehrsunfälle,165,62,227,3.6,1.2
+2016,Suizid,759,257,1016,15.5,5.2
+2016,Gebärmutterhals,,87,87,,1.5
+2017,Alle Todesursachen,32405,34566,66971,513.0,349.0
+2017,Infektiöse Krankheiten,360,446,806,5.7,4.4
+2017,Tuberkulose,8,6,14,0.1,0.0
+2017,AIDS,11,9,20,0.2,0.2
+2017,COVID-19,,,,,
+2017,Bösartige Tumoren,9523,7772,17295,154.0,102.0
+2017,Magen,348,199,547,5.8,2.5
+2017,Dickdarm,598,579,1177,9.4,6.9
+2017,Lunge,2011,1299,3310,33.7,19.0
+2017,Brust,12,1350,1362,0.2,18.6
+2017,Prostata,1420,,1420,20.6,
+2017,Diabetes mellitus,656,599,1255,9.9,5.3
+2017,Demenz,2079,4509,6588,28.9,34.8
+2017,Kreislaufsystem,9589,11453,21042,143.0,96.0
+2017,Herzkrankheiten insgesamt,7567,8870,16437,114.0,73.2
+2017,Ischämische Herzkrankheiten,3907,3203,7110,59.4,27.3
+2017,Lungenembolie,118,210,328,1.9,2.2
+2017,Zerebrovaskuläre Krankheiten,1462,2063,3525,21.4,18.1
+2017,Atmungsorgane insgesamt,2328,2321,4649,34.5,22.3
+2017,Grippe,126,158,284,1.8,1.3
+2017,Pneumonie,659,777,1436,9.4,6.5
+2017,Chronische Bronchitis,1066,943,2009,16.1,10.3
+2017,Asthma,26,74,100,0.4,0.7
+2017,Alkoholische Leberzirrhose,299,122,421,5.6,2.1
+2017,Harnorgane,482,571,1053,6.8,4.7
+2017,Kongenitale Missbildungen,156,117,273,4.2,3.1
+2017,Perinatale Todesursachen,83,68,151,3.0,2.6
+2017,Unfälle und Gewalteinwirkungen,2189,1545,3734,40.6,18.7
+2017,Unfälle insgesamt,1324,1210,2534,23.1,12.0
+2017,Strassenverkehrsunfälle,196,65,261,4.3,1.1
+2017,Suizid,773,270,1043,15.6,5.6
+2017,Gebärmutterhals,,69,69,,1.1
+2018,Alle Todesursachen,32398,34690,67088,498.2,347.2
+2018,Infektiöse Krankheiten,374,432,806,5.7,4.1
+2018,Tuberkulose,11,9,20,0.2,0.1
+2018,AIDS,14,5,19,0.3,0.1
+2018,COVID-19,,,,,
+2018,Bösartige Tumoren,9545,7815,17360,150.8,101.8
+2018,Magen,361,201,562,6.0,2.6
+2018,Dickdarm,617,496,1113,9.7,5.8
+2018,Lunge,1988,1330,3318,32.6,18.9
+2018,Brust,10,1409,1419,0.2,19.0
+2018,Prostata,1396,,1396,19.6,
+2018,Diabetes mellitus,574,578,1152,8.5,5.2
+2018,Demenz,2004,4450,6454,26.8,33.8
+2018,Kreislaufsystem,9418,11178,20596,136.6,92.2
+2018,Herzkrankheiten insgesamt,7438,8627,16065,107.8,69.8
+2018,Ischämische Herzkrankheiten,3793,3054,6847,55.7,25.6
+2018,Lungenembolie,118,198,316,1.9,2.0
+2018,Zerebrovaskuläre Krankheiten,1444,2028,3472,20.6,17.6
+2018,Atmungsorgane insgesamt,2395,2228,4623,34.3,21.3
+2018,Grippe,143,178,321,2.1,1.7
+2018,Pneumonie,674,722,1396,9.4,6.0
+2018,Chronische Bronchitis,1092,905,1997,15.8,9.7
+2018,Asthma,34,67,101,0.5,0.7
+2018,Alkoholische Leberzirrhose,278,138,416,5.0,2.4
+2018,Harnorgane,519,716,1235,7.2,5.9
+2018,Kongenitale Missbildungen,122,119,241,3.2,3.0
+2018,Perinatale Todesursachen,80,70,150,2.9,2.7
+2018,Unfälle und Gewalteinwirkungen,2233,1687,3920,40.3,20.5
+2018,Unfälle insgesamt,1409,1336,2745,23.8,13.7
+2018,Strassenverkehrsunfälle,178,63,241,3.6,1.1
+2018,Suizid,712,290,1002,14.3,5.7
+2018,Gebärmutterhals,,73,73,,1.2
+2019,Alle Todesursachen,32756,35024,67780,488.3,341.9
+2019,Infektiöse Krankheiten,365,450,815,5.4,4.1
+2019,Tuberkulose,4,2,6,0.1,0.0
+2019,AIDS,15,3,18,0.3,0.1
+2019,COVID-19,,,,,
+2019,Bösartige Tumoren,9322,7870,17192,142.8,99.5
+2019,Magen,318,202,520,5.0,2.6
+2019,Dickdarm,586,555,1141,8.9,6.5
+2019,Lunge,1847,1387,3234,29.2,19.4
+2019,Brust,4,1414,1418,0.1,18.6
+2019,Prostata,1379,,1379,18.9,
+2019,Diabetes mellitus,611,549,1160,8.6,4.8
+2019,Demenz,2079,4524,6603,26.6,33.8
+2019,Kreislaufsystem,9114,10787,19901,128.1,87.4
+2019,Herzkrankheiten insgesamt,7154,8231,15385,100.8,65.6
+2019,Ischämische Herzkrankheiten,3788,2997,6785,54.4,24.9
+2019,Lungenembolie,145,186,331,2.2,1.8
+2019,Zerebrovaskuläre Krankheiten,1387,2002,3389,19.1,16.9
+2019,Atmungsorgane insgesamt,2366,2195,4561,33.0,20.8
+2019,Grippe,126,156,282,1.7,1.4
+2019,Pneumonie,611,642,1253,8.3,5.1
+2019,Chronische Bronchitis,1067,959,2026,15.3,10.2
+2019,Asthma,32,54,86,0.5,0.5
+2019,Alkoholische Leberzirrhose,268,142,410,4.7,2.4
+2019,Harnorgane,520,679,1199,6.9,5.5
+2019,Kongenitale Missbildungen,124,129,253,3.1,3.3
+2019,Perinatale Todesursachen,85,75,160,3.1,2.9
+2019,Unfälle und Gewalteinwirkungen,2158,1619,3777,38.3,18.3
+2019,Unfälle insgesamt,1298,1262,2560,21.3,11.7
+2019,Strassenverkehrsunfälle,154,42,196,3.2,0.6
+2019,Suizid,742,276,1018,14.6,5.3
+2019,Gebärmutterhals,,75,75,,1.1
+2020,Alle Todesursachen,37624,38571,76195,542.7,364.5
+2020,Infektiöse Krankheiten,425,412,837,6.2,4.0
+2020,Tuberkulose,6,3,9,0.1,0.0
+2020,AIDS,16,6,22,0.3,0.1
+2020,COVID-19,4902,4392,9294,64.8,35.5
+2020,Bösartige Tumoren,9224,7706,16930,138.1,96.2
+2020,Magen,311,202,513,4.9,2.5
+2020,Dickdarm,600,506,1106,8.9,5.8
+2020,Lunge,1850,1347,3197,28.9,17.9
+2020,Brust,10,1305,1315,0.2,17.1
+2020,Prostata,1326,,1326,17.6,
+2020,Diabetes mellitus,534,477,1011,7.5,4.1
+2020,Demenz,2135,4389,6524,26.6,32.3
+2020,Kreislaufsystem,9568,10943,20511,131.0,87.3
+2020,Herzkrankheiten insgesamt,7570,8333,15903,103.8,64.9
+2020,Ischämische Herzkrankheiten,3936,2886,6822,55.1,23.4
+2020,Lungenembolie,162,226,388,2.4,2.2
+2020,Zerebrovaskuläre Krankheiten,1429,2095,3524,19.0,17.6
+2020,Atmungsorgane insgesamt,1983,1774,3757,27.2,16.5
+2020,Grippe,59,78,137,0.9,0.7
+2020,Pneumonie,534,546,1080,7.1,4.2
+2020,Chronische Bronchitis,883,748,1631,12.2,7.9
+2020,Asthma,24,60,84,0.4,0.6
+2020,Alkoholische Leberzirrhose,268,119,387,4.7,2.1
+2020,Harnorgane,607,735,1342,7.8,5.8
+2020,Kongenitale Missbildungen,134,105,239,3.5,3.0
+2020,Perinatale Todesursachen,85,73,158,3.1,2.8
+2020,Unfälle und Gewalteinwirkungen,2178,1647,3825,38.1,18.9
+2020,Unfälle insgesamt,1347,1283,2630,21.8,12.0
+2020,Strassenverkehrsunfälle,159,45,204,3.2,0.7
+2020,Suizid,696,276,972,13.7,5.4
+2020,Gebärmutterhals,,90,90,,1.3
+2021,Alle Todesursachen,35105,36087,71192,501.7,342.2
+2021,Infektiöse Krankheiten,445,449,894,6.2,4.1
+2021,Tuberkulose,6,2,8,0.1,0.0
+2021,AIDS,14,9,23,0.3,0.2
+2021,COVID-19,3156,2801,5957,42.5,24.1
+2021,Bösartige Tumoren,9265,7615,16880,136.3,92.9
+2021,Magen,340,168,508,5.3,2.2
+2021,Dickdarm,583,475,1058,8.4,5.3
+2021,Lunge,1911,1318,3229,29.2,17.6
+2021,Brust,6,1363,1369,0.1,17.1
+2021,Prostata,1260,,1260,16.4,
+2021,Diabetes mellitus,570,525,1095,7.8,4.6
+2021,Demenz,1842,3953,5795,22.6,28.7
+2021,Kreislaufsystem,9114,10531,19645,122.6,83.3
+2021,Herzkrankheiten insgesamt,7145,8139,15284,96.1,63.0
+2021,Ischämische Herzkrankheiten,3616,2695,6311,49.8,21.5
+2021,Lungenembolie,134,220,354,2.1,2.1
+2021,Zerebrovaskuläre Krankheiten,1408,1904,3312,18.7,15.9
+2021,Atmungsorgane insgesamt,1937,1675,3612,25.8,15.9
+2021,Grippe,2,3,5,0.0,0.0
+2021,Pneumonie,534,473,1007,6.9,3.8
+2021,Chronische Bronchitis,851,788,1639,11.7,8.3
+2021,Asthma,20,33,53,0.3,0.3
+2021,Alkoholische Leberzirrhose,231,116,347,3.9,1.9
+2021,Harnorgane,565,735,1300,7.1,5.8
+2021,Kongenitale Missbildungen,121,113,234,3.2,3.1
+2021,Perinatale Todesursachen,91,55,146,3.3,2.1
+2021,Unfälle und Gewalteinwirkungen,2277,1644,3921,39.3,18.6
+2021,Unfälle insgesamt,1401,1249,2650,22.4,11.5
+2021,Strassenverkehrsunfälle,156,43,199,3.0,0.7
+2021,Suizid,719,286,1005,13.9,5.5
+2021,Gebärmutterhals,,72,72,,1.2
+2022,Alle Todesursachen,36442,37983,74425,504.3,351.7
+2022,Infektiöse Krankheiten,498,491,989,6.8,4.3
+2022,Tuberkulose,5,3,8,0.1,0.0
+2022,AIDS,21,10,31,0.4,0.2
+2022,COVID-19,2207,1907,4114,28.0,16.0
+2022,Bösartige Tumoren,9310,7910,17220,133.2,94.8
+2022,Magen,344,184,528,5.3,2.3
+2022,Dickdarm,563,513,1076,7.9,5.7
+2022,Lunge,1889,1430,3319,27.6,18.3
+2022,Brust,6,1357,1363,0.1,16.7
+2022,Prostata,1347,,1347,16.9,
+2022,Diabetes mellitus,583,571,1154,7.8,4.7
+2022,Demenz,2047,4499,6546,24.3,32.2
+2022,Kreislaufsystem,9512,10951,20463,123.2,84.1
+2022,Herzkrankheiten insgesamt,7609,8601,16210,98.2,64.8
+2022,Ischämische Herzkrankheiten,3731,2750,6481,49.4,21.5
+2022,Lungenembolie,167,224,391,2.3,2.1
+2022,Zerebrovaskuläre Krankheiten,1334,1863,3197,17.2,14.9
+2022,Atmungsorgane insgesamt,2351,2166,4517,30.5,19.6
+2022,Grippe,55,74,129,0.7,0.6
+2022,Pneumonie,652,660,1312,8.2,5.2
+2022,Chronische Bronchitis,1027,931,1958,13.7,9.4
+2022,Asthma,18,50,68,0.3,0.5
+2022,Alkoholische Leberzirrhose,283,125,408,4.8,2.0
+2022,Harnorgane,653,756,1409,7.9,5.7
+2022,Kongenitale Missbildungen,176,125,301,4.8,3.1
+2022,Perinatale Todesursachen,89,70,159,3.3,2.7
+2022,Unfälle und Gewalteinwirkungen,2320,1812,4132,38.3,20.0
+2022,Unfälle insgesamt,1480,1443,2923,22.7,13.3
+2022,Strassenverkehrsunfälle,173,60,233,3.4,1.2
+2022,Suizid,695,263,958,13.0,5.1
+2022,Gebärmutterhals,,77,77,,1.1
+2023,Alle Todesursachen,35109,36713,71822,473.3,333.8
+2023,Infektiöse Krankheiten,480,549,1029,6.4,4.8
+2023,Tuberkulose,3,3,6,0.0,0.1
+2023,AIDS,9,5,14,0.2,0.1
+2023,COVID-19,744,613,1357,9.0,4.9
+2023,Bösartige Tumoren,9438,7629,17067,130.5,88.9
+2023,Magen,369,183,552,5.4,2.4
+2023,Dickdarm,526,456,982,7.3,5.0
+2023,Lunge,1800,1324,3124,26.1,16.4
+2023,Brust,5,1285,1290,0.1,15.2
+2023,Prostata,1426,,1426,17.3,
+2023,Diabetes mellitus,636,563,1199,8.1,4.6
+2023,Demenz,2077,4370,6447,23.7,30.7
+2023,Kreislaufsystem,9359,11017,20376,117.6,83.6
+2023,Herzkrankheiten insgesamt,7464,8523,15987,93.8,63.4
+2023,Ischämische Herzkrankheiten,3675,2688,6363,47.0,20.9
+2023,Lungenembolie,139,182,321,1.9,1.7
+2023,Zerebrovaskuläre Krankheiten,1374,1974,3348,17.0,15.8
+2023,Atmungsorgane insgesamt,2434,2305,4739,30.7,20.4
+2023,Grippe,97,128,225,1.2,1.1
+2023,Pneumonie,622,593,1215,7.5,4.5
+2023,Chronische Bronchitis,1092,1069,2161,14.2,10.5
+2023,Asthma,21,67,88,0.3,0.6
+2023,Alkoholische Leberzirrhose,285,105,390,4.7,1.7
+2023,Harnorgane,646,759,1405,7.6,5.7
+2023,Kongenitale Missbildungen,148,128,276,3.9,3.3
+2023,Perinatale Todesursachen,81,63,144,3.2,2.6
+2023,Unfälle und Gewalteinwirkungen,2451,1839,4290,39.4,20.1
+2023,Unfälle insgesamt,1573,1459,3032,23.3,13.1
+2023,Strassenverkehrsunfälle,150,60,210,3.0,1.1
+2023,Suizid,721,274,995,13.4,5.3
+2023,Gebärmutterhals,,63,63,,1.0
+2024,Alle Todesursachen,35214,36728,71942,462.0,329.8
+2024,Infektiöse Krankheiten,445,500,945,5.5,4.2
+2024,Tuberkulose,7,3,10,0.1,0.0
+2024,AIDS,8,3,11,0.1,0.0
+2024,COVID-19,401,302,703,4.7,2.4
+2024,Bösartige Tumoren,9728,8190,17918,131.3,93.2
+2024,Magen,382,201,583,5.6,2.5
+2024,Dickdarm,570,539,1109,7.8,5.8
+2024,Lunge,1898,1403,3301,26.5,16.9
+2024,Brust,7,1412,1419,0.1,17.1
+2024,Prostata,1384,,1384,16.1,
+2024,Diabetes mellitus,684,592,1276,8.5,4.7
+2024,Demenz,2227,4389,6616,24.5,30.6
+2024,Kreislaufsystem,9403,10626,20029,114.6,78.8
+2024,Herzkrankheiten insgesamt,7573,8232,15805,92.1,59.8
+2024,Ischämische Herzkrankheiten,3735,2619,6354,46.0,19.7
+2024,Lungenembolie,105,165,270,1.4,1.5
+2024,Zerebrovaskuläre Krankheiten,1332,1909,3241,16.1,15.0
+2024,Atmungsorgane insgesamt,2305,2258,4563,28.8,19.7
+2024,Grippe,160,165,325,2.1,1.5
+2024,Pneumonie,490,585,1075,5.8,4.5
+2024,Chronische Bronchitis,1104,1061,2165,14.2,10.3
+2024,Asthma,33,55,88,0.5,0.4
+2024,Alkoholische Leberzirrhose,305,133,438,4.9,1.9
+2024,Harnorgane,648,799,1447,7.3,5.8
+2024,Kongenitale Missbildungen,136,125,261,3.4,3.0
+2024,Perinatale Todesursachen,79,71,150,3.2,3.0
+2024,Unfälle und Gewalteinwirkungen,2446,1854,4300,38.7,19.0
+2024,Unfälle insgesamt,1616,1500,3116,23.6,12.9
+2024,Strassenverkehrsunfälle,163,58,221,3.1,1.0
+2024,Suizid,719,277,996,13.2,5.1
+2024,Gebärmutterhals,,75,75,,1.2

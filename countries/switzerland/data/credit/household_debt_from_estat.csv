@@ -1,0 +1,36 @@
+# Eurostat nasa_10_f_bs, Switzerland: loans (F4) owed by households and NPISH
+# (S14_S15), non-consolidated, end-year stock. loans_pct_gdp is Eurostat's
+# ratio; loans_chf_mn is the level in CHF MILLIONS (MIO_NAC). RATIO
+# DENOMINATOR: Eurostat's Swiss GDP, which for 2023+ is the PREVIOUS BFS
+# vintage (pre-2026-08-25 revision; 2024 CHF 854.0bn vs BFS 860.9bn). Never
+# mix with BFS-vintage ratios. (SNB 2025 loans over BFS GDP gives about
+# 121.0%, not 123.0.) The long series beside the SNB financial accounts
+# (levels equal; the SNB files carry no ratio), never spliced.
+year,loans_pct_gdp,loans_chf_mn
+1999,102.2,463719.0
+2000,99.7,475498.0
+2001,98.2,480894.0
+2002,101.5,496393.0
+2003,106.2,524323.0
+2004,106.4,541370.0
+2005,107.6,568524.0
+2006,105.7,593977.0
+2007,102.0,610975.0
+2008,100.0,622432.0
+2009,105.2,645135.0
+2010,105.6,671836.0
+2011,108.5,700825.0
+2012,111.2,727964.0
+2013,114.6,763375.0
+2014,117.2,795948.0
+2015,120.2,816953.0
+2016,121.9,839306.0
+2017,124.4,865624.0
+2018,122.9,890383.0
+2019,124.5,911263.0
+2020,132.4,939498.0
+2021,126.3,970210.0
+2022,121.9,998856.0
+2023,121.5,1013657.0
+2024,121.1,1034103.0
+2025,123.0,1066789.0

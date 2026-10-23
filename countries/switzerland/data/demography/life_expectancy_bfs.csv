@@ -1,0 +1,34 @@
+# BFS asset je-d-01.04.02.03.01 (damId 36837591, published 2026-09-24): period life expectancy in YEARS, complete annual life tables
+# (the right-hand block of the sheet; the 5-year official tables 1948/53 -
+# 1998/2003 to its left are another table type and are not read). By sex
+# ONLY: BFS publishes no both-sexes figure here, so Eurostat demo_mlexpec's
+# total (84.2 in 2024) has no BFS twin, and none is computed. 2020 is the
+# COVID dip.
+# Years are CALENDAR years (Swiss public finance and statistics use the calendar year; nothing here is an April fiscal year).
+year,e0_men,e0_women,e65_men,e65_women
+2000,76.9,82.6,17.0,20.7
+2001,77.4,83.1,17.3,21.1
+2002,77.8,83.1,17.5,21.1
+2003,78.0,83.2,17.5,21.0
+2004,78.6,83.7,18.1,21.5
+2005,78.7,83.9,18.1,21.6
+2006,79.1,84.0,18.3,21.8
+2007,79.4,84.2,18.5,21.9
+2008,79.7,84.4,18.7,22.0
+2009,79.8,84.4,18.8,22.0
+2010,80.2,84.6,18.9,22.2
+2011,80.3,84.7,19.0,22.2
+2012,80.5,84.7,19.1,22.1
+2013,80.5,84.8,19.1,22.1
+2014,81.0,85.2,19.4,22.4
+2015,80.7,84.9,19.2,22.2
+2016,81.5,85.3,19.8,22.6
+2017,81.4,85.4,19.7,22.5
+2018,81.7,85.4,19.9,22.7
+2019,81.9,85.6,20.0,22.7
+2020,81.0,85.1,19.3,22.2
+2021,81.6,85.7,19.9,22.7
+2022,81.6,85.4,19.8,22.5
+2023,82.2,85.8,20.3,22.8
+2024,82.4,85.9,20.4,23.0
+2025,82.7,86.3,20.7,23.2

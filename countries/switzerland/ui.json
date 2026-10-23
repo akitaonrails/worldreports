@@ -1,0 +1,65 @@
+{
+  "de": {
+    "line": "{n} Tafeln mit amtlichen Daten, {window}",
+    "dek": "Jede Zahl stammt von der Stelle, die sie veröffentlicht — BFS, SNB, EFV, BAZG und, für vergleichbare Reihen, Eurostat, BIZ, Weltbank, IWF und UNDP. Jede Tafel wird aus den versionierten CSV-Dateien neu erzeugt; Grafik und Zahl können deshalb nicht auseinanderlaufen. Schweizer und harmonisierte Definitionen stehen nebeneinander, werden aber nie zu einer künstlichen Zeitreihe verbunden.",
+    "notes": [
+      "2026 ist ein unvollständiges Jahr. Jährliche Summen und Durchschnitte enden 2025; tatsächlich aktuelle Werte wie Leitzins, Wechselkurs und Aktienindex sind als solche erkennbar.",
+      "Alle Jahreswerte folgen dem Kalenderjahr. Das gilt auch für den Schweizer Staatshaushalt. EFV-Statusfelder unterscheiden Rechnung, Budget und Prognose; die Tafeln verwischen diese Stufen nicht.",
+      "Ab 2023 liegen zwei BIP-Vintages vor: die revidierte BFS-Reihe und die ältere, weiterhin von Eurostat und Weltbank verwendete Reihe. Quoten werden nur innerhalb derselben Vintage berechnet und die Wachstumslinien bleiben beschriftet getrennt.",
+      "Beim Warenhandel bedeutet Total 1 ohne Goldbarren und weitere Wertsachen, Total 2 mit ihnen. Der BAZG-Partnerhandel betrifft das schweizerisch-liechtensteinische Zollgebiet. Die Tafel zeigt Total 1, Total 2 und nichtmonetäres Gold als verschiedene Reihen.",
+      "Die BFS-Einwanderung enthält Änderungen des Bevölkerungstyps. Eurostat schloss sie 2011–2022 aus, davor und danach aber ein. Die konstante BFS-Definition trägt deshalb die Hauptlinie; S-Status-Bestand, Asylgesuche und Einbürgerungen bleiben verschiedene Grössen.",
+      "Assistierter Suizid war bis 2008 zugleich in der Suizidreihe enthalten und wird seit 2009 der Grunderkrankung zugerechnet. Die Reihen werden nie addiert. Polizeiliche Tötungsdelikte, Todesursachen und internationale Vergleichswerte behalten ebenfalls ihre eigenen Abgrenzungen.",
+      "Die Tafeln und diese Seite erscheinen auf Deutsch, Englisch und Portugiesisch. CHF bezeichnet Schweizer Franken; US$-Reihen werden nicht als Frankenwerte ausgegeben."
+    ],
+    "colophon": [
+      {"term": "Volkswirtschaft, Preise, Arbeit, Bevölkerung", "detail": "Bundesamt für Statistik (BFS) — DAM-Tabellen und STAT-TAB, je Datensatz eine dokumentierte Vintage"},
+      {"term": "Geld, Banken, Zahlungsbilanz und Reserven", "detail": "Schweizerische Nationalbank (SNB) — Datenportal, einschliesslich der Libor-/Leitzins-Zäsur"},
+      {"term": "Öffentliche Finanzen", "detail": "Eidgenössische Finanzverwaltung (EFV) und Eurostat — Kalenderjahre, Sektor und Datenstatus erhalten"},
+      {"term": "Warenhandel", "detail": "Bundesamt für Zoll und Grenzsicherheit (BAZG) — Zollgebiet Schweiz–Liechtenstein, Total 1 und Total 2 getrennt"},
+      {"term": "Vergleichbare Reihen", "detail": "Eurostat · BIZ · Weltbank/UNODC/WHO · IWF · UNDP · Transparency International"},
+      {"term": "Marktindex", "detail": "Yahoo Finance — SMI-Jahresschluss, die einzige nichtamtliche Marktquelle"}
+    ]
+  },
+  "en": {
+    "line": "{n} plates of official data, {window}",
+    "dek": "Every number comes from the institution that publishes it — the Federal Statistical Office, the Swiss National Bank, the Federal Finance Administration and Swiss Customs, with Eurostat, the BIS, World Bank, IMF and UNDP for comparable series. Every plate is regenerated from committed CSVs, so chart and number cannot drift apart. Swiss and harmonised definitions sit beside one another but are never spliced into an invented history.",
+    "notes": [
+      "2026 is a partial year. Annual totals and averages stop at 2025; genuinely current readings such as the policy rate, exchange rate and equity index remain identifiable as current observations.",
+      "Every annual series uses the calendar year, including Swiss public finance. FFA status fields distinguish outturn, budget and forecast, and the plates do not blur those stages.",
+      "Two GDP vintages coexist from 2023: the revised FSO series and the older vintage still carried by Eurostat and the World Bank. Ratios are calculated only within one vintage, and the growth lines remain separately labelled.",
+      "For goods trade, Total 1 excludes gold bars and other valuables while Total 2 includes them. Customs partner data cover the Swiss–Liechtenstein customs area. The plate keeps Total 1, Total 2 and non-monetary gold as distinct series.",
+      "FSO immigration includes changes of population type. Eurostat excluded those changes in 2011–2022 but included them before and after. The constant FSO definition therefore carries the main line; S-status stock, asylum applications and citizenship acquisitions remain different measures.",
+      "Assisted suicide was also counted inside the suicide series through 2008 and has been assigned to the underlying disease since 2009. The two are never added. Police homicide, death-certificate causes and international comparables likewise retain their own perimeters.",
+      "The plates and this page are published in German, English and Portuguese. CHF means Swiss francs; US-dollar series are never presented as franc values."
+    ],
+    "colophon": [
+      {"term": "National accounts, prices, labour, population", "detail": "Federal Statistical Office (FSO/BFS) — DAM tables and STAT-TAB, one documented vintage per dataset"},
+      {"term": "Money, banks, balance of payments, reserves", "detail": "Swiss National Bank (SNB) — data portal, including the Libor-to-policy-rate seam"},
+      {"term": "Public finance", "detail": "Federal Finance Administration (FFA/EFV) and Eurostat — calendar years, sector and observation status preserved"},
+      {"term": "Goods trade", "detail": "Federal Office for Customs and Border Security (FOCBS/BAZG) — Swiss–Liechtenstein customs area, Total 1 and Total 2 kept apart"},
+      {"term": "Comparable series", "detail": "Eurostat · BIS · World Bank/UNODC/WHO · IMF · UNDP · Transparency International"},
+      {"term": "Market index", "detail": "Yahoo Finance — SMI year-end close, the sole non-official market source"}
+    ]
+  },
+  "pt": {
+    "line": "{n} pranchas de dados oficiais, {window}",
+    "dek": "Cada número vem da instituição que o publica — o Escritório Federal de Estatística, o Banco Nacional Suíço, a Administração Federal de Finanças e a Alfândega, com Eurostat, BIS, Banco Mundial, FMI e PNUD nas séries comparáveis. Cada prancha é regenerada a partir dos CSVs versionados, por isso gráfico e número não podem divergir. Definições suíças e harmonizadas aparecem lado a lado, mas nunca são emendadas numa história inventada.",
+    "notes": [
+      "2026 é um ano incompleto. Totais e médias anuais param em 2025; leituras realmente correntes, como juro básico, câmbio e índice de ações, continuam identificáveis como observações atuais.",
+      "Toda série anual usa o ano civil, inclusive as contas públicas suíças. Os campos de status da AFF distinguem realizado, orçamento e previsão, e as pranchas não confundem essas etapas.",
+      "Duas edições do PIB coexistem desde 2023: a série revista do OFE e a edição anterior ainda usada pelo Eurostat e pelo Banco Mundial. As razões são calculadas apenas dentro da mesma edição, e as linhas de crescimento permanecem separadas e rotuladas.",
+      "No comércio de bens, Total 1 exclui barras de ouro e outros objetos de valor; Total 2 os inclui. Os dados aduaneiros por parceiro abrangem a área alfandegária Suíça–Liechtenstein. A prancha mantém Total 1, Total 2 e ouro não monetário como séries distintas.",
+      "A imigração do OFE inclui mudanças do tipo de população. O Eurostat excluiu essas mudanças em 2011–2022, mas as incluiu antes e depois. A definição constante do OFE conduz a linha principal; estoque de status S, pedidos de asilo e aquisições de cidadania continuam medidas diferentes.",
+      "O suicídio assistido também entrava na série de suicídio até 2008 e desde 2009 é atribuído à doença de base. As duas séries nunca são somadas. Homicídio policial, causas nos atestados de óbito e comparáveis internacionais também preservam seus próprios perímetros.",
+      "As pranchas e esta página são publicadas em alemão, inglês e português. CHF significa francos suíços; séries em dólares nunca são apresentadas como valores em francos."
+    ],
+    "colophon": [
+      {"term": "Contas nacionais, preços, trabalho, população", "detail": "Escritório Federal de Estatística (OFE/BFS) — tabelas DAM e STAT-TAB, uma edição documentada por conjunto"},
+      {"term": "Moeda, bancos, balanço de pagamentos, reservas", "detail": "Banco Nacional Suíço (BNS/SNB) — portal de dados, inclusive a passagem da Libor para o juro básico"},
+      {"term": "Finanças públicas", "detail": "Administração Federal de Finanças (AFF/EFV) e Eurostat — anos civis, setor e status da observação preservados"},
+      {"term": "Comércio de bens", "detail": "Escritório Federal de Alfândega e Segurança de Fronteiras (BAZG) — área Suíça–Liechtenstein, Total 1 e Total 2 separados"},
+      {"term": "Séries comparáveis", "detail": "Eurostat · BIS · Banco Mundial/UNODC/OMS · FMI · PNUD · Transparência Internacional"},
+      {"term": "Índice de mercado", "detail": "Yahoo Finance — fechamento anual do SMI, a única fonte de mercado não oficial"}
+    ]
+  }
+}

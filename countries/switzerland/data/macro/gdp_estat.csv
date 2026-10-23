@@ -1,0 +1,38 @@
+# Eurostat nama_10_gdp, Switzerland (BFS transmission). gdp_chf_mn = GDP at
+# current prices, CHF MILLIONS (unit CP_MNAC); real_growth_pct = volume change
+# on previous year, % (CLV_PCH_PRE). VINTAGE: equal to BFS through 2022; for
+# 2023+ this is the PREVIOUS BFS vintage, before the 2026-08-25 revision (2024
+# 854.0bn here vs 860.9bn at BFS). The harmonised twin of gdp_from_bfs.csv —
+# never spliced with it.
+year,gdp_chf_mn,real_growth_pct
+1995,423515.4,
+1996,426881.8,0.6
+1997,433747.5,2.1
+1998,444954.8,2.8
+1999,453531.1,1.7
+2000,476794.4,3.6
+2001,489674.3,1.6
+2002,489292.8,0.4
+2003,493651.7,-0.3
+2004,508607.6,2.6
+2005,528601.2,3.0
+2006,562159.6,4.1
+2007,598992.2,4.0
+2008,622461.8,2.5
+2009,613318.0,-1.9
+2010,636172.0,3.3
+2011,645812.3,1.4
+2012,654393.6,1.1
+2013,666210.4,1.8
+2014,679021.9,2.5
+2015,679632.7,1.5
+2016,688404.2,1.9
+2017,695842.6,1.4
+2018,724383.2,3.3
+2019,731800.8,1.1
+2020,709854.6,-2.3
+2021,768279.4,6.2
+2022,819703.7,3.5
+2023,834189.8,0.8
+2024,853957.0,1.4
+2025,867544.7,1.3

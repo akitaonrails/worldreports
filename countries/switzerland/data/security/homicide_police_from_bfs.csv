@@ -1,0 +1,30 @@
+# BFS STAT-TAB px-x-1903020100_101: Polizeiliche Kriminalstatistik (PKS), offence
+# 311.00.111.00 'Tötungsdelikte (Art. 111-113/116)' (intentional homicide:
+# murder, manslaughter, infanticide), Schweiz, police-RECORDED OFFENCES.
+# homicide_completed = Vollendet; homicide_attempted = Versucht - FOUR
+# TIMES the completed count. homicide_total is mostly attempts: draw
+# completed, label attempts separately, never the total as 'homicides'.
+# completed_per_100k is COMPUTED here on the mean of the BFS permanent
+# population on 1 Jan and 31 Dec (same publisher). all_stgb_offences =
+# every Criminal Code offence recorded. PKS was rebuilt in 2009; earlier
+# figures are not comparable and are not published in this table.
+# Eurostat crim_off_cat ICCS0101 CH reproduces the completed count.
+# Years are CALENDAR years (Swiss public finance and statistics use the calendar year; nothing here is an April fiscal year).
+year,homicide_completed,homicide_attempted,homicide_total,homicide_completed_per_100k,all_stgb_offences
+2009,51,185,236,0.66,553421
+2010,53,187,240,0.68,527897
+2011,46,184,230,0.58,559877
+2012,45,184,229,0.56,611903
+2013,57,152,209,0.70,575138
+2014,41,132,173,0.50,526066
+2015,57,141,198,0.69,487611
+2016,45,187,232,0.54,467731
+2017,45,191,236,0.53,439001
+2018,50,149,199,0.59,432754
+2019,46,161,207,0.54,432000
+2020,47,206,253,0.54,421678
+2021,42,184,226,0.48,415008
+2022,42,195,237,0.48,458549
+2023,53,229,282,0.60,522558
+2024,45,233,278,0.50,563633
+2025,55,251,306,0.61,554963

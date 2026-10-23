@@ -1,0 +1,30 @@
+# BFS asset je-d-14.03.04.01.14 (damId 36262348, published 2025-12-22): Assistierter Suizid nach Geschlecht und Alter, residents only,
+# DEATHS. Published from 2003. Until 2008 these same deaths are ALSO
+# counted inside 'Suizid' in causes_of_death_from_bfs.csv; from 2009 they
+# are not. NEVER ADD this to suicide: draw it beside suicide, with the
+# 2008/09 seam annotated. Parts asserted to add up (men + women; under/
+# over 65). 'über 65' as BFS labels it (65 and over).
+# Years are CALENDAR years (Swiss public finance and statistics use the calendar year; nothing here is an April fiscal year).
+year,assisted_suicides,men,women,men_under65,men_65plus,women_under65,women_65plus
+2003,187,70,117,19,51,29,88
+2004,203,90,113,25,65,24,89
+2005,205,96,109,15,81,29,80
+2006,230,98,132,25,73,30,102
+2007,249,113,136,24,89,29,107
+2008,253,108,145,30,78,38,107
+2009,297,132,165,33,99,34,131
+2010,352,155,197,26,129,47,150
+2011,431,185,246,39,146,43,203
+2012,508,201,307,42,159,43,264
+2013,587,249,338,47,202,54,284
+2014,742,320,422,58,262,60,362
+2015,965,426,539,60,366,83,456
+2016,928,399,529,60,339,66,463
+2017,1009,413,596,61,352,74,522
+2018,1176,499,677,68,431,79,598
+2019,1196,483,713,61,422,86,627
+2020,1251,510,741,74,436,76,665
+2021,1391,580,811,78,502,100,711
+2022,1594,649,945,78,571,112,833
+2023,1729,693,1036,73,620,85,951
+2024,1774,703,1071,78,625,118,953

@@ -1,0 +1,35 @@
+# BFS asset cc-d-05.02.08 (damId 36878072, published 2026-10-01): Landesindex der Konsumentenpreise (LIK), sheet Index_y.
+# inflation_pct = the official annual average change (the % column).
+# index_dec2005_100 and index_dec2020_100 are the annual averages on two
+# of BFS's original bases, as published; they are LEVELS ON DIFFERENT
+# BASES and never spliced. BFS rebased the basket to December 2025 = 100
+# in early 2026; that base has no annual average yet. Take rates, not
+# levels across bases.
+# Years are CALENDAR years (Swiss public finance and statistics use the calendar year; nothing here is an April fiscal year).
+year,cpi_inflation_pct,cpi_index_dec2005_100,cpi_index_dec2020_100
+2000,1.6,,
+2001,1.0,,
+2002,0.6,,
+2003,0.6,,
+2004,0.8,,
+2005,1.2,,
+2006,1.1,100.5,
+2007,0.7,101.2,
+2008,2.4,103.7,
+2009,-0.5,103.2,
+2010,0.7,103.9,
+2011,0.2,104.1,
+2012,-0.7,103.4,
+2013,-0.2,103.2,
+2014,0.0,103.2,
+2015,-1.1,102.0,
+2016,-0.4,101.6,
+2017,0.5,102.1,
+2018,0.9,103.1,
+2019,0.4,103.4,
+2020,-0.7,102.7,
+2021,0.6,103.3,101.0
+2022,2.8,106.2,103.9
+2023,2.1,108.5,106.1
+2024,1.1,109.6,107.2
+2025,0.2,109.8,107.4

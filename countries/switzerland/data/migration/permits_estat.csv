@@ -1,0 +1,19 @@
+# Eurostat migr_resfirst (first permits issued in the year) and migr_resvalid
+# (permits valid on 31 December), Switzerland, THIRD-COUNTRY nationals only
+# (EU/EFTA citizens are outside these tables), persons. first_permits 2019 and
+# 2020 are MISSING in the source and stay blank.
+year,first_permits,valid_permits
+2012,44764,643143
+2013,49238,620745
+2014,43252,629893
+2015,41105,640958
+2016,42021,649431
+2017,42179,656712
+2018,43726,667453
+2019,,677806
+2020,,690405
+2021,45012,749944
+2022,50919,767064
+2023,50680,786789
+2024,47228,802800
+2025,46272,813792
