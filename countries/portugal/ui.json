@@ -1,7 +1,7 @@
 {
   "en": {
-    "line": "{n} plates of official data, {window}",
-    "dek": "Every number comes from the institution that publishes it — INE, Banco de Portugal, Eurostat, the ECB, IGCP and DGO — and every plate is regenerated from committed CSVs.",
+    "line": "{n} plates of documented data, {window}",
+    "dek": "The plates draw primarily on INE, Banco de Portugal, Eurostat, the ECB, IGCP and DGO. International comparisons also come from the World Bank, UNDP and Transparency International; Yahoo Finance supplies the clearly labelled market index. Every plate is regenerated from committed CSVs.",
     "notes": [
       "2026 is partial. Annual totals and averages stop at 2025; genuine current levels are marked as the latest point.",
       "INE revised population and migration from 2021 in June 2026. The plates use the revised population for same-year rates and mark the flow seam.",
@@ -21,8 +21,8 @@
     ]
   },
   "pt": {
-    "line": "{n} pranchas de dados oficiais, {window}",
-    "dek": "Cada número vem da instituição que o publica — INE, Banco de Portugal, Eurostat, BCE, IGCP e DGO — e cada prancha é regenerada a partir de CSV versionados.",
+    "line": "{n} pranchas de dados documentados, {window}",
+    "dek": "As pranchas usam principalmente dados do INE, Banco de Portugal, Eurostat, BCE, IGCP e DGO. As comparações internacionais também vêm do Banco Mundial, PNUD e Transparency International; o Yahoo Finance fornece o índice de mercado, claramente identificado. Cada prancha é regenerada a partir de CSVs versionados.",
     "notes": [
       "2026 é parcial. Os totais e médias anuais terminam em 2025; os níveis verdadeiramente atuais são assinalados como o ponto mais recente.",
       "O INE reviu a população e a migração desde 2021 em junho de 2026. As pranchas usam a população revista nas taxas do mesmo ano e assinalam a rutura dos fluxos.",

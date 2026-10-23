@@ -255,7 +255,7 @@ def plate_trade(ctx, ig) -> None:
     _foot(p, ax, "Computed from slot 1. The CBS line when CBS returns")
 
     ax = ig.slot("trade.destinations", "Top export destinations "
-                 "(% of goods exports)")
+                 "(% of goods exports)", unit=False)
     t = ctx.table("trade/trade_partners_comtrade.csv") or {}
     short = {"United States": "US", "United Kingdom": "UK",
              "Hong Kong SAR, China": "Hong Kong"}

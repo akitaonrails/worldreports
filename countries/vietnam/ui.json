@@ -1,7 +1,7 @@
 {
   "vi": {
-    "line": "{n} bảng dữ liệu chính thức, {window}",
-    "dek": "Mỗi con số đến từ cơ quan công bố nó: Cục Thống kê, Ngân hàng Nhà nước hoặc tổ chức quốc tế được nêu rõ. Các bảng được tái tạo từ CSV đã lưu nên biểu đồ và dữ liệu không thể lệch nhau.",
+    "line": "{n} bảng dữ liệu có ghi nguồn, {window}",
+    "dek": "Atlas kết hợp số liệu quốc gia của Cục Thống kê và Ngân hàng Nhà nước, so sánh từ các tổ chức quốc tế được nêu tên, cùng dữ liệu thị trường do Yahoo Finance hoặc CafeF phân phối và được ghi nhãn riêng. Các bảng được tái tạo từ CSV đã lưu.",
     "notes": [
       "Số liệu năm 2025 là cả năm nhưng một số bảng còn sơ bộ hoặc ước tính; năm 2026 chỉ xuất hiện khi đó là quan sát thực sự hiện hành.",
       "Việc đánh giá lại GDP bắt đầu từ năm 2010. Các mức trước và sau điểm gãy không được nối thành một chuỗi giả liên tục.",
@@ -20,8 +20,8 @@
     ]
   },
   "en": {
-    "line": "{n} plates of official data, {window}",
-    "dek": "Every number comes from the body that publishes it: the National Statistics Office, the State Bank of Vietnam, or the named international source. The plates regenerate from committed CSVs, so charts and data cannot drift apart.",
+    "line": "{n} sourced data plates, {window}",
+    "dek": "The atlas combines national statistics from the NSO and State Bank, comparisons from named international bodies, and separately labelled market data distributed by Yahoo Finance or CafeF. The plates regenerate from committed CSVs.",
     "notes": [
       "The 2025 observations cover the full year but some remain preliminary or estimated; 2026 appears only for genuinely current readings.",
       "GDP was revalued from 2010. Levels on either side of that break are never joined into a false continuous series.",
@@ -40,8 +40,8 @@
     ]
   },
   "pt": {
-    "line": "{n} pranchas de dados oficiais, {window}",
-    "dek": "Cada número vem do órgão que o publica: o Escritório Nacional de Estatística, o Banco do Estado do Vietnã ou a fonte internacional indicada. As pranchas são regeneradas a partir de CSVs versionados, impedindo divergências.",
+    "line": "{n} pranchas de dados com fontes, {window}",
+    "dek": "O atlas combina estatísticas nacionais do NSO e do Banco do Estado, comparações de organismos internacionais identificados e dados de mercado distribuídos pelo Yahoo Finance ou CafeF e rotulados separadamente. As pranchas são regeneradas de CSVs versionados.",
     "notes": [
       "As observações de 2025 cobrem o ano completo, mas algumas continuam preliminares ou estimadas; 2026 aparece apenas em leituras realmente correntes.",
       "O PIB foi reavaliado a partir de 2010. Os níveis dos dois lados da ruptura nunca são unidos numa série falsamente contínua.",

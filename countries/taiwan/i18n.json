@@ -271,10 +271,6 @@
   "zh-Hant": "基尼係數,0–100",
   "pt": "Gini, 0–100"
  },
- "Goods exports and imports, never services (the WTO key is pending); destinations by partner; and the lens panel shows the same flow counted twice.": {
-  "zh-Hant": "只有商品進出口,不含服務(WTO 指標待補);出口目的地按夥伴;視野面板顯示同一流量被算了兩次。",
-  "pt": "Exportações e importações de bens, nunca serviços (o indicador da OMC está pendente); destinos por parceiro; e o painel-lente mostra o mesmo fluxo contado duas vezes."
- },
  "Gross debt (% of GDP)": {
   "zh-Hant": "債務餘額(佔GDP的%)",
   "pt": "Dívida bruta (% do PIB)"
@@ -667,10 +663,6 @@
   "zh-Hant": "由已提交的 CSV 產生",
   "pt": "gerado a partir de CSVs registrados"
  },
- "goods only: services hang behind the WTO key (DATA_NOTES);": {
-  "zh-Hant": "只有商品:服務仍卡在 WTO 指標之後(DATA_NOTES);",
-  "pt": "só bens: os serviços ficam atrás da chave da OMC (DATA_NOTES);"
- },
  "i0121 debt-category outlays ÷ GDP — the proxy DATA_NOTES promises, not a general-government D41PAY": {
   "zh-Hant": "i0121 債務類支出除以 GDP——DATA_NOTES 承諾的替代指標,不是一般政府 D41PAY",
   "pt": "despesas da categoria dívida i0121 ÷ PIB — o proxy que os DATA_NOTES prometem, não o D41PAY do governo geral"
@@ -950,5 +942,7 @@
  "Real growth and income from the DGBAS national accounts; inflation published twice, by the DGBAS and by the Central Bank; unemployment is DGBAS's annual total rate.": {"zh-Hant": "實質成長與所得來自DGBAS國民帳；通膨由DGBAS與中央銀行分別發布；失業是DGBAS年度總失業率。", "pt": "Crescimento real e renda pelas contas nacionais da DGBAS; inflação publicada pela DGBAS e pelo Banco Central; desemprego é a taxa total anual da DGBAS."},
  "Size and reserves from Taiwan's own publishers; HDI is absent, while Transparency International does cover Taiwan.": {"zh-Hant": "規模與準備資產來自臺灣自有發布者；HDI缺席，但透明國際收錄臺灣。", "pt": "Tamanho e reservas pelos publicadores de Taiwan; o IDH está ausente, mas a Transparência Internacional cobre Taiwan."},
  "Sources: CBC EF99Y01 loan balances · CBC EH45M01 housing rate · CBC EF07M01 overdue ratio · GDP: DGBAS A018101010": {"zh-Hant": "來源：CBC EF99Y01貸款餘額 · CBC EH45M01購屋貸款利率 · CBC EF07M01逾放比率 · GDP：DGBAS A018101010", "pt": "Fontes: saldos de empréstimos CBC EF99Y01 · taxa habitacional CBC EH45M01 · índice de atraso CBC EF07M01 · PIB: DGBAS A018101010"},
- "Sources: DGBAS A018101010 GDP · CBC EF07M01 reserves · Transparency International CPI 2025": {"zh-Hant": "來源：DGBAS A018101010 GDP · CBC EF07M01準備資產 · 透明國際CPI 2025", "pt": "Fontes: PIB DGBAS A018101010 · reservas CBC EF07M01 · CPI 2025 da Transparência Internacional"}
+ "Sources: DGBAS A018101010 GDP · CBC EF07M01 reserves · Transparency International CPI 2025": {"zh-Hant": "來源：DGBAS A018101010 GDP · CBC EF07M01準備資產 · 透明國際CPI 2025", "pt": "Fontes: PIB DGBAS A018101010 · reservas CBC EF07M01 · CPI 2025 da Transparência Internacional"},
+ "MOF customs goods exports, imports and destinations; services are outside that dataset, and the lens panel shows the same flow counted twice.": {"zh-Hant": "MOF海關商品出口、進口與目的地；服務不在該資料集中，視野面板則顯示同一流量的兩種計算。", "pt": "Exportações, importações e destinos de bens aduaneiros do MOF; serviços ficam fora dessa base, e o painel-lente mostra o mesmo fluxo contado duas vezes."},
+ "MOF customs goods only; services are outside this dataset;": {"zh-Hant": "MOF海關資料只含商品；服務不在這個資料集中；", "pt": "a base aduaneira do MOF cobre apenas bens; serviços ficam fora desta base;"}
 }

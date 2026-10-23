@@ -374,8 +374,8 @@ def plate_trade(ctx, ig) -> None:
     ctx.endlabel(ax, ty, xp, p.GREEN, lambda v: f"{v:.0f}", dy=6)
     ctx.endlabel(ax, ty, imp, p.RED, lambda v: f"{v:.0f}", dy=-12)
     ax.legend(loc="upper left", fontsize=7.6, frameon=False)
-    _note(p, ax, 0.02, 0.30, f"goods only: services hang behind the WTO key "
-          f"(DATA_NOTES);\n{xp[-1]:.0f}% of the GDP is exported, "
+    _note(p, ax, 0.02, 0.30, f"MOF customs goods only; services are outside this dataset;\n"
+          f"{xp[-1]:.0f}% of the GDP is exported, "
           f"{imp[-1]:.0f}% imported")
     _foot(p, ax, "MOF trade database, compiled from customs declarations; "
           "the same records the geo-blocked Customs DB would publish")
@@ -882,8 +882,8 @@ PLATES = (
              "formation column was staged."),
     dict(id="04", slug="trade", topic="trade", builder=plate_trade,
          title="The Shipping Lanes — and the Customer Switch",
-         subtitle="Goods exports and imports, never services (the WTO key "
-                  "is pending); destinations by partner; and the lens panel "
+         subtitle="MOF customs goods exports, imports and destinations; "
+                  "services are outside that dataset, and the lens panel "
                   "shows the same flow counted twice.",
          source="Sources: MOF trade database (customs records) · CBC balance "
                 "of payments · GDP: DGBAS A018101010",

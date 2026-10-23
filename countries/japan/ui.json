@@ -1,7 +1,7 @@
 {
   "ja": {
-    "line": "公的統計で描く{n}枚の図版、{window}",
-    "dek": "内閣府、総務省、日本銀行、財務省、厚生労働省、出入国在留管理庁など、数値を作成した機関の資料から再現可能な日本の統計地図を構成しました。",
+    "line": "出典を明記した{n}枚の図版、{window}",
+    "dek": "国内の公的統計に、Transparency Internationalなどの国際比較と、Yahoo Financeが再配布することを明記した市場系列を組み合わせ、版管理されたCSVから再現できる日本の統計地図を構成しました。",
     "notes": [
       "2026年は途中集計です。年間合計と平均は2025年までとし、実際に最新時点を表す残高や金利だけを最新値として示します。",
       "人口動態統計は日本国内の日本人を対象とするため、殺人、自殺、COVID-19などの率も同じ範囲の日本人人口で割っています。",
@@ -24,8 +24,8 @@
     ]
   },
   "en": {
-    "line": "{n} plates of official data, {window}",
-    "dek": "A reproducible statistical atlas of Japan from the institutions that make the numbers — the Cabinet Office, Statistics Bureau, Bank of Japan, Ministry of Finance, MHLW and Immigration Services Agency among them.",
+    "line": "{n} sourced data plates, {window}",
+    "dek": "A reproducible atlas combining Japan's official national statistics, named international comparisons such as Transparency International, and market series explicitly labelled as redistributed by Yahoo Finance.",
     "notes": [
       "2026 is partial. Annual totals and averages stop at 2025; stocks and rates that are genuinely current are marked as the latest reading.",
       "Japan's vital statistics cover Japanese nationals in Japan. Homicide, suicide and COVID-19 rates therefore use the Japanese-national population for the same year.",
@@ -48,8 +48,8 @@
     ]
   },
   "pt": {
-    "line": "{n} pranchas de dados oficiais, {window}",
-    "dek": "Um atlas estatístico reproduzível do Japão, feito com números das instituições que os produzem — Gabinete do Governo, Escritório de Estatística, Banco do Japão, Ministério das Finanças, MHLW e Agência de Imigração, entre outras.",
+    "line": "{n} pranchas de dados com fontes, {window}",
+    "dek": "Um atlas reproduzível que combina estatísticas nacionais oficiais do Japão, comparações internacionais identificadas, como a Transparency International, e séries de mercado rotuladas como redistribuídas pelo Yahoo Finance.",
     "notes": [
       "2026 é parcial. Totais e médias anuais terminam em 2025; estoques e taxas realmente atuais são marcados como a leitura mais recente.",
       "As estatísticas vitais cobrem cidadãos japoneses no Japão. As taxas de homicídio, suicídio e COVID-19 usam, portanto, a população japonesa do mesmo ano.",

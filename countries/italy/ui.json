@@ -1,7 +1,7 @@
 {
   "it": {
-    "line": "{n} tavole di dati ufficiali, {window}",
-    "dek": "Ogni numero proviene dall'ente che lo pubblica — ISTAT, Eurostat, Banca d'Italia, BCE e le fonti internazionali indicate — e ogni tavola viene rigenerata dai CSV versionati, così grafici e dati non possono divergere.",
+    "line": "{n} tavole di dati documentati, {window}",
+    "dek": "Le tavole usano soprattutto dati di ISTAT, Eurostat, Banca d'Italia e BCE. I confronti internazionali provengono anche da Banca Mondiale, PNUD, FMI e Transparency International; Yahoo Finance fornisce l'indice di mercato, chiaramente identificato. Ogni tavola viene rigenerata dai CSV versionati, così grafici e dati non possono divergere.",
     "notes": [
       "Il 2026 è un anno parziale. Totali e medie annuali si fermano al 2025; i valori davvero correnti sono indicati come <em>ultimo dato</em>.",
       "La popolazione e i tassi usano la serie Eurostat al 1º gennaio, che coincide con la ricostruzione ISTAT dal 2019. I tassi per 1.000 e per 100.000 mantengono sempre lo stesso territorio e la stessa popolazione del conteggio.",
@@ -24,8 +24,8 @@
     ]
   },
   "en": {
-    "line": "{n} plates of official data, {window}",
-    "dek": "Every number comes from the body that publishes it — ISTAT, Eurostat, the Banca d'Italia, the ECB and the named international sources — and every plate is regenerated from committed CSVs, so the charts and the page cannot drift apart.",
+    "line": "{n} plates of documented data, {window}",
+    "dek": "The plates draw primarily on ISTAT, Eurostat, the Banca d'Italia and the ECB. International comparisons also come from the World Bank, UNDP, IMF and Transparency International; Yahoo Finance supplies the clearly labelled market index. Every plate is regenerated from committed CSVs, so the charts and the page cannot drift apart.",
     "notes": [
       "2026 is a partial year. Annual totals and averages stop at 2025; genuinely current observations are marked <em>latest</em>.",
       "Population and rates use Eurostat's 1 January population, which matches ISTAT's reconstructed series from 2019. Every per-1,000 and per-100,000 rate keeps the count and denominator on the same territory.",
@@ -48,8 +48,8 @@
     ]
   },
   "pt": {
-    "line": "{n} pranchas de dados oficiais, {window}",
-    "dek": "Cada número vem do organismo que o publica — ISTAT, Eurostat, Banca d'Italia, BCE e as fontes internacionais indicadas — e cada prancha é regenerada a partir dos CSVs versionados, para que os gráficos e a página não possam divergir.",
+    "line": "{n} pranchas de dados documentados, {window}",
+    "dek": "As pranchas usam principalmente dados do ISTAT, Eurostat, Banca d'Italia e BCE. As comparações internacionais também vêm do Banco Mundial, PNUD, FMI e Transparency International; o Yahoo Finance fornece o índice de mercado, claramente identificado. Cada prancha é regenerada a partir dos CSVs versionados, para que os gráficos e a página não possam divergir.",
     "notes": [
       "2026 é um ano parcial. Totais e médias anuais param em 2025; observações realmente correntes são marcadas como <em>mais recentes</em>.",
       "A população e as taxas usam a população do Eurostat em 1º de janeiro, que coincide com a série reconstruída do ISTAT desde 2019. Cada taxa por 1.000 ou por 100.000 mantém contagem e denominador no mesmo território.",

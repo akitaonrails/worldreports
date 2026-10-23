@@ -249,7 +249,7 @@ def build(ctx) -> list[dict]:
                             "年的 69%,進口約 53%;海關順差從未翻轉,2009 年只是縮小。中國"
                             "大陸佔商品出口在 2020 年攀到約 30% 的頂峯後減半到 16%,美國從 14%"
                             " 升到 31% 取得領先。視野面板把同一個商品流量繪了兩次:2025 年僅"
-                            "出口就差約 560 億美元。服務貿易卡在 WTO 指標之後,沒有畫。",
+                            "出口就差約 560 億美元。MOF海關資料只含商品,服務不在這個資料集中。",
                           EN: "Four panels on trade. Goods exports rise from"
                               " 58% of GDP in 2006 to 69% in 2025 and imports"
                               " sit near 53%; the customs surplus never turns,"
@@ -259,8 +259,8 @@ def build(ctx) -> list[dict]:
                               " from 14% to 31% and takes the lead. The lens"
                               " panel draws one goods flow twice: in 2025 the"
                               " two answers differ by about US$56bn on exports"
-                              " alone. Services hang behind the pending WTO"
-                              " key and are not drawn.",
+                              " alone. The MOF customs dataset covers goods;"
+                              " services are outside its scope.",
                           PT: "Quatro painéis sobre o comércio. As exportações"
                               " de bens sobem de 58% do PIB em 2006 para 69%"
                               " em 2025 e as importações ficam perto de 53%;"
@@ -272,8 +272,8 @@ def build(ctx) -> list[dict]:
                               " liderança. O painel-lente desenha o mesmo fluxo"
                               " de bens duas vezes: em 2025 as duas respostas"
                               " diferem em cerca de US$ 56 bilhões só nas"
-                              " exportações. Os serviços ficam atrás da chave"
-                              " pendente da OMC e não são desenhados."}),
+                              " exportações. A base aduaneira do MOF cobre bens;"
+                              " serviços ficam fora do seu escopo."}),
             "sources": ["trade/goods.csv", "trade/partners.csv",
                         "world/bop_goods.csv", "economy/gdp.csv"],
             "spark": exp_share,

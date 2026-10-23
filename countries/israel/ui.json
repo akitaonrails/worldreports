@@ -1,7 +1,7 @@
 {
   "he": {
-    "line": "{n} לוחות נתונים רשמיים, {window}",
-    "dek": "כל נתון מגיע מן הגוף המפרסם אותו — הלשכה המרכזית לסטטיסטיקה, בנק ישראל, משרד האוצר, רשות האוכלוסין והמקורות הבין־לאומיים המצוינים — וכל לוח נבנה מחדש מקובצי CSV שבמאגר, כדי שהגרפים והמספרים לא יסטו זה מזה.",
+    "line": "{n} לוחות נתונים עם מקורות מתועדים, {window}",
+    "dek": "האטלס משלב נתונים ממפרסמים לאומיים, השוואות של גופים בין־לאומיים שצוינו וסדרות שוק שהמפיצים שלהן, ובהם Yahoo Finance, מסומנים במפורש. כל לוח נבנה מחדש מקובצי CSV שבמאגר.",
     "notes": [
       "2026 היא שנה חלקית. סיכומים וממוצעים שנתיים מסתיימים ב־2025; תצפיות עדכניות באמת מסומנות כ<em>נתון אחרון</em>.",
       "רצועת מיתון מופיעה רק ב־2020. הצמיחה השנתית נשארה חיובית בשנות המלחמה 2023–2025, ולכן 7 באוקטובר והתגובה התקציבית מסומנים כאירועים ולא כמיתון.",
@@ -25,8 +25,8 @@
     ]
   },
   "en": {
-    "line": "{n} plates of official data, {window}",
-    "dek": "Every number comes from the body that publishes it — the Central Bureau of Statistics, the Bank of Israel, the Ministry of Finance, the Population and Immigration Authority and the named international sources — and every plate is regenerated from committed CSVs so the charts and page cannot drift apart.",
+    "line": "{n} sourced data plates, {window}",
+    "dek": "The atlas combines data from national publishers, comparisons from named international bodies, and market series whose redistributors, including Yahoo Finance, are explicitly labelled. Every plate is regenerated from committed CSVs.",
     "notes": [
       "2026 is a partial year. Annual totals and averages stop at 2025; genuinely current observations are marked <em>latest</em>.",
       "Only 2020 is shaded as a contraction. Annual growth remained positive in the 2023–2025 war years, so 7 October and the fiscal response are marked as events rather than recession bands.",
@@ -50,8 +50,8 @@
     ]
   },
   "pt": {
-    "line": "{n} pranchas de dados oficiais, {window}",
-    "dek": "Cada número vem do organismo que o publica — a Central Bureau of Statistics, o Banco de Israel, o Ministério das Finanças, a Autoridade de População e Imigração e as fontes internacionais indicadas — e cada prancha é regenerada a partir dos CSVs versionados, para que os gráficos e a página não possam divergir.",
+    "line": "{n} pranchas de dados com fontes, {window}",
+    "dek": "O atlas combina dados de publicadores nacionais, comparações de organismos internacionais identificados e séries de mercado cujos redistribuidores, incluindo o Yahoo Finance, são rotulados explicitamente. Cada prancha é regenerada de CSVs versionados.",
     "notes": [
       "2026 é um ano parcial. Totais e médias anuais param em 2025; observações realmente correntes são marcadas como <em>mais recentes</em>.",
       "Só 2020 aparece sombreado como contração. O crescimento anual permaneceu positivo nos anos de guerra de 2023–2025; 7 de outubro e a resposta fiscal são eventos, não faixas de recessão.",
