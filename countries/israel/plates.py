@@ -380,8 +380,11 @@ def plate_demography(ctx, ig) -> None:
     ctx.line(ax, iy, iv, p.BLUE)
     ig.add_recessions(ax, label=False)
     last = max(pop)
-    ctx.endlabel(ax, iy, iv, p.BLUE, lambda v: f"{pop[last] / 1e6:.1f}M",
-                 dy=-14, ha="left")
+    population_label = ax.annotate(
+        f"{pop[last] / 1e6:.1f}M", (iy[-1], iv[-1]),
+        textcoords="offset points", xytext=(-2, -14), fontsize=9.5,
+        fontweight="bold", color=p.BLUE, ha="right", zorder=6)
+    population_label.set_gid("qa-on-data")
     crossed = [y for y in sorted(pop) if pop[y] >= 10_000_000]
     _note(p, ax, 0.02, 0.96, f"the ten-millionth resident registered in "
           f"{crossed[0]};\nthe axis grew past the shared range — the marker "
@@ -578,9 +581,11 @@ def plate_migration(ctx, ig) -> None:
     ax.set_ylabel("per 1,000 people", fontsize=8.6, color=p.MUTED)
     ax.set_ylim(0, max(nfv + efv) * 1.35)
     pk = max(zip(nfy, nfv), key=lambda t: t[1])
-    ax.annotate(f"{int(new_by_year[pk[0]]):,}", (pk[0], pk[1]),
-                textcoords="offset points", xytext=(0, 4), ha="center",
-                fontsize=8.4, fontweight="bold", color=p.GOLD)
+    permit_label = ax.annotate(
+        f"{int(new_by_year[pk[0]]):,}", (pk[0], pk[1]),
+        textcoords="offset points", xytext=(0, 18), ha="center",
+        fontsize=8.4, fontweight="bold", color=p.GOLD)
+    permit_label.set_gid("qa-on-data")
     ax.legend(loc="upper left", fontsize=7.6, frameon=False)
     _note(p, ax, 0.02, 0.24, "new permits only — extensions are the second "
           "flow and amendments\nare in the file but off this panel; visitor "
