@@ -1,0 +1,143 @@
+# Israel. FIRST DRAFT (discovery pass, checkpoint 1). Every UNVERIFIED
+# marker below must be resolved against live endpoints before this file
+# is considered curated. Israel is the atlas's first right-to-left
+# country: the page, grid, and figure-text work for RTL is Phase B/C and
+# deliberately not done here — this file records only what the DATA layer
+# needs (locale codes, endonym, ILS, the data-layer notes in DISCOVERY.md).
+slug: israel
+spine: true
+flag_emoji: "🇮🇱"
+wordmark: ישראל
+# Hebrew letters sit on a baseline like Latin ones — no CJK em-box
+# centring — but the wordmark's first letter is א, an open left side.
+# Bearing is UNVERIFIED until the masthead is actually set in Phase B.
+name:
+  en: "Israel"
+  fr: "Israël"
+  pt: "Israel"
+  es: "Israel"
+  ko: "이스라엘"
+  he: "ישראל"
+
+# `he` is a NEW locale for the atlas and a NEW script (Hebrew). Follows
+# south-korea's non-Latin pattern: language code first, official language
+# listed first, default_locale en per precedent. he-IL equivalents on the
+# html/og fields. `he` needs AFFIX and CURRENCY_AFFIX columns in
+# core/sitebuild.py in Phase B (ILS: ₪ before the number, symbol-first
+# convention — what core/numstyle.py expects for he is recorded in
+# DISCOVERY.md, not changed here).
+locales:
+  - {code: he, html_lang: he-IL, og_locale: he_IL, endonym: עברית}
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete. CBS publishes annual national accounts to 2025;
+# verification that 2025 annual totals are out is in DISCOVERY.md.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+
+# Bands, checked against the staged vintage of the international layer
+# (IMF WEO via DataMapper, countries/israel/data/macro/gdp_growth_from_imf.csv).
+# The discovery pass's "+3.8 / −2.8" pair was a row-alignment error: the
+# −2.8 belongs to Sudan's row (see SOURCES.yaml notes). The staged series
+# says 2008 +3.2, 2009 +1.2 — no 2008–09 contraction on the annual
+# vintage, so that band is gone.
+#  * COVID 2020: −1.9% annual on the staged vintage — a real contraction
+#    year, band kept. (CBS quarterly is blocked from this machine, so the
+#    two-quarter q/q test rides on the harmonised annual number, as in
+#    every country built from the harmonised layer.)
+#  * 2023– : the war period. Annual growth stayed positive (+2.0, +1.7;
+#    2025 +3.5), so no band is drawn — a band would assert a contraction
+#    the staged series does not show. The debt jump and the Oct 2023
+#    events are drawn as events and notes, never as a band.
+bands:
+  - {from: 2020.0, to: 2020.9, label: "COVID-19"}        # annual-verified on the staged vintage
+
+currency:
+  code: ILS
+
+# Palette, collision-checked pass (2026-10-22). The flag is blue on
+# white — one hue and the paper — so primary is a darkened, saturated
+# royal blue off the flag's ~#0038B8 and the siblings are cool. The
+# crowding problem is that three other atlases already sit on blue:
+# south-korea's plate blue is #0047A0, the UK's is NAVY #1B2E63 /
+# BLUE #2E5FA3 / BLUE_D #1F4377, canada carries NAVY #1C3A55 /
+# BLUE #2F6E9B (its primary is red). Israel's pair goes DARKER and more
+# saturated than all of them — #0B3D91 sits clearly below the UK's
+# #1F4377 and clearly beside korea's #0047A0 — and its second blue is
+# the near-navy ink, not another mid blue.
+# Web grounds checked: canada #1A1012 (warm black), spain #1E1210 (warm
+# black), portugal #101A14 (green black), UK #0D1220 (near-black navy),
+# south-korea #0A1E31 (near-black navy). Every existing ground is a
+# near-black; Israel's is the one SATURATED dark blue in the atlas, so
+# it reads as Israeli at a glance even beside korea's navy. Italy is
+# queued, not in the tree — its ground goes on the pending list for a
+# re-check at merge time.
+palette:
+  BLUE:    "#0B3D91"
+  BLUE_D:  "#072A66"
+  NAVY:    "#11233C"
+  TEAL:    "#137F77"
+  CYAN:    "#1E7D8C"
+  PURPLE:  "#5C5FA3"
+  GREEN:   "#2E7D4F"
+  GOLD:    "#BE8A1E"
+  primary: "#0B3D91"
+  # Oxblood rather than the bright alert reds of canada (#B5272F) and
+  # spain/UK (#A32630 / #B32438): the flag carries no warm colour, so
+  # the alert is borrowed, and it borrows a different shade.
+  alert:   "#8C2F39"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#0B3D91", "#137F77", "#BE8A1E", "#5C5FA3", "#1E7D8C", "#2E7D4F", "#11233C"]
+  # Blue, the paper, blue — the flag's structure. The middle band is the
+  # page colour, so it is drawn with an outline.
+  flag_bands: ["#0B3D91", "#FBFAF7", "#0B3D91"]
+  # The one saturated-blue ground in the atlas (see the collision note
+  # above): flag blue pushed dark enough to hold ink on it.
+  web:
+    mark_bearing: "0.04em"    # UNVERIFIED — א is open on the left; set in Phase B
+    ground:   "#0B2447"
+    raised:   "#11305C"
+    raised_2: "#173B6F"
+    rule:     "#215191"
+    ink:      "#EDF1F8"
+    muted:    "#A9B7CD"
+    faint:    "#7F8FA8"
+    money:    "#6E9BE6"
+    world:    "#37A79E"
+    people:   "#D9A64B"
+
+seo:
+  title:
+    he: "ישראל — לוחות נתונים רשמיים, 2006–2026"
+    en: "Israel — plates of official data, 2006–2026"
+    pt: "Israel — pranchas de dados oficiais, 2006–2026"
+  description:
+    he: >-
+      לוחות נתונים על הכלכלה, הכספים הציבוריים, המסחר, השווקים, התעסוקה, הדמוגרפיה, העלייה וההגירה, התמותה, האשראי והפשע בישראל, המבוססים אך ורק על מקורות רשמיים ומיוצרים מקובצי CSV המאוחסנים במאגר.
+    en: "Data plates on Israel's economy, public finances, trade, markets, work, demography, immigration, mortality, credit and crime, built only from official sources and regenerated from committed CSVs."
+    pt: "Pranchas de dados sobre a economia, as contas públicas, o comércio, os mercados, o trabalho, a demografia, a imigração, a mortalidade, o crédito e o crime de Israel, construídas apenas a partir de fontes oficiais."
+  keywords: [Israel, CBS Israel, Bank of Israel, aliyah, shekel, official statistics]
+  # Scope note for later: CBS publishes for areas under Israeli civilian
+  # jurisdiction; how Judea and Samaria is handled in each series is a
+  # data-layer decision recorded in DISCOVERY.md, and seo.spatial must
+  # name one scope, never mix two.
+  spatial: "Israel"
+
+# Named in the dek, and agrees with SOURCES.yaml (publishers verified
+# 2026-10-22; CBS itself parked-unreachable, but it remains the
+# publisher of record named in the dek — see meta.pending).
+sources:
+  he: "הלשכה המרכזית לסטטיסטיקה, בנק ישראל, משרד האוצר, רשות האוכלוסין וההגירה"
+  en: "the Central Bureau of Statistics, the Bank of Israel, the Ministry of Finance and the Population and Immigration Authority"
+  pt: "a Central Bureau of Statistics de Israel, o Banco de Israel, o Ministério das Finanças e a Autoridade de População e Imigração"
