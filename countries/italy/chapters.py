@@ -95,8 +95,8 @@ def build(ctx) -> list[dict]:
     excess_2020 = [(y, (deaths[y] / base - 1) * 100) for y in (2020,)
                    if y in deaths]
 
-    exports = dict(ctx.col("trade/trade_from_estat.csv", "exports_eurbn"))
-    imports = dict(ctx.col("trade/trade_from_estat.csv", "imports_eurbn"))
+    exports = dict(ctx.col("trade/trade.csv", "exports_eurbn"))
+    imports = dict(ctx.col("trade/trade.csv", "imports_eurbn"))
     balance = [(y, exports[y] - imports[y]) for y in sorted(exports)
                if y in imports]
 
@@ -229,11 +229,11 @@ def build(ctx) -> list[dict]:
             "stats": [
                 ctx.stat({"it": "Esportazioni (fob)", "en": "Exports (fob)",
                           "pt": "Exportações (fob)"},
-                         ctx.col("trade/trade_from_estat.csv",
+                         ctx.col("trade/trade.csv",
                                  "exports_eurbn"), "money_bn"),
                 ctx.stat({"it": "Importazioni (fob)", "en": "Imports (fob)",
                           "pt": "Importações (fob)"},
-                         ctx.col("trade/trade_from_estat.csv",
+                         ctx.col("trade/trade.csv",
                                  "imports_eurbn"), "money_bn"),
                 ctx.stat({"it": "Saldo merci", "en": "Goods balance",
                           "pt": "Saldo de mercadorias"},
