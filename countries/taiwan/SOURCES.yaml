@@ -37,16 +37,20 @@ economy:
     notes: >-
       VERIFIED end to end. The DPAS data-out URL answers JSON
       (outmode=8; also 0=html,1=Excel,6=ODS,2=CSV,3=CSV-UTF8,7=PDF):
-      {funid,name,links,gentime,colh,orgdata}. ym/ymt are ROC-year MM
-      codes (9500=2006, 11400=2025); cycle selects the column — cycle=4
-      here returned mid-year population 2006-2025 (22.82mn to 23.35mn,
-      peak 23.60mn in 2019, order of magnitude cross-checked against the
-      MOI register pass below). The GDP level / growth / per-capita
-      columns live on other cycle codes of the same table; Phase B maps
-      them via the sys=212&x=2100 definition JSON. Substitute for the
-      World Bank's NY.GDP series, which does not carry Taiwan. Quarterly
-      national accounts are annual-rate seasonally adjusted — annual is
-      the MEAN of quarters, never the sum.
+      {funid,name,links,gentime,colh,col,row,orgdata,outdata,plusdata}.
+      ym/ymt are ROC-year MM codes (9500=2006, 11400=2025); cycle
+      selects the column and the index page's own tile parameters map
+      them: cycle=42 with fldlst=15x1 is the full 15-column key table
+      (population, average FX, real growth y/y, GDP NTD, GDP USD,
+      per-capita NTD/USD, GNI, NI...) at annual AND quarterly rows;
+      cycle=4 is mid-year population. Current-vintage spot: 2009 real
+      growth -1.61 (2008Q3 -1.39, 2008Q4 -7.36, 2009Q1 -7.87), 2020
+      +3.42 with no negative quarter, 2024 GDP US$790.1bn, 2025 GDP
+      NT$28.72tn and US$953.2bn on the publisher's own USD column,
+      per-capita 2025 US$40,626. Substitute for the World Bank's
+      NY.GDP series, which does not carry Taiwan. Quarterly national
+      accounts are annual-rate seasonally adjusted — annual is the
+      MEAN of quarters, never the sum.
   cpi.csv:
     source: DGBAS nstatdb DPAS table A030101015 (消費者物價基本分類指數, CPI)
     url: https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=220&kind=100&funid=A030101015&ym=11401&ymt=11509&cycle=41&outmode=8
@@ -187,13 +191,16 @@ world:
       comparable; any ranking panel must be built against other
       countries' own central banks, not an IMF table.
   ranking.csv:
-    source: UNVERIFIED — WTO; possible ADB "Taipei,China" series (verify ADB coverage)
+    source: WTO (see trade.wto_profile.csv — key-gated) and ADB (carries some tables as "Taipei,China" in its Key Indicators products; API not probed live today — PENDING)
     url: UNVERIFIED
     official: true
     notes: >-
+      Where WB/IMF/UN rankings are absent the entry names its
+      substitute: the WTO carries "Chinese Taipei" and the reserves
+      ranking comes from EF07M01 vs other countries' own central banks.
       HDI does not apply (no UNDP for Taiwan) — record in DATA_NOTES.md
-      that the world chapter's human-development panel has no source and
-      the chapter is built from trade/financial standing instead.
+      that the world chapter's human-development panel has no source;
+      the chapter is built from trade and financial standing instead.
 
 credit:
   household_credit.csv:
@@ -212,41 +219,63 @@ credit:
 
 demography:
   population.csv:
-    source: UNVERIFIED — Ministry of the Interior, Department of Household Registration (registration.moi.gov.tw) — registered population, births, deaths, monthly
-    url: UNVERIFIED — MOI open data / registration.moi.gov.tw
+    source: DGBAS DPAS A018101010 population column (verified, mid-year, 2006-2025) - the MOI household register for monthly detail is pending
+    url: https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=220&kind=100&funid=A018101010&ym=9500&ymt=11400&cycle=4&outmode=8
+    verified: 2026-10-23
     notes: >-
-      Population ~23.3mn, peaked 2020 and falling since (cross-check the
-      magnitude). Register-based: this is the administrative count, not a
-      census estimate; note the 2026-01-21 name changes if any.
+      VERIFIED: 22.82mn (2006), peak 23.60mn (2019), 23.35mn (2025) -
+      falling since 2020 as the brief predicted. Monthly register detail
+      is the RIS portal (www.ris.gov.tw population statistics database,
+      JS app, no keyless endpoint found); registration.moi.gov.tw does
+      not resolve from this machine. PENDING with reason. This is the
+      administrative register count, not a census estimate - say so on
+      the panel.
   projections.csv:
-    source: UNVERIFIED — Statistics Office — population projections (2024 vintage, re-bases the whole series)
+    source: UNVERIFIED - DGBAS/stat.gov.tw population projections (latest vintage 2024, published as news-page spreadsheets)
     url: UNVERIFIED
-    notes: Use ONE vintage throughout; compute change within a vintage.
+    notes: >-
+      PENDING. Re-bases the whole series per vintage - use ONE vintage
+      and compute change within it. No UN WPP row for Taiwan (the UN is
+      absent here): the national projection IS the projection.
 
 security:
   homicide.csv:
-    source: UNVERIFIED — National Police Agency (police.gov.tw) — recorded homicide
-    url: UNVERIFIED
+    source: UNVERIFIED - NPA recorded homicide; the second count from DGBAS A170101020 (assault ICD codes, verified live)
+    url: UNVERIFIED - NPA statistics pages are a JS portal (plain curl gets an error page)
     notes: >-
-      §4a second count: police counts at place of occurrence vs DOH death
-      certificates at residence. Two columns, two lines.
+      PENDING with reason. The death-certificate side already stands:
+      DGBAS monthly causes-of-death A170101020 (2008-01 to 2025-12)
+      yields assault categories via codlst. Police place-of-occurrence
+      side has no machine endpoint found today. When both exist: two
+      columns, two lines, disagreeing in both directions, neither wrong.
   crime.csv:
-    source: UNVERIFIED — NPA / Ministry of Justice — recorded crime statistics yearbook
+    source: UNVERIFIED - NPA / MOJ recorded-crime yearbook tables
     url: UNVERIFIED
+    notes: PENDING - no machine-readable endpoint found; do not scrape a PDF into a spine.
 
 mortality:
   causes_of_death.csv:
-    source: UNVERIFIED — Ministry of Health and Welfare, Health Promotion Administration — deaths by ICD-10 cause
-    url: UNVERIFIED — BTC open data / HPA annual report
-    notes: MOH also publishes the annual cause-of-death statistics; verify which carries the long series.
+    source: DGBAS DPAS A170101020 - monthly deaths by cause of death by rank
+    url: https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=220&kind=100&funid=A170101020&ym=9700&ymt=11412&cycle=4&outkind=4&outmode=8&fldlst=1111&codlst0=100&codlst1=1111111111111
+    verified: "2026-10-23 (tile URL captured from the index page; definition JSON: monthly 2008-01 to 2025-12, cycleDef 4)"
+    notes: >-
+      VERIFIED to the parameters the index itself publishes. Substitute
+      for the HPA/MOH annual ICD detail: www.hpa.gov.tw answers 403
+      behind a WAF from this machine (PENDING for the full ICD-10
+      annual split). The §4 rule: underlying cause vs deaths-involving
+      are different questions, and ICD follows the certifier - the HPA
+      annual table, when it arrives, is a second column not a splice.
 
 migration:
   stocks_flows.csv:
-    source: UNVERIFIED — Ministry of the Interior, National Immigration Agency (nia.gov.tw) — foreign residents (ARC), foreign workers (MOOL), immigrants with residency
-    url: UNVERIFIED
+    source: UNVERIFIED - NIA business-statistics section (foreign residents); MOL labour-statistics network (foreign worker permits)
+    url: https://www.immigration.gov.tw/5385/7344/7350/ (200, files JS-rendered) and https://www.mol.gov.tw/1607/71771/ (labor statistics network) - both PENDING
     notes: >-
-      §4a discipline: foreign RESIDENTS (stock, ARC/ALR registrations) vs
-      foreign WORKERS (MOEA/MOOL permits, a permit is not a person) vs
-      new foreign residents (flow). Emigration data weak — publish the
-      stock and the flow that exists, say what is unmeasured; largely
-      Southeast Asian workers.
+      PENDING with reason: the portals are reachable but no keyless
+      file endpoint found from this machine today. §4a discipline
+      stands: foreign RESIDENTS (stock, alien-resident-card
+      registrations, largely Southeast Asian workers) vs foreign WORKER
+      permits (a permit is not a person, MOOL/MOL counts) vs
+      new-resident flows; emigration is weakly measured - publish the
+      stock and the flow that exists, name the unmeasured, never print
+      a net line.
