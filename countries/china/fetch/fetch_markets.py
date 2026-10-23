@@ -59,36 +59,32 @@ CHART = ("https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
 # A browser UA is required: the endpoint answers 429 to the default urllib one.
 HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64)"}
 
-SYMBOL = "000001.SS"
+SYMBOLS = [
+    # (symbol, cache name, sidecar, spot year-ends, meta identity)
+    ("000001.SS", "yahoo_sse.json", "sse_index_from_yahoo.csv",
+     [(2007, 5261.56), (2015, 3539.18), (2024, 3351.76)],
+     {"symbol": "000001.SS", "exchangeName": "SHH",
+      "instrumentType": "INDEX", "currency": "CNY", "gmtoffset": 28800}),
+    ("^GSPC", "yahoo_spx.json", "spx_index_from_yahoo.csv",
+     [(2007, 1468.36), (2015, 2043.94), (2024, 5881.63)],
+     {"symbol": "^GSPC", "exchangeName": "SNP",
+      "instrumentType": "INDEX", "currency": "USD"}),
+]
 Y0, Y1 = 2005, 2026   # 2005 leaves room for any rebasing the plate wants
 
-# (year, close): known year-end closes, read off the redistributor's own
-# record 2026-10-22 and checked against Yahoo's daily bars (same dates,
-# same values) — see the docstring for the 2007 print-record note.
-SPOT = [(2007, 5261.56), (2015, 3539.18), (2024, 3351.76)]
 
-META = {
-    "symbol": "000001.SS",
-    "exchangeName": "SHH",
-    "instrumentType": "INDEX",
-    "currency": "CNY",
-}
-
-
-def fetch() -> dict[int, tuple[str, float]]:
+def fetch(symbol: str, cache_name: str, meta_want: dict) -> dict[int, tuple[str, float]]:
     """{year: (bar local date, close)} for the last observation of each year."""
     CACHE.mkdir(parents=True, exist_ok=True)
-    cache_file = CACHE / "yahoo_sse.json"
+    cache_file = CACHE / cache_name
 
     def check(payload: dict) -> None:
         result = payload["chart"]["result"][0]
         meta = result["meta"]
-        for key, want in META.items():
+        for key, want in meta_want.items():
             if meta.get(key) != want:
                 raise ValueError(f"meta.{key} is {meta.get(key)!r}, "
                                  f"not {want!r}")
-        if meta.get("gmtoffset") != 28800:
-            raise ValueError(f"unexpected gmtoffset {meta.get('gmtoffset')}")
         stamps = result["timestamp"]
         closes = result["indicators"]["quote"][0]["close"]
         if not stamps or not closes or len(stamps) != len(closes):
@@ -101,7 +97,7 @@ def fetch() -> dict[int, tuple[str, float]]:
         try:
             check(payload)
         except Exception as e:  # noqa: BLE001
-            print(f"  stale cache yahoo_sse.json: {e}", file=sys.stderr)
+            print(f"  stale cache {cache_name}: {e}", file=sys.stderr)
             cache_file.unlink()
             payload = None
     else:
@@ -109,7 +105,7 @@ def fetch() -> dict[int, tuple[str, float]]:
     if payload is None:
         p1 = int(datetime(Y0, 1, 1, tzinfo=timezone.utc).timestamp())
         p2 = int(datetime(Y1, 12, 31, tzinfo=timezone.utc).timestamp())
-        url = CHART.format(symbol=SYMBOL, p1=p1, p2=p2)
+        url = CHART.format(symbol=symbol, p1=p1, p2=p2)
         last = None
         for attempt in range(4):
             try:
@@ -121,11 +117,11 @@ def fetch() -> dict[int, tuple[str, float]]:
                 break
             except Exception as e:  # noqa: BLE001
                 last = e
-                print(f"  yahoo sse attempt {attempt + 1}: {e}",
+                print(f"  yahoo {symbol} attempt {attempt + 1}: {e}",
                       file=sys.stderr)
                 time.sleep(3 * (attempt + 1))
         else:
-            raise RuntimeError(f"yahoo sse: {last}")
+            raise RuntimeError(f"yahoo {symbol}: {last}")
     return year_ends(payload)
 
 

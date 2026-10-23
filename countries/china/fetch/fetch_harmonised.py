@@ -24,13 +24,13 @@ can fetch, and the official NBS line stays on the pending list.
                (PIP), non-performing loans (IMF FSI), population (UN WPP),
                total fertility, crude birth and death rates, net migration
                (UN WPP counts), migrant stock (UN DESA), homicide (UNODC),
-               suicide (WHO estimates)
+               suicide (WHO estimates), road traffic deaths (WHO estimates)
   IMF          DataMapper: real GDP growth (NGDP_RPCH), CPI inflation
                (PCPIPCH), general-government gross debt, % of GDP
                (GGXWDG_NGDP)
   UNDP         HDR25 composite indices, one complete time series (HDI)
   Transparency Corruption Perceptions Index — the 2012-method time series
-               from one edition's results-and-trends workbook
+               (CPI2025_Results.xlsx, sheet "CPI Historical")
 
 Quirks the checks below exist for:
 
@@ -46,7 +46,12 @@ Quirks the checks below exist for:
   * World Bank holes stay holes: SI.POV.GINI stops at 2022 for China
     (the WB series lags the NBS, which itself stopped publishing), and
     SM.POP.TOTL.ZS exists only on five-year DESA vintages. The nulls are
-    never interpolated and never zero-filled.
+    never interpolated and never zero-filled. The security series end
+    even earlier on their own publishers' clocks: UNODC homicide ends at
+    2020, the WHO's age-standardised suicide estimate at 2021 and its
+    road-traffic rate at 2019; PIP poverty is survey years only (CHN
+    2005-2022); the FSI non-performing-loan series starts at 2010; GFCF
+    ends at 2024. Every blank stays a blank.
   * The HDR file is ONE VINTAGE covering every year, which is the point:
     the HDI is recomputed for the whole back-series at each methodology
     change, so a trend assembled across report years is partly an
@@ -56,9 +61,9 @@ Quirks the checks below exist for:
     was +5.4% — the exchange rate, not a contraction. The level is a
     size reading, never a growth reading; the note rides with the CSV.
 
-Output: sidecars only (`*_from_wb.csv`, `*_from_imf.csv`, `*_from_undp.csv`
-beside the curated files). A fetcher never overwrites a curated number;
-the curated files are staged by hand after diffing these.
+Output: sidecars only (`*_from_wb.csv`, `*_from_imf.csv`, `*_from_undp.csv`,
+`*_from_ti.csv` beside the curated files). A fetcher never overwrites a
+curated number; the curated files are staged by hand after diffing these.
 """
 from __future__ import annotations
 
@@ -69,6 +74,7 @@ import re
 import sys
 import time
 import urllib.request
+import zipfile
 from pathlib import Path
 
 NAME = "China"
@@ -88,6 +94,11 @@ WB = ("https://api.worldbank.org/v2/country/{iso3}/indicator/{code}"
 IMF = "https://www.imf.org/external/datamapper/api/v1/{code}/CHN"
 HDR = ("https://hdr.undp.org/sites/default/files/2025_HDR/"
        "HDR25_Composite_indices_complete_time_series.csv")
+# TI's images CDN answers 403 HTML for the "results-and-trends" workbook
+# path Canada used; the plain results workbook at this address is live
+# (verified 2026-10-23) and carries the same "CPI Historical" sheet.
+TI = "https://images.transparencycdn.org/images/CPI2025_Results.xlsx"
+TI_SHEET = "CPI Historical"
 
 FIRST_YEAR, LAST_YEAR = 2006, 2026   # the country.yaml window
 FETCH_FROM = 2005                    # one year of context below the window
@@ -100,9 +111,15 @@ IMF_LAST_YEAR = 2025
 WB_SERIES = [
     ("NY.GDP.MKTP.KD.ZG", "economy/gdp_growth_intl_from_wb.csv",
      "real_growth_pct", 2),
+    ("FP.CPI.TOTL.ZG", "economy/inflation_intl_from_wb.csv",
+     "cpi_inflation_pct", 2),
+    ("SL.UEM.TOTL.ZS", "economy/unemployment_intl_from_wb.csv",
+     "unemployment_pct", 2),
     ("NY.GDP.MKTP.CD", "economy/gdp_usd_from_wb.csv", "gdp_usd", 0),
     ("NY.GDP.PCAP.CD", "economy/gdp_pc_usd_from_wb.csv",
      "gdp_per_person_usd", 0),
+    ("PA.NUS.FCRF", "markets/fx_cny_per_usd_from_wb.csv",
+     "cny_per_usd_avg", 4),
     ("FI.RES.TOTL.CD", "markets/reserves_intl_from_wb.csv", "reserves_usd",
      0),
     ("NE.TRD.GNFS.ZS", "trade/trade_intl_openness_from_wb.csv",
@@ -111,17 +128,38 @@ WB_SERIES = [
      "exports_pct_gdp", 2),
     ("NE.IMP.GNFS.ZS", "trade/trade_intl_openness_from_wb.csv",
      "imports_pct_gdp", 2),
+    ("NE.GDI.FTOT.ZS", "economy/gfcf_pct_gdp_from_wb.csv",
+     "gfcf_pct_gdp", 2),
     ("SI.POV.GINI", "people/gini_intl_from_wb.csv", "gini", 1),
+    ("SI.POV.UMIC", "people/poverty_intl_from_wb.csv", "poverty_830_pct",
+     1),
+    ("FB.AST.NPER.ZS", "credit/npl_intl_from_wb.csv", "npl_pct", 2),
     ("SP.POP.TOTL", "demography/population_intl_from_wb.csv",
      "population", 0),
+    ("SP.DYN.TFRT.IN", "demography/vital_intl_from_wb.csv", "fertility",
+     3),
+    ("SP.DYN.CBRT.IN", "demography/vital_intl_from_wb.csv",
+     "birth_rate_per_1000", 3),
+    ("SP.DYN.CDRT.IN", "demography/vital_intl_from_wb.csv",
+     "death_rate_per_1000", 3),
+    ("SM.POP.NETM", "demography/vital_intl_from_wb.csv", "net_migration",
+     0),
     ("SM.POP.TOTL.ZS", "migration/migrant_stock_intl_from_wb.csv",
      "migrant_stock_pct", 2),
+    ("VC.IHR.PSRC.P5", "security/security_intl_from_wb.csv",
+     "homicide_per_100k", 2),
+    ("SH.STA.SUIC.P5", "security/security_intl_from_wb.csv",
+     "suicide_per_100k", 2),
+    ("SH.STA.TRAF.P5", "security/security_intl_from_wb.csv",
+     "road_deaths_per_100k", 2),
 ]
 
 # IMF DataMapper indicator -> (sidecar, column, decimals).
 IMF_SERIES = [
     ("NGDP_RPCH", "economy/gdp_growth_intl_from_imf.csv",
      "real_growth_pct", 2),
+    ("PCPIPCH", "economy/inflation_intl_from_imf.csv",
+     "cpi_inflation_pct", 2),
     ("GGXWDG_NGDP", "fiscal/debt_intl_pct_gdp_from_imf.csv",
      "gg_gross_debt_pct_gdp", 1),
 ]
@@ -153,6 +191,28 @@ SPOT = [
     ("fiscal/debt_intl_pct_gdp_from_imf.csv", "gg_gross_debt_pct_gdp",
      2025, 98.6),
     ("international/hdi_from_undp.csv", "hdi", 2023, 0.797),
+    ("economy/inflation_intl_from_wb.csv", "cpi_inflation_pct", 2023,
+     0.2),
+    ("economy/inflation_intl_from_imf.csv", "cpi_inflation_pct", 2023,
+     0.2),
+    ("economy/unemployment_intl_from_wb.csv", "unemployment_pct", 2025,
+     4.62),
+    ("economy/gfcf_pct_gdp_from_wb.csv", "gfcf_pct_gdp", 2024, 39.65),
+    ("markets/fx_cny_per_usd_from_wb.csv", "cny_per_usd_avg", 2025, 7.19),
+    ("people/poverty_intl_from_wb.csv", "poverty_830_pct", 2022, 21.3),
+    ("credit/npl_intl_from_wb.csv", "npl_pct", 2024, 1.5),
+    ("demography/vital_intl_from_wb.csv", "fertility", 2024, 1.01),
+    ("demography/vital_intl_from_wb.csv", "birth_rate_per_1000", 2024,
+     6.77),
+    ("demography/vital_intl_from_wb.csv", "death_rate_per_1000", 2024,
+     7.76),
+    ("demography/vital_intl_from_wb.csv", "net_migration", 2025, -268126),
+    ("security/security_intl_from_wb.csv", "homicide_per_100k", 2020,
+     0.5),
+    ("security/security_intl_from_wb.csv", "suicide_per_100k", 2021, 8.95),
+    ("security/security_intl_from_wb.csv", "road_deaths_per_100k", 2019,
+     17.4),
+    ("international/corruption_intl_from_ti.csv", "cpi_score", 2025, 43.0),
 ]
 
 # (label, sidecar A, column A, sidecar B, column B, year, scale,
@@ -170,6 +230,10 @@ CROSS = [
      "trade/trade_intl_openness_from_wb.csv", "exports_pct_gdp",
      "trade/trade_intl_openness_from_wb.csv", "trade_pct_gdp",
      2024, 1, ("sum", 0.1)),
+    ("Consumer prices (WB vs IMF WEO)",
+     "economy/inflation_intl_from_wb.csv", "cpi_inflation_pct",
+     "economy/inflation_intl_from_imf.csv", "cpi_inflation_pct",
+     2019, 1, ("rel", 0.05)),
 ]
 # The computed cross-read: gdp_usd / gdp_pc_usd vs population, all WB.
 DIVIDE_CROSS = (
@@ -313,6 +377,82 @@ def undp_hdi() -> dict[int, float]:
     raise FetchError("UNDP file has no CHN row")  # check() above says it can't
 
 
+def ti() -> dict[int, float]:
+    """China's Corruption Perceptions Index scores, 2012 method onward.
+
+    TI publishes the CPI once a year as a workbook; the "CPI Historical"
+    sheet carries the one time series comparable across editions (0–100,
+    method introduced in 2012). The earlier 0–10 scores are a different
+    method and are not in this sheet. The workbook is read from its XML
+    directly (the house pattern, from Canada's fetcher): it carries
+    defined names that make openpyxl report no sheets, and TI's CDN
+    answers 403 with an HTML error page that must never reach the cache.
+    """
+    def check(raw: bytes) -> None:
+        if raw[:2] != b"PK":
+            raise ValueError("not a workbook (TI's CDN answers 403 with "
+                             "HTML)")
+        if not _ti_rows(raw):
+            raise ValueError("no CPI Historical sheet")
+
+    raw = get(TI, "ti_CPI2025.xlsx", check)
+    sheet = _ti_sheet(raw, TI_SHEET)
+    head = next((r for r in sheet if (r.get("A") or "").startswith("Country")),
+                None)
+    if head is None:
+        raise FetchError("TI workbook has no CPI header row")
+    col = {v: k for k, v in head.items() if v}
+    for want in ("ISO3", "Year", "CPI score"):
+        if want not in col:
+            raise FetchError(f"TI CPI sheet has no {want!r} column")
+    out = {}
+    for r in sheet:
+        if r.get(col["ISO3"]) == ISO3 and (r.get(col["CPI score"]) or ""):
+            y = int(float(r[col["Year"]]))
+            if FIRST_YEAR <= y <= LAST_YEAR:
+                out[y] = float(r[col["CPI score"]])
+    if not out:
+        raise FetchError("TI CPI sheet has no CHN scores")
+    return out
+
+
+def _ti_rows(raw: bytes) -> list[dict[str, str]]:
+    try:
+        return _ti_sheet(raw, TI_SHEET)
+    except Exception:  # noqa: BLE001
+        return []
+
+
+def _ti_sheet(raw: bytes, sheet_name: str) -> list[dict[str, str]]:
+    """One sheet of the TI xlsx as rows of {column letter: text}."""
+    z = zipfile.ZipFile(io.BytesIO(raw))
+    book = z.read("xl/workbook.xml").decode()
+    rels = z.read("xl/_rels/workbook.xml.rels").decode()
+    sheets = dict(re.findall(r'<sheet [^>]*name="([^"]+)"[^>]*r:id="([^"]+)"',
+                             book))
+    target = dict(re.findall(r'Id="([^"]+)"[^>]*Target="([^"]+)"', rels)
+                  + [(b, a) for a, b in re.findall(
+                      r'Target="([^"]+)"[^>]*Id="([^"]+)"', rels)])
+    path = "xl/" + target[sheets[sheet_name]].lstrip("/").replace("xl/", "")
+    ss = z.read("xl/sharedStrings.xml").decode()
+    strings = ["".join(re.findall(r"<t[^>]*>(.*?)</t>", c, re.S))
+               for c in re.findall(r"<si>(.*?)</si>", ss, re.S)]
+    out = []
+    for row in re.findall(r"<row[^>]*>(.*?)</row>", z.read(path).decode(),
+                          re.S):
+        cells = {}
+        for m in re.finditer(r'<c r="([A-Z]+)\d+"([^>]*?)(?:/>|>(.*?)</c>)',
+                             row, re.S):
+            ref, attrs, body = m.groups()
+            v = re.search(r"<v>(.*?)</v>", body or "")
+            val = v.group(1) if v else ""
+            if 't="s"' in attrs and val:
+                val = strings[int(val)]
+            cells[ref] = val
+        out.append(cells)
+    return out
+
+
 # --------------------------------------------------------------- assembly
 def collect() -> dict[str, dict[int, dict[str, float]]]:
     """Every sidecar this fetcher writes, as {rel: {year: {column: value}}}."""
@@ -360,6 +500,12 @@ def collect() -> dict[str, dict[int, dict[str, float]]]:
     print(f"  HDI (CHN)        {len(hdi):>3} years "
           f"{min(hdi)}-{max(hdi)} (1990-vintage back-series)")
     put(HDR_FILE, HDR_COLUMN, hdi, HDR_DECIMALS)
+
+    print("Transparency International — CPI Historical sheet")
+    cpi_ti = ti()
+    print(f"  CPI score (CHN)  {len(cpi_ti):>3} years "
+          f"{min(cpi_ti)}-{max(cpi_ti)} (2012 method onward)")
+    put("international/corruption_intl_from_ti.csv", "cpi_score", cpi_ti, 0)
 
     collect.decimals = decimals  # type: ignore[attr-defined]
     collect.order = order        # type: ignore[attr-defined]
@@ -448,7 +594,7 @@ def cross_checks(tables) -> None:
 def write(tables) -> None:
     for rel in sorted(tables):
         assert rel.rsplit(".csv", 1)[0].endswith(
-            ("_from_wb", "_from_imf", "_from_undp")), \
+            ("_from_wb", "_from_imf", "_from_undp", "_from_ti")), \
             f"{rel}: a fetcher only writes sidecars"
         columns = collect.order[rel]
         path = DATA / rel
