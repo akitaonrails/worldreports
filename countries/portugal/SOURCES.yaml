@@ -1,0 +1,964 @@
+# Data provenance — every planned series for Portugal.
+#
+# Written 2026-10-22 BEFORE any CSV exists, as the research pass prescribes;
+# the fetch swarm then staged each `*_from_*` sidecar under data/, and the
+# consolidation pass (same day) corrected every entry to what its fetcher
+# actually does — start years, vintages, year conventions, units. Where
+# DISCOVERY.md disagrees with this file, this file is right. Nothing here is
+# curated yet. Units are stated here for the sidecars that carry no `#`
+# header (the Eurostat and ECB files).
+#
+# Every endpoint below was curled live on 2026-10-22 and the payload shape
+# recorded in the notes. The pending block under `meta` is for publishers
+# that exist but could not be reached or staged this session — the page's
+# sources table ignores `meta`.
+#
+# THE PORTUGAL TRAP, which several entries repeat: on 2026-06-22 the INE
+# published revised resident-population estimates for 2021–2024 on a new
+# administrative-data methodology, lifting end-2024 from 10,749,635 to
+# 11,387,222 (≈1.6mn foreign residents counted that the register-based
+# method missed). The migration flow estimates (2021+) were revised with
+# the same methodology. Eurostat's migr_* tables for PT still carry the
+# PRE-revision transmission (immigration stops at 2023) and the World
+# Bank's population is pre-revision too, while Eurostat demo_gind already
+# carries the revision. Nothing downstream may mix vintages: revised
+# population beside unrevised per-capita denominators is a silent error,
+# and the 2021 seam in the flow series is methodology, not migration.
+
+meta:
+  pending:
+    - name: residence permits, asylum and the foreign-resident stock, primary
+      publisher: AIMA (ex-SEF) — aima.gov.pt
+      url: https://www.aima.gov.pt/
+      official: true
+      notes: >-
+        aima.gov.pt never established a connection from this machine on
+        2026-10-22 (timeout, not a 403); the legacy sefstat.sef.pt is dead
+        and sef.pt is a redirect shell. AIMA's annual RIFA report is a PDF.
+        The harmonised layer (Eurostat migr_* suite, geo=PT) and INE's
+        republication of the legal-resident stock (indicators 0009107 /
+        0010247 / 0013220, both currently stale at 2023 because the
+        SEF→AIMA transition broke the annual series) are staged instead.
+        The 2025 first-permits surge (310,639 — the AIMA backlog of
+        "manifestação de interesse" cases being regularised) is visible in
+        the Eurostat permits file and must be labelled as what it is.
+    - name: recorded crime and homicide, national police count (RASI)
+      publisher: SSI — Sistema de Segurança Interna (Relatório Anual de Segurança Interna)
+      url: https://www.segurancainterna.pt/
+      official: true
+      notes: >-
+        segurancainterna.pt never established a connection from this
+        machine on 2026-10-22, and the RASI page on portugal.gov.pt 404s.
+        The RASI is a PDF. Staged instead: Eurostat crim_off_cat ICCS0101
+        (police-recorded intentional homicide, PT, 2008–2024) and the INE
+        causes-of-death assault series (ICD-10 X85–Y09, cause code 64) —
+        the two disagree in both directions and neither is wrong
+        (SOURCING §4). INE/DGPJ crime-rate indicators 0008074/0012260
+        carry total and category crime rates but NO homicide category.
+        Hand-curate the RASI homicide row when the security chapter is
+        built, if the site is reachable then.
+    - name: budget execution, national cash basis, direct from DGO
+      publisher: DGO — Direção-Geral do Orçamento
+      url: https://www.dgo.gov.pt/
+      official: true
+      notes: >-
+        dgo.gov.pt never established a connection from this machine on
+        2026-10-22. Mitigated: the Banco de Portugal republishes the DGO
+        budget outturn in BPstat domain 10 (Budget Outturn, State and
+        general government, monthly, €mn — verified live), which is the
+        national-definition layer beside the Eurostat EDP transmission.
+        The two are cash vs accrual and State vs general government —
+        beside, never spliced (SOURCING §4).
+    - name: PSI-20 year-ends before 2013
+      publisher: Euronext Lisbon via redistributors
+      url: https://live.euronext.com/
+      official: false
+      notes: >-
+        Nobody official publishes an index close. Yahoo's PSI20.LS (the
+        old ^PSI20 is delisted) is verified live but its history starts
+        2013-04-30, so 2005–2012 year-ends are missing from the window.
+        stooq's ^psi serves the same JS proof-of-work wall as ^tsx/^ibex
+        (796-byte wall page under HTTP 200, verified 2026-10-22); the
+        Euronext live site answered 404_instrument_not_found to the probe.
+        PSI-20 2005–2012 year-ends are to be curated by hand from a
+        redistributor (Euronext annual statistics, investing.com) when the
+        markets plate is built; approximate targets to sanity-check:
+        2006 ≈ 11,300 · 2007 ≈ 13,000 · 2008 ≈ 6,340 · 2011 ≈ 5,490 ·
+        2012 ≈ 5,650 (unverified, from memory — check before curating).
+    - name: deaths 2024–2025 on the INE's own (NUTS-2024) indicator
+      publisher: INE — Óbitos
+      url: https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0008834&lang=PT
+      official: true
+      notes: >-
+        0008834 (NUTS-2013, the one staged) stops at 2023 and its metadata
+        was last updated 2025-10-29, so it will not continue. The NUTS-2024
+        successor (the twin of births 0012436) was not identified this
+        session. Until it is, 2024–2025 deaths exist only on Eurostat
+        demo_gind (118,396 / 121,817), which agrees with INE to within 18
+        deaths a year on 2011–2023. Find the code in the Base de Dados
+        (pesquisa "Óbitos … NUTS - 2024"); do not splice demo_gind onto
+        the INE column meanwhile.
+    - name: why Eurostat flags a break in Portugal's 2024 asylum decisions
+      publisher: Eurostat / AIMA
+      url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_asydcfsta?geo=PT
+      official: true
+      notes: >-
+        migr_asydcfsta for PT carries status "b" (break) in 2024 on both
+        the total and the positive decisions; positive = 10 of 1,005
+        decisions that year (2023: 310 of 435; 2025: 460 of 1,375). The
+        break is almost certainly the SEF→AIMA hand-over, but its metadata
+        note was not read. Read the ESMS footnote before the migration
+        plate annotates it.
+    - name: Transparency International Corruption Perceptions Index
+      publisher: Transparency International
+      url: https://www.transparency.org/en/cpi
+      official: false
+      notes: >-
+        Not staged by fetch_comparables.py. Curate by hand for the world
+        chapter with the 2012 methodology break, as France and Canada do.
+
+macro:
+  gdp_from_ine.csv:
+    source: INE — Contas Nacionais Trimestrais, indicator 0013428; real growth from Contas Económicas Regionais, indicator 0014144
+    url: https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0013428&lang=PT
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      nominal_eurmn: quarterly GDP at current prices, base 2021, € MILLIONS,
+      summed over the four published quarters (levels, NOT annualised
+      rates); a year with fewer than four is blank and its count is in
+      quarters_published (2026: 2). Verified: 2024 = 291,153 €mn, equal to
+      Eurostat nama_10_gdp to the million in every year. real_growth_pct is
+      0014144, an annual volume rate (prices of the previous year, %) from
+      the REGIONAL accounts (NUTS-2024, last updated 2026-01-06, 2024
+      flagged provisional, 2025 absent). It is an OLDER VINTAGE than the
+      nominal column: its 2024 = 2.1 predates the September-2026 national
+      accounts, on which 2024 is 2.7 (Eurostat; INE's own quarterly y/y
+      0013431 reads 2.4/2.6/2.7/3.0 through 2024, updated 2026-09-23). It is
+      not a Q4 y/y (that is 3.0) and not a different base; 2006–2023 match
+      Eurostat to the decimal. The fetcher asserts the regional-accounts
+      provenance and the 2.1, so a catch-up release fails the run. Draw
+      growth from gdp_from_estat.csv; this column is the vintage record.
+      0013431 is deliberately NOT carried: a quarterly y/y does not
+      aggregate to a year.
+  gdp_from_estat.csv:
+    source: Eurostat — nama_10_gdp (ESA 2010, Portugal's transmission)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_gdp?geo=PT&na_item=B1GQ
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Units: nominal_eurbn = GDP at current prices, € BILLIONS (CP_MEUR
+      / 1000); real_growth = chain-linked volume, % change on the previous
+      year (CLV_PCH_PRE). Verified 2026-10-22: 2024 = €291.2bn (= INE's sum),
+      2025 = €308.5bn (provisional); real growth 2020 −8.2, 2022 7.0,
+      2024 2.7, 2025 1.9. The current vintage (dataset updated 2026-10-21):
+      the INE regional-accounts growth beside it says 2.1 for 2024 (see
+      gdp_from_ine.csv). The INE twin is a separate file, never spliced.
+  ipc_from_ine.csv:
+    source: INE — IPC, indicators 0014649 (taxa de variação média dos últimos 12 meses) and 0014647 (variação homóloga)
+    url: https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0014649&lang=PT
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      The official annual average inflation rate is the DECEMBER reading
+      of 0014649 (Dim1 uses the S3Ayyyy12 December-period pattern,
+      Dim2=PT, Dim3=T total): verified
+      Dec-2022 = 7.83, Dec-2024 = 2.42, Dec-2025 = 2.34 — matching INE's
+      published taxa de variação média anual. Base is now 2025 (rebased
+      in early 2026; fifth base in the window); the published rates are
+      the linked series, so levels comparable across bases. 0014647 is
+      the monthly y/y; ipc_yoy_december is its December reading. Units %.
+      The running year has no December and has no row. NOT the same series
+      as the HICP (below): the two differ by up to a point (2023: IPC 4.31,
+      HICP 5.3 — the HICP weights non-residents' spending, i.e. tourism).
+  hicp_from_estat.csv:
+    source: Eurostat — prc_hicp_aind (HICP annual rate of change); INE twin indicator 0014655 not staged
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_aind?geo=PT&coicop=CP00
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      The harmonised rate (RCH_A_AVG, annual average % change): verified 2008 2.7, 2020 −0.1,
+      2022 8.1, 2024 2.7, 2025 2.2. INE publishes its own HICP (0014655,
+      monthly y/y, base 2025, from Dec-1996) — same instrument, national
+      release. HICP and IPC differ by tenths; two columns, both labelled.
+  unemployment_from_ine.csv:
+    source: INE — Inquérito ao Emprego, indicators 0012173 (Série 2021), 0006191 (Série 2011) and 0007976 (monthly, 16–74)
+    url: https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0012173&lang=PT
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      THREE vintages, never spliced, in % of the labour force: Série 2021
+      (0012173, annual, 2011–2025, Dim2=PT Dim3=T — verified 2023 6.5,
+      2024 6.4, 2025 6.0); Série 2011 (0006191, annual, 2011–2020, runs
+      0.1–1.0 points below Série 2021 on the overlap); and the long monthly
+      series 0007976 (16–74, Feb-1998 → Aug-2026) as rate_monthly_mean, the
+      mean of twelve centred 3-month estimates, written only when all twelve
+      are out (monthly_months; 2026 = 8, blank). The monthly mean covers the
+      2006–2010 years the annual series lack and tracks Série 2021 within
+      0.15. The 2021 questionnaire modernisation and census reweighting are
+      annotated, not smoothed.
+  unemployment_from_estat.csv:
+    source: Eurostat — une_rt_a (LFS unemployment rate, 15-74)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/une_rt_a?geo=PT
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      % of the labour force, 15–74. Verified: PT values start 2009 (11.2)
+      — 2006–2008 are absent in the source and carried as blanks (the
+      fetcher fails if they appear); the INE series cover them. 2012 16.6
+      … 2025 6.0, within 0.1 of INE Série 2021 every year. Drawn beside
+      the INE IE rate, never spliced.
+
+fiscal:
+  debt_from_estat.csv:
+    source: Eurostat — gov_10dd_edpt1 (GD) and gov_10q_ggdebt (Q4 stock in €)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10dd_edpt1?geo=PT&na_item=GD&unit=PC_GDP
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Maastricht gross debt, general government: gross_pct_gdp in % of
+      GDP (annual), gross_eurbn_q4 in € BILLIONS (gov_10q_ggdebt, read at
+      Q4; the running year is blank here although Q1–Q2 2026 exist,
+      provisional). Equal to BPstat's republication (series 12561512) in
+      every year 2006–2025 — fetch_bpstat.py checks it. Verified: 2011 114.0 → 2012 128.6 →
+      2013 130.8, 2020 134.1, 2023 96.9,
+      2024 93.0, 2025 89.2; Q4-2025 stock €275.1bn. The Banco de
+      Portugal republishes the same aggregate in BPstat domain 28
+      (cross-check); IGCP's "dívida pública"/"dívida direta do Estado"
+      are different, narrower definitions — beside, never spliced.
+  deficit_from_estat.csv:
+    source: Eurostat — gov_10dd_edpt1 (B9) and gov_10a_main (D41PAY)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10dd_edpt1?geo=PT&na_item=B9
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      All three columns in % of GDP: deficit = net lending (+) /
+      borrowing (−), B9; interest = D41 payable; primary = deficit +
+      interest, COMPUTED here and labelled as such. Verified: 2009 −9.9, 2010 −11.4 (revised up over the years as
+      bank support was reclassified into it — the number quoted at the
+      time was smaller), 2014 −7.4, 2020 −5.8, 2023 +1.1, 2024 +0.7.
+  revenue_from_estat.csv:
+    source: Eurostat — gov_10a_main (TR, TE)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Total revenue and expenditure of general government, % of GDP,
+      national-accounts basis. The pair brackets the deficit file. TE here
+      can differ by 0.2 from the COFOG total (2024: 42.2 vs 42.4) — two
+      tables, two vintages.
+  tax_burden_from_estat.csv:
+    source: Eurostat — gov_10a_taxag (D2+D5+D91+D61 net of D995)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Eurostat's harmonised taxes-and-social-contributions ratio, % of GDP
+      (D2_D5_D91_D61_M_D995, sector S13_S212; na_item=TR is an empty cube).
+      The national "carga fiscal" lands differently; the plate note says
+      which is drawn.
+  spending_by_function_from_estat.csv:
+    source: Eurostat — gov_10a_exp (COFOG divisions, TE, % GDP)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Spending by COFOG division, % of GDP; GF01 carries debt interest;
+      defence + public order (GF02+GF03) and the small divisions
+      (GF05+GF06+GF08) summed only where every part is published — never
+      zero-filled. Ends 2024 (provisional); 2025 is blank until Eurostat's
+      COFOG release.
+  investment_from_estat.csv:
+    source: Eurostat — nama_10_gdp (P51G) and gov_10a_main (P51G)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Gross fixed capital formation, whole economy (gfcf_eurbn in € BILLIONS,
+      gfcf_pct_gdp COMPUTED as P51G / B1GQ) and general government
+      (gov_gfcf_pct_gdp, % GDP as published): three concepts, kept apart.
+  budget_outturn_from_bpstat.csv:
+    source: Banco de Portugal — BPstat domain 10 (Budget Outturn; source of record DGO)
+    url: https://bpstat.bportugal.pt/data/v1/domains/10/datasets/?lang=EN
+    refreshed_by: fetch/fetch_bpstat.py
+    notes: >-
+      Monthly budget execution, € MILLIONS, YEAR-TO-DATE: each year is its
+      December reading and the running year its latest month (as_of,
+      2026-08) — never summed. State from 2006; general government only
+      from 2013 (2006–2012 gg_* are holes). State (series 88873/88884/88894 —
+      total revenue, total expenditure, balance) and general government
+      (12560943/12560947/12560959), with tax detail (VAT 88877, IRS
+      88899, IRC 88900, interest 88910/12560989). CASH basis, national
+      definition — a different number from the EDP deficit above, and
+      the pair is kept as two files. The GG cash balance and the EDP deficit
+      agree in some years (2013, 2020) and differ by up to 3 points in
+      others (2014: −4.1% cash vs −7.4% EDP — the Novo Banco resolution
+      capital is an EDP deficit item and no cash outlay of the year).
+      Verified live: domain 10 dataset
+      9a04dd6b, 46 series, via the JSON-stat dataset endpoint
+      /domains/{dom}/datasets/{dsid}/?series_ids={id}.
+  state_debt_from_igcp.csv:
+    source: IGCP — Stock de dívida pública (monthly xlsx)
+    url: https://www.igcp.pt/pt
+    refreshed_by: fetch/fetch_igcp.py
+    notes: >-
+      The treasury's own debt stock, € MILLIONS at nominal value after
+      swaps, December of each year (running year = latest month, 2026-08,
+      a level). Runs 2001–2026 (trim to the window when curating). The
+      gap to the EDP stock changes sign: DDE €3–28bn BELOW the Maastricht
+      debt through 2018, €10–40bn ABOVE it from 2021 (Dec-2025 €315.2bn vs
+      €275.1bn). Breaks: Dec-2015 (margin accounts enter the total) and
+      Dec-2018 (modified-duration valuation). NOTE the page fetch: the
+      href is re-read from igcp.pt on every run, so even a cached rerun
+      touches the network once. igcp.pt is reachable and serves two
+      xlsx files (verified download 2026-10-22):
+      Stock_divida_valores_mensais_Debt_stock_monthly_figures.xlsx and
+      Indicadores_divida_slonga_Debt_indicators_historical_series.xlsx.
+      TRAP: the download URL carries a month folder (2026-09/...) that
+      churns monthly — resolve the href from the igcp.pt page at fetch
+      time, never hardcode the dated path. National definitions (dívida
+      pública, dívida direta do Estado) — beside the Maastricht series,
+      never spliced.
+
+trade:
+  trade_from_estat.csv:
+    source: Eurostat — nama_10_gdp (P6, P7)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Exports and imports of goods AND services in the national accounts
+      (P6, P7), € BILLIONS — the level panels. INE's customs-basis goods
+      exports are 59–72% of P6 (2025: 59%; services, mostly tourism, are
+      the rest). Not customs-value goods; the pair with the
+      INE file below is the two-definitions trap of SOURCING §4.
+  goods_trade_from_ine.csv:
+    source: INE — Comércio Internacional, indicators 0004172 (exports) and 0004169 (imports), CPA 2008
+    url: https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0004172&lang=PT
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      Goods trade, € (units, not €mn), monthly, by partner (world,
+      intra/extra-EU27_2020, ES FR DE IT NL GB/XU/XI US AO BR CN) at the
+      CPA-2008 total, verified Jan-2005 → Aug-2026. Monthly flows summed to
+      the year; `months` counts them (2026 = 8, PARTIAL). TRAPS handled in
+      the fetcher: the EU-27 aggregates were never compiled for 2005–2012
+      and INE serves PLACEHOLDER ZEROS there (dropped, so blank); after
+      Brexit GB carries a zero and the UK is XU (Great Britain) + XI
+      (Northern Ireland) — gb is blank from 2021, a seam not a collapse.
+      World = intra + extra is asserted month by month. The newer NC2 indicators
+      (0014679/0014678) start only Jan-2024 — a nomenclature seam to be
+      aware of if product detail is wanted for the last years.
+
+markets:
+  policy_rate_from_ecb.csv:
+    source: ECB Data Portal — FM (DFR and MRO, daily, year-end)
+    url: https://data-api.ecb.europa.eu/service/data/FM/D.U2.EUR.4F.KR.DFR.LEV
+    refreshed_by: fetch/fetch_ecb.py
+    notes: >-
+      % per annum, the rate in force at year-end; the running-year cell is
+      the LIVE level on the fetch date (2.50 on 2026-10-22), not a year-end.
+      MRO is blank in 2006–2007 (the series pulled starts with the
+      fixed-rate tenders in Oct 2008, as in France and Spain).
+      Portugal has no monetary policy of its own; the policy rate is the
+      ECB's. DFR drawn, MRO kept as a second column, never spliced — the
+      same construct as France and Spain. Verified live 2026-10-22: DFR
+      2.5. CSV payload with TIME_PERIOD/OBS_VALUE columns.
+  eurusd_from_ecb.csv:
+    source: ECB Data Portal — EXR (USD per EUR reference rate, daily)
+    url: https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A
+    refreshed_by: fetch/fetch_ecb.py
+    notes: >-
+      USD per EUR: avg = annual mean of the daily reference rate, eop = the
+      last fixing of the year, avg_months = months observed (2026 = 10, a
+      running mean). Verified: 2024-01-02 = 1.0956. A FALLING line is a
+      weaker euro.
+  yield_10y_from_bpstat.csv:
+    source: Banco de Portugal — BPstat series 12099464 (10y Treasury-bond yield, monthly)
+    url: https://bpstat.bportugal.pt/data/v1/series/?series_ids=12099464&lang=EN
+    refreshed_by: fetch/fetch_bpstat.py
+    notes: >-
+      Monthly yield on 10-year Obrigações do Tesouro, Jul-1993 →
+      Sep-2026 (399 obs verified): Jan-2012 = 13.85 — the troika peak.
+      Series 12560098 (Germany 10y, same dataset); spread_pp = PT − DE
+      COMPUTED here, percentage points. Annual mean of complete years only,
+      %; 2026 blank. Equal to the Eurostat Maastricht yield within 0.01
+      every year (2020 0.42 vs 0.41, 2021 0.29 vs 0.30 — rounding).
+  yield_10y_from_estat.csv:
+    source: Eurostat — irt_lt_mcby_a (Maastricht criterion bond yield)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/irt_lt_mcby_a?geo=PT
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Annual average of the 10-year benchmark yield, %. Verified: 2011
+      10.24, 2012 10.55, 2013 6.29, 2024 2.96. The second source for the
+      BPstat yield (within 0.01).
+  mortgage_rate_from_bpstat.csv:
+    source: Banco de Portugal — BPstat series 12533735 (and 12710779)
+    url: https://bpstat.bportugal.pt/data/v1/series/?series_ids=12533735&lang=EN
+    refreshed_by: fetch/fetch_bpstat.py
+    notes: >-
+      Interest rate on new housing loans to households, monthly:
+      12533735 is the long compilation (Jan-2003 → Aug-2026; verified
+      Jan-2003 = 4.4, Aug-2026 = 3.0); 12710779 is the newer
+      percentile-based compilation (variable rate, from Dec-2018;
+      Aug-2026 = 3.23). Annual means of complete years, %; 2026 blank.
+      The new-business compilation changed over the window — annotate, do
+      not smooth.
+  psi20_from_yahoo.csv:
+    source: Yahoo Finance (redistributor) — PSI20.LS, monthly closes
+    url: https://query1.finance.yahoo.com/v8/finance/chart/PSI20.LS
+    refreshed_by: fetch/fetch_markets.py
+    official: false
+    notes: >-
+      Nobody official publishes an index close. The PSI 20 (renamed
+      "PSI") trades as PSI20.LS; the old ^PSI20 symbol is DELISTED on
+      Yahoo ("No data found, symbol may be delisted"). PRICE index.
+      Verified live: history starts 2013-04-30, December closes 2013
+      6,558.85 … 2024 6,377.26 … 2025 8,263.65. The 2026 cell is the
+      LATEST bar on the fetch date (2026-10-22: 9,308.36), not a year-end.
+      The 2006–2012 year-ends are MISSING — see meta.pending; the x-axis
+      still runs from 2006 and the hole stays a hole.
+
+credit:
+  household_debt_from_bpstat.csv:
+    source: Banco de Portugal — BPstat domain 18, series 12457924, 12458135, 12458131
+    url: https://bpstat.bportugal.pt/data/v1/series/?series_ids=12457924&lang=EN
+    refreshed_by: fetch/fetch_bpstat.py
+    notes: >-
+      Household indebtedness, STOCKS read at December (running year =
+      latest month, as_of 2026-07): total in € MILLIONS (12457924, monthly:
+      Dec-2007 = 156,083 → Jul-2026 = 183,379), housing loans % GDP
+      (12458135: 65.7 at end-2007, peak 70.3, 37.9 by mid-2026) and
+      consumption/other % GDP (12458131) — the two ratios are QUARTERLY, so
+      the running year's ratios lag the € figure. Starts Dec-2007, so 2006 is
+      blank — a hole, not a zero. The deleveraging since the troika is
+      the chapter's story.
+  npl_from_bpstat.csv:
+    source: Banco de Portugal — BPstat series 12504544 (banking-sector NPL ratio)
+    url: https://bpstat.bportugal.pt/data/v1/series/?series_ids=12504544&lang=EN
+    refreshed_by: fetch/fetch_bpstat.py
+    notes: >-
+      Non-performing loans ratio, %, QUARTERLY, FSI compilation, read at
+      Q4 (running year = latest quarter, as_of 2026-06), one decimal:
+      2015Q4 = 17.5% (peak quarter 2016Q2 = 17.9% within the series),
+      2026Q2 = 2.1% (verified). Starts 2015Q4 — the pre-2015 "crédito
+      malparado" lives on older definitions in BPstat's BSI domain and
+      must not be spliced on. The fall from 17.9 to 2.1 is the chapter.
+
+social:
+  gini_from_ine.csv:
+    source: INE — ICOR, indicator 0004212 (Gini of net monetary income per equivalent adult)
+    url: https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0004212&lang=PT
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      %, annual, 2003–2024 (metadata updated 2026-02-04). ICOR is the
+      national run of EU-SILC. YEAR CONVENTION, verified: INE labels each
+      value by the INCOME reference year, one behind the survey year that
+      Eurostat uses — INE 2024 (30.9) = Eurostat ilc_di12 2025 (30.9), and
+      the two are equal to the decimal for every pair 2013/2014 …
+      2024/2025. Eurostat for PT only carries 2014–2025, so the INE series
+      covers the window's first half. Two files, never spliced; compared
+      only after the one-year shift, and the plate says which convention
+      its x-axis uses.
+  poverty_from_ine.csv:
+    source: INE — ICOR, indicators 0009821 (NUTS-2013 vintage) and 0014079 (NUTS-2024)
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      At-risk-of-poverty after social transfers, 60% of median, %.
+      0009821 (NUTS-2013) starts only in 2017 (2017–2024) — not a long
+      run; 0014079 (NUTS-2024) covers 2023–2024 and equals it on the
+      overlap. Same INCOME-year convention as gini_from_ine.csv: INE 2024
+      (15.4) = Eurostat ilc_li02 2025, equal for every pair 2017–2024. So
+      this file adds no information that poverty_from_estat.csv lacks; it
+      is the national label for the same numbers. A relative threshold: it
+      does not fall when everyone's income falls together.
+  gini_from_estat.csv:
+    source: Eurostat — ilc_di12 (EU-SILC Gini)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ilc_di12?geo=PT
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      %, by SURVEY year. Verified: PT values run 2014–2025 ONLY (2024
+      31.9, 2025 30.9); earlier years are absent in the source (the fetcher
+      fails if that changes). The harmonised cut beside the INE's ICOR
+      series, which is the same numbers one year earlier on the axis.
+  poverty_from_estat.csv:
+    source: Eurostat — ilc_li02 (at-risk-of-poverty, 60% of median)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      % of the population, by SURVEY year (income of the year before).
+      Verified: 30 annual values from 1995 (2023 17.0, 2024 16.6,
+      2025 15.4); INE's poverty_from_ine.csv carries the same values one
+      year earlier.
+  demography_from_ine.csv:
+    source: INE — indicators 0004167 (population), 0008086 (births), 0008834 (deaths), 0001293 (TFR), 0001724 (life expectancy)
+    url: https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0004167&lang=PT
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      GEOGRAPHY TRAP: every INE cube here has both a "T" (Total) and a
+      "PT" (Portugal) category in the place-of-residence dim, and T also
+      counts births/deaths of people resident abroad or of unknown
+      residence. Every series is the PT (resident) one. Population 0004167
+      is the REVISED vintage (see the top-of-file trap): reference date 31
+      DECEMBER of the labelled year, so INE "2024" = Eurostat demo_gind
+      1-Jan-2025 — 11,387,222, verified equal (every year within 50
+      people). Births: 0008086 (NUTS-2013) covers 2011–2023; 0012436
+      (NUTS-2024, annual) starts in 2021, NOT 2024, runs to 2025 and equals
+      0008086 on 2021–2023; 0012094 (monthly, from Jan-2026) is summed into
+      births_monthly_nuts2024 with its month count (2026: 8 months,
+      57,421) — a partial year, never a total. Deaths 0008834 (NUTS-2013,
+      sum APU+AMU+APR; no total category) STOP AT 2023 (verified 2020
+      123,385, 2023 118,328); no NUTS-2024 deaths indicator is staged, so
+      2024–2025 deaths come only from Eurostat demo_gind (meta.pending).
+      INE deaths sit within 18 of demo_gind (mostly below). TFR 0001293 1971–2025, on the
+      revised denominators (2024 1.27 — Eurostat demo_find says 1.41).
+      Life expectancy 0001724, three-year tables attributed to their END
+      year (life_exp_span says which, e.g. "2023-2025").
+  demography_from_estat.csv:
+    source: Eurostat — demo_gind (JAN, LBIRTH, DEATH) and demo_find (TOTFERRT)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      The harmonised cut, 1-January reference. demo_gind ALREADY carries
+      the June-2026 population revision (1-Jan-2025 = 11,387,222) while
+      the migr_* tables below do not (10,749,635) — two Eurostat
+      datasets on two vintages of the same population. Eurostat flags a
+      break at 1-Jan-2022, the first revised date. Units: pop_mn in
+      MILLIONS on 1 January; births and deaths in persons (written with
+      four decimals by the shared writer — they are integers); tfr
+      children per woman. tfr comes from demo_find and is NOT on the
+      revised denominators: equal to INE's to 2020, above it from 2021
+      (2022 1.43 vs 1.34, 2024 1.41 vs 1.27). Draw INE's TFR; this one is
+      the cross-check that shows the vintage. Verified births 2024 84,642
+      (= INE), deaths 2024 118,396, 2025 121,817 (INE has no 2024–25
+      deaths staged).
+  causes_of_death_from_ine.csv:
+    source: INE — Óbitos por causa de morte (lista sucinta europeia), indicators 0008206 and 0013166
+    url: https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0008206&lang=PT
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      Deaths by cause, national total (Dim2=PT, Dim3=T, Dim4=T age),
+      annual, deaths (persons), long format (year × 65 causes): 0008206
+      (NUTS-2013) covers 1980–2022, 0013166 (NUTS-2024) 2022–2024 — 2022
+      is on both and the two are IDENTICAL for all 65 causes, so the seam
+      is a relabelling, not a method change. Cause code 64 is "Homicídios
+      e lesões provocadas intencionalmente" (ICD-10 X85–Y09): verified
+      2021 = 93, 2022 = 97, then 2023 = 84, 2024 = 86 (0013166) — the
+      death-certificate homicide count pairing the police count. The
+      published zeros (meningococcal infection, SIDS in some years) are
+      real zeros, not holes.
+      QUIRK: the all-causes code T-LES appears in the metadata but the
+      data endpoint rejects it ("Código(s) em Dim5 não válido(s)") —
+      take all-cause totals from 0008834, not here. Causes follow
+      whoever certifies the death (SOURCING §4).
+  crime_from_ine.csv:
+    source: INE / DGPJ — taxa de criminalidade, indicators 0008074 (NUTS-2013) and 0012260 (NUTS-2024)
+    url: https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0008074&lang=PT
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      Recorded-crime RATE per thousand inhabitants by category
+      (Dim2=PT, Dim3 category): 0008074 covers 2011–2022, 0012260
+      2021–2025 (verified total 2024 = 31.2‰); the two are identical on
+      2021–2022. Categories: total,
+      physical-integrity crimes, street theft/snatch, vehicle theft,
+      drink-driving, unlicensed driving, patrimony — NO homicide
+      category; homicide comes from Eurostat crim_off_cat and the
+      causes-of-death file. Source of record is the DGPJ (justice
+      ministry), not the police forces themselves.
+  homicide_from_estat.csv:
+    source: Eurostat — crim_off_cat, iccs=ICCS0101 (intentional homicide, police-recorded)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/crim_off_cat?geo=PT&iccs=ICCS0101
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Police-recorded intentional homicide offences, unit=NR (the
+      dataset's dimension is `iccs`, not `offence` — filtering by a
+      wrong dimension name returns HTTP 400). Offences, 2008–2024.
+      Verified: 2008 = 124 … 2023 = 74, 2024 = 72. Drawn beside the
+      death-certificate count, which disagrees in both directions (2013:
+      144 police vs 97 certificates; 2022: 75 vs 97) — the pair is the
+      point.
+
+migration:
+  immigration_from_ine.csv:
+    source: INE — Estimativas anuais de imigração, indicator 0006055
+    url: https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0006055&lang=PT
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      Permanent immigrants, annual, Dim2=PT Dim3=T Dim4=T Dim5=T.
+      Verified full run: 2008 29,718 … 2019 95,382 · 2020 83,654
+      (identical to Eurostat's transmission) — then the REVISED
+      methodology: 2021 222,775 · 2022 495,979 · 2023 461,751 ·
+      2024 394,904 · 2025 254,253. The 2021 step is methodology, not a
+      migration wave that trebled in a year; mark the seam on the line.
+      Persons; columns total / Portuguese / foreign / unknown nationality
+      (the published zeros for unknown before 2021 are real). 2008–2025.
+  emigration_from_ine.csv:
+    source: INE — Estimativas anuais de emigração, indicator 0006050
+    url: https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0006050&lang=PT
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      Permanent emigrants, same construction and the same 2021 seam:
+      2019 28,219 (matches Eurostat) → revised 2021 120,806, 2024
+      188,871. The pre-2021 register-based figures are known to
+      undercount departures badly (leaving needs no paperwork); the
+      revision is the correction. Two segments, never one line. Persons,
+      total and by sex, 2008–2025.
+  immigration_from_estat.csv:
+    source: Eurostat — migr_imm1ctz (by citizenship) and migr_imm3ctb (by country of birth)
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_imm1ctz?geo=PT
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      The harmonised flow, both definitions (CUTS: TOTAL/NAT/
+      EU27_2020_FOR/NEU27_2020_FOR; agedef=REACH on flows). TRAP: for PT
+      the series STOPS AT 2023 (2022 167,098, 2023 189,367 — the
+      pre-revision methodology) and is the INE's old transmission;
+      Eurostat has not yet ingested the 2026 revision. The hole after
+      2023 is a hole. Drawn beside the INE file, which is the revised
+      one — the opposite arrangement from Spain, where Eurostat carried
+      the new method first.
+  emigration_from_estat.csv:
+    source: Eurostat — migr_emi1ctz (by citizenship)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Emigration flow, persons, by citizenship, pre-revision vintage,
+      stops at 2024 (2024 33,916, against INE's revised 188,871).
+      Identical to INE through 2020. The EU27/non-EU27 split only starts
+      2020. Published beside immigration, never as a pre-computed net
+      (SOURCING §4a).
+  stock_from_estat.csv:
+    source: Eurostat — migr_pop1ctz (by citizenship) and migr_pop3ctb (by country of birth)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Resident population on 1 January on both definitions. QUIRK:
+      citizen=FOR returns a well-formed EMPTY cube — the foreign total
+      is EU27_2020_FOR + NEU27_2020_FOR (verified 1-Jan-2024: 179,276 +
+      866,111 = 1,045,387 foreign citizens). PRE-REVISION vintage:
+      total 1-Jan-2025 = 10,749,635 against the revised 11,387,222 for the
+      same date (INE 31-Dec-2024 = demo_gind 1-Jan-2025) — the stock
+      panels must be labelled with the vintage or they contradict the
+      demography plate. Eurostat flags a BREAK at 1-Jan-2009 (2008
+      provisional): 2006–2008 totals are on the pre-2011-census basis.
+      The country-of-birth EU/non-EU split starts only 2021; the
+      citizenship one 2014. Persons.
+  foreign_residents_from_ine.csv:
+    source: INE (source of record SEF/AIMA) — indicators 0009107, 0010247, 0013220
+    url: https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0009107&lang=PT
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      Foreign population with legal resident status — the permit-based
+      stock, a different legal object from the register/survey stock
+      above. Verified metadata: 0009107 (NUTS-2013, by sex and
+      nationality groups) 2008–2023; 0010247 (by nationality)
+      2014–2023; 0013220 (NUTS-2024) 2021–2023. ALL STALE AT 2023: the
+      SEF→AIMA transition broke the annual publication; RIFA 2024/2025
+      exist as PDFs under the unreachable aima.gov.pt (meta.pending).
+      The Brazilian and PALOP shares of this stock are the composition
+      story of the chapter.
+  asylum_from_estat.csv:
+    source: Eurostat — migr_asyappctza (applicants) and migr_asydcfsta (first-instance decisions)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      unit=PER (persons); with unit=NR the cube comes back well-formed
+      and EMPTY (Spain's trap, re-verified for PT). Applications (TOTAL
+      and FRST), decisions (TOTAL, POS). Verified: applications 2023
+      2,695, 2024 2,690 — Portugal's asylum numbers are small; the four
+      numbers (applications/decisions/grants/present) are not each
+      other and stay separate series. Eurostat flags a BREAK on both
+      decision series in 2024, where positive decisions are 10 of 1,005
+      as published: annotate it and do not read it as a policy change
+      until the reason is found. Starts 2008.
+  permits_from_estat.csv:
+    source: Eurostat — migr_resfirst (first residence permits)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      First permits ISSUED in the year, unit=PER (same empty-cube
+      trap). Verified: 2023 135,907, 2024 121,872, 2025 310,639 — the
+      2025 figure is the AIMA backlog of "manifestação de interesse"
+      cases being regularised: administrative events, not arrivals, and
+      the plate must say so (SOURCING §4a). Eurostat flags 2025 as a break
+      in series. Persons, 2008–2025.
+  naturalisation_from_estat.csv:
+    source: Eurostat — migr_acq (acquisitions of citizenship)
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      Persons. Verified: 2019 21,099, 2020 32,147, 2024 20,624 (agedef=REACH).
+      2007 is a real hole in the source; 2006 (4,447) predates the 2006
+      nationality law taking effect and is not comparable with 2008+.
+      The flow that moves the citizenship-cut stock without anybody
+      moving; drawn beside the stocks, not inside them.
+  net_migration_from_ine.csv:
+    source: INE — saldo migratório, indicators 0013179 (NUTS-2024) and 0008269 (NUTS-2013)
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      Persons. 0008269 (NUTS-2013) covers 2011–2023 and ALREADY carries
+      the revised 2021–2023 values (metadata updated 2026-07-17; identical
+      to 0013179 on the overlap); 0013179 (NUTS-2024) covers 2021–2025.
+      Separate columns, never spliced. INE's saldo migratório INCLUDES A
+      STATISTICAL ADJUSTMENT: through 2020 it equals immigration −
+      emigration exactly; from 2021 it does not — 2021 = 250,079 against
+      222,775 − 120,806 = 101,969 (a +148,110 adjustment, the census-to-
+      administrative reconciliation), then +3.8k, +9.6k, +10.6k, −3.4k in
+      2022–2025. The plate must not present it as arrivals minus
+      departures, and the 2021 point is mostly the adjustment.
+
+international:
+  gdp_usd_from_wb.csv:
+    source: World Bank — NY.GDP.MKTP.CD
+    url: https://api.worldbank.org/v2/country/PRT/indicator/NY.GDP.MKTP.CD
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      GDP in current US$ (units, not bn) — the comparables layer.
+      Verified: 2024 US$313.7bn, 2025 US$346.6bn (the euro's rate moves
+      this as much as Portugal does). Equal to Eurostat × ECB mean
+      EUR/USD to 0.01% for 2006–2023; 0.5–0.6% LOW in 2024–2025, i.e. the
+      Bank still carries the pre-September-2026 national-accounts
+      vintage for those years. Never spliced into the national accounts.
+  gdp_pc_from_wb.csv:
+    source: World Bank — NY.GDP.PCAP.CD
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Current US$ per person (no 2026 row). VINTAGE TRAP: the Bank's population
+      denominator is pre-revision (see population_from_wb), so the
+      per-capita levels sit on the old, lower population — a magnitude
+      check against the national accounts, not a splice into them.
+  population_from_wb.csv:
+    source: World Bank — SP.POP.TOTL
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Persons, mid-year. Verified: 2024 = 10,694,681 — the PRE-revision
+      vintage, ~690k below the INE's revised 31-Dec-2024 figure. For
+      2009–2010 and 2023–2024 it is exactly the mean of Eurostat's
+      pre-revision 1-January stocks (migr_pop1ctz) either side; for
+      2011–2022 it runs 8k–88k below that mean (an older vintage still).
+      Cross-check only;
+      the population series of record is the INE's, and this file's
+      note on the plate must name the vintage.
+  reserves_from_wb.csv:
+    source: World Bank — FI.RES.TOTL.CD (IMF IFS)
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Total reserves including gold, current US$ (units). The 2025 jump
+      (42.4bn → 68.8bn) is probably the gold price (unverified by component), not a policy act. A eurozone member's
+      reserves are small and semi-dormant — the ECB holds the union's
+      real buffer — and the plate says why rather than letting it read
+      as fragility.
+  openness_from_wb.csv:
+    source: World Bank — NE.TRD.GNFS.ZS
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      Exports plus imports of goods and services as a share of GDP —
+      national-accounts basis, not the customs-value goods of the INE
+      trade file.
+  gini_from_wb.csv:
+    source: World Bank — SI.POV.GINI
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      The Bank's harmonised Gini for Portugal is EU-SILC-derived — the
+      same survey as the INE/Eurostat series through a different income
+      definition. Three cuts of one survey, not three measurements. %,
+      2006–2023; on the INE income-year axis it runs 1.6–2.6 points above
+      ilc_di12.
+  hdi_from_undp.csv:
+    source: UNDP — Human Development Report 2025, composite indices complete time series
+    url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
+    refreshed_by: fetch/fetch_comparables.py
+    official: false
+    notes: >-
+      One file, one vintage, every year (PRT row verified present;
+      hdr.undp.org 403s the default urllib UA, send a browser UA). The
+      HDR recomputes the whole back-series at each methodology change.
+      Index 0–1, 2006–2023.
+published:
+  asylum_estat.csv:
+    source: "Eurostat — migr_asyappctza (applicants) and migr_asydcfsta (first-instance decisions)"
+    refreshed_by: "reviewed publication copy of asylum_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  budget_outturn_bpstat.csv:
+    source: "Banco de Portugal — BPstat domain 10 (Budget Outturn; source of record DGO)"
+    refreshed_by: "reviewed publication copy of budget_outturn_from_bpstat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  causes_of_death_ine.csv:
+    source: "INE — Óbitos por causa de morte (lista sucinta europeia), indicators 0008206 and 0013166"
+    refreshed_by: "reviewed publication copy of causes_of_death_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  crime_ine.csv:
+    source: "INE / DGPJ — taxa de criminalidade, indicators 0008074 (NUTS-2013) and 0012260 (NUTS-2024)"
+    refreshed_by: "reviewed publication copy of crime_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  debt_estat.csv:
+    source: "Eurostat — gov_10dd_edpt1 (GD) and gov_10q_ggdebt (Q4 stock in €)"
+    refreshed_by: "reviewed publication copy of debt_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  deficit_estat.csv:
+    source: "Eurostat — gov_10dd_edpt1 (B9) and gov_10a_main (D41PAY)"
+    refreshed_by: "reviewed publication copy of deficit_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  demography_estat.csv:
+    source: "Eurostat — demo_gind (JAN, LBIRTH, DEATH) and demo_find (TOTFERRT)"
+    refreshed_by: "reviewed publication copy of demography_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  demography_ine.csv:
+    source: "INE — indicators 0004167 (population), 0008086 (births), 0008834 (deaths), 0001293 (TFR), 0001724 (life expectancy)"
+    refreshed_by: "reviewed publication copy of demography_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  emigration_estat.csv:
+    source: "Eurostat — migr_emi1ctz (by citizenship)"
+    refreshed_by: "reviewed publication copy of emigration_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  emigration_ine.csv:
+    source: "INE — Estimativas anuais de emigração, indicator 0006050"
+    refreshed_by: "reviewed publication copy of emigration_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  eurusd_ecb.csv:
+    source: "ECB Data Portal — EXR (USD per EUR reference rate, daily)"
+    refreshed_by: "reviewed publication copy of eurusd_from_ecb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  foreign_residents_ine.csv:
+    source: "INE (source of record SEF/AIMA) — indicators 0009107, 0010247, 0013220"
+    refreshed_by: "reviewed publication copy of foreign_residents_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gdp_estat.csv:
+    source: "Eurostat — nama_10_gdp (ESA 2010, Portugal's transmission)"
+    refreshed_by: "reviewed publication copy of gdp_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gdp_ine.csv:
+    source: "INE — Contas Nacionais Trimestrais, indicator 0013428; real growth from Contas Económicas Regionais, indicator 0014144"
+    refreshed_by: "reviewed publication copy of gdp_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gdp_pc_wb.csv:
+    source: "World Bank — NY.GDP.PCAP.CD"
+    official: false
+    refreshed_by: "reviewed publication copy of gdp_pc_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gdp_usd_wb.csv:
+    source: "World Bank — NY.GDP.MKTP.CD"
+    official: false
+    refreshed_by: "reviewed publication copy of gdp_usd_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gini_estat.csv:
+    source: "Eurostat — ilc_di12 (EU-SILC Gini)"
+    refreshed_by: "reviewed publication copy of gini_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gini_ine.csv:
+    source: "INE — ICOR, indicator 0004212 (Gini of net monetary income per equivalent adult)"
+    refreshed_by: "reviewed publication copy of gini_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  gini_wb.csv:
+    source: "World Bank — SI.POV.GINI"
+    official: false
+    refreshed_by: "reviewed publication copy of gini_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  goods_trade_ine.csv:
+    source: "INE — Comércio Internacional, indicators 0004172 (exports) and 0004169 (imports), CPA 2008"
+    refreshed_by: "reviewed publication copy of goods_trade_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  hdi_undp.csv:
+    source: "UNDP — Human Development Report 2025, composite indices complete time series"
+    official: false
+    refreshed_by: "reviewed publication copy of hdi_from_undp.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  hicp_estat.csv:
+    source: "Eurostat — prc_hicp_aind (HICP annual rate of change); INE twin indicator 0014655 not staged"
+    refreshed_by: "reviewed publication copy of hicp_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  homicide_estat.csv:
+    source: "Eurostat — crim_off_cat, iccs=ICCS0101 (intentional homicide, police-recorded)"
+    refreshed_by: "reviewed publication copy of homicide_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  household_debt_bpstat.csv:
+    source: "Banco de Portugal — BPstat domain 18, series 12457924, 12458135, 12458131"
+    refreshed_by: "reviewed publication copy of household_debt_from_bpstat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  immigration_estat.csv:
+    source: "Eurostat — migr_imm1ctz (by citizenship) and migr_imm3ctb (by country of birth)"
+    refreshed_by: "reviewed publication copy of immigration_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  immigration_ine.csv:
+    source: "INE — Estimativas anuais de imigração, indicator 0006055"
+    refreshed_by: "reviewed publication copy of immigration_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  investment_estat.csv:
+    source: "Eurostat — nama_10_gdp (P51G) and gov_10a_main (P51G)"
+    refreshed_by: "reviewed publication copy of investment_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  ipc_ine.csv:
+    source: "INE — IPC, indicators 0014649 (taxa de variação média dos últimos 12 meses) and 0014647 (variação homóloga)"
+    refreshed_by: "reviewed publication copy of ipc_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  mortgage_rate_bpstat.csv:
+    source: "Banco de Portugal — BPstat series 12533735 (and 12710779)"
+    refreshed_by: "reviewed publication copy of mortgage_rate_from_bpstat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  naturalisation_estat.csv:
+    source: "Eurostat — migr_acq (acquisitions of citizenship)"
+    refreshed_by: "reviewed publication copy of naturalisation_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  net_migration_ine.csv:
+    source: "INE — saldo migratório, indicators 0013179 (NUTS-2024) and 0008269 (NUTS-2013)"
+    refreshed_by: "reviewed publication copy of net_migration_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  npl_bpstat.csv:
+    source: "Banco de Portugal — BPstat series 12504544 (banking-sector NPL ratio)"
+    refreshed_by: "reviewed publication copy of npl_from_bpstat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  openness_wb.csv:
+    source: "World Bank — NE.TRD.GNFS.ZS"
+    official: false
+    refreshed_by: "reviewed publication copy of openness_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  permits_estat.csv:
+    source: "Eurostat — migr_resfirst (first residence permits)"
+    refreshed_by: "reviewed publication copy of permits_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  policy_rate_ecb.csv:
+    source: "ECB Data Portal — FM (DFR and MRO, daily, year-end)"
+    refreshed_by: "reviewed publication copy of policy_rate_from_ecb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  population_wb.csv:
+    source: "World Bank — SP.POP.TOTL"
+    official: false
+    refreshed_by: "reviewed publication copy of population_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  poverty_estat.csv:
+    source: "Eurostat — ilc_li02 (at-risk-of-poverty, 60% of median)"
+    refreshed_by: "reviewed publication copy of poverty_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  poverty_ine.csv:
+    source: "INE — ICOR, indicators 0009821 (NUTS-2013 vintage) and 0014079 (NUTS-2024)"
+    refreshed_by: "reviewed publication copy of poverty_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  psi20_yahoo.csv:
+    source: "Yahoo Finance (redistributor) — PSI20.LS, monthly closes"
+    official: false
+    refreshed_by: "reviewed publication copy of psi20_from_yahoo.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  reserves_wb.csv:
+    source: "World Bank — FI.RES.TOTL.CD (IMF IFS)"
+    official: false
+    refreshed_by: "reviewed publication copy of reserves_from_wb.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  revenue_estat.csv:
+    source: "Eurostat — gov_10a_main (TR, TE)"
+    refreshed_by: "reviewed publication copy of revenue_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  spending_by_function_estat.csv:
+    source: "Eurostat — gov_10a_exp (COFOG divisions, TE, % GDP)"
+    refreshed_by: "reviewed publication copy of spending_by_function_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  state_debt_igcp.csv:
+    source: "IGCP — Stock de dívida pública (monthly xlsx)"
+    refreshed_by: "reviewed publication copy of state_debt_from_igcp.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  stock_estat.csv:
+    source: "Eurostat — migr_pop1ctz (by citizenship) and migr_pop3ctb (by country of birth)"
+    refreshed_by: "reviewed publication copy of stock_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  tax_burden_estat.csv:
+    source: "Eurostat — gov_10a_taxag (D2+D5+D91+D61 net of D995)"
+    refreshed_by: "reviewed publication copy of tax_burden_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  trade_estat.csv:
+    source: "Eurostat — nama_10_gdp (P6, P7)"
+    refreshed_by: "reviewed publication copy of trade_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  unemployment_estat.csv:
+    source: "Eurostat — une_rt_a (LFS unemployment rate, 15-74)"
+    refreshed_by: "reviewed publication copy of unemployment_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  unemployment_ine.csv:
+    source: "INE — Inquérito ao Emprego, indicators 0012173 (Série 2021), 0006191 (Série 2011) and 0007976 (monthly, 16–74)"
+    refreshed_by: "reviewed publication copy of unemployment_from_ine.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  yield_10y_bpstat.csv:
+    source: "Banco de Portugal — BPstat series 12099464 (10y Treasury-bond yield, monthly)"
+    refreshed_by: "reviewed publication copy of yield_10y_from_bpstat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."
+  yield_10y_estat.csv:
+    source: "Eurostat — irt_lt_mcby_a (Maastricht criterion bond yield)"
+    refreshed_by: "reviewed publication copy of yield_10y_from_estat.csv"
+    notes: "Reviewed 2026-10-23; byte-identical to the staged publisher sidecar."

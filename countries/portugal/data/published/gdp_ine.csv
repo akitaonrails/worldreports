@@ -1,0 +1,36 @@
+# INE Contas Nacionais Trimestrais 0013428: GDP at current prices,
+# base 2021, EUR MILLIONS, the SUM of the four published quarterly
+# levels (quarters are levels, not annualised rates). A year with
+# fewer than four published quarters is left blank; its count is in
+# quarters_published. real_growth_pct = 0014144, an ANNUAL volume
+# rate (prices of the previous year) but from the REGIONAL accounts
+# (Contas económicas regionais, NUTS-2024, last updated 2026-01-06;
+# 2024 flagged provisional): an OLDER VINTAGE than the nominal
+# column. Its 2024 = 2.1 predates the September-2026 national
+# accounts, on which 2024 is 2.7 (Eurostat nama_10_gdp; INE's own
+# quarterly y/y 0013431 runs 2.4/2.6/2.7/3.0 through 2024). It is
+# not a Q4 y/y and not a different base. 2006–2023 agree with
+# Eurostat to the decimal; 2025 is not in it yet. Quarterly y/y
+# (0013431) is not carried: it does not aggregate to a year.
+year,nominal_eurmn,quarters_published,real_growth_pct
+2006,166260.5,4,1.6
+2007,175483.4,4,2.5
+2008,179102.8,4,0.3
+2009,175416.4,4,-3.1
+2010,179860.4,4,1.7
+2011,176318.0,4,-1.7
+2012,168538.8,4,-4.1
+2013,170675.6,4,-1.0
+2014,173186.7,4,0.7
+2015,179392.7,4,1.6
+2016,186380.7,4,2.0
+2017,195509.1,4,3.3
+2018,204997.6,4,2.9
+2019,214489.9,4,2.7
+2020,201032.7,4,-8.2
+2021,216493.7,4,5.6
+2022,243957.1,4,7.0
+2023,270352.6,4,3.1
+2024,291152.8,4,2.1
+2025,308538.2,4,
+2026,,2,

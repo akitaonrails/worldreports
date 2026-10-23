@@ -1,0 +1,29 @@
+# INE Estimativas anuais de emigração 0006050: permanent emigrants,
+# Portugal, total and by sex. The pre-2021 register-based figures
+# undercount departures; the 2021+ revision is the correction.
+# VINTAGE MAP (INE revision of 2026-06-22 — never mix vintages):
+#   INE 0004167 population, 0006055 immigration, 0006050 emigration,
+#   0013179 net migration = REVISED (administrative base from 2021).
+#   Eurostat migr_* = PRE-revision (immigration stops at 2023);
+#   Eurostat demo_gind = revised; World Bank population = pre-revision.
+#   INE and Eurostat flows agree exactly through 2020; the 2021 step is
+#   methodology, not migration — mark the seam, never draw one line.
+year,emigrants,men,women
+2008,20357,16286,4071
+2009,16899,13519,3380
+2010,23760,19008,4752
+2011,43998,31329,12669
+2012,51958,34540,17418
+2013,53786,35632,18154
+2014,49572,32274,17298
+2015,40377,26806,13571
+2016,38273,23509,14764
+2017,31753,21970,9783
+2018,31600,23181,8419
+2019,28219,16190,12029
+2020,25886,17954,7932
+2021,120806,65215,55591
+2022,128536,73153,55383
+2023,164087,93765,70322
+2024,188871,107502,81369
+2025,179948,104478,75470

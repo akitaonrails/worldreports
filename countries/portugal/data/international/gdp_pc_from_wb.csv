@@ -1,0 +1,23 @@
+# Current US$ per person. PRE-REVISION VINTAGE: the World Bank population series predates the INE's 2026-06-22 revision (revised end-2024 = 11,387,222, counting ~1.6mn foreign residents; this file has 2024 = 10,694,681). The two vintages are never mixed — the population series of record is the INE's, and this file is the cross-country cross-check only.
+# The per-capita levels sit on the old, lower population — a magnitude check against the national accounts, not a splice into them.
+year,gdp_per_person_usd
+2006,19839
+2007,22811
+2008,24949
+2009,23151
+2010,22552
+2011,23247
+2012,20593
+2013,21676
+2014,22121
+2015,19216
+2016,19980
+2017,21442
+2018,23541
+2019,23343
+2020,22299
+2021,24711
+2022,24621
+2023,27635
+2024,29328
+2025,32082

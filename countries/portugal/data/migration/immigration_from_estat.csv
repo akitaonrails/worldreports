@@ -1,0 +1,29 @@
+# VINTAGE: PRE-REVISION. Eurostat carries Portugal's old
+# transmission — the series STOPS AT 2023 (2022 167,098, 2023
+# 189,367) and the 2026 population-revision methodology has not
+# been ingested. INE's revised file (immigration_from_ine.csv)
+# continues it (2024 394,904); the two agree through 2020. Drawn
+# beside, never spliced; the 2021 seam in the INE file is
+# methodology, not migration.
+year,by_citizenship_total,by_citizenship_national,by_citizenship_eu27,by_citizenship_non_eu27,by_birth_total,by_birth_national,by_birth_eu27,by_birth_non_eu27
+2006,22741,,,,,,,
+2007,29661,,,,,,,
+2008,29718,9586,,,29718,8800,,
+2009,32307,17883,,,32307,14217,,
+2010,27575,19222,,,27575,16079,,
+2011,18820,11437,,,18820,7573,,
+2012,14668,9491,,,14668,7315,,
+2013,17757,12198,,,17757,8855,,
+2014,23077,13004,,,23077,7696,,
+2015,36849,20112,,,36849,13902,,
+2016,37644,20386,,,37644,12219,,
+2017,46649,26888,,,46649,14852,,
+2018,55357,28982,,,55357,15614,,
+2019,95382,43740,,,95382,13831,,
+2020,83654,37770,8596,37288,83654,15005,12879,55770
+2021,97119,48108,11815,37196,97119,33659,16310,47150
+2022,167098,57454,12739,96905,167098,32100,16033,118965
+2023,189367,56111,15208,118048,189367,28286,18716,142365
+2024,,,,,,,,
+2025,,,,,,,,
+2026,,,,,,,,

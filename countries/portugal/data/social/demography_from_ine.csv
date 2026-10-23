@@ -1,0 +1,40 @@
+# INE vital statistics and population, Portugal = RESIDENTS (geo
+# code PT; the cubes' 'T' total also counts non-residents).
+# population = 0004167, REVISED vintage, 31 DECEMBER of the year
+# (INE 2024 = Eurostat demo_gind 1-Jan-2025 = 11,387,222).
+# VINTAGE MAP (INE revision of 2026-06-22 — never mix vintages):
+#   INE 0004167 population, 0006055 immigration, 0006050 emigration,
+#   0013179 net migration = REVISED (administrative base from 2021).
+#   Eurostat migr_* = PRE-revision (immigration stops at 2023);
+#   Eurostat demo_gind = revised; World Bank population = pre-revision.
+#   INE and Eurostat flows agree exactly through 2020; the 2021 step is
+#   methodology, not migration — mark the seam, never draw one line.
+# births_nuts2013 = 0008086 (2011–2023); births_nuts2024 = 0012436
+# (annual); births_monthly_nuts2024 = sum of the published months of
+# 0012094 (count in births_monthly_months) — PARTIAL year, not a
+# total. Separate columns, never spliced; overlap years measure the
+# seam. deaths_nuts2013 = 0008834, APU+AMU+APR (no total category;
+# 2011–2023 only). tfr = 0001293. life_exp_* = 0001724, three-year
+# tables attributed to their END year (span in life_exp_span).
+year,population,births_nuts2013,births_nuts2024,births_monthly_nuts2024,births_monthly_months,deaths_nuts2013,tfr,life_exp_span,life_exp_total,life_exp_men,life_exp_women
+2006,10532588,,,,,,1.38,2004-2006,78.18,74.81,81.33
+2007,10553339,,,,,,1.35,2005-2007,78.50,75.18,81.63
+2008,10563014,,,,,,1.40,2006-2008,78.74,75.49,81.81
+2009,10573479,,,,,,1.35,2007-2009,78.94,75.84,81.87
+2010,10572721,,,,,,1.39,2008-2010,79.29,76.17,82.19
+2011,10558950,96856,,,,102848,1.35,2009-2011,79.55,76.47,82.43
+2012,10503889,89841,,,,107612,1.29,2010-2012,79.78,76.67,82.60
+2013,10444092,82787,,,,106552,1.21,2011-2013,80.03,76.97,82.80
+2014,10395121,82367,,,,104843,1.23,2012-2014,80.32,77.24,83.12
+2015,10368554,85500,,,,108530,1.31,2013-2015,80.47,77.43,83.23
+2016,10344478,87126,,,,110564,1.36,2014-2016,80.69,77.67,83.38
+2017,10335770,86154,,,,109744,1.38,2015-2017,80.85,77.86,83.50
+2018,10333496,87020,,,,113043,1.42,2016-2018,80.89,77.92,83.51
+2019,10375395,86579,,,,111830,1.43,2017-2019,81.05,78.13,83.61
+2020,10394297,84530,,,,123385,1.41,2018-2020,81.22,78.34,83.74
+2021,10599117,79582,79582,,,124836,1.30,2019-2021,80.97,78.04,83.53
+2022,10929704,83671,83671,,,124343,1.34,2020-2022,80.96,78.05,83.52
+2023,11204347,85699,85699,,,118328,1.32,2021-2023,81.17,78.37,83.67
+2024,11387222,,84642,,,,1.27,2022-2024,81.49,78.73,83.96
+2025,11424031,,87764,,,,1.30,2023-2025,81.75,78.99,84.21
+2026,,,,57421,8,,,,,,

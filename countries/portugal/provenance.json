@@ -1,0 +1,70 @@
+{
+ "01-economy": [
+  "published/gdp_estat.csv",
+  "published/gdp_pc_wb.csv",
+  "published/hicp_estat.csv",
+  "published/ipc_ine.csv",
+  "published/unemployment_estat.csv",
+  "published/unemployment_ine.csv"
+ ],
+ "02-fiscal": [
+  "published/debt_estat.csv",
+  "published/deficit_estat.csv",
+  "published/revenue_estat.csv"
+ ],
+ "03-spending": [
+  "published/investment_estat.csv",
+  "published/spending_by_function_estat.csv"
+ ],
+ "04-trade": [
+  "published/gdp_estat.csv",
+  "published/goods_trade_ine.csv",
+  "published/trade_estat.csv"
+ ],
+ "05-markets": [
+  "published/eurusd_ecb.csv",
+  "published/ipc_ine.csv",
+  "published/policy_rate_ecb.csv",
+  "published/psi20_yahoo.csv",
+  "published/yield_10y_bpstat.csv"
+ ],
+ "06-credit": [
+  "published/household_debt_bpstat.csv",
+  "published/mortgage_rate_bpstat.csv",
+  "published/npl_bpstat.csv"
+ ],
+ "07-people": [
+  "published/gini_estat.csv",
+  "published/gini_wb.csv",
+  "published/poverty_estat.csv",
+  "published/tax_burden_estat.csv"
+ ],
+ "08-world": [
+  "published/gdp_usd_wb.csv",
+  "published/hdi_undp.csv",
+  "published/reserves_wb.csv"
+ ],
+ "09-demography": [
+  "published/demography_ine.csv",
+  "published/net_migration_ine.csv"
+ ],
+ "10-security": [
+  "published/causes_of_death_ine.csv",
+  "published/crime_ine.csv",
+  "published/demography_ine.csv",
+  "published/homicide_estat.csv"
+ ],
+ "11-mortality": [
+  "published/causes_of_death_ine.csv",
+  "published/demography_estat.csv",
+  "published/demography_ine.csv"
+ ],
+ "12-migration": [
+  "published/demography_ine.csv",
+  "published/emigration_ine.csv",
+  "published/immigration_ine.csv",
+  "published/net_migration_ine.csv",
+  "published/permits_estat.csv",
+  "published/stock_estat.csv"
+ ]
+}

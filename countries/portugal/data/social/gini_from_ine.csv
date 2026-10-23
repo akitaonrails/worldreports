@@ -1,0 +1,26 @@
+# INE ICOR (national EU-SILC) 0004212: Gini of net monetary income
+# per equivalent adult, %, Portugal. YEAR = the INCOME reference
+# year, one behind the ICOR/EU-SILC survey year: INE 2024 = Eurostat
+# ilc_di12 2025 (verified equal 2013–2024). 2003+; Eurostat ilc_di12
+# PT covers only 2014+ — two files, never spliced; shift a year
+# before comparing them.
+year,gini
+2006,36.8
+2007,35.8
+2008,35.4
+2009,33.7
+2010,34.2
+2011,34.5
+2012,34.2
+2013,34.5
+2014,34.0
+2015,33.9
+2016,33.5
+2017,32.1
+2018,31.9
+2019,31.2
+2020,33.0
+2021,32.0
+2022,33.7
+2023,31.9
+2024,30.9
