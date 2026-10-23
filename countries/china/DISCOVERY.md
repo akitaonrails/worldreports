@@ -146,10 +146,11 @@ this session and are named in `refreshed_by` (`fetch_pboc.py` / `fetch_safe.py` 
   fixed em box (same reasoning as Hangul on the south-korea file).
 - **Window** 2006–2026, `last_full_year 2025` (WB carries a full 2025 for GDP
   and population → 2025 is complete), `tick_every 2`.
-- **Bands `[]`** — verified today: zero negative annual real-GDP years for CHN
-  across 2006–2026 on both IMF and WB; COVID was a single-quarter contraction.
-  The strict two-quarter test wants the quarterly series (NBS 403) — flagged on
-  pending — but the annual evidence rules a two-quarter recession out on its own.
+- **Bands `[]`** — the staged IMF and WB series verify zero negative annual
+  real-GDP years for CHN across 2006–2026. That establishes no annual
+  contraction, not the two-quarter recession rule. The quarterly series needed
+  for that rule is unavailable (NBS 403), so the band decision is pending and
+  `[]` means that no unsupported band is published.
   2020 shock + 2022 / 2024-25 slowdowns go on the plates as **events**.
 - **Palette** from the flag: red field (#DE2910) darkened to maroon `RED #9C1F2E`
   / `RED_D #75151F`, star gold (#FFDE00) darkened to amber `GOLD #C8961E` /
@@ -183,8 +184,9 @@ the `zh-Hans` site/ui chrome — both additive core changes, not this lane's wor
 4. **Security/homicide — likely none** — no credible public criminal-homicide
    series expected. Parked honestly, not scraped; the Security chapter may depart
    from the spine and must record that in `DATA_NOTES.md` later.
-5. **Quarterly band confirmation** — annual evidence is conclusive (no negative
-   year); the two-quarter q/q test needs the blocked NBS quarterly series.
+5. **Quarterly band confirmation** — annual evidence proves only that there is
+   no negative annual year; the two-quarter q/q test remains pending because
+   the required NBS quarterly series is blocked.
 
 ## For the fetch swarm
 

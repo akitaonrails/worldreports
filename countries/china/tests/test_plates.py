@@ -41,13 +41,21 @@ def test_registry_is_the_complete_twelve_plate_spine():
     assert plate_names(SLUG) == sorted(f"plate_{p.topic}" for p in loaded)
 
 
-def test_no_recession_band_is_manufactured_from_a_slowdown():
+def test_annual_series_only_prove_no_annual_contraction():
     config = yaml.safe_load((COUNTRY.dir / "country.yaml").read_text())
     assert config["bands"] == []
     growth = by_year("economy/gdp_growth_intl.csv")
     assert all(float(r["wb_real_growth_pct"]) > 0 for r in growth.values())
     assert all(float(r["imf_real_growth_pct"]) > 0 for r in growth.values())
     assert float(growth[2020]["wb_real_growth_pct"]) == pytest.approx(2.34)
+    assert not (DATA / "economy/gdp_quarterly_nbs.csv").exists()
+    manifest = yaml.safe_load((COUNTRY.dir / "SOURCES.yaml").read_text())
+    pending = next(item for item in manifest["pending"]
+                   if item["id"] == "quarterly-band-confirm")
+    wording = pending["what"].lower()
+    assert "pending" in wording
+    assert "annual values cannot decide" in wording
+    assert "does not assert no recession" in wording
 
 
 def test_growth_keeps_world_bank_bars_and_imf_line_distinct():

@@ -47,19 +47,15 @@ years: {from: 2006, to: 2026}
 last_full_year: 2025
 tick_every: 2
 
-# Bands use the two-consecutive-quarters rule (see Canada/South Korea).
-# CHINA QUALIFIES FOR NONE, verified on the current international vintage today:
-# the IMF (NGDP_RPCH) and World Bank (NY.GDP.MKTP.KD.ZG) both show ZERO negative
-# annual real-GDP years for China across 2006-2026 — the trough was the 2020
-# slowdown at +2.3%, not a contraction. COVID was a SINGLE-quarter contraction
-# (Q1 2020 negative q/q, Q2 2020 sharply positive on the rebound), so no two
-# consecutive negative quarters of real growth appear in the window.
-# CAVEAT: the strict two-quarter test wants the QUARTERLY series, which is the
-# blocked NBS API (data.stats.gov.cn easyquery 403) — confirm the q/q signs when
-# an NBS route opens (pending list). The evidence here is annual, and it rules a
-# two-quarter recession out on its own (no negative year to sit inside).
-# So bands: [] and the 2020 shock + the 2022 / 2024-25 slowdowns go on the
-# plates as EVENTS, not bands.
+# Bands use the two-consecutive-quarters rule (see Canada/South Korea). The
+# staged IMF and World Bank annual series show no annual contraction in the
+# window; their 2020 trough is still about +2.3%. Annual data cannot establish
+# whether two consecutive negative quarters occurred. The required quarterly
+# NBS series is unavailable because its machine endpoint returns 403, so the
+# recession-band decision is pending and unsupported rather than a finding of
+# "no recession." bands: [] means that no evidence-backed band is published.
+# The 2020 shock and the 2022 / 2024-25 slowdowns remain plate events; those
+# annotations do not settle the quarterly recession rule.
 bands: []
 
 currency:

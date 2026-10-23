@@ -51,7 +51,8 @@ economy:
       2015 7.0, 2016 6.8, 2017 6.9, 2018 6.8, 2019 6.1, 2020 2.3, 2021 8.6,
       2022 3.1, 2023 5.4, 2024 5.0, 2025 5.0. Confirmed programmatically again
       at fetch time: ZERO negative annual real-growth years for CHN across the
-      whole WEO body — the band evidence behind `bands: []`. The NBS official
+      whole WEO body. This proves no annual contraction but cannot decide the
+      two-quarter band rule; the required NBS quarterly series is pending. The NBS official
       reading (pending, 403-blocked) is usually a few tenths off these (e.g.
       NBS 2023 5.2 vs WB 5.42 vs IMF 5.4); when it opens it joins as its own
       labelled column, and the three are never averaged or spliced. DATAMAPPER
@@ -254,11 +255,16 @@ markets:
 fiscal:
   debt_intl_pct_gdp.csv:
     source: IMF DataMapper — GGXWDG_NGDP (general government gross debt, % of GDP)
-    url: "https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP/CHN"
+    url: "https://www.imf.org/external/datamapper/GGXWDG_NGDP@WEO/CHN"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar fiscal/debt_intl_pct_gdp_from_imf.csv; curated staged from it, values unchanged (2026-10-22)"
     official: false
     notes: >-
-      VERIFIED. CHN row (the `/CHN` segment does NOT filter — extract
+      The official DataMapper landing above is the independently resolvable
+      citation. The fetcher reads the JSON API at
+      /external/datamapper/api/v1/GGXWDG_NGDP/CHN, but IMF/Akamai may return
+      HTTP 403 depending on client and environment; the committed CSV pins the
+      reviewed 2026-10-22 response and is not an invented substitute. CHN row
+      (the `/CHN` API segment does NOT filter — extract
       values.GGXWDG_NGDP.CHN from the 226-country body): 2006 25.2, 2009 33.9,
       2010 33.1, then a steep climb 2018 55.7 -> 2020 70.6 -> 2023 84.1 ->
       2025 98.6 (% of GDP; WEO projections past 2025 are not staged). This is
@@ -269,10 +275,14 @@ fiscal:
       MOF figure with the perimeter stated; never spliced.
   debt_intl_pct_gdp_from_imf.csv:
     source: IMF DataMapper — GGXWDG_NGDP (outturn years to 2025; projections beyond are never cached as data)
-    url: "https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP/CHN"
+    url: "https://www.imf.org/external/datamapper/GGXWDG_NGDP@WEO/CHN"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
-    notes: "Fetcher sidecar behind debt_intl_pct_gdp.csv; diff before adopting."
+    notes: >-
+      Fetcher sidecar behind debt_intl_pct_gdp.csv; diff before adopting. The
+      fetcher uses the DataMapper JSON API, which may receive an IMF/Akamai 403
+      depending on client and environment; the official landing URL above is
+      the stable citation and the committed sidecar pins the reviewed response.
 
 # --------------------------------------------------------------------------
 # trade — goods exports/imports by partner. GACC/NBS (blocked) vs UN Comtrade.
@@ -633,11 +643,11 @@ pending:
       accessible comparable form — do NOT scrape an estimate for them.
   - id: quarterly-band-confirm
     what: >-
-      bands: [] is justified on annual evidence (no negative real-GDP year in
-      the window in either WB or IMF — re-verified programmatically by
-      fetch_harmonised.py, which fails if the WEO body ever shows a negative
-      CHN year) and the known single-quarter COVID contraction (Q1 2020
-      negative q/q, Q2 2020 sharply positive). A two-consecutive-quarter test
-      needs the QUARTERLY series, which is blocked with NBS (403). Confirm
-      the q/q signs when an NBS route opens; the 2020 shock and the 2022 /
-      2024-25 slowdowns are PLATE EVENTS, not bands, either way.
+      The staged WB and IMF series establish only that China has no negative
+      annual real-GDP year in the window; fetch_harmonised.py checks that
+      annual fact. Annual values cannot decide the two-consecutive-quarter
+      rule. The required QUARTERLY NBS series is blocked (403), so the
+      recession-band decision remains pending and unsupported. bands: [] means
+      no evidence-backed band is published; it does not assert no recession.
+      The 2020 shock and 2022 / 2024-25 slowdowns are PLATE EVENTS only and do
+      not settle the quarterly rule.

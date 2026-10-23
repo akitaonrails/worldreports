@@ -5,10 +5,12 @@ neighbour off. Keep the entries sparse per chart: each figure picks the subset
 relevant to its panels, because an annotated line with twenty rules on it is a
 timeline, not a chart.
 
-One deliberate absence: China has NO recession band in this window (country.yaml
-carries bands: [] and DATA_NOTES.md pins why — every staged annual real-GDP year
-is positive, trough +2.3% in 2020). The 2020 shock and the 2022 and 2024-25
-slowdowns therefore ride on the plates as EVENTS, never as bands.
+One deliberate absence: no recession band is published for China in this
+window. Every staged annual real-GDP year is positive (trough +2.3% in 2020),
+but the quarterly NBS evidence required by the two-quarter rule is unavailable.
+The band decision is therefore pending, not a finding of no recession. The
+2020 shock and the 2022 and 2024-25 slowdowns ride on the plates as EVENTS;
+those annotations do not settle the quarterly rule.
 """
 
 # year -> short label used across infographics

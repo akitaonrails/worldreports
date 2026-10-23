@@ -49,7 +49,7 @@
   },
   "10-year government bond yield (%, annual average)": {
     "pt": "Rendimento de títulos públicos de 10 anos (%, média anual)",
-    "zh-Hans": "十年期公债殖利率(%,年平均)"
+    "zh-Hans": "十年期国债收益率（%，年平均）"
   },
   "811 devaluation": {
     "pt": "desvalorização de 11/8",
@@ -76,7 +76,7 @@
     "zh-Hans": "澳大利亚"
   },
   "BIS household-credit series is not staged": {
-    "pt": "A série de crédito domiciliar do BIS não está preparada",
+    "pt": "A série de crédito às famílias do BIS não está preparada",
     "zh-Hans": "尚未整理国际清算银行住户信贷序列"
   },
   "Births": {
@@ -112,7 +112,7 @@
     "zh-Hans": "现有数据源中没有中国可取得的COFOG映射"
   },
   "Comparable household lending and policy-rate regimes are not staged": {
-    "pt": "Regimes comparáveis de crédito domiciliar e juro básico não estão preparados",
+    "pt": "Regimes comparáveis de empréstimos às famílias e juro básico não estão preparados",
     "zh-Hans": "尚未整理可比的住户贷款利率和政策利率制度"
   },
   "Comparable immigration and emigration flows are not staged": {
@@ -121,11 +121,11 @@
   },
   "Consumer price inflation (% per year)": {
     "pt": "Inflação ao consumidor (% ao ano)",
-    "zh-Hans": "消费者物价通膨率(每年%)"
+    "zh-Hans": "居民消费价格涨幅（每年%）"
   },
   "Corruption Perceptions Index (score, 0–100)": {
     "pt": "Índice de Percepção da Corrupção (pontuação, 0–100)",
-    "zh-Hans": "贪污感知指数(分数,0–100)"
+    "zh-Hans": "腐败感知指数（0–100分）"
   },
   "Credit": {
     "pt": "Crédito",
@@ -169,11 +169,11 @@
   },
   "GDP at current prices (US$ bn)": {
     "pt": "PIB a preços correntes (US$ bi)",
-    "zh-Hans": "当期价格GDP(十亿美元)"
+    "zh-Hans": "现价GDP（十亿美元）"
   },
   "GDP per person (US$, current)": {
     "pt": "PIB por pessoa (US$ correntes)",
-    "zh-Hans": "每人GDP(美元,当期价格)"
+    "zh-Hans": "人均GDP（现价美元）"
   },
   "General-government flows are not staged; MOF's budget is a narrower perimeter": {
     "pt": "Fluxos do governo geral não estão preparados; o orçamento do MF tem perímetro mais estreito",
@@ -193,7 +193,7 @@
   },
   "Gross debt (% of GDP)": {
     "pt": "Dívida bruta (% do PIB)",
-    "zh-Hans": "债务余额(占GDP的%)"
+    "zh-Hans": "政府总债务（占GDP的%）"
   },
   "HDI, 0–1": {
     "pt": "IDH, 0–1",
@@ -201,7 +201,7 @@
   },
   "Harmonised readings while national machine sources remain blocked; never spliced.": {
     "pt": "Leituras harmonizadas enquanto as fontes nacionais automatizadas seguem bloqueadas; nunca emendadas.",
-    "zh-Hans": "国家机器数据源仍受阻时采用统一口径数据；绝不拼接。"
+    "zh-Hans": "国内机器可读数据源仍受阻时采用统一口径读数；绝不拼接。"
   },
   "Harmonised readings; the NBS CPI remains the national series of record": {
     "pt": "Leituras harmonizadas; o IPC do NBS continua sendo a série nacional oficial",
@@ -220,8 +220,8 @@
     "zh-Hans": "家庭债务(占GDP的%)"
   },
   "Household lending rate vs policy rate (%)": {
-    "pt": "Taxa de crédito imobiliário das famílias vs. taxa de política (%)",
-    "zh-Hans": "家庭房贷利率对比政策利率(%)"
+    "pt": "Taxa de empréstimos às famílias vs. taxa básica (%)",
+    "zh-Hans": "住户贷款利率与政策利率（%）"
   },
   "Human Development Index (HDI, 0–1)": {
     "pt": "Índice de Desenvolvimento Humano (IDH, 0–1)",
@@ -232,7 +232,7 @@
     "zh-Hans": "世界银行转引的ILO模型估计；并非国家统计局城镇调查失业率"
   },
   "IMF Financial Soundness Indicator via World Bank; bank-wide, not households": {
-    "pt": "Indicador de solidez financeira do FMI via Banco Mundial; sistema bancário, não domicílios",
+    "pt": "Indicador de solidez financeira do FMI via Banco Mundial; sistema bancário, não famílias",
     "zh-Hans": "世界银行转引的IMF金融稳健指标；覆盖银行体系而非住户"
   },
   "IMF WEO": {
@@ -265,15 +265,15 @@
   },
   "Interest paid (% of GDP)": {
     "pt": "Juros pagos (% do PIB)",
-    "zh-Hans": "支付利息(占GDP的%)"
+    "zh-Hans": "利息支出（占GDP的%）"
   },
   "International migrant stock": {
     "pt": "Estoque internacional de migrantes",
     "zh-Hans": "国际移民存量"
   },
   "Investment rate, whole economy (% of GDP)": {
-    "pt": "Taxa de investimento, toda a economia (% do PIB)",
-    "zh-Hans": "投资率,全体经济(占GDP的%)"
+    "pt": "Taxa de investimento da economia como um todo (% do PIB)",
+    "zh-Hans": "全经济投资率（占GDP的%）"
   },
   "Japan": {
     "pt": "Japão",
@@ -292,7 +292,7 @@
     "zh-Hans": "专题——死因"
   },
   "Lens — household debt service": {
-    "pt": "Lente — serviço da dívida domiciliar",
+    "pt": "Lente — serviço da dívida das famílias",
     "zh-Hans": "专题——住户债务偿付"
   },
   "Lens — national public-safety series": {
@@ -348,7 +348,7 @@
     "zh-Hans": "尚未整理可比的一般政府余额与利息支出组合"
   },
   "No comparable household debt-service series is staged": {
-    "pt": "Nenhuma série comparável de serviço da dívida domiciliar está preparada",
+    "pt": "Nenhuma série comparável de serviço da dívida das famílias está preparada",
     "zh-Hans": "尚未整理可比的住户债务偿付序列"
   },
   "No national statutory rate: provinces and municipalities set different floors": {
@@ -377,7 +377,7 @@
   },
   "Overall and primary balance (% of GDP)": {
     "pt": "Resultado global e primário (% do PIB)",
-    "zh-Hans": "总余绌与赊欠前余绌(占GDP的%)"
+    "zh-Hans": "总体余额与基本余额（占GDP的%）"
   },
   "People": {
     "pt": "Pessoas",
@@ -389,7 +389,7 @@
   },
   "Policy rate vs inflation (%)": {
     "pt": "Juro básico x inflação (%)",
-    "zh-Hans": "政策利率对比通膨(%)"
+    "zh-Hans": "政策利率与通胀率（%）"
   },
   "Population (index 2006 = 100)": {
     "pt": "População (índice 2006 = 100)",
@@ -413,7 +413,7 @@
   },
   "Real GDP growth (% per year)": {
     "pt": "Crescimento real do PIB (% ao ano)",
-    "zh-Hans": "实质GDP成长率(每年%)"
+    "zh-Hans": "实际GDP增长率（每年%）"
   },
   "Renminbi against the US$ (index 2006 = 100, up = stronger)": {
     "pt": "Renminbi frente ao US$ (índice 2006 = 100, alta = mais forte)",
@@ -421,7 +421,7 @@
   },
   "Revenue and expenditure (% of GDP)": {
     "pt": "Receitas e despesas (% do PIB)",
-    "zh-Hans": "岁入与岁出(占GDP的%)"
+    "zh-Hans": "财政收入与支出（占GDP的%）"
   },
   "Road traffic deaths (per 100,000)": {
     "pt": "Mortes no trânsito (por 100 mil)",
@@ -448,8 +448,8 @@
     "zh-Hans": "安全"
   },
   "Social protection vs everything else (% of GDP)": {
-    "pt": "Proteção social contra todo o resto (% do PIB)",
-    "zh-Hans": "社会保障对比其余一切(占GDP的%)"
+    "pt": "Proteção social em comparação com os demais gastos (% do PIB)",
+    "zh-Hans": "社会保障与其他支出（占GDP的%）"
   },
   "Sources: World Bank · IMF · UNDP · UN Comtrade · Transparency International": {
     "pt": "Fontes: Banco Mundial · FMI · PNUD · UN Comtrade · Transparência Internacional",
@@ -457,7 +457,7 @@
   },
   "Spending by function, stacked (% of GDP)": {
     "pt": "Gasto por função, empilhado (% do PIB)",
-    "zh-Hans": "功能别支出,堆叠(占GDP的%)"
+    "zh-Hans": "按政府职能分类的支出（占GDP的%，堆叠）"
   },
   "Suicide rate (per 100,000)": {
     "pt": "Taxa de suicídio (por 100 mil)",
@@ -521,7 +521,7 @@
   },
   "US$, current": {
     "pt": "US$ correntes",
-    "zh-Hans": "美元,当期价格"
+    "zh-Hans": "现价美元"
   },
   "US$3.00/day": {
     "pt": "US$ 3,00/dia",

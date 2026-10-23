@@ -17,32 +17,32 @@ localized plates and thumbnails, and `provenance.json` records every stable
 CSV actually read. Semantic tests pin the perimeters, denominators, snapshot
 years and non-splicing rules described below.
 
-## Bands: none, and that is the finding
+## Bands: quarterly evidence unavailable; decision pending
 
-`country.yaml` carries `bands: []`. Verified against the STAGED vintage,
-not the manifest's claim: every year in both columns of
+`country.yaml` carries `bands: []`. Against the STAGED vintage, every year in
+both columns of
 `data/economy/gdp_growth_intl.csv` (World Bank WDI and IMF WEO, 2006–2025)
 is positive — the trough is 2020 at +2.34 / +2.30, not a contraction.
-China never had a negative real-GDP year in the window, so there is no
-recession to band and no slowdown band is manufactured: the deceleration
-from 14% to 5% is carried by the line shape, plus events.
-`tests/china/tests/test_plates.py` pins the fact — every time-series panel
-is drawn through `add_recessions` (rule 8) and the test asserts no band
-appears on any china plate in any locale.
+That establishes only that the annual series contains no annual contraction.
+It does not establish whether two consecutive negative quarters occurred.
+The deceleration from 14% to 5% is carried by the line shape, plus events.
+`countries/china/tests/test_plates.py` pins the annual fact and the absence of
+quarterly evidence; it does not infer a quarterly result from annual values.
 
 The strict two-consecutive-quarter test wants the quarterly series, which
 is blocked with the NBS API (403, see SOURCES.yaml pending). The annual
-evidence rules a two-quarter recession out on its own: two negative
-quarters have to sit inside a window, and no year came out negative.
-Confirm the q/q signs when an NBS route opens; until then no band can
-honestly be drawn, and none is.
+evidence cannot decide that test. Confirm the q/q signs when an NBS route
+opens. Until then the recession-band decision is pending and unsupported;
+`bands: []` records that no evidence-backed band is published, not that a
+recession has been ruled out.
 
 ## 2020 is not a band
 
-China GREW in 2020 (+2.3%). The staged vintage shows the positive-but-
-depressed year. It is drawn as the bar's shape and an event note
-(COVID-19 shock), never as a recession band. 2022 (+3.1) and the
-2024–25 slowdown are events in the same way.
+China's annual GDP GREW in 2020 (+2.3%). The staged vintage shows the
+positive-but-depressed annual result. It is drawn as the bar's shape and an
+event note (COVID-19 shock), not as a recession-band conclusion. 2022 (+3.1)
+and the 2024–25 slowdown are events in the same way; none settles the missing
+quarterly test.
 
 ## Harmonised layer carries the national slots (NBS 403 / GACC 412)
 
