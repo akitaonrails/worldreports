@@ -1,0 +1,38 @@
+# Source: IMF, World Economic Outlook via the DataMapper API. official: false. Calendar years. Years after 2025 are WEO PROJECTIONS and sit only in the *_proj columns; an observed column and its _proj twin never share a row.
+# GGXWDG_NGDP: general-government gross debt, % of GDP. GGXCNL_NGDP: general-government net lending (+) / borrowing (-), % of GDP.
+# General government on the IMF's basis; NOT the MOF's public-debt definition and NOT the NSO state budget. Three concepts, three files, never spliced.
+year,gross_debt_pct_gdp,gross_debt_pct_gdp_proj,net_lending_pct_gdp,net_lending_pct_gdp_proj
+1998,,,-0.1,
+1999,,,-1.2,
+2000,24.8,,-1.6,
+2001,25.4,,-2.2,
+2002,27.7,,-1.9,
+2003,29.8,,-2.6,
+2004,29.4,,-0.1,
+2005,28.7,,-1.0,
+2006,30.2,,0.2,
+2007,32.2,,-1.7,
+2008,31.0,,-0.4,
+2009,36.2,,-4.8,
+2010,37.3,,-2.3,
+2011,36.2,,-0.9,
+2012,38.3,,-5.5,
+2013,41.4,,-6.0,
+2014,43.4,,-5.0,
+2015,46.1,,-5.0,
+2016,47.9,,-3.2,
+2017,46.6,,-2.0,
+2018,43.8,,-1.0,
+2019,41.0,,-0.4,
+2020,41.3,,-2.9,
+2021,39.2,,-1.4,
+2022,34.9,,0.7,
+2023,34.3,,-1.7,
+2024,31.2,,-0.9,
+2025,30.5,,0.0,
+2026,,28.3,,-0.8
+2027,,26.2,,-0.9
+2028,,25.3,,-1.5
+2029,,24.6,,-1.6
+2030,,24.3,,-1.9
+2031,,24.5,,-2.1

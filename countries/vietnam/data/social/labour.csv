@@ -1,0 +1,81 @@
+# NSO Labour Force Survey tables. labour_force_* (V02.35): labour force aged
+# 15+, thousand people. employed_* (V02.39): employed people, thousand, and as
+# % of population; employed_<sector>_* (V02.42): employed by sector, thousand
+# and share of all employed (%). informal_* (V02.46): informal employment
+# rate, % of the employed, 2013-2025. unemployment_* (V02.59): unemployment
+# rate IN WORKING AGE (trong độ tuổi lao động), %, 2010-2025: the NSO
+# definition, not ADB's 15+ (LUR_PT) or the World Bank's ILO-modelled
+# SL.UEM.TOTL.ZS; three lines, never one. Fetched through the HTML door at
+# full precision; the JSON API's rounded copy of V02.59 is asserted equal to
+# two decimals.
+#
+# V02.35 "Lực lượng lao động từ 15 tuổi trở lên phân theo giới tính và theo thành thị, nông thôn(*) chia theo Cách tính, Năm và Phân tổ" — unit on the table page: not stated; NSO updated 2026-08-20; https://pxweb.nso.gov.vn/pxweb/vi/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/V02.35.px/
+# V02.39 "Số lao động có việc làm trong nền kinh tế phân theo giới tính và theo thành thị, nông thôn(*) chia theo Chỉ tiêu, Năm và Phân tổ" — unit on the table page: not stated; NSO updated 2026-08-20; https://pxweb.nso.gov.vn/pxweb/vi/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/V02.39.px/
+# V02.42 "Số lao động có việc làm và cơ cấu lao động có việc làm trong nền kinh tế phân theo ngành kinh tế(*) chia theo Ngành, Phân tổ và Năm" — unit on the table page: not stated; NSO updated 2026-08-20; https://pxweb.nso.gov.vn/pxweb/vi/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/V02.42.px/
+# V02.46 "Tỷ lệ lao động có việc làm phi chính thức phân theo giới tính và theo thành thị, nông thôn chia theo Chỉ tiêu, Năm và Phân tổ" — unit on the table page: %; NSO updated 2026-08-20; https://pxweb.nso.gov.vn/pxweb/vi/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/V02.46.px/
+# V02.59 "Tỷ lệ thất nghiệp trong độ tuổi lao động phân theo vùng và theo thành thị, nông thôn chia theo Thành thị, nông thôn, Vùng và Năm" — unit on the table page: %; NSO updated 2026-08-20; https://pxweb.nso.gov.vn/pxweb/vi/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/D%C3%A2n%20s%E1%BB%91%20v%C3%A0%20lao%20%C4%91%E1%BB%99ng/V02.59.px/
+# status: final / preliminary (Sơ bộ) / estimate (Ước tính), parsed off the year label.
+# Blank = not published for that year. Official: true (national statistics office).
+# Columns (table: label as published, NFC):
+#   labour_force_total_thousand = V02.35: Tổng số
+#   labour_force_male_thousand = V02.35: Nam
+#   labour_force_female_thousand = V02.35: Nữ
+#   labour_force_urban_thousand = V02.35: Thành thị
+#   labour_force_rural_thousand = V02.35: Nông thôn
+#   employed_total_thousand = V02.39: Tổng số
+#   employed_male_thousand = V02.39: Nam
+#   employed_female_thousand = V02.39: Nữ
+#   employed_urban_thousand = V02.39: Thành thị
+#   employed_rural_thousand = V02.39: Nông thôn
+#   employed_total_pct_of_population = V02.39: Tổng số
+#   employed_male_pct_of_population = V02.39: Nam
+#   employed_female_pct_of_population = V02.39: Nữ
+#   employed_urban_pct_of_population = V02.39: Thành thị
+#   employed_rural_pct_of_population = V02.39: Nông thôn
+#   employed_agriculture_thousand = V02.42: Nông nghiệp, lâm nghiệp và thủy sản
+#   employed_agriculture_share_pct = V02.42: Nông nghiệp, lâm nghiệp và thủy sản
+#   employed_manufacturing_thousand = V02.42: Công nghiệp chế biến, chế tạo
+#   employed_manufacturing_share_pct = V02.42: Công nghiệp chế biến, chế tạo
+#   employed_construction_thousand = V02.42: Xây dựng
+#   employed_construction_share_pct = V02.42: Xây dựng
+#   informal_total_pct = V02.46: Tổng số
+#   informal_male_pct = V02.46: Nam
+#   informal_female_pct = V02.46: Nữ
+#   informal_urban_pct = V02.46: Thành thị
+#   informal_rural_pct = V02.46: Nông thôn
+#   unemployment_national_pct = V02.59: CẢ NƯỚC
+#   unemployment_urban_pct = V02.59: Thành thị
+#   unemployment_rural_pct = V02.59: Nông thôn
+#   unemployment_red_river_delta_pct = V02.59: Đồng bằng sông Hồng
+#   unemployment_northern_midlands_mountains_pct = V02.59: Trung du và miền núi phía Bắc
+#   unemployment_north_central_coast_pct = V02.59: Bắc Trung Bộ và duyên hải miền Trung
+#   unemployment_central_highlands_pct = V02.59: Tây Nguyên
+#   unemployment_southeast_pct = V02.59: Đông Nam Bộ
+#   unemployment_mekong_delta_pct = V02.59: Đồng bằng sông Cửu Long
+year,status,labour_force_total_thousand,labour_force_male_thousand,labour_force_female_thousand,labour_force_urban_thousand,labour_force_rural_thousand,employed_total_thousand,employed_male_thousand,employed_female_thousand,employed_urban_thousand,employed_rural_thousand,employed_total_pct_of_population,employed_male_pct_of_population,employed_female_pct_of_population,employed_urban_pct_of_population,employed_rural_pct_of_population,employed_agriculture_thousand,employed_agriculture_share_pct,employed_manufacturing_thousand,employed_manufacturing_share_pct,employed_construction_thousand,employed_construction_share_pct,informal_total_pct,informal_male_pct,informal_female_pct,informal_urban_pct,informal_rural_pct,unemployment_national_pct,unemployment_urban_pct,unemployment_rural_pct,unemployment_red_river_delta_pct,unemployment_northern_midlands_mountains_pct,unemployment_north_central_coast_pct,unemployment_central_highlands_pct,unemployment_southeast_pct,unemployment_mekong_delta_pct
+2000,final,38545.4,19548.7,18996.7,8910.3,29635.1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2001,final,39615.8,20207.9,19407.9,9475.9,30139.9,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2002,final,40716,20718.9,19997.1,9848.5,30867.5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2003,final,41846.7,21449.7,20397,10104.2,31742.5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2004,final,43008.9,21948.3,21060.6,10703,32305.9,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2005,final,44904.5,23493.1,21411.4,11461.4,33443.1,42774.9,21926.4,20848.5,10689.1,32085.8,51.9,54.1,49.8,47.9,53.4,23563.2,55.1,5031.2,11.8,1979.9,4.6,,,,,,,,,,,,,,
+2006,final,46238.7,24613.9,21624.8,12266.3,33972.4,43980.3,23339.8,20640.5,11432,32548.3,52.8,56.9,48.8,48.5,54.4,,,,,,,,,,,,,,,,,,,,
+2007,final,47160.3,23945.7,23214.6,12409.1,34751.2,45208,22940.8,22267.2,11698.8,33509.2,53.7,55.3,52.1,46.9,56.3,23931.5,52.9,5665,12.5,2371.9,5.2,,,,,,,,,,,,,,
+2008,final,48209.6,24709,23500.6,13175.3,35034.3,46460.8,23898.6,22562.2,12499,33961.8,54.6,57,52.3,48.7,57,24303.4,52.3,5998.8,12.9,2468.4,5.3,,,,,,,,,,,,,,
+2009,final,49322,25655.6,23666.4,13271.8,36050.2,47743.6,24800.7,22942.9,12624.5,35119.1,55.5,58.3,52.7,49.6,58,24606,51.5,6449,13.5,2594.1,5.4,,,,,,,,,,,,,,
+2010,final,50473.5,25945.6,24527.9,14262.4,36211.1,49124.4,25349.6,23774.8,13682.9,35441.5,56.4,58.9,54,51.7,58.5,23890.3,48.6,7051.3,14.4,3078.3,6.3,,,,,,2.91,4.27,2.35,2.64,1.23,2.97,2.16,3.95,3.63
+2011,final,51594.3,26595.4,24998.9,15136.3,36458,50547.2,26151.1,24396.1,14619.1,35928.1,57.3,60,54.8,52.8,59.4,24488.5,48.4,7006.5,13.9,3243.4,6.4,,,,,,2.22,3.6,1.62,2,0.87,2.29,1.32,3.21,2.79
+2012,final,52616.6,27072.2,25544.4,15586,37030.6,51690.5,26651.8,25038.7,15120,36570.5,58,60.3,55.6,53.5,60,24560.4,47.5,7156.8,13.8,3303.7,6.4,,,,,,1.953613554,3.21,1.4,1.889883048,0.7500906555,2.21,1.46,2.64,2.15
+2013,final,53549.3,27554.9,25994.4,15950.7,37598.6,52507.8,27009.7,25498.1,15419.5,37088.3,58.2,60.4,56,53.4,60.5,24569.9,46.8,7363.2,14,3288.7,6.3,77.71254368,78.0559376,77.3487756,56.27121407,86.63187502,2.17,3.59,1.54,2.64,0.81,2.15,1.51,2.7,2.4
+2014,final,54040.7,27836.7,26204,16656,37384.7,53030.6,27294.8,25735.8,16133.9,36896.7,58.1,60.4,56,53.3,60.6,24484.3,46.2,7715.7,14.5,3222.3,6.1,78.11342464,78.64502889,77.54867048,56.6281574,87.47413218,2.1,3.41,1.49,2.83,0.77,2.22,1.2,2.47,2.05
+2015,final,54266,28133.3,26132.7,16913.8,37352.2,53110.5,27496.4,25614.1,16377.3,36733.2,57.6,60.1,55.1,53,59.9,23135.7,43.6,8457.5,15.9,3283.4,6.2,75.98952816,77.22296596,74.6653813,55.15331254,85.28054653,2.34,3.56,1.9,2.77,1.2,2.4,1.27,2.66,2.66
+2016,final,54482.8,28273.6,26209.2,17126.2,37356.6,53345.5,27640.2,25705.3,16611.2,36734.3,57.2,59.7,54.7,52.9,59.4,22184.3,41.6,9049.2,17,3861.7,7.2,74.72327325,76.02198062,73.32653627,54.38225982,83.92793857,2.29,3.21,1.84,2.22,1.18,2.74,1.23,2.46,2.89
+2017,final,54819.6,28513.6,26306,17416.1,37403.5,53708.6,27884.1,25824.5,16892.6,36816,57,59.5,54.4,52.9,59,21458.7,40,9537.6,17.8,4065.3,7.5,73.93364437,75.78555884,71.93403348,54.61576074,82.64516561,2.22,3.17,1.77,2.15,1.02,2.52,1.05,2.68,2.85
+2018,final,55388,28911.4,26476.6,17864.2,37523.8,54282.5,28370.7,25911.8,17336.6,36945.9,56.9,59.8,54,53.1,58.9,20419.8,37.6,9999.8,18.4,4273.2,7.9,72.06997232,74.07802768,69.87147036,53.79101929,80.6472043,2.19,3.1,1.74,1.97,1.05,2.7,1.05,2.63,2.71
+2019,final,55767.4,29370.6,26396.8,18094.5,37672.9,54659.2,28792.2,25867,17564.6,37094.6,56.7,60,53.4,51.9,59.2,18831.4,34.5,11287.6,20.7,4615.2,8.4,70.99331003,73.18198082,68.55712383,52.84062821,79.58877803,2.17,3.11,1.69,1.82,1.29,2.47,1.37,2.45,2.9
+2020,final,54842.937,28866.109,25976.828,18171.93,36671.007,53609.576,28324.05029,25285.52571,17519.086,36090.49,54.94063082,58.24950711,51.64811797,48.79093471,58.51601842,17724.5507,33.06228481,11302.24535,21.08251211,4695.364009,8.758442725,70.30822538,72.70149603,67.62735891,52.74788611,78.8323849,2.481738719,3.893861893,1.752180266,2.052387808,1.06026576,3.157530533,1.662824191,3.232442633,2.81947163
+2021,final,50560.5,27041.3,23519.2,18535,32025.5,49072,26238.9,22833.1,17766.7,31305.3,49.81657439,53.45334684,46.20505093,48.60052631,50.53496654,14262.3,29.06402837,11209.1,22.84215031,4545.2,9.262308445,68.53664709,71.60794542,65.00723862,51.99757626,77.9230826,3.200563571,4.330338699,2.504523821,2.179015635,2.422369514,3.295968543,0.9610981311,4.664185826,4.050689627
+2022,final,51704.883,27527.092,24177.791,19211.597,32493.287,50604.713,26918.7,23685.962,18706.36,31898.3,50.87602426,54.28842826,47.48277634,50.08731508,51.34917819,13937.60118,27.54210078,11767.86655,23.25448707,4639.831106,9.16877261,65.82711721,68.92588174,62.30541637,50.34818574,74.9045279,2.338536175,2.820244044,2.041029825,1.926870558,2.102458375,2.591354623,0.6691657344,2.877578114,2.763388983
+2023,final,52375.95147,27868.92105,24507.1,19572.50255,32803.5,51286.99758,27268.98189,24018.01569,19070.72875,32216.26883,51.12890246,54.49436726,47.77878379,49.89762947,51.88683267,13815.43577,26.93750155,11956.68934,23.31329557,4744.78239,9.251433333,65.12111885,68.30903377,61.5017027,49.67793165,74.26286136,2.278351462,2.745558744,1.985217657,1.858505153,1.912122728,2.3724521,0.6976408538,2.913782989,2.817241341
+2024,final,52942.27609,28255.09875,24687.17733,20400.0335,32542.3,51860.29721,27668.08874,24192.20847,19918.85052,31941.44669,51.17266231,54.70504661,47.6535013,51.06444527,51.24037951,13671.035,26.36127402,12223.249,23.56956999,4634.629,8.936757535,64.46504774,67.46671941,61.03210286,48.98026369,74.12143875,2.238089702,2.534597493,2.042630611,1.715654655,1.913519813,2.382575727,0.8476915444,2.705163933,2.925917673
+2025,preliminary,53559.6,28475.71114,25083.9,20950.6,32609,52474.98193,27905.59669,24569.38524,20460.85778,32014.12415,51.27247813,54.67754663,47.88545995,51.84996641,50.91008522,13439.43039,25.61111962,12467.92093,23.75974316,4618.80023,8.801909139,63.1,66.5,59.3,47.2,73.3,2.207408307,2.499661197,2.010090596,1.648096242,2.308976132,2.377992311,1.060829448,2.365534806,2.91373059

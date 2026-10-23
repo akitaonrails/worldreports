@@ -1,0 +1,25 @@
+# Source: World Bank, World Development Indicators (API v2, lastupdated 2026-10-08). official: false. A redistributor. PA.NUS.FCRF, official exchange rate, VND per US$, ANNUAL AVERAGE (from IMF IFS).
+# Column usdvnd_end_period: Asian Development Bank KIDB DF_ER ENDE_XDC_USD_RATE, VND per US$, END OF PERIOD (official: false. source field: IMF).
+# Average and end-of-period are two concepts in two columns, never spliced; a blank is a year that source has not published.
+# VND per USD: a RISING line is a WEAKER dong.
+year,usdvnd_avg,usdvnd_end_period
+2006,15994.25,16054
+2007,16105.12,16114
+2008,16302.25,16977
+2009,17065.08,17941
+2010,18612.92,18932
+2011,20509.75,20828
+2012,20828.00,20828
+2013,20933.42,21036
+2014,21148.00,21246
+2015,21697.57,21890
+2016,21935.00,22159
+2017,22370.09,22425
+2018,22602.05,22825
+2019,23050.24,23155
+2020,23208.37,23131
+2021,23159.78,23145
+2022,23271.21,23612
+2023,23787.32,23866
+2024,24164.89,24335
+2025,,25121

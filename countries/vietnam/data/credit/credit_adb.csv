@@ -1,0 +1,43 @@
+# official: false. Asian Development Bank, Key Indicators Database (kidb.adb.org SDMX v5, economy VIE), a redistributor.
+# Depository-corporations survey (SBV via ADB), end of period, bn VND;
+# NPL ratio is the IMF-FSI-reported figure, not the SBV's own 'tỷ lệ nợ xấu'.
+# M2 % of GDP before 2010 uses the OLD GDP scale as denominator.
+# No observation carries a non-normal OBS_STATUS, so there is no break_flags column. Blank = not published.
+# claims_private_sector_bn_vnd: FMIR_DC_CPS_XDC_PS "Claims on private sector" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR End of Period; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: Based on an expanded monetary survey that includes 4 government and 24 nongovernment commercial banks.
+# domestic_claims_bn_vnd: FMIR_DC_XDC_PS "Domestic claims, Total" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR End of Period; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: Based on an expanded monetary survey that includes 4 government and 24 nongovernment commercial banks.
+# claims_central_government_net_bn_vnd: FMIR_DC_CCG_XDC_PS "Claims on central government (net)" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR End of Period; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: Based on an expanded monetary survey that includes 4 government and 24 nongovernment commercial banks.
+# m2_bn_vnd: FMIR_BM_M2_XDC_PS "Broad Money (M2)" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR End of Period; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: Based on an expanded monetary survey that includes 4 government and 24 nongovernment commercial banks.
+# m1_bn_vnd: FMN_XDC "Narrow Money (M1), Total" (UNIT VND, UNIT_MULT 9 rescaled to 10^9; REF_YEAR End of Period; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: Based on an expanded monetary survey that includes 4 government and 24 nongovernment commercial banks.
+# m2_pct_gdp: FM2_XGDP_PS "Money supply (%)" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR End of Period; DATA_SOURCE State Bank of Viet Nam)
+# m2_growth_pct: FM2_PTX_PS "Money supply (% annual change)" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR End of Period; DATA_SOURCE State Bank of Viet Nam)
+# deposit_rate_12m_pct: FMIR_OD_T12_XPA_PS "Interest rates (% per annum), On deposits, Time: 12 months" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; REF_YEAR End of Period; DATA_SOURCE State Bank of Viet Nam)
+#   FOOTNOTE: 1) 2005-2011: For 2000–2010, data were estimated based on the annual nonweighted average of the monthly deposit rates provided by the Ho Chi Minh City Securities Company. Starting 2011, data were provided by the State Bank of Viet Nam.|2) 2005-2010: For 2000–2010, refers to maximum interest per annum for state enterprise deposit
+# npl_ratio_pct: FSANL_PT "Bank Nonperforming Loans" (UNIT PCT, UNIT_MULT 0 rescaled to 10^0; DATA_SOURCE International Monetary Fund)
+#   FOOTNOTE: Bank nonperforming loans to total gross loans are the value of nonperforming loans divided by the total value of the loan portfolio (including nonperforming loans before the deduction of specific loan-loss provisions). The loan amount recorded as nonperforming should be the gross value of the loan as recorded on the balance sheet, not just the amount that is overdue.
+year,claims_private_sector_bn_vnd,domestic_claims_bn_vnd,claims_central_government_net_bn_vnd,m2_bn_vnd,m1_bn_vnd,m2_pct_gdp,m2_growth_pct,deposit_rate_12m_pct,npl_ratio_pct
+2005,553098.461,585559.382,32460.921,690652.292,531471.905,75.56364,29.73752,8.4,
+2006,693834.024,730330.297,36496.273,922672.414,723203.707,86.91628,33.59435,8.4,
+2007,1067729.071,1096780,29051.438,1348243.674,443429,108.13899,46.1238,8.8,
+2008,1339263,1400693,61430,1622130,442984,100.3764,20.31428,13.46,2.150998205
+2009,1869255,2039686,170431,2092447,581535,115.65919,28.99382,10.37,1.796566094
+2010,2475535,2689527,213991,2789184,640959,101.8008696,33.29769,11.5,2.092599382
+2011,2829723,3062086,232362,3125960,705998,88.30692331,12.07439,13.59,2.792093848
+2012,3077703,3403504,325801,3702867,860959,90.89551623,18.45535,11.27,3.437910165
+2013,3469683,3876350,406668,4400692,1017278,98.36902972,18.84553,8.71,3.107072633
+2014,3949676,4479804,530128,5179216,1240196,104.9054574,17.69094497,7.19,3.49733108
+2015,4692917,5381433,688516,6019609,1456114,115.9551783,16.22625896,6.32,2.755117905
+2016,5575053,6306619,731566,7125801,1713832,126.3574092,18.37647595,6.81,2.638859441
+2017,6546060,7102175,556115,8194708,1982009,130.2006942,15.00051713,6.93,2.111419592
+2018,7378838.118,7851793.785,472955.6665,9211848.051,2174032.769,131.4280618,12.41215735,7.09,2.126560651
+2019,8326235,8583037,256802,10573725,2456665,137.1928197,14.8,7.29,1.773303867
+2020,9293305,9647461,354156,12110606,2941368,150.5473009,14.53,6.81,1.87185416
+2021,10548481,10859989,311508,13402097,3528607,157.9043950359,10.66,5.5,1.599111466
+2022,12024452,12104399,79947,14226931,3265640,147.86800953297,6.15,6.6,2.320049212
+2023,13669179,13749675,80497,15998956,3784491,155.02396955834,12.46,6.9,5.40935233
+2024,15705613,15839844,134232,17914566,4318076,155.61823730299,11.97,4.89,4.848080567
+2025,16283606.39,18998911.59,-283434.1499,19444476.1,5649369.876,151.34748636171,,5.22,

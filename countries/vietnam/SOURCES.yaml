@@ -928,3 +928,53 @@ migration:
       care. The 2025 merger to 34 provinces will re-key every provincial
       table. In this chapter only as the internal half of the story,
       labelled as such.
+# Reviewed publication copies used by the plates. The detailed fetch-sidecar
+# records below remain the audit trail; this compact map is what the site and
+# provenance checker publish.
+files:
+  macro/gdp.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Reviewed national accounts publication copy"}
+  macro/cpi.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Reviewed annual CPI publication copy"}
+  international/gdp_usd_wb.csv: {publisher: "World Bank WDI", url: "https://api.worldbank.org/", title: "GDP and GDP per person, with the 2010 scale seam preserved", official: false}
+  international/gdp_usd_imf.csv: {publisher: "IMF WEO", url: "https://www.imf.org/external/datamapper/api/v1/", title: "Back-cast GDP and macro comparables", official: false}
+  international/hdi_gso.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Vietnam national HDI publication copy"}
+  international/hdi_undp.csv: {publisher: "UNDP", url: "https://hdr.undp.org/", title: "Human Development Index", official: false}
+  international/reserves.csv: {publisher: "World Bank WDI", url: "https://api.worldbank.org/", title: "Total reserves including gold", official: false}
+  international/bop.csv: {publisher: "Asian Development Bank", url: "https://kidb.adb.org/", title: "Balance of payments", official: false}
+  fiscal/gg_finance.csv: {publisher: "Asian Development Bank", url: "https://kidb.adb.org/", title: "General-government finance, GFSM 2014", official: false}
+  fiscal/debt_balance.csv: {publisher: "IMF WEO", url: "https://www.imf.org/external/datamapper/api/v1/", title: "General-government debt and net lending", official: false}
+  fiscal/budget_revenue.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "State-budget revenue"}
+  spending/budget_spending.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "State-budget spending by national function"}
+  social/labour.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Labour force, employment and unemployment"}
+  social/unemployment_adb.csv: {publisher: "Asian Development Bank", url: "https://kidb.adb.org/", title: "Unemployment, population age 15+", official: false}
+  social/gini.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Income Gini with the 2020 survey seam preserved"}
+  social/poverty.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Household poverty under successive national standards"}
+  social/inequality_wb.csv: {publisher: "World Bank WDI", url: "https://api.worldbank.org/", title: "Consumption Gini and poverty comparables", official: false}
+  social/income_quintiles.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Household income quintiles"}
+  trade/totals.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Customs-value merchandise trade totals"}
+  trade/exports_by_partner.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Goods exports by destination"}
+  trade/imports_by_partner.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Goods imports by origin"}
+  trade/by_group.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Trade by broad commodity group"}
+  markets/rates_fx.csv: {publisher: "Cục Thống kê / State Bank of Vietnam", url: "https://pxweb.nso.gov.vn/", title: "Lending rates and central exchange rate"}
+  markets/usdvnd.csv: {publisher: "World Bank / ADB", url: "https://api.worldbank.org/", title: "Annual average and end-period VND per US dollar", official: false}
+  markets/usdvnd_monthly.csv: {publisher: "Yahoo Finance", url: "https://query1.finance.yahoo.com/", title: "Market VND per US dollar", official: false}
+  markets/vnindex.csv: {publisher: "CafeF", url: "https://s.cafef.vn/", title: "VN-Index year-end close", official: false}
+  credit/credit_adb.csv: {publisher: "Asian Development Bank", url: "https://kidb.adb.org/", title: "Credit, money and NPL ratio", official: false}
+  credit/credit_gso.csv: {publisher: "Cục Thống kê / State Bank of Vietnam", url: "https://pxweb.nso.gov.vn/", title: "Credit to the economy"}
+  credit/private_credit.csv: {publisher: "World Bank WDI", url: "https://api.worldbank.org/", title: "Private-sector credit as a share of GDP", official: false}
+  demography/population.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Average population"}
+  demography/population_wb.csv: {publisher: "World Bank WDI", url: "https://api.worldbank.org/", title: "Population, fertility and life expectancy comparables", official: false}
+  demography/projection.csv: {publisher: "United Nations WPP 2024", url: "https://population.un.org/wpp/", title: "Demographic indicators and projections", official: false}
+  demography/vital_rates.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Survey-based birth, death and fertility rates"}
+  security/homicide_wb.csv: {publisher: "World Bank / UNODC", url: "https://api.worldbank.org/", title: "Intentional homicide rate", official: false}
+  security/homicide_who.csv: {publisher: "World Health Organization", url: "https://ghoapi.azureedge.net/", title: "Modelled homicide rate", official: false}
+  security/justice.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Justice-system case counts"}
+  security/road_deaths.csv: {publisher: "World Health Organization", url: "https://ghoapi.azureedge.net/", title: "Modelled road-traffic death rate", official: false}
+  security/traffic_fire.csv: {publisher: "Cục Thống kê / Ministry of Public Security", url: "https://pxweb.nso.gov.vn/", title: "Police traffic and fire counts with the 2022 break preserved"}
+  mortality/causes.csv: {publisher: "World Health Organization GHE", url: "https://ghoapi.azureedge.net/", title: "Modelled causes of death", official: false}
+  mortality/hiv.csv: {publisher: "Cục Thống kê / Ministry of Health", url: "https://pxweb.nso.gov.vn/", title: "Registered HIV indicators"}
+  mortality/registered_deaths.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Registered deaths, including late registrations"}
+  migration/internal_migration.csv: {publisher: "Cục Thống kê (NSO)", url: "https://pxweb.nso.gov.vn/", title: "Internal migration rates"}
+  migration/migrant_stock.csv: {publisher: "United Nations DESA", url: "https://www.un.org/development/desa/pd/", title: "International migrant stocks", official: false}
+  migration/net_migration.csv: {publisher: "World Bank / United Nations WPP", url: "https://api.worldbank.org/", title: "Modelled net migration", official: false}
+  migration/remittances_proxy.csv: {publisher: "Asian Development Bank", url: "https://kidb.adb.org/", title: "Secondary-income credits, a remittance superset", official: false}
+
