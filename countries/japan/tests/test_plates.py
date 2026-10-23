@@ -9,6 +9,7 @@ import yaml
 
 from core.country import Country
 from core.render import load_plates
+from tests.probe import plate
 
 SLUG = "japan"
 DATA = Country.load(SLUG).data_dir / "published"
@@ -97,6 +98,25 @@ def test_fiscal_year_is_keyed_to_its_starting_year():
     assert num(row, "gg_net_lending_bn") < 0
     assert num(row, "gg_revenue_bn") > 0
     assert num(row, "gg_expense_bn") > num(row, "gg_revenue_bn")
+
+
+def test_every_fiscal_account_line_is_drawn_at_october_midpoint():
+    fiscal = plate(SLUG, "plate_fiscal")
+    series = [
+        fiscal.panel("Revenue and expenditure").points("expenditure"),
+        fiscal.panel("Overall balance").points("ESRI"),
+        fiscal.panel("Interest paid").points("General government"),
+    ]
+    for points in series:
+        assert 2024.75 in points
+        assert all(x % 1 == pytest.approx(0.75) for x in points)
+
+
+def test_cofog_fiscal_years_are_also_drawn_at_october_midpoint():
+    panel = plate(SLUG, "plate_spending").panel("Social protection vs")
+    points = panel.points("Social protection")
+    assert 2024.75 in points
+    assert all(x % 1 == pytest.approx(0.75) for x in points)
 
 
 def test_new_entrants_are_events_and_short_stays_dominate():

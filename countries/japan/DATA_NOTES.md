@@ -159,7 +159,8 @@ the foreign population grows.
 
 Japan's fiscal year runs April–March. Every FY column here is keyed on its
 **starting** year (FY2024 = Apr 2024 – Mar 2025), and no fetcher keys a
-calendar series on an April year. The FY series are:
+calendar series on an April year. Plates draw each fiscal year at its
+1 October midpoint, so FY2024 appears at `2024.75`. The FY series are:
 
 - ESRI annual accounts: GG accounts and COFOG.
 - ESRI `*_fy` GDP columns.

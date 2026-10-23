@@ -33,7 +33,7 @@ from core.sideload import sibling
 events = sibling(__file__, "events")
 
 W0 = 2006        # the shared plate window opens here
-FY_SHIFT = 0.25  # an April-March fiscal year, drawn at its midpoint
+FY_SHIFT = 0.75  # an April-March fiscal year, drawn at its 1 October midpoint
 
 
 # ------------------------------------------------------------ small helpers
@@ -743,9 +743,7 @@ def plate_people(ctx, ig) -> None:
 
     ax = ig.slot("people.minimum_wage", "Minimum wage (US$ per month)")
     ctx.pending(ax)
-    _note(p, ax, 0.5, 0.55, "pending: Japan's minimum wage is statutory but "
-          "prefecture-set;\nthe MHLW national weighted average (the number "
-          "Japan argues\nabout, ¥1,055 an hour in FY2024) is a spine fetch",
+    _note(p, ax, 0.5, 0.55, "Pending: Japan has a statutory minimum wage set by prefecture; the MHLW national weighted average was ¥1,055 per hour in FY2024, and the monthly conversion is not yet staged.",
           ha="center", va="center", size=7.6)
 
     ax = ig.slot("people.lens", "Lens — an ageing labour force keeps working "
