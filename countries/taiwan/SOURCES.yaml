@@ -1,9 +1,11 @@
 # Data provenance — Taiwan. Discovery pass and fetch phase complete
-# 2026-10-23. This is the fetch-phase manifest: every entry names a sidecar
-# CSV under data/ that a fetch/*.py wrote (re-runnable: online twice and
-# offline-from-cache are byte-identical), each endpoint curl'd live with the
-# payload shape checked BEFORE caching. Curated CSVs are the next phase's
-# diff-against-the-sidecar step; a fetcher never writes one directly.
+# 2026-10-23; curated 2026-10-23 (Phase B): every entry names a curated CSV
+# under data/, created by diffing what the fetch/*.py sidecars pulled
+# (byte-identical diffs — the sidecars' own numbers, reviewed and renamed;
+# re-running a fetcher writes the `_from_*` sidecar again, never a curated
+# file). Each endpoint was curl'd live with the payload shape checked
+# BEFORE caching, and each fetcher is re-runnable: online twice and
+# offline-from-cache are byte-identical.
 #
 # The World Bank, IMF and UN do not carry Taiwan (COUNTRIES.md row 8), so a
 # chapter whose usual supranational second series is missing names its
@@ -33,11 +35,11 @@ meta:
       registrations): registration.moi.gov.tw does not resolve here and
       www.ris.gov.tw's query app is JS-rendered with no keyless endpoint found.
       SUBSTITUTE IN USE: the DGBAS A018101010 mid-year population column
-      (population_from_dgbas.csv). Monthly vital detail stays pending."
+      (demography/population.csv). Monthly vital detail stays pending."
     - "Health Promotion Administration annual ICD-10 causes of death
       (www.hpa.gov.tw answers 403 Web Application Firewall to non-browser
       agents). SUBSTITUTE IN USE: DGBAS A170101020 monthly deaths by cause
-      aggregated annually (causes_of_death_from_dgbas.csv). The underlying-
+      aggregated annually (mortality/causes_of_death.csv). The underlying-
       cause vs deaths-involving split and the full ICD-10 detail are the second
       column, not a splice, when HPA lands."
     - "National Immigration Agency (migration) / Ministry of Labour (foreign-
@@ -60,7 +62,7 @@ meta:
       source anyway; the engines above are."
 
 economy:
-  gdp_from_dgbas.csv:
+  gdp.csv:
     source: DGBAS nstatdb DPAS table A018101010 — national income key table (annual rows)
     url: https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=220&kind=100&funid=A018101010&ym=9500&ymt=11400&cycle=42&outmode=8&fldlst=1111111111111111
     official: true
@@ -74,7 +76,7 @@ economy:
       column, per-capita US$39,515; 2024 GDP US$801.5bn. The USD column is the
       publisher's own NTD/avg-FX, asserted to within 1%. Substitute for the
       World Bank NY.GDP series, which does not carry Taiwan.
-  gdp_growth_quarterly_from_dgbas.csv:
+  gdp_growth_quarterly.csv:
     source: DGBAS nstatdb DPAS table A018101010 — the same table's quarterly rows
     url: https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=220&kind=100&funid=A018101010&ym=9500&ymt=11400&cycle=42&outmode=8&fldlst=1111111111111111
     official: true
@@ -86,7 +88,7 @@ economy:
       series: the annual figure is the publisher's own annual row, NOT the sum
       or mean of these quarters (SOURCING §4). quarter is a Q1..Q4 label, not a
       number.
-  cpi_from_dgbas.csv:
+  cpi.csv:
     source: DGBAS nstatdb DPAS table A030101015 — headline CPI (總指數, cycle=41)
     url: https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=220&kind=100&funid=A030101015&ym=9500&ymt=11509&cycle=41&outmode=8
     official: true
@@ -97,7 +99,7 @@ economy:
       (2024 +2.18, 2025 +1.66). Full history from ROC 7000 (1981-09). The CBC
       CPI y/y (economy/cpi_yoy_from_cbc.csv) is a second-source monthly
       cross-check — keep both columns, never mix.
-  cpi_yoy_from_cbc.csv:
+  cpi_yoy_cbc.csv:
     source: Central Bank (CBC) cpx.cbc.gov.tw PCAxis EF07M01 — CPI year-on-year (Dec)
     url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EF07M01
     official: true
@@ -109,7 +111,7 @@ economy:
       index may differ on aggregation, so both are kept as separate columns.
 
 fiscal:
-  budget_from_mof.csv:
+  budget.csv:
     source: MOF 財政統計查詢 DPAS i2101 — all-levels final accounts (accrual), net revenue/expenditure/balance
     url: https://web02.mof.gov.tw/njswww/WebMain.aspx?sys=220&kind=21&type=1&funid=i2101&ym=9500&ymt=11412&cycle=4&outmode=8&fldlst=1111111111111111
     official: true
@@ -121,7 +123,7 @@ fiscal:
       -144,828,987), 2025 balance +77,030,161 (accrual surplus). Balance ==
       revenue - expenditure asserted for every year. This is the FINAL-ACCOUNTS
       (accrual) basis — the cash basis is the separate accrual_vs_cash columns.
-  accrual_vs_cash_from_mof.csv:
+  accrual_vs_cash.csv:
     source: MOF web02 DPAS — accrual final accounts (i2101 revenue, i0121 expenditure) vs public treasury cash (i2201 in / i2206 out)
     url: https://web02.mof.gov.tw/njswww/WebMain.aspx?sys=220&kind=21&type=1&funid=i2201&ym=9500&ymt=11412&cycle=4&outmode=8
     official: true
@@ -134,7 +136,7 @@ fiscal:
       be the seam landing on a politically interesting year. 2023 revenue
       accrual 3.89tn vs cash 4.95tn NTD; the perimeters and timing genuinely
       differ.
-  debt_central_from_mof.csv:
+  debt_central.csv:
     source: MOF web02 DPAS i0232 — central-government gross debt outstanding (>=1y non-self-amortising, domestic)
     url: https://web02.mof.gov.tw/njswww/WebMain.aspx?sys=220&kind=21&type=1&funid=i0232&ym=9500&ymt=11412&cycle=4&outmode=8&fldlst=11111
     official: true
@@ -149,7 +151,7 @@ fiscal:
       perimeter — both kept, never joined.
 
 spending:
-  spending_function_from_mof.csv:
+  function.csv:
     source: MOF web02 DPAS i0121 — all-levels final-account expenditure by policy category
     url: https://web02.mof.gov.tw/njswww/WebMain.aspx?sys=220&kind=21&type=1&funid=i0121&ym=9500&ymt=11412&cycle=4&outmode=8&fldlst=11111111111
     official: true
@@ -162,7 +164,7 @@ spending:
       subtotal label — the plate must not sum it with the items beside it.
 
 trade:
-  goods_from_mof.csv:
+  goods.csv:
     source: MOF 國際貿易統計資料庫 DPAS i9111 — customs-compiled goods totals (USD)
     url: https://web02.mof.gov.tw/njswww/WebMain.aspx?sys=220&kind=21&type=1&funid=i9111&ym=9500&ymt=11400&cycle=4&outmode=8&fldlst=1000&codlst0=1000...&codlst1=110
     official: true
@@ -174,7 +176,7 @@ trade:
       records by MOF — the Customs Administration itself (see pending) stays a
       mirror. The balance-of-payments goods series (world/bop_goods_from_cbc.csv)
       is a DIFFERENT definition (2025 US$583.7bn) — two lines, never spliced.
-  partners_from_mof.csv:
+  partners.csv:
     source: MOF 國際貿易統計資料庫 DPAS i9111 — trade value by country (USD), top destinations
     url: https://web02.mof.gov.tw/njswww/WebMain.aspx?sys=220&kind=21&type=1&funid=i9111&ym=9500&ymt=11400&cycle=4&outmode=8&fldlst=1000&codlst1=110
     official: true
@@ -189,7 +191,7 @@ trade:
       China_mainland excludes Hong Kong/Macao, which are separate codelist rows.
 
 markets:
-  policy_rate_from_cbc.csv:
+  policy_rate.csv:
     source: Central Bank (CBC) cpx.cbc.gov.tw PCAxis EG2AM01 — rediscount rate (重貼現率), Dec period-end
     url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EG2AM01
     official: true
@@ -200,7 +202,7 @@ markets:
       plus NCD/CB repurchase tenders. Dec period-end value (2019 1.375, 2020
       1.125, 2024 2.000, 2025 2.000). Missing months carry the CBC '-' sentinel,
       mapped to blank, never zero.
-  usdtwd_from_cbc.csv:
+  usdtwd.csv:
     source: Central Bank (CBC) cpx.cbc.gov.tw PCAxis EG51M01 — USD/TWD interbank closing, annual mean
     url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EG51M01
     official: true
@@ -212,7 +214,7 @@ markets:
       stronger. Cross-checked against the DGBAS average exchange rate (within
       0.2%). The spine's slot-3 currency is the annual average, so the mean is
       staged here, not a single month's fix.
-  stock_index_avg_from_cbc.csv:
+  stock_index_avg.csv:
     source: Central Bank (CBC) cpx.cbc.gov.tw PCAxis EG27Y01 — TWSE weighted index, ANNUAL AVERAGE
     url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EG27Y01
     official: true
@@ -224,7 +226,7 @@ markets:
       level, so the value column sits at cell 1+2*col (the fetcher asserts the
       table width). Official year-end-equivalent levels are a different quantity
       — see markets/stock_index_yearend_from_yahoo.csv (a redistributor).
-  stock_index_yearend_from_yahoo.csv:
+  stock_index_yearend.csv:
     source: TWSE weighted index close, redistributed by Yahoo Finance (^TWII)
     url: https://query1.finance.yahoo.com/v8/finance/chart/%5ETWII?interval=1mo
     official: false
@@ -238,7 +240,7 @@ markets:
       only, never spliced into one line.
 
 world:
-  reserves_from_cbc.csv:
+  reserves.csv:
     source: Central Bank (CBC) cpx.cbc.gov.tw PCAxis EF07M01 — foreign-exchange reserves (外匯存底, mn USD), Dec
     url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EF07M01
     official: true
@@ -248,7 +250,7 @@ world:
       ~US$266bn (2006) up to ~US$603bn (2025) — among the world's largest. IMF
       IFS does not carry Taiwan, so the CBC IS the comparable; any ranking panel
       is built against other countries' own central banks, not an IMF table.
-  bop_goods_from_cbc.csv:
+  bop_goods.csv:
     source: Central Bank (CBC) cpx.cbc.gov.tw PCAxis BPP2Y01 — balance of payments, current account and goods
     url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=BPP2Y01
     official: true
@@ -261,7 +263,7 @@ world:
       table has 402 level columns and no interleaved growth (width asserted).
 
 credit:
-  npl_from_cbc.csv:
+  npl.csv:
     source: Central Bank (CBC) cpx.cbc.gov.tw PCAxis EF07M01 — domestic-bank non-performing-loan ratio (逾放比率), Dec
     url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EF07M01
     official: true
@@ -271,7 +273,7 @@ credit:
       2024-2025). Same table as reserves and CPI y/y — three chapters, one
       source, but split into separate sidecars so each plate cites one file.
       The '-' missing sentinel is mapped to blank, never to 0.
-  household_credit_from_cbc.csv:
+  household_credit.csv:
     source: Central Bank (CBC) cpx.cbc.gov.tw PCAxis EF99Y01 — consumer and building loans outstanding
     url: https://cpx.cbc.gov.tw/api/dataapi/Get?FileName=EF99Y01
     official: true
@@ -286,7 +288,7 @@ credit:
       series for Taiwan — the CBC is both the national and the comparable source.
 
 demography:
-  population_from_dgbas.csv:
+  population.csv:
     source: DGBAS nstatdb DPAS A018101010 — mid-year population (期中人口)
     url: https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=220&kind=100&funid=A018101010&ym=9500&ymt=11400&cycle=42&outmode=8&fldlst=1111111111111111
     official: true
@@ -299,7 +301,7 @@ demography:
       monthly detail is pending; the substitute for annual stock is this column.
 
 mortality:
-  causes_of_death_from_dgbas.csv:
+  causes_of_death.csv:
     source: DGBAS nstatdb DPAS A170101020 — deaths by cause of death (合計), monthly aggregated annually
     url: https://nstatdb.dgbas.gov.tw/dgbasAll/webMain.aspx?sys=220&kind=100&funid=A170101020&ym=9700&ymt=11400&cycle=4&outmode=8&fldlst=1111&codlst0=1&codlst1=1111111111111
     official: true

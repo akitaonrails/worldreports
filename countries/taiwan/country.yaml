@@ -34,6 +34,10 @@ years: {from: 2006, to: 2026}
 last_full_year: 2025
 tick_every: 2
 
+# On the plate spine (PLATE_SPINE.md): every plate declares its topic and
+# claims spine slots in spine order.
+spine: true
+
 # VERIFIED against the current DGBAS vintage (DPAS A018101010, pulled
 # 2026-10-23): yoy real growth went negative 2008Q3 (-1.39) and stayed
 # negative through 2009Q3 — the trough quarter 2009Q1 at -7.87 — with
