@@ -21,7 +21,11 @@ can fetch, and the official NBS line stays on the pending list.
                per USD — what the currency slot indexes and the equity slot
                converts with), gross fixed capital formation (% of GDP),
                Gini, poverty at the US$8.30/day upper-middle-income line
-               (PIP), non-performing loans (IMF FSI), population (UN WPP),
+               (PIP), poverty at the $3.00 and $4.20 lines of the same PIP
+               family (one survey, three lines, for the people lens), the
+               urban share of the population (UN WPP — the only legible
+               reading of China's internal migration), non-performing
+               loans (IMF FSI), population (UN WPP),
                total fertility, crude birth and death rates, net migration
                (UN WPP counts), migrant stock (UN DESA), homicide (UNODC),
                suicide (WHO estimates), road traffic deaths (WHO estimates)
@@ -131,6 +135,10 @@ WB_SERIES = [
     ("NE.GDI.FTOT.ZS", "economy/gfcf_pct_gdp_from_wb.csv",
      "gfcf_pct_gdp", 2),
     ("SI.POV.GINI", "people/gini_intl_from_wb.csv", "gini", 1),
+    ("SI.POV.DDAY", "people/pov_lines_intl_from_wb.csv", "poverty_300_pct",
+     1),
+    ("SI.POV.LMIC", "people/pov_lines_intl_from_wb.csv", "poverty_420_pct",
+     1),
     ("SI.POV.UMIC", "people/poverty_intl_from_wb.csv", "poverty_830_pct",
      1),
     ("FB.AST.NPER.ZS", "credit/npl_intl_from_wb.csv", "npl_pct", 2),
@@ -146,6 +154,8 @@ WB_SERIES = [
      0),
     ("SM.POP.TOTL.ZS", "migration/migrant_stock_intl_from_wb.csv",
      "migrant_stock_pct", 2),
+    ("SP.URB.TOTL.IN.ZS", "migration/urban_share_intl_from_wb.csv",
+     "urban_share_pct", 1),
     ("VC.IHR.PSRC.P5", "security/security_intl_from_wb.csv",
      "homicide_per_100k", 2),
     ("SH.STA.SUIC.P5", "security/security_intl_from_wb.csv",
@@ -200,6 +210,10 @@ SPOT = [
     ("economy/gfcf_pct_gdp_from_wb.csv", "gfcf_pct_gdp", 2024, 39.65),
     ("markets/fx_cny_per_usd_from_wb.csv", "cny_per_usd_avg", 2025, 7.19),
     ("people/poverty_intl_from_wb.csv", "poverty_830_pct", 2022, 21.3),
+    ("people/pov_lines_intl_from_wb.csv", "poverty_300_pct", 2020, 0.0),
+    ("people/pov_lines_intl_from_wb.csv", "poverty_420_pct", 2020, 1.7),
+    ("migration/urban_share_intl_from_wb.csv", "urban_share_pct", 2025,
+     66.3),
     ("credit/npl_intl_from_wb.csv", "npl_pct", 2024, 1.5),
     ("demography/vital_intl_from_wb.csv", "fertility", 2024, 1.01),
     ("demography/vital_intl_from_wb.csv", "birth_rate_per_1000", 2024,

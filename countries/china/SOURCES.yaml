@@ -368,6 +368,23 @@ people:
 # --------------------------------------------------------------------------
 # demography — births, deaths, population, life expectancy. NBS + WB/UN cross-check.
 # --------------------------------------------------------------------------
+  pov_lines_intl.csv:
+    source: World Bank PIP pov_line_family — SI.POV.DDAY ($3.00/day 2021 PPP) + SI.POV.LMIC ($4.20/day 2021 PPP), ISO3=CHN
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.DDAY?format=json&per_page=200 ; .../SI.POV.LMIC?..."
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar people/pov_lines_intl_from_wb.csv; curated staged with values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      The international poverty-line family for China — one survey, three
+      lines, with the $8.30 upper-middle-income line already in
+      poverty_intl.csv. Spot-asserted at fetch time: 2020 $3.00 line 0.0%,
+      $4.20 line 1.7%. Headcount-ratio series carry survey-year gaps — the
+      breaks are shown, not smoothed. Feeds the people-lens panel.
+  pov_lines_intl_from_wb.csv:
+    source: World Bank — SI.POV.DDAY + SI.POV.LMIC
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.DDAY?format=json&per_page=200"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind pov_lines_intl.csv; diff before adopting."
 demography:
   population_intl.csv:
     source: World Bank — SP.POP.TOTL (UN World Population Prospects)
@@ -437,6 +454,22 @@ migration:
 # --------------------------------------------------------------------------
 # world / comparables — the legibility layer.
 # --------------------------------------------------------------------------
+  urban_share_intl.csv:
+    source: UN World Population Prospects 2024 (urban population share) via World Bank SP.URB.TOTL.IN.ZS, ISO3=CHN
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SP.URB.TOTL.IN.ZS?format=json&per_page=200"
+    refreshed_by: "fetch/fetch_harmonised.py → sidecar migration/urban_share_intl_from_wb.csv; curated staged with values unchanged (2026-10-23)"
+    official: false
+    notes: >-
+      The legible reading of internal (rural-to-urban) migration — the
+      country's largest movement, invisible in the blocked NBS external-flow
+      books and in UN net-migration counts. Full annual 1960-2025; spot-
+      asserted 2025 at 66.3%. Feeds the migration-lens panel.
+  urban_share_intl_from_wb.csv:
+    source: World Bank — SP.URB.TOTL.IN.ZS
+    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SP.URB.TOTL.IN.ZS?format=json&per_page=200"
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: "Fetcher sidecar behind urban_share_intl.csv; diff before adopting."
 international:
   hdi.csv:
     source: UNDP — Human Development Report 2025, composite indices complete time series
