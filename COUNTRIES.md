@@ -27,6 +27,7 @@ Portuguese**, and every plate is drawn in each of them.
 | `brasil` | pt · en | 11 | 45 |
 | `canada` | en · fr · pt | 12 | 53 |
 | `france` | fr · en · pt | 12 | 46 |
+| `israel` | he · en · pt | 8 | 18 |
 | `spain` | es · en · pt | 12 | 46 |
 | `south-korea` | ko · en · pt | 11 | 43 |
 | `united-kingdom` | en · pt | 12 | 45 |
@@ -41,13 +42,12 @@ cross-check files not counted.
 | # | Country | Slug | Languages | What it needs that we do not have |
 |---|---------|------|-----------|------------------------------------|
 | 1 | Italy | `italy` | it · en · pt | A fourth Romance locale. New `AFFIX` column for `it`. Migration from Eurostat and ISTAT. |
-| 2 | Israel | `israel` | he · en · pt | **Right-to-left.** See below. |
-| 3 | Japan | `japan` | ja · en · pt | CJK: Noto Sans CJK JP, already installed. Fiscal year starts in April. |
-| 4 | China | `china` | zh-Hans · en · pt | CJK Simplified. Source reliability is the whole problem; see below. |
-| 5 | Taiwan | `taiwan` | zh-Hant · en · pt | CJK Traditional. Not in most international datasets; see below. |
-| 6 | Vietnam | `vietnam` | vi · en · pt | Vietnamese diacritics — check the plate font covers them. |
-| 7 | Portugal | `portugal` | pt · en | Nothing new — Portuguese is already in the atlas. Eurostat alongside INE Portugal, as with France and Spain. |
-| 8 | Switzerland | `switzerland` | de · en · pt | A German locale — new `AFFIX` column for `de`. Not in the EU: EFTA member, so Eurostat carries it in many but not all tables — verify per dataset. CHF, not EUR; SNB, not ECB. |
+| 2 | Japan | `japan` | ja · en · pt | CJK: Noto Sans CJK JP, already installed. Fiscal year starts in April. |
+| 3 | China | `china` | zh-Hans · en · pt | CJK Simplified. Source reliability is the whole problem; see below. |
+| 4 | Taiwan | `taiwan` | zh-Hant · en · pt | CJK Traditional. Not in most international datasets; see below. |
+| 5 | Vietnam | `vietnam` | vi · en · pt | Vietnamese diacritics — check the plate font covers them. |
+| 6 | Portugal | `portugal` | pt · en | Nothing new — Portuguese is already in the atlas. Eurostat alongside INE Portugal, as with France and Spain. |
+| 7 | Switzerland | `switzerland` | de · en · pt | A German locale — new `AFFIX` column for `de`. Not in the EU: EFTA member, so Eurostat carries it in many but not all tables — verify per dataset. CHF, not EUR; SNB, not ECB. |
 
 ## Known problems, written down before they are hit
 
