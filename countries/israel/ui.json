@@ -1,0 +1,62 @@
+{
+  "he": {
+    "line": "{n} לוחות נתונים רשמיים, {window}",
+    "dek": "כל נתון מגיע מן הגוף המפרסם אותו — הלשכה המרכזית לסטטיסטיקה, בנק ישראל, משרד האוצר, רשות האוכלוסין והמקורות הבין־לאומיים המצוינים — וכל לוח נבנה מחדש מקובצי CSV שבמאגר, כדי שהגרפים והמספרים לא יסטו זה מזה.",
+    "notes": [
+      "2026 היא שנה חלקית. סיכומים וממוצעים שנתיים מסתיימים ב־2025; תצפיות עדכניות באמת מסומנות כ<em>נתון אחרון</em>.",
+      "רצועת מיתון מופיעה רק ב־2020. הצמיחה השנתית נשארה חיובית בשנות המלחמה 2023–2025, ולכן 7 באוקטובר והתגובה התקציבית מסומנים כאירועים ולא כמיתון.",
+      "שיעורים המחושבים מספירות משתמשים באוכלוסיית אמצע השנה של הבנק העולמי לאותה שנה. שיעור שפרסם גוף רשמי מוצג כפי שפורסם.",
+      "תיקי רצח של המשטרה, שיעור UNODC, עולים, היתרים ואומדן הגירה נטו הם מדדים שונים. הלוחות מציגים אותם בנפרד ואינם מחברים אותם לסדרה אחת.",
+      "מקורות לאומיים אחדים היו חסומים לגישה אוטומטית. משבצות ללא סדרה מאומתת מסומנות כחסרות במקום להציג מספר חלופי.",
+      "הלוחות והעמוד מתפרסמים בעברית, באנגלית ובפורטוגזית."
+    ],
+    "colophon": [
+      {"term": "חשבונות לאומיים, אוכלוסייה ודמוגרפיה", "detail": "הלמ״ס כמפרסם הלאומי; הבנק העולמי, קרן המטבע ו־OECD לשכבה ההשוואתית המאומתת"},
+      {"term": "כספים ציבוריים", "detail": "IMF Fiscal Monitor ו־WEO — ממשלה כללית"},
+      {"term": "שער חליפין ויתרות", "detail": "בנק ישראל והבנק העולמי, כשכל הגדרה מסומנת בנפרד"},
+      {"term": "עלייה והיתרי שהייה", "detail": "משרד העלייה והקליטה ורשות האוכלוסין וההגירה"},
+      {"term": "פשיעה", "detail": "משטרת ישראל דרך data.gov.il; רצח ופעולת איבה נשארים קטגוריות נפרדות"},
+      {"term": "מדד TA-125", "detail": "Yahoo Finance — מפיץ לא רשמי; מדד מחיר ללא דיבידנדים"}
+    ]
+  },
+  "en": {
+    "line": "{n} plates of official data, {window}",
+    "dek": "Every number comes from the body that publishes it — the Central Bureau of Statistics, the Bank of Israel, the Ministry of Finance, the Population and Immigration Authority and the named international sources — and every plate is regenerated from committed CSVs so the charts and page cannot drift apart.",
+    "notes": [
+      "2026 is a partial year. Annual totals and averages stop at 2025; genuinely current observations are marked <em>latest</em>.",
+      "Only 2020 is shaded as a contraction. Annual growth remained positive in the 2023–2025 war years, so 7 October and the fiscal response are marked as events rather than recession bands.",
+      "Rates computed from counts use the World Bank mid-year population for the same year. Where a publisher supplies a rate, the published rate is used unchanged.",
+      "Police murder files, the UNODC homicide rate, olim, permits and estimated net migration are different measures. The plates keep them separate and never join them into one series.",
+      "Several national sources blocked automated access. A slot without a verified series is marked pending rather than filled with a substitute number.",
+      "The plates and page are published in Hebrew, English and Portuguese."
+    ],
+    "colophon": [
+      {"term": "National accounts, population and demography", "detail": "CBS as national publisher; World Bank, IMF and OECD for the verified comparative layer"},
+      {"term": "Public finances", "detail": "IMF Fiscal Monitor and WEO — general government"},
+      {"term": "Exchange rate and reserves", "detail": "Bank of Israel and World Bank, with each definition labelled separately"},
+      {"term": "Aliyah and residence permits", "detail": "Ministry of Aliyah and Integration and Population and Immigration Authority"},
+      {"term": "Crime", "detail": "Israel Police via data.gov.il; murder and hostile-action files remain separate categories"},
+      {"term": "TA-125 index", "detail": "Yahoo Finance — unofficial redistributor; price index, dividends excluded"}
+    ]
+  },
+  "pt": {
+    "line": "{n} pranchas de dados oficiais, {window}",
+    "dek": "Cada número vem do organismo que o publica — a Central Bureau of Statistics, o Banco de Israel, o Ministério das Finanças, a Autoridade de População e Imigração e as fontes internacionais indicadas — e cada prancha é regenerada a partir dos CSVs versionados, para que os gráficos e a página não possam divergir.",
+    "notes": [
+      "2026 é um ano parcial. Totais e médias anuais param em 2025; observações realmente correntes são marcadas como <em>mais recentes</em>.",
+      "Só 2020 aparece sombreado como contração. O crescimento anual permaneceu positivo nos anos de guerra de 2023–2025; 7 de outubro e a resposta fiscal são eventos, não faixas de recessão.",
+      "Taxas calculadas a partir de contagens usam a população de meio de ano do Banco Mundial no mesmo ano. Quando o publicador fornece uma taxa, ela é mantida sem alteração.",
+      "Registros policiais de homicídio, a taxa da UNODC, olim, autorizações e a estimativa de migração líquida são medidas diferentes. As pranchas as mantêm separadas e nunca as unem numa série.",
+      "Várias fontes nacionais bloquearam o acesso automatizado. Uma posição sem série verificada aparece como pendente, em vez de receber um número substituto.",
+      "As pranchas e a página são publicadas em hebraico, inglês e português."
+    ],
+    "colophon": [
+      {"term": "Contas nacionais, população e demografia", "detail": "CBS como publicador nacional; Banco Mundial, FMI e OCDE para a camada comparativa verificada"},
+      {"term": "Finanças públicas", "detail": "Fiscal Monitor e WEO do FMI — governo geral"},
+      {"term": "Câmbio e reservas", "detail": "Banco de Israel e Banco Mundial, com cada definição rotulada separadamente"},
+      {"term": "Aliá e autorizações de residência", "detail": "Ministério da Aliá e Integração e Autoridade de População e Imigração"},
+      {"term": "Criminalidade", "detail": "Polícia de Israel via data.gov.il; homicídio e ação hostil permanecem categorias separadas"},
+      {"term": "Índice TA-125", "detail": "Yahoo Finance — redistribuidor não oficial; índice de preços, sem dividendos"}
+    ]
+  }
+}
