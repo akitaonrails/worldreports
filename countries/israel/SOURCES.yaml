@@ -102,7 +102,7 @@ meta:
 macro:
   economy.csv:
     source: "World Bank WDI (republished national CPI and ILO-modelled LFS) — NE.GDI.FTOT.ZS, SL.UEM.TOTL.ZS, FP.CPI.TOTL.ZG"
-    url: "https://api.worldbank.org/v2/country/ISR/indicator/{code}?format=json"
+    url: "https://api.worldbank.org/v2/country/ISR/indicator/NE.GDI.FTOT.ZS?format=json"
     official: false
     refreshed_by: fetch/fetch_harmonised.py
     notes: >-
@@ -239,7 +239,7 @@ social:
 trade:
   trade.csv:
     source: "World Bank WDI — NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS"
-    url: "https://api.worldbank.org/v2/country/ISR/indicator/{code}?format=json"
+    url: "https://api.worldbank.org/v2/country/ISR/indicator/NE.EXP.GNFS.ZS?format=json"
     official: false
     refreshed_by: fetch/fetch_harmonised.py
     notes: >-
@@ -295,7 +295,7 @@ migration:
 demography:
   demography.csv:
     source: "World Bank WDI — SP.POP.TOTL, SP.POP.TOTL.FE.IN, SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM"
-    url: "https://api.worldbank.org/v2/country/ISR/indicator/{code}?format=json"
+    url: "https://api.worldbank.org/v2/country/ISR/indicator/SP.POP.TOTL?format=json"
     official: false
     refreshed_by: fetch/fetch_harmonised.py
     notes: >-
@@ -313,7 +313,7 @@ demography:
 security:
   security.csv:
     source: "World Bank WDI (UNODC/WHO republished) — VC.IHR.PSRC.P5, SH.STA.SUIC.P5, SH.STA.TRAF.P5"
-    url: "https://api.worldbank.org/v2/country/ISR/indicator/{code}?format=json"
+    url: "https://api.worldbank.org/v2/country/ISR/indicator/VC.IHR.PSRC.P5?format=json"
     official: false
     refreshed_by: fetch/fetch_harmonised.py
     notes: >-
@@ -358,7 +358,7 @@ security:
 international:
   world.csv:
     source: "World Bank WDI — NY.GDP.MKTP.CD, NY.GDP.PCAP.CD, FI.RES.TOTL.CD (ISO3 ISR)"
-    url: "https://api.worldbank.org/v2/country/ISR/indicator/{code}?format=json"
+    url: "https://api.worldbank.org/v2/country/ISR/indicator/NY.GDP.MKTP.CD?format=json"
     official: false
     refreshed_by: fetch/fetch_harmonised.py
     notes: >-
