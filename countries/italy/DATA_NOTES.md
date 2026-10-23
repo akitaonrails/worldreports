@@ -253,11 +253,12 @@ Points to annotate:
   that the ECB holds the union's buffer.
 - The HDI file (HDR 2025) is Latin-1 and covers 2005–2023.
 
-## Departures from the spine (for the build to confirm)
+## Departures from the spine (confirmed at build)
 
 No chapter is forced out. Gaps are listed slot by slot in HANDOFF.md. The
 only true "pending" is people slot 3: Italy has **no statutory minimum
-wage**. Pay floors come from sector collective agreements (CCNL).
+wage**. Pay floors come from sector collective agreements (CCNL). The
+build kept it that way — the panel says so and draws nothing.
 
 ## Changes made in consolidation
 
@@ -301,3 +302,44 @@ wage**. Pay floors come from sector collective agreements (CCNL).
 | Eurostat GDP × ECB vs WB GDP US$ | ≤0.25% 2006–23; WB −0.4% in 2024 |
 | (P6+P7)/GDP vs WB openness | ±0.05 to 2009; WB 0.2–1.0 above after (vintage) |
 | WB Gini vs Eurostat SILC | WB 1.0–3.2pt higher 2014–23 (2023 34.3 vs 31.5) |
+
+## Build decisions (the plate pass)
+
+- **ISTAT was still down through the build.** Its six `meta.pending`
+  series got no plates, no scraped stand-ins and no gap-filled lines.
+  The two slots whose national detail they would have carried — the
+  mafia-homicide columns in the security lens, and the ISTAT NIC bases
+  before 2016 — say so on the panel instead.
+- **Recession bands** come from the staged vintage's quarter-on-quarter
+  sign runs (Eurostat `namq_10_gdp`, edition 2026-10-22) and are pinned
+  in `country.yaml` and in a test: 2008.25–2009.5, 2011.25–2013.0,
+  2020.0–2020.5. The 2019 Q3–Q4 negatives on this vintage touch the
+  pandemic run but belong to the growth stall, which is drawn as an
+  event annotation, not a band; 2013 Q4/2014 Q1 at −0.1 stay out.
+- **Harmonised substitutes, each labelled as what it is:**
+  - credit slot 1: the spine's BIS household-debt series is not staged;
+    BdI loans ÷ Eurostat GDP is drawn instead, and the note pins it
+    (36.1 for 2024 against BIS 36.0 and Eurostat 36.1). The S&P 500
+    dashed comparator is `meta.pending`.
+  - security slot 3: the staged death certificate shortlist carries only
+    `17_1_1`, transport accidents by **all modes**, not road-only; the
+    panel title says *all-transport basis* and the note says what the
+    code is. The road-only count (ISTAT road-accident deaths, 30-day)
+    stays pending.
+  - trade slot 3 (top export destinations, Comext unreachable), world
+    slot 3 (TI CPI, hand-curation pending) and people slot 3 (no
+    statutory minimum wage) are drawn in the spine's pending form; a
+    test asserts each says "data pending" and draws no line.
+- **Rates** are counts over the Eurostat 1-January population from the
+  same file (`demo_gind`), the same territory and registered-resident
+  scope; where ISTAT publishes its own rate (police homicides) its rate
+  is used. CBR 6.27 and CDR 11.08 for 2024, pinned.
+- **The NIC panel draws one base only** (`index_b2015`, 2016–2025); the
+  base-2025 index starts 2026-01 and is staged but not drawn; nothing
+  is spliced across the 2025 rebase.
+- **i18n**: `i18n.json` carries all 376 rendered strings in Italian,
+  English and Portuguese; the render is strict-clean in all three.
+- **Layout**: the render passes `tests/test_layout.py` with zero faults
+  in it, en and pt — every panel goes through `_finish` (style_axis),
+  and notes, legends and event marks sit where the reference scale
+  leaves room.
