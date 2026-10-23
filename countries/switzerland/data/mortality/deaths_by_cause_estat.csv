@@ -1,0 +1,21 @@
+# Eurostat hlth_cd_aro, Switzerland: deaths by underlying cause, number, all
+# deaths reported in the country (resid TOT_IN), both sexes, all ages. assault
+# = X85-Y09 + Y87.1; suicide = X60-X84 + Y87.0; covid19 = U07.1. The series
+# starts 2011, after BFS moved assisted suicide out of suicide (from 2009 it
+# is coded to the underlying disease). Assault deaths (death certificates) are
+# not police-recorded homicides (2022: 35 vs 42) — never spliced.
+year,all_causes,assault,suicide,covid19
+2011,62682,49,1067,
+2012,64805,44,1079,
+2013,65534,50,1121,
+2014,64452,38,1067,
+2015,68279,52,1101,
+2016,65533,36,1061,
+2017,67431,41,1080,
+2018,67621,43,1047,
+2019,68424,36,1056,
+2020,76853,45,1016,9178
+2021,71848,35,1040,5964
+2022,75199,35,994,4136
+2023,72816,45,1023,1355
+2024,73052,38,1043,691

@@ -1,0 +1,31 @@
+# SNB financial accounts, balance sheet of households (cube frsekgevehup,
+# published 2026-07-29 09:00; HH+NPISH from frsekphupooe, published 2026-07-29 09:00). Year-end
+# STOCKS, CHF millions, loans from ALL lenders (banks, insurers, pension funds,
+# others). The cube runs from 1999 (consumer and other loans from 2005); rows
+# here are the atlas window from 2006. HH+NPISH levels equal Eurostat
+# nasa_10_f_bs (asserted); Eurostat's % GDP ratio is on the OLD GDP vintage and
+# is a separate file. loans_total = mortgages + consumer_loans (incl. leasing) +
+# other_loans, households only; loans_hh_npish adds non-profit institutions
+# serving households. About CHF 100bn above the bank-only series: two
+# definitions, two lines.
+year,loans_total,mortgages,consumer_loans,other_loans,loans_hh_npish
+2006,586283,541903,14148,30232,593977
+2007,603154,558652,14802,29700,610975
+2008,613187,572747,15183,25257,622432
+2009,636020,597483,15388,23149,645135
+2010,660880,620405,15303,25172,671836
+2011,690085,648751,15598,25736,700825
+2012,716976,675333,15636,26007,727964
+2013,751865,710075,15470,26320,763375
+2014,782785,738597,15427,28761,795948
+2015,803449,761016,15617,26816,816953
+2016,825150,781949,15439,27762,839306
+2017,851122,804838,15897,30387,865624
+2018,875877,826176,16451,33250,890383
+2019,898152,846707,17494,33951,911263
+2020,925725,870989,17657,37079,939498
+2021,955818,898709,17677,39432,970210
+2022,984012,921906,18854,43252,998856
+2023,998112,933810,20109,44193,1013657
+2024,1018402,953320,20555,44527,1034103
+2025,1050981,983072,20679,47230,1066789

@@ -37,6 +37,7 @@ locales:
   - {code: en, html_lang: en,    og_locale: en_GB, endonym: English}
   - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
 default_locale: en
+spine: true
 
 # The x-axis span every plate shares, and the last year whose annual totals
 # are complete. A flow for a year still running is not comparable with the

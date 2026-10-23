@@ -1,0 +1,35 @@
+# BFS asset je-d-03.03.00.01 (damId 36346864, published 2026-02-17): annual means, THOUSANDS of persons. Three different counts:
+# seco_registered_jobseekers and seco_registered_unemployed are
+# ADMINISTRATIVE (RAV registers, SECO); ilo_unemployed is the SURVEY count
+# (SAKE/ESPA, BFS, ILO definition). Two concepts, never one line. Breaks
+# (footnotes): SECO moved the RAV offices to a new semi-automated
+# registration system in March 2018; the 2017 SAKE revision broke the ILO
+# series between 2009 and 2010, which BFS has back-adjusted in this table.
+# Years are CALENDAR years (Swiss public finance and statistics use the calendar year; nothing here is an April fiscal year).
+year,seco_registered_jobseekers_k,seco_registered_unemployed_k,ilo_unemployed_k
+2000,124.6,72.0,126.5
+2001,109.4,67.2,113.7
+2002,149.6,100.5,144.8
+2003,206.5,145.7,199.0
+2004,220.5,153.1,210.9
+2005,217.2,148.5,211.0
+2006,197.4,131.5,195.3
+2007,167.7,109.2,179.7
+2008,154.4,101.7,170.3
+2009,204.1,146.1,212.7
+2010,215.5,152.0,212.5
+2011,179.7,122.9,198.3
+2012,178.4,125.6,204.6
+2013,190.7,136.5,218.9
+2014,191.8,136.8,226.6
+2015,201.0,142.8,228.9
+2016,211.1,149.3,238.2
+2017,206.1,143.1,233.6
+2018,191.0,118.1,231.3
+2019,181.8,106.9,216.3
+2020,230.0,145.7,237.6
+2021,228.9,137.6,248.4
+2022,175.5,99.6,204.3
+2023,160.1,93.5,204.3
+2024,184.5,112.6,221.3
+2025,214.1,133.7,248.5

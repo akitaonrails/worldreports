@@ -1,0 +1,402 @@
+# BFS STAT-TAB px-x-0103010000_101 (STATPOP): resident population on 31 December
+# by population type and residence permit (Anwesenheitsbewilligung),
+# Schweiz, both sexes, all ages, all citizenships. PERSONS. Long format;
+# permit labels as BFS writes them: Schweizer, B (Aufenthalter), C
+# (Niedergelassener), Ci, F (vorläufig aufgenommen), L (Kurzaufenthalter),
+# N (Asylsuchender), S (Schutzbedürftiger), diplomats, unassigned.
+# 2010 is the first STATPOP register year: its permanent total equals the
+# balance's 1 Jan 2011 stock (7,870,134), not the balance's 31 Dec 2010
+# (7,864,012); from 2011 on the two agree to the person (asserted).
+# PERMANENT and NON-PERMANENT are two populations: S-status and asylum
+# seekers move into the permanent one after 12 months (65,260 S-status
+# holders were PERMANENT at end-2025). Permanent total = the demographic
+# balance's year-end stock (asserted). S status was created in March
+# 2022: its rows before 2022 are blank (published as 0, not applicable).
+# Counts of persons by permit; SEM's ZEMIS register counts differ by
+# definition and are never drawn on the same line.
+# Years are CALENDAR years (Swiss public finance and statistics use the calendar year; nothing here is an April fiscal year).
+year,population_type,permit,persons
+2010,permanent,Anwesenheitsbewilligung - Total,7870134
+2010,permanent,Asylsuchender (N),7156
+2010,permanent,Aufenthalter (B),576962
+2010,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),828
+2010,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",10334
+2010,permanent,Internationaler Funktionär ohne diplomatische Immunität,17844
+2010,permanent,Kurzaufenthalter (L),18629
+2010,permanent,Nicht zugeteilt,0
+2010,permanent,Niedergelassener (C),1112344
+2010,permanent,Schutzbedürftiger (S),
+2010,permanent,Schweizer,6103857
+2010,permanent,Vorläufig Aufgenommener (F),22180
+2010,non_permanent,Anwesenheitsbewilligung - Total,70835
+2010,non_permanent,Asylsuchender (N),6185
+2010,non_permanent,Aufenthalter (B),0
+2010,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2010,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2010,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2010,non_permanent,Kurzaufenthalter (L),58293
+2010,non_permanent,Nicht zugeteilt,5762
+2010,non_permanent,Niedergelassener (C),0
+2010,non_permanent,Schutzbedürftiger (S),
+2010,non_permanent,Schweizer,0
+2010,non_permanent,Vorläufig Aufgenommener (F),595
+2011,permanent,Anwesenheitsbewilligung - Total,7954662
+2011,permanent,Asylsuchender (N),7055
+2011,permanent,Aufenthalter (B),609327
+2011,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),791
+2011,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",10363
+2011,permanent,Internationaler Funktionär ohne diplomatische Immunität,17921
+2011,permanent,Kurzaufenthalter (L),18881
+2011,permanent,Nicht zugeteilt,0
+2011,permanent,Niedergelassener (C),1129480
+2011,permanent,Schutzbedürftiger (S),
+2011,permanent,Schweizer,6138668
+2011,permanent,Vorläufig Aufgenommener (F),22176
+2011,non_permanent,Anwesenheitsbewilligung - Total,80729
+2011,non_permanent,Asylsuchender (N),10308
+2011,non_permanent,Aufenthalter (B),0
+2011,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2011,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2011,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2011,non_permanent,Kurzaufenthalter (L),61609
+2011,non_permanent,Nicht zugeteilt,8152
+2011,non_permanent,Niedergelassener (C),0
+2011,non_permanent,Schutzbedürftiger (S),
+2011,non_permanent,Schweizer,0
+2011,non_permanent,Vorläufig Aufgenommener (F),660
+2012,permanent,Anwesenheitsbewilligung - Total,8039060
+2012,permanent,Asylsuchender (N),9396
+2012,permanent,Aufenthalter (B),609095
+2012,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),855
+2012,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",10263
+2012,permanent,Internationaler Funktionär ohne diplomatische Immunität,17997
+2012,permanent,Kurzaufenthalter (L),23184
+2012,permanent,Nicht zugeteilt,0
+2012,permanent,Niedergelassener (C),1177609
+2012,permanent,Schutzbedürftiger (S),
+2012,permanent,Schweizer,6169091
+2012,permanent,Vorläufig Aufgenommener (F),21570
+2012,non_permanent,Anwesenheitsbewilligung - Total,84661
+2012,non_permanent,Asylsuchender (N),12844
+2012,non_permanent,Aufenthalter (B),0
+2012,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2012,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2012,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2012,non_permanent,Kurzaufenthalter (L),62686
+2012,non_permanent,Nicht zugeteilt,8623
+2012,non_permanent,Niedergelassener (C),0
+2012,non_permanent,Schutzbedürftiger (S),
+2012,non_permanent,Schweizer,0
+2012,non_permanent,Vorläufig Aufgenommener (F),508
+2013,permanent,Anwesenheitsbewilligung - Total,8139631
+2013,permanent,Asylsuchender (N),13441
+2013,permanent,Aufenthalter (B),615554
+2013,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),910
+2013,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",10384
+2013,permanent,Internationaler Funktionär ohne diplomatische Immunität,18521
+2013,permanent,Kurzaufenthalter (L),28857
+2013,permanent,Nicht zugeteilt,0
+2013,permanent,Niedergelassener (C),1227906
+2013,permanent,Schutzbedürftiger (S),
+2013,permanent,Schweizer,6202184
+2013,permanent,Vorläufig Aufgenommener (F),21874
+2013,non_permanent,Anwesenheitsbewilligung - Total,82696
+2013,non_permanent,Asylsuchender (N),7868
+2013,non_permanent,Aufenthalter (B),0
+2013,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2013,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2013,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2013,non_permanent,Kurzaufenthalter (L),68291
+2013,non_permanent,Nicht zugeteilt,6309
+2013,non_permanent,Niedergelassener (C),0
+2013,non_permanent,Schutzbedürftiger (S),
+2013,non_permanent,Schweizer,0
+2013,non_permanent,Vorläufig Aufgenommener (F),228
+2014,permanent,Anwesenheitsbewilligung - Total,8237666
+2014,permanent,Asylsuchender (N),7222
+2014,permanent,Aufenthalter (B),647159
+2014,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),959
+2014,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",10630
+2014,permanent,Internationaler Funktionär ohne diplomatische Immunität,19063
+2014,permanent,Kurzaufenthalter (L),30563
+2014,permanent,Nicht zugeteilt,0
+2014,permanent,Niedergelassener (C),1255793
+2014,permanent,Schutzbedürftiger (S),
+2014,permanent,Schweizer,6239207
+2014,permanent,Vorläufig Aufgenommener (F),27070
+2014,non_permanent,Anwesenheitsbewilligung - Total,86888
+2014,non_permanent,Asylsuchender (N),12179
+2014,non_permanent,Aufenthalter (B),0
+2014,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2014,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2014,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2014,non_permanent,Kurzaufenthalter (L),65446
+2014,non_permanent,Nicht zugeteilt,7740
+2014,non_permanent,Niedergelassener (C),0
+2014,non_permanent,Schutzbedürftiger (S),
+2014,non_permanent,Schweizer,0
+2014,non_permanent,Vorläufig Aufgenommener (F),1523
+2015,permanent,Anwesenheitsbewilligung - Total,8327126
+2015,permanent,Asylsuchender (N),7145
+2015,permanent,Aufenthalter (B),676413
+2015,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),922
+2015,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",10548
+2015,permanent,Internationaler Funktionär ohne diplomatische Immunität,19242
+2015,permanent,Kurzaufenthalter (L),28659
+2015,permanent,Nicht zugeteilt,0
+2015,permanent,Niedergelassener (C),1273495
+2015,permanent,Schutzbedürftiger (S),
+2015,permanent,Schweizer,6278459
+2015,permanent,Vorläufig Aufgenommener (F),32243
+2015,non_permanent,Anwesenheitsbewilligung - Total,96486
+2015,non_permanent,Asylsuchender (N),26146
+2015,non_permanent,Aufenthalter (B),0
+2015,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2015,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2015,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2015,non_permanent,Kurzaufenthalter (L),62563
+2015,non_permanent,Nicht zugeteilt,7000
+2015,non_permanent,Niedergelassener (C),0
+2015,non_permanent,Schutzbedürftiger (S),
+2015,non_permanent,Schweizer,0
+2015,non_permanent,Vorläufig Aufgenommener (F),777
+2016,permanent,Anwesenheitsbewilligung - Total,8419550
+2016,permanent,Asylsuchender (N),21925
+2016,permanent,Aufenthalter (B),688789
+2016,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),890
+2016,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",10633
+2016,permanent,Internationaler Funktionär ohne diplomatische Immunität,18768
+2016,permanent,Kurzaufenthalter (L),26723
+2016,permanent,Nicht zugeteilt,0
+2016,permanent,Niedergelassener (C),1297244
+2016,permanent,Schutzbedürftiger (S),
+2016,permanent,Schweizer,6318404
+2016,permanent,Vorläufig Aufgenommener (F),36174
+2016,non_permanent,Anwesenheitsbewilligung - Total,77763
+2016,non_permanent,Asylsuchender (N),9527
+2016,non_permanent,Aufenthalter (B),0
+2016,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2016,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2016,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2016,non_permanent,Kurzaufenthalter (L),59965
+2016,non_permanent,Nicht zugeteilt,7544
+2016,non_permanent,Niedergelassener (C),0
+2016,non_permanent,Schutzbedürftiger (S),
+2016,non_permanent,Schweizer,0
+2016,non_permanent,Vorläufig Aufgenommener (F),727
+2017,permanent,Anwesenheitsbewilligung - Total,8484130
+2017,permanent,Asylsuchender (N),18538
+2017,permanent,Aufenthalter (B),692306
+2017,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),850
+2017,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",10731
+2017,permanent,Internationaler Funktionär ohne diplomatische Immunität,18973
+2017,permanent,Kurzaufenthalter (L),25475
+2017,permanent,Nicht zugeteilt,0
+2017,permanent,Niedergelassener (C),1318567
+2017,permanent,Schutzbedürftiger (S),
+2017,permanent,Schweizer,6357738
+2017,permanent,Vorläufig Aufgenommener (F),40952
+2017,non_permanent,Anwesenheitsbewilligung - Total,76021
+2017,non_permanent,Asylsuchender (N),5693
+2017,non_permanent,Aufenthalter (B),0
+2017,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2017,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2017,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2017,non_permanent,Kurzaufenthalter (L),61267
+2017,non_permanent,Nicht zugeteilt,8416
+2017,non_permanent,Niedergelassener (C),0
+2017,non_permanent,Schutzbedürftiger (S),
+2017,non_permanent,Schweizer,0
+2017,non_permanent,Vorläufig Aufgenommener (F),645
+2018,permanent,Anwesenheitsbewilligung - Total,8544527
+2018,permanent,Asylsuchender (N),11036
+2018,permanent,Aufenthalter (B),693896
+2018,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),855
+2018,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",10612
+2018,permanent,Internationaler Funktionär ohne diplomatische Immunität,19253
+2018,permanent,Kurzaufenthalter (L),24219
+2018,permanent,Nicht zugeteilt,0
+2018,permanent,Niedergelassener (C),1342232
+2018,permanent,Schutzbedürftiger (S),
+2018,permanent,Schweizer,6396252
+2018,permanent,Vorläufig Aufgenommener (F),46172
+2018,non_permanent,Anwesenheitsbewilligung - Total,76166
+2018,non_permanent,Asylsuchender (N),4361
+2018,non_permanent,Aufenthalter (B),0
+2018,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2018,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2018,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2018,non_permanent,Kurzaufenthalter (L),61672
+2018,non_permanent,Nicht zugeteilt,9616
+2018,non_permanent,Niedergelassener (C),0
+2018,non_permanent,Schutzbedürftiger (S),
+2018,non_permanent,Schweizer,0
+2018,non_permanent,Vorläufig Aufgenommener (F),517
+2019,permanent,Anwesenheitsbewilligung - Total,8606033
+2019,permanent,Asylsuchender (N),8391
+2019,permanent,Aufenthalter (B),709989
+2019,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),880
+2019,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",10936
+2019,permanent,Internationaler Funktionär ohne diplomatische Immunität,19237
+2019,permanent,Kurzaufenthalter (L),22219
+2019,permanent,Nicht zugeteilt,0
+2019,permanent,Niedergelassener (C),1356729
+2019,permanent,Schutzbedürftiger (S),
+2019,permanent,Schweizer,6430658
+2019,permanent,Vorläufig Aufgenommener (F),46994
+2019,non_permanent,Anwesenheitsbewilligung - Total,75878
+2019,non_permanent,Asylsuchender (N),3349
+2019,non_permanent,Aufenthalter (B),0
+2019,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2019,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2019,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2019,non_permanent,Kurzaufenthalter (L),59381
+2019,non_permanent,Nicht zugeteilt,12148
+2019,non_permanent,Niedergelassener (C),0
+2019,non_permanent,Schutzbedürftiger (S),
+2019,non_permanent,Schweizer,0
+2019,non_permanent,Vorläufig Aufgenommener (F),1000
+2020,permanent,Anwesenheitsbewilligung - Total,8670300
+2020,permanent,Asylsuchender (N),4215
+2020,permanent,Aufenthalter (B),733325
+2020,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),855
+2020,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",10684
+2020,permanent,Internationaler Funktionär ohne diplomatische Immunität,19107
+2020,permanent,Kurzaufenthalter (L),22033
+2020,permanent,Nicht zugeteilt,0
+2020,permanent,Niedergelassener (C),1372762
+2020,permanent,Schutzbedürftiger (S),
+2020,permanent,Schweizer,6459512
+2020,permanent,Vorläufig Aufgenommener (F),47807
+2020,non_permanent,Anwesenheitsbewilligung - Total,59533
+2020,non_permanent,Asylsuchender (N),2708
+2020,non_permanent,Aufenthalter (B),0
+2020,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2020,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2020,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2020,non_permanent,Kurzaufenthalter (L),46268
+2020,non_permanent,Nicht zugeteilt,9708
+2020,non_permanent,Niedergelassener (C),0
+2020,non_permanent,Schutzbedürftiger (S),
+2020,non_permanent,Schweizer,0
+2020,non_permanent,Vorläufig Aufgenommener (F),849
+2021,permanent,Anwesenheitsbewilligung - Total,8738791
+2021,permanent,Asylsuchender (N),3491
+2021,permanent,Aufenthalter (B),759769
+2021,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),924
+2021,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",10689
+2021,permanent,Internationaler Funktionär ohne diplomatische Immunität,19493
+2021,permanent,Kurzaufenthalter (L),20016
+2021,permanent,Nicht zugeteilt,0
+2021,permanent,Niedergelassener (C),1384560
+2021,permanent,Schutzbedürftiger (S),
+2021,permanent,Schweizer,6494610
+2021,permanent,Vorläufig Aufgenommener (F),45239
+2021,non_permanent,Anwesenheitsbewilligung - Total,66553
+2021,non_permanent,Asylsuchender (N),4170
+2021,non_permanent,Aufenthalter (B),0
+2021,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2021,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2021,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2021,non_permanent,Kurzaufenthalter (L),48562
+2021,non_permanent,Nicht zugeteilt,12423
+2021,non_permanent,Niedergelassener (C),0
+2021,non_permanent,Schutzbedürftiger (S),
+2021,non_permanent,Schweizer,0
+2021,non_permanent,Vorläufig Aufgenommener (F),1398
+2022,permanent,Anwesenheitsbewilligung - Total,8815385
+2022,permanent,Asylsuchender (N),3775
+2022,permanent,Aufenthalter (B),809025
+2022,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),1020
+2022,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",10884
+2022,permanent,Internationaler Funktionär ohne diplomatische Immunität,20603
+2022,permanent,Kurzaufenthalter (L),18292
+2022,permanent,Nicht zugeteilt,0
+2022,permanent,Niedergelassener (C),1389969
+2022,permanent,Schutzbedürftiger (S),94
+2022,permanent,Schweizer,6519362
+2022,permanent,Vorläufig Aufgenommener (F),42361
+2022,non_permanent,Anwesenheitsbewilligung - Total,150057
+2022,non_permanent,Asylsuchender (N),11566
+2022,non_permanent,Aufenthalter (B),0
+2022,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2022,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2022,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2022,non_permanent,Kurzaufenthalter (L),55445
+2022,non_permanent,Nicht zugeteilt,17873
+2022,non_permanent,Niedergelassener (C),0
+2022,non_permanent,Schutzbedürftiger (S),62728
+2022,non_permanent,Schweizer,0
+2022,non_permanent,Vorläufig Aufgenommener (F),2445
+2023,permanent,Anwesenheitsbewilligung - Total,8962258
+2023,permanent,Asylsuchender (N),8486
+2023,permanent,Aufenthalter (B),868459
+2023,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),1102
+2023,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",11294
+2023,permanent,Internationaler Funktionär ohne diplomatische Immunität,21395
+2023,permanent,Kurzaufenthalter (L),18513
+2023,permanent,Nicht zugeteilt,0
+2023,permanent,Niedergelassener (C),1392613
+2023,permanent,Schutzbedürftiger (S),53168
+2023,permanent,Schweizer,6544970
+2023,permanent,Vorläufig Aufgenommener (F),42258
+2023,non_permanent,Anwesenheitsbewilligung - Total,100572
+2023,non_permanent,Asylsuchender (N),10915
+2023,non_permanent,Aufenthalter (B),0
+2023,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2023,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2023,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2023,non_permanent,Kurzaufenthalter (L),58290
+2023,non_permanent,Nicht zugeteilt,15380
+2023,non_permanent,Niedergelassener (C),0
+2023,non_permanent,Schutzbedürftiger (S),12815
+2023,non_permanent,Schweizer,0
+2023,non_permanent,Vorläufig Aufgenommener (F),3172
+2024,permanent,Anwesenheitsbewilligung - Total,9051029
+2024,permanent,Asylsuchender (N),11511
+2024,permanent,Aufenthalter (B),915566
+2024,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),1192
+2024,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",11490
+2024,permanent,Internationaler Funktionär ohne diplomatische Immunität,21417
+2024,permanent,Kurzaufenthalter (L),17659
+2024,permanent,Nicht zugeteilt,0
+2024,permanent,Niedergelassener (C),1400159
+2024,permanent,Schutzbedürftiger (S),60666
+2024,permanent,Schweizer,6571141
+2024,permanent,Vorläufig Aufgenommener (F),40228
+2024,non_permanent,Anwesenheitsbewilligung - Total,88677
+2024,non_permanent,Asylsuchender (N),6681
+2024,non_permanent,Aufenthalter (B),0
+2024,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2024,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2024,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2024,non_permanent,Kurzaufenthalter (L),54926
+2024,non_permanent,Nicht zugeteilt,17081
+2024,non_permanent,Niedergelassener (C),0
+2024,non_permanent,Schutzbedürftiger (S),7026
+2024,non_permanent,Schweizer,0
+2024,non_permanent,Vorläufig Aufgenommener (F),2963
+2025,permanent,Anwesenheitsbewilligung - Total,9127125
+2025,permanent,Asylsuchender (N),11092
+2025,permanent,Aufenthalter (B),955652
+2025,permanent,Aufenthalter mit Erwerbstätigkeit (Ci),1251
+2025,permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",11405
+2025,permanent,Internationaler Funktionär ohne diplomatische Immunität,20337
+2025,permanent,Kurzaufenthalter (L),15887
+2025,permanent,Nicht zugeteilt,0
+2025,permanent,Niedergelassener (C),1406673
+2025,permanent,Schutzbedürftiger (S),65260
+2025,permanent,Schweizer,6599008
+2025,permanent,Vorläufig Aufgenommener (F),40560
+2025,non_permanent,Anwesenheitsbewilligung - Total,87207
+2025,non_permanent,Asylsuchender (N),7771
+2025,non_permanent,Aufenthalter (B),0
+2025,non_permanent,Aufenthalter mit Erwerbstätigkeit (Ci),0
+2025,non_permanent,"Diplomat, internationaler Funktionär mit diplomatischer Immunität",0
+2025,non_permanent,Internationaler Funktionär ohne diplomatische Immunität,0
+2025,non_permanent,Kurzaufenthalter (L),54587
+2025,non_permanent,Nicht zugeteilt,16624
+2025,non_permanent,Niedergelassener (C),0
+2025,non_permanent,Schutzbedürftiger (S),5946
+2025,non_permanent,Schweizer,0
+2025,non_permanent,Vorläufig Aufgenommener (F),2279
