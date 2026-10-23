@@ -17,13 +17,18 @@ flag_emoji: "🇻🇳"
 # (ệ), so the wordmark is set at the two-word size.
 wordmark: Việt Nam
 name:
+  de: "Vietnam"
   en: "Vietnam"
   fr: "Viêt Nam"
   pt: "Vietnã"
   es: "Vietnam"
   ko: "베트남"
   he: "וייטנאם"
+  it: "Vietnam"
+  ja: "ベトナム"
   vi: "Việt Nam"
+  zh-Hans: "越南"
+  zh-Hant: "越南"
 
 locales:
   - {code: vi, html_lang: vi,    og_locale: vi_VN, endonym: Tiếng Việt}
