@@ -87,14 +87,14 @@ def _finish(ctx, ig):
 def _pop(ctx):
     """The WB mid-year population — the denominator for every count→rate
     conversion on these plates (DATA_NOTES.md, spine rule 5)."""
-    return dict(zip(*_yr(ctx, "demography/demography_from_wb.csv",
+    return dict(zip(*_yr(ctx, "demography/demography.csv",
                          "population", since=2005)))
 
 
 # ----------------------------------------------------------------- economy
 def plate_economy(ctx, ig) -> None:
     p = ctx.p
-    G = "macro/gdp_growth_from_imf.csv"
+    G = "macro/gdp_growth.csv"
 
     ax = ig.slot("economy.growth", "Real GDP growth (% per year)")
     gy, gv = _yr(ctx, G, "gdp_growth_pct")
@@ -112,7 +112,7 @@ def plate_economy(ctx, ig) -> None:
           "accounts line when CBS returns")
 
     ax = ig.slot("economy.gdp_per_person", "GDP per person (US$, current)")
-    py, pv = _yr(ctx, "international/world_from_wb.csv", "gdp_per_person_usd")
+    py, pv = _yr(ctx, "international/world.csv", "gdp_per_person_usd")
     ctx.line(ax, py, pv, p.BLUE)
     ig.add_recessions(ax, label=False)
     ctx.endlabel(ax, py, pv, p.BLUE, lambda v: f"US${v:,.0f}", dy=8)
@@ -125,8 +125,8 @@ def plate_economy(ctx, ig) -> None:
                  "(% per year) and the target")
     ax.axhspan(1, 3, color=p.GREEN, alpha=0.07, zorder=0)
     ax.axhline(2, color=p.GREEN, lw=1.0, ls=":", zorder=2)
-    iy, iv = _yr(ctx, "macro/cpi_inflation_from_imf.csv", "cpi_inflation_pct")
-    wy, wv = _yr(ctx, "macro/economy_from_wb.csv", "cpi_inflation_pct")
+    iy, iv = _yr(ctx, "macro/cpi_inflation.csv", "cpi_inflation_pct")
+    wy, wv = _yr(ctx, "macro/economy.csv", "cpi_inflation_pct")
     ctx.line(ax, iy, iv, p.ALERT, label="IMF WEO")
     ctx.line(ax, wy, wv, p.FAINT, lw=1.6, ms=3.0, label="World Bank "
              "(republication of the CBS CPI)")
@@ -141,8 +141,8 @@ def plate_economy(ctx, ig) -> None:
 
     ax = ig.slot("economy.unemployment", "Unemployment rate "
                  "(% of the labour force)")
-    oy, ov = _yr(ctx, "social/labour_from_oecd.csv", "unemployment_pct")
-    wy, wv = _yr(ctx, "macro/economy_from_wb.csv", "unemployment_pct")
+    oy, ov = _yr(ctx, "social/labour.csv", "unemployment_pct")
+    wy, wv = _yr(ctx, "macro/economy.csv", "unemployment_pct")
     ctx.line(ax, oy, ov, p.NAVY, label="Israel's LFS, via the OECD")
     ctx.line(ax, wy, wv, p.FAINT, lw=1.6, ms=3.0,
              label="ILO modelled estimate (World Bank)")
@@ -161,7 +161,7 @@ def plate_economy(ctx, ig) -> None:
 # ------------------------------------------------------------------ fiscal
 def plate_fiscal(ctx, ig) -> None:
     p = ctx.p
-    GG = "fiscal/general_government_from_imf.csv"
+    GG = "fiscal/general_government.csv"
 
     ax = ig.slot("fiscal.revenue_expenditure",
                  "Revenue and expenditure (% of GDP)")
@@ -224,7 +224,7 @@ def plate_fiscal(ctx, ig) -> None:
 # ------------------------------------------------------------------- trade
 def plate_trade(ctx, ig) -> None:
     p = ctx.p
-    T = "trade/trade_from_wb.csv"
+    T = "trade/trade.csv"
 
     ax = ig.slot("trade.exports_imports", "Exports and imports of goods "
                  "and services (% of GDP)")
@@ -278,7 +278,7 @@ def plate_markets(ctx, ig) -> None:
 
     ax = ig.slot("markets.currency", "The shekel against the US$ "
                  "(index 2006 = 100, up = stronger)")
-    fy, fv = _yr(ctx, "markets/usdils_from_wb.csv", "ils_per_usd")
+    fy, fv = _yr(ctx, "markets/usdils.csv", "ils_per_usd")
     ix_y, ix_v = ctx.fx_index(dict(zip(fy, fv)))
     ctx.line(ax, ix_y, ix_v, p.BLUE)
     ig.add_recessions(ax, label=False)
@@ -287,7 +287,7 @@ def plate_markets(ctx, ig) -> None:
     ax.annotate(f"{pk[1]:.0f} in {pk[0]}", pk, textcoords="offset points",
                 xytext=(0, 8), ha="center", fontsize=8.4, fontweight="bold",
                 color=p.BLUE)
-    t = ctx.table("markets/usdils_from_boi.csv") or {}
+    t = ctx.table("markets/usdils_boi.csv") or {}
     usd = [i for i, c in enumerate(t.get("currency", [])) if c == "USD"]
     if usd:
         i = usd[0]
@@ -301,8 +301,8 @@ def plate_markets(ctx, ig) -> None:
 
     ax = ig.slot("markets.equities", "TA-125 in US$ vs the S&P 500 "
                  "(index 2006 = 100)")
-    ty, tv = _yr(ctx, "markets/ta125_from_yahoo.csv", "close")
-    sy, sv = _yr(ctx, "markets/sp500_from_yahoo.csv", "close")
+    ty, tv = _yr(ctx, "markets/ta125.csv", "close")
+    sy, sv = _yr(ctx, "markets/sp500.csv", "close")
     fx = dict(zip(fy, fv))
     tu = {y: v / fx[y] for y, v in zip(ty, tv) if y in fx}
     tiy, tiv = ctx.index_2006(tu)
@@ -329,7 +329,7 @@ def plate_world(ctx, ig) -> None:
     p = ctx.p
 
     ax = ig.slot("world.gdp", "GDP at current prices (US$ bn)")
-    gy, gv = _yr(ctx, "international/world_from_wb.csv", "gdp_usd")
+    gy, gv = _yr(ctx, "international/world.csv", "gdp_usd")
     gv = [v / 1e9 for v in gv]
     ctx.line(ax, gy, gv, p.BLUE)
     ig.add_recessions(ax, label=False)
@@ -338,11 +338,11 @@ def plate_world(ctx, ig) -> None:
           "partly the\nstronger shekel, and the 2023 dip partly its fall")
 
     ax = ig.slot("world.hdi", "Human Development Index (UNDP)")
-    hy, hv = _yr(ctx, "international/hdi_from_undp.csv", "hdi")
+    hy, hv = _yr(ctx, "international/hdi.csv", "hdi")
     ctx.line(ax, hy, hv, p.GREEN, split_year=max(hy))
     ax.axhline(0.8, color=p.FAINT, lw=0.9, ls=":")
     ctx.endlabel(ax, hy, hv, p.GREEN, lambda v: f"{v:.3f}", dy=8)
-    rank = ctx.rows("international/hdi_from_undp.csv") or {}
+    rank = ctx.rows("international/hdi.csv") or {}
     last = max(rank)
     _note(p, ax, 0.98, 0.50, f"0.800 and above = very high development; "
           f"rank {int(float(rank[last]['hdi_rank_2023']))} in the 2023 table",
@@ -357,7 +357,7 @@ def plate_world(ctx, ig) -> None:
              "named in SOURCES.yaml")
 
     ax = ig.slot("world.reserves", "Official reserves (US$ bn, year-end)")
-    ry, rv = _yr(ctx, "international/world_from_wb.csv", "reserves_usd")
+    ry, rv = _yr(ctx, "international/world.csv", "reserves_usd")
     rv = [v / 1e9 for v in rv]
     ctx.line(ax, ry, rv, p.GREEN)
     ig.add_recessions(ax, label=False)
@@ -371,7 +371,7 @@ def plate_world(ctx, ig) -> None:
 # -------------------------------------------------------------- demography
 def plate_demography(ctx, ig) -> None:
     p = ctx.p
-    D = "demography/demography_from_wb.csv"
+    D = "demography/demography.csv"
     pop = _pop(ctx)
 
     ax = ig.slot("demography.population", "Population (index 2006 = 100)")
@@ -441,7 +441,7 @@ def plate_demography(ctx, ig) -> None:
 # ---------------------------------------------------------------- security
 def plate_security(ctx, ig) -> None:
     p = ctx.p
-    S = "security/security_from_wb.csv"
+    S = "security/security.csv"
     pop = _pop(ctx)
 
     ax = ig.slot("security.homicide", "Homicide rate (per 100,000, log "
@@ -449,7 +449,7 @@ def plate_security(ctx, ig) -> None:
     hy, hv = _yr(ctx, S, "homicide_per_100k")
     ctx.line(ax, hy, hv, p.NAVY, label="UNODC count as a published rate, via "
              "the World Bank (to 2022)")
-    py_, pv_ = _yr(ctx, "security/homicide_police_from_datagovil.csv",
+    py_, pv_ = _yr(ctx, "security/homicide_police.csv",
                    "murder_301")
     pry, prv = ctx.per_100k(dict(zip(py_, pv_)), pop)
     ctx.line(ax, pry, prv, p.ALERT, marker="s", ms=5,
@@ -498,7 +498,7 @@ def plate_security(ctx, ig) -> None:
                     xytext=(0, 3), ha="center", fontsize=8.0,
                     fontweight="bold", color=p.ALERT)
     _mark(ig, ax, "oct7", dy=0.55)
-    n302 = dict(zip(*_yr(ctx, "security/homicide_police_from_datagovil.csv",
+    n302 = dict(zip(*_yr(ctx, "security/homicide_police.csv",
                          "hostile_activity_302")))
     _note(p, ax, 0.02, 0.96, "recorded FILES, not people: the 2023 column is "
           "the 7 October\nmassacre counted inside type 301 by the police "
@@ -516,7 +516,7 @@ def plate_migration(ctx, ig) -> None:
     pop = _pop(ctx)
 
     ax = ig.slot("migration.flows", "New olim — a flow (per 1,000 people)")
-    oy, ov = _yr(ctx, "migration/olim_flow_from_datagovil.csv", "olim")
+    oy, ov = _yr(ctx, "migration/olim_flow.csv", "olim")
     ry, rv = ctx.per_1000(dict(zip(oy, ov)), pop)
     ctx.bars(ax, ry, rv, lambda v: p.BLUE)
     ig.add_recessions(ax, label=False)
@@ -533,7 +533,7 @@ def plate_migration(ctx, ig) -> None:
           "population")
 
     ax = ig.slot("migration.net", "Net migration (per 1,000 people)")
-    D = "demography/demography_from_wb.csv"
+    D = "demography/demography.csv"
     my, mv = _yr(ctx, D, "net_migration")
     ny, nv = ctx.per_1000(dict(zip(my, mv)), pop)
     ctx.bars(ax, ny, nv, lambda v: p.TEAL)
@@ -558,7 +558,7 @@ def plate_migration(ctx, ig) -> None:
 
     ax = ig.slot("migration.lens", "Lens — new residence and work permits: a "
                  "flow (per 1,000 people)")
-    t = ctx.table("migration/permits_from_datagovil.csv") or {}
+    t = ctx.table("migration/permits.csv") or {}
     new_by_year: dict[int, float] = {}
     ext_by_year: dict[int, float] = {}
     for y, cls, n_, e_ in zip(t.get("year", []), t.get("visa_class", []),

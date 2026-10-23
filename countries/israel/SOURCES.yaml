@@ -1,11 +1,12 @@
 # Data provenance — Israel. Discovery pass complete 2026-10-22;
-# fetchers staged sidecars 2026-10-22 (this revision).
+# fetchers staged sidecars 2026-10-22; curated 2026-10-23 (Phase B).
 #
 # Written BEFORE any CSV, per SOURCING_A_COUNTRY.md §3. The group entries
-# below now name files that exist under data/ — sidecars written by
-# fetch/*.py, each re-runnable (online twice and offline from cache all
-# produce byte-identical output). Curated CSVs are the next phase's
-# diff-against-the-sidecar step; a fetcher never writes one directly.
+# below name curated CSVs under data/, created by diffing what the
+# fetch/*.py sidecars pulled (byte-identical diffs — the sidecars' own
+# numbers, reviewed and renamed; re-running a fetcher writes the `_from_*`
+# sidecar again, never a curated file). Each fetcher is re-runnable:
+# online twice and offline-from-cache produce byte-identical output.
 # Every endpoint listed was curl'd live on 2026-10-22 with the payload
 # shape checked BEFORE caching.
 #
@@ -32,7 +33,7 @@ meta:
       browser. Re-probe with the key or from a residential/browserside
       route. Everything CBS-only is parked: macro/gdp.csv (national
       accounts — GDP annual + quarterly, the q/q signs the bands need),
-      macro/cpi.csv (CPI), the CBS LFS beside social/labour_from_oecd,
+      macro/cpi.csv (CPI), the CBS LFS beside social/labour.csv,
       population incl. the Rosh Hashanah release (CBS register of
       record), social/income.csv (household survey income/inequality),
       demography/births_deaths.csv (vital stats), demography/causes.csv
@@ -41,7 +42,7 @@ meta:
       trade on the CBS national-accounts basis."
     - "Bank of Israel beyond FX: the redesigned portal is a JS SPA;
       PublicApi is live only for GetExchangeRates (verified, staged as
-      markets/usdils_from_boi.csv). GetInterestRates/GetCPI/GetMaccam
+      markets/usdils_boi.csv). GetInterestRates/GetCPI/GetMaccam
       are 404; several wrong paths return a Radware bot-challenge
       loader under HTTP 200 — another lying endpoint. Old BoI file URLs
       advertised on data.gov.il are dead (404): meshulav_luah_heb.xls
@@ -55,7 +56,7 @@ meta:
       gov.il does not resolve. mof.gov.il resolves (gov.il MoF pages)
       but no machine-readable endpoint verified this pass. IMF WEO
       general-government balance/debt is the verified harmonised
-      fallback (fiscal/general_government_from_imf.csv); Israel's own
+      fallback (fiscal/general_government.csv); Israel's own
       D7 debt definition stays parked and gets its own column beside
       the IMF one when it lands — never a splice."
     - "OECD inequality (IDD/WISE) and the national survey income.csv:
@@ -71,7 +72,7 @@ meta:
       endpoint pending. Four numbers, never one line (§4a). PIBA permit
       stocks (permits in force) also parked; only issuance is staged."
     - "Police crime file covers 2021-2025 only; earlier years not on
-      data.gov.il this pass (security/crime_by_group_from_datagovil is
+      data.gov.il this pass (security/crime_by_group.csv is
       the 2021-2025 window; the 2006-2020 half needs either the older
       police releases or the parked CBS count)."
     - "Aliyah 2006-2014: new-olim-by-years starts at the 2015 upload.
@@ -99,7 +100,7 @@ meta:
       queued, not in the tree)."
 
 macro:
-  economy_from_wb.csv:
+  economy.csv:
     source: "World Bank WDI (republished national CPI and ILO-modelled LFS) — NE.GDI.FTOT.ZS, SL.UEM.TOTL.ZS, FP.CPI.TOTL.ZG"
     url: "https://api.worldbank.org/v2/country/ISR/indicator/{code}?format=json"
     official: false
@@ -110,7 +111,7 @@ macro:
       (2022) — the CPI line is WB's republication of the CBS index,
       so it shadows the parked macro/cpi.csv; when CBS returns the
       plate draws CBS as the line of record and keeps this beside it.
-  gdp_growth_from_imf.csv:
+  gdp_growth.csv:
     source: "IMF DataMapper (WEO, October 2026 vintage) — NGDP_RPCH"
     url: "https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH"
     official: false
@@ -128,7 +129,7 @@ macro:
       annual vintage; the bands owner must revisit it (CBS quarterly
       still parked). The two 2020s contraction/weak years (2020 -1.9)
       do qualify.
-  cpi_inflation_from_imf.csv:
+  cpi_inflation.csv:
     source: "IMF DataMapper (WEO) — PCPIPCH"
     url: "https://www.imf.org/external/datamapper/api/v1/PCPIPCH"
     official: false
@@ -140,7 +141,7 @@ macro:
       PCPIPCH is the live one.
 
 markets:
-  usdils_from_boi.csv:
+  usdils_boi.csv:
     source: "Bank of Israel — PublicApi representative exchange rates"
     url: "https://www.boi.org.il/currency.xml"
     alt_url: "https://boi.org.il/PublicApi/GetExchangeRates"
@@ -155,7 +156,7 @@ markets:
       SNAPSHOT of the representative rate, not history; the
       daily-history ZIP is dead (404). Direction on the plate: ILS per
       USD, a RISING line is a weaker sheqel.
-  usdils_from_wb.csv:
+  usdils.csv:
     source: "World Bank WDI — PA.NUS.FCRF official annual average FX"
     url: "https://api.worldbank.org/v2/country/ISR/indicator/PA.NUS.FCRF?format=json"
     official: false
@@ -166,7 +167,7 @@ markets:
       per US$ annual mean. The FX-history stand-in while the BoI daily
       file is dead; the markets plate converts the shekel to index
       2006=100, rising = stronger.
-  ta125_from_yahoo.csv:
+  ta125.csv:
     source: "Tel Aviv Stock Exchange TA-125 close, redistributed by Yahoo Finance"
     url: "https://query1.finance.yahoo.com/v8/finance/chart/%5ETA125.TA?interval=1mo"
     official: false
@@ -186,7 +187,7 @@ markets:
       official closes needs them hand-curated from TASE. Latest bar
       2026-10-22: 4067.91 (a live reading, labelled as one).
       ^TA35.TA 404 — symbol parked. A market index: official:false.
-  sp500_from_yahoo.csv:
+  sp500.csv:
     source: "S&P 500 close, redistributed by Yahoo Finance"
     url: "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1mo"
     official: false
@@ -198,7 +199,7 @@ markets:
       consistency of the redistributor).
 
 fiscal:
-  general_government_from_imf.csv:
+  general_government.csv:
     source: "IMF DataMapper (WEO + Fiscal Monitor, October 2026 vintage) — GGR_G01_GDP_PT, G_X_G01_GDP_PT, GGXCNL_G01_GDP_PT, GGXWDG_NGDP"
     url: "https://www.imf.org/external/datamapper/api/v1/GG_DEBT_GDP"
     official: false
@@ -216,7 +217,7 @@ fiscal:
       beside this one.
 
 social:
-  labour_from_oecd.csv:
+  labour.csv:
     source: "OECD SDMX REST — Israel LFS (OECD.SDD.TPS, DSD_LFS@DF_IALFS_INDIC)"
     url: "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_LFS@DF_IALFS_INDIC,1.0/ISR........?startPeriod=2005"
     official: false
@@ -235,8 +236,19 @@ social:
       series (meta.pending): national survey income.csv and the OECD
       IDD cut, two definitions and two columns when they land.
 
+trade:
+  trade.csv:
+    source: "World Bank WDI — NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS"
+    url: "https://api.worldbank.org/v2/country/ISR/indicator/{code}?format=json"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-22: 2024 exports 28.4 and imports 26.0 percent
+      of GDP, the services surplus carrying a goods deficit. The CBS
+      national-accounts basis is parked (meta.pending); when CBS
+      returns it becomes the line of record beside this.
 migration:
-  olim_flow_from_datagovil.csv:
+  olim_flow.csv:
     source: "Ministry of Aliyah and Integration — new olim PUF, open data"
     url: "https://data.gov.il/api/3/action/package_show?id=new-olim-by-years"
     official: true
@@ -256,7 +268,7 @@ migration:
       1989-2015 package is XLS-only behind the CloudFront wall). The
       2024 resource switched to Hebrew column names — the fetcher
       detects the schema dialect per resource.
-  permits_from_datagovil.csv:
+  permits.csv:
     source: "Population and Immigration Authority (PIBA) — visa/permit issuance, stats_rish"
     url: "https://data.gov.il/api/3/action/package_show?id=stats_rish"
     official: true
@@ -277,11 +289,11 @@ migration:
       never one line, §4a). The CBS population register and its Rosh
       Hashanah preliminary-vs-final vintage trap stay parked with
       CBS; the verified stopgap (WB SP.POP.TOTL) is staged under
-      demography/ as demography_from_wb.csv, with the 2023-2025
+      demography/ as demography.csv, with the 2023-2025
       magnitudes: 9.849mn / 10.0022mn / 10.1228mn.
 
 demography:
-  demography_from_wb.csv:
+  demography.csv:
     source: "World Bank WDI — SP.POP.TOTL, SP.POP.TOTL.FE.IN, SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM"
     url: "https://api.worldbank.org/v2/country/ISR/indicator/{code}?format=json"
     official: false
@@ -299,7 +311,7 @@ demography:
       (ICD-10) are parked with CBS (meta.pending).
 
 security:
-  security_from_wb.csv:
+  security.csv:
     source: "World Bank WDI (UNODC/WHO republished) — VC.IHR.PSRC.P5, SH.STA.SUIC.P5, SH.STA.TRAF.P5"
     url: "https://api.worldbank.org/v2/country/ISR/indicator/{code}?format=json"
     official: false
@@ -310,7 +322,7 @@ security:
       2006-2020 half the police file lacks — different series, two
       colours, never one spliced line. Suicide stops at 2021, road
       deaths at 2019 in WB's own coverage: holes stay holes.
-  crime_by_group_from_datagovil.csv:
+  crime_by_group.csv:
     source: "Israel Police — crime records, open data"
     url: "https://data.gov.il/api/3/action/package_show?id=crime_records_data"
     official: true
@@ -326,7 +338,7 @@ security:
       dictionary does not define and are staged as 'לא מזוהה' rather
       than dropped. Counts are recorded-crime FILES, place-of-
       occurrence geography, and only 2021-2025.
-  homicide_police_from_datagovil.csv:
+  homicide_police.csv:
     source: "Israel Police — crime records, StatisticTypeKod 301 (רצח) / 302 (hostile action)"
     url: "https://data.gov.il/api/3/action/package_show?id=crime_records_data"
     official: true
@@ -344,7 +356,7 @@ security:
       when both land.
 
 international:
-  world_from_wb.csv:
+  world.csv:
     source: "World Bank WDI — NY.GDP.MKTP.CD, NY.GDP.PCAP.CD, FI.RES.TOTL.CD (ISO3 ISR)"
     url: "https://api.worldbank.org/v2/country/ISR/indicator/{code}?format=json"
     official: false
@@ -357,7 +369,7 @@ international:
       end-2024 release of $212.1bn — 1.2% apart (WB adds IMF-related
       items; hand cross-check in the fetcher). The brief's 510-540bn
       band matches 2023-24. lastupdated 2026-10-08.
-  hdi_from_undp.csv:
+  hdi.csv:
     source: "UNDP HDR 2025 — composite indices complete time series"
     url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
     official: false

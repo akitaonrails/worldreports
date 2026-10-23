@@ -1,38 +1,38 @@
 {
  "01-economy": [
-  "international/world_from_wb.csv",
-  "macro/cpi_inflation_from_imf.csv",
-  "macro/economy_from_wb.csv",
-  "macro/gdp_growth_from_imf.csv",
-  "social/labour_from_oecd.csv"
+  "international/world.csv",
+  "macro/cpi_inflation.csv",
+  "macro/economy.csv",
+  "macro/gdp_growth.csv",
+  "social/labour.csv"
  ],
  "02-fiscal": [
-  "fiscal/general_government_from_imf.csv"
+  "fiscal/general_government.csv"
  ],
  "03-trade": [
-  "trade/trade_from_wb.csv"
+  "trade/trade.csv"
  ],
  "04-markets": [
-  "markets/sp500_from_yahoo.csv",
-  "markets/ta125_from_yahoo.csv",
-  "markets/usdils_from_boi.csv",
-  "markets/usdils_from_wb.csv"
+  "markets/sp500.csv",
+  "markets/ta125.csv",
+  "markets/usdils.csv",
+  "markets/usdils_boi.csv"
  ],
  "05-world": [
-  "international/hdi_from_undp.csv",
-  "international/world_from_wb.csv"
+  "international/hdi.csv",
+  "international/world.csv"
  ],
  "06-demography": [
-  "demography/demography_from_wb.csv"
+  "demography/demography.csv"
  ],
  "07-security": [
-  "demography/demography_from_wb.csv",
-  "security/homicide_police_from_datagovil.csv",
-  "security/security_from_wb.csv"
+  "demography/demography.csv",
+  "security/homicide_police.csv",
+  "security/security.csv"
  ],
  "08-migration": [
-  "demography/demography_from_wb.csv",
-  "migration/olim_flow_from_datagovil.csv",
-  "migration/permits_from_datagovil.csv"
+  "demography/demography.csv",
+  "migration/olim_flow.csv",
+  "migration/permits.csv"
  ]
 }
