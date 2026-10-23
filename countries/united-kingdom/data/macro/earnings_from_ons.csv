@@ -1,0 +1,26 @@
+# ONS Average Weekly Earnings (LMS), annual rows of the generator, release
+# 20-10-2026. awe_nominal = KAB9, whole economy, total pay excluding
+# arrears, SA, £ per week. awe_real_2025prices is COMPUTED here: KAB9 x
+# CPIH index (L522) in 2025 / CPIH index in that year - label it as
+# computed on the plate. Same LFS-adjacent caveats for 2023-24.
+year,awe_nominal_gbp_week,awe_real_2025prices_gbp_week
+2006,400,678
+2007,420,696
+2008,434,695
+2009,434,681
+2010,444,680
+2011,455,671
+2012,461,663
+2013,466,655
+2014,471,653
+2015,482,665
+2016,494,675
+2017,505,673
+2018,520,677
+2019,538,689
+2020,547,693
+2021,580,717
+2022,616,705
+2023,659,707
+2024,694,721
+2025,728,728
