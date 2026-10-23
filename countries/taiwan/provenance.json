@@ -1,0 +1,51 @@
+{
+ "01-economy": [
+  "economy/cpi.csv",
+  "economy/cpi_yoy_cbc.csv",
+  "economy/gdp.csv"
+ ],
+ "02-fiscal": [
+  "economy/gdp.csv",
+  "fiscal/budget.csv",
+  "fiscal/debt_central.csv",
+  "spending/function.csv"
+ ],
+ "03-spending": [
+  "economy/gdp.csv",
+  "spending/function.csv"
+ ],
+ "04-trade": [
+  "economy/gdp.csv",
+  "trade/goods.csv",
+  "trade/partners.csv",
+  "world/bop_goods.csv"
+ ],
+ "05-markets": [
+  "economy/cpi.csv",
+  "markets/policy_rate.csv",
+  "markets/stock_index_avg.csv",
+  "markets/stock_index_yearend.csv",
+  "markets/usdtwd.csv"
+ ],
+ "06-credit": [
+  "credit/household_credit.csv",
+  "credit/npl.csv",
+  "economy/gdp.csv"
+ ],
+ "07-world": [
+  "economy/gdp.csv",
+  "world/reserves.csv"
+ ],
+ "08-demography": [
+  "demography/population.csv",
+  "mortality/causes_of_death.csv"
+ ],
+ "09-security": [
+  "demography/population.csv",
+  "mortality/causes_of_death.csv"
+ ],
+ "10-mortality": [
+  "demography/population.csv",
+  "mortality/causes_of_death.csv"
+ ]
+}

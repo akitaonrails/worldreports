@@ -1,0 +1,129 @@
+# Taiwan. The eighth country in the atlas, and the one the atlas's own
+# comparables layer cannot see: the World Bank, the IMF and the UN do not
+# carry it, so the world chapter is built from what Taiwan publishes about
+# itself plus the bodies that do carry it — the WTO and its own customs
+# administration. Every SOURCES.yaml entry in a chapter whose usual
+# supranational second series is missing names its substitute instead.
+slug: taiwan
+flag_emoji: "🇹🇼"
+wordmark: 臺灣
+name:
+  en: "Taiwan"
+  fr: "Taïwan"
+  pt: "Taiwan"
+  es: "Taiwán"
+  ko: "대만"
+  zh-Hant: "臺灣"
+  zh-Hans: "台湾"
+  it: "Taiwan"
+  he: "טאיוואן"
+  ja: "台湾"
+  vi: "Đài Loan"
+  de: "Taiwan"
+
+# zh-Hant, not zh-CN or zh-TW as the code: the script is the identifier the
+# atlas carries, the way south-korea carries `ko` (language, not country) —
+# and it is the exact key plate-spine's core/numstyle.py already has
+# (zh-Hant ladder 萬 1e4 / 億 1e8 / 兆 1e12, English marks), so Phase B
+# needs no new style, only an AFFIX/CURRENCY_AFFIX column (NT$ for TWD).
+# html_lang and og_locale take the zh-TW regional forms because the locale
+# registry has no zh-Hant og entry.
+locales:
+  - {code: zh-Hant, html_lang: zh-TW, og_locale: zh_TW, endonym: 繁體中文}
+  - {code: en, html_lang: en, og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+
+# On the plate spine (PLATE_SPINE.md): every plate declares its topic and
+# claims spine slots in spine order.
+spine: true
+
+# VERIFIED against the current DGBAS vintage (DPAS A018101010, pulled
+# 2026-10-23): yoy real growth went negative 2008Q3 (-1.39) and stayed
+# negative through 2009Q3 — the trough quarter 2009Q1 at -7.87 — with
+# 2009 full-year at -1.61 (the current-vintage figure; the older base
+# said -2.4 and exports really did fall ~40% y/y in late 2008, which is
+# what the label says). COVID-19 gets NO band: 2020 was +3.42 with no
+# negative quarter — the absence of a COVID band is the finding, and it
+# goes in DATA_NOTES.md.
+bands:
+  - {from: 2008.75, to: 2009.5, label: "export collapse"}
+
+currency:
+  code: TWD
+
+# FLAG-DERIVED, distinct from the USA's and the UK's (both checked
+# against their files: USA RED #B5293A / NAVY #1B3A6B, UK RED #B32438 /
+# NAVY #1B2E63 — both brighter and more magenta than this deep brick,
+# and every blue here is a slate darker than either sibling's). The
+# flag is a red field, a blue canton and a white sun: red and blue
+# darkened into chart-safe siblings, the white is the paper.
+palette:
+  RED:     "#A22B31"
+  RED_D:   "#7C1F24"
+  NAVY:    "#1D3557"
+  BLUE:    "#2C4E7C"
+  BLUE_D:  "#203A5C"
+  GREEN:   "#2E7D4F"
+  GREEN_D: "#1F5F3A"
+  GOLD:    "#B8862A"
+  PURPLE:  "#6A5A96"
+  TEAL:    "#137F79"
+  primary: "#A22B31"
+  alert:   "#A22B31"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#A22B31", "#2C4E7C", "#2E7D4F", "#B8862A", "#6A5A96", "#137F79", "#1F2430"]
+  # Red, blue, white: the flag's own order — red field, blue canton, the
+  # sun is the paper showing through.
+  flag_bands: ["#A22B31", "#1D3557", "#FBFAF7"]
+  web:
+    mark_bearing: "0.045em"
+    ground:   "#191013"
+    raised:   "#23161A"
+    raised_2: "#2C1D22"
+    rule:     "#3D272D"
+    ink:      "#F1E9E8"
+    muted:    "#B49B9D"
+    faint:    "#7F686D"
+    money:    "#E0736B"
+    world:    "#4AA3A0"
+    people:   "#D2A043"
+
+seo:
+  title:
+    zh-Hant: "臺灣 — 官方數據圖板，2006–2026"
+    en: "Taiwan — plates of official data, 2006–2026"
+    pt: "Taiwan — pranchas de dados oficiais, 2006–2026"
+  description:
+    zh-Hant: "關於臺灣經濟、公共財政、貿易、市場、就業、人口、移民、死亡、信用與犯罪的官方數據圖板，僅以官方來源建立，並從已提交的 CSV 重新產生。"
+    en: "Data plates on Taiwan's economy, public finances, trade, markets, work, demography, immigration, mortality, credit and crime, built only from official sources and regenerated from committed CSVs."
+    pt: "Pranchas de dados sobre a economia, as contas públicas, o comércio, os mercados, o trabalho, a demografia, a imigração, a mortalidade, o crédito e o crime de Taiwan, construídas apenas a partir de fontes oficiais."
+  keywords:
+    zh-Hant: [臺灣, 主計總處, 中央銀行, 官方統計]
+    en: [Taiwan, DGBAS, Central Bank of the Republic of China (Taiwan), official statistics]
+    pt: [Taiwan, DGBAS, Banco Central da República da China (Taiwan), estatísticas oficiais]
+  spatial: "Taiwan, counties and cities of Taiwan"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+# The international layer (WB/IMF/UN) is deliberately absent — the WTO,
+# the MOF trade database (compiled from customs records) and the CBC
+# stand in for it. MOI/MOH/NIA/NPA appear in SOURCES.yaml only as
+# pending substitutes; the dek names the bodies that actually carry
+# the spine.
+sources:
+  zh-Hant: "行政院主計總處、中央銀行、財政部（含國際貿易統計）、世界貿易組織"
+  en: "the Directorate General of Budget, Accounting and Statistics, the Central Bank, the Ministry of Finance including its international trade statistics, and the World Trade Organization"
+  pt: "a Direção-Geral de Orçamento, Contabilidade e Estatística, o Banco Central, o Ministério das Finanças (incluindo as suas estatísticas de comércio internacional) e a Organização Mundial do Comércio"
