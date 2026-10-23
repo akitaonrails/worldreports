@@ -40,7 +40,7 @@
 economy:
   gdp_growth_intl.csv:
     source: World Bank NY.GDP.MKTP.KD.ZG + IMF DataMapper NGDP_RPCH (ISO3=CHN)
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.KD.ZG?date=2006:2025&format=json ; https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/CHN"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.KD.ZG?date=2006:2025&format=json"
     refreshed_by: "fetch/fetch_harmonised.py → sidecars economy/gdp_growth_intl_from_wb.csv + economy/gdp_growth_intl_from_imf.csv; curated staged from both, values unchanged (2026-10-22)"
     official: false
     notes: >-
@@ -59,19 +59,19 @@ economy:
       229 countries under values.<IND>; the fetcher reads values.<IND>.CHN.
   gdp_growth_intl_from_wb.csv:
     source: World Bank — NY.GDP.MKTP.KD.ZG
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind gdp_growth_intl.csv; diff before adopting."
   gdp_growth_intl_from_imf.csv:
     source: IMF DataMapper — NGDP_RPCH (WEO, outturn years only; WEO projections beyond 2025 are never cached as data)
-    url: "LIVE — https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/CHN"
+    url: "https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/CHN"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind gdp_growth_intl.csv; diff before adopting."
   gdp_usd.csv:
     source: World Bank — NY.GDP.MKTP.CD (ISO3=CHN)
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.CD?date=2006:2025&format=json"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.CD?date=2006:2025&format=json"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar economy/gdp_usd_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
     official: false
     notes: >-
@@ -85,19 +85,19 @@ economy:
       spliced; the two differ by the conversion, not by anything measured.
   gdp_usd_from_wb.csv:
     source: World Bank — NY.GDP.MKTP.CD
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.CD?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.CD?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind gdp_usd.csv; diff before adopting."
   gdp_pc_usd.csv:
     source: World Bank — NY.GDP.PCAP.CD
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.PCAP.CD?date=2006:2025&format=json"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.PCAP.CD?date=2006:2025&format=json"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar economy/gdp_pc_usd_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
     official: false
     notes: "VERIFIED. 2025 = US$13,861.97 per person (current US$, harmonised)."
   gdp_pc_usd_from_wb.csv:
     source: World Bank — NY.GDP.PCAP.CD
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.PCAP.CD?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.PCAP.CD?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind gdp_pc_usd.csv; diff before adopting."
@@ -105,7 +105,7 @@ economy:
   # ---- prices and jobs: the economy slots the blocked NBS would fill ----
   inflation_intl.csv:
     source: World Bank FP.CPI.TOTL.ZG + IMF DataMapper PCPIPCH (WEO)
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=2005:2026 ; https://www.imf.org/external/datamapper/api/v1/PCPIPCH/CHN"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=2005:2026"
     refreshed_by: "fetch/fetch_harmonised.py → sidecars economy/inflation_intl_from_wb.csv + economy/inflation_intl_from_imf.csv; curated staged from both, values unchanged (2026-10-23)"
     official: false
     notes: >-
@@ -117,19 +117,19 @@ economy:
       these, never spliced; the CPI is never drawn on a growth panel.
   inflation_intl_from_wb.csv:
     source: World Bank — FP.CPI.TOTL.ZG
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind inflation_intl.csv; diff before adopting."
   inflation_intl_from_imf.csv:
     source: IMF DataMapper — PCPIPCH (WEO, outturn years only)
-    url: "LIVE — https://www.imf.org/external/datamapper/api/v1/PCPIPCH/CHN"
+    url: "https://www.imf.org/external/datamapper/api/v1/PCPIPCH/CHN"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind inflation_intl.csv; diff before adopting."
   unemployment_intl.csv:
     source: World Bank — SL.UEM.TOTL.ZS (ILO modelled estimate)
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SL.UEM.TOTL.ZS?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SL.UEM.TOTL.ZS?format=json&per_page=200&date=2005:2026"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar economy/unemployment_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
     official: false
     notes: >-
@@ -141,13 +141,13 @@ economy:
       line opens it rides beside, never replaces by splicing.
   unemployment_intl_from_wb.csv:
     source: World Bank — SL.UEM.TOTL.ZS
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SL.UEM.TOTL.ZS?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SL.UEM.TOTL.ZS?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind unemployment_intl.csv; diff before adopting."
   gfcf_pct_gdp.csv:
     source: World Bank — NE.GDI.FTOT.ZS (GFCF, % of GDP, national accounts)
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/NE.GDI.FTOT.ZS?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NE.GDI.FTOT.ZS?format=json&per_page=200&date=2005:2026"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar economy/gfcf_pct_gdp_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
     official: false
     notes: >-
@@ -159,7 +159,7 @@ economy:
       lens is drawn (DATA_NOTES).
   gfcf_pct_gdp_from_wb.csv:
     source: World Bank — NE.GDI.FTOT.ZS
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/NE.GDI.FTOT.ZS?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NE.GDI.FTOT.ZS?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind gfcf_pct_gdp.csv; diff before adopting."
@@ -170,7 +170,7 @@ economy:
 markets:
   reserves_intl.csv:
     source: World Bank — FI.RES.TOTL.CD (IMF IFS), ISO3=CHN
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/FI.RES.TOTL.CD?date=2006:2025&format=json"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/FI.RES.TOTL.CD?date=2006:2025&format=json"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar markets/reserves_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
     official: false
     notes: >-
@@ -181,13 +181,13 @@ markets:
       spliced.
   reserves_intl_from_wb.csv:
     source: World Bank — FI.RES.TOTL.CD
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/FI.RES.TOTL.CD?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/FI.RES.TOTL.CD?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind reserves_intl.csv; diff before adopting."
   sse_index.csv:
     source: market — SSE Composite (上证综合指数), redistributed by Yahoo Finance
-    url: "LIVE — https://query1.finance.yahoo.com/v8/finance/chart/000001.SS?interval=1mo (needs a browser User-Agent)"
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/000001.SS?interval=1mo"
     refreshed_by: "fetch/fetch_markets.py → sidecar markets/sse_index_from_yahoo.csv; curated staged from it (window-clipped to 2006+), values unchanged (2026-10-22)"
     official: false
     notes: >-
@@ -206,13 +206,13 @@ markets:
       an annual total.
   sse_index_from_yahoo.csv:
     source: Yahoo Finance chart API — 000001.SS monthly bars
-    url: "LIVE — https://query1.finance.yahoo.com/v8/finance/chart/000001.SS?interval=1mo"
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/000001.SS?interval=1mo"
     refreshed_by: fetch/fetch_markets.py
     official: false
     notes: "Fetcher sidecar behind sse_index.csv; 2005 row kept as rebasing context."
   spx_index.csv:
     source: market — S&P 500, redistributed by Yahoo Finance
-    url: "LIVE — https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1mo (needs a browser User-Agent)"
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1mo"
     refreshed_by: "fetch/fetch_markets.py → sidecar markets/spx_index_from_yahoo.csv; curated staged from it (window-clipped to 2006+), values unchanged (2026-10-23)"
     official: false
     notes: >-
@@ -224,13 +224,13 @@ markets:
       statistic, hence official: false.
   spx_index_from_yahoo.csv:
     source: Yahoo Finance chart API — ^GSPC monthly bars
-    url: "LIVE — https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1mo"
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1mo"
     refreshed_by: fetch/fetch_markets.py
     official: false
     notes: "Fetcher sidecar behind spx_index.csv; 2005 row kept as rebasing context."
   fx_cny_per_usd.csv:
     source: World Bank — PA.NUS.FCRF (official exchange rate, CNY per US$, annual average)
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/PA.NUS.FCRF?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/PA.NUS.FCRF?format=json&per_page=200&date=2005:2026"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar markets/fx_cny_per_usd_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
     official: false
     notes: >-
@@ -243,7 +243,7 @@ markets:
       fixings never merge with each other either.
   fx_cny_per_usd_from_wb.csv:
     source: World Bank — PA.NUS.FCRF
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/PA.NUS.FCRF?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/PA.NUS.FCRF?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind fx_cny_per_usd.csv; diff before adopting."
@@ -254,7 +254,7 @@ markets:
 fiscal:
   debt_intl_pct_gdp.csv:
     source: IMF DataMapper — GGXWDG_NGDP (general government gross debt, % of GDP)
-    url: "LIVE — https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP/CHN"
+    url: "https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP/CHN"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar fiscal/debt_intl_pct_gdp_from_imf.csv; curated staged from it, values unchanged (2026-10-22)"
     official: false
     notes: >-
@@ -269,7 +269,7 @@ fiscal:
       MOF figure with the perimeter stated; never spliced.
   debt_intl_pct_gdp_from_imf.csv:
     source: IMF DataMapper — GGXWDG_NGDP (outturn years to 2025; projections beyond are never cached as data)
-    url: "LIVE — https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP/CHN"
+    url: "https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP/CHN"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind debt_intl_pct_gdp.csv; diff before adopting."
@@ -280,7 +280,7 @@ fiscal:
 trade:
   trade_intl_openness.csv:
     source: World Bank — NE.TRD.GNFS.ZS plus NE.EXP.GNFS.ZS / NE.IMP.GNFS.ZS
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/NE.TRD.GNFS.ZS?date=2006:2025&format=json (and the EXP/IMP indicators)"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NE.TRD.GNFS.ZS?date=2006:2025&format=json"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar trade/trade_intl_openness_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
     official: false
     notes: >-
@@ -293,13 +293,13 @@ trade:
       GACC itself is 412-blocked (pending); nothing is spliced.
   trade_intl_openness_from_wb.csv:
     source: World Bank — NE.TRD.GNFS.ZS, NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/{code}?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/NE.TRD.GNFS.ZS?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind trade_intl_openness.csv; diff before adopting."
   trade_comtrade_partner.csv:
     source: UN Comtrade public preview (reporter 156 = China), HS goods by partner
-    url: "LIVE — https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=156&period=2023&cmdCode=TOTAL (no key)"
+    url: "https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=156&period=2023&cmdCode=TOTAL"
     refreshed_by: "fetch/fetch_comtrade.py → sidecar trade/trade_comtrade_partner_from_comtrade.csv; curated staged from it, values unchanged (2026-10-22)"
     official: false
     notes: >-
@@ -319,7 +319,7 @@ trade:
       atlas's reading, flagged in the CSV header, not a Comtrade field.
   trade_comtrade_partner_from_comtrade.csv:
     source: UN Comtrade public preview — period 2023, flows X and M, cmdCode TOTAL, all partners
-    url: "LIVE — https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=156&period=2023&cmdCode=TOTAL"
+    url: "https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=156&period=2023&cmdCode=TOTAL"
     refreshed_by: fetch/fetch_comtrade.py
     official: false
     notes: "Fetcher sidecar behind trade_comtrade_partner.csv; the World row and all partner sums are shape-asserted before caching."
@@ -330,7 +330,7 @@ trade:
 people:
   gini_intl.csv:
     source: World Bank — SI.POV.GINI (harmonised, own income definition)
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.GINI?date=2006:2024&format=json"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.GINI?date=2006:2024&format=json"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar people/gini_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
     official: false
     notes: >-
@@ -341,13 +341,13 @@ people:
       join as its own labelled column; two columns, never spliced.
   gini_intl_from_wb.csv:
     source: World Bank — SI.POV.GINI
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.GINI?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.GINI?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind gini_intl.csv; holes 2006-2007, 2009 and 2023+ stay holes."
   poverty_intl.csv:
     source: World Bank PIP — SI.POV.UMIC (poverty headcount, US$8.30/day, 2021 PPP)
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.UMIC?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.UMIC?format=json&per_page=200&date=2005:2026"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar people/poverty_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
     official: false
     notes: >-
@@ -360,7 +360,7 @@ people:
       years stay survey years and the holes past 2022 stay holes.
   poverty_intl_from_wb.csv:
     source: World Bank — SI.POV.UMIC
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.UMIC?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.UMIC?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind poverty_intl.csv; survey-year holes stay holes."
@@ -370,7 +370,7 @@ people:
 # --------------------------------------------------------------------------
   pov_lines_intl.csv:
     source: World Bank PIP pov_line_family — SI.POV.DDAY ($3.00/day 2021 PPP) + SI.POV.LMIC ($4.20/day 2021 PPP), ISO3=CHN
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.DDAY?format=json&per_page=200 ; .../SI.POV.LMIC?..."
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.DDAY?format=json&per_page=200"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar people/pov_lines_intl_from_wb.csv; curated staged with values unchanged (2026-10-23)"
     official: false
     notes: >-
@@ -381,14 +381,14 @@ people:
       breaks are shown, not smoothed. Feeds the people-lens panel.
   pov_lines_intl_from_wb.csv:
     source: World Bank — SI.POV.DDAY + SI.POV.LMIC
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.DDAY?format=json&per_page=200"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SI.POV.DDAY?format=json&per_page=200"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind pov_lines_intl.csv; diff before adopting."
 demography:
   population_intl.csv:
     source: World Bank — SP.POP.TOTL (UN World Population Prospects)
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SP.POP.TOTL?date=2006:2025&format=json"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SP.POP.TOTL?date=2006:2025&format=json"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar demography/population_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
     official: false
     notes: >-
@@ -401,13 +401,13 @@ demography:
       so change is computed within one vintage.
   population_intl_from_wb.csv:
     source: World Bank — SP.POP.TOTL
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SP.POP.TOTL?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SP.POP.TOTL?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind population_intl.csv; diff before adopting."
   vital_intl.csv:
     source: World Bank WDI — SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM (UN WPP 2024-revision vintage)
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/{code}?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SP.DYN.TFRT.IN?format=json&per_page=200&date=2005:2026"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar demography/vital_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
     official: false
     notes: >-
@@ -423,7 +423,7 @@ demography:
       rebases, are pending (403) and will be their own labelled lines.
   vital_intl_from_wb.csv:
     source: World Bank — SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/{code}?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SP.DYN.TFRT.IN?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind vital_intl.csv; diff before adopting."
@@ -434,7 +434,7 @@ demography:
 migration:
   migrant_stock_intl.csv:
     source: World Bank — SM.POP.TOTL.ZS (UN DESA migrant stock, % of population)
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SM.POP.TOTL.ZS?date=2006:2024&format=json"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SM.POP.TOTL.ZS?date=2006:2024&format=json"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar migration/migrant_stock_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-22)"
     official: false
     notes: >-
@@ -446,7 +446,7 @@ migration:
       floating-population line is pending). Flow vs stock in separate panels.
   migrant_stock_intl_from_wb.csv:
     source: World Bank — SM.POP.TOTL.ZS
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SM.POP.TOTL.ZS?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SM.POP.TOTL.ZS?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind migrant_stock_intl.csv; diff before adopting."
@@ -456,7 +456,7 @@ migration:
 # --------------------------------------------------------------------------
   urban_share_intl.csv:
     source: UN World Population Prospects 2024 (urban population share) via World Bank SP.URB.TOTL.IN.ZS, ISO3=CHN
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SP.URB.TOTL.IN.ZS?format=json&per_page=200"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SP.URB.TOTL.IN.ZS?format=json&per_page=200"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar migration/urban_share_intl_from_wb.csv; curated staged with values unchanged (2026-10-23)"
     official: false
     notes: >-
@@ -466,14 +466,14 @@ migration:
       asserted 2025 at 66.3%. Feeds the migration-lens panel.
   urban_share_intl_from_wb.csv:
     source: World Bank — SP.URB.TOTL.IN.ZS
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/SP.URB.TOTL.IN.ZS?format=json&per_page=200"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/SP.URB.TOTL.IN.ZS?format=json&per_page=200"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind urban_share_intl.csv; diff before adopting."
 international:
   hdi.csv:
     source: UNDP — Human Development Report 2025, composite indices complete time series
-    url: "LIVE — https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
+    url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar international/hdi_from_undp.csv; curated staged from it, values unchanged (2026-10-22)"
     official: false
     notes: >-
@@ -485,13 +485,13 @@ international:
       an artefact of the reports.
   hdi_from_undp.csv:
     source: UNDP — HDR25_Composite_indices_complete_time_series.csv, CHN row
-    url: "LIVE — https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
+    url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind hdi.csv; window-clipped copy of the HDR25 CHN row."
   corruption_intl.csv:
     source: Transparency International — Corruption Perceptions Index, 2012-method series
-    url: "LIVE — https://images.transparencycdn.org/images/CPI2025_Results.xlsx (sheet 'CPI Historical')"
+    url: "https://images.transparencycdn.org/images/CPI2025_Results.xlsx"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar international/corruption_intl_from_ti.csv; curated staged from it, values unchanged (2026-10-23)"
     official: false
     notes: >-
@@ -511,7 +511,7 @@ international:
 credit:
   npl_intl.csv:
     source: World Bank — FB.AST.NPER.ZS (IMF Financial Soundness Indicators)
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/FB.AST.NPER.ZS?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/FB.AST.NPER.ZS?format=json&per_page=200&date=2005:2026"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar credit/npl_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
     official: false
     notes: >-
@@ -523,7 +523,7 @@ credit:
       not staged — the household-credit trio stays pending (DATA_NOTES).
   npl_intl_from_wb.csv:
     source: World Bank — FB.AST.NPER.ZS
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/FB.AST.NPER.ZS?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/FB.AST.NPER.ZS?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind npl_intl.csv; diff before adopting."
@@ -535,7 +535,7 @@ credit:
 security:
   security_intl.csv:
     source: World Bank — VC.IHR.PSRC.P5 (UNODC homicide), SH.STA.SUIC.P5 (WHO suicide), SH.STA.TRAF.P5 (WHO road traffic)
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/{code}?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/VC.IHR.PSRC.P5?format=json&per_page=200&date=2005:2026"
     refreshed_by: "fetch/fetch_harmonised.py → sidecar security/security_intl_from_wb.csv; curated staged from it, values unchanged (2026-10-23)"
     official: false
     notes: >-
@@ -549,7 +549,7 @@ security:
       by observation).
   security_intl_from_wb.csv:
     source: World Bank — VC.IHR.PSRC.P5, SH.STA.SUIC.P5, SH.STA.TRAF.P5
-    url: "LIVE — https://api.worldbank.org/v2/country/CHN/indicator/{code}?format=json&per_page=200&date=2005:2026"
+    url: "https://api.worldbank.org/v2/country/CHN/indicator/VC.IHR.PSRC.P5?format=json&per_page=200&date=2005:2026"
     refreshed_by: fetch/fetch_harmonised.py
     official: false
     notes: "Fetcher sidecar behind security_intl.csv; each series keeps its own end year."
