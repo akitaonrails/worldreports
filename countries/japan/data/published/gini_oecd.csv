@@ -1,0 +1,12 @@
+# OECD Income Distribution Database (DF_IDD), JPN, total population, current definition.
+# official: false. Built from MHLW's Comprehensive Survey of Living Conditions (triennial;
+# the year is the INCOME year). gini: 0–1. poverty50: % of people below 50% of median
+# disposable income. BREAK: METH2011 (old income definition) and METH2012 (new) are
+# separate columns, overlapping in 2018 — never joined. Blank = no survey that year.
+year,gini_meth2011,gini_meth2012,poverty50_pct_meth2011,poverty50_pct_meth2012
+2006,0.329,,15.7,
+2009,0.336,,16.0,
+2012,0.330,,16.1,
+2015,0.339,,15.7,
+2018,0.334,0.334,15.4,15.7
+2021,,0.338,,15.4

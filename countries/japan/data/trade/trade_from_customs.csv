@@ -1,0 +1,29 @@
+# Japan Customs, 普通貿易統計 d41ca (annual) / d41ma (monthly, running year only).
+# Goods only, customs basis: exports FOB, imports CIF. NOT the BoP goods account.
+# Units: ¥ BILLION, converted from the published ¥ thousand (千円) ÷ 1,000,000.
+# Calendar years. months = months of data behind the row. The running year is
+# written ONLY as a year-to-date (2026: 8 of 12 months; the later
+# months are zero-filled in the source and are not data) in the *_ytd columns;
+# its annual columns stay blank.
+year,exports_jpy_bn,imports_jpy_bn,balance_jpy_bn,months,exports_ytd_jpy_bn,imports_ytd_jpy_bn,balance_ytd_jpy_bn
+2006,75246.2,67344.3,7901.9,12,,,
+2007,83931.4,73135.9,10795.5,12,,,
+2008,81018.1,78954.7,2063.3,12,,,
+2009,54170.6,51499.4,2671.2,12,,,
+2010,67399.6,60765.0,6634.7,12,,,
+2011,65546.5,68111.2,-2564.7,12,,,
+2012,63747.6,70688.6,-6941.1,12,,,
+2013,69774.2,81242.5,-11468.4,12,,,
+2014,73093.0,85909.1,-12816.1,12,,,
+2015,75613.9,78405.5,-2791.6,12,,,
+2016,70035.8,66042.0,3993.8,12,,,
+2017,78286.5,75379.2,2907.2,12,,,
+2018,81478.8,82703.3,-1224.6,12,,,
+2019,76931.7,78599.5,-1667.8,12,,,
+2020,68399.1,68010.8,388.3,12,,,
+2021,83091.4,84875.0,-1783.6,12,,,
+2022,98173.6,118503.2,-20329.5,12,,,
+2023,100873.0,110395.1,-9522.1,12,,,
+2024,107087.5,112716.0,-5628.4,12,,,
+2025,110400.5,113330.1,-2929.6,12,,,
+2026,,,,8,82210.8,84990.6,-2779.9

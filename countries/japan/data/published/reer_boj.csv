@@ -1,0 +1,26 @@
+# Bank of Japan, effective exchange rates of the yen (FM09 FX180110001 nominal, FX180110002 real), CY2020=100,
+# annual means of monthly values. HIGHER = STRONGER yen (the opposite direction from usdjpy).
+# The pre-2010 broad series (FXCP7JP/FXCP8JP, March 1973=100) is discontinued and on another base; it is not spliced here.
+# The running year is partial: months says how many months it covers.
+year,neer_avg,reer_avg,months,asof_month
+2006,87.91,115.99,12,2006-12
+2007,82.95,106.07,12,2007-12
+2008,92.36,114.03,12,2008-12
+2009,105.85,128.1,12,2009-12
+2010,110.16,128.82,12,2010-12
+2011,116.46,130.47,12,2011-12
+2012,118.1,128.83,12,2012-12
+2013,95.91,102.64,12,2013-12
+2014,89.7,96.75,12,2014-12
+2015,83.95,90.25,12,2015-12
+2016,96.77,102.29,12,2016-12
+2017,93.35,97.31,12,2017-12
+2018,93.51,96.3,12,2018-12
+2019,97.77,99.18,12,2019-12
+2020,100.0,100.0,12,2020-12
+2021,93.52,91.15,12,2021-12
+2022,83.57,79.19,12,2022-12
+2023,79.76,75.49,12,2023-12
+2024,74.97,71.46,12,2024-12
+2025,74.87,72.5,12,2025-12
+2026,68.74,66.14,8,2026-08

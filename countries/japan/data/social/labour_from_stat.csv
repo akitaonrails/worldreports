@@ -1,0 +1,33 @@
+# Statistics Bureau of Japan (MIC), Labour Force Survey, 長期時系列表2
+# (lt02.xlsx, e-Stat table 2-1, annual averages, whole Japan), sheet 長期02
+# (the current spliced series; the sheet 長期02 (既公表値) of previously
+# published values is NOT used). COUNTS ARE THOUSANDS OF PERSONS,
+# converted here from the published 万人 (10,000 persons) by x10; rates
+# are the published %, aged 15+. benchmark_census is the census whose
+# population estimates the year is benchmarked on, per the workbook's
+# note 3 (2005-09: 2010 census; 2010-14: 2015; 2015 on: 2020): each switch
+# is a level shift, not a change in the labour market. supplementary=1
+# marks 2011, a supplementary estimate (Iwate, Miyagi and Fukushima were
+# not surveyed Mar-Aug 2011 after the earthquake). Calendar years. The
+# fiscal-year twin (table 2-2) is not taken.
+year,pop_15plus_k,labour_force_k,employed_k,unemployed_k,not_in_labour_force_k,participation_rate_pct,employment_rate_pct,unemployment_rate_pct,unemployment_rate_male_pct,unemployment_rate_female_pct,benchmark_census,supplementary
+2006,110300,66640,63890,2750,43580,60.4,57.9,4.1,4.3,3.9,2010,
+2007,110660,66840,64270,2570,43750,60.4,58.1,3.9,3.9,3.7,2010,
+2008,110860,66740,64090,2650,44070,60.2,57.8,4.0,4.1,3.8,2010,
+2009,110990,66500,63140,3360,44460,59.9,56.9,5.1,5.3,4.8,2010,
+2010,111110,66320,62980,3340,44730,59.6,56.6,5.1,5.4,4.6,2015,
+2011,111170,65960,62930,3020,45180,59.3,56.5,4.6,4.9,4.2,2015,1
+2012,111100,65650,62800,2850,45430,59.1,56.5,4.3,4.6,4.0,2015,
+2013,111070,65930,63260,2650,45100,59.3,56.9,4.0,4.3,3.7,2015,
+2014,111090,66090,63710,2360,44940,59.4,57.3,3.6,3.7,3.4,2015,
+2015,111100,66250,64020,2220,44790,59.6,57.6,3.4,3.6,3.1,2020,
+2016,111150,66780,64700,2080,44300,60.0,58.1,3.1,3.3,2.8,2020,
+2017,111180,67320,65420,1900,43790,60.5,58.8,2.8,3.0,2.7,2020,
+2018,111160,68490,66820,1670,42580,61.5,60.0,2.4,2.6,2.2,2020,
+2019,111120,69120,67500,1620,41910,62.1,60.6,2.4,2.5,2.2,2020,
+2020,111080,69020,67100,1920,41970,62.0,60.3,2.8,3.0,2.5,2020,
+2021,110870,69070,67130,1950,41710,62.1,60.4,2.8,3.1,2.5,2020,
+2022,110380,69020,67230,1790,41280,62.5,60.9,2.6,2.8,2.4,2020,
+2023,110170,69250,67470,1780,40840,62.9,61.2,2.6,2.8,2.3,2020,
+2024,109950,69570,67810,1760,40310,63.3,61.7,2.5,2.7,2.4,2020,
+2025,109730,70040,68280,1760,39620,63.8,62.2,2.5,2.7,2.3,2020,

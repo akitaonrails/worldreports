@@ -1,0 +1,71 @@
+{
+ "01-economy": [
+  "published/cpi_stat.csv",
+  "published/gdp_esri.csv",
+  "published/gdp_pc_wb.csv",
+  "published/labour_stat.csv"
+ ],
+ "02-fiscal": [
+  "published/central_debt_mof.csv",
+  "published/gdp_esri.csv",
+  "published/gg_accounts_esri.csv",
+  "published/gg_fiscal_imf.csv",
+  "published/gg_liabilities_boj.csv"
+ ],
+ "03-spending": [
+  "published/cofog_esri.csv",
+  "published/gdp_esri.csv"
+ ],
+ "04-trade": [
+  "published/current_account_boj.csv",
+  "published/gdp_esri.csv",
+  "published/trade_customs.csv",
+  "published/trade_partners_customs.csv"
+ ],
+ "05-markets": [
+  "published/cpi_stat.csv",
+  "published/jgb_mof.csv",
+  "published/nikkei_yahoo.csv",
+  "published/rates_boj.csv",
+  "published/usdjpy_boj.csv"
+ ],
+ "06-credit": [
+  "published/gdp_esri.csv",
+  "published/household_debt_boj.csv"
+ ],
+ "07-people": [
+  "published/gini_oecd.csv",
+  "published/gini_wb.csv",
+  "published/labour_stat.csv",
+  "published/poverty_mhlw.csv"
+ ],
+ "08-world": [
+  "published/gdp_usd_wb.csv",
+  "published/hdi_undp.csv",
+  "published/reserves_mof.csv"
+ ],
+ "09-demography": [
+  "published/census_stat.csv",
+  "published/population_stat.csv",
+  "published/vital_mhlw.csv"
+ ],
+ "10-security": [
+  "published/causes_mhlw.csv",
+  "published/census_stat.csv",
+  "published/homicide_deaths_mhlw.csv",
+  "published/homicide_police_npa.csv",
+  "published/homicide_rate_wb.csv",
+  "published/population_stat.csv"
+ ],
+ "11-mortality": [
+  "published/causes_mhlw.csv",
+  "published/census_stat.csv",
+  "published/population_stat.csv",
+  "published/vital_mhlw.csv"
+ ],
+ "12-migration": [
+  "published/census_stat.csv",
+  "published/foreign_residents_isa.csv",
+  "published/population_stat.csv"
+ ]
+}

@@ -1,0 +1,36 @@
+# Statistics Bureau of Japan (MIC), Population Estimates (人口推計), total
+# and JAPANESE population on 1 OCTOBER, THOUSANDS of persons. 2000-2020
+# from the e-Stat long table (第1表, intercensally adjusted onto the
+# censuses); 2021
+# onward from each year's annual release (05k<Y>-1.xlsx). basis:
+# census = the census count itself; intercensal_adjusted = estimate
+# revised onto the following census; estimate_2020_census_base = not yet
+# revised. 2025 IS ABSENT ON PURPOSE: there is no 2025 annual estimate
+# (census years are replaced by the census, see census_from_stat.csv),
+# and the 2021-2024 rows will be re-based onto the 2025 census, which
+# counted fewer people than these estimates imply: growth from 2024 here
+# to 2025 there is a change of base, not growth. foreign = total -
+# japanese, COMPUTED here; Japanese includes a pro-rated share of persons
+# of unknown nationality (publisher's note). Missing years: none.
+# Cross-check: 2024 = 123,802k vs World Bank mid-year
+# 123.98mn.
+year,population_k,male_k,female_k,japanese_k,foreign_k,basis
+2006,127901,62387,65514,126286,1615,intercensal_adjusted
+2007,128033,62424,65608,126347,1686,intercensal_adjusted
+2008,128084,62422,65662,126340,1744,intercensal_adjusted
+2009,128032,62358,65674,126343,1689,intercensal_adjusted
+2010,128057,62328,65730,126382,1675,census
+2011,127834,62207,65627,126210,1624,intercensal_adjusted
+2012,127593,62080,65513,126023,1570,intercensal_adjusted
+2013,127414,61985,65429,125803,1611,intercensal_adjusted
+2014,127237,61901,65336,125562,1675,intercensal_adjusted
+2015,127095,61842,65253,125319,1776,census
+2016,127042,61816,65226,125071,1971,intercensal_adjusted
+2017,126919,61753,65165,124745,2174,intercensal_adjusted
+2018,126749,61673,65076,124349,2400,intercensal_adjusted
+2019,126555,61588,64967,123886,2669,intercensal_adjusted
+2020,126146,61350,64797,123399,2747,census
+2021,125502,61019,64483,122780,2722,estimate_2020_census_base
+2022,124947,60758,64189,122031,2916,estimate_2020_census_base
+2023,124352,60492,63859,121193,3159,estimate_2020_census_base
+2024,123802,60233,63569,120296,3506,estimate_2020_census_base

@@ -1,0 +1,14 @@
+# Statistics Bureau of Japan (MIC), Population Census (国勢調査) on 1
+# October, PERSONS (not thousands). Basic tabulation table 2-3, the
+# IMPUTED reference tables (不詳補完値: unknown nationality and age
+# assigned statistically) of the 2025 census release, for 2025 and for
+# 2020 re-tabulated on the same method. These are the figures of the
+# official summary (2025: 122,973k / Japanese 119,132k / foreign 3,840k);
+# the raw tables leave unknowns unassigned and give a smaller Japanese
+# count. foreign = total - japanese, COMPUTED here. Age groups are the
+# published 0-14 / 15-64 / 65+ counts. The census is the benchmark the
+# population estimates will be re-based on; it is a different series
+# from population_from_stat.csv and the two are never spliced.
+census_year,population,japanese,foreign,age_0_14,age_15_64,age_65plus,japanese_age_65plus
+2020,126146099,123398908,2747191,15027298,75149323,35968868,35780065
+2025,122972528,119131935,3840593,13349001,73480843,36141613,35912520

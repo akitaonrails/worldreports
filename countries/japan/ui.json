@@ -1,0 +1,56 @@
+{
+  "ja": {
+    "line": "公的統計で描く{n}枚の図版、{window}",
+    "dek": "内閣府、総務省、日本銀行、財務省、厚生労働省、出入国在留管理庁など、数値を作成した機関の資料から再現可能な日本の統計地図を構成しました。",
+    "notes": [
+      "2026年は途中集計です。年間合計と平均は2025年までとし、実際に最新時点を表す残高や金利だけを最新値として示します。",
+      "人口動態統計は日本国内の日本人を対象とするため、殺人、自殺、COVID-19などの率も同じ範囲の日本人人口で割っています。",
+      "定義の異なる系列は接続しません。三つの政府債務、二つの外国人登録制度、二つのCOVID分類、旧・新の貧困定義は別々に表示します。",
+      "年度は4月から翌年3月までで、開始年の年度として表記します。国民経済計算の暦年系列と混同しません。",
+      "図版とページは日本語、英語、ポルトガル語で公開しています。"
+    ],
+    "colophon": [
+      {"term": "国民経済計算・物価・労働", "detail": "内閣府、総務省統計局"},
+      {"term": "財政・金融・市場", "detail": "財務省、日本銀行、IMF"},
+      {"term": "人口・死亡・暮らし", "detail": "厚生労働省、総務省統計局、国立社会保障・人口問題研究所"},
+      {"term": "貿易・移住", "detail": "税関、出入国在留管理庁、法務省"},
+      {"term": "国際比較", "detail": "世界銀行、OECD、UNDP、UNHCR。一部は非公式・再配布資料として明記"}
+    ]
+  },
+  "en": {
+    "line": "{n} plates of official data, {window}",
+    "dek": "A reproducible statistical atlas of Japan from the institutions that make the numbers — the Cabinet Office, Statistics Bureau, Bank of Japan, Ministry of Finance, MHLW and Immigration Services Agency among them.",
+    "notes": [
+      "2026 is partial. Annual totals and averages stop at 2025; stocks and rates that are genuinely current are marked as the latest reading.",
+      "Japan's vital statistics cover Japanese nationals in Japan. Homicide, suicide and COVID-19 rates therefore use the Japanese-national population for the same year.",
+      "Differently defined series are never spliced: the three government debts, two foreigner registers, two COVID code regimes and two poverty definitions remain separate.",
+      "Fiscal years run April to March and are keyed to their starting year. They are not presented as calendar-year national-accounts observations.",
+      "The plates and this page are published in Japanese, English and Portuguese."
+    ],
+    "colophon": [
+      {"term": "National accounts, prices and labour", "detail": "Cabinet Office and Statistics Bureau"},
+      {"term": "Public finance, money and markets", "detail": "Ministry of Finance, Bank of Japan and IMF"},
+      {"term": "Population, mortality and living conditions", "detail": "MHLW, Statistics Bureau and IPSS"},
+      {"term": "Trade and migration", "detail": "Japan Customs, Immigration Services Agency and Ministry of Justice"},
+      {"term": "International comparisons", "detail": "World Bank, OECD, UNDP and UNHCR; non-official redistributors are labelled"}
+    ]
+  },
+  "pt": {
+    "line": "{n} pranchas de dados oficiais, {window}",
+    "dek": "Um atlas estatístico reproduzível do Japão, feito com números das instituições que os produzem — Gabinete do Governo, Escritório de Estatística, Banco do Japão, Ministério das Finanças, MHLW e Agência de Imigração, entre outras.",
+    "notes": [
+      "2026 é parcial. Totais e médias anuais terminam em 2025; estoques e taxas realmente atuais são marcados como a leitura mais recente.",
+      "As estatísticas vitais cobrem cidadãos japoneses no Japão. As taxas de homicídio, suicídio e COVID-19 usam, portanto, a população japonesa do mesmo ano.",
+      "Séries com definições distintas nunca são emendadas: as três dívidas públicas, os dois registros de estrangeiros, os dois regimes de códigos da COVID e as duas definições de pobreza permanecem separados.",
+      "O ano fiscal vai de abril a março e leva o ano em que começa. Ele não é apresentado como observação de ano-calendário das contas nacionais.",
+      "As pranchas e esta página são publicadas em japonês, inglês e português."
+    ],
+    "colophon": [
+      {"term": "Contas nacionais, preços e trabalho", "detail": "Gabinete do Governo e Escritório de Estatística"},
+      {"term": "Finanças públicas, moeda e mercados", "detail": "Ministério das Finanças, Banco do Japão e FMI"},
+      {"term": "População, mortalidade e condições de vida", "detail": "MHLW, Escritório de Estatística e IPSS"},
+      {"term": "Comércio e migração", "detail": "Alfândega, Agência de Imigração e Ministério da Justiça"},
+      {"term": "Comparações internacionais", "detail": "Banco Mundial, OCDE, PNUD e ACNUR; redistribuidores não oficiais são identificados"}
+    ]
+  }
+}

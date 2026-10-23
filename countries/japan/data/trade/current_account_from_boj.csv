@@ -1,0 +1,27 @@
+# Bank of Japan / Ministry of Finance, Balance of Payments (BPM6), BP01, monthly net balances summed to calendar years.
+# Published in 100 million yen; converted here to YEN BILLION (divided by 10).
+# current_account = goods + services + primary_income + secondary_income (checked to within ¥1bn of rounding).
+# Annual totals only for complete years: a part-year is blank, with months saying how many months exist.
+# BoP basis (goods on change of ownership, services included); NOT the customs-basis trade series, and never spliced with it.
+year,current_account_bn,goods_bn,services_bn,primary_income_bn,secondary_income_bn,months
+2006,20330.7,11070.1,-3724.1,14227.7,-1242.9,12
+2007,24949.0,14187.3,-4362.0,16481.8,-1358.1,12
+2008,14878.6,5803.1,-3913.1,14340.2,-1351.5,12
+2009,13592.5,5387.6,-3262.7,12631.2,-1163.5,12
+2010,19382.8,9516.0,-2658.8,13617.3,-1091.7,12
+2011,10401.3,-330.2,-2779.9,14621.0,-1109.6,12
+2012,4764.0,-4271.9,-3811.0,13991.4,-1144.5,12
+2013,4456.6,-8773.4,-3478.6,17697.8,-989.2,12
+2014,3921.5,-10465.3,-3033.5,19414.8,-1994.5,12
+2015,16519.4,-886.2,-1930.7,21303.2,-1966.9,12
+2016,21391.0,5517.6,-1128.8,19147.8,-2145.6,12
+2017,22777.9,4911.3,-690.7,20684.3,-2127.1,12
+2018,19504.7,1126.5,-1021.3,21402.6,-2003.1,12
+2019,19251.3,150.3,-1082.1,21553.1,-1370.0,12
+2020,15991.7,2777.9,-3655.2,19438.7,-2569.7,12
+2021,21466.7,1762.3,-4245.7,26309.2,-2359.1,12
+2022,11442.5,-15510.7,-5555.8,35041.7,-2532.6,12
+2023,22475.5,-6611.6,-3340.6,36566.2,-4138.5,12
+2024,29277.4,-2714.5,-3194.1,40328.4,-5142.5,12
+2025,32235.0,-567.7,-3443.1,41820.1,-5574.3,12
+2026,,,,,,8

@@ -1,0 +1,32 @@
+# UNHCR Refugee Data Finder API, country of asylum JPN. official: false. Persons/cases
+# per calendar year. applications_new_first_instance = app_type N at level FI;
+# applications_appeal = app_type A at level AR (other combinations — judicial review,
+# repeat — are excluded). decisions_* by level: recognized (Convention), other
+# (complementary protection), rejected, closed (otherwise closed). Applications,
+# decisions and recognitions are separate numbers, never one line. The national ISA
+# count is pending. Blank = no row in the API, not zero.
+# BREAK 2021: from 2021 UNHCR reports positive decisions only at level FA
+# (final, all instances combined) -> decisions_final_*; the FI/appeal recognized/other
+# cells are blank from then (the API's 0 there is a convention, not an outcome), and
+# FI/appeal *_total from then counts negative and closed decisions only.
+year,applications_new_first_instance,applications_appeal,decisions_fi_recognized,decisions_fi_other,decisions_fi_rejected,decisions_fi_closed,decisions_fi_total,decisions_appeal_recognized,decisions_appeal_other,decisions_appeal_rejected,decisions_appeal_closed,decisions_appeal_total,decisions_final_recognized,decisions_final_other
+2006,947,340,29,26,357,35,447,12,26,101,33,172,,
+2007,816,362,36,54,437,69,596,5,30,181,34,250,,
+2008,1598,,38,317,786,82,906,16,45,300,34,351,,
+2009,1388,1156,15,505,1707,121,1844,10,0,234,64,308,,
+2010,1176,,24,323,985,98,1430,13,36,325,113,487,,
+2011,1858,498,5,176,1981,96,2087,12,65,635,231,880,,
+2012,2532,,5,60,2077,100,2242,11,53,790,194,1048,,
+2013,3260,2408,0,42,2456,140,2638,5,108,812,210,1135,,
+2014,4994,2533,10,36,2863,257,3166,5,61,1109,347,1522,,
+2015,7577,3120,10,15,3388,470,3883,10,55,1707,503,2275,,
+2016,10901,5197,29,68,7489,675,8261,0,30,2112,823,2965,,
+2017,19650,8530,10,30,9737,1625,11402,0,0,3090,1302,4392,,
+2018,10493,9021,38,28,10513,2924,13503,5,13,5999,2154,8171,,
+2019,10375,5130,38,38,4899,2152,8405,0,0,6021,2269,8291,,
+2020,3936,2573,47,44,3433,1916,5393,0,0,5271,1203,6474,,
+2021,2413,4046,,,3616,1889,5505,,,6732,670,7402,75,573
+2022,3772,4461,,,5418,0,5418,,,4725,0,4725,203,1750
+2023,13823,5247,,,5045,0,5045,,,2582,0,2582,289,1006
+2024,13646,3273,,,5119,3117,8236,,,3152,948,4100,1857,330
+2025,11607,7703,,,9214,5435,14649,,,3422,1246,4668,187,996
