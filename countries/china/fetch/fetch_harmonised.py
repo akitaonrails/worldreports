@@ -14,12 +14,23 @@ on 2026-10-22 (see SOURCES.yaml); the NBS machine API is 403-blocked, so
 until that block lifts this layer is the only live China series the atlas
 can fetch, and the official NBS line stays on the pending list.
 
-  World Bank   WDI: real GDP growth, GDP and GDP per person (current US$),
+  World Bank   WDI: real GDP growth, CPI inflation, unemployment (ILO
+               modelled estimate), GDP and GDP per person (current US$),
                reserves (IMF IFS), trade / exports / imports (% of GDP),
-               Gini, population (UN WPP), migrant stock (UN DESA)
-  IMF          DataMapper: real GDP growth (NGDP_RPCH), general-government
-               gross debt, % of GDP (GGXWDG_NGDP)
+               the official exchange rate (PA.NUS.FCRF, annual-average CNY
+               per USD — what the currency slot indexes and the equity slot
+               converts with), gross fixed capital formation (% of GDP),
+               Gini, poverty at the US$8.30/day upper-middle-income line
+               (PIP), non-performing loans (IMF FSI), population (UN WPP),
+               total fertility, crude birth and death rates, net migration
+               (UN WPP counts), migrant stock (UN DESA), homicide (UNODC),
+               suicide (WHO estimates)
+  IMF          DataMapper: real GDP growth (NGDP_RPCH), CPI inflation
+               (PCPIPCH), general-government gross debt, % of GDP
+               (GGXWDG_NGDP)
   UNDP         HDR25 composite indices, one complete time series (HDI)
+  Transparency Corruption Perceptions Index — the 2012-method time series
+               from one edition's results-and-trends workbook
 
 Quirks the checks below exist for:
 
