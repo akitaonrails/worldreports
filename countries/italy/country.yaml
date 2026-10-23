@@ -1,0 +1,129 @@
+# Italy. The eighth country in the atlas and the third eurozone one: like
+# France and Spain, the money it uses and the rate it pays are set in
+# Frankfurt, so the ECB series appear here exactly as they do there. The
+# national twin of the harmonised layer is ISTAT's SDMX API (esploradati),
+# and the fiscal layer is the Eurostat EDP transmission — the same decision
+# Spain took, for the same reason (see SOURCES.yaml meta.pending).
+slug: italy
+flag_emoji: "🇮🇹"
+wordmark: Italia
+name:
+  it: "Italia"
+  en: "Italy"
+  fr: "Italie"
+  pt: "Itália"
+  es: "Italia"
+  ko: "이탈리아"
+  he: "איטליה"
+  ja: "イタリア"
+  zh-Hans: "意大利"
+  zh-Hant: "義大利"
+  vi: "Ý"
+  de: "Italien"
+
+locales:
+  - {code: it, html_lang: it-IT, og_locale: it_IT, endonym: Italiano}
+  - {code: en, html_lang: en,    og_locale: en_GB, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual totals
+# are complete. A flow for a year still running is not comparable with the
+# ones before it, so plates dash or hatch anything past it.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+spine: true
+
+# Bands drawn behind the data, dated off the quarter-on-quarter sign of
+# seasonally adjusted real GDP (Eurostat namq_10_gdp, CLV_PCH_PRE, SCA,
+# vintage pulled 2026-10-22), not the headlines:
+#   2008 Q2 to 2009 Q2: five consecutive negative quarters (−0.9, −1.5,
+#     −2.3, −2.4, −0.6). The single negatives in 2007 Q1 and Q4 never made
+#     two in a row, so 2007 stays outside the band.
+#   2011 Q2 to 2013 Q1: eight consecutive negative quarters — the
+#     euro-crisis double-dip, with the 2012 trough at the BTP yield peak.
+#     On this vintage the decline then sputters: 2013 Q4 and 2014 Q1 are
+#     both −0.1, technically a third dip but within rounding of zero, and
+#     2014 Q2–Q3 print 0.0. Left outside the band; whether 2011–2014 is one
+#     slump or two is a debate the band does not settle.
+#   2020 Q1–Q2: the COVID contraction (−5.4 then −12.6, among the deepest
+#     in Europe). Note for the plate authors: on this same vintage 2019 Q3
+#     and Q4 are already negative (−0.5, −0.4), so the sign run into the
+#     pandemic trough is technically continuous from 2019 Q3. The band
+#     marks the pandemic episode; the 2019 stall is the pre-existing
+#     condition and belongs in an event annotation, not in the band.
+bands:
+  - {from: 2008.25, to: 2009.5, label: "2008–09 crisis"}
+  - {from: 2011.25, to: 2013.0, label: "2011–13 euro crisis"}
+  - {from: 2020.0, to: 2020.5, label: "COVID-19"}
+
+currency:
+  code: EUR
+
+# The tricolore is green, white and red, which is not a chart palette: the
+# white is the paper, and flag green #008C45 against flag red #CD212A
+# vibrates at chart weight. These are darkened, desaturated siblings — the
+# green pulled down toward emerald, the red toward brick — chosen to stay
+# apart from each other in greyscale, and in hue from Spain's red-and-gold
+# and Canada's red-and-blue. The green leads: it is the hue neither
+# neighbour is using.
+palette:
+  VERDE:   "#247A4B"
+  VERDE_D: "#17593A"
+  ROSSO:   "#A3282C"
+  ROSSO_D: "#7C1D22"
+  NAVY:    "#1C3A55"
+  BLUE:    "#2F6E9B"
+  GOLD:    "#BE8A1E"
+  PURPLE:  "#6E5BA6"
+  TEAL:    "#13807A"
+  primary: "#247A4B"
+  alert:   "#A3282C"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#247A4B", "#A3282C", "#2F6E9B", "#BE8A1E", "#6E5BA6", "#13807A", "#1F2430"]
+  # Green, white, red — the tricolore laid flat. The middle band is the
+  # page colour, so it is drawn with an outline; unstroked it reads as a
+  # gap between two marks (same handling as Canada).
+  flag_bands: ["#247A4B", "#FBFAF7", "#A3282C"]
+  # A cool green-black rather than a dark green: the family accents have
+  # to stay apart from each other and from the page, and a green accent on
+  # a green ground is the one pair that cannot.
+  web:
+    # I is a plain stem — less overhang to pull back than F, more than A.
+    mark_bearing: "0.045em"
+    ground:   "#101712"
+    raised:   "#182219"
+    raised_2: "#202B21"
+    rule:     "#2C3A2E"
+    ink:      "#EDF1EA"
+    muted:    "#A3B1A4"
+    faint:    "#6B7A6C"
+    money:    "#63B184"
+    world:    "#46A9A2"
+    people:   "#D7A33F"
+
+seo:
+  title:
+    it: "Italia — tavole di dati ufficiali, 2006–2026"
+    en: "Italy — plates of official data, 2006–2026"
+    pt: "Itália — pranchas de dados oficiais, 2006–2026"
+  description:
+    it: "Tavole di dati su economia, conti pubblici, commercio, mercati, lavoro, demografia, migrazione, mortalità, credito e criminalità in Italia, costruite solo a partire da fonti ufficiali e rigenerate da CSV versionati."
+    en: "Data plates on Italy's economy, public finances, trade, markets, work, demography, migration, mortality, credit and crime, built only from official sources and regenerated from committed CSVs."
+    pt: "Pranchas de dados sobre a economia, as contas públicas, o comércio, os mercados, o trabalho, a demografia, a migração, a mortalidade, o crédito e o crime da Itália, construídas apenas a partir de fontes oficiais."
+  keywords: [Italia, Italy, ISTAT, Eurostat, Banca d'Italia, migrazione, finanza pubblica, official statistics]
+  spatial: "Italy"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+sources:
+  it: "l'ISTAT, Eurostat, la Banca d'Italia e la BCE, il MEF e la Ragioneria Generale dello Stato (via Eurostat), il Ministero dell'Interno (via ISTAT)"
+  en: "ISTAT, Eurostat, the Banca d'Italia and the ECB, the MEF and the Ragioneria Generale dello Stato (via Eurostat), the Ministero dell'Interno (via ISTAT)"
+  pt: "o ISTAT, a Eurostat, o Banca d'Italia e o BCE, o MEF e a Ragioneria Generale dello Stato (via Eurostat), o Ministério do Interior (via ISTAT)"

@@ -1,0 +1,26 @@
+# ISTAT 29_7, foreign-citizen residents at 1 January, national. Matches Eurostat migr_pop1ctz citizen=FOR_STLS.
+# This flow carries the permanent-census basis only (2019 onward); earlier years are blank.
+# Curated from migration/foreign_residents_from_istat.csv: values and columns copied unchanged, trimmed to 2006-2026.
+# The sidecar beside it is what the fetcher refreshes.
+year,foreign_residents,male,female
+2006,,,
+2007,,,
+2008,,,
+2009,,,
+2010,,,
+2011,,,
+2012,,,
+2013,,,
+2014,,,
+2015,,,
+2016,,,
+2017,,,
+2018,,,
+2019,4996158,2414285,2581873
+2020,5039637,2431678,2607959
+2021,5171894,2524644,2647250
+2022,5030716,2468202,2562514
+2023,5141341,2517539,2623802
+2024,5253658,2602650,2651008
+2025,5371251,2689622,2681629
+2026,5559527,2818095,2741432

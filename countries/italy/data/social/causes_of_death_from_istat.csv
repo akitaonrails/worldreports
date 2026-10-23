@@ -1,0 +1,1586 @@
+# ISTAT 39_494 deaths by underlying cause, European shortlist (CL_CAUSEMORTE_SL), territory of RESIDENCE, national, both sexes, all ages.
+# The 39_493 twin counts by territory of EVENT — a different count, never mixed with this one.
+# Codes nest (2 > 2_1 > 2_1_1 ...; 'of which' rows are subsets): never sum the column. 99 = all causes; 20* (Covid-19) exist from 2020.
+# All-causes here (certificates, residents) is not the deaths figure in vital_from_istat.csv (population register) — two counts.
+year,code,cause,deaths
+2006,1,"infectious and parasitic diseases",7277
+2006,10,"diseases of the skin and subcutaneous tissue",901
+2006,11,"diseases of the musculoskeletal system/connective tissue",3060
+2006,11_1,"rheumatoid arthritis and osteoarthrosis",878
+2006,11_2,"other diseases of the musculoskeletal system/connective tissue",2182
+2006,12,"diseases of the genitourinary system",9068
+2006,12_1,"diseases of kidney and ureter",7925
+2006,12_2,"other diseases of the genitourinary system",1143
+2006,13,"complications of pregnancy, childbirth and puerperium",9
+2006,14,"certain conditions originating in the perinatal period",1095
+2006,15,"congenital malformations and chromosomal abnormalities",1333
+2006,16,"symptoms, signs, ill-defined causes",9243
+2006,16_1,"sudden infant death syndrome",23
+2006,16_2,"unknown and unspecified causes",1978
+2006,16_3,"other symptoms, signs, ill-defined causes",7242
+2006,17,"external causes of injury and poisoning",23404
+2006,17_1,"accidents",18976
+2006,17_1_1,"of which transport accidents",5774
+2006,17_1_2,"of which accidental falls",2839
+2006,17_1_3,"of which drowning and accidental submersion",306
+2006,17_1_4,"of which accidental poisoning",229
+2006,17_1_5,"of which other accidents",9828
+2006,17_2,"suicide and intentional self-harm",3611
+2006,17_3,"homicide, assault",475
+2006,17_4,"events of undetermined intent",94
+2006,17_5,"other external causes of injury and poisoning",248
+2006,1_1,"tuberculosis",397
+2006,1_2,"aids (hiv-disease)",919
+2006,1_3,"viral hepatitis",2403
+2006,1_4,"other infectious and parasitic diseases",3558
+2006,2,"neoplasms",168129
+2006,2_1,"malignant neoplasms",160427
+2006,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",2734
+2006,2_1_10,"of which malignant neoplasm of breast",11576
+2006,2_1_11,"of which malignant neoplasm of cervix uteri",345
+2006,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2393
+2006,2_1_13,"of which malignant neoplasm of ovary",2944
+2006,2_1_14,"of which malignant neoplasm of prostate",7446
+2006,2_1_15,"of which malignant neoplasm of kidney",3158
+2006,2_1_16,"of which malignant neoplasm of bladder",5269
+2006,2_1_17,"of which malignant neoplasm of brain and central nervous system",3416
+2006,2_1_18,"of which malignant neoplasm of thyroid",550
+2006,2_1_19,"of which hodgkin disease and lymphomas",4807
+2006,2_1_2,"of which malignant neoplasm of oesophagus",1731
+2006,2_1_20,"of which leukaemia",5573
+2006,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3158
+2006,2_1_22,"of which other malignant neoplasms",21642
+2006,2_1_3,"of which malignant neoplasm of stomach",10593
+2006,2_1_4,"of which malignant neoplasm of colon, rectum and anus",18024
+2006,2_1_5,"of which malignant neoplasm of liver",9661
+2006,2_1_6,"of which malignant neoplasm of pancreas",9543
+2006,2_1_7,"of which malignant neoplasm of larynx",1706
+2006,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",32591
+2006,2_1_9,"of which malignant melanoma of skin",1567
+2006,2_2,"non-malignant neoplasms (benign and uncertain)",7702
+2006,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",2539
+2006,4,"endocrine, nutritional and metabolic diseases",23473
+2006,4_1,"diabetes mellitus",19242
+2006,4_2,"other endocrine, nutritional and metabolic diseases",4231
+2006,5,"mental and behavioural disorders",8827
+2006,5_1,"dementia",7305
+2006,5_2,"alcohol abuse (including alcoholic psychosis)",216
+2006,5_3,"drug dependence, toxicomania",401
+2006,5_4,"other mental and behavioural disorders",905
+2006,6,"diseases of the nervous system and the sense organs",19290
+2006,6_1,"parkinson's disease",3856
+2006,6_2,"alzheimer's disease",7281
+2006,6_3,"other diseases of the nervous system and the sense organs",8153
+2006,7,"diseases of the circulatory system",218993
+2006,7_1,"ischaemic heart diseases",73980
+2006,7_1_1,"of which acute myocardial infarction",31970
+2006,7_1_2,"of which other ischaemic heart diseases",42010
+2006,7_2,"other heart diseases",45541
+2006,7_3,"cerebrovascular diseases",60747
+2006,7_4,"other diseases of the circulatory system",38725
+2006,8,"diseases of the respiratory system",35633
+2006,8_1,"influenza",296
+2006,8_2,"pneumonia",6716
+2006,8_3,"chronic lower respiratory diseases",20212
+2006,8_3_1,"of which asthma",505
+2006,8_3_2,"of which other chronic lower respiratory diseases",19707
+2006,8_4,"other diseases of the respiratory system",8409
+2006,9,"diseases of the digestive system",23015
+2006,99,"all causes of death",555289
+2006,9_1,"ulcer of stomach, duodenum and jejunum",972
+2006,9_2,"cirrhosis, fibrosis and chronic hepatitis",8642
+2006,9_3,"other diseases of the digestive system",13401
+2007,1,"infectious and parasitic diseases",7832
+2007,10,"diseases of the skin and subcutaneous tissue",926
+2007,11,"diseases of the musculoskeletal system/connective tissue",3241
+2007,11_1,"rheumatoid arthritis and osteoarthrosis",887
+2007,11_2,"other diseases of the musculoskeletal system/connective tissue",2354
+2007,12,"diseases of the genitourinary system",9794
+2007,12_1,"diseases of kidney and ureter",8509
+2007,12_2,"other diseases of the genitourinary system",1285
+2007,13,"complications of pregnancy, childbirth and puerperium",11
+2007,14,"certain conditions originating in the perinatal period",1089
+2007,15,"congenital malformations and chromosomal abnormalities",1276
+2007,16,"symptoms, signs, ill-defined causes",9606
+2007,16_1,"sudden infant death syndrome",22
+2007,16_2,"unknown and unspecified causes",1885
+2007,16_3,"other symptoms, signs, ill-defined causes",7699
+2007,17,"external causes of injury and poisoning",23544
+2007,17_1,"accidents",19159
+2007,17_1_1,"of which transport accidents",5429
+2007,17_1_2,"of which accidental falls",2886
+2007,17_1_3,"of which drowning and accidental submersion",295
+2007,17_1_4,"of which accidental poisoning",483
+2007,17_1_5,"of which other accidents",10066
+2007,17_2,"suicide and intentional self-harm",3650
+2007,17_3,"homicide, assault",490
+2007,17_4,"events of undetermined intent",34
+2007,17_5,"other external causes of injury and poisoning",211
+2007,1_1,"tuberculosis",372
+2007,1_2,"aids (hiv-disease)",977
+2007,1_3,"viral hepatitis",2584
+2007,1_4,"other infectious and parasitic diseases",3899
+2007,2,"neoplasms",171093
+2007,2_1,"malignant neoplasms",163301
+2007,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",2790
+2007,2_1_10,"of which malignant neoplasm of breast",12012
+2007,2_1_11,"of which malignant neoplasm of cervix uteri",407
+2007,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2387
+2007,2_1_13,"of which malignant neoplasm of ovary",3246
+2007,2_1_14,"of which malignant neoplasm of prostate",7486
+2007,2_1_15,"of which malignant neoplasm of kidney",3065
+2007,2_1_16,"of which malignant neoplasm of bladder",5473
+2007,2_1_17,"of which malignant neoplasm of brain and central nervous system",3435
+2007,2_1_18,"of which malignant neoplasm of thyroid",547
+2007,2_1_19,"of which hodgkin disease and lymphomas",4886
+2007,2_1_2,"of which malignant neoplasm of oesophagus",1759
+2007,2_1_20,"of which leukaemia",5730
+2007,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3184
+2007,2_1_22,"of which other malignant neoplasms",22424
+2007,2_1_3,"of which malignant neoplasm of stomach",10496
+2007,2_1_4,"of which malignant neoplasm of colon, rectum and anus",18316
+2007,2_1_5,"of which malignant neoplasm of liver",9697
+2007,2_1_6,"of which malignant neoplasm of pancreas",9796
+2007,2_1_7,"of which malignant neoplasm of larynx",1670
+2007,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",32845
+2007,2_1_9,"of which malignant melanoma of skin",1650
+2007,2_2,"non-malignant neoplasms (benign and uncertain)",7792
+2007,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",2701
+2007,4,"endocrine, nutritional and metabolic diseases",24415
+2007,4_1,"diabetes mellitus",19853
+2007,4_2,"other endocrine, nutritional and metabolic diseases",4562
+2007,5,"mental and behavioural disorders",9267
+2007,5_1,"dementia",7908
+2007,5_2,"alcohol abuse (including alcoholic psychosis)",216
+2007,5_3,"drug dependence, toxicomania",224
+2007,5_4,"other mental and behavioural disorders",919
+2007,6,"diseases of the nervous system and the sense organs",20695
+2007,6_1,"parkinson's disease",4093
+2007,6_2,"alzheimer's disease",8328
+2007,6_3,"other diseases of the nervous system and the sense organs",8274
+2007,7,"diseases of the circulatory system",223162
+2007,7_1,"ischaemic heart diseases",74608
+2007,7_1_1,"of which acute myocardial infarction",31503
+2007,7_1_2,"of which other ischaemic heart diseases",43105
+2007,7_2,"other heart diseases",46492
+2007,7_3,"cerebrovascular diseases",61370
+2007,7_4,"other diseases of the circulatory system",40692
+2007,8,"diseases of the respiratory system",37700
+2007,8_1,"influenza",411
+2007,8_2,"pneumonia",7032
+2007,8_3,"chronic lower respiratory diseases",21209
+2007,8_3_1,"of which asthma",528
+2007,8_3_2,"of which other chronic lower respiratory diseases",20681
+2007,8_4,"other diseases of the respiratory system",9048
+2007,9,"diseases of the digestive system",23047
+2007,99,"all causes of death",569399
+2007,9_1,"ulcer of stomach, duodenum and jejunum",876
+2007,9_2,"cirrhosis, fibrosis and chronic hepatitis",8375
+2007,9_3,"other diseases of the digestive system",13796
+2008,1,"infectious and parasitic diseases",8314
+2008,10,"diseases of the skin and subcutaneous tissue",807
+2008,11,"diseases of the musculoskeletal system/connective tissue",3651
+2008,11_1,"rheumatoid arthritis and osteoarthrosis",998
+2008,11_2,"other diseases of the musculoskeletal system/connective tissue",2653
+2008,12,"diseases of the genitourinary system",9590
+2008,12_1,"diseases of kidney and ureter",8514
+2008,12_2,"other diseases of the genitourinary system",1076
+2008,13,"complications of pregnancy, childbirth and puerperium",12
+2008,14,"certain conditions originating in the perinatal period",1099
+2008,15,"congenital malformations and chromosomal abnormalities",1311
+2008,16,"symptoms, signs, ill-defined causes",9259
+2008,16_1,"sudden infant death syndrome",27
+2008,16_2,"unknown and unspecified causes",1769
+2008,16_3,"other symptoms, signs, ill-defined causes",7463
+2008,17,"external causes of injury and poisoning",23543
+2008,17_1,"accidents",18977
+2008,17_1_1,"of which transport accidents",5060
+2008,17_1_2,"of which accidental falls",2930
+2008,17_1_3,"of which drowning and accidental submersion",337
+2008,17_1_4,"of which accidental poisoning",468
+2008,17_1_5,"of which other accidents",10182
+2008,17_2,"suicide and intentional self-harm",3804
+2008,17_3,"homicide, assault",444
+2008,17_4,"events of undetermined intent",46
+2008,17_5,"other external causes of injury and poisoning",272
+2008,1_1,"tuberculosis",378
+2008,1_2,"aids (hiv-disease)",898
+2008,1_3,"viral hepatitis",2675
+2008,1_4,"other infectious and parasitic diseases",4363
+2008,2,"neoplasms",172208
+2008,2_1,"malignant neoplasms",164297
+2008,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",2745
+2008,2_1_10,"of which malignant neoplasm of breast",12298
+2008,2_1_11,"of which malignant neoplasm of cervix uteri",377
+2008,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2412
+2008,2_1_13,"of which malignant neoplasm of ovary",3199
+2008,2_1_14,"of which malignant neoplasm of prostate",7435
+2008,2_1_15,"of which malignant neoplasm of kidney",3143
+2008,2_1_16,"of which malignant neoplasm of bladder",5532
+2008,2_1_17,"of which malignant neoplasm of brain and central nervous system",3554
+2008,2_1_18,"of which malignant neoplasm of thyroid",545
+2008,2_1_19,"of which hodgkin disease and lymphomas",4993
+2008,2_1_2,"of which malignant neoplasm of oesophagus",1773
+2008,2_1_20,"of which leukaemia",5877
+2008,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3175
+2008,2_1_22,"of which other malignant neoplasms",23134
+2008,2_1_3,"of which malignant neoplasm of stomach",10147
+2008,2_1_4,"of which malignant neoplasm of colon, rectum and anus",18471
+2008,2_1_5,"of which malignant neoplasm of liver",9433
+2008,2_1_6,"of which malignant neoplasm of pancreas",9788
+2008,2_1_7,"of which malignant neoplasm of larynx",1707
+2008,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",33004
+2008,2_1_9,"of which malignant melanoma of skin",1555
+2008,2_2,"non-malignant neoplasms (benign and uncertain)",7911
+2008,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",2586
+2008,4,"endocrine, nutritional and metabolic diseases",24904
+2008,4_1,"diabetes mellitus",20170
+2008,4_2,"other endocrine, nutritional and metabolic diseases",4734
+2008,5,"mental and behavioural disorders",13876
+2008,5_1,"dementia",12571
+2008,5_2,"alcohol abuse (including alcoholic psychosis)",236
+2008,5_3,"drug dependence, toxicomania",143
+2008,5_4,"other mental and behavioural disorders",926
+2008,6,"diseases of the nervous system and the sense organs",21457
+2008,6_1,"parkinson's disease",4034
+2008,6_2,"alzheimer's disease",9006
+2008,6_3,"other diseases of the nervous system and the sense organs",8417
+2008,7,"diseases of the circulatory system",224484
+2008,7_1,"ischaemic heart diseases",75046
+2008,7_1_1,"of which acute myocardial infarction",30697
+2008,7_1_2,"of which other ischaemic heart diseases",44349
+2008,7_2,"other heart diseases",46117
+2008,7_3,"cerebrovascular diseases",63414
+2008,7_4,"other diseases of the circulatory system",39907
+2008,8,"diseases of the respiratory system",37659
+2008,8_1,"influenza",454
+2008,8_2,"pneumonia",6883
+2008,8_3,"chronic lower respiratory diseases",21356
+2008,8_3_1,"of which asthma",474
+2008,8_3_2,"of which other chronic lower respiratory diseases",20882
+2008,8_4,"other diseases of the respiratory system",8966
+2008,9,"diseases of the digestive system",23432
+2008,99,"all causes of death",578192
+2008,9_1,"ulcer of stomach, duodenum and jejunum",873
+2008,9_2,"cirrhosis, fibrosis and chronic hepatitis",8489
+2008,9_3,"other diseases of the digestive system",14070
+2009,1,"infectious and parasitic diseases",8905
+2009,10,"diseases of the skin and subcutaneous tissue",836
+2009,11,"diseases of the musculoskeletal system/connective tissue",3361
+2009,11_1,"rheumatoid arthritis and osteoarthrosis",883
+2009,11_2,"other diseases of the musculoskeletal system/connective tissue",2478
+2009,12,"diseases of the genitourinary system",10165
+2009,12_1,"diseases of kidney and ureter",8895
+2009,12_2,"other diseases of the genitourinary system",1270
+2009,13,"complications of pregnancy, childbirth and puerperium",16
+2009,14,"certain conditions originating in the perinatal period",1169
+2009,15,"congenital malformations and chromosomal abnormalities",1288
+2009,16,"symptoms, signs, ill-defined causes",9025
+2009,16_1,"sudden infant death syndrome",20
+2009,16_2,"unknown and unspecified causes",1904
+2009,16_3,"other symptoms, signs, ill-defined causes",7101
+2009,17,"external causes of injury and poisoning",23965
+2009,17_1,"accidents",19217
+2009,17_1_1,"of which transport accidents",4667
+2009,17_1_2,"of which accidental falls",3155
+2009,17_1_3,"of which drowning and accidental submersion",341
+2009,17_1_4,"of which accidental poisoning",476
+2009,17_1_5,"of which other accidents",10578
+2009,17_2,"suicide and intentional self-harm",3878
+2009,17_3,"homicide, assault",453
+2009,17_4,"events of undetermined intent",103
+2009,17_5,"other external causes of injury and poisoning",314
+2009,1_1,"tuberculosis",387
+2009,1_2,"aids (hiv-disease)",858
+2009,1_3,"viral hepatitis",2654
+2009,1_4,"other infectious and parasitic diseases",5006
+2009,2,"neoplasms",174113
+2009,2_1,"malignant neoplasms",166301
+2009,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",2674
+2009,2_1_10,"of which malignant neoplasm of breast",12286
+2009,2_1_11,"of which malignant neoplasm of cervix uteri",384
+2009,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2507
+2009,2_1_13,"of which malignant neoplasm of ovary",3347
+2009,2_1_14,"of which malignant neoplasm of prostate",7468
+2009,2_1_15,"of which malignant neoplasm of kidney",3269
+2009,2_1_16,"of which malignant neoplasm of bladder",5482
+2009,2_1_17,"of which malignant neoplasm of brain and central nervous system",3774
+2009,2_1_18,"of which malignant neoplasm of thyroid",616
+2009,2_1_19,"of which hodgkin disease and lymphomas",5034
+2009,2_1_2,"of which malignant neoplasm of oesophagus",1777
+2009,2_1_20,"of which leukaemia",5891
+2009,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3192
+2009,2_1_22,"of which other malignant neoplasms",23338
+2009,2_1_3,"of which malignant neoplasm of stomach",10208
+2009,2_1_4,"of which malignant neoplasm of colon, rectum and anus",18519
+2009,2_1_5,"of which malignant neoplasm of liver",9696
+2009,2_1_6,"of which malignant neoplasm of pancreas",9994
+2009,2_1_7,"of which malignant neoplasm of larynx",1748
+2009,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",33308
+2009,2_1_9,"of which malignant melanoma of skin",1789
+2009,2_2,"non-malignant neoplasms (benign and uncertain)",7812
+2009,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",2639
+2009,4,"endocrine, nutritional and metabolic diseases",25751
+2009,4_1,"diabetes mellitus",20760
+2009,4_2,"other endocrine, nutritional and metabolic diseases",4991
+2009,5,"mental and behavioural disorders",14639
+2009,5_1,"dementia",13287
+2009,5_2,"alcohol abuse (including alcoholic psychosis)",224
+2009,5_3,"drug dependence, toxicomania",120
+2009,5_4,"other mental and behavioural disorders",1008
+2009,6,"diseases of the nervous system and the sense organs",22233
+2009,6_1,"parkinson's disease",4166
+2009,6_2,"alzheimer's disease",9397
+2009,6_3,"other diseases of the nervous system and the sense organs",8670
+2009,7,"diseases of the circulatory system",223699
+2009,7_1,"ischaemic heart diseases",73492
+2009,7_1_1,"of which acute myocardial infarction",29851
+2009,7_1_2,"of which other ischaemic heart diseases",43641
+2009,7_2,"other heart diseases",46224
+2009,7_3,"cerebrovascular diseases",63118
+2009,7_4,"other diseases of the circulatory system",40865
+2009,8,"diseases of the respiratory system",39824
+2009,8_1,"influenza",613
+2009,8_2,"pneumonia",7211
+2009,8_3,"chronic lower respiratory diseases",22221
+2009,8_3_1,"of which asthma",492
+2009,8_3_2,"of which other chronic lower respiratory diseases",21729
+2009,8_4,"other diseases of the respiratory system",9779
+2009,9,"diseases of the digestive system",23554
+2009,99,"all causes of death",585182
+2009,9_1,"ulcer of stomach, duodenum and jejunum",804
+2009,9_2,"cirrhosis, fibrosis and chronic hepatitis",8220
+2009,9_3,"other diseases of the digestive system",14530
+2010,1,"infectious and parasitic diseases",9510
+2010,10,"diseases of the skin and subcutaneous tissue",888
+2010,11,"diseases of the musculoskeletal system/connective tissue",3071
+2010,11_1,"rheumatoid arthritis and osteoarthrosis",920
+2010,11_2,"other diseases of the musculoskeletal system/connective tissue",2151
+2010,12,"diseases of the genitourinary system",10379
+2010,12_1,"diseases of kidney and ureter",8949
+2010,12_2,"other diseases of the genitourinary system",1430
+2010,13,"complications of pregnancy, childbirth and puerperium",15
+2010,14,"certain conditions originating in the perinatal period",1072
+2010,15,"congenital malformations and chromosomal abnormalities",1294
+2010,16,"symptoms, signs, ill-defined causes",9034
+2010,16_1,"sudden infant death syndrome",22
+2010,16_2,"unknown and unspecified causes",1870
+2010,16_3,"other symptoms, signs, ill-defined causes",7142
+2010,17,"external causes of injury and poisoning",23308
+2010,17_1,"accidents",18528
+2010,17_1_1,"of which transport accidents",4313
+2010,17_1_2,"of which accidental falls",3116
+2010,17_1_3,"of which drowning and accidental submersion",300
+2010,17_1_4,"of which accidental poisoning",412
+2010,17_1_5,"of which other accidents",10387
+2010,17_2,"suicide and intentional self-harm",3876
+2010,17_3,"homicide, assault",413
+2010,17_4,"events of undetermined intent",29
+2010,17_5,"other external causes of injury and poisoning",462
+2010,1_1,"tuberculosis",350
+2010,1_2,"aids (hiv-disease)",799
+2010,1_3,"viral hepatitis",2751
+2010,1_4,"other infectious and parasitic diseases",5610
+2010,2,"neoplasms",174472
+2010,2_1,"malignant neoplasms",166705
+2010,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",2736
+2010,2_1_10,"of which malignant neoplasm of breast",12205
+2010,2_1_11,"of which malignant neoplasm of cervix uteri",394
+2010,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2418
+2010,2_1_13,"of which malignant neoplasm of ovary",3179
+2010,2_1_14,"of which malignant neoplasm of prostate",7496
+2010,2_1_15,"of which malignant neoplasm of kidney",3351
+2010,2_1_16,"of which malignant neoplasm of bladder",5687
+2010,2_1_17,"of which malignant neoplasm of brain and central nervous system",3721
+2010,2_1_18,"of which malignant neoplasm of thyroid",546
+2010,2_1_19,"of which hodgkin disease and lymphomas",4945
+2010,2_1_2,"of which malignant neoplasm of oesophagus",1863
+2010,2_1_20,"of which leukaemia",5799
+2010,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3229
+2010,2_1_22,"of which other malignant neoplasms",23325
+2010,2_1_3,"of which malignant neoplasm of stomach",10045
+2010,2_1_4,"of which malignant neoplasm of colon, rectum and anus",18821
+2010,2_1_5,"of which malignant neoplasm of liver",9378
+2010,2_1_6,"of which malignant neoplasm of pancreas",10477
+2010,2_1_7,"of which malignant neoplasm of larynx",1701
+2010,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",33619
+2010,2_1_9,"of which malignant melanoma of skin",1770
+2010,2_2,"non-malignant neoplasms (benign and uncertain)",7767
+2010,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",2731
+2010,4,"endocrine, nutritional and metabolic diseases",25683
+2010,4_1,"diabetes mellitus",20563
+2010,4_2,"other endocrine, nutritional and metabolic diseases",5120
+2010,5,"mental and behavioural disorders",14622
+2010,5_1,"dementia",13258
+2010,5_2,"alcohol abuse (including alcoholic psychosis)",225
+2010,5_3,"drug dependence, toxicomania",106
+2010,5_4,"other mental and behavioural disorders",1033
+2010,6,"diseases of the nervous system and the sense organs",22400
+2010,6_1,"parkinson's disease",4405
+2010,6_2,"alzheimer's disease",9526
+2010,6_3,"other diseases of the nervous system and the sense organs",8469
+2010,7,"diseases of the circulatory system",220539
+2010,7_1,"ischaemic heart diseases",72023
+2010,7_1_1,"of which acute myocardial infarction",28717
+2010,7_1_2,"of which other ischaemic heart diseases",43306
+2010,7_2,"other heart diseases",45572
+2010,7_3,"cerebrovascular diseases",60586
+2010,7_4,"other diseases of the circulatory system",42358
+2010,8,"diseases of the respiratory system",38650
+2010,8_1,"influenza",267
+2010,8_2,"pneumonia",7207
+2010,8_3,"chronic lower respiratory diseases",21477
+2010,8_3_1,"of which asthma",470
+2010,8_3_2,"of which other chronic lower respiratory diseases",21007
+2010,8_4,"other diseases of the respiratory system",9699
+2010,9,"diseases of the digestive system",23639
+2010,99,"all causes of death",581307
+2010,9_1,"ulcer of stomach, duodenum and jejunum",759
+2010,9_2,"cirrhosis, fibrosis and chronic hepatitis",7841
+2010,9_3,"other diseases of the digestive system",15039
+2011,1,"infectious and parasitic diseases",10976
+2011,10,"diseases of the skin and subcutaneous tissue",991
+2011,11,"diseases of the musculoskeletal system/connective tissue",3139
+2011,11_1,"rheumatoid arthritis and osteoarthrosis",905
+2011,11_2,"other diseases of the musculoskeletal system/connective tissue",2234
+2011,12,"diseases of the genitourinary system",11078
+2011,12_1,"diseases of kidney and ureter",9477
+2011,12_2,"other diseases of the genitourinary system",1601
+2011,13,"complications of pregnancy, childbirth and puerperium",13
+2011,14,"certain conditions originating in the perinatal period",970
+2011,15,"congenital malformations and chromosomal abnormalities",1393
+2011,16,"symptoms, signs, ill-defined causes",9984
+2011,16_1,"sudden infant death syndrome",23
+2011,16_2,"unknown and unspecified causes",1945
+2011,16_3,"other symptoms, signs, ill-defined causes",8016
+2011,17,"external causes of injury and poisoning",22973
+2011,17_1,"accidents",18098
+2011,17_1_1,"of which transport accidents",4254
+2011,17_1_2,"of which accidental falls",3844
+2011,17_1_3,"of which drowning and accidental submersion",318
+2011,17_1_4,"of which accidental poisoning",360
+2011,17_1_5,"of which other accidents",9322
+2011,17_2,"suicide and intentional self-harm",4035
+2011,17_3,"homicide, assault",395
+2011,17_4,"events of undetermined intent",12
+2011,17_5,"other external causes of injury and poisoning",433
+2011,1_1,"tuberculosis",370
+2011,1_2,"aids (hiv-disease)",795
+2011,1_3,"viral hepatitis",2995
+2011,1_4,"other infectious and parasitic diseases",6816
+2011,2,"neoplasms",175363
+2011,2_1,"malignant neoplasms",167303
+2011,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",2839
+2011,2_1_10,"of which malignant neoplasm of breast",12076
+2011,2_1_11,"of which malignant neoplasm of cervix uteri",431
+2011,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2473
+2011,2_1_13,"of which malignant neoplasm of ovary",3209
+2011,2_1_14,"of which malignant neoplasm of prostate",7520
+2011,2_1_15,"of which malignant neoplasm of kidney",3261
+2011,2_1_16,"of which malignant neoplasm of bladder",5618
+2011,2_1_17,"of which malignant neoplasm of brain and central nervous system",3725
+2011,2_1_18,"of which malignant neoplasm of thyroid",544
+2011,2_1_19,"of which hodgkin disease and lymphomas",4984
+2011,2_1_2,"of which malignant neoplasm of oesophagus",1801
+2011,2_1_20,"of which leukaemia",5945
+2011,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3309
+2011,2_1_22,"of which other malignant neoplasms",22597
+2011,2_1_3,"of which malignant neoplasm of stomach",9957
+2011,2_1_4,"of which malignant neoplasm of colon, rectum and anus",19077
+2011,2_1_5,"of which malignant neoplasm of liver",10016
+2011,2_1_6,"of which malignant neoplasm of pancreas",10788
+2011,2_1_7,"of which malignant neoplasm of larynx",1620
+2011,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",33706
+2011,2_1_9,"of which malignant melanoma of skin",1807
+2011,2_2,"non-malignant neoplasms (benign and uncertain)",8060
+2011,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",2903
+2011,4,"endocrine, nutritional and metabolic diseases",26674
+2011,4_1,"diabetes mellitus",21072
+2011,4_2,"other endocrine, nutritional and metabolic diseases",5602
+2011,5,"mental and behavioural disorders",15936
+2011,5_1,"dementia",14495
+2011,5_2,"alcohol abuse (including alcoholic psychosis)",224
+2011,5_3,"drug dependence, toxicomania",135
+2011,5_4,"other mental and behavioural disorders",1082
+2011,6,"diseases of the nervous system and the sense organs",23184
+2011,6_1,"parkinson's disease",4480
+2011,6_2,"alzheimer's disease",10108
+2011,6_3,"other diseases of the nervous system and the sense organs",8596
+2011,7,"diseases of the circulatory system",221889
+2011,7_1,"ischaemic heart diseases",74191
+2011,7_1_1,"of which acute myocardial infarction",28178
+2011,7_1_2,"of which other ischaemic heart diseases",46013
+2011,7_2,"other heart diseases",45042
+2011,7_3,"cerebrovascular diseases",60297
+2011,7_4,"other diseases of the circulatory system",42359
+2011,8,"diseases of the respiratory system",40388
+2011,8_1,"influenza",508
+2011,8_2,"pneumonia",8345
+2011,8_3,"chronic lower respiratory diseases",20842
+2011,8_3_1,"of which asthma",424
+2011,8_3_2,"of which other chronic lower respiratory diseases",20418
+2011,8_4,"other diseases of the respiratory system",10693
+2011,9,"diseases of the digestive system",22760
+2011,99,"all causes of death",590614
+2011,9_1,"ulcer of stomach, duodenum and jejunum",722
+2011,9_2,"cirrhosis, fibrosis and chronic hepatitis",6646
+2011,9_3,"other diseases of the digestive system",15392
+2012,1,"infectious and parasitic diseases",12441
+2012,10,"diseases of the skin and subcutaneous tissue",1000
+2012,11,"diseases of the musculoskeletal system/connective tissue",3149
+2012,11_1,"rheumatoid arthritis and osteoarthrosis",891
+2012,11_2,"other diseases of the musculoskeletal system/connective tissue",2258
+2012,12,"diseases of the genitourinary system",11937
+2012,12_1,"diseases of kidney and ureter",10085
+2012,12_2,"other diseases of the genitourinary system",1852
+2012,13,"complications of pregnancy, childbirth and puerperium",11
+2012,14,"certain conditions originating in the perinatal period",974
+2012,15,"congenital malformations and chromosomal abnormalities",1286
+2012,16,"symptoms, signs, ill-defined causes",10982
+2012,16_1,"sudden infant death syndrome",14
+2012,16_2,"unknown and unspecified causes",1991
+2012,16_3,"other symptoms, signs, ill-defined causes",8977
+2012,17,"external causes of injury and poisoning",23091
+2012,17_1,"accidents",17946
+2012,17_1_1,"of which transport accidents",3911
+2012,17_1_2,"of which accidental falls",4112
+2012,17_1_3,"of which drowning and accidental submersion",305
+2012,17_1_4,"of which accidental poisoning",473
+2012,17_1_5,"of which other accidents",9145
+2012,17_2,"suicide and intentional self-harm",4146
+2012,17_3,"homicide, assault",410
+2012,17_4,"events of undetermined intent",10
+2012,17_5,"other external causes of injury and poisoning",579
+2012,1_1,"tuberculosis",314
+2012,1_2,"aids (hiv-disease)",843
+2012,1_3,"viral hepatitis",3082
+2012,1_4,"other infectious and parasitic diseases",8202
+2012,2,"neoplasms",176634
+2012,2_1,"malignant neoplasms",168497
+2012,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",2825
+2012,2_1_10,"of which malignant neoplasm of breast",12095
+2012,2_1_11,"of which malignant neoplasm of cervix uteri",413
+2012,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2442
+2012,2_1_13,"of which malignant neoplasm of ovary",3236
+2012,2_1_14,"of which malignant neoplasm of prostate",7260
+2012,2_1_15,"of which malignant neoplasm of kidney",3285
+2012,2_1_16,"of which malignant neoplasm of bladder",5717
+2012,2_1_17,"of which malignant neoplasm of brain and central nervous system",4046
+2012,2_1_18,"of which malignant neoplasm of thyroid",589
+2012,2_1_19,"of which hodgkin disease and lymphomas",5041
+2012,2_1_2,"of which malignant neoplasm of oesophagus",1808
+2012,2_1_20,"of which leukaemia",6177
+2012,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3520
+2012,2_1_22,"of which other malignant neoplasms",23293
+2012,2_1_3,"of which malignant neoplasm of stomach",9969
+2012,2_1_4,"of which malignant neoplasm of colon, rectum and anus",19159
+2012,2_1_5,"of which malignant neoplasm of liver",10067
+2012,2_1_6,"of which malignant neoplasm of pancreas",10676
+2012,2_1_7,"of which malignant neoplasm of larynx",1574
+2012,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",33431
+2012,2_1_9,"of which malignant melanoma of skin",1874
+2012,2_2,"non-malignant neoplasms (benign and uncertain)",8137
+2012,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",3077
+2012,4,"endocrine, nutritional and metabolic diseases",27521
+2012,4_1,"diabetes mellitus",21467
+2012,4_2,"other endocrine, nutritional and metabolic diseases",6054
+2012,5,"mental and behavioural disorders",17313
+2012,5_1,"dementia",15701
+2012,5_2,"alcohol abuse (including alcoholic psychosis)",223
+2012,5_3,"drug dependence, toxicomania",135
+2012,5_4,"other mental and behavioural disorders",1254
+2012,6,"diseases of the nervous system and the sense organs",24955
+2012,6_1,"parkinson's disease",5025
+2012,6_2,"alzheimer's disease",10823
+2012,6_3,"other diseases of the nervous system and the sense organs",9107
+2012,7,"diseases of the circulatory system",228973
+2012,7_1,"ischaemic heart diseases",74607
+2012,7_1_1,"of which acute myocardial infarction",27410
+2012,7_1_2,"of which other ischaemic heart diseases",47197
+2012,7_2,"other heart diseases",48056
+2012,7_3,"cerebrovascular diseases",61036
+2012,7_4,"other diseases of the circulatory system",45274
+2012,8,"diseases of the respiratory system",43306
+2012,8_1,"influenza",458
+2012,8_2,"pneumonia",9241
+2012,8_3,"chronic lower respiratory diseases",21796
+2012,8_3_1,"of which asthma",394
+2012,8_3_2,"of which other chronic lower respiratory diseases",21402
+2012,8_4,"other diseases of the respiratory system",11811
+2012,9,"diseases of the digestive system",23246
+2012,99,"all causes of death",609896
+2012,9_1,"ulcer of stomach, duodenum and jejunum",716
+2012,9_2,"cirrhosis, fibrosis and chronic hepatitis",6348
+2012,9_3,"other diseases of the digestive system",16182
+2013,1,"infectious and parasitic diseases",12694
+2013,10,"diseases of the skin and subcutaneous tissue",1074
+2013,11,"diseases of the musculoskeletal system/connective tissue",3189
+2013,11_1,"rheumatoid arthritis and osteoarthrosis",908
+2013,11_2,"other diseases of the musculoskeletal system/connective tissue",2281
+2013,12,"diseases of the genitourinary system",11718
+2013,12_1,"diseases of kidney and ureter",9820
+2013,12_2,"other diseases of the genitourinary system",1898
+2013,13,"complications of pregnancy, childbirth and puerperium",13
+2013,14,"certain conditions originating in the perinatal period",950
+2013,15,"congenital malformations and chromosomal abnormalities",1299
+2013,16,"symptoms, signs, ill-defined causes",10876
+2013,16_1,"sudden infant death syndrome",23
+2013,16_2,"unknown and unspecified causes",1954
+2013,16_3,"other symptoms, signs, ill-defined causes",8899
+2013,17,"external causes of injury and poisoning",22500
+2013,17_1,"accidents",17443
+2013,17_1_1,"of which transport accidents",3531
+2013,17_1_2,"of which accidental falls",3758
+2013,17_1_3,"of which drowning and accidental submersion",302
+2013,17_1_4,"of which accidental poisoning",457
+2013,17_1_5,"of which other accidents",9395
+2013,17_2,"suicide and intentional self-harm",4183
+2013,17_3,"homicide, assault",372
+2013,17_4,"events of undetermined intent",9
+2013,17_5,"other external causes of injury and poisoning",493
+2013,1_1,"tuberculosis",255
+2013,1_2,"aids (hiv-disease)",728
+2013,1_3,"viral hepatitis",2870
+2013,1_4,"other infectious and parasitic diseases",8841
+2013,2,"neoplasms",175603
+2013,2_1,"malignant neoplasms",167552
+2013,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",2808
+2013,2_1_10,"of which malignant neoplasm of breast",12033
+2013,2_1_11,"of which malignant neoplasm of cervix uteri",434
+2013,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2509
+2013,2_1_13,"of which malignant neoplasm of ovary",3291
+2013,2_1_14,"of which malignant neoplasm of prostate",7190
+2013,2_1_15,"of which malignant neoplasm of kidney",3414
+2013,2_1_16,"of which malignant neoplasm of bladder",5588
+2013,2_1_17,"of which malignant neoplasm of brain and central nervous system",3977
+2013,2_1_18,"of which malignant neoplasm of thyroid",552
+2013,2_1_19,"of which hodgkin disease and lymphomas",5018
+2013,2_1_2,"of which malignant neoplasm of oesophagus",1800
+2013,2_1_20,"of which leukaemia",6022
+2013,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3537
+2013,2_1_22,"of which other malignant neoplasms",23354
+2013,2_1_3,"of which malignant neoplasm of stomach",9565
+2013,2_1_4,"of which malignant neoplasm of colon, rectum and anus",18712
+2013,2_1_5,"of which malignant neoplasm of liver",9729
+2013,2_1_6,"of which malignant neoplasm of pancreas",11166
+2013,2_1_7,"of which malignant neoplasm of larynx",1541
+2013,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",33369
+2013,2_1_9,"of which malignant melanoma of skin",1943
+2013,2_2,"non-malignant neoplasms (benign and uncertain)",8051
+2013,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",2828
+2013,4,"endocrine, nutritional and metabolic diseases",26550
+2013,4_1,"diabetes mellitus",20857
+2013,4_2,"other endocrine, nutritional and metabolic diseases",5693
+2013,5,"mental and behavioural disorders",17345
+2013,5_1,"dementia",15790
+2013,5_2,"alcohol abuse (including alcoholic psychosis)",210
+2013,5_3,"drug dependence, toxicomania",114
+2013,5_4,"other mental and behavioural disorders",1231
+2013,6,"diseases of the nervous system and the sense organs",24019
+2013,6_1,"parkinson's disease",4880
+2013,6_2,"alzheimer's disease",10360
+2013,6_3,"other diseases of the nervous system and the sense organs",8779
+2013,7,"diseases of the circulatory system",221171
+2013,7_1,"ischaemic heart diseases",71119
+2013,7_1_1,"of which acute myocardial infarction",25744
+2013,7_1_2,"of which other ischaemic heart diseases",45375
+2013,7_2,"other heart diseases",48276
+2013,7_3,"cerebrovascular diseases",58173
+2013,7_4,"other diseases of the circulatory system",43603
+2013,8,"diseases of the respiratory system",41562
+2013,8_1,"influenza",414
+2013,8_2,"pneumonia",9040
+2013,8_3,"chronic lower respiratory diseases",20508
+2013,8_3_1,"of which asthma",423
+2013,8_3_2,"of which other chronic lower respiratory diseases",20085
+2013,8_4,"other diseases of the respiratory system",11600
+2013,9,"diseases of the digestive system",22557
+2013,99,"all causes of death",595948
+2013,9_1,"ulcer of stomach, duodenum and jejunum",656
+2013,9_2,"cirrhosis, fibrosis and chronic hepatitis",5981
+2013,9_3,"other diseases of the digestive system",15920
+2014,1,"infectious and parasitic diseases",13110
+2014,10,"diseases of the skin and subcutaneous tissue",1092
+2014,11,"diseases of the musculoskeletal system/connective tissue",3115
+2014,11_1,"rheumatoid arthritis and osteoarthrosis",866
+2014,11_2,"other diseases of the musculoskeletal system/connective tissue",2249
+2014,12,"diseases of the genitourinary system",11998
+2014,12_1,"diseases of kidney and ureter",10019
+2014,12_2,"other diseases of the genitourinary system",1979
+2014,13,"complications of pregnancy, childbirth and puerperium",5
+2014,14,"certain conditions originating in the perinatal period",849
+2014,15,"congenital malformations and chromosomal abnormalities",1222
+2014,16,"symptoms, signs, ill-defined causes",11318
+2014,16_1,"sudden infant death syndrome",18
+2014,16_2,"unknown and unspecified causes",1838
+2014,16_3,"other symptoms, signs, ill-defined causes",9462
+2014,17,"external causes of injury and poisoning",22276
+2014,17_1,"accidents",17384
+2014,17_1_1,"of which transport accidents",3519
+2014,17_1_2,"of which accidental falls",3610
+2014,17_1_3,"of which drowning and accidental submersion",263
+2014,17_1_4,"of which accidental poisoning",443
+2014,17_1_5,"of which other accidents",9549
+2014,17_2,"suicide and intentional self-harm",4055
+2014,17_3,"homicide, assault",346
+2014,17_5,"other external causes of injury and poisoning",491
+2014,1_1,"tuberculosis",270
+2014,1_2,"aids (hiv-disease)",690
+2014,1_3,"viral hepatitis",2802
+2014,1_4,"other infectious and parasitic diseases",9348
+2014,2,"neoplasms",176670
+2014,2_1,"malignant neoplasms",168494
+2014,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",2901
+2014,2_1_10,"of which malignant neoplasm of breast",12295
+2014,2_1_11,"of which malignant neoplasm of cervix uteri",453
+2014,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2501
+2014,2_1_13,"of which malignant neoplasm of ovary",3115
+2014,2_1_14,"of which malignant neoplasm of prostate",7157
+2014,2_1_15,"of which malignant neoplasm of kidney",3365
+2014,2_1_16,"of which malignant neoplasm of bladder",5595
+2014,2_1_17,"of which malignant neoplasm of brain and central nervous system",4223
+2014,2_1_18,"of which malignant neoplasm of thyroid",531
+2014,2_1_19,"of which hodgkin disease and lymphomas",5151
+2014,2_1_2,"of which malignant neoplasm of oesophagus",1821
+2014,2_1_20,"of which leukaemia",6000
+2014,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3544
+2014,2_1_22,"of which other malignant neoplasms",23904
+2014,2_1_3,"of which malignant neoplasm of stomach",9525
+2014,2_1_4,"of which malignant neoplasm of colon, rectum and anus",18620
+2014,2_1_5,"of which malignant neoplasm of liver",9873
+2014,2_1_6,"of which malignant neoplasm of pancreas",11149
+2014,2_1_7,"of which malignant neoplasm of larynx",1493
+2014,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",33270
+2014,2_1_9,"of which malignant melanoma of skin",2008
+2014,2_2,"non-malignant neoplasms (benign and uncertain)",8176
+2014,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",2827
+2014,4,"endocrine, nutritional and metabolic diseases",26024
+2014,4_1,"diabetes mellitus",20119
+2014,4_2,"other endocrine, nutritional and metabolic diseases",5905
+2014,5,"mental and behavioural disorders",17563
+2014,5_1,"dementia",16002
+2014,5_2,"alcohol abuse (including alcoholic psychosis)",212
+2014,5_3,"drug dependence, toxicomania",108
+2014,5_4,"other mental and behavioural disorders",1241
+2014,6,"diseases of the nervous system and the sense organs",24419
+2014,6_1,"parkinson's disease",5102
+2014,6_2,"alzheimer's disease",10559
+2014,6_3,"other diseases of the nervous system and the sense organs",8758
+2014,7,"diseases of the circulatory system",219017
+2014,7_1,"ischaemic heart diseases",69177
+2014,7_1_1,"of which acute myocardial infarction",25002
+2014,7_1_2,"of which other ischaemic heart diseases",44175
+2014,7_2,"other heart diseases",49235
+2014,7_3,"cerebrovascular diseases",57008
+2014,7_4,"other diseases of the circulatory system",43597
+2014,8,"diseases of the respiratory system",41397
+2014,8_1,"influenza",271
+2014,8_2,"pneumonia",9101
+2014,8_3,"chronic lower respiratory diseases",20181
+2014,8_3_1,"of which asthma",328
+2014,8_3_2,"of which other chronic lower respiratory diseases",19853
+2014,8_4,"other diseases of the respiratory system",11844
+2014,9,"diseases of the digestive system",22391
+2014,99,"all causes of death",595293
+2014,9_1,"ulcer of stomach, duodenum and jejunum",622
+2014,9_2,"cirrhosis, fibrosis and chronic hepatitis",5956
+2014,9_3,"other diseases of the digestive system",15813
+2015,1,"infectious and parasitic diseases",15683
+2015,10,"diseases of the skin and subcutaneous tissue",1268
+2015,11,"diseases of the musculoskeletal system/connective tissue",3464
+2015,11_1,"rheumatoid arthritis and osteoarthrosis",961
+2015,11_2,"other diseases of the musculoskeletal system/connective tissue",2503
+2015,12,"diseases of the genitourinary system",13585
+2015,12_1,"diseases of kidney and ureter",11062
+2015,12_2,"other diseases of the genitourinary system",2523
+2015,13,"complications of pregnancy, childbirth and puerperium",16
+2015,14,"certain conditions originating in the perinatal period",828
+2015,15,"congenital malformations and chromosomal abnormalities",1354
+2015,16,"symptoms, signs, ill-defined causes",13246
+2015,16_1,"sudden infant death syndrome",15
+2015,16_2,"unknown and unspecified causes",2210
+2015,16_3,"other symptoms, signs, ill-defined causes",11021
+2015,17,"external causes of injury and poisoning",23298
+2015,17_1,"accidents",18507
+2015,17_1_1,"of which transport accidents",3582
+2015,17_1_2,"of which accidental falls",3880
+2015,17_1_3,"of which drowning and accidental submersion",279
+2015,17_1_4,"of which accidental poisoning",463
+2015,17_1_5,"of which other accidents",10303
+2015,17_2,"suicide and intentional self-harm",3910
+2015,17_3,"homicide, assault",355
+2015,17_4,"events of undetermined intent",3
+2015,17_5,"other external causes of injury and poisoning",523
+2015,1_1,"tuberculosis",308
+2015,1_2,"aids (hiv-disease)",678
+2015,1_3,"viral hepatitis",2864
+2015,1_4,"other infectious and parasitic diseases",11833
+2015,2,"neoplasms",178232
+2015,2_1,"malignant neoplasms",169726
+2015,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",2875
+2015,2_1_10,"of which malignant neoplasm of breast",12381
+2015,2_1_11,"of which malignant neoplasm of cervix uteri",435
+2015,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2516
+2015,2_1_13,"of which malignant neoplasm of ovary",3186
+2015,2_1_14,"of which malignant neoplasm of prostate",7196
+2015,2_1_15,"of which malignant neoplasm of kidney",3461
+2015,2_1_16,"of which malignant neoplasm of bladder",5641
+2015,2_1_17,"of which malignant neoplasm of brain and central nervous system",4118
+2015,2_1_18,"of which malignant neoplasm of thyroid",549
+2015,2_1_19,"of which hodgkin disease and lymphomas",5158
+2015,2_1_2,"of which malignant neoplasm of oesophagus",1834
+2015,2_1_20,"of which leukaemia",5974
+2015,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3582
+2015,2_1_22,"of which other malignant neoplasms",24098
+2015,2_1_3,"of which malignant neoplasm of stomach",9394
+2015,2_1_4,"of which malignant neoplasm of colon, rectum and anus",18935
+2015,2_1_5,"of which malignant neoplasm of liver",9675
+2015,2_1_6,"of which malignant neoplasm of pancreas",11463
+2015,2_1_7,"of which malignant neoplasm of larynx",1476
+2015,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",33836
+2015,2_1_9,"of which malignant melanoma of skin",1943
+2015,2_2,"non-malignant neoplasms (benign and uncertain)",8506
+2015,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",3129
+2015,4,"endocrine, nutritional and metabolic diseases",29137
+2015,4_1,"diabetes mellitus",22165
+2015,4_2,"other endocrine, nutritional and metabolic diseases",6972
+2015,5,"mental and behavioural disorders",21349
+2015,5_1,"dementia",19551
+2015,5_2,"alcohol abuse (including alcoholic psychosis)",219
+2015,5_3,"drug dependence, toxicomania",111
+2015,5_4,"other mental and behavioural disorders",1468
+2015,6,"diseases of the nervous system and the sense organs",28141
+2015,6_1,"parkinson's disease",6134
+2015,6_2,"alzheimer's disease",12117
+2015,6_3,"other diseases of the nervous system and the sense organs",9890
+2015,7,"diseases of the circulatory system",238262
+2015,7_1,"ischaemic heart diseases",72670
+2015,7_1_1,"of which acute myocardial infarction",25521
+2015,7_1_2,"of which other ischaemic heart diseases",47149
+2015,7_2,"other heart diseases",55731
+2015,7_3,"cerebrovascular diseases",61548
+2015,7_4,"other diseases of the circulatory system",48313
+2015,8,"diseases of the respiratory system",48350
+2015,8_1,"influenza",672
+2015,8_2,"pneumonia",11595
+2015,8_3,"chronic lower respiratory diseases",22432
+2015,8_3_1,"of which asthma",419
+2015,8_3_2,"of which other chronic lower respiratory diseases",22013
+2015,8_4,"other diseases of the respiratory system",13651
+2015,9,"diseases of the digestive system",23117
+2015,99,"all causes of death",642459
+2015,9_1,"ulcer of stomach, duodenum and jejunum",687
+2015,9_2,"cirrhosis, fibrosis and chronic hepatitis",5797
+2015,9_3,"other diseases of the digestive system",16633
+2016,1,"infectious and parasitic diseases",12729
+2016,10,"diseases of the skin and subcutaneous tissue",1211
+2016,11,"diseases of the musculoskeletal system/connective tissue",3204
+2016,11_1,"rheumatoid arthritis and osteoarthrosis",1067
+2016,11_2,"other diseases of the musculoskeletal system/connective tissue",2137
+2016,12,"diseases of the genitourinary system",10907
+2016,12_1,"diseases of kidney and ureter",8401
+2016,12_2,"other diseases of the genitourinary system",2506
+2016,13,"complications of pregnancy, childbirth and puerperium",13
+2016,14,"certain conditions originating in the perinatal period",860
+2016,15,"congenital malformations and chromosomal abnormalities",1204
+2016,16,"symptoms, signs, ill-defined causes",12541
+2016,16_1,"sudden infant death syndrome",21
+2016,16_2,"unknown and unspecified causes",2335
+2016,16_3,"other symptoms, signs, ill-defined causes",10185
+2016,17,"external causes of injury and poisoning",23727
+2016,17_1,"accidents",19014
+2016,17_1_1,"of which transport accidents",3463
+2016,17_1_2,"of which accidental falls",3756
+2016,17_1_3,"of which drowning and accidental submersion",230
+2016,17_1_4,"of which accidental poisoning",459
+2016,17_1_5,"of which other accidents",11106
+2016,17_2,"suicide and intentional self-harm",3790
+2016,17_3,"homicide, assault",316
+2016,17_4,"events of undetermined intent",4
+2016,17_5,"other external causes of injury and poisoning",603
+2016,1_1,"tuberculosis",278
+2016,1_2,"aids (hiv-disease)",427
+2016,1_3,"viral hepatitis",2726
+2016,1_4,"other infectious and parasitic diseases",9298
+2016,2,"neoplasms",178788
+2016,2_1,"malignant neoplasms",169602
+2016,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",3206
+2016,2_1_10,"of which malignant neoplasm of breast",12708
+2016,2_1_11,"of which malignant neoplasm of cervix uteri",504
+2016,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2609
+2016,2_1_13,"of which malignant neoplasm of ovary",3249
+2016,2_1_14,"of which malignant neoplasm of prostate",7515
+2016,2_1_15,"of which malignant neoplasm of kidney",3707
+2016,2_1_16,"of which malignant neoplasm of bladder",6213
+2016,2_1_17,"of which malignant neoplasm of brain and central nervous system",4137
+2016,2_1_18,"of which malignant neoplasm of thyroid",533
+2016,2_1_19,"of which hodgkin disease and lymphomas",5273
+2016,2_1_2,"of which malignant neoplasm of oesophagus",1925
+2016,2_1_20,"of which leukaemia",6117
+2016,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3591
+2016,2_1_22,"of which other malignant neoplasms",20587
+2016,2_1_3,"of which malignant neoplasm of stomach",9248
+2016,2_1_4,"of which malignant neoplasm of colon, rectum and anus",19506
+2016,2_1_5,"of which malignant neoplasm of liver",9653
+2016,2_1_6,"of which malignant neoplasm of pancreas",12007
+2016,2_1_7,"of which malignant neoplasm of larynx",1604
+2016,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",33688
+2016,2_1_9,"of which malignant melanoma of skin",2022
+2016,2_2,"non-malignant neoplasms (benign and uncertain)",9186
+2016,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",3078
+2016,4,"endocrine, nutritional and metabolic diseases",27516
+2016,4_1,"diabetes mellitus",21261
+2016,4_2,"other endocrine, nutritional and metabolic diseases",6255
+2016,5,"mental and behavioural disorders",21487
+2016,5_1,"dementia",19844
+2016,5_2,"alcohol abuse (including alcoholic psychosis)",243
+2016,5_3,"drug dependence, toxicomania",87
+2016,5_4,"other mental and behavioural disorders",1313
+2016,6,"diseases of the nervous system and the sense organs",27625
+2016,6_1,"parkinson's disease",6694
+2016,6_2,"alzheimer's disease",11465
+2016,6_3,"other diseases of the nervous system and the sense organs",9466
+2016,7,"diseases of the circulatory system",220552
+2016,7_1,"ischaemic heart diseases",66400
+2016,7_1_1,"of which acute myocardial infarction",22662
+2016,7_1_2,"of which other ischaemic heart diseases",43738
+2016,7_2,"other heart diseases",50835
+2016,7_3,"cerebrovascular diseases",56710
+2016,7_4,"other diseases of the circulatory system",46607
+2016,8,"diseases of the respiratory system",46380
+2016,8_1,"influenza",315
+2016,8_2,"pneumonia",10791
+2016,8_3,"chronic lower respiratory diseases",23643
+2016,8_3_1,"of which asthma",468
+2016,8_3_2,"of which other chronic lower respiratory diseases",23175
+2016,8_4,"other diseases of the respiratory system",11631
+2016,9,"diseases of the digestive system",22485
+2016,99,"all causes of death",614307
+2016,9_1,"ulcer of stomach, duodenum and jejunum",631
+2016,9_2,"cirrhosis, fibrosis and chronic hepatitis",5754
+2016,9_3,"other diseases of the digestive system",16100
+2017,1,"infectious and parasitic diseases",13972
+2017,10,"diseases of the skin and subcutaneous tissue",1410
+2017,11,"diseases of the musculoskeletal system/connective tissue",3640
+2017,11_1,"rheumatoid arthritis and osteoarthrosis",1208
+2017,11_2,"other diseases of the musculoskeletal system/connective tissue",2432
+2017,12,"diseases of the genitourinary system",11989
+2017,12_1,"diseases of kidney and ureter",8950
+2017,12_2,"other diseases of the genitourinary system",3039
+2017,13,"complications of pregnancy, childbirth and puerperium",14
+2017,14,"certain conditions originating in the perinatal period",769
+2017,15,"congenital malformations and chromosomal abnormalities",1357
+2017,16,"symptoms, signs, ill-defined causes",14028
+2017,16_1,"sudden infant death syndrome",15
+2017,16_2,"unknown and unspecified causes",2634
+2017,16_3,"other symptoms, signs, ill-defined causes",11379
+2017,17,"external causes of injury and poisoning",24735
+2017,17_1,"accidents",20029
+2017,17_1_1,"of which transport accidents",3577
+2017,17_1_2,"of which accidental falls",4018
+2017,17_1_3,"of which drowning and accidental submersion",300
+2017,17_1_4,"of which accidental poisoning",438
+2017,17_1_5,"of which other accidents",11696
+2017,17_2,"suicide and intentional self-harm",3843
+2017,17_3,"homicide, assault",297
+2017,17_4,"events of undetermined intent",12
+2017,17_5,"other external causes of injury and poisoning",554
+2017,1_1,"tuberculosis",282
+2017,1_2,"aids (hiv-disease)",439
+2017,1_3,"viral hepatitis",2403
+2017,1_4,"other infectious and parasitic diseases",10848
+2017,2,"neoplasms",179351
+2017,2_1,"malignant neoplasms",169854
+2017,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",3177
+2017,2_1_10,"of which malignant neoplasm of breast",12942
+2017,2_1_11,"of which malignant neoplasm of cervix uteri",484
+2017,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2684
+2017,2_1_13,"of which malignant neoplasm of ovary",3328
+2017,2_1_14,"of which malignant neoplasm of prostate",7679
+2017,2_1_15,"of which malignant neoplasm of kidney",3699
+2017,2_1_16,"of which malignant neoplasm of bladder",6241
+2017,2_1_17,"of which malignant neoplasm of brain and central nervous system",4172
+2017,2_1_18,"of which malignant neoplasm of thyroid",497
+2017,2_1_19,"of which hodgkin disease and lymphomas",5302
+2017,2_1_2,"of which malignant neoplasm of oesophagus",1916
+2017,2_1_20,"of which leukaemia",6187
+2017,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3562
+2017,2_1_22,"of which other malignant neoplasms",20284
+2017,2_1_3,"of which malignant neoplasm of stomach",9364
+2017,2_1_4,"of which malignant neoplasm of colon, rectum and anus",19355
+2017,2_1_5,"of which malignant neoplasm of liver",9214
+2017,2_1_6,"of which malignant neoplasm of pancreas",12347
+2017,2_1_7,"of which malignant neoplasm of larynx",1609
+2017,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",33759
+2017,2_1_9,"of which malignant melanoma of skin",2052
+2017,2_2,"non-malignant neoplasms (benign and uncertain)",9497
+2017,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",3248
+2017,4,"endocrine, nutritional and metabolic diseases",29383
+2017,4_1,"diabetes mellitus",22354
+2017,4_2,"other endocrine, nutritional and metabolic diseases",7029
+2017,5,"mental and behavioural disorders",24339
+2017,5_1,"dementia",22583
+2017,5_2,"alcohol abuse (including alcoholic psychosis)",203
+2017,5_3,"drug dependence, toxicomania",126
+2017,5_4,"other mental and behavioural disorders",1427
+2017,6,"diseases of the nervous system and the sense organs",30589
+2017,6_1,"parkinson's disease",7578
+2017,6_2,"alzheimer's disease",12747
+2017,6_3,"other diseases of the nervous system and the sense organs",10264
+2017,7,"diseases of the circulatory system",231732
+2017,7_1,"ischaemic heart diseases",67338
+2017,7_1_1,"of which acute myocardial infarction",22266
+2017,7_1_2,"of which other ischaemic heart diseases",45072
+2017,7_2,"other heart diseases",54361
+2017,7_3,"cerebrovascular diseases",59945
+2017,7_4,"other diseases of the circulatory system",50088
+2017,8,"diseases of the respiratory system",53194
+2017,8_1,"influenza",662
+2017,8_2,"pneumonia",13471
+2017,8_3,"chronic lower respiratory diseases",25823
+2017,8_3_1,"of which asthma",448
+2017,8_3_2,"of which other chronic lower respiratory diseases",25375
+2017,8_4,"other diseases of the respiratory system",13238
+2017,9,"diseases of the digestive system",23083
+2017,99,"all causes of death",646833
+2017,9_1,"ulcer of stomach, duodenum and jejunum",735
+2017,9_2,"cirrhosis, fibrosis and chronic hepatitis",5540
+2017,9_3,"other diseases of the digestive system",16808
+2018,1,"infectious and parasitic diseases",13748
+2018,10,"diseases of the skin and subcutaneous tissue",1424
+2018,11,"diseases of the musculoskeletal system/connective tissue",3460
+2018,11_1,"rheumatoid arthritis and osteoarthrosis",1126
+2018,11_2,"other diseases of the musculoskeletal system/connective tissue",2334
+2018,12,"diseases of the genitourinary system",11724
+2018,12_1,"diseases of kidney and ureter",8517
+2018,12_2,"other diseases of the genitourinary system",3207
+2018,13,"complications of pregnancy, childbirth and puerperium",11
+2018,14,"certain conditions originating in the perinatal period",782
+2018,15,"congenital malformations and chromosomal abnormalities",1282
+2018,16,"symptoms, signs, ill-defined causes",14323
+2018,16_1,"sudden infant death syndrome",15
+2018,16_2,"unknown and unspecified causes",2648
+2018,16_3,"other symptoms, signs, ill-defined causes",11660
+2018,17,"external causes of injury and poisoning",24001
+2018,17_1,"accidents",19493
+2018,17_1_1,"of which transport accidents",3454
+2018,17_1_2,"of which accidental falls",4012
+2018,17_1_3,"of which drowning and accidental submersion",268
+2018,17_1_4,"of which accidental poisoning",538
+2018,17_1_5,"of which other accidents",11221
+2018,17_2,"suicide and intentional self-harm",3699
+2018,17_3,"homicide, assault",281
+2018,17_4,"events of undetermined intent",2
+2018,17_5,"other external causes of injury and poisoning",526
+2018,1_1,"tuberculosis",260
+2018,1_2,"aids (hiv-disease)",431
+2018,1_3,"viral hepatitis",2017
+2018,1_4,"other infectious and parasitic diseases",11040
+2018,2,"neoplasms",179548
+2018,2_1,"malignant neoplasms",170009
+2018,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",3225
+2018,2_1_10,"of which malignant neoplasm of breast",13179
+2018,2_1_11,"of which malignant neoplasm of cervix uteri",500
+2018,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2655
+2018,2_1_13,"of which malignant neoplasm of ovary",3373
+2018,2_1_14,"of which malignant neoplasm of prostate",7677
+2018,2_1_15,"of which malignant neoplasm of kidney",3516
+2018,2_1_16,"of which malignant neoplasm of bladder",5992
+2018,2_1_17,"of which malignant neoplasm of brain and central nervous system",4295
+2018,2_1_18,"of which malignant neoplasm of thyroid",554
+2018,2_1_19,"of which hodgkin disease and lymphomas",5365
+2018,2_1_2,"of which malignant neoplasm of oesophagus",1863
+2018,2_1_20,"of which leukaemia",6317
+2018,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3577
+2018,2_1_22,"of which other malignant neoplasms",20461
+2018,2_1_3,"of which malignant neoplasm of stomach",9277
+2018,2_1_4,"of which malignant neoplasm of colon, rectum and anus",19349
+2018,2_1_5,"of which malignant neoplasm of liver",9193
+2018,2_1_6,"of which malignant neoplasm of pancreas",12385
+2018,2_1_7,"of which malignant neoplasm of larynx",1531
+2018,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",33702
+2018,2_1_9,"of which malignant melanoma of skin",2023
+2018,2_2,"non-malignant neoplasms (benign and uncertain)",9539
+2018,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",3205
+2018,4,"endocrine, nutritional and metabolic diseases",28018
+2018,4_1,"diabetes mellitus",21328
+2018,4_2,"other endocrine, nutritional and metabolic diseases",6690
+2018,5,"mental and behavioural disorders",24582
+2018,5_1,"dementia",22678
+2018,5_2,"alcohol abuse (including alcoholic psychosis)",258
+2018,5_3,"drug dependence, toxicomania",130
+2018,5_4,"other mental and behavioural disorders",1516
+2018,6,"diseases of the nervous system and the sense organs",29534
+2018,6_1,"parkinson's disease",7612
+2018,6_2,"alzheimer's disease",11773
+2018,6_3,"other diseases of the nervous system and the sense organs",10149
+2018,7,"diseases of the circulatory system",219211
+2018,7_1,"ischaemic heart diseases",61972
+2018,7_1_1,"of which acute myocardial infarction",20465
+2018,7_1_2,"of which other ischaemic heart diseases",41507
+2018,7_2,"other heart diseases",53518
+2018,7_3,"cerebrovascular diseases",55221
+2018,7_4,"other diseases of the circulatory system",48500
+2018,8,"diseases of the respiratory system",51567
+2018,8_1,"influenza",740
+2018,8_2,"pneumonia",13551
+2018,8_3,"chronic lower respiratory diseases",23973
+2018,8_3_1,"of which asthma",474
+2018,8_3_2,"of which other chronic lower respiratory diseases",23499
+2018,8_4,"other diseases of the respiratory system",13303
+2018,9,"diseases of the digestive system",22925
+2018,99,"all causes of death",629345
+2018,9_1,"ulcer of stomach, duodenum and jejunum",672
+2018,9_2,"cirrhosis, fibrosis and chronic hepatitis",5346
+2018,9_3,"other diseases of the digestive system",16907
+2019,1,"infectious and parasitic diseases",14562
+2019,10,"diseases of the skin and subcutaneous tissue",1520
+2019,11,"diseases of the musculoskeletal system/connective tissue",3609
+2019,11_1,"rheumatoid arthritis and osteoarthrosis",1100
+2019,11_2,"other diseases of the musculoskeletal system/connective tissue",2509
+2019,12,"diseases of the genitourinary system",12462
+2019,12_1,"diseases of kidney and ureter",8968
+2019,12_2,"other diseases of the genitourinary system",3494
+2019,13,"complications of pregnancy, childbirth and puerperium",12
+2019,14,"certain conditions originating in the perinatal period",646
+2019,15,"congenital malformations and chromosomal abnormalities",1238
+2019,16,"symptoms, signs, ill-defined causes",15116
+2019,16_1,"sudden infant death syndrome",15
+2019,16_2,"unknown and unspecified causes",2884
+2019,16_3,"other symptoms, signs, ill-defined causes",12217
+2019,17,"external causes of injury and poisoning",23911
+2019,17_1,"accidents",19561
+2019,17_1_1,"of which transport accidents",3296
+2019,17_1_2,"of which accidental falls",4093
+2019,17_1_3,"of which drowning and accidental submersion",271
+2019,17_1_4,"of which accidental poisoning",488
+2019,17_1_5,"of which other accidents",11413
+2019,17_2,"suicide and intentional self-harm",3646
+2019,17_3,"homicide, assault",235
+2019,17_4,"events of undetermined intent",2
+2019,17_5,"other external causes of injury and poisoning",467
+2019,1_1,"tuberculosis",261
+2019,1_2,"aids (hiv-disease)",365
+2019,1_3,"viral hepatitis",1846
+2019,1_4,"other infectious and parasitic diseases",12090
+2019,2,"neoplasms",178440
+2019,2_1,"malignant neoplasms",168712
+2019,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",3218
+2019,2_1_10,"of which malignant neoplasm of breast",12919
+2019,2_1_11,"of which malignant neoplasm of cervix uteri",470
+2019,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2604
+2019,2_1_13,"of which malignant neoplasm of ovary",3284
+2019,2_1_14,"of which malignant neoplasm of prostate",7669
+2019,2_1_15,"of which malignant neoplasm of kidney",3458
+2019,2_1_16,"of which malignant neoplasm of bladder",6074
+2019,2_1_17,"of which malignant neoplasm of brain and central nervous system",4347
+2019,2_1_18,"of which malignant neoplasm of thyroid",521
+2019,2_1_19,"of which hodgkin disease and lymphomas",5345
+2019,2_1_2,"of which malignant neoplasm of oesophagus",1917
+2019,2_1_20,"of which leukaemia",6288
+2019,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3560
+2019,2_1_22,"of which other malignant neoplasms",20666
+2019,2_1_3,"of which malignant neoplasm of stomach",8946
+2019,2_1_4,"of which malignant neoplasm of colon, rectum and anus",19464
+2019,2_1_5,"of which malignant neoplasm of liver",8751
+2019,2_1_6,"of which malignant neoplasm of pancreas",12768
+2019,2_1_7,"of which malignant neoplasm of larynx",1507
+2019,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",32876
+2019,2_1_9,"of which malignant melanoma of skin",2060
+2019,2_2,"non-malignant neoplasms (benign and uncertain)",9728
+2019,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",3383
+2019,4,"endocrine, nutritional and metabolic diseases",28801
+2019,4_1,"diabetes mellitus",21637
+2019,4_2,"other endocrine, nutritional and metabolic diseases",7164
+2019,5,"mental and behavioural disorders",26006
+2019,5_1,"dementia",24012
+2019,5_2,"alcohol abuse (including alcoholic psychosis)",243
+2019,5_3,"drug dependence, toxicomania",147
+2019,5_4,"other mental and behavioural disorders",1604
+2019,6,"diseases of the nervous system and the sense organs",30281
+2019,6_1,"parkinson's disease",7935
+2019,6_2,"alzheimer's disease",11837
+2019,6_3,"other diseases of the nervous system and the sense organs",10509
+2019,7,"diseases of the circulatory system",220993
+2019,7_1,"ischaemic heart diseases",61494
+2019,7_1_1,"of which acute myocardial infarction",19753
+2019,7_1_2,"of which other ischaemic heart diseases",41741
+2019,7_2,"other heart diseases",55363
+2019,7_3,"cerebrovascular diseases",54817
+2019,7_4,"other diseases of the circulatory system",49319
+2019,8,"diseases of the respiratory system",53446
+2019,8_1,"influenza",681
+2019,8_2,"pneumonia",14592
+2019,8_3,"chronic lower respiratory diseases",24423
+2019,8_3_1,"of which asthma",427
+2019,8_3_2,"of which other chronic lower respiratory diseases",23996
+2019,8_4,"other diseases of the respiratory system",13750
+2019,9,"diseases of the digestive system",23022
+2019,99,"all causes of death",637448
+2019,9_1,"ulcer of stomach, duodenum and jejunum",700
+2019,9_2,"cirrhosis, fibrosis and chronic hepatitis",5240
+2019,9_3,"other diseases of the digestive system",17082
+2020,1,"infectious and parasitic diseases",13687
+2020,10,"diseases of the skin and subcutaneous tissue",1559
+2020,11,"diseases of the musculoskeletal system/connective tissue",3860
+2020,11_1,"rheumatoid arthritis and osteoarthrosis",1312
+2020,11_2,"other diseases of the musculoskeletal system/connective tissue",2548
+2020,12,"diseases of the genitourinary system",14182
+2020,12_1,"diseases of kidney and ureter",9857
+2020,12_2,"other diseases of the genitourinary system",4325
+2020,13,"complications of pregnancy, childbirth and puerperium",9
+2020,14,"certain conditions originating in the perinatal period",657
+2020,15,"congenital malformations and chromosomal abnormalities",1323
+2020,16,"symptoms, signs, ill-defined causes",24709
+2020,16_1,"sudden infant death syndrome",12
+2020,16_2,"unknown and unspecified causes",9569
+2020,16_3,"other symptoms, signs, ill-defined causes",15128
+2020,17,"external causes of injury and poisoning",24146
+2020,17_1,"accidents",19803
+2020,17_1_1,"of which transport accidents",2530
+2020,17_1_2,"of which accidental falls",4702
+2020,17_1_3,"of which drowning and accidental submersion",268
+2020,17_1_4,"of which accidental poisoning",515
+2020,17_1_5,"of which other accidents",11788
+2020,17_2,"suicide and intentional self-harm",3650
+2020,17_3,"homicide, assault",212
+2020,17_4,"events of undetermined intent",12
+2020,17_5,"other external causes of injury and poisoning",469
+2020,1_1,"tuberculosis",215
+2020,1_2,"aids (hiv-disease)",372
+2020,1_3,"viral hepatitis",1726
+2020,1_4,"other infectious and parasitic diseases",11374
+2020,2,"neoplasms",177117
+2020,20,"Covid-19",78408
+2020,20_1,"Covid-19, virus identified",73659
+2020,20_2,"Covid-19, virus not identified",4742
+2020,20_3,"Covid-19, other",7
+2020,2_1,"malignant neoplasms",167502
+2020,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",3085
+2020,2_1_10,"of which malignant neoplasm of breast",13218
+2020,2_1_11,"of which malignant neoplasm of cervix uteri",489
+2020,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2626
+2020,2_1_13,"of which malignant neoplasm of ovary",3269
+2020,2_1_14,"of which malignant neoplasm of prostate",7878
+2020,2_1_15,"of which malignant neoplasm of kidney",3545
+2020,2_1_16,"of which malignant neoplasm of bladder",6083
+2020,2_1_17,"of which malignant neoplasm of brain and central nervous system",4351
+2020,2_1_18,"of which malignant neoplasm of thyroid",530
+2020,2_1_19,"of which hodgkin disease and lymphomas",5203
+2020,2_1_2,"of which malignant neoplasm of oesophagus",1894
+2020,2_1_20,"of which leukaemia",6211
+2020,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3498
+2020,2_1_22,"of which other malignant neoplasms",20994
+2020,2_1_3,"of which malignant neoplasm of stomach",8588
+2020,2_1_4,"of which malignant neoplasm of colon, rectum and anus",18897
+2020,2_1_5,"of which malignant neoplasm of liver",8491
+2020,2_1_6,"of which malignant neoplasm of pancreas",12907
+2020,2_1_7,"of which malignant neoplasm of larynx",1472
+2020,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",32158
+2020,2_1_9,"of which malignant melanoma of skin",2115
+2020,2_2,"non-malignant neoplasms (benign and uncertain)",9615
+2020,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",3632
+2020,4,"endocrine, nutritional and metabolic diseases",33453
+2020,4_1,"diabetes mellitus",25646
+2020,4_2,"other endocrine, nutritional and metabolic diseases",7807
+2020,5,"mental and behavioural disorders",26898
+2020,5_1,"dementia",24666
+2020,5_2,"alcohol abuse (including alcoholic psychosis)",262
+2020,5_3,"drug dependence, toxicomania",144
+2020,5_4,"other mental and behavioural disorders",1826
+2020,6,"diseases of the nervous system and the sense organs",33074
+2020,6_1,"parkinson's disease",8714
+2020,6_2,"alzheimer's disease",13018
+2020,6_3,"other diseases of the nervous system and the sense organs",11342
+2020,7,"diseases of the circulatory system",226389
+2020,7_1,"ischaemic heart diseases",63622
+2020,7_1_1,"of which acute myocardial infarction",20263
+2020,7_1_2,"of which other ischaemic heart diseases",43359
+2020,7_2,"other heart diseases",49600
+2020,7_3,"cerebrovascular diseases",57404
+2020,7_4,"other diseases of the circulatory system",55763
+2020,8,"diseases of the respiratory system",56919
+2020,8_1,"influenza",604
+2020,8_2,"pneumonia",15236
+2020,8_3,"chronic lower respiratory diseases",24162
+2020,8_3_1,"of which asthma",504
+2020,8_3_2,"of which other chronic lower respiratory diseases",23658
+2020,8_4,"other diseases of the respiratory system",16917
+2020,9,"diseases of the digestive system",22820
+2020,99,"all causes of death",742842
+2020,9_1,"ulcer of stomach, duodenum and jejunum",696
+2020,9_2,"cirrhosis, fibrosis and chronic hepatitis",5099
+2020,9_3,"other diseases of the digestive system",17025
+2021,1,"infectious and parasitic diseases",14564
+2021,10,"diseases of the skin and subcutaneous tissue",1523
+2021,11,"diseases of the musculoskeletal system/connective tissue",3829
+2021,11_1,"rheumatoid arthritis and osteoarthrosis",1215
+2021,11_2,"other diseases of the musculoskeletal system/connective tissue",2614
+2021,12,"diseases of the genitourinary system",15091
+2021,12_1,"diseases of kidney and ureter",9962
+2021,12_2,"other diseases of the genitourinary system",5129
+2021,13,"complications of pregnancy, childbirth and puerperium",9
+2021,14,"certain conditions originating in the perinatal period",657
+2021,15,"congenital malformations and chromosomal abnormalities",1291
+2021,16,"symptoms, signs, ill-defined causes",25448
+2021,16_1,"sudden infant death syndrome",15
+2021,16_2,"unknown and unspecified causes",10283
+2021,16_3,"other symptoms, signs, ill-defined causes",15150
+2021,17,"external causes of injury and poisoning",25387
+2021,17_1,"accidents",20820
+2021,17_1_1,"of which transport accidents",3079
+2021,17_1_2,"of which accidental falls",4893
+2021,17_1_3,"of which drowning and accidental submersion",235
+2021,17_1_4,"of which accidental poisoning",492
+2021,17_1_5,"of which other accidents",12121
+2021,17_2,"suicide and intentional self-harm",3792
+2021,17_3,"homicide, assault",248
+2021,17_4,"events of undetermined intent",2
+2021,17_5,"other external causes of injury and poisoning",525
+2021,1_1,"tuberculosis",219
+2021,1_2,"aids (hiv-disease)",346
+2021,1_3,"viral hepatitis",1408
+2021,1_4,"other infectious and parasitic diseases",12591
+2021,2,"neoplasms",174030
+2021,20,"Covid-19",63651
+2021,20_1,"Covid-19, virus identified",63218
+2021,20_2,"Covid-19, virus not identified",401
+2021,20_3,"Covid-19, other",32
+2021,2_1,"malignant neoplasms",164721
+2021,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",3129
+2021,2_1_10,"of which malignant neoplasm of breast",12829
+2021,2_1_11,"of which malignant neoplasm of cervix uteri",493
+2021,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2630
+2021,2_1_13,"of which malignant neoplasm of ovary",3211
+2021,2_1_14,"of which malignant neoplasm of prostate",7944
+2021,2_1_15,"of which malignant neoplasm of kidney",3450
+2021,2_1_16,"of which malignant neoplasm of bladder",5921
+2021,2_1_17,"of which malignant neoplasm of brain and central nervous system",4170
+2021,2_1_18,"of which malignant neoplasm of thyroid",562
+2021,2_1_19,"of which hodgkin disease and lymphomas",5175
+2021,2_1_2,"of which malignant neoplasm of oesophagus",1783
+2021,2_1_20,"of which leukaemia",5966
+2021,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3357
+2021,2_1_22,"of which other malignant neoplasms",20904
+2021,2_1_3,"of which malignant neoplasm of stomach",8202
+2021,2_1_4,"of which malignant neoplasm of colon, rectum and anus",18618
+2021,2_1_5,"of which malignant neoplasm of liver",8064
+2021,2_1_6,"of which malignant neoplasm of pancreas",13117
+2021,2_1_7,"of which malignant neoplasm of larynx",1359
+2021,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",31715
+2021,2_1_9,"of which malignant melanoma of skin",2122
+2021,2_2,"non-malignant neoplasms (benign and uncertain)",9309
+2021,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",3957
+2021,4,"endocrine, nutritional and metabolic diseases",32727
+2021,4_1,"diabetes mellitus",24695
+2021,4_2,"other endocrine, nutritional and metabolic diseases",8032
+2021,5,"mental and behavioural disorders",25153
+2021,5_1,"dementia",22853
+2021,5_2,"alcohol abuse (including alcoholic psychosis)",326
+2021,5_3,"drug dependence, toxicomania",154
+2021,5_4,"other mental and behavioural disorders",1820
+2021,6,"diseases of the nervous system and the sense organs",31544
+2021,6_1,"parkinson's disease",8626
+2021,6_2,"alzheimer's disease",11446
+2021,6_3,"other diseases of the nervous system and the sense organs",11472
+2021,7,"diseases of the circulatory system",216814
+2021,7_1,"ischaemic heart diseases",59118
+2021,7_1_1,"of which acute myocardial infarction",19006
+2021,7_1_2,"of which other ischaemic heart diseases",40112
+2021,7_2,"other heart diseases",49810
+2021,7_3,"cerebrovascular diseases",53538
+2021,7_4,"other diseases of the circulatory system",54348
+2021,8,"diseases of the respiratory system",45132
+2021,8_1,"influenza",24
+2021,8_2,"pneumonia",10784
+2021,8_3,"chronic lower respiratory diseases",20434
+2021,8_3_1,"of which asthma",470
+2021,8_3_2,"of which other chronic lower respiratory diseases",19964
+2021,8_4,"other diseases of the respiratory system",13890
+2021,9,"diseases of the digestive system",23525
+2021,99,"all causes of death",704332
+2021,9_1,"ulcer of stomach, duodenum and jejunum",742
+2021,9_2,"cirrhosis, fibrosis and chronic hepatitis",5046
+2021,9_3,"other diseases of the digestive system",17737
+2022,1,"infectious and parasitic diseases",16825
+2022,10,"diseases of the skin and subcutaneous tissue",1681
+2022,11,"diseases of the musculoskeletal system/connective tissue",4004
+2022,11_1,"rheumatoid arthritis and osteoarthrosis",1263
+2022,11_2,"other diseases of the musculoskeletal system/connective tissue",2741
+2022,12,"diseases of the genitourinary system",16676
+2022,12_1,"diseases of kidney and ureter",10582
+2022,12_2,"other diseases of the genitourinary system",6094
+2022,13,"complications of pregnancy, childbirth and puerperium",14
+2022,14,"certain conditions originating in the perinatal period",645
+2022,15,"congenital malformations and chromosomal abnormalities",1276
+2022,16,"symptoms, signs, ill-defined causes",29904
+2022,16_1,"sudden infant death syndrome",18
+2022,16_2,"unknown and unspecified causes",12901
+2022,16_3,"other symptoms, signs, ill-defined causes",16985
+2022,17,"external causes of injury and poisoning",27109
+2022,17_1,"accidents",22484
+2022,17_1_1,"of which transport accidents",3332
+2022,17_1_2,"of which accidental falls",5438
+2022,17_1_3,"of which drowning and accidental submersion",277
+2022,17_1_4,"of which accidental poisoning",539
+2022,17_1_5,"of which other accidents",12898
+2022,17_2,"suicide and intentional self-harm",3845
+2022,17_3,"homicide, assault",233
+2022,17_4,"events of undetermined intent",8
+2022,17_5,"other external causes of injury and poisoning",539
+2022,1_1,"tuberculosis",238
+2022,1_2,"aids (hiv-disease)",303
+2022,1_3,"viral hepatitis",1387
+2022,1_4,"other infectious and parasitic diseases",14897
+2022,2,"neoplasms",173859
+2022,20,"Covid-19",51443
+2022,20_1,"Covid-19, virus identified",51255
+2022,20_2,"Covid-19, virus not identified",168
+2022,20_3,"Covid-19, other",20
+2022,2_1,"malignant neoplasms",164271
+2022,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",3014
+2022,2_1_10,"of which malignant neoplasm of breast",12969
+2022,2_1_11,"of which malignant neoplasm of cervix uteri",481
+2022,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2626
+2022,2_1_13,"of which malignant neoplasm of ovary",3206
+2022,2_1_14,"of which malignant neoplasm of prostate",7778
+2022,2_1_15,"of which malignant neoplasm of kidney",3437
+2022,2_1_16,"of which malignant neoplasm of bladder",5928
+2022,2_1_17,"of which malignant neoplasm of brain and central nervous system",4328
+2022,2_1_18,"of which malignant neoplasm of thyroid",523
+2022,2_1_19,"of which hodgkin disease and lymphomas",4874
+2022,2_1_2,"of which malignant neoplasm of oesophagus",1815
+2022,2_1_20,"of which leukaemia",6081
+2022,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3326
+2022,2_1_22,"of which other malignant neoplasms",20689
+2022,2_1_3,"of which malignant neoplasm of stomach",8339
+2022,2_1_4,"of which malignant neoplasm of colon, rectum and anus",18485
+2022,2_1_5,"of which malignant neoplasm of liver",7922
+2022,2_1_6,"of which malignant neoplasm of pancreas",12929
+2022,2_1_7,"of which malignant neoplasm of larynx",1422
+2022,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",31860
+2022,2_1_9,"of which malignant melanoma of skin",2239
+2022,2_2,"non-malignant neoplasms (benign and uncertain)",9588
+2022,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",4087
+2022,4,"endocrine, nutritional and metabolic diseases",33654
+2022,4_1,"diabetes mellitus",24872
+2022,4_2,"other endocrine, nutritional and metabolic diseases",8782
+2022,5,"mental and behavioural disorders",27962
+2022,5_1,"dementia",25372
+2022,5_2,"alcohol abuse (including alcoholic psychosis)",291
+2022,5_3,"drug dependence, toxicomania",184
+2022,5_4,"other mental and behavioural disorders",2115
+2022,6,"diseases of the nervous system and the sense organs",32973
+2022,6_1,"parkinson's disease",9474
+2022,6_2,"alzheimer's disease",11713
+2022,6_3,"other diseases of the nervous system and the sense organs",11786
+2022,7,"diseases of the circulatory system",221653
+2022,7_1,"ischaemic heart diseases",58648
+2022,7_1_1,"of which acute myocardial infarction",18599
+2022,7_1_2,"of which other ischaemic heart diseases",40049
+2022,7_2,"other heart diseases",52397
+2022,7_3,"cerebrovascular diseases",54452
+2022,7_4,"other diseases of the circulatory system",56156
+2022,8,"diseases of the respiratory system",50520
+2022,8_1,"influenza",226
+2022,8_2,"pneumonia",13275
+2022,8_3,"chronic lower respiratory diseases",22382
+2022,8_3_1,"of which asthma",467
+2022,8_3_2,"of which other chronic lower respiratory diseases",21915
+2022,8_4,"other diseases of the respiratory system",14637
+2022,9,"diseases of the digestive system",24056
+2022,99,"all causes of death",718341
+2022,9_1,"ulcer of stomach, duodenum and jejunum",688
+2022,9_2,"cirrhosis, fibrosis and chronic hepatitis",4911
+2022,9_3,"other diseases of the digestive system",18457
+2023,1,"infectious and parasitic diseases",17627
+2023,10,"diseases of the skin and subcutaneous tissue",1774
+2023,11,"diseases of the musculoskeletal system/connective tissue",4054
+2023,11_1,"rheumatoid arthritis and osteoarthrosis",1246
+2023,11_2,"other diseases of the musculoskeletal system/connective tissue",2808
+2023,12,"diseases of the genitourinary system",16212
+2023,12_1,"diseases of kidney and ureter",10145
+2023,12_2,"other diseases of the genitourinary system",6067
+2023,13,"complications of pregnancy, childbirth and puerperium",14
+2023,14,"certain conditions originating in the perinatal period",622
+2023,15,"congenital malformations and chromosomal abnormalities",1388
+2023,16,"symptoms, signs, ill-defined causes",30405
+2023,16_1,"sudden infant death syndrome",11
+2023,16_2,"unknown and unspecified causes",13639
+2023,16_3,"other symptoms, signs, ill-defined causes",16755
+2023,17,"external causes of injury and poisoning",25541
+2023,17_1,"accidents",20960
+2023,17_1_1,"of which transport accidents",3154
+2023,17_1_2,"of which accidental falls",5175
+2023,17_1_3,"of which drowning and accidental submersion",283
+2023,17_1_4,"of which accidental poisoning",477
+2023,17_1_5,"of which other accidents",11871
+2023,17_2,"suicide and intentional self-harm",3731
+2023,17_3,"homicide, assault",239
+2023,17_4,"events of undetermined intent",4
+2023,17_5,"other external causes of injury and poisoning",607
+2023,1_1,"tuberculosis",198
+2023,1_2,"aids (hiv-disease)",333
+2023,1_3,"viral hepatitis",1274
+2023,1_4,"other infectious and parasitic diseases",15822
+2023,2,"neoplasms",174458
+2023,20,"Covid-19",15851
+2023,20_1,"Covid-19, virus identified",15821
+2023,20_2,"Covid-19, virus not identified",24
+2023,20_3,"Covid-19, other",6
+2023,2_1,"malignant neoplasms",164841
+2023,2_1_1,"of which malignant neoplasm of lip, oral cavity, pharynx",2972
+2023,2_1_10,"of which malignant neoplasm of breast",12530
+2023,2_1_11,"of which malignant neoplasm of cervix uteri",549
+2023,2_1_12,"of which mal neoplasm of other and unspecified parts of uterus",2527
+2023,2_1_13,"of which malignant neoplasm of ovary",3294
+2023,2_1_14,"of which malignant neoplasm of prostate",7981
+2023,2_1_15,"of which malignant neoplasm of kidney",3456
+2023,2_1_16,"of which malignant neoplasm of bladder",5763
+2023,2_1_17,"of which malignant neoplasm of brain and central nervous system",4559
+2023,2_1_18,"of which malignant neoplasm of thyroid",565
+2023,2_1_19,"of which hodgkin disease and lymphomas",4924
+2023,2_1_2,"of which malignant neoplasm of oesophagus",1873
+2023,2_1_20,"of which leukaemia",6157
+2023,2_1_21,"of which other malignant neoplasm of lymph./haematopoietic tissue",3306
+2023,2_1_22,"of which other malignant neoplasms",20811
+2023,2_1_3,"of which malignant neoplasm of stomach",8018
+2023,2_1_4,"of which malignant neoplasm of colon, rectum and anus",18481
+2023,2_1_5,"of which malignant neoplasm of liver",7863
+2023,2_1_6,"of which malignant neoplasm of pancreas",13384
+2023,2_1_7,"of which malignant neoplasm of larynx",1314
+2023,2_1_8,"of which malignant neoplasm of trachea, bronchus, lung",32145
+2023,2_1_9,"of which malignant melanoma of skin",2369
+2023,2_2,"non-malignant neoplasms (benign and uncertain)",9617
+2023,3,"diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism",3838
+2023,4,"endocrine, nutritional and metabolic diseases",31551
+2023,4_1,"diabetes mellitus",23093
+2023,4_2,"other endocrine, nutritional and metabolic diseases",8458
+2023,5,"mental and behavioural disorders",26676
+2023,5_1,"dementia",24254
+2023,5_2,"alcohol abuse (including alcoholic psychosis)",277
+2023,5_3,"drug dependence, toxicomania",164
+2023,5_4,"other mental and behavioural disorders",1981
+2023,6,"diseases of the nervous system and the sense organs",30964
+2023,6_1,"parkinson's disease",8821
+2023,6_2,"alzheimer's disease",10310
+2023,6_3,"other diseases of the nervous system and the sense organs",11833
+2023,7,"diseases of the circulatory system",205039
+2023,7_1,"ischaemic heart diseases",52447
+2023,7_1_1,"of which acute myocardial infarction",16531
+2023,7_1_2,"of which other ischaemic heart diseases",35916
+2023,7_2,"other heart diseases",50364
+2023,7_3,"cerebrovascular diseases",49791
+2023,7_4,"other diseases of the circulatory system",52437
+2023,8,"diseases of the respiratory system",52774
+2023,8_1,"influenza",414
+2023,8_2,"pneumonia",15450
+2023,8_3,"chronic lower respiratory diseases",22129
+2023,8_3_1,"of which asthma",538
+2023,8_3_2,"of which other chronic lower respiratory diseases",21591
+2023,8_4,"other diseases of the respiratory system",14781
+2023,9,"diseases of the digestive system",23864
+2023,99,"all causes of death",662652
+2023,9_1,"ulcer of stomach, duodenum and jejunum",701
+2023,9_2,"cirrhosis, fibrosis and chronic hepatitis",4792
+2023,9_3,"other diseases of the digestive system",18371

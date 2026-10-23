@@ -1,0 +1,62 @@
+{
+  "it": {
+    "line": "{n} tavole di dati ufficiali, {window}",
+    "dek": "Ogni numero proviene dall'ente che lo pubblica — ISTAT, Eurostat, Banca d'Italia, BCE e le fonti internazionali indicate — e ogni tavola viene rigenerata dai CSV versionati, così grafici e dati non possono divergere.",
+    "notes": [
+      "Il 2026 è un anno parziale. Totali e medie annuali si fermano al 2025; i valori davvero correnti sono indicati come <em>ultimo dato</em>.",
+      "La popolazione e i tassi usano la serie Eurostat al 1º gennaio, che coincide con la ricostruzione ISTAT dal 2019. I tassi per 1.000 e per 100.000 mantengono sempre lo stesso territorio e la stessa popolazione del conteggio.",
+      "I due conteggi degli omicidi misurano cose diverse: reati registrati dalla polizia e decessi certificati per aggressione. Sono mostrati separatamente e non vengono mai uniti.",
+      "Le serie migratorie ISTAT ed Eurostat coincidono quasi sempre ma divergono nel 2008–2010. Le tavole lasciano visibile la differenza; permessi, naturalizzazioni e flussi migratori restano concetti distinti.",
+      "L'Italia non ha un salario minimo legale nazionale. I minimi contrattuali dei CCNL non sono sostituiti a una misura che non esiste.",
+      "Le tavole sono pubblicate in italiano, inglese e portoghese, come questa pagina."
+    ],
+    "colophon": [
+      {"term": "Conti nazionali, lavoro, popolazione e demografia", "detail": "ISTAT ed Eurostat — una sola edizione coerente per ciascuna serie"},
+      {"term": "Finanza pubblica e spesa per funzione", "detail": "Eurostat — notifica EDP e conti COFOG"},
+      {"term": "Tassi, credito e sofferenze", "detail": "Banca d'Italia, BCE e IMF Financial Soundness Indicators"},
+      {"term": "Migrazione, cittadinanza e permessi", "detail": "ISTAT ed Eurostat — flussi, stock ed eventi amministrativi tenuti separati"},
+      {"term": "Confronti internazionali", "detail": "Banca Mondiale · UNDP · IMF · Eurostat"},
+      {"term": "Indice FTSE MIB", "detail": "Yahoo Finance — ridistributore non ufficiale; indice dei prezzi, dividendi esclusi"}
+    ]
+  },
+  "en": {
+    "line": "{n} plates of official data, {window}",
+    "dek": "Every number comes from the body that publishes it — ISTAT, Eurostat, the Banca d'Italia, the ECB and the named international sources — and every plate is regenerated from committed CSVs, so the charts and the page cannot drift apart.",
+    "notes": [
+      "2026 is a partial year. Annual totals and averages stop at 2025; genuinely current observations are marked <em>latest</em>.",
+      "Population and rates use Eurostat's 1 January population, which matches ISTAT's reconstructed series from 2019. Every per-1,000 and per-100,000 rate keeps the count and denominator on the same territory.",
+      "The two homicide counts measure different things: police-recorded offences and deaths certified as assault. They are drawn separately and never joined.",
+      "ISTAT and Eurostat migration flows agree in most years but differ in 2008–2010. The plates leave that difference visible; permits, naturalisations and migration flows remain distinct concepts.",
+      "Italy has no national statutory minimum wage. Sectoral collective-agreement floors are not substituted for a measure that does not exist.",
+      "The plates are published in Italian, English and Portuguese, and so is this page."
+    ],
+    "colophon": [
+      {"term": "National accounts, labour, population and demography", "detail": "ISTAT and Eurostat — one coherent vintage for each series"},
+      {"term": "Public finances and spending by function", "detail": "Eurostat — EDP notification and COFOG accounts"},
+      {"term": "Rates, credit and bad loans", "detail": "Banca d'Italia, ECB and IMF Financial Soundness Indicators"},
+      {"term": "Migration, citizenship and permits", "detail": "ISTAT and Eurostat — flows, stocks and administrative events kept separate"},
+      {"term": "International comparisons", "detail": "World Bank · UNDP · IMF · Eurostat"},
+      {"term": "FTSE MIB index", "detail": "Yahoo Finance — an unofficial redistributor; price index, dividends excluded"}
+    ]
+  },
+  "pt": {
+    "line": "{n} pranchas de dados oficiais, {window}",
+    "dek": "Cada número vem do organismo que o publica — ISTAT, Eurostat, Banca d'Italia, BCE e as fontes internacionais indicadas — e cada prancha é regenerada a partir dos CSVs versionados, para que os gráficos e a página não possam divergir.",
+    "notes": [
+      "2026 é um ano parcial. Totais e médias anuais param em 2025; observações realmente correntes são marcadas como <em>mais recentes</em>.",
+      "A população e as taxas usam a população do Eurostat em 1º de janeiro, que coincide com a série reconstruída do ISTAT desde 2019. Cada taxa por 1.000 ou por 100.000 mantém contagem e denominador no mesmo território.",
+      "As duas contagens de homicídio medem coisas diferentes: crimes registrados pela polícia e mortes certificadas como agressão. São desenhadas separadamente e nunca unidas.",
+      "Os fluxos migratórios do ISTAT e do Eurostat coincidem na maioria dos anos, mas divergem em 2008–2010. As pranchas deixam a diferença visível; autorizações, naturalizações e fluxos continuam sendo conceitos distintos.",
+      "A Itália não tem salário mínimo legal nacional. Pisos de acordos coletivos setoriais não substituem uma medida que não existe.",
+      "As pranchas são publicadas em italiano, inglês e português, assim como esta página."
+    ],
+    "colophon": [
+      {"term": "Contas nacionais, trabalho, população e demografia", "detail": "ISTAT e Eurostat — uma edição coerente para cada série"},
+      {"term": "Finanças públicas e gasto por função", "detail": "Eurostat — notificação EDP e contas COFOG"},
+      {"term": "Juros, crédito e inadimplência", "detail": "Banca d'Italia, BCE e Indicadores de Solidez Financeira do FMI"},
+      {"term": "Migração, cidadania e autorizações", "detail": "ISTAT e Eurostat — fluxos, estoques e eventos administrativos mantidos separados"},
+      {"term": "Comparações internacionais", "detail": "Banco Mundial · PNUD · FMI · Eurostat"},
+      {"term": "Índice FTSE MIB", "detail": "Yahoo Finance — redistribuidor não oficial; índice de preços, sem dividendos"}
+    ]
+  }
+}
