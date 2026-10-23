@@ -160,6 +160,11 @@ meta:
         statement, as PLATE_SPINE.md prescribes for Italy and Switzerland.
 
 macro:
+  gdp.csv:
+    source: ISTAT and Eurostat — reviewed annual GDP publication table
+    url: https://esploradati.istat.it/SDMXWS/rest/data/163_156/Q.IT.B1GQ_B_W2_S1.V.N.?startPeriod=2006
+    refreshed_by: fetch/fetch_istat.py
+    notes: Curated annual publication copy used by the page; national and harmonised twins remain separately listed below.
   gdp_istat.csv: &curated_macro_gdp_istat_csv
     source: ISTAT — I.Stat SDMX, flow 163_156 (Conto economico delle risorse e degli impieghi)
     url: https://esploradati.istat.it/SDMXWS/rest/data/163_156/Q.IT.B1GQ_B_W2_S1.V.N.?startPeriod=2006
@@ -252,6 +257,11 @@ macro:
       une_rt_a every year 2009-2025, and the only coverage for 2006-2008.
       2026 has two quarters and is blank (count in `quarters`).
   unemployment_from_istat.csv: *curated_macro_unemployment_istat_csv
+  unemployment.csv:
+    source: ISTAT — Rilevazione sulle forze di lavoro, reviewed annual publication table
+    url: https://esploradati.istat.it/SDMXWS/rest/data/151_884/Q.IT.UNEM_R.9.Y15-74.?startPeriod=2006
+    refreshed_by: fetch/fetch_istat.py
+    notes: Curated annual unemployment copy; the ISTAT and Eurostat source-specific files remain separate below.
 
 fiscal:
   debt.csv: &curated_fiscal_debt_csv
@@ -294,7 +304,7 @@ fiscal:
       national-accounts basis. Verified: revenue 2024 46.9%, 2025 48.0%.
       The pair brackets the deficit file.
   revenue_from_estat.csv: *curated_fiscal_revenue_csv
-  tax_burden_from_estat.csv:
+  tax_burden.csv: &curated_fiscal_tax_burden_csv
     source: Eurostat — gov_10a_taxag (D2+D5+D91+D61 net of D995)
     url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10a_taxag?geo=IT&na_item=D2_D5_D91_D61_M_D995&unit=PC_GDP&sector=S13_S212
     refreshed_by: fetch/fetch_eurostat.py
@@ -305,6 +315,7 @@ fiscal:
       42.3%, which is the figure MEF itself announced for 2024. National
       "pressione fiscale" counts differently; if an ISTAT/MEF twin is
       added later it goes in its own column.
+  tax_burden_from_estat.csv: *curated_fiscal_tax_burden_csv
   spending_by_function.csv: &curated_fiscal_spending_by_function_csv
     source: Eurostat — gov_10a_exp (COFOG divisions, TE, % GDP)
     url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10a_exp?geo=IT&sector=S13&na_item=TE&unit=PC_GDP
@@ -467,6 +478,11 @@ credit:
   lending_rate_from_bdi.csv: *curated_credit_lending_rate_csv
 
 social:
+  gini.csv:
+    source: Eurostat and World Bank — reviewed inequality publication table
+    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ilc_di12?geo=IT&age=TOTAL&statinfo=GINI_HND
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: Curated comparison table; source-specific Eurostat and World Bank series remain separately labelled.
   gini_estat.csv: &curated_social_gini_estat_csv
     source: Eurostat — ilc_di12 (EU-SILC Gini of equivalised disposable income)
     url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ilc_di12?geo=IT&age=TOTAL&statinfo=GINI_HND
@@ -531,7 +547,7 @@ social:
       on every overlapping year. Crude rates computed from these use the
       1-January population, not Eurostat's annual average.
   demography_from_estat.csv: *curated_social_demography_csv
-  population_from_istat.csv:
+  population.csv: &curated_social_population_csv
     source: ISTAT — flow 22_289 (Popolazione residente al 1° gennaio)
     url: https://esploradati.istat.it/SDMXWS/rest/data/22_289/A.IT.JAN.9.TOTAL.99?startPeriod=2006
     refreshed_by: fetch/fetch_istat.py
@@ -543,7 +559,8 @@ social:
       the "Popolazione residente ricostruita" flows (164_*) are the
       intercensal reconstructions. One vintage throughout — check at fetch
       which reconstruction 22_289 currently carries and annotate the seam.
-  vital_from_istat.csv:
+  population_from_istat.csv: *curated_social_population_csv
+  vital.csv: &curated_social_vital_csv
     source: ISTAT — flows 25_74 (Nati vivi) and 26_29_DF_DCIS_DECESSI_2 (Morti)
     url: https://esploradati.istat.it/SDMXWS/rest/data/25_74/A.IT.LBIRTH.TOTAL.TOTAL.TOTAL.ALL.99.99.ALL.ALL.WORLD.ALL?startPeriod=2006
     refreshed_by: fetch/fetch_istat.py
@@ -556,6 +573,7 @@ social:
       keyed query timed out repeatedly late in the session (server
       throttling) — pin it from the DSD at fetch time; Eurostat demo_gind
       DEATH (2024: 653,109) is the verified cross-check.
+  vital_from_istat.csv: *curated_social_vital_csv
   causes_of_death.csv: &curated_social_causes_of_death_csv
     source: ISTAT — flow 39_494_DF_DCIS_CMORTE1_RES_1 (Mortalità per territorio di residenza, causa)
     url: https://esploradati.istat.it/SDMXWS/rest/data/39_494_DF_DCIS_CMORTE1_RES_1/
@@ -670,7 +688,7 @@ migration:
       = 6,928,045. Stock by citizenship can fall while arrivals rise —
       the naturalisation gap is the finding (see migr_acq).
   stock_from_estat.csv: *curated_migration_stock_csv
-  asylum_from_estat.csv:
+  asylum.csv: &curated_migration_asylum_csv
     source: Eurostat — migr_asyappctza (asylum applicants)
     url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_asyappctza?geo=IT&sex=T&age=TOTAL&citizen=TOTAL&unit=PER&applicant=TOTAL
     refreshed_by: fetch/fetch_eurostat.py
@@ -680,7 +698,8 @@ migration:
       runs THROUGH 2025 already (2024: 158,605; 2025: 135,485).
       Applications are not arrivals, grants or people present — the four
       differ by an order of magnitude at the edges (SOURCING §4a).
-  permits_from_estat.csv:
+  asylum_from_estat.csv: *curated_migration_asylum_csv
+  permits.csv: &curated_migration_permits_csv
     source: Eurostat — migr_resfirst (first residence permits, unit=PER)
     refreshed_by: fetch/fetch_eurostat.py
     notes: >-
@@ -688,6 +707,7 @@ migration:
       arrivals: a status change issues a new first permit without a new
       arrival. Starts 2008; 2024: 346,411; 2025: 433,099 already present.
       unit=PER mandatory (as above).
+  permits_from_estat.csv: *curated_migration_permits_csv
   naturalisation.csv: &curated_migration_naturalisation_csv
     source: Eurostat — migr_acq (acquisitions of citizenship)
     url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_acq?geo=IT&sex=T&age=TOTAL&citizen=TOTAL&agedef=REACH&unit=NR
@@ -719,7 +739,7 @@ migration:
       higher (immigration +40,318 / +21,081 / +11,112; emigration
       +19,276 / +15,676 / +11,270). See DATA_NOTES; never spliced.
   migration_flows_from_istat.csv: *curated_migration_migration_flows_csv
-  foreign_residents_from_istat.csv:
+  foreign_residents.csv: &curated_migration_foreign_residents_csv
     source: ISTAT — flow 29_7 (Stranieri residenti al 1° gennaio)
     url: https://esploradati.istat.it/SDMXWS/rest/data/29_7/A.IT...TOTAL?detail=dataonly
     refreshed_by: fetch/fetch_istat.py
@@ -733,6 +753,7 @@ migration:
       stock_from_estat.csv carries 2006-2025 and equals it on 2019-2025. The full unkeyed
       flow is too heavy to pull today (province-level) — always key.
       Citizenship detail: 29_317.
+  foreign_residents_from_istat.csv: *curated_migration_foreign_residents_csv
 
 international:
   gdp_usd.csv: &curated_international_gdp_usd_csv
@@ -755,7 +776,7 @@ international:
       GDP is 0.4% below Eurostat × the ECB mean rate (older national-
       accounts vintage; equal within 0.2% in 2006-2023).
   gdp_pc_from_wb.csv: *curated_international_gdp_pc_csv
-  population_from_wb.csv:
+  population.csv: &curated_international_population_csv
     source: World Bank — SP.POP.TOTL
     refreshed_by: fetch/fetch_comparables.py
     official: false
@@ -766,6 +787,7 @@ international:
       (social/demography_from_estat.csv) on one vintage; ISTAT's own flow
       22_289 holds only the permanent-census years 2019-2026 and equals
       it. WB runs 35-245k above it before 2014 and 13-200k below after.
+  population_from_wb.csv: *curated_international_population_csv
   reserves.csv: &curated_international_reserves_csv
     source: World Bank — FI.RES.TOTL.CD (IMF IFS)
     refreshed_by: fetch/fetch_comparables.py
