@@ -1,1351 +1,1072 @@
-"""The usa plates.
+"""The usa plates, drawn on the plate spine.
 
-Each function draws one plate from this country's committed CSVs and saves it
-through the context, which resolves every path under countries/usa/ and
-knows this country's palette, year span and last complete year. Ported from
-the standalone usa-reports scripts/charts.py; the drawing is unchanged.
+Every plate declares its topic and claims its four panels by spine key, so
+each sits on the same indicator, unit and scale as every other country's
+(PLATE_SPINE.md, core/spine.py). The national series the United States
+argues about — the federal budget on its fiscal year, U-6, the
+supplemental poverty measure, the Census vintages — ride beside the
+canonical lines as second, labelled lines, and the country's own stories
+take the lens slots: overdoses, child poverty and the Child Tax Credit,
+where the goods come from, household debt by type, life expectancy.
+
+Every number printed in a note is read from the committed CSVs when the
+plate is drawn, so a refresh moves the note with the line. Rates per
+100,000 or per 1,000 are the publisher's where one is published; where
+only a count is, it is divided by the Census 1 July resident population
+(social/population_july1.csv) through ctx.per_100k / ctx.per_1000, which
+match the two series year by year. DATA_NOTES.md lists each conversion.
 """
 from __future__ import annotations
 
-import matplotlib.ticker as mticker
-import csv
-
 import numpy as np
+from matplotlib.patches import Patch
+
+from countries.usa import events
+
+# 40 hours a week for 52 weeks, over 12 months: the convention that turns
+# an hourly wage floor into the spine's US$ per month.
+HOURS_PER_MONTH = 40 * 52 / 12
 
 
+# ---------------------------------------------------------------- reading
+def _d(ctx, rel: str, col: str, key: str = "year", window: bool = True
+       ) -> dict[int, float]:
+    """{year: value} for one column, blanks dropped (never zero-filled).
 
-# ---------------------------------------------------------------- usa only
-# These were in the standalone project's style.py, but no other country uses
-# them and their wording and styling had drifted from the look-alikes
-# elsewhere, so they live with the plates that depend on them. Moving any of
-# them into core/ would change a printed string on this plate or another's.
+    Only the plates' window (country.yaml years) unless `window=False`,
+    which a projection read for a note needs.
+    """
+    t = ctx.table(rel)
+    lo, hi = (ctx.YEARS[0], ctx.YEARS[-1]) if window else (-1e9, 1e9)
+    out = {}
+    for y, v in zip(t[key], t[col]):
+        if isinstance(v, float) and v == v and y == y and lo <= y <= hi:
+            out[int(y)] = v
+    return out
+
+
+def _s(ctx, rel: str, col: str, key: str = "year") -> dict[int, str]:
+    """{year: text} for a label column (a vintage, a basis)."""
+    t = ctx.table(rel)
+    return {int(y): v for y, v in zip(t[key], t[col])
+            if isinstance(v, str) and y == y}
+
+
+def _xy(d: dict[int, float], lo: int | None = None, hi: int | None = None):
+    ys = [y for y in sorted(d) if (lo is None or y >= lo)
+          and (hi is None or y <= hi)]
+    return ys, [d[y] for y in ys]
+
+
+def _scale(d: dict[int, float], k: float) -> dict[int, float]:
+    return {y: v * k for y, v in d.items()}
+
+
+def _ratio(num: dict[int, float], den: dict[int, float], k: float = 100.0
+           ) -> dict[int, float]:
+    """num / den × k for the years both have, matched by year."""
+    return {y: num[y] / den[y] * k for y in num if y in den and den[y]}
+
+
+def _pop(ctx) -> dict[int, float]:
+    """The Census 1 July resident population: the denominator of every
+    rate these plates compute. See DATA_NOTES.md."""
+    return _d(ctx, "social/population_july1.csv", "population")
+
+
+def _rate(fn, count: dict[int, float], pop: dict[int, float]):
+    """A rate through core.rates, for the years the population covers.
+
+    The running year has a count and no population yet; it is left out
+    here, by name, rather than letting a missing denominator raise.
+    """
+    ys, vs = fn({y: v for y, v in count.items() if y in pop}, pop)
+    return dict(zip(ys, vs))
+
+
+# ---------------------------------------------------------------- drawing
+def _note(ctx, ax, text, x=0.015, y=0.04, ha="left", va="bottom",
+          color=None, size=8.0):
+    ax.text(x, y, text, transform=ax.transAxes, fontsize=size,
+            color=color or ctx.p.muted, style="italic", ha=ha, va=va,
+            zorder=6, parse_math=False)
+
+
+def _label(ctx, ax, x, y, text, color, offset=(0, 8), ha="center",
+           size=8.6, va="bottom"):
+    ax.annotate(text, (x, y), textcoords="offset points", xytext=offset,
+                fontsize=size, fontweight="bold", color=color, ha=ha,
+                va=va, zorder=6, parse_math=False)
+
+
+def _legend(ctx, ax, loc="upper left", ncol=1, handles=None, **kw):
+    kw.setdefault("fontsize", 8.6)
+    if handles is not None:
+        kw["handles"] = handles
+    ax.legend(loc=loc, ncol=ncol, frameon=False, labelcolor=ctx.p.ink,
+              handlelength=1.6, borderaxespad=0.3, columnspacing=1.2, **kw)
+
+
+def _proxy(color, label, hatch=None):
+    return Patch(facecolor=color, edgecolor="white", hatch=hatch,
+                 label=label)
+
+
+def _line(ctx, ax, d, color, label="", lw=2.4, ls="-", ms=3.6, **kw):
+    ys, vs = _xy(d, **kw)
+    if ys:
+        ctx.line(ax, ys, vs, color, label=label, lw=lw, ls=ls, ms=ms)
+
+
+def _thin(ctx, ax, d, color, label="", **kw):
+    """The second line beside a canonical one: thinner, dashed, smaller."""
+    _line(ctx, ax, d, color, label=label, lw=1.6, ls=(0, (4, 2)), ms=2.6,
+          **kw)
+
+
+def _frame(ig, ax, slot1=False):
+    """Year ticks and the recession bands. Slot 1 carries the band names,
+    inside the axes along the bottom: above it they collide with the panel
+    title, which sits over the same left-hand years."""
+    ig.style_axis(ax)
+    ig.add_recessions(ax, label=slot1, inside=slot1)
+
 
 def _subset(child: str, parent: str) -> str:
-    """A legend label that says a series is contained in another.
-
-    A line drawn inside another line has to say so in its own label. "of
-    which firearm homicides" asks the reader to work out what "which"
-    refers to, and if they read the legend out of order they will take two
-    nested series for two independent ones and conclude the wrong thing.
-    """
+    """A legend label that says one series is contained in another."""
     return f"{child} (subset of {parent})"
 
 
-def _share_panel(ctx, ax, years, child, parent, color=None, label="",
-                 annotate_last=True):
-    """Draw child/parent as a percentage, on its own axis.
-
-    Whenever a title or a caption promises a share, the share gets drawn.
-    Two stacked lines do not show their own ratio: a reader cannot divide
-    by eye, and when the subset rises while the total falls the picture
-    says the opposite of the arithmetic.
-    """
-    color = color or ctx.p.RED
-    pts = [(y, c / p * 100) for y, c, p in zip(years, child, parent)
-           if c is not None and p]
-    if not pts:
-        return None
-    xs = [p[0] for p in pts]
-    ys = [p[1] for p in pts]
-    ax.plot(xs, ys, color=color, lw=2.2, label=label, zorder=3)
-    ax.fill_between(xs, 0, ys, color=color, alpha=0.08, zorder=2)
-    if annotate_last:
-        _annotate_value(ctx, ax, xs[-1], ys[-1], f"{ys[-1]:.1f}%",
-                        color=color, offset=(0, 8))
-    return ys
+def _fmt_bn(v: float) -> str:
+    return f"US$ {v / 1000:.1f}tn" if abs(v) >= 1000 else f"US$ {v:,.0f}bn"
 
 
-def _fmt_usd(v: float) -> str:
-    """Compact dollars: 30,861 -> 'US$ 30.9tn'."""
-    if abs(v) >= 1000:
-        return f"US$ {v / 1000:.1f}tn"
-    return f"US$ {v:,.0f}bn"
+# ================================================================ economy
+def plate_economy(ctx, ig):
+    gdp = "macro/gdp.csv"
+    growth = _d(ctx, gdp, "real_growth")
 
+    ax = ig.slot("economy.growth", "Real GDP growth")
+    ys, vs = _xy(growth)
+    ctx.bars(ax, ys, vs, lambda v: ctx.p.NAVY if v >= 0 else ctx.p.RED,
+             width=0.68)
+    _frame(ig, ax, slot1=True)
+    for y in (2020, 2021):
+        if y in growth:
+            v = growth[y]
+            _label(ctx, ax, y, v, f"{v:+.1f}%",
+                   ctx.p.RED if v < 0 else ctx.p.NAVY,
+                   offset=(0, 4 if v > 0 else -4),
+                   va="bottom" if v > 0 else "top")
+    _note(ctx, ax, "BEA, chained dollars. Hatched: 2026 so far,\n"
+                   "against the same quarters of 2025.", y=0.96, va="top")
 
-def _fmt_count(v: float) -> str:
-    """A count with a thousands separator, or a compact one past a million."""
-    if abs(v) >= 1_000_000:
-        return f"{v / 1_000_000:.2f}M"
-    return f"{v:,.0f}"
+    ax = ig.slot("economy.gdp_per_person", "GDP per person, current US$")
+    wb = _d(ctx, "international/world.csv", "gdp_per_person_usd")
+    _line(ctx, ax, wb, ctx.p.NAVY, label="World Bank (NY.GDP.PCAP.CD)",
+          lw=2.6)
+    _frame(ig, ax)
+    last = max(wb)
+    _label(ctx, ax, last, wb[last], f"US$ {wb[last]:,.0f}", ctx.p.NAVY,
+           offset=(-4, 7), ha="right")
+    bea = _d(ctx, gdp, "gdp_per_capita_usd")
+    if last in bea:
+        _note(ctx, ax, f"BEA's own figure for {last}: US$ {bea[last]:,.0f}\n"
+                       f"(a slightly different population).", y=0.05)
+    _legend(ctx, ax, loc="lower right")
 
+    ax = ig.slot("economy.inflation", "Consumer prices, change on a year earlier")
+    cpi = "macro/cpi.csv"
+    head, core = _d(ctx, cpi, "value"), _d(ctx, cpi, "core")
+    _line(ctx, ax, head, ctx.p.RED, label="CPI-U, all items", lw=2.6)
+    _thin(ctx, ax, core, ctx.p.NAVY, label="core, less food and energy")
+    _frame(ig, ax)
+    ax.axhline(2.0, color=ctx.p.TEAL, lw=1.0, ls=(0, (2, 2)), zorder=2,
+               label="Fed's 2% goal")
+    peak = max(head, key=head.get)
+    _label(ctx, ax, peak, head[peak], f"{head[peak]:.1f}% in {peak}",
+           ctx.p.RED, offset=(0, 6))
+    _legend(ctx, ax, loc="upper left")
 
-def _twin_legend(ctx, ax, ax2, loc="upper left", ncol=1):
-    """One legend for a panel with a right-hand axis.
-
-    Only artists that carry a real label are listed. `axhline` adds a
-    Line2D to the axes with matplotlib's own placeholder name, so handing
-    `ax.get_lines()` straight to `legend()` puts an entry reading
-    "_child1" on the plate — which is what it did.
-    """
-    handles = []
-    for a in (ax, ax2):
-        handles.extend(a.get_lines())
-        handles.extend(a.containers)
-    handles = [h for h in handles
-               if not (h.get_label() or "").startswith("_")]
-    ax.legend(handles, [h.get_label() for h in handles], loc=loc, ncol=ncol,
-              frameon=False, fontsize=9, labelcolor=ctx.p.INK,
-              handlelength=1.6, borderaxespad=0.2)
-
-
-def _legend(ctx, ax, loc="upper left", ncol=1, **kw):
-    ax.legend(loc=loc, ncol=ncol, frameon=False, fontsize=9,
-              labelcolor=ctx.p.INK, handlelength=1.6, borderaxespad=0.2, **kw)
-
-
-def _annotate_value(ctx, ax, x, y, text, color=None, offset=(0, 10),
-                    fontsize=9, weight="bold", ha="center"):
-    """Print a value beside its point. Defaults to this country's ink."""
-    ax.annotate(text, (x, y), textcoords="offset points", xytext=offset,
-                fontsize=fontsize, fontweight=weight,
-                color=color or ctx.p.INK, ha=ha, va="bottom", zorder=6)
-
-
-from countries.usa import events
-from countries.usa.events import EVENTS
-
-
-def _table(ctx, rel: str, key: str = "year") -> dict[int, dict[str, str]]:
-    """{year: row} for one committed CSV."""
-    rows: dict[int, dict[str, str]] = {}
-    # Routed through the country so the path is resolved — and
-    # refused if it escapes — under countries/usa/data.
-    with ctx.c.data(rel).open(newline="", encoding="utf-8") as fh:
-        for r in csv.DictReader(fh):
-            try:
-                rows[int((r[key] or "").strip())] = r
-            except (KeyError, TypeError, ValueError):
-                continue
-    return rows
-
-def _col(ctx, tbl: dict[int, dict[str, str]], name: str, scale: float = 1.0,
-        years=None) -> list[float | None]:
-    """One column, aligned to YEARS, with a missing year as None.
-
-    None rather than zero, and never interpolated: a year the publisher did
-    not cover is a hole in the chart, and filling it would invent data.
-    """
-    out: list[float | None] = []
-    for y in (years or ctx.YEARS):
-        raw = ((tbl.get(y) or {}).get(name) or "").strip()
-        try:
-            out.append(float(raw) * scale)
-        except ValueError:
-            out.append(None)
-    return out
-
-def _nan(ctx, vals: list[float | None]) -> np.ndarray:
-    """None -> nan, so bars and fills leave a gap instead of dropping to 0."""
-    return np.array([np.nan if v is None else v for v in vals], dtype=float)
-
-def _xy(ctx, vals: list[float | None], years=None):
-    """The (x, y) pairs that exist, for a line that should not bridge a gap."""
-    ys = years or ctx.YEARS
-    pts = [(x, v) for x, v in zip(ys, vals) if v is not None]
-    return [p[0] for p in pts], [p[1] for p in pts]
-
-def _line(ctx, ax, vals, years=None, **kw):
-    xs, ys = _xy(ctx, vals, years)
-    if xs:
-        ax.plot(xs, ys, **kw)
-    return xs, ys
-
-def _last_point(ctx, vals, years=None):
-    xs, ys = _xy(ctx, vals, years)
-    return (xs[-1], ys[-1]) if xs else (None, None)
-
-def _partial_years(ctx, tbl, column: str, full: float) -> dict[int, float]:
-    """{year: how much of it exists} for the years that are incomplete."""
-    out = {}
-    for y in ctx.YEARS:
-        raw = ((tbl.get(y) or {}).get(column) or "").strip()
-        try:
-            got = float(raw)
-        except ValueError:
-            continue
-        if 0 < got < full:
-            out[y] = got
-    return out
-
-def _hatch_partial(ctx, ax, bars, tbl, column: str, full: float) -> None:
-    """Hatch the bars of any year the source has not finished publishing."""
-    partial = _partial_years(ctx, tbl, column, full)
-    for x, bar in zip(ctx.YEARS, bars):
-        if x in partial:
-            bar.set_hatch("////")
-            bar.set_edgecolor(ctx.p.FAINT)
-            bar.set_linewidth(0.6)
-
-def _estimate_years(ctx, tbl) -> set[int]:
-    """The years a table marks as a projection rather than an actual."""
-    return {y for y in ctx.YEARS
-            if ((tbl.get(y) or {}).get("estimate") or "").strip() == "1"}
-
-def _line_with_estimate(ctx, ax, vals, est: set[int], color, label, lw=2.4):
-    """Draw actuals solid and the projected tail dashed.
-
-    An estimate joined seamlessly onto measured history is the easiest way
-    to make a forecast look like a fact, so the tail changes to a dashed
-    line and the legend of the plate says which years are projected.
-    """
-    actual = [v if y not in est else None for y, v in zip(ctx.YEARS, vals)]
-    _line(ctx, ax, actual, color=color, lw=lw, label=label)
-    tail_years = sorted(est)
-    if tail_years:
-        first = min(tail_years)
-        prior = [y for y in ctx.YEARS if y < first and vals[ctx.YEARS.index(y)] is not None]
-        span = ([max(prior)] if prior else []) + tail_years
-        seg = [vals[ctx.YEARS.index(y)] if y in span else None for y in ctx.YEARS]
-        _line(ctx, ax, seg, color=color, lw=lw, ls=(0, (4, 2.5)))
-
-def plate_economy(ctx) -> None:
-    gdp = _table(ctx, "macro/gdp.csv")
-    cpi = _table(ctx, "macro/cpi.csv")
-    une = _table(ctx, "macro/unemployment.csv")
-
-    g = ctx.fig(
-        "The American economy, 2006-2026",
-        "Output, prices and work, from the agencies that measure them",
-        source=("Sources: Bureau of Economic Analysis, NIPA tables 1.1.1, "
-                "1.1.5 and 7.1 · Bureau of Labor Statistics, CPI-U and "
-                "Current Population Survey"),
-        # A right-hand axis in the right-hand column: its ticks and
-        # its label need room the shared margin does not leave, and
-        # without this they are drawn off the canvas. See Context.fig.
-        right=0.955,
-    )
-
-    # ---- real growth ----------------------------------------------------
-    ax = g.next_panel("Real GDP growth")
-    growth = _col(ctx, gdp, "real_growth")
-    vals = _nan(ctx, growth)
-    colors = [ctx.p.RED if (v is not None and v < 0) else ctx.p.NAVY for v in growth]
-    bars = ax.bar(ctx.YEARS, vals, color=colors, width=0.68)
-    g.style_axis(ax)
-    g.add_recessions(ax)
-    ax.axhline(0, color=ctx.p.INK, lw=0.9)
-    ax.set_ylabel("% a year")
-    for x, v in zip(ctx.YEARS, growth):
-        if v is None:
-            continue
-        if v in (max(p for p in growth if p is not None),
-                 min(p for p in growth if p is not None)):
-            _annotate_value(ctx, ax, x, v, f"{v:+.1f}%",
-                           color=ctx.p.RED if v < 0 else ctx.p.NAVY,
-                           offset=(0, 8 if v > 0 else -18))
-    g.headroom(ax, top=0.22, bottom=0.16)
-    ax.text(0.985, 0.045, "2020 and 2021 are one event: the collapse\n"
-                          "and the rebound off it.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="bottom", ha="right")
-
-    # ---- the level ------------------------------------------------------
-    ax = g.next_panel("GDP and GDP per person")
-    nominal = _col(ctx, gdp, "nominal_usdbn")
-    percap = _col(ctx, gdp, "gdp_per_capita_usd")
-    _line(ctx, ax, nominal, color=ctx.p.NAVY, lw=2.6, label="GDP, current US$")
-    g.style_axis(ax)
-    g.add_recessions(ax, label=False)
-    ax.set_ylabel("US$ bn")
-    x, y = _last_point(ctx, nominal)
-    if x:
-        _annotate_value(ctx, ax, x, y, _fmt_usd(y), color=ctx.p.NAVY, ha="right",
-                       offset=(-6, 8))
-    ax2 = ax.twinx()
-    _line(ctx, ax2, percap, color=ctx.p.GOLD, lw=2.0, ls=(0, (5, 2)),
-         label="GDP per person (right)")
-    ax2.spines[["top", "left"]].set_visible(False)
-    ax2.set_ylabel("US$ per person", color=ctx.p.GOLD)
-    ax2.tick_params(colors=ctx.p.GOLD, length=0)
-    ax2.grid(False)
-    x, y = _last_point(ctx, percap)
-    if x:
-        _annotate_value(ctx, ax2, x, y, f"US$ {y:,.0f}", color=ctx.p.GOLD, ha="right",
-                       offset=(-8, -24))
-    _twin_legend(ctx, ax, ax2, loc="upper left")
-    g.mark_partial(ax, 2026, "2026: 2 of 4 quarters")
-
-    # ---- inflation ------------------------------------------------------
-    ax = g.next_panel("Consumer price inflation")
-    headline = _col(ctx, cpi, "value")
-    core = _col(ctx, cpi, "core")
-    _line(ctx, ax, headline, color=ctx.p.RED, lw=2.6, label="CPI-U, all items")
-    _line(ctx, ax, core, color=ctx.p.NAVY, lw=2.0, ls=(0, (5, 2)),
-         label="core (less food and energy)")
-    g.style_axis(ax)
-    g.add_recessions(ax, label=False)
-    ax.axhline(2.0, color=ctx.p.TEAL, lw=1.0, ls=(0, (2, 2)))
-    ax.text(ctx.YEARS[0] + 0.2, 2.0, "Fed's 2% goal", fontsize=7.8, color=ctx.p.TEAL,
-            va="bottom")
-    ax.set_ylabel("% a year")
-    peak = max((v, x) for x, v in zip(ctx.YEARS, headline) if v is not None)
-    _annotate_value(ctx, ax, peak[1], peak[0], f"{peak[0]:.1f}%", color=ctx.p.RED)
-    _legend(ctx, ax)
-
-    # ---- unemployment ---------------------------------------------------
-    ax = g.next_panel("Unemployment: the headline rate and the broad one")
-    u3 = _col(ctx, une, "value")
-    u6 = _col(ctx, une, "u6")
-    _line(ctx, ax, u6, color=ctx.p.GOLD, lw=2.4,
-         label="U-6, including part-time for economic reasons")
-    _line(ctx, ax, u3, color=ctx.p.NAVY, lw=2.6,
-         label=_subset("U-3, the headline rate", "U-6"))
-    xs6, ys6 = _xy(ctx, u6)
-    xs3, ys3 = _xy(ctx, u3)
-    if xs3 and xs6:
-        common = [x for x in xs3 if x in xs6]
-        ax.fill_between(common,
-                        [ys3[xs3.index(x)] for x in common],
-                        [ys6[xs6.index(x)] for x in common],
-                        color=ctx.p.GOLD, alpha=0.12, zorder=1)
-    g.style_axis(ax)
-    g.add_recessions(ax, label=False)
-    ax.set_ylabel("% of the labour force")
-    _legend(ctx, ax)
-    # The break goes next to the series it is about, not in a corner.
-    ax.annotate(events.BREAKS["unemployment_2025"][1],
-                xy=(2025, ys3[-1] if ys3 else 4.0),
-                xytext=(2019.4, (max(ys6) if ys6 else 10) * 0.92),
-                fontsize=8, color=ctx.p.RED, style="italic",
+    ax = ig.slot("economy.unemployment", "Unemployment: the headline rate and the broad one")
+    une = "macro/unemployment.csv"
+    u3, u6 = _d(ctx, une, "value"), _d(ctx, une, "u6")
+    _thin(ctx, ax, u6, ctx.p.GOLD,
+          label="U-6, adding part-time for economic reasons")
+    _line(ctx, ax, u3, ctx.p.NAVY, label=_subset("U-3, the headline rate",
+                                                "U-6"), lw=2.6)
+    _frame(ig, ax)
+    year, text = events.BREAKS["unemployment_2025"]
+    ax.annotate(text, xy=(year, u3[year]), xytext=(2019.0, 20.0),
+                fontsize=7.8, color=ctx.p.RED, style="italic",
                 arrowprops=dict(arrowstyle="-", color=ctx.p.RED, lw=0.8,
                                 shrinkA=2, shrinkB=4))
-    g.mark_partial(ax, 2022, "2025: 11 months · 2026: 9 months")
+    _legend(ctx, ax, loc="upper right")
 
-    g.save(ctx.out("01-economy.png"))
 
-def plate_fiscal(ctx) -> None:
-    bud = _table(ctx, "fiscal/budget.csv", key="fiscal_year")
-    debt = _table(ctx, "fiscal/debt.csv", key="fiscal_year")
+# ================================================================= fiscal
+def plate_fiscal(ctx, ig):
+    gg = "fiscal/general_government.csv"
+    bud = "fiscal/budget.csv"
+    fy = "fiscal_year"
 
-    g = ctx.fig(
-        "What Washington takes in and what it owes",
-        "Federal receipts, outlays and debt, by fiscal year ending 30 September",
-        source=("Sources: OMB Historical Tables 1.1 and 1.2 (FY2027 edition) "
-                "for FY2006-2025 · Treasury Fiscal Data, Monthly Treasury "
-                "Statement and Debt to the Penny, for FY2026"),
-        # A right-hand axis in the right-hand column: its ticks and
-        # its label need room the shared margin does not leave, and
-        # without this they are drawn off the canvas. See Context.fig.
-        right=0.955,
-    )
+    ax = ig.slot("fiscal.revenue_expenditure", "Revenue and expenditure")
+    _line(ctx, ax, _d(ctx, gg, "expenditure_pct_gdp"), ctx.p.RED,
+          label="general government: expenditure", lw=2.6)
+    _line(ctx, ax, _d(ctx, gg, "revenue_pct_gdp"), ctx.p.NAVY,
+          label="general government: revenue", lw=2.6)
+    _thin(ctx, ax, _d(ctx, bud, "outlays_pct_gdp", fy), ctx.p.RED,
+          label="federal outlays, fiscal year")
+    _thin(ctx, ax, _d(ctx, bud, "receipts_pct_gdp", fy), ctx.p.NAVY,
+          label="federal receipts, fiscal year")
+    _frame(ig, ax, slot1=True)
+    _legend(ctx, ax, loc="upper left", ncol=2, fontsize=8.0)
+    _note(ctx, ax, "General government is federal, state and local, by calendar\n"
+                   "year (IMF). The federal budget runs October to September.",
+          y=0.86, va="top")
 
-    # ---- receipts and outlays -------------------------------------------
-    ax = g.next_panel("Receipts and outlays, share of GDP")
-    rec = _col(ctx, bud, "receipts_pct_gdp")
-    out = _col(ctx, bud, "outlays_pct_gdp")
-    _line(ctx, ax, out, color=ctx.p.RED, lw=2.6, label="outlays")
-    _line(ctx, ax, rec, color=ctx.p.NAVY, lw=2.6, label="receipts")
-    xs, _ = _xy(ctx, out)
-    ax.fill_between(xs, [v for v in rec if v is not None],
-                    [v for v in out if v is not None],
-                    color=ctx.p.RED, alpha=0.10, zorder=1)
-    g.style_axis(ax)
-    g.add_recessions(ax)
-    ax.set_ylabel("% of GDP")
-    _legend(ctx, ax)
-    ax.text(0.98, 0.04, "The shaded gap is the deficit.", ha="right",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic")
+    ax = ig.slot("fiscal.balance", "Overall balance and primary balance")
+    bal = _d(ctx, gg, "balance_pct_gdp")
+    ys, vs = _xy(bal)
+    ctx.bars(ax, ys, vs, lambda v: ctx.p.RED if v < 0 else ctx.p.GREEN,
+             width=0.68)
+    _line(ctx, ax, _d(ctx, gg, "primary_balance_pct_gdp"), ctx.p.GOLD,
+          label="primary balance, excluding interest", lw=2.2)
+    fed = _d(ctx, bud, "deficit_pct_gdp", fy)
+    _thin(ctx, ax, fed, ctx.p.NAVY, label="federal deficit, fiscal year")
+    _frame(ig, ax)
+    worst = min(bal, key=bal.get)
+    _label(ctx, ax, worst, bal[worst], f"{bal[worst]:.1f}%", ctx.p.RED,
+           offset=(-12, -2), va="top", ha="right")
+    _legend(ctx, ax, loc="upper right", fontsize=8.0, handles=[
+        _proxy(ctx.p.RED, "general government overall balance"),
+        *ax.get_legend_handles_labels()[0]])
 
-    # ---- the deficit ----------------------------------------------------
-    ax = g.next_panel("Deficit, share of GDP")
-    def_ = _col(ctx, bud, "deficit_pct_gdp")
-    bars = ax.bar(ctx.YEARS, _nan(ctx, def_), color=ctx.p.RED, width=0.68)
-    for x, bar, v in zip(ctx.YEARS, bars, def_):
-        if v is not None and v > 0:
-            bar.set_color(ctx.p.GREEN)
-    _hatch_partial(ctx, ax, bars, bud, "gdp_quarters", 4)
-    g.style_axis(ax)
-    ax.axhline(0, color=ctx.p.INK, lw=0.9)
-    ax.set_ylabel("% of GDP")
-    g.headroom(ax, top=0.0, bottom=0.14)
-    for x, v in zip(ctx.YEARS, def_):
-        if v is not None and v < -9:
-            _annotate_value(ctx, ax, x, v, f"{v:.1f}%", color=ctx.p.RED, offset=(0, -16),
-                           fontsize=8.5)
-    g.mark_partial(ax, 2021, "2026 deficit ratio uses GDP from 3 of 4 quarters")
+    ax = ig.slot("fiscal.debt", "Gross debt")
+    debt = "fiscal/debt.csv"
+    g = _d(ctx, gg, "gross_debt_pct_gdp")
+    _line(ctx, ax, g, ctx.p.NAVY, label="general government, gross (IMF)",
+          lw=2.6)
+    _thin(ctx, ax, _d(ctx, debt, "gross_pct_gdp", fy), ctx.p.GOLD,
+          label="federal gross debt, 30 September")
+    _thin(ctx, ax, _d(ctx, debt, "public_pct_gdp", fy), ctx.p.TEAL,
+          label=_subset("federal debt held by the public",
+                        "federal gross debt"))
+    _frame(ig, ax)
+    last = max(g)
+    _label(ctx, ax, last, g[last], f"{g[last]:.0f}%", ctx.p.NAVY,
+           offset=(-4, 7), ha="right")
+    _legend(ctx, ax, loc="upper left", fontsize=8.0)
+    _note(ctx, ax, "Federal gross debt includes what the Social Security\n"
+                   "and Medicare trust funds hold; held by the public does not.",
+          y=0.04)
 
-    # ---- the debt stock -------------------------------------------------
-    ax = g.next_panel("Debt outstanding: gross, and the part held by the public")
-    gross = _col(ctx, debt, "gross_tn")
-    public = _col(ctx, debt, "public_tn")
-    xs, ys = _xy(ctx, gross)
-    ax.bar(xs, ys, color=ctx.p.NAVY, width=0.68, label="gross federal debt")
-    xs2, ys2 = _xy(ctx, public)
-    ax.bar(xs2, ys2, color=ctx.p.GOLD, width=0.40,
-           label=_subset("held by the public", "gross federal debt"))
-    g.style_axis(ax)
-    ax.set_ylabel("US$ tn")
-    _legend(ctx, ax)
-    x, y = _last_point(ctx, gross)
-    if x:
-        _annotate_value(ctx, ax, x, y, f"US$ {y:.1f}tn", color=ctx.p.NAVY, ha="right",
-                       offset=(-4, 6))
-    ax.text(0.015, 0.78, "The rest is held inside government, mostly by the\n"
-                         "Social Security and Medicare trust funds.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="top")
-
-    # ---- debt to GDP, and the share held by the public -------------------
-    ax = g.next_panel("Debt as a share of GDP, and the public share of it")
-    gross_pct = _col(ctx, debt, "gross_pct_gdp")
-    public_pct = _col(ctx, debt, "public_pct_gdp")
-    _line(ctx, ax, gross_pct, color=ctx.p.NAVY, lw=2.6, label="gross debt, % of GDP")
-    _line(ctx, ax, public_pct, color=ctx.p.GOLD, lw=2.2, ls=(0, (5, 2)),
-         label=_subset("held by the public, % of GDP", "gross debt"))
-    g.style_axis(ax)
-    g.add_recessions(ax, label=False)
-    ax.set_ylabel("% of GDP")
-    ax.axhline(100, color=ctx.p.FAINT, lw=0.9, ls=(0, (2, 2)))
-    ax.text(ctx.YEARS[0] + 0.2, 100, "100% of GDP", fontsize=7.8, color=ctx.p.FAINT,
-            va="bottom")
-    _legend(ctx, ax, loc="lower right")
-    # The title promises a share, so the share is drawn.
-    ax2 = ax.twinx()
-    _share_panel(ctx, ax2, ctx.YEARS, public, gross, color=ctx.p.TEAL,
-                label="public debt as % of gross", annotate_last=False)
-    ax2.spines[["top", "left"]].set_visible(False)
-    ax2.set_ylabel("public share of gross, %", color=ctx.p.TEAL)
-    ax2.tick_params(colors=ctx.p.TEAL, length=0)
-    ax2.set_ylim(50, 100)
-    ax2.grid(False)
-
-    g.save(ctx.out("02-fiscal.png"))
-
-def plate_spending(ctx) -> None:
-    sp = _table(ctx, "fiscal/spending.csv", key="fiscal_year")
-    est = _estimate_years(ctx, sp)
-
-    g = ctx.fig(
-        "Where the money goes",
-        "Federal outlays by function, in dollars and as a share of the budget",
-        source=("Source: OMB Historical Tables 3.2, outlays by function and "
-                "subfunction (FY2027 edition). Dashed segments are OMB "
-                "estimates, not actuals."),
-        # A right-hand axis in the right-hand column: its ticks and
-        # its label need room the shared margin does not leave, and
-        # without this they are drawn off the canvas. See Context.fig.
-        right=0.955,
-    )
-
-    FUNCS = (("social_security_usdbn", "Social Security", ctx.p.NAVY),
-             ("medicare_usdbn", "Medicare", ctx.p.RED),
-             ("health_usdbn", "Health (incl. Medicaid)", ctx.p.GOLD),
-             ("defense_usdbn", "National defense", ctx.p.TEAL),
-             ("net_interest_usdbn", "Net interest", ctx.p.PURPLE),
-             ("income_security_usdbn", "Income security", ctx.p.BLUE))
-
-    # ---- the big functions ----------------------------------------------
-    ax = g.next_panel("The largest functions, in dollars")
-    for name, label, color in FUNCS:
-        _line_with_estimate(ctx, ax, _col(ctx, sp, name), est, color, label)
-    g.style_axis(ax)
-    g.add_recessions(ax, label=False)
-    ax.set_ylabel("US$ bn")
-    _legend(ctx, ax, ncol=2)
-    g.headroom(ax, top=0.26)
-    g.mark_partial(ax, 2021, f"{min(est)} is an OMB estimate" if est else "")
-
-    # ---- interest overtakes defence --------------------------------------
-    ax = g.next_panel("Net interest has overtaken national defense")
-    interest = _col(ctx, sp, "net_interest_usdbn")
-    defense = _col(ctx, sp, "defense_usdbn")
-    _line_with_estimate(ctx, ax, defense, est, ctx.p.TEAL, "National defense", lw=2.6)
-    _line_with_estimate(ctx, ax, interest, est, ctx.p.PURPLE, "Net interest", lw=2.6)
-    g.style_axis(ax)
-    ax.set_ylabel("US$ bn")
-    _legend(ctx, ax)
-    cross = next((y for y in ctx.YEARS
-                  if (i := interest[ctx.YEARS.index(y)]) is not None
-                  and (d := defense[ctx.YEARS.index(y)]) is not None and i > d), None)
+    ax = ig.slot("fiscal.interest", "Interest paid")
+    gdp = _d(ctx, "macro/gdp.csv", "nominal_usdbn")
+    paid = _ratio(_d(ctx, "fiscal/interest.csv", "interest_paid_usdmn"),
+                  _scale(gdp, 1000))
+    _line(ctx, ax, paid, ctx.p.NAVY,
+          label="general government, interest paid (OECD)", lw=2.6)
+    sp = "fiscal/spending.csv"
+    est = _d(ctx, sp, "estimate", fy)
+    net = {y: v for y, v in _d(ctx, sp, "net_interest_usdbn", fy).items()
+           if not est.get(y)}
+    fed_net = _ratio(net, _d(ctx, bud, "gdp_usdbn", fy))
+    _thin(ctx, ax, fed_net, ctx.p.PURPLE,
+          label="federal net interest, fiscal year (OMB)")
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper left", fontsize=8.0)
+    defense = _d(ctx, sp, "defense_usdbn", fy)
+    cross = next((y for y in sorted(net) if y in defense
+                  and net[y] > defense[y]), None)
     if cross:
-        g.add_event(ax, cross, f"interest passes defense\nin FY{cross}",
-                    dy=0.30, color=ctx.p.PURPLE)
-    g.headroom(ax, top=0.18)
+        _note(ctx, ax, f"FY{cross}: federal net interest, {_fmt_bn(net[cross])},\n"
+                       f"passed national defense, {_fmt_bn(defense[cross])}.",
+              y=0.05)
 
-    # ---- shares ----------------------------------------------------------
-    ax = g.next_panel("Share of all federal outlays")
-    total = _col(ctx, sp, "total_usdbn")
-    for name, label, color in FUNCS:
-        vals = _col(ctx, sp, name)
-        shares = [None if (v is None or not t) else v / t * 100
-                  for v, t in zip(vals, total)]
-        _line_with_estimate(ctx, ax, shares, est, color, label, lw=2.2)
-    g.style_axis(ax)
-    ax.set_ylabel("% of total outlays")
-    _legend(ctx, ax, ncol=2)
-    g.headroom(ax, top=0.26)
 
-    # ---- the education break ---------------------------------------------
-    ax = g.next_panel("Education, training and employment: a break, not a cut")
-    edu = _col(ctx, sp, "education_usdbn")
-    bars = ax.bar(ctx.YEARS, _nan(ctx, edu), color=ctx.p.GOLD, width=0.68)
-    for y, bar in zip(ctx.YEARS, bars):
-        if y in est:
-            bar.set_hatch("////")
-            bar.set_edgecolor(ctx.p.FAINT)
-        v = edu[ctx.YEARS.index(y)]
-        if v is not None and v < 0:
-            bar.set_color(ctx.p.RED)
-    g.style_axis(ax)
-    ax.axhline(0, color=ctx.p.INK, lw=0.9)
-    ax.set_ylabel("US$ bn")
-    g.headroom(ax, top=0.30, bottom=0.08)
-    peak = max((v, y) for y, v in zip(ctx.YEARS, edu) if v is not None)
-    ax.annotate(events.BREAKS["education_outlays"][1],
-                xy=(2023, min(v for v in edu if v is not None)),
-                xytext=(2010.5, peak[0] * 0.62),
-                fontsize=8.2, color=ctx.p.RED, style="italic",
-                arrowprops=dict(arrowstyle="-", color=ctx.p.RED, lw=0.8,
-                                shrinkA=2, shrinkB=6))
-    _annotate_value(ctx, ax, peak[1], peak[0], f"US$ {peak[0]:,.0f}bn", color=ctx.p.GOLD)
+# =============================================================== spending
+COFOG = (  # (columns summed, label, colour name)
+    (("social_protection",), "social protection", "NAVY"),
+    (("health",), "health", "RED"),
+    (("education",), "education", "GOLD"),
+    (("general_public_services",), "general public services", "TEAL"),
+    (("economic_affairs",), "economic affairs", "BLUE"),
+    (("defence", "public_order"), "defence and public order", "PURPLE"),
+)
 
-    g.save(ctx.out("03-spending.png"))
 
-def plate_trade(ctx) -> None:
-    bea = _table(ctx, "trade/trade.csv")
-    goods = _table(ctx, "trade/goods.csv")
-    partners_rows: dict[str, dict[int, float]] = {}
-    with ctx.c.data("trade/partners.csv").open(newline="", encoding="utf-8") as fh:
-        for r in csv.DictReader(fh):
-            try:
-                partners_rows.setdefault(r["country"], {})[int(r["year"])] = \
-                    float(r["import_share"])
-            except (KeyError, TypeError, ValueError):
-                continue
+def plate_spending(ctx, ig):
+    cf = "fiscal/cofog.csv"
+    total = _d(ctx, cf, "total")
 
-    g = ctx.fig(
-        "What America buys and sells",
-        "Trade in goods and services, and who the goods come from",
-        source=("Sources: Bureau of Economic Analysis, NIPA table 4.1 "
-                "(goods and services, balance-of-payments basis) · Census "
-                "Bureau, country trade balances (goods, customs basis)"))
+    ax = ig.slot("spending.by_function", "General-government spending by function")
+    years = sorted(total)
+    bottom = np.zeros(len(years))
+    handles = []
+    named = {y: 0.0 for y in years}
+    for cols, label, colour in COFOG:
+        parts = [_d(ctx, cf, c) for c in cols]
+        vals = np.array([sum(p[y] for p in parts) for y in years])
+        for y, v in zip(years, vals):
+            named[y] += v
+        ax.bar(years, vals, bottom=bottom, width=0.7, zorder=3,
+               color=getattr(ctx.p, colour), edgecolor="white", linewidth=0.4)
+        bottom = bottom + vals
+        handles.append(_proxy(getattr(ctx.p, colour), label))
+    other = np.array([total[y] - named[y] for y in years])
+    ax.bar(years, other, bottom=bottom, width=0.7, zorder=3,
+           color=ctx.p.faint, edgecolor="white", linewidth=0.4)
+    handles.append(_proxy(ctx.p.faint, "other"))
+    # Unlabelled on purpose: inside the axes the band names would sit on
+    # the stacked bars, and above it they collide with the title.
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper left", ncol=4, handles=handles, fontsize=7.6)
 
-    # ---- the overall balance ---------------------------------------------
-    ax = g.next_panel("Exports, imports and the balance")
-    exp, imp = _col(ctx, bea, "exports"), _col(ctx, bea, "imports")
-    bal = _col(ctx, bea, "balance")
-    _line(ctx, ax, imp, color=ctx.p.RED, lw=2.6, label="imports")
-    _line(ctx, ax, exp, color=ctx.p.NAVY, lw=2.6, label="exports")
-    xs, _ = _xy(ctx, imp)
-    ax.fill_between(xs, [v for v in exp if v is not None],
-                    [v for v in imp if v is not None],
+    ax = ig.slot("spending.social_protection", "Social protection and everything else")
+    sp = _d(ctx, cf, "social_protection")
+    rest = {y: total[y] - sp[y] for y in sp if y in total}
+    _line(ctx, ax, rest, ctx.p.TEAL, label="everything else", lw=2.6)
+    _line(ctx, ax, sp, ctx.p.NAVY, label="social protection", lw=2.6)
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper left")
+    health = _d(ctx, cf, "health")
+    last = max(sp)
+    if last in health and health[last] > sp[last]:
+        _note(ctx, ax, f"{last}: health, {health[last]:.1f}% of GDP, is a larger\n"
+                       f"function than social protection, {sp[last]:.1f}%.",
+              y=0.05)
+
+    ax = ig.slot("spending.investment", "Investment, whole economy")
+    inv = _d(ctx, "macro/economy_wdi.csv", "gfcf_pct_gdp")
+    _line(ctx, ax, inv, ctx.p.NAVY, label="gross fixed capital formation",
+          lw=2.6)
+    _frame(ig, ax)
+    lo = min(inv, key=inv.get)
+    _label(ctx, ax, lo, inv[lo], f"{inv[lo]:.1f}% in {lo}", ctx.p.NAVY,
+           offset=(0, -6), va="top")
+    _legend(ctx, ax, loc="upper right")
+
+    ax = ig.slot("spending.public_investment", "Public investment")
+    pub = _d(ctx, "fiscal/public_investment.csv", "gov_gfcf_pct_gdp")
+    _line(ctx, ax, pub, ctx.p.TEAL,
+          label="general-government gross fixed capital formation", lw=2.6)
+    _frame(ig, ax)
+    hi = max(pub, key=pub.get)
+    _label(ctx, ax, hi, pub[hi], f"{pub[hi]:.1f}% in {hi}", ctx.p.TEAL,
+           offset=(0, 7))
+    _legend(ctx, ax, loc="upper right")
+    _note(ctx, ax, "Roads, buildings, equipment and research, by federal,\n"
+                   "state and local government together.", y=0.05)
+
+
+# ================================================================== trade
+def plate_trade(ctx, ig):
+    tr = "trade/trade.csv"
+    gdp = _d(ctx, "macro/gdp.csv", "nominal_usdbn")
+
+    ax = ig.slot("trade.exports_imports", "Exports and imports of goods and services")
+    imp = _ratio(_d(ctx, tr, "imports"), gdp)
+    exp = _ratio(_d(ctx, tr, "exports"), gdp)
+    _line(ctx, ax, imp, ctx.p.RED, label="imports", lw=2.6)
+    _line(ctx, ax, exp, ctx.p.NAVY, label="exports", lw=2.6)
+    _frame(ig, ax, slot1=True)
+    _legend(ctx, ax, loc="upper right")
+    _note(ctx, ax, "BEA national accounts. The US trades little relative\n"
+                   "to its size: a large, continental economy.", y=0.80,
+          va="top", x=0.015)
+
+    ax = ig.slot("trade.balance", "Trade balance")
+    bal = _ratio(_d(ctx, tr, "balance"), gdp)
+    ys, vs = _xy(bal)
+    ctx.bars(ax, ys, vs, lambda v: ctx.p.RED if v < 0 else ctx.p.GREEN,
+             width=0.68)
+    _line(ctx, ax, _ratio(_d(ctx, tr, "goods_balance"), gdp), ctx.p.NAVY,
+          label="goods", lw=2.0)
+    _line(ctx, ax, _ratio(_d(ctx, tr, "services_balance"), gdp), ctx.p.TEAL,
+          label="services", lw=2.0)
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper left", ncol=3, handles=[
+        _proxy(ctx.p.RED, "total balance"),
+        *ax.get_legend_handles_labels()[0]])
+    census = _d(ctx, "trade/goods.csv", "balance")
+    bea_goods = _d(ctx, tr, "goods_balance")
+    y = ctx.LAST_FULL_YEAR
+    if y in census and y in bea_goods:
+        _note(ctx, ax, f"{y} goods deficit, two official bases: Census customs\n"
+                       f"US$ {-census[y]:,.1f}bn, BEA balance of payments "
+                       f"US$ {-bea_goods[y]:,.1f}bn.", y=0.04)
+
+    ax = ig.slot("trade.destinations", "Where US goods are sold")
+    exports_total = _d(ctx, "trade/goods.csv", "exports")
+    t = ctx.table("trade/partners.csv")
+    by: dict[str, dict[int, float]] = {}
+    for yr, name, v in zip(t["year"], t["country"], t["exports"]):
+        if isinstance(v, float) and v == v:
+            by.setdefault(name, {})[int(yr)] = v
+    for name, colour in (("Canada", "TEAL"), ("Mexico", "GOLD"),
+                         ("European Union", "NAVY"), ("China", "RED"),
+                         ("Japan", "PURPLE")):
+        _line(ctx, ax, _ratio(by.get(name, {}), exports_total),
+              getattr(ctx.p, colour), label=name, lw=2.2)
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper left", ncol=3, fontsize=8.0)
+    _note(ctx, ax, "Census, goods on the customs basis.", y=0.04,
+          x=0.985, ha="right")
+
+    ax = ig.slot("trade.lens", "Where the goods come from")
+    imports_total = _d(ctx, "trade/goods.csv", "imports")
+    byi: dict[str, dict[int, float]] = {}
+    for yr, name, v in zip(t["year"], t["country"], t["imports"]):
+        if isinstance(v, float) and v == v:
+            byi.setdefault(name, {})[int(yr)] = v
+    shares = {}
+    for name, colour in (("China", "RED"), ("Mexico", "GOLD"),
+                         ("European Union", "NAVY"), ("Canada", "TEAL"),
+                         ("Vietnam", "PURPLE")):
+        shares[name] = _ratio(byi.get(name, {}), imports_total)
+        _line(ctx, ax, shares[name], getattr(ctx.p, colour), label=name,
+              lw=2.2)
+    _frame(ig, ax)
+    yr, txt = events.MARKS["china_tariffs"]
+    ig.add_event(ax, yr, txt, dy=0.97)
+    ax.set_ylim(0, 30)
+    ax.set_ylabel("% of goods imports", fontsize=8.6, color=ctx.p.muted)
+    _legend(ctx, ax, loc="upper left", ncol=3, fontsize=8.0,
+            bbox_to_anchor=(0.0, 0.90))
+    china = shares["China"]
+    peak = max((y for y in china if y <= ctx.LAST_FULL_YEAR), key=china.get)
+    last = ctx.LAST_FULL_YEAR
+    if last in china:
+        _note(ctx, ax, f"China's share: {china[peak]:.1f}% in {peak}, "
+                       f"{china[last]:.1f}% in {last}.", y=0.84, x=0.985,
+              ha="right", va="top")
+
+
+# ================================================================ markets
+def plate_markets(ctx, ig):
+    ff = "macro/fed_funds.csv"
+    lo, hi = _d(ctx, ff, "target_eop"), _d(ctx, ff, "target_hi")
+    mid = {y: (v + hi[y]) / 2 if y in hi else v for y, v in lo.items()}
+    cpi = _d(ctx, "macro/cpi.csv", "value")
+
+    ax = ig.slot("markets.policy_rate", "The policy rate against inflation")
+    _line(ctx, ax, mid, ctx.p.NAVY, label="federal funds target, year end",
+          lw=2.6)
+    _thin(ctx, ax, cpi, ctx.p.RED, label="CPI inflation, yearly average")
+    both = [y for y in sorted(mid) if y in cpi]
+    ax.fill_between(both, [mid[y] for y in both], [cpi[y] for y in both],
+                    where=[mid[y] < cpi[y] for y in both], interpolate=True,
                     color=ctx.p.RED, alpha=0.10, zorder=1)
-    g.style_axis(ax)
-    g.add_recessions(ax, label=False)
-    ax.set_ylabel("US$ bn")
-    _legend(ctx, ax)
-    x, y = _last_point(ctx, bal)
-    if x:
-        ax.text(0.985, 0.04, f"balance {_fmt_usd(y)}", transform=ax.transAxes,
-                ha="right", fontsize=9, color=ctx.p.RED, fontweight="bold")
-    g.mark_partial(ax, 2021, "2026: 2 of 4 quarters")
+    # Unlabelled on purpose: the names would sit on the zero-rate line.
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper left")
+    _note(ctx, ax, "Shaded where the policy rate sat below inflation.\n"
+                   "Midpoint of the target range.", y=0.62, x=0.985,
+          ha="right")
 
-    # ---- goods against services ------------------------------------------
-    ax = g.next_panel("The goods deficit and the services surplus")
-    gb, sb = _col(ctx, bea, "goods_balance"), _col(ctx, bea, "services_balance")
-    ax.bar(ctx.YEARS, _nan(ctx, gb), color=ctx.p.RED, width=0.68,
-           label=_subset("goods balance", "the total balance"))
-    ax.bar(ctx.YEARS, _nan(ctx, sb), color=ctx.p.TEAL, width=0.68,
-           label=_subset("services balance", "the total balance"))
-    _line(ctx, ax, bal, color=ctx.p.INK, lw=2.2, label="total balance")
-    g.style_axis(ax)
-    ax.axhline(0, color=ctx.p.INK, lw=0.9)
-    ax.set_ylabel("US$ bn")
-    _legend(ctx, ax, loc="lower left")
-    g.headroom(ax, top=0.12, bottom=0.14)
-
-    # ---- partners ---------------------------------------------------------
-    ax = g.next_panel("Share of US goods imports, by partner")
-    PICK = (("China", ctx.p.RED), ("European Union", ctx.p.NAVY), ("Mexico", ctx.p.GOLD),
-            ("Canada", ctx.p.TEAL), ("Vietnam", ctx.p.PURPLE), ("Taiwan", ctx.p.BLUE))
-    for name, color in PICK:
-        series = partners_rows.get(name, {})
-        vals = [series.get(y) for y in ctx.YEARS]
-        _line(ctx, ax, vals, color=color, lw=2.4, label=name)
-    # No end-of-line labels here: in 2026 three of these partners land
-    # within half a percentage point of each other, so the labels collide
-    # and have to be read against the wrong line. The legend carries it.
-    g.style_axis(ax)
-    ax.set_ylabel("% of goods imports")
-    _legend(ctx, ax, ncol=2)
-    g.headroom(ax, top=0.24)
-
-    # ---- the two bases ----------------------------------------------------
-    ax = g.next_panel("Two official goods deficits, measured differently")
-    census = _col(ctx, goods, "balance")
-    _line(ctx, ax, census, color=ctx.p.GOLD, lw=2.6,
-         label="Census: goods at customs value")
-    _line(ctx, ax, gb, color=ctx.p.NAVY, lw=2.6,
-         label="BEA: goods, balance-of-payments basis")
-    g.style_axis(ax)
-    ax.set_ylabel("US$ bn")
-    _legend(ctx, ax, loc="lower right")
-    ax.text(0.015, 0.96,
-            "The same trade, counted under two definitions. They are never\n"
-            "added together and never spliced into one line.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="top")
-    g.mark_partial(ax, 2021, "2026: Census 8 of 12 months, BEA 2 of 4 quarters")
-
-    g.save(ctx.out("04-trade.png"))
-
-def plate_markets(ctx) -> None:
-    sp = _table(ctx, "markets/sp500.csv")
-    ff = _table(ctx, "macro/fed_funds.csv")
-    cpi = _table(ctx, "macro/cpi.csv")
-    ten = _table(ctx, "macro/treasury.csv")
-    usd = _table(ctx, "macro/dollar.csv")
-    mort = _table(ctx, "macro/mortgage.csv")
-
-    g = ctx.fig(
-        "Money and markets",
-        "The policy rate, the yield curve, the dollar and the stock market",
-        source=("Sources: NY Fed (federal funds target) · US Treasury par "
-                "yield curve · Federal Reserve Board H.10 · Freddie Mac "
-                "PMMS · S&P 500 via Yahoo Finance, a redistributor"),
-        # A right-hand axis in the right-hand column: its ticks and
-        # its label need room the shared margin does not leave, and
-        # without this they are drawn off the canvas. See Context.fig.
-        right=0.955,
-    )
-
-    # ---- the index and what it cost to hold ------------------------------
-    ax = g.next_panel("The S&P 500, and the fall inside each year")
-    close = _col(ctx, sp, "close")
-    _line(ctx, ax, close, color=ctx.p.NAVY, lw=2.6, label="year-end close")
-    g.style_axis(ax)
-    g.add_recessions(ax, label=False)
-    ax.set_ylabel("index")
-    x, y = _last_point(ctx, close)
-    if x:
-        _annotate_value(ctx, ax, x, y, f"{y:,.0f}", color=ctx.p.NAVY, ha="right",
-                       offset=(-6, 8))
-    ax2 = ax.twinx()
-    dd = _col(ctx, sp, "drawdown_pct")
-    ax2.bar(ctx.YEARS, _nan(ctx, dd), color=ctx.p.RED, width=0.62, alpha=0.5,
-            label="largest fall within the year (right)")
-    ax2.set_ylim(-110, 0)
-    ax2.spines[["top", "left", "right"]].set_visible(False)
-    ax2.set_ylabel("peak-to-trough, %", color=ctx.p.RED)
-    ax2.tick_params(colors=ctx.p.RED, length=0)
-    ax2.grid(False)
-    worst = min((v, y2) for y2, v in zip(ctx.YEARS, dd) if v is not None)
-    _annotate_value(ctx, ax2, worst[1], worst[0], f"{worst[0]:.0f}%", color=ctx.p.RED,
-                   offset=(0, -16))
-    _twin_legend(ctx, ax, ax2, loc="upper left")
-    ax.text(0.015, 0.60, "2008 ended 38% down and fell 48% on the way.\n"
-                         "A year-end close alone hides the drawdown.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="top")
-    g.mark_partial(ax, 2021, "2026: 202 of about 250 trading days")
-
-    # ---- policy against prices -------------------------------------------
-    ax = g.next_panel("The policy rate against inflation")
-    target = _col(ctx, ff, "target_eop")
-    hi = _col(ctx, ff, "target_hi")
-    mid = [t if h is None else (t + h) / 2 for t, h in zip(target, hi)]
-    infl = _col(ctx, cpi, "value")
-    _line(ctx, ax, mid, color=ctx.p.NAVY, lw=2.6, label="FOMC target at year end")
-    _line(ctx, ax, infl, color=ctx.p.RED, lw=2.4, ls=(0, (5, 2)), label="CPI inflation")
-    xs, _ = _xy(ctx, mid)
-    ax.fill_between(xs, [v for v in mid if v is not None],
-                    [v for v in infl if v is not None],
-                    where=[m < i for m, i in zip(
-                        [v for v in mid if v is not None],
-                        [v for v in infl if v is not None])],
-                    color=ctx.p.RED, alpha=0.12, interpolate=True)
-    g.style_axis(ax)
-    ax.axhline(0, color=ctx.p.INK, lw=0.9)
-    ax.set_ylabel("%")
-    _legend(ctx, ax)
-    ax.text(0.985, 0.04, "Shaded where the policy rate sat below inflation.",
-            transform=ax.transAxes, ha="right", fontsize=8, color=ctx.p.MUTED,
-            style="italic")
-    g.headroom(ax, top=0.16)
-
-    # ---- the curve --------------------------------------------------------
-    ax = g.next_panel("The yield curve: 10-year minus 2-year")
-    spread = _col(ctx, ten, "spread_10y_2y_avg")
-    xs, ys = _xy(ctx, spread)
-    ax.plot(xs, ys, color=ctx.p.NAVY, lw=2.6)
-    ax.fill_between(xs, 0, ys, where=[v >= 0 for v in ys], color=ctx.p.NAVY,
-                    alpha=0.12, interpolate=True)
-    ax.fill_between(xs, 0, ys, where=[v < 0 for v in ys], color=ctx.p.RED,
-                    alpha=0.22, interpolate=True)
-    g.style_axis(ax)
-    g.add_recessions(ax, label=False)
-    ax.axhline(0, color=ctx.p.INK, lw=1.0)
-    ax.set_ylabel("percentage points, yearly average")
-    inverted = [y2 for y2, v in zip(ctx.YEARS, spread) if v is not None and v < 0]
+    ax = ig.slot("markets.bond_10y", "10-year Treasury yield")
+    tre = "macro/treasury.csv"
+    _line(ctx, ax, _d(ctx, tre, "ten_year_avg"), ctx.p.NAVY,
+          label="10-year Treasury, yearly average", lw=2.6)
+    _thin(ctx, ax, _d(ctx, tre, "two_year_avg"), ctx.p.GOLD,
+          label="2-year Treasury, yearly average")
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper left")
+    spread = _d(ctx, tre, "spread_10y_2y_avg")
+    inverted = [str(y) for y in sorted(spread) if spread[y] < 0]
     if inverted:
-        ax.text(0.015, 0.06,
-                "Inverted (red) in these years:\n"
-                + ", ".join(str(y2) for y2 in inverted)
-                + "\nAn inversion has preceded each recession shaded here, "
-                  "but\nthe lag has run from several months to over two years.",
-                transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED,
-                style="italic", va="bottom")
-    g.headroom(ax, top=0.30, bottom=0.10)
+        _note(ctx, ax, "2-year above 10-year on average (inverted):\n"
+                       + ", ".join(inverted), y=0.60, x=0.985, ha="right")
 
-    # ---- the dollar and the mortgage --------------------------------------
-    ax = g.next_panel("The dollar, and what a mortgage costs")
-    broad = _col(ctx, usd, "broad_index_avg")
-    _line(ctx, ax, broad, color=ctx.p.NAVY, lw=2.6, label="broad dollar index (Jan 2006 = 100)")
-    g.style_axis(ax)
-    ax.set_ylabel("index")
-    ax.axhline(100, color=ctx.p.FAINT, lw=0.9, ls=(0, (2, 2)))
-    ax2 = ax.twinx()
-    thirty = _col(ctx, mort, "thirty_year_avg")
-    _line(ctx, ax2, thirty, color=ctx.p.GOLD, lw=2.4, ls=(0, (5, 2)),
-         label="30-year fixed mortgage (right)")
-    ax2.spines[["top", "left"]].set_visible(False)
-    ax2.set_ylabel("% a year", color=ctx.p.GOLD)
-    ax2.tick_params(colors=ctx.p.GOLD, length=0)
-    ax2.grid(False)
-    x, y = _last_point(ctx, thirty)
-    if x:
-        _annotate_value(ctx, ax2, x, y, f"{y:.2f}%", color=ctx.p.GOLD, ha="right",
-                       offset=(-6, 6))
-    _twin_legend(ctx, ax, ax2, loc="upper left")
-    g.headroom(ax, top=0.18)
+    ax = ig.slot("markets.currency", "The dollar against its trading partners")
+    ys, vs = ctx.index_2006(_d(ctx, "macro/dollar.csv", "broad_index_avg"))
+    usd = dict(zip(ys, vs))
+    _line(ctx, ax, usd, ctx.p.NAVY,
+          label="broad dollar index, yearly average", lw=2.6)
+    _frame(ig, ax)
+    last = max(usd)
+    peak = max(usd, key=usd.get)
+    _label(ctx, ax, peak, usd[peak], f"{usd[peak]:.0f} in {peak}",
+           ctx.p.NAVY, offset=(0, 7))
+    _legend(ctx, ax, loc="lower right")
+    _note(ctx, ax, "Federal Reserve H.10, trade-weighted. The dollar is the\n"
+                   "base currency, so the US line is a basket, not a rate.",
+          y=0.05)
 
-    g.save(ctx.out("05-markets.png"))
-
-def plate_people(ctx) -> None:
-    inc = _table(ctx, "social/income.csv")
-    pov = _table(ctx, "social/poverty.csv")
-    mw = _table(ctx, "social/minimum_wage.csv")
-    cpi = _table(ctx, "macro/cpi.csv")
-
-    g = ctx.fig(
-        "Households",
-        "What a typical household earns, who is counted as poor, and the wage floor",
-        source=("Sources: Census Bureau, Current Population Survey ASEC — "
-                "table H-8 and the P60 poverty report · Department of Labor, "
-                "Wage and Hour Division · deflated with BLS CPI-U"))
-
-    # ---- income -----------------------------------------------------------
-    ax = g.next_panel("Median household income")
-    nominal = _col(ctx, inc, "median_household_income")
-    real = _col(ctx, inc, "median_household_income_2025usd")
-    _line(ctx, ax, nominal, color=ctx.p.FAINT, lw=2.2, ls=(0, (5, 2)),
-         label="in the dollars of the day")
-    _line(ctx, ax, real, color=ctx.p.NAVY, lw=2.8, label="in 2025 dollars")
-    g.style_axis(ax)
-    g.add_recessions(ax, label=False)
-    ax.set_ylabel("US$ a year")
+    ax = ig.slot("markets.equities", "The S&P 500")
+    sp = "markets/sp500.csv"
+    ys, vs = ctx.index_2006(_d(ctx, sp, "average"))
+    eq = dict(zip(ys, vs))
+    _line(ctx, ax, eq, ctx.p.NAVY, label="S&P 500, yearly average", lw=2.6)
+    _frame(ig, ax)
+    last = max(eq)
+    _label(ctx, ax, last, eq[last], f"{eq[last]:.0f}", ctx.p.NAVY,
+           offset=(-4, 7), ha="right")
+    dd = _d(ctx, sp, "drawdown_pct")
+    worst = min(dd, key=dd.get)
+    _note(ctx, ax, f"{worst}: down {-dd[worst]:.0f}% from peak to trough within\n"
+                   f"the year. A yearly average smooths that away.", y=0.70,
+          va="top")
     _legend(ctx, ax, loc="upper left")
-    for vals, color in ((real, ctx.p.NAVY),):
-        x, y = _last_point(ctx, vals)
-        if x:
-            _annotate_value(ctx, ax, x, y, f"US$ {y:,.0f}", color=color, ha="right",
-                           offset=(-6, 8))
-    pre = real[ctx.YEARS.index(2019)]
-    now = _last_point(ctx, real)[1]
-    if pre and now:
-        ax.text(0.985, 0.06,
-                f"Adjusted for prices, the median household\n"
-                f"has gained {((now / pre) - 1) * 100:.1f}% since 2019.",
-                transform=ax.transAxes, fontsize=8.2, color=ctx.p.MUTED,
-                style="italic", va="bottom", ha="right")
-    g.headroom(ax, top=0.18)
 
-    # ---- the two poverty measures ----------------------------------------
-    ax = g.next_panel("Two official poverty rates, all people")
-    opm = _col(ctx, pov, "opm_all")
-    spm = _col(ctx, pov, "spm_all")
-    _line(ctx, ax, opm, color=ctx.p.NAVY, lw=2.6, label="official measure (OPM)")
-    _line(ctx, ax, spm, color=ctx.p.RED, lw=2.6, label="supplemental measure (SPM)")
-    g.style_axis(ax)
-    g.add_recessions(ax, label=False)
-    ax.set_ylabel("% of people")
-    _legend(ctx, ax)
-    ax.text(0.015, 0.06,
-            "The official measure counts pre-tax cash only. The supplemental\n"
-            "measure adds tax credits and benefits and subtracts medical and\n"
-            "work costs. Census publishes it from 2009; they are different\n"
-            "definitions, not a revision of one another.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="bottom")
-    g.headroom(ax, top=0.16, bottom=0.42)
 
-    # ---- children ---------------------------------------------------------
-    ax = g.next_panel("Child poverty: what the official measure cannot see")
-    copm = _col(ctx, pov, "opm_under18")
-    cspm = _col(ctx, pov, "spm_under18")
-    _line(ctx, ax, copm, color=ctx.p.NAVY, lw=2.6, label="official measure (OPM)")
-    _line(ctx, ax, cspm, color=ctx.p.RED, lw=2.8, label="supplemental measure (SPM)")
-    g.style_axis(ax)
-    ax.set_ylabel("% of people under 18")
-    _legend(ctx, ax)
-    trough = min((v, y) for y, v in zip(ctx.YEARS, cspm) if v is not None)
-    ax.annotate("2021: the expanded Child Tax Credit cuts SPM child\n"
-                "poverty to 5.1%. The official measure, which counts no\n"
-                "tax credit, reads 15.3% and shows nothing at all.",
-                xy=(trough[1], trough[0]), xytext=(2009.6, 3.0),
-                fontsize=8.2, color=ctx.p.RED, style="italic",
-                arrowprops=dict(arrowstyle="-", color=ctx.p.RED, lw=0.9,
-                                shrinkA=2, shrinkB=6))
-    g.headroom(ax, top=0.12, bottom=0.46)
+# ================================================================= credit
+def plate_credit(ctx, ig):
+    gdp = _d(ctx, "macro/gdp.csv", "nominal_usdbn")
 
-    # ---- the wage floor ---------------------------------------------------
-    ax = g.next_panel("The federal minimum wage, nominal and real")
-    jan = _col(ctx, mw, "federal_min_jan1")
-    idx = _col(ctx, cpi, "index")
-    base = idx[ctx.YEARS.index(2025)]
-    real_mw = [None if (v is None or i is None or not i) else v * base / i
-               for v, i in zip(jan, idx)]
-    ax.step(ctx.YEARS, _nan(ctx, jan), where="post", color=ctx.p.NAVY, lw=2.6,
-            label="in the dollars of the day")
-    _line(ctx, ax, real_mw, color=ctx.p.RED, lw=2.6, label="in 2025 dollars")
-    g.style_axis(ax)
-    ax.set_ylabel("US$ an hour")
-    _legend(ctx, ax)
-    x, y = _last_point(ctx, real_mw)
-    if x:
-        _annotate_value(ctx, ax, x, y, f"US$ {y:.2f}", color=ctx.p.RED, ha="right",
-                       offset=(-6, -20))
-    ax.text(0.015, 0.06,
-            "Unchanged at US$ 7.25 since 24 July 2009. The nominal line is\n"
-            "flat by law; the real line falls because prices did not stop.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="bottom")
-    g.headroom(ax, top=0.14, bottom=0.30)
+    ax = ig.slot("credit.household_debt", "Household debt")
+    bis = _d(ctx, "credit/household_credit.csv", "hh_credit_pct_gdp_q4")
+    _line(ctx, ax, bis, ctx.p.NAVY, label="BIS, households and non-profits",
+          lw=2.6)
+    hh = "credit/household_debt.csv"
+    q = _d(ctx, hh, "quarters")
+    total = {y: v for y, v in _d(ctx, hh, "total").items() if q.get(y) == 4}
+    _thin(ctx, ax, _ratio(_scale(total, 1000), gdp), ctx.p.GOLD,
+          label="FRBNY credit reports, year end")
+    _frame(ig, ax, slot1=True)
+    peak = max(bis, key=bis.get)
+    _label(ctx, ax, peak, bis[peak], f"{bis[peak]:.0f}% in {peak}",
+           ctx.p.NAVY, offset=(0, 7))
+    _legend(ctx, ax, loc="upper right")
 
-    g.save(ctx.out("06-people.png"))
+    ax = ig.slot("credit.lending_rate", "What households pay to borrow")
+    _line(ctx, ax, _d(ctx, "macro/mortgage.csv", "thirty_year_avg"),
+          ctx.p.NAVY, label="30-year fixed mortgage, new loans", lw=2.6)
+    rates = "credit/rates.csv"
+    _line(ctx, ax, _d(ctx, rates, "cc_apr_all"), ctx.p.RED,
+          label="credit card, all accounts", lw=2.2)
+    ff = "macro/fed_funds.csv"
+    lo, hi = _d(ctx, ff, "target_eop"), _d(ctx, ff, "target_hi")
+    _thin(ctx, ax, {y: (v + hi[y]) / 2 if y in hi else v
+                    for y, v in lo.items()}, ctx.p.TEAL,
+          label="federal funds target, year end")
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper left", fontsize=8.0,
+            bbox_to_anchor=(0.0, 0.86))
+    _note(ctx, ax, "The policy rate returned to about its 2006 level.\n"
+                   "The credit card rate did not.", y=0.97, va="top")
 
-def plate_world(ctx) -> None:
-    wb = _table(ctx, "international/worldbank.csv")
-    hdi = _table(ctx, "social/hdi.csv")
-
-    g = ctx.fig(
-        "The United States in the world",
-        "Share of world output, what health costs, and how long people live",
-        source=("Sources: World Bank, World Development Indicators · UN "
-                "Development Programme, Human Development Report 2025 "
-                "composite indices"),
-        # A right-hand axis in the right-hand column: its ticks and
-        # its label need room the shared margin does not leave, and
-        # without this they are drawn off the canvas. See Context.fig.
-        right=0.955,
-    )
-
-    ax = g.next_panel("US share of world GDP, at market exchange rates")
-    share = _col(ctx, wb, "us_share_world_gdp")
-    xs, ys = _xy(ctx, share)
-    ax.plot(xs, ys, color=ctx.p.NAVY, lw=2.8)
-    ax.fill_between(xs, 0, ys, color=ctx.p.NAVY, alpha=0.10)
-    g.style_axis(ax)
-    g.add_recessions(ax, label=False)
-    ax.set_ylabel("% of world GDP")
-    ax.set_ylim(0, max(ys) * 1.25 if ys else 1)
-    lo = min((v, y) for y, v in zip(ctx.YEARS, share) if v is not None)
-    _annotate_value(ctx, ax, lo[1], lo[0], f"{lo[0]:.1f}% ({lo[1]})", color=ctx.p.NAVY,
-                   offset=(0, -20))
-    x, y = _last_point(ctx, share)
-    if x:
-        _annotate_value(ctx, ax, x, y, f"{y:.1f}%", color=ctx.p.NAVY, ha="right",
-                       offset=(-4, 8))
-    ax.text(0.015, 0.06, "Measured at market exchange rates. On a "
-                         "purchasing-power basis\nthe share is markedly "
-                         "lower; the two are not interchangeable.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="bottom")
-
-    ax = g.next_panel("Health spending against life expectancy")
-    health = _col(ctx, wb, "health_spending_pct_gdp")
-    life = _col(ctx, wb, "life_expectancy")
-    _line(ctx, ax, health, color=ctx.p.RED, lw=2.8, label="health spending, % of GDP")
-    g.style_axis(ax)
-    ax.set_ylabel("% of GDP", color=ctx.p.RED)
-    ax.tick_params(axis="y", colors=ctx.p.RED)
-    ax2 = ax.twinx()
-    _line(ctx, ax2, life, color=ctx.p.NAVY, lw=2.6, ls=(0, (5, 2)),
-         label="life expectancy at birth (right)")
-    ax2.spines[["top", "left"]].set_visible(False)
-    ax2.set_ylabel("years", color=ctx.p.NAVY)
-    ax2.tick_params(colors=ctx.p.NAVY, length=0)
-    ax2.grid(False)
-    _twin_legend(ctx, ax, ax2, loc="lower left")
-    drop = [(y, v) for y, v in zip(ctx.YEARS, life) if v is not None]
-    if drop:
-        worst = min(drop, key=lambda p: p[1])
-        # beside the point, not under it: below sits the axis, where the
-        # label lands on a tick
-        _annotate_value(ctx, ax2, worst[0], worst[1], f"{worst[1]:.1f} yrs",
-                       color=ctx.p.NAVY, offset=(10, -4), ha="left", fontsize=8.5)
-    g.headroom(ax, top=0.22)
-
-    ax = g.next_panel("Human Development Index")
-    h = _col(ctx, hdi, "hdi")
-    _line(ctx, ax, h, color=ctx.p.NAVY, lw=2.8)
-    g.style_axis(ax)
-    ax.set_ylabel("index, 0-1")
-    x, y = _last_point(ctx, h)
-    if x:
-        _annotate_value(ctx, ax, x, y, f"{y:.3f}", color=ctx.p.NAVY, ha="right",
-                       offset=(-4, 8))
-    ax.text(0.015, 0.06, "One UNDP vintage throughout: the 2025 report "
-                         "recomputes its\nown history, so mixing report "
-                         "years would create steps that\nare methodology "
-                         "rather than development.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="bottom")
-    g.headroom(ax, top=0.16, bottom=0.40)
-
-    ax = g.next_panel("Births per woman, and trade as a share of GDP")
-    fert = _col(ctx, wb, "fertility")
-    _line(ctx, ax, fert, color=ctx.p.NAVY, lw=2.8, label="total fertility rate")
-    g.style_axis(ax)
-    ax.set_ylabel("births per woman", color=ctx.p.NAVY)
-    ax.axhline(2.1, color=ctx.p.FAINT, lw=0.9, ls=(0, (2, 2)))
-    ax.text(ctx.YEARS[0] + 0.2, 2.1, "replacement, 2.1", fontsize=7.8,
-            color=ctx.p.FAINT, va="bottom")
-    ax2 = ax.twinx()
-    _line(ctx, ax2, _col(ctx, wb, "trade_openness"), color=ctx.p.GOLD, lw=2.4, ls=(0, (5, 2)),
-         label="trade (exports + imports), % of GDP (right)")
-    ax2.spines[["top", "left"]].set_visible(False)
-    ax2.set_ylabel("% of GDP", color=ctx.p.GOLD)
-    ax2.tick_params(colors=ctx.p.GOLD, length=0)
-    ax2.grid(False)
-    _twin_legend(ctx, ax, ax2, loc="lower left")
-    g.headroom(ax, top=0.18)
-
-    g.save(ctx.out("07-world.png"))
-
-def plate_demographics(ctx) -> None:
-    pop = _table(ctx, "social/population.csv")
-    proj = _table(ctx, "social/projections.csv")
-
-    g = ctx.fig(
-        "How many Americans",
-        "Population, what changes it, and where the Census Bureau expects it to go",
-        source=("Sources: Census Bureau population estimates, vintages 2019 "
-                "and 2025 · Census Bureau 2023 National Population "
-                "Projections, middle series"))
-
-    # ---- the level, by vintage -------------------------------------------
-    ax = g.next_panel("Resident population")
-    vint = {y: ((pop.get(y) or {}).get("vintage") or "").strip() for y in ctx.YEARS}
-    total = _col(ctx, pop, "population", scale=1 / 1e6)
-    for tag, color, label in (("v2019", ctx.p.BLUE, "vintage 2019 estimates"),
-                              ("v2025", ctx.p.NAVY, "vintage 2025 estimates")):
-        seg = [v if vint.get(y) == tag else None for y, v in zip(ctx.YEARS, total)]
-        _line(ctx, ax, seg, color=color, lw=2.8, label=label)
-    g.style_axis(ax)
-    ax.set_ylabel("million people")
-    _legend(ctx, ax, loc="upper left")
-    ax.axvline(2019.5, color=ctx.p.RED, lw=1.0, ls=(0, (3, 2)))
-    ax.annotate(events.BREAKS["population_vintage"][1],
-                xy=(2019.5, (total[ctx.YEARS.index(2019)] or 330)),
-                xytext=(2006.4, (total[-1] or 342) * 0.995),
-                fontsize=8.2, color=ctx.p.RED, style="italic",
+    ax = ig.slot("credit.npl", "Balances 90 days or more delinquent")
+    dq = "credit/delinquency.csv"
+    _line(ctx, ax, _d(ctx, dq, "all"), ctx.p.INK, label="all household debt, % of balances",
+          lw=2.8)
+    stu = _d(ctx, dq, "student")
+    for col, label, colour in (("credit_card", "credit card", "RED"),
+                               ("student", "student", "GOLD"),
+                               ("mortgage", "mortgage", "NAVY")):
+        _thin(ctx, ax, _d(ctx, dq, col), getattr(ctx.p, colour), label=label)
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper left", ncol=2, fontsize=8.0)
+    year, text = events.BREAKS["student_delinquency"]
+    ax.annotate(text.replace(" — ", "\n— "), xy=(year, stu[year]),
+                xytext=(2012.6, 16.2), fontsize=7.6, color=ctx.p.RED,
+                style="italic",
                 arrowprops=dict(arrowstyle="-", color=ctx.p.RED, lw=0.8,
-                                shrinkA=2, shrinkB=6))
-    g.headroom(ax, top=0.22)
+                                shrinkA=2, shrinkB=4))
 
-    # ---- births and deaths -----------------------------------------------
-    ax = g.next_panel("Births and deaths")
-    births = _col(ctx, pop, "births", scale=1 / 1e6)
-    deaths = _col(ctx, pop, "deaths", scale=1 / 1e6)
-    _line(ctx, ax, births, color=ctx.p.NAVY, lw=2.8, label="births")
-    _line(ctx, ax, deaths, color=ctx.p.RED, lw=2.8, label="deaths")
-    xs, _ = _xy(ctx, births)
-    common = [y for y in xs if deaths[ctx.YEARS.index(y)] is not None]
-    ax.fill_between(common,
-                    [births[ctx.YEARS.index(y)] for y in common],
-                    [deaths[ctx.YEARS.index(y)] for y in common],
-                    color=ctx.p.NAVY, alpha=0.10)
-    g.style_axis(ax)
-    ax.set_ylabel("million a year")
-    _legend(ctx, ax, loc="lower left")
-    ax.text(0.015, 0.95, "The gap is natural increase. Census years run "
-                         "1 July to 30 June,\nand components before 2010 are "
-                         "not published, so they are left empty.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="top")
-    g.headroom(ax, top=0.30)
-
-    # ---- migration --------------------------------------------------------
-    ax = g.next_panel("Net international migration")
-    mig = _col(ctx, pop, "net_migration", scale=1 / 1e6)
-    bars = ax.bar(ctx.YEARS, _nan(ctx, mig), color=ctx.p.TEAL, width=0.68)
-    g.style_axis(ax)
-    ax.set_ylabel("million a year")
-    peak = max(((v, y) for y, v in zip(ctx.YEARS, mig) if v is not None),
-               default=(None, None))
-    if peak[0]:
-        _annotate_value(ctx, ax, peak[1], peak[0], f"{peak[0]:.2f}M", color=ctx.p.TEAL)
-    x, y = _last_point(ctx, mig)
-    if x:
-        _annotate_value(ctx, ax, x, y, f"{y:.2f}M", color=ctx.p.TEAL)
-    g.headroom(ax, top=0.26)
-    ax.text(0.015, 0.95, "Not published before 2010 in these vintages.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="top")
-
-    # ---- projections ------------------------------------------------------
-    ax = g.next_panel("Projected to 2100, Census Bureau middle series")
-    pyears = sorted(proj)
-    pvals = [float((proj[y].get("population") or 0)) / 1e6 for y in pyears]
-    ax.plot(pyears, pvals, color=ctx.p.NAVY, lw=2.8)
-    ax.fill_between(pyears, 0, pvals, color=ctx.p.NAVY, alpha=0.08)
-    ax.spines[["top", "right", "left"]].set_visible(False)
-    ax.spines["bottom"].set_color(ctx.p.spine)
-    ax.tick_params(length=0)
-    ax.grid(axis="y", color=ctx.p.grid, linewidth=0.7)
-    ax.set_axisbelow(True)
-    ax.set_ylabel("million people")
-    ax.set_ylim(min(pvals) * 0.9, max(pvals) * 1.08)
-    top = max(zip(pvals, pyears))
-    ax.axvline(top[1], color=ctx.p.RED, lw=1.0, ls=(0, (3, 2)))
-    _annotate_value(ctx, ax, top[1], top[0], f"peak of {top[0]:.0f}M in {top[1]}",
-                   color=ctx.p.RED, offset=(0, 10))
-    ax.text(0.015, 0.06, "A projection, not a measurement: it is one "
-                         "vintage's middle\nassumption, and the migration "
-                         "assumption moves the peak\nby decades.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="bottom")
-
-    g.save(ctx.out("08-demographics.png"))
-
-def plate_mortality(ctx) -> None:
-    m = _table(ctx, "social/mortality.csv")
-
-    g = ctx.fig(
-        "Deaths",
-        "All causes, COVID-19 and the respiratory diseases — on two definitions",
-        source=("Sources: CDC WONDER, Underlying Cause of Death 1999-2020 "
-                "(final) · CDC provisional COVID-19 death counts "
-                "(deaths involving a condition). The two count differently "
-                "and are never joined."))
-
-    # ---- all cause --------------------------------------------------------
-    ax = g.next_panel("Deaths from all causes")
-    total = _col(ctx, m, "total_deaths", scale=1 / 1e6)
-    bars = ax.bar(ctx.YEARS, _nan(ctx, total), color=ctx.p.NAVY, width=0.68)
-    for y, bar in zip(ctx.YEARS, bars):
-        if ((m.get(y) or {}).get("total_vintage") or "") == "provisional":
-            bar.set_color(ctx.p.BLUE)
-    _hatch_partial(ctx, ax, bars, m, "total_deaths", 1e9)
-    g.style_axis(ax)
-    ax.set_ylabel("million deaths")
-    ax.set_ylim(2.0, max(v for v in total if v is not None) * 1.10)
-    pre = total[ctx.YEARS.index(2019)]
-    for y in (2020, 2021):
-        v = total[ctx.YEARS.index(y)]
-        if v and pre:
-            _annotate_value(ctx, ax, y, v, f"+{(v - pre) / pre * 100:.0f}% vs 2019",
-                           color=ctx.p.RED, fontsize=8.2)
-    ax.text(0.015, 0.95,
-            "Final counts to 2020, provisional after. The two agree to 0.2%,\n"
-            "so this one series is continuous. 2026 is a part year.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="top")
-    g.mark_partial(ax, 2021, "2026: a part year, not a fall in deaths")
-
-    # ---- covid ------------------------------------------------------------
-    ax = g.next_panel("Deaths involving COVID-19")
-    covid = _col(ctx, m, "covid_involved", scale=1 / 1000)
-    bars = ax.bar(ctx.YEARS, _nan(ctx, covid), color=ctx.p.RED, width=0.68)
-    g.style_axis(ax)
-    ax.set_ylabel("thousand deaths")
-    for y, v in zip(ctx.YEARS, covid):
-        if v is not None and v > 100:
-            _annotate_value(ctx, ax, y, v, f"{v:,.0f}k", color=ctx.p.RED, fontsize=8.5)
-    g.headroom(ax, top=0.20)
-    ax.text(0.015, 0.95,
-            "Counted as deaths that INVOLVED COVID-19. On the\n"
-            "underlying-cause definition 2020 is 350,831 rather\n"
-            "than 385,676 — 10% fewer. Years before 2020 are empty\n"
-            "because the disease did not exist, which is not a zero.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="top", ha="left")
-    g.mark_partial(ax, 2021, "2026: a part year")
-
-    # ---- influenza, on two definitions ------------------------------------
-    for panel, key, name, color in (
-            (2, "influenza", "Influenza", ctx.p.GOLD),
-            (3, "pneumonia", "Pneumonia", ctx.p.TEAL)):
-        ax = g.next_panel(f"{name}: the same disease, two measures")
-        under = _col(ctx, m, f"{key}_underlying", scale=1 / 1000)
-        invol = _col(ctx, m, f"{key}_involved", scale=1 / 1000)
-        _line(ctx, ax, under, color=color, lw=2.8,
-             label="underlying cause (CDC WONDER, to 2020)")
-        _line(ctx, ax, invol, color=ctx.p.RED, lw=2.8,
-             label="deaths involving it (provisional, from 2020)")
-        g.style_axis(ax)
-        ax.set_ylabel("thousand deaths")
-        _legend(ctx, ax, loc="upper left")
-        both = [(y, u, i) for y, u, i in zip(ctx.YEARS, under, invol)
-                if u is not None and i is not None]
-        if both:
-            y0, u0, i0 = both[0]
-            ax.annotate(f"{y0}: {u0 * 1000:,.0f} against {i0 * 1000:,.0f} — "
-                        f"{(i0 / u0 - 1) * 100:+.0f}%.\nA change of definition, "
-                        f"not a change in the disease.",
-                        xy=(y0, i0), xytext=(2007.0, max(
-                            v for v in invol if v is not None) * 0.62),
-                        fontsize=8.2, color=ctx.p.RED, style="italic",
-                        arrowprops=dict(arrowstyle="-", color=ctx.p.RED, lw=0.8,
-                                        shrinkA=2, shrinkB=6))
-        g.headroom(ax, top=0.26)
-        if key == "influenza":
-            trough = min(((v, y) for y, v in zip(ctx.YEARS, invol)
-                          if v is not None), default=(None, None))
-            if trough[0]:
-                _annotate_value(ctx, ax, trough[1], trough[0],
-                               f"{trough[0] * 1000:,.0f}", color=ctx.p.RED,
-                               offset=(0, -18), fontsize=8.2)
-        g.mark_partial(ax, 2021, "2026: a part year")
-
-    g.save(ctx.out("09-mortality.png"))
-
-def plate_violence(ctx) -> None:
-    v = _table(ctx, "social/violence.csv")
-
-    g = ctx.fig(
-        "Violent and accidental death",
-        "Homicide, firearms, suicide and overdose",
-        source=("Sources: CDC WONDER, Underlying Cause of Death 1999-2020 "
-                "(final) · CDC provisional injury counts and VSRR "
-                "provisional overdose counts. The seam was measured: "
-                "the two agree to about 1%."),
-        # A right-hand axis in the right-hand column: its ticks and
-        # its label need room the shared margin does not leave, and
-        # without this they are drawn off the canvas. See Context.fig.
-        right=0.955,
-    )
-
-    # ---- homicide ---------------------------------------------------------
-    ax = g.next_panel("Homicides, and the rate per 100,000")
-    hom = _col(ctx, v, "homicides", scale=1 / 1000)
-    rate = _col(ctx, v, "homicide_rate")
-    bars = ax.bar(ctx.YEARS, _nan(ctx, hom), color=ctx.p.NAVY, width=0.68, label="homicides")
-    g.style_axis(ax)
-    ax.set_ylabel("thousand")
-    ax2 = ax.twinx()
-    _line(ctx, ax2, rate, color=ctx.p.RED, lw=2.6, label="rate per 100k (right)")
-    ax2.spines[["top", "left"]].set_visible(False)
-    ax2.set_ylabel("per 100k", color=ctx.p.RED)
-    ax2.tick_params(colors=ctx.p.RED, length=0)
-    ax2.grid(False)
-    peak = max(((x, y2) for y2, x in zip(ctx.YEARS, hom) if x is not None),
-               default=(None, None))
-    if peak[0]:
-        _annotate_value(ctx, ax, peak[1], peak[0], f"{peak[0] * 1000:,.0f}",
-                       color=ctx.p.NAVY, fontsize=8.5)
-    _twin_legend(ctx, ax, ax2, loc="upper left")
-    g.headroom(ax, top=0.22)
-
-    # ---- firearms ---------------------------------------------------------
-    ax = g.next_panel("Firearm deaths, and the homicides among them")
-    fa = _col(ctx, v, "firearm_deaths", scale=1 / 1000)
-    fah = _col(ctx, v, "firearm_homicides", scale=1 / 1000)
-    _line(ctx, ax, fa, color=ctx.p.NAVY, lw=2.8, label="all firearm deaths")
-    _line(ctx, ax, fah, color=ctx.p.RED, lw=2.6,
-         label=_subset("firearm homicides", "all firearm deaths"))
-    xs, _ = _xy(ctx, fa)
-    common = [y for y in xs if fah[ctx.YEARS.index(y)] is not None]
-    ax.fill_between(common, [fah[ctx.YEARS.index(y)] for y in common],
-                    [fa[ctx.YEARS.index(y)] for y in common],
-                    color=ctx.p.NAVY, alpha=0.10)
-    g.style_axis(ax)
-    ax.set_ylabel("thousand deaths")
-    _legend(ctx, ax, loc="upper left")
-    # the title names a relationship, so the relationship is drawn
-    ax2 = ax.twinx()
-    _share_panel(ctx, ax2, ctx.YEARS, fah, fa, color=ctx.p.TEAL,
-                label="homicides as % of firearm deaths")
-    ax2.spines[["top", "left"]].set_visible(False)
-    ax2.set_ylabel("% of firearm deaths", color=ctx.p.TEAL)
-    ax2.tick_params(colors=ctx.p.TEAL, length=0)
-    ax2.set_ylim(0, 100)
-    ax2.grid(False)
-    ax.text(0.015, 0.06, "Most firearm deaths are suicides, not homicides.\n"
-                         "The shaded area is the difference.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="bottom")
-    g.headroom(ax, top=0.26)
-
-    # ---- suicide and police intervention ----------------------------------
-    ax = g.next_panel("Suicides, and deaths by police intervention")
-    sui = _col(ctx, v, "suicides", scale=1 / 1000)
-    _line(ctx, ax, sui, color=ctx.p.NAVY, lw=2.8, label="suicides, all means")
-    g.style_axis(ax)
-    ax.set_ylabel("thousand deaths")
-    ax2 = ax.twinx()
-    pol = _col(ctx, v, "police_killings")
-    xs, ys = _xy(ctx, pol)
-    ax2.bar(xs, ys, color=ctx.p.RED, width=0.62, alpha=0.75,
-            label="legal intervention, Y35 (right)")
-    ax2.spines[["top", "left"]].set_visible(False)
-    ax2.set_ylabel("deaths", color=ctx.p.RED)
-    ax2.tick_params(colors=ctx.p.RED, length=0)
-    ax2.grid(False)
-    _twin_legend(ctx, ax, ax2, loc="upper left")
-    ax.text(0.015, 0.06,
-            "The Y35 count is a known undercount and stops at 2020: the code\n"
-            "follows whoever certifies the death, and research puts roughly\n"
-            "half of these deaths under ordinary homicide instead. It is\n"
-            "drawn because it is the official series, not because it is right.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="bottom")
-    g.headroom(ax, top=0.24, bottom=0.46)
-
-    # ---- overdose ---------------------------------------------------------
-    ax = g.next_panel("Overdose deaths, and the synthetic opioids among them")
-    od = _col(ctx, v, "overdoses", scale=1 / 1000)
-    syn = _col(ctx, v, "synthetic_opioid_overdoses", scale=1 / 1000)
-    _line(ctx, ax, od, color=ctx.p.NAVY, lw=2.8, label="all drug overdose deaths")
-    _line(ctx, ax, syn, color=ctx.p.RED, lw=2.6,
-         label=_subset("synthetic opioids, mainly fentanyl",
-                      "all overdose deaths"))
-    g.style_axis(ax)
-    ax.set_ylabel("thousand deaths")
-    _legend(ctx, ax, loc="upper left")
-    peak = max(((x, y2) for y2, x in zip(ctx.YEARS, od) if x is not None),
-               default=(None, None))
-    if peak[0]:
-        _annotate_value(ctx, ax, peak[1], peak[0], f"{peak[0] * 1000:,.0f} ({peak[1]})",
-                       color=ctx.p.NAVY, fontsize=8.5)
-    x, y = _last_point(ctx, od)
-    if x:
-        _annotate_value(ctx, ax, x, y, f"{y * 1000:,.0f}", color=ctx.p.NAVY, ha="right",
-                       offset=(-4, 8), fontsize=8.5)
-    g.headroom(ax, top=0.24)
-
-    g.save(ctx.out("10-violence.png"))
-
-def plate_credit(ctx) -> None:
-    hh = _table(ctx, "credit/household_debt.csv")
-    acc = _table(ctx, "credit/credit_access.csv")
-    dq = _table(ctx, "credit/delinquency.csv")
-    rates = _table(ctx, "credit/rates.csv")
-    ff = _table(ctx, "macro/fed_funds.csv")
-
-    g = ctx.fig(
-        "What households owe",
-        "Household debt, the credit available to draw on, and what it costs",
-        source=("Sources: Federal Reserve Bank of New York, Quarterly Report "
-                "on Household Debt and Credit (Consumer Credit Panel) · "
-                "Federal Reserve Board G.19 terms of credit"))
-
-    # ---- the stack --------------------------------------------------------
-    ax = g.next_panel("Household debt by type, at year end")
-    parts = (("mortgage", "Mortgage", ctx.p.NAVY), ("heloc", "Home equity", ctx.p.BLUE),
-             ("auto", "Auto", ctx.p.TEAL), ("credit_card", "Credit card", ctx.p.RED),
-             ("student", "Student", ctx.p.GOLD), ("other", "Other", ctx.p.PURPLE))
-    bottom = np.zeros(len(ctx.YEARS))
-    for name, label, color in parts:
-        vals = _nan(ctx, _col(ctx, hh, name))
-        ax.bar(ctx.YEARS, vals, bottom=bottom, color=color, width=0.68, label=label)
+    ax = ig.slot("credit.lens", "Household debt by type")
+    parts = (("mortgage", "mortgage", "NAVY"), ("heloc", "home equity", "BLUE"),
+             ("auto", "auto", "TEAL"), ("credit_card", "credit card", "RED"),
+             ("student", "student", "GOLD"), ("other", "other", "PURPLE"))
+    years = ctx.YEARS
+    bottom = np.zeros(len(years))
+    handles = []
+    for col, label, colour in parts:
+        d = _d(ctx, hh, col)
+        vals = np.array([d.get(y, np.nan) for y in years])
+        part = [y > ctx.LAST_FULL_YEAR for y in years]
+        bars = ax.bar(years, np.nan_to_num(vals), bottom=bottom, width=0.7,
+                      color=getattr(ctx.p, colour), edgecolor="white",
+                      linewidth=0.4, zorder=3)
+        for b, p in zip(bars, part):
+            if p:
+                b.set_alpha(0.62)
+                b.set_hatch("//")
         bottom = bottom + np.nan_to_num(vals)
-    g.style_axis(ax)
-    ax.set_ylabel("US$ tn")
-    _legend(ctx, ax, loc="upper left", ncol=2)
-    total = _col(ctx, hh, "total")
-    x, y = _last_point(ctx, total)
-    if x:
-        _annotate_value(ctx, ax, x, y, f"US$ {y:.1f}tn", color=ctx.p.INK, ha="right",
-                       offset=(-4, 6))
-    g.headroom(ax, top=0.26)
-    g.mark_partial(ax, 2021, "2026: through Q2, not a year end")
+        handles.append(_proxy(getattr(ctx.p, colour), label))
+    _frame(ig, ax)
+    ax.set_ylim(0, max(bottom) * 1.45)
+    ax.set_ylabel("US$ tn", fontsize=8.6, color=ctx.p.muted)
+    _legend(ctx, ax, loc="upper left", ncol=3, handles=handles, fontsize=8.0)
+    tot = _d(ctx, hh, "total")
+    last = ctx.LAST_FULL_YEAR
+    _label(ctx, ax, last, tot[last], f"US$ {tot[last]:.1f}tn", ctx.p.INK,
+           offset=(-2, 4), ha="right")
+    _note(ctx, ax, "FRBNY Consumer Credit Panel, fourth quarter.\n"
+                   "Hatched: 2026 so far.", y=0.84, x=0.985, ha="right",
+          va="top")
 
-    # ---- availability -----------------------------------------------------
-    ax = g.next_panel("Credit card limits, balances and unused credit")
-    limit = _col(ctx, acc, "cc_limit")
-    bal = _col(ctx, acc, "cc_balance")
-    _line(ctx, ax, limit, color=ctx.p.NAVY, lw=2.8, label="total credit limit")
-    _line(ctx, ax, bal, color=ctx.p.RED, lw=2.6,
-         label=_subset("balances drawn", "the total limit"))
-    xs, _ = _xy(ctx, limit)
-    common = [y for y in xs if bal[ctx.YEARS.index(y)] is not None]
-    ax.fill_between(common, [bal[ctx.YEARS.index(y)] for y in common],
-                    [limit[ctx.YEARS.index(y)] for y in common],
-                    color=ctx.p.NAVY, alpha=0.10, label="unused credit")
-    g.style_axis(ax)
-    ax.set_ylabel("US$ tn")
-    _legend(ctx, ax, loc="upper left")
-    ax2 = ax.twinx()
-    _line(ctx, ax2, _col(ctx, acc, "cc_utilisation"), color=ctx.p.TEAL, lw=2.2, ls=(0, (5, 2)))
-    ax2.spines[["top", "left"]].set_visible(False)
-    ax2.set_ylabel("balances as % of limit", color=ctx.p.TEAL)
-    ax2.tick_params(colors=ctx.p.TEAL, length=0)
-    ax2.set_ylim(0, 60)
-    ax2.grid(False)
-    g.headroom(ax, top=0.24)
 
-    # ---- delinquency ------------------------------------------------------
-    ax = g.next_panel("Share of balances 90+ days delinquent")
-    for name, label, color in (("credit_card", "Credit card", ctx.p.RED),
-                               ("student", "Student", ctx.p.GOLD),
-                               ("auto", "Auto", ctx.p.TEAL),
-                               ("mortgage", "Mortgage", ctx.p.NAVY)):
-        _line(ctx, ax, _col(ctx, dq, name), color=color, lw=2.4, label=label)
-    g.style_axis(ax)
-    ax.set_ylabel("% of balances")
-    _legend(ctx, ax, loc="upper left", ncol=2)
-    stu = _col(ctx, dq, "student")
-    ax.annotate(events.BREAKS["student_delinquency"][1],
-                xy=(2025, stu[ctx.YEARS.index(2025)] or 9.2),
-                xytext=(2010.4, (max(v for v in stu if v is not None)) * 0.86),
-                fontsize=8.2, color=ctx.p.RED, style="italic",
+# ================================================================= people
+def plate_people(ctx, ig):
+    ax = ig.slot("people.gini", "Income inequality, Gini index")
+    g = "social/gini.csv"
+    segs = (("gini_to_2013", "Census, household money income"),
+            ("gini_2013_2017", "_nolegend_"), ("gini_from_2017", "_nolegend_"))
+    for col, label in segs:
+        _line(ctx, ax, _d(ctx, g, col), ctx.p.NAVY, label=label, lw=2.6)
+    _thin(ctx, ax, _d(ctx, "international/worldbank.csv", "gini_wb"),
+          ctx.p.GOLD, label="World Bank, disposable income")
+    _frame(ig, ax, slot1=True)
+    _legend(ctx, ax, loc="upper right")
+    _note(ctx, ax, "Census method breaks in 2013 (new income questions) and\n"
+                   "2017 (new processing): each year drawn on both bases.",
+          y=0.80, va="top")
+
+    ax = ig.slot("people.poverty", "Poverty rate, all people")
+    pov = "social/poverty.csv"
+    _line(ctx, ax, _d(ctx, pov, "opm_all"), ctx.p.NAVY,
+          label="official measure (OPM)", lw=2.6)
+    _line(ctx, ax, _d(ctx, pov, "spm_all"), ctx.p.RED,
+          label="supplemental measure (SPM)", lw=2.6)
+    _thin(ctx, ax, _d(ctx, "social/poverty_intl.csv", "poverty_830_pct"),
+          ctx.p.GOLD, label="World Bank, under US$8.30 a day")
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper right")
+    _note(ctx, ax, "OPM counts pre-tax cash only. SPM adds tax credits and\n"
+                   "benefits and takes off medical and work costs.", y=0.60,
+          x=0.985, ha="right")
+
+    ax = ig.slot("people.minimum_wage", "The federal minimum wage, a month of full-time work")
+    mw = _d(ctx, "social/minimum_wage.csv", "federal_min_jan1")
+    idx = _d(ctx, "macro/cpi.csv", "index")
+    base = ctx.LAST_FULL_YEAR
+    month = _scale(mw, HOURS_PER_MONTH)
+    real = {y: v * idx[base] / idx[y] for y, v in month.items() if y in idx}
+    _line(ctx, ax, real, ctx.p.RED, label=f"in {base} dollars (CPI-U)", lw=2.4)
+    _line(ctx, ax, month, ctx.p.NAVY, label="in the dollars of the day",
+          lw=2.6)
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper right")
+    changed = _s(ctx, "social/minimum_wage.csv", "changed_on")
+    since = max(changed)
+    hourly = _d(ctx, "social/minimum_wage.csv", "federal_min_dec31")[since]
+    _note(ctx, ax, f"US$ {hourly:.2f} an hour since {changed[since]}, at 40 hours\n"
+                   f"a week. Most states set a higher floor of their own.",
+          y=0.60, x=0.985, ha="right")
+
+    ax = ig.slot("people.lens", "Child poverty: what the official measure cannot see")
+    copm = _d(ctx, pov, "opm_under18")
+    cspm = _d(ctx, pov, "spm_under18")
+    _line(ctx, ax, copm, ctx.p.NAVY, label="official measure (OPM)", lw=2.6)
+    _line(ctx, ax, cspm, ctx.p.RED, label="supplemental measure (SPM)",
+          lw=2.6)
+    _frame(ig, ax)
+    yr, txt = events.MARKS["arp"]
+    ig.add_event(ax, yr, txt, dy=0.97)
+    ax.set_ylim(0, 30)
+    ax.set_ylabel("% of people under 18", fontsize=8.6, color=ctx.p.muted)
+    _legend(ctx, ax, loc="upper left", bbox_to_anchor=(0.0, 0.92))
+    low = min(cspm, key=cspm.get)
+    ax.annotate(f"{low}: the expanded Child Tax Credit cut SPM child\n"
+                f"poverty to {cspm[low]:.1f}%. The official measure, which counts\n"
+                f"no tax credit, read {copm[low]:.1f}%.",
+                xy=(low, cspm[low]), xytext=(2006.6, 2.0), fontsize=7.8,
+                color=ctx.p.RED, style="italic",
                 arrowprops=dict(arrowstyle="-", color=ctx.p.RED, lw=0.8,
-                                shrinkA=2, shrinkB=6))
-    g.headroom(ax, top=0.28)
-
-    # ---- the price --------------------------------------------------------
-    ax = g.next_panel("What borrowing costs, against the policy rate")
-    _line(ctx, ax, _col(ctx, rates, "cc_apr_all"), color=ctx.p.RED, lw=2.8,
-         label="credit card APR, all accounts")
-    _line(ctx, ax, _col(ctx, rates, "auto_60m"), color=ctx.p.TEAL, lw=2.4,
-         label="60-month new car loan")
-    target = _col(ctx, ff, "target_eop")
-    hi = _col(ctx, ff, "target_hi")
-    mid = [t if h is None else (t + h) / 2 for t, h in zip(target, hi)]
-    _line(ctx, ax, mid, color=ctx.p.NAVY, lw=2.4, ls=(0, (5, 2)),
-         label="FOMC target at year end")
-    g.style_axis(ax)
-    ax.set_ylabel("% a year")
-    _legend(ctx, ax, loc="upper left", ncol=2)
-    x, y = _last_point(ctx, _col(ctx, rates, "cc_apr_all"))
-    if x:
-        _annotate_value(ctx, ax, x, y, f"{y:.1f}%", color=ctx.p.RED, ha="right",
-                       offset=(-4, 6))
-    ax.text(0.985, 0.06,
-            "The policy rate returned to roughly its 2006 level.\n"
-            "The credit card rate did not.",
-            transform=ax.transAxes, fontsize=8, color=ctx.p.MUTED, style="italic",
-            va="bottom", ha="right")
-    g.headroom(ax, top=0.26)
-
-    g.save(ctx.out("11-credit.png"))
+                                shrinkA=2, shrinkB=4))
 
 
-# The plates, in the order the page lists them.
+# ================================================================== world
+def plate_world(ctx, ig):
+    wb = "international/worldbank.csv"
+
+    ax = ig.slot("world.gdp", "GDP at current prices")
+    gdp = _scale(_d(ctx, wb, "gdp_usd"), 1e-9)
+    _line(ctx, ax, gdp, ctx.p.NAVY, label="World Bank, current US$", lw=2.6)
+    _frame(ig, ax, slot1=True)
+    last = max(gdp)
+    _label(ctx, ax, last, gdp[last], _fmt_bn(gdp[last]), ctx.p.NAVY,
+           offset=(0, -8), ha="center", va="top")
+    share = _d(ctx, wb, "us_share_world_gdp")
+    s_last = max(share)
+    _note(ctx, ax, f"{share[s_last]:.1f}% of world GDP in {s_last}, at market\n"
+                   f"exchange rates; less at purchasing-power parity.",
+          y=0.60, x=0.985, ha="right")
+    _legend(ctx, ax, loc="lower center")
+
+    ax = ig.slot("world.hdi", "Human Development Index")
+    hdi = _d(ctx, "social/hdi.csv", "hdi")
+    _line(ctx, ax, hdi, ctx.p.NAVY, label="UNDP, 2025 report", lw=2.6)
+    _frame(ig, ax)
+    lo = min((y for y in hdi if y >= 2019), key=hdi.get)
+    _label(ctx, ax, lo, hdi[lo], f"{hdi[lo]:.3f} in {lo}", ctx.p.NAVY,
+           offset=(0, -6), va="top")
+    _legend(ctx, ax, loc="lower right")
+    _note(ctx, ax, "One UNDP vintage throughout: each report recomputes\n"
+                   "its own history.", y=0.05)
+
+    ax = ig.slot("world.cpi", "Corruption Perceptions Index")
+    tic = "international/corruption.csv"
+    cpi = _d(ctx, tic, "score")
+    _line(ctx, ax, cpi, ctx.p.NAVY, label="Transparency International",
+          lw=2.6)
+    old = _d(ctx, tic, "score_pre2012")
+    for y, v in old.items():
+        ax.plot([y], [v * 10], ls="none", marker="o", ms=6, mfc="none",
+                mec=ctx.p.NAVY, mew=1.6, zorder=4,
+                label="before 2012, old method ×10")
+    _frame(ig, ax)
+    first, last = min(cpi), max(cpi)
+    _label(ctx, ax, last, cpi[last], f"{cpi[last]:.0f}", ctx.p.NAVY,
+           offset=(-4, -6), ha="right", va="top")
+    _legend(ctx, ax, loc="lower left")
+    _note(ctx, ax, f"Higher is cleaner. {first}: {cpi[first]:.0f}, {last}: "
+                   f"{cpi[last]:.0f}.\nThe old 0–10 scale is not joined to "
+                   f"the 2012 method.", y=0.05, x=0.985, ha="right")
+
+    ax = ig.slot("world.reserves", "Official reserves")
+    res = _scale(_d(ctx, "international/world.csv", "reserves_usd"), 1e-9)
+    _line(ctx, ax, res, ctx.p.GOLD, label="World Bank, including gold",
+          lw=2.6)
+    _frame(ig, ax)
+    last = max(res)
+    _label(ctx, ax, last, res[last], _fmt_bn(res[last]), ctx.p.GOLD,
+           offset=(-4, 7), ha="right")
+    _legend(ctx, ax, loc="lower right")
+    _note(ctx, ax, "Gold is valued at year-end London prices, so the line\n"
+                   "moves with the gold price as much as with policy.",
+          y=0.05)
+
+
+# ============================================================= demography
+def plate_demographics(ctx, ig):
+    pop = _pop(ctx)
+
+    ax = ig.slot("demography.population", "Resident population")
+    ys, vs = ctx.index_2006(pop)
+    idx = dict(zip(ys, vs))
+    _line(ctx, ax, idx, ctx.p.NAVY, label="Census, 1 July", lw=2.8)
+    _frame(ig, ax, slot1=True)
+    last = max(pop)
+    _label(ctx, ax, last, idx[last], f"{pop[last] / 1e6:.1f}M", ctx.p.NAVY,
+           offset=(-4, 7), ha="right")
+    proj = _d(ctx, "social/projections.csv", "population", window=False)
+    peak = max(proj, key=proj.get)
+    _note(ctx, ax, f"Census 2023 projection, middle series: a peak of\n"
+                   f"{proj[peak] / 1e6:.0f}M in {peak}, then a slow decline.",
+          y=0.13, x=0.985, ha="right")
+    _legend(ctx, ax, loc="upper left")
+
+    ax = ig.slot("demography.fertility", "Total fertility rate")
+    tfr = _d(ctx, "international/worldbank.csv", "fertility")
+    _line(ctx, ax, tfr, ctx.p.NAVY, label="World Bank (NCHS births)", lw=2.6)
+    _frame(ig, ax)
+    ax.axhline(2.1, color=ctx.p.faint, lw=0.9, ls=(0, (2, 2)), zorder=2)
+    ax.text(2023.2, 2.18, "replacement, 2.1", fontsize=7.8, color=ctx.p.muted,
+            va="bottom")
+    last = max(tfr)
+    _label(ctx, ax, last, tfr[last], f"{tfr[last]:.2f}", ctx.p.NAVY,
+           offset=(-4, -6), ha="right", va="top")
+    _legend(ctx, ax, loc="lower left")
+
+    ax = ig.slot("demography.birth_death", "Births and deaths")
+    w = "social/demography_wdi.csv"
+    _line(ctx, ax, _d(ctx, w, "birth_rate_per_1000"), ctx.p.NAVY,
+          label="crude birth rate", lw=2.6)
+    _line(ctx, ax, _d(ctx, w, "death_rate_per_1000"), ctx.p.RED,
+          label="crude death rate", lw=2.6)
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper right")
+    _note(ctx, ax, "NCHS vital statistics, via the World Bank.", y=0.05)
+
+    ax = ig.slot("demography.natural_migration", "Natural increase and net migration")
+    comp = "social/components.csv"
+    vint = _s(ctx, comp, "vintage")
+    for col, label, colour in (("net_migration_rate", "net international migration (Census)", "TEAL"),
+                               ("natural_rate", "natural increase (Census)", "NAVY")):
+        d = _d(ctx, comp, col)
+        for i, tag in enumerate(("v2019", "v2025")):
+            seg = {y: v for y, v in d.items() if vint.get(y) == tag}
+            _line(ctx, ax, seg, getattr(ctx.p, colour),
+                  label=label if i == 0 else "_nolegend_", lw=2.6)
+    un = _rate(ctx.per_1000, _d(ctx, w, "net_migration"), pop)
+    _thin(ctx, ax, un, ctx.p.GOLD, label="net migration, UN estimate")
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper left")
+    nm = _d(ctx, comp, "net_migration_rate")
+    peak = max(nm, key=nm.get)
+    _label(ctx, ax, peak, nm[peak], f"{nm[peak]:.1f}", ctx.p.TEAL,
+           offset=(0, 6))
+    _note(ctx, ax, "Census years run July to June; two vintages, not joined\n"
+                   "across 2020, the census year.", y=0.05, x=0.985,
+          ha="right")
+
+
+# ============================================================== mortality
+def plate_mortality(ctx, ig):
+    pop = _pop(ctx)
+    m = "social/mortality.csv"
+    deaths = {y: v for y, v in _d(ctx, m, "total_deaths").items()
+              if y <= ctx.LAST_FULL_YEAR}
+
+    ax = ig.slot("mortality.death_rate", "Crude death rate")
+    nchs = _d(ctx, "social/demography_wdi.csv", "death_rate_per_1000")
+    _line(ctx, ax, nchs, ctx.p.NAVY, label="NCHS, final", lw=2.6)
+    computed = _rate(ctx.per_1000, deaths, pop)
+    newer = {y: v for y, v in computed.items() if y > max(nchs)}
+    for y, v in newer.items():
+        ax.plot([y], [v], ls="none", marker="o", ms=6, mfc="none",
+                mec=ctx.p.NAVY, mew=1.6, zorder=4,
+                label="provisional count ÷ population")
+    _frame(ig, ax, slot1=True)
+    peak = max(nchs, key=nchs.get)
+    _label(ctx, ax, peak, nchs[peak], f"{nchs[peak]:.1f} in {peak}",
+           ctx.p.NAVY, offset=(0, 7))
+    _legend(ctx, ax, loc="upper left")
+
+    ax = ig.slot("mortality.excess_deaths", "Excess deaths")
+    base = [deaths[y] for y in range(2015, 2020)]
+    mean = sum(base) / len(base)
+    excess = {y: (v / mean - 1) * 100 for y, v in deaths.items()}
+    ys, vs = _xy(excess)
+    ctx.bars(ax, ys, vs, lambda v: ctx.p.RED if v > 0 else ctx.p.faint,
+             width=0.68)
+    _frame(ig, ax)
+    peak = max(excess, key=excess.get)
+    _label(ctx, ax, peak, excess[peak], f"+{excess[peak]:.0f}%", ctx.p.RED,
+           offset=(0, 4))
+    _note(ctx, ax, "All deaths against the 2015–2019 average. A flat baseline:\n"
+                   "a growing, ageing population puts earlier years below it.",
+          y=0.96, va="top")
+
+    ax = ig.slot("mortality.covid", "COVID-19 deaths")
+    dr = "social/death_rates.csv"
+    pub = _d(ctx, dr, "covid_underlying_rate")
+    cnt = _d(ctx, dr, "covid_underlying")
+    under = dict(pub)
+    under.update({y: v for y, v in _rate(ctx.per_100k, cnt, pop).items()
+                  if y not in pub})
+    ys, vs = _xy(under)
+    ctx.bars(ax, ys, vs, ctx.p.RED, width=0.68)
+    inv = {y: v for y, v in _rate(ctx.per_100k, _d(ctx, m, "covid_involved"),
+                                  pop).items()}
+    _thin(ctx, ax, inv, ctx.p.NAVY, label="any mention on the certificate")
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper right", handles=[
+        _proxy(ctx.p.RED, "underlying cause"),
+        *ax.get_legend_handles_labels()[0]])
+    peak = max(under, key=under.get)
+    _label(ctx, ax, peak, under[peak], f"{under[peak]:.0f}", ctx.p.RED,
+           offset=(-8, 0), ha="right", va="center")
+    _note(ctx, ax, "None before 2020: the disease did not exist, which\n"
+                   "is not a zero.", y=0.55, x=0.985, ha="right")
+
+    ax = ig.slot("mortality.lens", "Life expectancy at birth", unit=False)
+    le = _d(ctx, "international/worldbank.csv", "life_expectancy")
+    _line(ctx, ax, le, ctx.p.NAVY, label="World Bank (NCHS life tables)",
+          lw=2.6)
+    _frame(ig, ax)
+    ax.set_ylim(74, 81)
+    ax.set_ylabel("years", fontsize=8.6, color=ctx.p.muted)
+    lo = min(le, key=le.get)
+    _label(ctx, ax, lo, le[lo], f"{le[lo]:.1f} years in {lo}", ctx.p.NAVY,
+           offset=(0, -6), va="top")
+    _legend(ctx, ax, loc="upper left")
+    pre = max(y for y in le if y < 2020)
+    last = max(le)
+    _note(ctx, ax, f"{pre}, before COVID-19: {le[pre]:.1f} years. "
+                   f"{last}: {le[last]:.1f}.", y=0.05, x=0.985, ha="right")
+
+
+# =============================================================== security
+def plate_violence(ctx, ig):
+    pop = _pop(ctx)
+    v = "social/violence.csv"
+    intl = "social/security_intl.csv"
+
+    ax = ig.slot("security.homicide", "Homicide rate")
+    _line(ctx, ax, _d(ctx, v, "homicide_rate"), ctx.p.NAVY,
+          label="CDC, death certificates", lw=2.6)
+    _thin(ctx, ax, _d(ctx, intl, "homicide_per_100k"), ctx.p.GOLD,
+          label="UNODC, police records")
+    _frame(ig, ax, slot1=True)
+    hr = _d(ctx, v, "homicide_rate")
+    peak = max(hr, key=hr.get)
+    _label(ctx, ax, peak, hr[peak], f"{hr[peak]:.1f} in {peak}", ctx.p.NAVY,
+           offset=(0, 7))
+    _legend(ctx, ax, loc="upper left")
+
+    ax = ig.slot("security.suicide", "Suicide rate")
+    dr = "social/death_rates.csv"
+    _line(ctx, ax, _d(ctx, dr, "suicide_rate"), ctx.p.NAVY,
+          label="CDC, crude rate", lw=2.6)
+    _thin(ctx, ax, _d(ctx, intl, "suicide_per_100k"), ctx.p.GOLD,
+          label="WHO, age-standardised")
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper left")
+    _note(ctx, ax, "More Americans die by suicide than by homicide,\n"
+                   "and most of them with a firearm.", y=0.05, x=0.985,
+          ha="right")
+
+    ax = ig.slot("security.road_deaths", "Road traffic deaths")
+    road = _rate(ctx.per_100k, _d(ctx, "social/road_deaths.csv",
+                                  "road_deaths"), pop)
+    _line(ctx, ax, road, ctx.p.NAVY, label="NHTSA FARS, within 30 days",
+          lw=2.6)
+    _thin(ctx, ax, _d(ctx, intl, "road_deaths_per_100k"), ctx.p.GOLD,
+          label="WHO, modelled")
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper right")
+    lo = min(road, key=road.get)
+    _label(ctx, ax, lo, road[lo], f"{road[lo]:.1f} in {lo}", ctx.p.NAVY,
+           offset=(0, -6), va="top")
+
+    ax = ig.slot("security.lens", "Overdoses and firearms")
+    fa, fah = _d(ctx, v, "firearm_deaths"), _d(ctx, v, "firearm_homicides")
+    od = _rate(ctx.per_100k, _d(ctx, v, "overdoses"), pop)
+    syn = _rate(ctx.per_100k, _d(ctx, v, "synthetic_opioid_overdoses"), pop)
+    fdr = _rate(ctx.per_100k, fa, pop)
+    _line(ctx, ax, od, ctx.p.RED, label="drug overdose deaths", lw=2.6)
+    _thin(ctx, ax, syn, ctx.p.RED, label=_subset(
+        "synthetic opioids, mainly fentanyl", "overdoses"))
+    _line(ctx, ax, fdr, ctx.p.NAVY, label="firearm deaths, all intents",
+          lw=2.4)
+    _frame(ig, ax)
+    ax.set_ylim(0, max(od.values()) * 1.40)
+    ax.set_ylabel("per 100,000", fontsize=8.6, color=ctx.p.muted)
+    _legend(ctx, ax, loc="upper left")
+    peak = max(od, key=od.get)
+    _label(ctx, ax, peak, od[peak], f"{od[peak]:.1f} in {peak}", ctx.p.RED,
+           offset=(0, 6))
+    last = max(y for y in fa if y in fah)
+    share = (fa[last] - fah[last]) / fa[last] * 100
+    _note(ctx, ax, f"{last}: {share:.0f}% of firearm deaths were not homicides,\n"
+                   f"most of them suicides.", y=0.05, x=0.985, ha="right")
+
+
+# ------------------------------------------------------------- the plates
+def _src(*parts: str) -> str:
+    return "Sources: " + " · ".join(parts)
+
+
 PLATES = (
-
-    ("plate_economy", plate_economy),
-
-    ("plate_fiscal", plate_fiscal),
-
-    ("plate_spending", plate_spending),
-
-    ("plate_trade", plate_trade),
-
-    ("plate_markets", plate_markets),
-
-    ("plate_people", plate_people),
-
-    ("plate_world", plate_world),
-
-    ("plate_demographics", plate_demographics),
-
-    ("plate_mortality", plate_mortality),
-
-    ("plate_violence", plate_violence),
-
-    ("plate_credit", plate_credit),
-
+    dict(id="01", slug="economy", topic="economy", builder=plate_economy,
+         title="The American economy",
+         subtitle="Growth, income per person, prices and jobs",
+         source=_src("BEA, NIPA tables 1.1.1 and 7.1",
+                     "World Bank, NY.GDP.PCAP.CD",
+                     "BLS, CPI-U and the Current Population Survey"),
+         alt=("Four panels. Real GDP growth by year, with the 2020 fall and "
+              "the 2021 rebound labelled; GDP per person in current dollars "
+              "on a log scale; consumer-price inflation, headline and core, "
+              "against the Fed's 2% goal, peaking in 2022; and the U-3 "
+              "unemployment rate inside the broader U-6, with the October "
+              "2025 month that was never collected marked.")),
+    dict(id="02", slug="fiscal", topic="fiscal", builder=plate_fiscal,
+         title="What government takes in, spends and owes",
+         subtitle="General government by calendar year, with the federal budget beside it",
+         source=_src("IMF, World Economic Outlook and Fiscal Monitor",
+                     "OECD national accounts, table 12",
+                     "OMB Historical Tables and Treasury Fiscal Data, "
+                     "federal fiscal years"),
+         alt=("Four panels, all as a share of GDP. General-government revenue "
+              "and expenditure with federal receipts and outlays beside "
+              "them; the overall balance as bars with the primary balance "
+              "and the federal deficit as lines; gross general-government "
+              "debt against federal gross debt and debt held by the public; "
+              "and interest paid by general government against federal net "
+              "interest, which passed defense spending in fiscal 2024.")),
+    dict(id="03", slug="spending", topic="spending", builder=plate_spending,
+         title="Where the money goes",
+         subtitle="General-government spending by function, and what is invested",
+         source=_src("OECD, National Accounts at a Glance (COFOG and "
+                     "government investment)",
+                     "World Bank, NE.GDI.FTOT.ZS"),
+         alt=("Four panels, all as a share of GDP. General-government "
+              "spending stacked by function, with health the largest; "
+              "social protection against everything else; whole-economy "
+              "investment; and public investment.")),
+    dict(id="04", slug="trade", topic="trade", builder=plate_trade,
+         title="What America buys and sells",
+         subtitle="Trade as a share of GDP, who buys American goods and who sells to America",
+         source=_src("BEA, NIPA tables 1.1.5 and 4.1",
+                     "Census Bureau, trade in goods by country"),
+         alt=("Four panels. Exports and imports of goods and services as a "
+              "share of GDP; the trade balance as bars with the goods "
+              "deficit and services surplus as lines; the share of US goods "
+              "exports going to Canada, Mexico, the EU, China and Japan; and "
+              "the share of goods imports from each, with China's falling "
+              "after the 2018 tariffs.")),
+    dict(id="05", slug="markets", topic="markets", builder=plate_markets,
+         title="Money and markets",
+         subtitle="The policy rate, the long rate, the dollar and the stock market",
+         source=_src("Federal Reserve Board H.10 and FOMC target (NY Fed)",
+                     "US Treasury par yield curve", "BLS CPI-U",
+                     "S&P 500 via Yahoo Finance, a redistributor"),
+         alt=("Four panels. The federal funds target against CPI inflation, "
+              "shaded where the rate sat below inflation; the 10-year "
+              "Treasury yield with the 2-year beside it; the broad dollar "
+              "index rebased to 2006 = 100; and the S&P 500 rebased to "
+              "2006 = 100, both on log scales.")),
+    dict(id="06", slug="people", topic="people", builder=plate_people,
+         title="Households",
+         subtitle="Inequality, poverty on three measures, the wage floor and the children",
+         source=_src("Census Bureau, CPS ASEC (tables H-4 and P60)",
+                     "World Bank, Poverty and Inequality Platform",
+                     "Department of Labor", "BLS CPI-U"),
+         alt=("Four panels. The Census Gini index in three segments split at "
+              "its 2013 and 2017 method breaks, with the World Bank Gini "
+              "beside it; the official and supplemental poverty rates and "
+              "the World Bank's US$8.30-a-day line; the federal minimum wage "
+              "as a month of full-time work, in current and constant "
+              "dollars; and child poverty on the official and supplemental "
+              "measures, where the 2021 Child Tax Credit shows on one and "
+              "not the other.")),
+    dict(id="07", slug="world", topic="world", builder=plate_world,
+         title="The United States in the world",
+         subtitle="The size of the economy, human development, corruption and reserves",
+         source=_src("World Bank, World Development Indicators",
+                     "UNDP, Human Development Report 2025",
+                     "Transparency International"),
+         alt=("Four panels. GDP in current US dollars on a log scale; the "
+              "Human Development Index, which dipped in 2020-2021; the "
+              "Corruption Perceptions Index, falling since 2015; and "
+              "official reserves including gold, on a log scale.")),
+    dict(id="08", slug="demographics", topic="demography",
+         builder=plate_demographics,
+         title="How many Americans",
+         subtitle="Population, fertility, births and deaths, and what changes the total",
+         source=_src("Census Bureau, intercensal and Vintage 2019 and 2025 "
+                     "estimates, 2023 projections",
+                     "World Bank, World Development Indicators (NCHS)"),
+         alt=("Four panels. The resident population as an index with 2006 = "
+              "100; the total fertility rate against the replacement level "
+              "of 2.1; crude birth and death rates per 1,000; and natural "
+              "increase and net international migration per 1,000, which "
+              "surged in 2022-2024.")),
+    dict(id="09", slug="mortality", topic="mortality", builder=plate_mortality,
+         title="Deaths",
+         subtitle="How many die, how many more than usual, COVID-19, and how long people live",
+         source=_src("CDC WONDER and NCHS provisional mortality",
+                     "World Bank, World Development Indicators (NCHS)",
+                     "Census Bureau population"),
+         alt=("Four panels. The crude death rate per 1,000, peaking in 2021; "
+              "deaths against the 2015-2019 average; COVID-19 deaths per "
+              "100,000 as the underlying cause, with deaths that involved "
+              "it as a line; and life expectancy at birth, which fell to its "
+              "low in 2021.")),
+    dict(id="10", slug="violence", topic="security", builder=plate_violence,
+         title="Violent and accidental death",
+         subtitle="Homicide, suicide, the roads, overdoses and firearms, per 100,000 people",
+         source=_src("CDC WONDER and NCHS provisional injury and overdose "
+                     "counts", "NHTSA FARS", "UNODC and WHO via the World "
+                     "Bank", "Census Bureau population"),
+         alt=("Four panels, all per 100,000 people. The homicide rate on a "
+              "log scale, from death certificates and from police records; "
+              "the suicide rate; road traffic deaths; and drug overdose "
+              "deaths with the synthetic opioids among them, beside all "
+              "firearm deaths.")),
+    dict(id="11", slug="credit", topic="credit", builder=plate_credit,
+         title="What households owe",
+         subtitle="Household debt, what it costs, who falls behind, and what it is made of",
+         source=_src("BIS total credit statistics",
+                     "Federal Reserve Bank of New York, Household Debt and "
+                     "Credit", "Freddie Mac PMMS", "Federal Reserve G.19"),
+         alt=("Four panels. Household debt as a share of GDP, peaking in "
+              "2007; the 30-year mortgage rate and the credit card rate "
+              "against the policy rate; the share of balances 90 days or "
+              "more delinquent, by type; and household debt by type in US "
+              "dollars.")),
 )

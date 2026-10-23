@@ -9,6 +9,13 @@ name:
   pt: "Coreia do Sul"
   es: "Corea del Sur"
   ko: "대한민국"
+  it: "Corea del Sud"
+  he: "קוריאה הדרומית"
+  ja: "韓国"
+  zh-Hans: "韩国"
+  zh-Hant: "韓國"
+  vi: "Hàn Quốc"
+  de: "Südkorea"
 
 # ko, not kr: `kr` is the country code, `ko` is the ISO 639-1 language.
 locales:
@@ -26,6 +33,8 @@ last_full_year: 2025
 # Label every Nth year on the x-axis. Twenty-one years of annual ticks do
 # not fit, so each country labels the stride its own plates were drawn with.
 tick_every: 2
+# Every plate is drawn on the plate spine (PLATE_SPINE.md).
+spine: true
 
 bands:
   - {from: 2008.75, to: 2009.4, label: "global crisis"}

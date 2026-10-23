@@ -1,61 +1,77 @@
 {
  "01_economy": [
+  "international/world_wb.csv",
   "macro/gdp.csv",
-  "macro/inflation.csv"
+  "macro/inflation.csv",
+  "macro/unemployment.csv"
  ],
  "02_fiscal": [
   "fiscal/debt.csv",
   "fiscal/deficit.csv",
-  "fiscal/tax_burden.csv"
+  "fiscal/revenue.csv",
+  "fiscal/tax_burden.csv",
+  "macro/gdp.csv"
  ],
  "03_spending": [
   "fiscal/investment.csv",
   "fiscal/spending_by_function.csv"
  ],
  "04_trade": [
+  "macro/gdp.csv",
   "trade/destinations.csv",
   "trade/exports_products.csv",
-  "trade/trade.csv"
+  "trade/trade.csv",
+  "trade/trade_na.csv"
  ],
  "05_markets": [
   "macro/eurusd.csv",
   "macro/inflation.csv",
   "macro/policy_rate.csv",
+  "markets/bond_yields.csv",
   "markets/cac40.csv",
   "markets/sp500.csv"
  ],
  "06_people": [
+  "macro/eurusd.csv",
   "macro/inflation.csv",
   "macro/smic.csv",
-  "macro/unemployment.csv",
   "social/gini.csv",
-  "social/hdi.csv",
-  "social/poverty.csv"
+  "social/poverty.csv",
+  "social/poverty_wb.csv"
  ],
  "07_world": [
   "international/cpi.csv",
-  "international/wef.csv",
-  "macro/gdp.csv",
+  "international/world_wb.csv",
   "macro/reserves.csv",
-  "trade/trade.csv"
+  "social/hdi.csv"
  ],
  "08_demographics": [
-  "social/population.csv"
+  "social/population.csv",
+  "social/vital_rates.csv"
  ],
  "09_security": [
+  "social/causes.csv",
   "social/homicides.csv",
-  "social/violence.csv"
+  "social/population_wb.csv",
+  "social/security_wb.csv",
+  "social/violence.csv",
+  "social/vital_rates.csv"
  ],
  "10_mortality": [
   "social/all_cause_deaths.csv",
   "social/covid_deaths.csv",
-  "social/flu_deaths.csv"
+  "social/flu_deaths.csv",
+  "social/vital_rates.csv"
  ],
  "11_credit": [
-  "credit/credit_holding_ocm.csv",
-  "credit/credit_outstanding.csv",
   "credit/household_debt.csv",
   "credit/lending_rates.csv",
-  "credit/overindebtedness.csv"
+  "credit/npl.csv",
+  "credit/overindebtedness.csv",
+  "macro/policy_rate.csv"
+ ],
+ "12_migration": [
+  "migration/migration.csv",
+  "social/vital_rates.csv"
  ]
 }

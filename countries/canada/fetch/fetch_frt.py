@@ -78,6 +78,10 @@ SHEETS = {
             (4, "balance_excl_actuarial"),
             (5, "net_actuarial_losses"),
             (6, "budgetary_balance"),
+            # The federal debt-to-GDP ratio Ottawa argues about: the
+            # accumulated deficit, per cent of GDP. Fiscal slot 3 draws it
+            # beside the general-government gross debt.
+            (9, "accumulated_deficit"),
         ]),
     "4 - Revenues % GDP": (
         "fiscal/revenues_pct_gdp_from_frt.csv", "fiscal_year", [

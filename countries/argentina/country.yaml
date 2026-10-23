@@ -8,6 +8,13 @@ name:
   pt: "Argentina"
   es: "Argentina"
   ko: "아르헨티나"
+  it: "Argentina"
+  he: "ארגנטינה"
+  ja: "アルヘンチーナ"
+  zh-Hans: "阿根廷"
+  zh-Hant: "阿根廷"
+  vi: "Ác-hen-ti-na"
+  de: "Argentinien"
 
 locales:
   - {code: es, html_lang: es-AR, og_locale: es_AR, endonym: Español}
@@ -21,13 +28,24 @@ default_locale: en
 # that never happened, so plates dash or hatch anything past it.
 years: {from: 2006, to: 2026}
 last_full_year: 2025
-# Label every Nth year on the x-axis. Twenty-one years of annual ticks do
-# not fit, so each country labels the stride its own plates were drawn with.
+# Label every Nth year on the x-axis: every second one, as the plate spine
+# fixes for every country (PLATE_SPINE.md rule 2).
 tick_every: 2
+# Held to the plate spine by tests/test_spine.py.
+spine: true
 
+# Recession bands: every calendar year in which INDEC's real GDP fell
+# (macro/gdp.csv : real_growth < 0), grouped where the years run on. A year
+# is drawn centred on its tick, so a band covers Y-0.5 to Y+0.5 and sits
+# exactly behind that year's bar. tests/test_plates.py checks this list
+# against the CSV, so a revision that moves a year fails the build.
 bands:
-  - {from: 2018.0, to: 2020.9, label: "2018–20 recession"}
-  - {from: 2020.0, to: 2020.9, label: "COVID-19"}
+  - {from: 2008.5, to: 2009.5, label: "2009"}
+  - {from: 2011.5, to: 2012.5, label: "2012"}
+  - {from: 2013.5, to: 2014.5, label: "2014"}
+  - {from: 2015.5, to: 2016.5, label: "2016"}
+  - {from: 2017.5, to: 2020.5, label: "2018–20"}
+  - {from: 2022.5, to: 2024.5, label: "2023–24"}
 
 # Prices rose about 1,200-fold over this window, so a peso figure is only
 # meaningful beside its own year. Everything comparable across years is in
@@ -79,9 +97,9 @@ seo:
     es: "Argentina en números — un atlas de datos, 2006–2026"
     pt: "Argentina em números — um atlas de dados, 2006–2026"
   description:
-    en: "Twenty years of Argentine official statistics as editorial plates: output, prices, work and poverty, public accounts, trade, credit, markets, population and violence. Every number traced to the CSV it came from."
-    es: "Veinte años de estadísticas oficiales argentinas en planchas editoriales: producto, precios, trabajo y pobreza, cuentas públicas, comercio, crédito, mercados, población y violencia. Cada número rastreable hasta el CSV del que salió."
-    pt: "Vinte anos de estatísticas oficiais argentinas em pranchas editoriais: produto, preços, trabalho e pobreza, contas públicas, comércio, crédito, mercados, população e violência. Cada número rastreável até o CSV de onde veio."
+    en: "Twenty years of Argentine official statistics as editorial plates: output, prices, work and poverty, public accounts and spending, trade, credit, markets, Argentina among other countries, population, violence and mortality. Every number traced to the CSV it came from."
+    es: "Veinte años de estadísticas oficiales argentinas en planchas editoriales: producto, precios, trabajo y pobreza, cuentas públicas y gasto, comercio, crédito, mercados, la Argentina entre los demás países, población, violencia y mortalidad. Cada número rastreable hasta el CSV del que salió."
+    pt: "Vinte anos de estatísticas oficiais argentinas em pranchas editoriais: produto, preços, trabalho e pobreza, contas públicas e gasto, comércio, crédito, mercados, a Argentina entre os outros países, população, violência e mortalidade. Cada número rastreável até o CSV de onde veio."
   keywords: [Argentina, INDEC, BCRA, inflation, poverty, public accounts, official statistics]
   spatial: "Argentina"
 

@@ -10,6 +10,13 @@ name:
   pt: "França"
   es: "Francia"
   ko: "프랑스"
+  it: "Francia"
+  he: "צרפת"
+  ja: "フランス"
+  zh-Hans: "法国"
+  zh-Hant: "法國"
+  vi: "Pháp"
+  de: "Frankreich"
 
 locales:
   - {code: fr, html_lang: fr,    og_locale: fr_FR, endonym: Français}
@@ -26,6 +33,8 @@ last_full_year: 2025
 # Label every Nth year on the x-axis. Twenty-one years of annual ticks do
 # not fit, so each country labels the stride its own plates were drawn with.
 tick_every: 2
+# Every plate is drawn on the shared plate spine (PLATE_SPINE.md).
+spine: true
 
 # Bands drawn behind the data. France's 2008-09 contraction was a single
 # sharp year, and 2012-13 was a flat double-dip rather than a recession with

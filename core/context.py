@@ -22,7 +22,7 @@ from __future__ import annotations
 
 from functools import partial
 
-from core import i18n, plotting, style
+from core import i18n, plotting, rates, style
 from core.country import Country
 
 
@@ -49,6 +49,11 @@ class Context:
         self.source = plotting.source
         self.read_table = plotting.read_table
         self.annotate_value = plotting.annotate_value
+        # Counts into the spine's shared units. See core/rates.py.
+        self.per_100k = rates.per_100k
+        self.per_1000 = rates.per_1000
+        self.index_2006 = rates.index_2006
+        self.fx_index = rates.fx_index
 
     # ------------------------------------------------------------- data
     def table(self, rel: str):
@@ -73,17 +78,18 @@ class Context:
 
     # ----------------------------------------------------------- drawing
     def fig(self, title: str, subtitle: str, ncols: int = 2, nrows: int = 2,
-            figsize=(16.0, 10.2), source: str = "",
-            right: float = 0.975) -> style.Infographic:
+            figsize=(16.0, 10.2), source: str = "", right: float = 0.955,
+            topic: str | None = None) -> style.Infographic:
         """A new multi-panel figure in this country's identity.
 
-        Pass a smaller `right` when a panel in the right-hand column
-        carries a second y-axis: the default margin has room for a tick
-        label and not for the axis label beside it.
+        `topic` puts the plate on the spine (core/spine.py): the frame is
+        then fixed at 2 × 2, 16 × 10.2 in, right=0.955, and the panels are
+        claimed with `slot()`. Leave it None for a plate not migrated yet.
+        The default `right` leaves room for a right-hand axis label.
         """
         return style.Infographic(self.c, title, subtitle, ncols=ncols,
                                  nrows=nrows, figsize=figsize, source=source,
-                                 right=right)
+                                 right=right, topic=topic)
 
     def pending(self, ax) -> None:
         plotting.pending(ax, self.p)

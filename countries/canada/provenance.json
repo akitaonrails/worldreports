@@ -1,28 +1,73 @@
 {
+ "01-economy": [
+  "international/gdp_pc.csv",
+  "macro/economy.csv",
+  "macro/growth_prices.csv"
+ ],
  "02-fiscal": [
   "fiscal/expenses_pct_gdp.csv",
+  "fiscal/general_government.csv",
+  "fiscal/gfs_operations.csv",
   "fiscal/liabilities.csv",
-  "fiscal/transactions_pct_gdp.csv"
+  "fiscal/transactions_pct_gdp.csv",
+  "international/g7_net_debt.csv"
  ],
  "03-spending": [
+  "fiscal/cofog.csv",
   "fiscal/expenses_pct_gdp.csv",
-  "fiscal/revenues_pct_gdp.csv"
+  "fiscal/public_investment.csv",
+  "macro/economy.csv"
+ ],
+ "04-trade": [
+  "international/gdp_usd.csv",
+  "trade/partners.csv",
+  "trade/trade.csv"
  ],
  "05-markets": [
+  "macro/growth_prices.csv",
+  "markets/equities.csv",
   "markets/rates.csv",
-  "markets/usdcad.csv"
+  "markets/usdcad.csv",
+  "markets/usdcad_h10.csv"
+ ],
+ "06-people": [
+  "markets/usdcad_h10.csv",
+  "social/gini.csv",
+  "social/income.csv",
+  "social/minimum_wage.csv",
+  "social/poverty.csv"
  ],
  "07-world": [
-  "international/g7_balance.csv",
-  "international/g7_gross_debt.csv",
-  "international/g7_net_debt.csv",
+  "international/cpi.csv",
+  "international/gdp_usd.csv",
   "international/hdi.csv",
   "international/reserves.csv"
+ ],
+ "08-demography": [
+  "international/population.csv",
+  "social/demography.csv"
+ ],
+ "09-security": [
+  "social/causes_of_death.csv",
+  "social/opioids.csv",
+  "social/security.csv"
+ ],
+ "10-mortality": [
+  "social/causes_of_death.csv"
+ ],
+ "11-credit": [
+  "credit/debt_service.csv",
+  "credit/household_credit.csv",
+  "credit/mortgage_rates.csv",
+  "credit/npl.csv",
+  "markets/rates.csv"
  ],
  "12-migration": [
   "international/population.csv",
   "migration/pr_admissions.csv",
   "migration/pr_by_origin.csv",
-  "migration/study_permits.csv"
+  "migration/study_permits.csv",
+  "social/demography.csv",
+  "social/migrant_stock.csv"
  ]
 }

@@ -87,6 +87,60 @@ macro:
     source: planalto.gov.br legal acts (Decreto 12.797/2025 for 2026; Lei 11.321/2006 etc.)
     notes: value in force for most of each year (pre-2010 adjustments were not on Jan 1)
     compiled: sub-agent research 2026-10-21
+  economy_from_wb.csv:
+    source: 'World Bank — World Development Indicators (NE.GDI.FTOT.ZS, SL.UEM.TOTL.ZS)'
+    url: 'https://api.worldbank.org/v2/country/BRA/indicator/NE.GDI.FTOT.ZS?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      gfcf_pct_gdp is whole-economy gross fixed capital formation, % of
+      GDP (spending slot 3). unemployment_pct is the ILO modelled
+      estimate, % of the labour force — harmonised, and not the national
+      LFS headline, which stays the national line. Columns:
+      gfcf_pct_gdp, unemployment_pct.
+  household_credit_from_bis.csv:
+    source: 'BIS — total credit statistics, WS_TC Q.BR.H.A.M.770.A'
+    url: 'https://stats.bis.org/api/v2/data/dataflow/BIS/WS_TC/2.0/Q.BR.H.A.M.770.A?format=csv'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Credit to households and NPISHs from all sectors, market value, %
+      of GDP, adjusted for breaks. hh_credit_pct_gdp_q4 is the Q4 (year-
+      end) value the spine draws; _qavg is the mean of the quarters
+      published and _quarters says how many, so the running year reads
+      as one quarter, not a year. Wider than bank-loan series: every
+      lender and debt securities are in it.
+
+  inflation_target.csv:
+    source: Conselho Monetário Nacional — inflation targets and tolerance intervals (CMN resolutions; a continuous target from 2025)
+    url: https://www.bcb.gov.br/controleinflacao/historicometas
+    notes: >-
+      target = centre of the target for the calendar year, % (IPCA
+      Dec/Dec); tolerance = the half-width of the band either side of it,
+      percentage points: 2.0 through 2016, 1.5 from 2017. From 2025 the
+      target is continuous (3.0% over any 12 months) rather than for the
+      calendar year; the plate keeps reading it per year. Transcribed by
+      hand from the BCB's historical table; it matches the dictionary the
+      plate used to hard-code.
+    compiled: 2026-10-22
+  economy.csv:
+    source: 'World Bank — World Development Indicators (NE.GDI.FTOT.ZS, SL.UEM.TOTL.ZS)'
+    url: 'https://api.worldbank.org/v2/country/BRA/indicator/SL.UEM.TOTL.ZS?format=json'
+    official: false
+    notes: >-
+      Curated copy of economy_from_wb.csv, accepted unchanged on
+      2026-10-22. unemployment_pct is the ILO modelled estimate, drawn
+      thin beside the national PNAD Contínua line on economy slot 4 and
+      the only line covering the 2006-2011 gap before PNAD-C begins.
+  household_credit.csv:
+    source: 'BIS — total credit statistics, WS_TC Q.BR.H.A.M.770.A'
+    url: 'https://stats.bis.org/api/v2/data/dataflow/BIS/WS_TC/2.0/Q.BR.H.A.M.770.A?format=csv'
+    official: false
+    notes: >-
+      Curated copy of household_credit_from_bis.csv, accepted unchanged
+      on 2026-10-22. Credit to households and NPISHs from all lenders, %
+      of GDP; the plate draws the Q4 (year-end) column. 2026 has one
+      quarter only and its Q4 is blank, so it is not drawn.
 
 social:
   population.csv:
@@ -172,6 +226,67 @@ social:
     url: https://api.worldbank.org/v2/country/BRA/indicator/SI.POV.UMIC
     notes: computed from IBGE PNAD/PNAD-C microdata; 2010 missing; 2025+ pending
     compiled: sub-agent research 2026-10-21
+  demography_from_wb.csv:
+    source: 'World Bank — World Development Indicators (SP.POP.TOTL, SP.POP.TOTL.FE.IN, SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM), from the UN World Population Prospects and national vital statistics'
+    url: 'https://api.worldbank.org/v2/country/BRA/indicator/SP.POP.TOTL.FE.IN?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Mid-year population (total and female), so a rate per 100,000
+      women can be computed on a mid-year denominator. Crude birth and
+      death rates are per 1,000 people. net_migration is a COUNT of
+      people (WPP estimate), not a rate: per 1,000 = net_migration /
+      population x 1,000 for the same year. WPP figures for recent years
+      are estimates and are revised with each WPP. Columns: population,
+      population_female, fertility, birth_rate_per_1000,
+      death_rate_per_1000, net_migration.
+  security_from_wb.csv:
+    source: 'World Bank — World Development Indicators: VC.IHR.PSRC.P5 (UNODC), SH.STA.SUIC.P5 and SH.STA.TRAF.P5 (WHO Global Health Estimates)'
+    url: 'https://api.worldbank.org/v2/country/BRA/indicator/VC.IHR.PSRC.P5?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      All per 100,000 people. Intentional homicide is UNODC's harmonised
+      count, which usually differs from the national police or death-
+      certificate series in both directions. Suicide and road-traffic
+      deaths are WHO modelled estimates (suicide age-standardised),
+      ending 2021 and 2019 respectively in this release; later years are
+      blank, not zero. Columns: homicide_per_100k, suicide_per_100k,
+      road_deaths_per_100k.
+
+  deaths.csv:
+    source: Ministério da Saúde — SIM/DATASUS, Mortalidade Geral (TabNet, CID-10, óbitos por residência)
+    url: http://tabnet.datasus.gov.br/cgi/deftohtm.exe?sim/cnv/obt10uf.def
+    refreshed_by: fetch/fetch_sim_causes.py
+    notes: >-
+      registered = the TabNet table's own Total row, every registered
+      death of a Brazilian resident; the fetcher checks the ICD-10
+      categories sum to it. suicide = X60-X84; road = V01-V89 (the
+      Ministry's "acidentes de transporte terrestre"). Counts, not rates:
+      the plates divide by social/population.csv : pop_mn of the same
+      year. Final data to 2024; 2025 is preliminary (TabNet extraction
+      28/07/2026); 2026 is a preview and is not taken. Spot value 2019 =
+      1,349,801, read by hand off TabNet. Curated from
+      deaths_from_sim.csv on 2026-10-22.
+  demography.csv:
+    source: 'World Bank — World Development Indicators (SP.POP.TOTL, SP.POP.TOTL.FE.IN, SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM), from the UN World Population Prospects'
+    url: 'https://api.worldbank.org/v2/country/BRA/indicator/SP.POP.TOTL.FE.IN?format=json'
+    official: false
+    notes: >-
+      Curated copy of demography_from_wb.csv, accepted unchanged on
+      2026-10-22. The plates use population_female (mid-year, the
+      denominator of the per-100,000-women rates) and net_migration (a
+      count, divided by population of the same year for per 1,000).
+  security.csv:
+    source: 'World Bank — World Development Indicators: VC.IHR.PSRC.P5 (UNODC), SH.STA.SUIC.P5 and SH.STA.TRAF.P5 (WHO)'
+    url: 'https://api.worldbank.org/v2/country/BRA/indicator/SH.STA.SUIC.P5?format=json'
+    official: false
+    notes: >-
+      Curated copy of security_from_wb.csv, accepted unchanged on
+      2026-10-22. The WHO suicide and road-death estimates are drawn thin
+      beside the SIM crude rates. UNODC's homicide rate is not drawn: it
+      is built on the same SIM counts and sits within a point of the
+      IPEA registered rate every year.
 
 fiscal:
   tax_burden.csv:
@@ -238,6 +353,81 @@ fiscal:
       (liquidado); Tesouro RTN série histórica (valor pago, GND4+5, % PIB published)
     url: https://www.tesourotransparente.gov.br/ckan/dataset/ab56485b-9c40-4efb-8563-9ce3e1973c4b/resource/527ccdb1-3059-42f3-bf23-b5e3ab4c6dc6/download/seriehistoricajul26.xlsx
     notes: three investment concepts kept as separate columns; RTN series starts 2008
+  general_government_from_imf.csv:
+    source: 'IMF — World Economic Outlook and Fiscal Monitor, via DataMapper (GGR_G01_GDP_PT (Fiscal Monitor), G_X_G01_GDP_PT (Fiscal Monitor), GGXCNL_NGDP (WEO), GGXONLB_G01_GDP_PT (Fiscal Monitor), GGXWDG_NGDP (WEO))'
+    url: 'https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      General government, % of GDP, calendar years. Balance and gross
+      debt are WEO indicators; revenue, expenditure and the primary
+      balance are not WEO codes on DataMapper (GGR_NGDP, GGX_NGDP and
+      GGXONLB_NGDP do not exist there) and come from the Fiscal Monitor,
+      served from the same database — the fetcher checks the WEO and
+      Fiscal Monitor balances agree within 0.1 pt before writing. Stops
+      at 2025: later IMF years are staff projections. 2025 itself may be
+      an IMF estimate. Columns: revenue_pct_gdp, expenditure_pct_gdp,
+      balance_pct_gdp, primary_balance_pct_gdp, gross_debt_pct_gdp. The
+      IMF's gross debt is wider than the BCB's DBGG (it counts the
+      Treasury bonds the central bank holds), so it reads higher than
+      fiscal/debt.csv; both are right.
+  public_investment_from_oecd.csv:
+    source: 'OECD — National Accounts at a Glance, chapter 6, OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_VI, measure P51GS13'
+    url: 'https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_VI,/A.BRA.P51GS13...'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      gov_gfcf_pct_gdp: general-government gross fixed capital
+      formation, % of GDP (spending slot 4). General government, unlike
+      the federal-only GND4 columns of investment.csv; the OECD series
+      stops in 2020.
+
+  cofog.csv:
+    source: Tesouro Nacional, SOF and IBGE — Despesa por Função do Governo Geral (COFOG), edition 2023 spreadsheet (table 1.5.a, % do PIB) and edition 2024 report (Tabela 1)
+    url: https://cdn.tesouro.gov.br/sistemas-internos/apex/producao/sistemas/thot/arquivos/publicacoes/51473_1617293/anexos/24705_1617712/COFOG%20GG.xlsx
+    refreshed_by: fetch/fetch_cofog.py
+    notes: >-
+      General government (central, state, municipal), GFSM 2014, % of GDP.
+      The ten COFOG divisions mapped to the spine's seven groups:
+      social_protection 710, health 707, education 709, general_public 701
+      (includes 7017, public-debt transactions, i.e. interest),
+      economic_affairs 704, defence_order 702+703, other 705+706+708.
+      2010-2023 from the 2023 edition's spreadsheet via the fetcher, which
+      checks the divisions sum to the published total and that the 2023
+      column matches the 2024 report's. 2024 transcribed by hand from
+      "Relatório COFOG GG 2024", Tabela 1 (preliminary; its groups sum to
+      45.78 against a published 45.79, rounding). The total matches the
+      IMF's general-government expenditure to the hundredth in 2010 and
+      2015. Curated 2026-10-22.
+  general_government.csv:
+    source: 'IMF — World Economic Outlook and Fiscal Monitor, via DataMapper (GGR_G01_GDP_PT, G_X_G01_GDP_PT, GGXCNL_NGDP, GGXONLB_G01_GDP_PT, GGXWDG_NGDP)'
+    url: 'https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP'
+    official: false
+    notes: >-
+      Curated copy of general_government_from_imf.csv, accepted unchanged
+      on 2026-10-22. General government, % of GDP, calendar years; the
+      spine's canonical fiscal series. Net interest on the plate is
+      primary_balance_pct_gdp - balance_pct_gdp.
+  public_investment.csv:
+    source: 'OECD — National Accounts at a Glance, chapter 6, measure P51GS13'
+    url: 'https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_VI,/A.BRA.P51GS13...'
+    official: false
+    notes: >-
+      Curated copy of public_investment_from_oecd.csv, accepted unchanged
+      on 2026-10-22. General-government GFCF, % of GDP; stops in 2020.
+  nfsp.csv:
+    source: Banco Central — NFSP sem desvalorização cambial, % PIB, fluxo acumulado em 12 meses, setor público consolidado (SGS 5727 resultado nominal, 5793 primário, 5760 juros nominais)
+    url: https://api.bcb.gov.br/dados/serie/bcdata.sgs.5760/dados?formato=json
+    refreshed_by: fetch/fetch_bcb_fiscal.py
+    notes: >-
+      December value of each 12-month flow = the calendar year. BCB sign:
+      positive = a financing need (a deficit), so nfsp_primary 0.43 in
+      2025 is a primary DEFICIT of 0.43% of GDP. interest is the nominal
+      interest bill of the consolidated public sector (central government,
+      states, municipalities and state firms outside Petrobras and
+      Eletrobras), the "juros nominais" Brazilian debate is about. The
+      fetcher checks nominal = primary + interest every year. Curated from
+      nfsp_from_bcb.csv on 2026-10-22.
 
 trade:
   trade.csv:
@@ -262,6 +452,26 @@ trade:
     source: SECEX EXP_ANUAL_{CHINA, ESTADOS UNIDOS, UNIÃO EUROPEIA, ARGENTINA, JAPÃO}.xlsx
     notes: SECEX's fixed EU bloc definition; Argentina = Mercosul proxy; 2026 = Jan-Sep
     compiled: sub-agent research 2026-10-21
+  trade_from_wb.csv:
+    source: 'World Bank — World Development Indicators (NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS)'
+    url: 'https://api.worldbank.org/v2/country/BRA/indicator/NE.EXP.GNFS.ZS?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Exports and imports of goods AND services, national-accounts
+      basis, % of GDP — not a customs goods series. The trade balance is
+      their difference and is not stored. Columns: exports_pct_gdp,
+      imports_pct_gdp.
+
+  national_accounts.csv:
+    source: 'World Bank — World Development Indicators (NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS)'
+    url: 'https://api.worldbank.org/v2/country/BRA/indicator/NE.EXP.GNFS.ZS?format=json'
+    official: false
+    notes: >-
+      Curated copy of trade_from_wb.csv, accepted unchanged on 2026-10-22
+      (renamed because trade.csv is the SECEX goods file). Goods and
+      services, national-accounts basis, % of GDP; the balance on the
+      plate is exports minus imports.
 
 markets:
   ibov.csv:
@@ -275,6 +485,22 @@ markets:
     notes: 2026 = Oct 20 close (7,712.57); price index, excludes dividends
     compiled: sub-agent research 2026-10-21
 
+  bond_10y.csv:
+    source: Tesouro Nacional — Tesouro Direto historical rates, NTN-F (Tesouro Prefixado com Juros Semestrais), one workbook a year
+    url: https://cdn.tesouro.gov.br/sistemas-internos/apex/producao/sistemas/sistd/2025/NTN-F_2025.xls
+    refreshed_by: fetch/fetch_tesouro_direto.py
+    notes: >-
+      yield_10y = annual mean, over business days, of the buy rate ("Taxa
+      Compra Manhã") of the NTN-F whose maturity is closest to ten years
+      from that day, counting only days when that bond matures 8.5-11.5
+      years out. days and the maturity columns say what each year rests
+      on. 2006 (longest NTN-F seven years) and 2009 (eight) have no such
+      day and are blank; 2008 rests on 125 days. A retail offer rate set by
+      the Tesouro each morning from the market, not ANBIMA's secondary-
+      market curve (which is behind a login). No official API publishes a
+      constant-maturity 10-year yield for Brazil; the OECD's "long-term
+      interest rate" for Brazil is the TJLP, a BNDES lending rate. 2026 =
+      Jan to 21 Aug. Curated from bond_10y_from_tesouro.csv on 2026-10-22.
 international:
   wef.csv:
     source: World Economic Forum — Global Competitiveness Report editions 2006-07 through 2017-18 (GCI, scale 1-7) and GCI 4.0 2018/2019 (scale 0-100, via World Bank data360)
@@ -288,3 +514,23 @@ international:
     url: https://www.transparency.org/en/cpi/2025
     notes: "0-10 scale until 2011, 0-100 from 2012 (TI: only 2012+ comparable); chart script rescales pre-2012 by 10"
     compiled: sub-agent research 2026-10-21
+  world_from_wb.csv:
+    source: 'World Bank — World Development Indicators (NY.GDP.MKTP.CD, NY.GDP.PCAP.CD, FI.RES.TOTL.CD)'
+    url: 'https://api.worldbank.org/v2/country/BRA/indicator/NY.GDP.MKTP.CD?format=json'
+    refreshed_by: fetch/fetch_harmonised.py
+    official: false
+    notes: >-
+      Current US$: GDP, GDP per person, and total reserves including
+      gold (year-end, IMF IFS via the WDI). A harmonised cross-country
+      series for the world chapter, not the national accounts; spot-
+      checked and cross-checked in the fetcher. Columns: gdp_usd,
+      gdp_per_person_usd, reserves_usd.
+  world.csv:
+    source: 'World Bank — World Development Indicators (NY.GDP.MKTP.CD, NY.GDP.PCAP.CD, FI.RES.TOTL.CD)'
+    url: 'https://api.worldbank.org/v2/country/BRA/indicator/NY.GDP.MKTP.CD?format=json'
+    official: false
+    notes: >-
+      Curated copy of world_from_wb.csv, accepted unchanged on 2026-10-22.
+      GDP and GDP per person in current US$ (economy slot 2, world slot
+      1). Reserves are drawn from the BCB's own macro/reserves.csv, which
+      agrees with reserves_usd to within US$1bn.

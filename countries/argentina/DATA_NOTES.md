@@ -373,20 +373,21 @@ and are avoided here deliberately:
 
 ## 9. Still unresolved
 
-- **Public debt as a share of GDP.** This is the gap I am least happy
-  about. It is not on `apis.datos.gob.ar`: the only debt-to-GDP series in
-  the catalogue, `313.1_EN_PORCENTPIB_0_T_21`, is *private* external debt
-  and stops in 2017, and the `451.*_SERVICPIB_*` series are debt
-  **service**, not stock. The IMF datamapper API returns
-  403. Cancillería publishes a file called *"deuda pública como porcentaje
-  del PIB"* which, on opening, compares *other selected countries* and does
-  not contain Argentina. The Secretaría de Finanzas publishes quarterly
-  figures as PDF tables. For a country whose last twenty years are largely
-  a debt story, the headline debt ratio being the hardest series to obtain
-  machine-readably is a genuine finding about the data estate, not just an
-  inconvenience.
-- **INDEC population projections and total fertility rate** (2022–2040).
-- **Transparency International CPI** and WEF competitiveness rank.
+- **Public debt as a share of GDP, from an Argentine publisher.** It is
+  still not on `apis.datos.gob.ar`: the only debt-to-GDP series in the
+  catalogue, `313.1_EN_PORCENTPIB_0_T_21`, is *private* external debt and
+  stops in 2017, and the `451.*_SERVICPIB_*` series are debt **service**,
+  not stock. The Secretaría de Finanzas publishes quarterly figures as PDF
+  tables. The fiscal plate now draws the IMF's general-government gross
+  debt (WEO `GGXWDG_NGDP`, which the IMF datamapper serves to a browser-
+  shaped request), labelled as the IMF's. A national stock in a machine-
+  readable form is still the gap.
+- **A policy rate before December 2015.** It does not exist: see §11.
+- **A peso 10-year benchmark.** It does not exist either: see §11.
+- **Pre-2012 Corruption Perceptions scores.** TI scored Argentina on a
+  0-10 scale with a different method until 2011 and says the two are not
+  comparable; no machine-readable file of them was reachable, so the world
+  plate starts in 2012 and says so.
 
 ---
 
@@ -423,3 +424,146 @@ withdrawn, the chart says so on the panel. Where a series had to be
 reconstructed, the code that reconstructed it says how. That is cheaper
 than it sounds and it is the only reason the primary-surplus sign error
 above was caught at all.
+
+---
+
+## 11. The plate spine (2026-10-22)
+
+Every plate now keeps to the shared spine (`PLATE_SPINE.md`): the same
+indicator in the same slot, unit and scale as every other country, so the
+comparison viewer can wipe one country's plate over another's. What that
+changed here, and why.
+
+### Chapters and topics
+
+The nine chapter ids are kept so links survive, but three of them answer a
+topic their name does not suggest: **03-living → people**, **08-people →
+demography**, **04-state → fiscal**. Three chapters are new:
+**10-spending**, **11-world** and **12-mortality** (the cause-of-death
+panels moved there from demography). **02-prices** stays as Argentina's
+own lens — inflation, the two dollars, the gap, reserves — and its CPI,
+currency and reserves also meet everyone else on economy slot 3, markets
+slot 3 and world slot 4.
+
+### Rates, and the populations under them
+
+Rule 5: a rate is a count over the population of the same year and scope.
+
+| rate | count | population | note |
+|---|---|---|---|
+| births, deaths, natural increase per 1,000 | DEIS `social/vitals.csv` (registered, by residence) | INDEC `macro/gdp.csv : population_mn`, national, mid-year projection | 2014 births: 777,012 ÷ 42.67 m × 1,000 = 18.2 |
+| crude death rate per 1,000 | DEIS `social/causes.csv : deaths_total` | same | identical totals to vitals.csv |
+| COVID-19, pneumonia, influenza per 100,000 | DEIS `social/causes.csv` | same | 2021 COVID: 84,695 ÷ 45.81 m × 1e5 = 184.9 |
+| suicide per 100,000 | DEIS X60-X84 | same | crude; WHO's line beside it is age-standardised |
+| land-transport deaths per 100,000 | DEIS V01-V89 | same | wider than road traffic (see below) |
+| homicide per 100,000 | — | — | SNIC's **published** rate, drawn as published; SNIC divides by the same INDEC projection |
+| femicide per 100,000 women | — | — | the CSJN's **published** rate |
+| net migration per 1,000 | WB `SM.POP.NETM` (a count) | WB `SP.POP.TOTL`, mid-year | same source both sides |
+
+INDEC's projection and the UN's WPP disagree by about 1.3% in 2024 (46.30 m
+against 45.70 m). Rates here use INDEC's, because it is the denominator the
+Argentine registries use themselves; the demography plate draws both
+populations so the difference is visible.
+
+The cause columns `suicide` and `transport` are new in `causes.csv`,
+added by `fetch_causes.py` from the same DEIS files, with the published
+totals re-verified. The file's cause code is truncated to three
+characters, so **V01-V89 cannot be narrowed to road traffic** (WHO's
+definition needs the fourth). It is labelled "all land transport", and it
+still comes out far *below* WHO's road estimate — 5.2 per 100,000 in 2020
+against WHO's 13-15 — because the register codes many crash deaths as
+events of undetermined intent, which WHO models back in. The plate says
+the two do not measure alike rather than choosing one.
+
+### Other conversions
+
+- **Gini** is INDEC's 0-1 coefficient × 100, to share the 0-100 axis.
+- **Poverty, slot 2**, is the mean of INDEC's two halves, only where both
+  exist: 2026 has one half and is not drawn as a year. The halves
+  themselves are the lens panel, plotted at Y+0.25 and Y+0.75.
+- **The peso** is `fx_index` of the official annual-average rate: 3.07 per
+  dollar in 2006 = 100, 1,244.5 in 2025 = 0.25. The log axis grows two
+  decades below the reference range to hold it, and says so.
+- **Merval in US$** is the year-end close over the official year-end rate,
+  indexed to 2006; under the cepos the CCL would give a lower dollar value,
+  and is staged (`parallel_fx.csv : ccl`, from 2013 only).
+- **Interest paid** is the IMF's primary balance minus its overall balance:
+  net interest. The overall balance is published to one decimal, so the
+  difference carries ±0.05 points of rounding. The national budget's debt
+  service (`spending_by_function.csv : deuda`, ends 2023) is drawn beside it.
+- **Spending by function** maps the thirteen national functions onto the
+  spine's seven groups: social protection = previsión + asistencia +
+  asignaciones; health = the three salud lines; education = básica +
+  superior; general public services = funcionamiento + deuda (COFOG puts
+  interest there); economic affairs = energía + transporte; defence and
+  public order = defensa y seguridad; **other** = the published total less
+  the thirteen (0.1 to 1.8 points). It is the **national government only**,
+  not general government: the provinces run schools and hospitals, which
+  is why education reads under 1% of GDP.
+- **Public investment** is the national public sector's "inversión real
+  directa" (Esquema AIF) over nominal GDP, in its three methodologies,
+  never joined. No harmonised government-GFCF series exists for Argentina.
+- **The trade balance** in slot 2 is World Bank exports minus imports of
+  goods and services. INDEC's goods balance in dollars is drawn beside it
+  as % of INDEC's dollar GDP; 2026's year-to-date goods surplus has no GDP
+  to divide by and is stated in a note instead.
+- **Government bond yield.** Argentina has no peso 10-year benchmark. The
+  sovereign's long debt is in dollars, so slot 2 draws the US 10-year
+  Treasury (annual average of the Treasury's daily par yield) plus the
+  EMBI+ Argentina spread (annual average): the yield the market asked of
+  Argentine dollar debt, labelled as that sum. The EMBI+ basket is not
+  exactly ten years' duration.
+
+### The policy rate (rule 11, "genuinely absent")
+
+The BCRA's own series of monetary-policy rates (API variable 160) begins
+on 16 December 2015 and ends on 10 July 2025, when the BCRA stopped
+setting one and moved to steering monetary aggregates. Before 2016 there
+was no single announced policy rate — the BCRA steered through LEBAC
+auctions at many tenors and through its repo corridor — so a policy-rate
+line for 2006-2015 would be invented. The markets and credit plates draw
+the policy rate's annual average for the nine whole years it existed
+(2016-2024), and say on the panel that none existed before or after.
+
+BADLAR (variable 7, private banks' rate on 30-day deposits above a
+million pesos) is drawn across the whole window as a **labelled proxy**,
+never as the policy rate. The justification: it was the reference rate of
+the BCRA's own BADLAR-indexed NOBAC notes (variables 191 and 194 are their
+margins over it), and it tracks the policy rate closely where both exist
+(2023: 95.8% against 100.0%).
+
+### Marks
+
+- **Recession bands** are every calendar year INDEC's real GDP fell —
+  2009, 2012, 2014, 2016, 2018-20, 2023-24 — drawn behind every time series
+  and named once per plate in the slot-1 legend. `tests/test_plates.py`
+  checks the list against `gdp.csv`.
+- **The INDEC intervention** is a hatched band from 2006.5 to 2016.5 (the
+  annual readings 2007-2016) behind every series INDEC produced or that is
+  built on its national accounts or CPI — which includes the IMF's and the
+  World Bank's republications of them.
+- **The running year.** 2026 is year to date everywhere it appears: CPI is
+  the rise since December, trade the months published, reserves and the
+  exchange rate the latest reading. It is dashed on a line and hatched on a
+  bar. Before the spine, 2026 was drawn as a full year in GDP, CPI and
+  trade; the headline inflation figure on the page now stops at 2025.
+
+### Stories moved rather than dropped
+
+- Dollar GDP and its peak move to world slot 1; GDP per person stays in
+  economy at the World Bank's figure, with INDEC's own beside it: the two
+  agree within 2% except in 2012-2015, when INDEC's is 7-12% higher.
+- The real-output index (2006 = 100) is gone: the growth bars carry the
+  same information on the shared axis, and the slot note says how many
+  years fell.
+- The homicide count and the femicide counts move into notes: a count
+  cannot share an axis with a rate, and the three-year femicide panel
+  could not sit on the shared time axis.
+- The reserves-against-risk twin axis is gone: reserves are on the world
+  and prices plates, and country risk is the gap between the two lines of
+  the bond-yield panel.
+- The mortgage collapse (1.56% of GDP in 2007, 0.28% in 2024) is a note on
+  household debt; the real interest rates are the credit lens.
+- Influenza deaths are drawn, per 100,000, beside pneumonia in the
+  mortality lens, so the reader sees how little the code is used rather
+  than being told.

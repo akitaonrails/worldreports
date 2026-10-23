@@ -52,6 +52,7 @@ import pytest  # noqa: E402
 
 from core import context, i18n, qa, style  # noqa: E402
 from core.country import Country  # noqa: E402
+from core import render  # noqa: E402
 from core.render import load_plates  # noqa: E402
 
 BASELINE = Path(__file__).parent / "layout_baseline.json"
@@ -72,9 +73,7 @@ def faults(slug: str, lang: str) -> list[str]:
     real_save = style.Infographic.save
 
     def capture(self, path):
-        self._draw_header()
-        self._draw_footer()
-        i18n.localize(self.fig)
+        self.compose()
         name = Path(str(path)).name
         found.extend(f"{name}  {f}" for f in qa.inspect(self.fig))
         plt.close(self.fig)
@@ -84,12 +83,7 @@ def faults(slug: str, lang: str) -> list[str]:
     try:
         ctx = context.Context(country)
         for plate in load_plates(country):
-            if plate.declarative:
-                fig = ctx.fig(plate.title, plate.subtitle, source=plate.source)
-                plate.draw(ctx, fig)
-                fig.save(ctx.out(plate.filename))
-            else:
-                plate.draw(ctx)
+            render.draw(ctx, plate)
     finally:
         style.Infographic.save = real_save
         i18n.set_lang("en")

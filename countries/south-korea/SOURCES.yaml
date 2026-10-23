@@ -194,10 +194,31 @@ files:
     title: General government revenue, expenditure and net lending
     publisher: Bank of Korea (SNA general government account)
     url: https://ecos.bok.or.kr/
-    series: ECOS 200Y153
+    series: ECOS 200Y153 (total revenue 1401, total expenditure 1400, net lending 1309, interest 1208, GFCF 1305; sector 1 = general government)
     fetcher: fetch/fetch_bok.py
     unit: "% of GDP"
     caveats:
+      - >-
+        `interest_paid` is 소득계정_이자, interest *paid* by general
+        government (property income paid is interest plus other property
+        income, and the second is zero every year), so it is the gross
+        interest bill. The IMF's net interest — its primary balance minus
+        its overall balance — is a fraction of it, because the National
+        Pension Service's assets earn interest back: 1.42% gross against
+        0.3% net in 2025. No second publisher of Korea's gross general-
+        government interest could be reached (the OECD table 12 endpoint
+        returned no data for Korea), so the cross-check is internal: the
+        series equals property income paid every year.
+      - >-
+        `gov_gfcf` is general-government gross fixed capital formation. It
+        matches the OECD's P51GS13 (fiscal/public_investment_from_oecd.csv)
+        to the second decimal: 4.77% against 4.775% in 2019.
+      - >-
+        The plates draw revenue, expenditure and the balance from this file
+        only for the years before 2012, where the IMF's general-government
+        series for Korea does not reach, as separate segments rather than
+        spliced onto the IMF line. The two differ by about 0.6 pt of GDP
+        where they overlap.
       - >-
         This is the SNA net lending/borrowing of general government. Korean
         budget debate uses 관리재정수지, the managed fiscal balance, which
@@ -386,7 +407,7 @@ files:
     title: Corruption Perceptions Index — Korea's score and rank
     publisher: Transparency International
     url: https://www.transparency.org/en/cpi
-    series: CPI 2012-2025
+    series: CPI 2006-2025 (0-100 score from 2012; 0-10 score before)
     fetcher: curated, from intl/cpi_from_ti.csv plus the current release
     unit: score out of 100; rank
     caveats:
@@ -395,8 +416,12 @@ files:
         assessed changes every year, so a rank is not comparable across the
         window.
       - >-
-        Scores before 2012 were computed differently on a 0-10 scale and are
-        deliberately absent rather than rescaled.
+        Scores before 2012 were computed differently on a 0-10 scale. They
+        are kept in their own column, `score_0_10`, as Transparency
+        International published them (2006 5.1, 2007 5.1, 2008 5.6, 2009
+        5.5, 2010 5.4, 2011 5.4, read off transparency.org/en/cpi/<year>),
+        and the world plate draws them ×10 as paler bars beside the 0-100
+        series, a seam rather than a splice.
       - >-
         Ranks are published in the time series only from 2017; earlier years
         are blank here rather than filled from secondary sources.
@@ -447,6 +472,11 @@ files:
         2020 is the crossing year: 272,337 births against 304,948 deaths.
         Korea has had more deaths than births every year since.
       - >-
+        `crude_birth_rate` and `crude_death_rate` are the published rates
+        per 1,000 (조출생률, 조사망률), on the registered-population
+        denominator of the vital statistics. The demography plate draws
+        them as published and takes natural increase as their difference.
+      - >-
         The confirmed registration basis, which is what the Causes of Death
         release uses. The provisional February release of the same year
         differs: 363,400 deaths for 2025 against the 362,968 here.
@@ -469,6 +499,19 @@ files:
     fetcher: fetch/fetch_index_kr.py
     unit: deaths per 100,000 population
     caveats:
+      - >-
+        The denominator is 주민등록 연앙인구, the mid-year registered
+        population (index.go.kr 1012, 수치해석 방법), which covers Korean
+        nationals — the same scope as the deaths counted, which are
+        Koreans' death registrations. `all_causes` is the 전체 row, the
+        crude death rate on that denominator, and is how the plates put
+        a count from the same release (homicide) on the same denominator:
+        deaths ÷ (all_causes / 100,000) recovers it, 51.04 million in 2024
+        against the 51.75 million total resident population that includes
+        foreigners.
+      - >-
+        `cerebrovascular` is 뇌혈관 질환, drawn as "stroke" in the mortality
+        lens.
       - >-
         `transport` is 운수사고, the cause-of-death category, which covers
         rail, water and air as well as roads and is assigned from the death
@@ -521,8 +564,14 @@ files:
       - >-
         Stored as a count because the published rate is given to one decimal,
         which rounds a sub-1.0 series into uselessness. Plate 09 converts it
-        with the population from macro/gdp.csv and reproduces the published
-        rate.
+        with the release's own denominator — total deaths (social/vital.csv)
+        ÷ the all-cause rate (social/mortality.csv) × 100,000, the mid-year
+        registered Korean-national population — and reproduces the
+        published one-decimal rate (0.6 in 2024). It used to divide by the
+        projection population in macro/gdp.csv, which counts foreign
+        residents the deaths do not cover and was 0.7 million larger in
+        2024 (51.75 against 51.04 million), so the old rate ran about 1.4%
+        low.
 
   social/road.csv:
     title: Road traffic deaths
@@ -631,3 +680,295 @@ files:
         Sidecar, not drawn. Korea's poverty measure is relative — below half
         the median — and absolute dollar lines put almost nobody in Korea
         below them, which measures the scale rather than the problem.
+
+  # ------------------------------------------- curated from harmonised
+  intl/world.csv:
+    title: GDP and GDP per person in current US dollars
+    publisher: World Bank (World Development Indicators)
+    url: https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?locations=KR
+    series: NY.GDP.MKTP.CD (as US$ bn), NY.GDP.PCAP.CD
+    fetcher: curated, from intl/world_from_wb.csv
+    official: false
+    unit: US$ bn; US$
+    caveats:
+      - >-
+        Copied across from the sidecar after review, GDP rescaled to
+        billions. GDP per person matches the Bank of Korea construction in
+        macro/gdp.csv within 1% (36,227 against 36,441 in 2025).
+
+  fiscal/general_government_imf.csv:
+    title: General government revenue, expenditure, balances and gross debt
+    publisher: IMF (World Economic Outlook and Fiscal Monitor)
+    url: https://www.imf.org/external/datamapper/GGXWDG_NGDP@WEO/KOR
+    series: GGR_G01_GDP_PT, G_X_G01_GDP_PT, GGXCNL_NGDP, GGXONLB_G01_GDP_PT, GGXWDG_NGDP
+    fetcher: curated, from fiscal/general_government_from_imf.csv
+    official: false
+    unit: "% of GDP"
+    caveats:
+      - >-
+        Begins in 2012: the IMF publishes no general-government series for
+        Korea before it. The fiscal plate draws the Bank of Korea's own
+        account (fiscal/government.csv) for the earlier years as a separate
+        segment.
+      - >-
+        Gross debt is Korea's own D2 (general government): 33.5% in 2012
+        in both. 2025 may be an IMF estimate.
+
+  trade/trade_gdp.csv:
+    title: Exports and imports of goods and services, % of GDP
+    publisher: World Bank (national accounts)
+    url: https://data.worldbank.org/indicator/NE.EXP.GNFS.ZS?locations=KR
+    series: NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS
+    fetcher: curated, from trade/trade_from_wb.csv
+    official: false
+    unit: "% of GDP"
+    caveats:
+      - >-
+        Goods and services on the national-accounts basis. The trade
+        balance on the plate is their difference. The customs goods balance
+        in US$ (trade/trade.csv) is a different measure and is quoted in a
+        note.
+
+  macro/household_bis.csv:
+    title: Household debt and debt service ratio, BIS
+    publisher: BIS (total credit statistics, debt service ratios)
+    url: https://data.bis.org/topics/TOTAL_CREDIT
+    series: WS_TC Q.KR.H.A.M.770.A; WS_DSR Q.KR.H — Q4 values
+    fetcher: curated, from macro/household_credit_from_bis.csv and macro/debt_service_from_bis.csv
+    official: false
+    unit: "% of GDP; % of disposable income"
+    caveats:
+      - >-
+        Year-end (Q4) values. 2026, with one quarter published, is left out.
+        Credit covers households and NPISHs from every lender, so it reads
+        well above the Bank of Korea's 가계신용 ratio (88.1% against 73.9%
+        of GDP in 2025); the credit plate draws both and says which is which.
+
+  social/security_intl.csv:
+    title: Homicide, suicide and road-death rates, international estimates
+    publisher: UNODC (homicide) and WHO (suicide, road deaths), via the World Bank
+    url: https://data.worldbank.org/indicator/VC.IHR.PSRC.P5?locations=KR
+    series: VC.IHR.PSRC.P5, SH.STA.SUIC.P5, SH.STA.TRAF.P5
+    fetcher: curated, from social/security_from_wb.csv
+    official: false
+    unit: per 100,000 people
+    caveats:
+      - >-
+        Drawn beside the national series as the comparison line. WHO's
+        suicide estimate is modelled and age-standardised, so it runs
+        above Statistics Korea's crude rate; its road-death estimate runs
+        above the police count. Both end before the national series do.
+
+  social/poverty_wb.csv:
+    title: Poverty headcount at US$8.30 a day (2021 PPP)
+    publisher: World Bank (Poverty and Inequality Platform)
+    url: https://data.worldbank.org/indicator/SI.POV.UMIC?locations=KR
+    series: SI.POV.UMIC
+    fetcher: curated, from social/poverty_from_wb.csv
+    official: false
+    unit: "% of population"
+    caveats:
+      - >-
+        The spine's international line, drawn beside Korea's relative
+        measure. It puts almost nobody in Korea below it, which is the point
+        of drawing both.
+
+  social/gini_wb.csv:
+    title: Gini index, World Bank
+    publisher: World Bank (Poverty and Inequality Platform)
+    url: https://data.worldbank.org/indicator/SI.POV.GINI?locations=KR
+    series: SI.POV.GINI
+    fetcher: curated, from social/gini_from_wb.csv
+    official: false
+    unit: index, 0 to 100
+    caveats:
+      - Irregular years; drawn as a thin comparison line beside the two national surveys.
+
+  # ------------------------------------------- filled for the spine
+  markets/bond_10y.csv:
+    title: 10-year Korea Treasury Bond yield, annual average
+    publisher: Bank of Korea
+    url: https://ecos.bok.or.kr/
+    series: ECOS 721Y001 (5050000, 국고채 10년), cycle A
+    fetcher: fetch/fetch_bok.py
+    unit: "% per year"
+    caveats:
+      - >-
+        The annual average ECOS publishes. Cross-checked against the OECD's
+        long-term rate for Korea (FRED IRLTLT01KRA156N): 5.15 in 2006, 1.70
+        in 2019 and 2.89 in 2025 in both.
+
+  social/migration.csv:
+    title: International migration — arrivals, departures and net migration
+    publisher: Statistics Korea — International Migration Statistics, via e-National Indicators
+    url: https://www.index.go.kr/
+    series: index.go.kr 101401/1014 — 국제인구이동 (계 = Koreans and foreigners)
+    fetcher: fetch/fetch_index_kr.py
+    unit: people per year
+    caveats:
+      - >-
+        Koreans and foreigners together, the 계 rows of the table. The
+        demography plate divides net migration by Statistics Korea's
+        mid-year total population (social/population.csv), which includes
+        foreign residents, the same scope as the count. Cross-check: the
+        World Bank's WPP estimate (social/demography_from_wb.csv) gives
+        128,622 for 2019 against 31,775 here — the WPP smooths across
+        years and is a model, not a count, which is why the national count
+        is drawn.
+      - >-
+        2021 is the one negative year (-65,978): borders closed and
+        arrivals fell to 410,398.
+
+  # ------------------------------------------------ harmonised
+  fiscal/cofog_from_oecd.csv:
+    title: 'National Accounts at a Glance, chapter 6A, OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_OTEF, measure OTES13F'
+    publisher: 'OECD'
+    url: 'https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_OTEF,/A.KOR.OTES13F...'
+    fetcher: fetch/fetch_harmonised.py
+    official: false
+    caveats:
+      - >-
+        General-government total expenditure by COFOG division, % of GDP
+        (the OECD derives it from table 11, which itself carries only
+        national-currency levels). Columns: total, social_protection,
+        health, education, general_public_services, economic_affairs,
+        defence, public_order, environment, housing, recreation_culture.
+        The fetcher checks the divisions sum to the total within 0.15
+        pt. Matches the BOK's own COFOG total
+        (fiscal/spending_by_function.csv) for 2019 to 0.01 pt.
+
+  fiscal/general_government_from_imf.csv:
+    title: 'World Economic Outlook and Fiscal Monitor, via DataMapper (GGR_G01_GDP_PT (Fiscal Monitor), G_X_G01_GDP_PT (Fiscal Monitor), GGXCNL_NGDP (WEO), GGXONLB_G01_GDP_PT (Fiscal Monitor), GGXWDG_NGDP (WEO))'
+    publisher: 'IMF'
+    url: 'https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP'
+    fetcher: fetch/fetch_harmonised.py
+    official: false
+    caveats:
+      - >-
+        General government, % of GDP, calendar years. Balance and gross
+        debt are WEO indicators; revenue, expenditure and the primary
+        balance are not WEO codes on DataMapper (GGR_NGDP, GGX_NGDP and
+        GGXONLB_NGDP do not exist there) and come from the Fiscal
+        Monitor, served from the same database — the fetcher checks the
+        WEO and Fiscal Monitor balances agree within 0.1 pt before
+        writing. Stops at 2025: later IMF years are staff projections.
+        2025 itself may be an IMF estimate. Columns: revenue_pct_gdp,
+        expenditure_pct_gdp, balance_pct_gdp, primary_balance_pct_gdp,
+        gross_debt_pct_gdp. The IMF's general-government series for
+        Korea begin in 2012; earlier years are blank. Korea's own GG
+        account is fiscal/government.csv.
+
+  fiscal/public_investment_from_oecd.csv:
+    title: 'National Accounts at a Glance, chapter 6, OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_VI, measure P51GS13'
+    publisher: 'OECD'
+    url: 'https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_VI,/A.KOR.P51GS13...'
+    fetcher: fetch/fetch_harmonised.py
+    official: false
+    caveats:
+      - >-
+        gov_gfcf_pct_gdp: general-government gross fixed capital
+        formation, % of GDP (spending slot 4).
+
+  intl/world_from_wb.csv:
+    title: 'World Development Indicators (NY.GDP.MKTP.CD, NY.GDP.PCAP.CD, FI.RES.TOTL.CD)'
+    publisher: 'World Bank'
+    url: 'https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.CD?format=json'
+    fetcher: fetch/fetch_harmonised.py
+    official: false
+    caveats:
+      - >-
+        Current US$: GDP, GDP per person, and total reserves including
+        gold (year-end, IMF IFS via the WDI). A harmonised cross-country
+        series for the world chapter, not the national accounts; spot-
+        checked and cross-checked in the fetcher. Columns: gdp_usd,
+        gdp_per_person_usd, reserves_usd.
+
+  macro/debt_service_from_bis.csv:
+    title: 'debt service ratios, WS_DSR Q.KR.H'
+    publisher: 'BIS'
+    url: 'https://stats.bis.org/api/v2/data/dataflow/BIS/WS_DSR/1.0/Q.KR.H?format=csv'
+    fetcher: fetch/fetch_harmonised.py
+    official: false
+    caveats:
+      - >-
+        Interest plus amortisation on household debt as % of household
+        disposable income. A BIS estimate built on an assumed average
+        maturity and the aggregate lending rate. Q4 value, quarter mean
+        and the number of quarters, as in the credit file.
+
+  macro/economy_from_wb.csv:
+    title: 'World Development Indicators (NE.GDI.FTOT.ZS, SL.UEM.TOTL.ZS)'
+    publisher: 'World Bank'
+    url: 'https://api.worldbank.org/v2/country/KOR/indicator/NE.GDI.FTOT.ZS?format=json'
+    fetcher: fetch/fetch_harmonised.py
+    official: false
+    caveats:
+      - >-
+        gfcf_pct_gdp is whole-economy gross fixed capital formation, %
+        of GDP (spending slot 3). unemployment_pct is the ILO modelled
+        estimate, % of the labour force — harmonised, and not the
+        national LFS headline, which stays the national line. Columns:
+        gfcf_pct_gdp, unemployment_pct.
+
+  macro/household_credit_from_bis.csv:
+    title: 'total credit statistics, WS_TC Q.KR.H.A.M.770.A'
+    publisher: 'BIS'
+    url: 'https://stats.bis.org/api/v2/data/dataflow/BIS/WS_TC/2.0/Q.KR.H.A.M.770.A?format=csv'
+    fetcher: fetch/fetch_harmonised.py
+    official: false
+    caveats:
+      - >-
+        Credit to households and NPISHs from all sectors, market value,
+        % of GDP, adjusted for breaks. hh_credit_pct_gdp_q4 is the Q4
+        (year-end) value the spine draws; _qavg is the mean of the
+        quarters published and _quarters says how many, so the running
+        year reads as one quarter, not a year. Wider than bank-loan
+        series: every lender and debt securities are in it. Reads above
+        the BOK's 가계신용 ratio (macro/household_credit.csv), which covers
+        fewer lenders and excludes NPISHs.
+
+  social/demography_from_wb.csv:
+    title: 'World Development Indicators (SP.POP.TOTL, SP.POP.TOTL.FE.IN, SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM), from the UN World Population Prospects and national vital statistics'
+    publisher: 'World Bank'
+    url: 'https://api.worldbank.org/v2/country/KOR/indicator/SP.POP.TOTL.FE.IN?format=json'
+    fetcher: fetch/fetch_harmonised.py
+    official: false
+    caveats:
+      - >-
+        Mid-year population (total and female), so a rate per 100,000
+        women can be computed on a mid-year denominator. Crude birth and
+        death rates are per 1,000 people. net_migration is a COUNT of
+        people (WPP estimate), not a rate: per 1,000 = net_migration /
+        population x 1,000 for the same year. WPP figures for recent
+        years are estimates and are revised with each WPP. Columns:
+        population, population_female, fertility, birth_rate_per_1000,
+        death_rate_per_1000, net_migration.
+
+  social/security_from_wb.csv:
+    title: 'World Development Indicators: VC.IHR.PSRC.P5 (UNODC), SH.STA.SUIC.P5 and SH.STA.TRAF.P5 (WHO Global Health Estimates)'
+    publisher: 'World Bank'
+    url: 'https://api.worldbank.org/v2/country/KOR/indicator/VC.IHR.PSRC.P5?format=json'
+    fetcher: fetch/fetch_harmonised.py
+    official: false
+    caveats:
+      - >-
+        All per 100,000 people. Intentional homicide is UNODC's
+        harmonised count, which usually differs from the national police
+        or death-certificate series in both directions. Suicide and
+        road-traffic deaths are WHO modelled estimates (suicide age-
+        standardised), ending 2021 and 2019 respectively in this
+        release; later years are blank, not zero. Columns:
+        homicide_per_100k, suicide_per_100k, road_deaths_per_100k.
+
+  trade/trade_from_wb.csv:
+    title: 'World Development Indicators (NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS)'
+    publisher: 'World Bank'
+    url: 'https://api.worldbank.org/v2/country/KOR/indicator/NE.EXP.GNFS.ZS?format=json'
+    fetcher: fetch/fetch_harmonised.py
+    official: false
+    caveats:
+      - >-
+        Exports and imports of goods AND services, national-accounts
+        basis, % of GDP — not a customs goods series. The trade balance
+        is their difference and is not stored. Columns: exports_pct_gdp,
+        imports_pct_gdp.

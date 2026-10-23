@@ -1,0 +1,24 @@
+# Statistics Canada 11-10-0135, all persons, percentage in low income, curated.
+# TWO MBM BASES, TWO COLUMNS, NEVER ONE LINE: the 2018-base series (2015-2023) and the 2023-base series (2020-) measure different thresholds; joining them is a rebase seam.
+# The LIM-AT column is a purely relative measure kept beside the official MBM line for context, not a substitute for it.
+year,mbm_2018_pct,mbm_2023_pct,lim_at_pct
+2005,,,13.0
+2006,,,13.4
+2007,,,13.3
+2008,,,13.4
+2009,,,13.7
+2010,,,13.5
+2011,,,13.3
+2012,,,13.6
+2013,,,13.4
+2014,,,13.0
+2015,14.5,,14.3
+2016,12.9,,13.0
+2017,11.9,,12.6
+2018,11.2,,12.4
+2019,10.5,,12.2
+2020,6.5,7.0,9.3
+2021,7.6,8.1,10.6
+2022,10.3,10.6,12.0
+2023,10.4,11.1,12.1
+2024,,11.0,12.5

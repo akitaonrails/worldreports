@@ -11,21 +11,36 @@ list.
 Numbers are rewritten too, because the readerships do not write them the
 same way:
 
-    en   €2,991bn      1,234.5      44,000
-    fr   2 991 Md€     1 234,5      44 000
-    pt   € 2.991 bi    1.234,5      44.000
-    es   US$ 684bn     1.234,5      44.000
-    ko   684십억 달러   1,234.5      44,000
+    en      €2,991bn            1,234.5    44,000
+    fr      2 991 Md€           1 234,5    44 000
+    pt      € 2.991 bi          1.234,5    44.000
+    pt-PT   2 991 mil M€        1 234,5    44 000
+    es      US$ 684bn           1.234,5    44.000
+    ko      684십억 달러          1,234.5    44,000
+    de      2.991 Mrd. €        1.234,5    44.000
+    it      2.991 mld €         1.234,5    44.000
+    ja      6,840億ドル           1,234.5    44,000
+    zh-Hans 6,840亿美元           1,234.5    44,000
+    zh-Hant 6,840億美元           1,234.5    44,000
+    vi      684 tỷ USD          1.234,5    44.000
+    he      684 מיליארד דולר     1,234.5    44,000
 
 French moves the currency mark to the end and Korean appends the magnitude
 word, which is why the unit rules are substitutions rather than a suffix
-table. Korean keeps the English separators, so it has no separator entry at
-all — swapping them there would be wrong, not merely unnecessary.
+table. Japanese, Chinese and Vietnamese go further and *rescale*: they
+count in 万/億/兆 (or tỷ/nghìn tỷ), so 684bn is 6,840億 — the digits move,
+not just the word — and the rule is a function rather than a pattern
+(core.numstyle.on_ladder). Korean keeps the English separators, so it has
+no separator entry at all — swapping them there would be wrong, not merely
+unnecessary.
 
-The rules below are keyed by *language*, because that is what they describe:
-Portuguese writes 1.234,5 whether the subject is Brazil or Korea. The
-catalogs are keyed by *country*, because that is what they describe: only
-the Argentine plates ever say "country risk, EMBI+".
+The rules below are keyed by *number style*, because that is what they
+describe: Portuguese writes 1.234,5 whether the subject is Brazil or
+Korea — unless the country is Portugal, whose country.yaml selects the
+pt-PT style for its "pt" locale (`number_style: {pt: pt-PT}`). The
+catalogs are keyed by *language* and country, because that is what they
+describe: only the Argentine plates ever say "country risk, EMBI+", and
+Portugal's "pt" catalog is still the "pt" catalog.
 """
 from __future__ import annotations
 
@@ -36,14 +51,14 @@ from pathlib import Path
 import matplotlib.text as mtext
 import matplotlib.ticker as mticker
 
+from core import numstyle
+
 LANG = "en"
 _COUNTRY = None
 _missing: set[str] = set()
 
-# French thousands separator. A no-break space, not U+202F (narrow no-break
-# space): the fonts the plates fall back to do not all carry U+202F, and a
-# missing glyph renders as a tofu box in the middle of every large number.
-NBSP = " "
+# French thousands separator: a no-break space. See core.numstyle.
+NBSP = numstyle.NBSP
 
 
 # --------------------------------------------------------------- numbers
@@ -62,12 +77,10 @@ _ANY_NUMBER = re.compile(r"-?\d[\d.,]*")
 # varies only by year stays readable in the catalog.
 _LOOSE_NUMBER = re.compile(r"\d+(?:,\d{3})*(?:\.\d+)?")
 
-_SEPARATORS = {
-    "fr": {",": NBSP, ".": ","},
-    "pt": {",": ".", ".": ","},
-    "es": {",": ".", ".": ","},
-    # ko: intentionally absent. Korean uses the English separators.
-}
+# Shared with the pages (core.sitebuild), so a card and its plate cannot
+# write the same figure two ways. ko, ja, zh-*, he and en are absent: they
+# keep the English marks.
+_SEPARATORS = numstyle.SEPARATORS
 
 # Unit and currency rules, applied BEFORE the separators are swapped, so the
 # digit groups are still in their English form and `[\d,.]` is enough to
@@ -93,6 +106,10 @@ _UNITS = {
         (re.compile(r"(?<=\d)\s*bn\b"), " bi"),
         (re.compile(r"(?<=\d)\s*mn\b"), " mi"),
         (re.compile(r"€\s*(?=[\d,.])"), "€ "),
+        # The Phase B currencies, written the Brazilian way: "£ 2.991 bi".
+        # No published plate carries one of these marks, so the five
+        # countries' pt plates are unchanged.
+        (re.compile(r"(£|CN¥|¥|NT\$|₪|₫)\s*(?=[\d,.])"), r"\1 "),
         (re.compile(r"/100k\b"), "/100 mil"),
         (re.compile(r"(?<=\d)pp\b"), " p.p."),
         (re.compile(r"(?<=\d)M\b"), " mi"),
@@ -117,6 +134,109 @@ _UNITS = {
         (re.compile(r"(?<=\d)pp\b"), "%p"),
     ],
 }
+
+
+def _one_for_one(currencies, words, per100k, pp, pct_space=False):
+    """Rules for a style that writes the English magnitude one-for-one.
+
+    `currencies` maps an English mark (a regex) to what follows the
+    amount — "€" → "€", "US$" → "US-$" — and `words` the English
+    magnitude tokens to the style's own. The amount always comes first:
+    every style built this way puts the currency after it.
+    """
+    rules = []
+    for mark, after in currencies:
+        for unit in ("tn", "bn", "mn"):
+            rules.append((re.compile(rf"(?:{mark})\s*([\d,.]+)\s*{unit}\b"),
+                          rf"\1{NBSP}{words[unit]}{NBSP}{after}"))
+        rules.append((re.compile(rf"(?:{mark})\s*(?=[\d,.]*\d)([\d,.]+)"),
+                      rf"\1{NBSP}{after}"))
+    for unit in ("tn", "bn", "mn", "M"):
+        rules.append((re.compile(rf"(?<=\d)\s*{unit}\b"),
+                      f"{NBSP}{words['mn' if unit == 'M' else unit]}"))
+    rules.append((re.compile(r"/100k\b"), per100k))
+    rules.append((re.compile(r"(?<=\d)pp\b"), pp))
+    if pct_space:
+        rules.append((re.compile(r"(?<=\d)%"), f"{NBSP}%"))
+    return rules
+
+
+_LADDER_NUMBER = r"([+\-−]?\d[\d,]*(?:\.\d+)?)"
+
+
+def _on_ladder(style, currencies, per100k, pp, gap=""):
+    """Rules for a style that counts in its own magnitudes (万/億/兆, tỷ).
+
+    The amount is parsed and rescaled, so these are functions, not
+    patterns: "US$ 684bn" on a ja plate is 6,840億ドル. `gap` is what
+    separates the number, the magnitude word and the currency — nothing in
+    Japanese and Chinese, a space in Vietnamese.
+    """
+    def scaled(after):
+        def repl(m):
+            n, word = numstyle.on_ladder(m.group(1), m.group(2), style)
+            return f"{n}{gap}{word}{gap}{after}" if after else f"{n}{gap}{word}"
+        return repl
+
+    rules = []
+    for mark, after, plain in currencies:
+        rules.append((re.compile(rf"(?:{mark})\s*{_LADDER_NUMBER}\s*"
+                                 rf"(tn|bn|mn|M)\b"), scaled(after)))
+        rules.append((re.compile(rf"(?:{mark})\s*{_LADDER_NUMBER}"),
+                      rf"\1{gap}{plain}"))
+    rules.append((re.compile(rf"(?<![\d,.]){_LADDER_NUMBER}\s*"
+                             rf"(tn|bn|mn|M)\b"), scaled("")))
+    rules.append((re.compile(r"/100k\b"), per100k))
+    rules.append((re.compile(r"(?<=\d)pp\b"), pp))
+    return rules
+
+
+# The Phase B styles. Sources are cited in core.numstyle and, for the
+# words, in core.sitebuild's _STYLE_AFFIX; the plates use the same words in
+# a shorter form where the page spells them out (pt-PT "mil M€" on a plate,
+# "mil milhões de euros" on a card).
+#
+# "/100,000" is written with an English comma on purpose: the separator
+# pass runs after these rules and turns it into the style's own 100.000.
+_UNITS.update({
+    # Duden / DIN 5008.
+    "de": _one_for_one(
+        [("€", "€"), (r"US\$", "US-$"), ("CHF", "CHF")],
+        {"tn": "Bio.", "bn": "Mrd.", "mn": "Mio."},
+        "/100,000 Einw.", f"{NBSP}Pp.", pct_space=True),
+    # ISTAT / Treccani.
+    "it": _one_for_one(
+        [("€", "€"), (r"US\$", "USD")],
+        {"tn": "mila mld", "bn": "mld", "mn": "mln"},
+        "/100,000 ab.", f"{NBSP}p.p."),
+    # EU style guide, Portuguese section; CLDR pt-PT.
+    "pt-PT": _one_for_one(
+        [("€", "€"), (r"US\$", "USD")],
+        {"tn": "biliões", "bn": "mil M", "mn": "M"},
+        "/100 mil hab.", f"{NBSP}p.p.", pct_space=True),
+    # CLDR he. Logical order, no bidi marks: RTL is out of scope here.
+    "he": _one_for_one(
+        [("₪", "₪"), (r"US\$", "דולר"), ("€", "€")],
+        {"tn": "טריליון", "bn": "מיליארד", "mn": "מיליון"},
+        f"{NBSP}ל-100 אלף", f"{NBSP}נ״א"),
+    "ja": _on_ladder(
+        "ja", [(r"US\$", "ドル", "ドル"), ("¥", "円", "円"),
+               ("€", "ユーロ", "ユーロ")],
+        "/10万人", "ポイント"),
+    "zh-Hans": _on_ladder(
+        "zh-Hans", [(r"US\$", "美元", "美元"), ("CN¥|¥", "元", "元"),
+                    ("€", "欧元", "欧元")],
+        "/10万人", "个百分点"),
+    "zh-Hant": _on_ladder(
+        "zh-Hant", [(r"US\$", "美元", "美元"), (r"NT\$", "元", "元"),
+                    ("€", "歐元", "歐元")],
+        "/10萬人", "個百分點"),
+    # CLDR vi: "tỷ đồng" with a magnitude word, "1.234 ₫" without one.
+    "vi": _on_ladder(
+        "vi", [(r"US\$", "USD", "USD"), ("₫", "đồng", "₫"),
+               ("€", "EUR", "EUR")],
+        "/100,000 dân", f"{NBSP}điểm %", gap=NBSP),
+})
 
 # Korean writes the currency after the number. These run last, on a string
 # whose magnitude word is already Korean, and they anchor on the whole
@@ -166,6 +286,19 @@ def reset_missing() -> None:
     _missing.clear()
 
 
+def style_of(lang: str | None = None) -> str:
+    """The number style a language is written in on the bound country.
+
+    `number_style: {pt: pt-PT}` in Portugal's country.yaml makes its "pt"
+    plates European Portuguese; Brazil's stay Brazilian. A style name
+    passed directly ("pt-PT") is returned as it is.
+    """
+    lang = lang or LANG
+    if _COUNTRY is not None and hasattr(_COUNTRY, "number_style"):
+        return _COUNTRY.number_style(lang)
+    return lang
+
+
 def swap_separators(text: str, lang: str | None = None) -> str:
     """Rewrite the decimal and thousands marks for one locale.
 
@@ -173,7 +306,7 @@ def swap_separators(text: str, lang: str | None = None) -> str:
     the point swap simultaneously instead of collapsing into each other —
     a two-step replace turns 12,739.5 into 12.739.5.
     """
-    table = _SEPARATORS.get(lang or LANG)
+    table = _SEPARATORS.get(style_of(lang))
     if not table:
         return text
     swap = str.maketrans(table)
@@ -181,7 +314,7 @@ def swap_separators(text: str, lang: str | None = None) -> str:
 
 
 def apply_units(text: str, lang: str | None = None) -> str:
-    lang = lang or LANG
+    lang = style_of(lang)
     for pattern, repl in _UNITS.get(lang, ()):
         text = pattern.sub(repl, text)
     stripped = text.strip()
@@ -201,7 +334,8 @@ def localize_numbers(text: str, lang: str | None = None) -> str:
 # currency marks, the digits and the magnitude suffixes; if no letter is
 # left, there is nothing to translate.
 _VALUE_PARTS = re.compile(
-    r"US\$|€|₩|R\$|\$US|Md€|M€|B€|Md\$US|B\$US|[\d.,:%+\-–—/()\s ]"
+    r"US\$|CN¥|NT\$|CHF|€|₩|R\$|\$US|Md€|M€|B€|Md\$US|B\$US"
+    r"|[\d.,:%+\-–—/()\s ]"
     r"|(?<=\d)(?:tn|bn|mn|pp|M|k|bi|mi|tri)\b")
 
 
