@@ -1,0 +1,38 @@
+{
+ "01-economy": [
+  "international/world.csv",
+  "macro/cpi_inflation.csv",
+  "macro/economy.csv",
+  "macro/gdp_growth.csv",
+  "social/labour.csv"
+ ],
+ "02-fiscal": [
+  "fiscal/general_government.csv"
+ ],
+ "03-trade": [
+  "trade/trade.csv"
+ ],
+ "04-markets": [
+  "markets/sp500.csv",
+  "markets/ta125.csv",
+  "markets/usdils.csv",
+  "markets/usdils_boi.csv"
+ ],
+ "05-world": [
+  "international/hdi.csv",
+  "international/world.csv"
+ ],
+ "06-demography": [
+  "demography/demography.csv"
+ ],
+ "07-security": [
+  "demography/demography.csv",
+  "security/homicide_police.csv",
+  "security/security.csv"
+ ],
+ "08-migration": [
+  "demography/demography.csv",
+  "migration/olim_flow.csv",
+  "migration/permits.csv"
+ ]
+}
