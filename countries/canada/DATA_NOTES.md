@@ -29,6 +29,79 @@ so it must check the payload shape before caching, or it caches an error
 page that survives the retry that would have fixed it. The existing
 fetchers already do.
 
+---
+
+## The Statistics Canada pass (the national line is staged)
+
+The platform answered again on 2026-10-22 and `fetch/fetch_statcan.py`
+now pulls it: twelve cubes verified against `getCubeMetadata` (title,
+CURRENT status, CANSIM id and start year asserted before any data is
+read), full-table zips shape-checked (zip magic bytes and the expected
+CSV member) before caching. The sidecars are `*_from_statcan.csv`
+beside each harmonised file, and the curated national series are the
+`*_statcan.csv` files: economy, trade, people (Gini, low income),
+demography (population, fertility, components), security, mortality and
+credit. No plate reads any of them yet — the switch is an
+integration-chapter step (the plan is in `HANDOFF.md`), and the
+harmonised series stays canonical until a plate names both lines.
+
+**Candidates the handoff listed that failed verification and what
+answered instead.** A PID that resolves to a different statistic is a
+wrong chart waiting to happen, so every candidate was checked live:
+
+| handoff candidate | what it actually is | used instead |
+|---|---|---|
+| 36-10-0222 | provincial/territorial GDP | 36-10-0699 (Canada annual) |
+| 12-10-0011 | monthly customs goods trade | trade lives in 36-10-0699 — the trade slots are goods **and services**, national accounts |
+| 11-10-0190 | income levels table | 11-10-0134 (the Gini cube) |
+| 13-10-0386 | coroner-investigated deaths | the MBM rates live in 11-10-0135 |
+| 35-10-0177 | the whole UCR violation file | 35-10-0068 (the homicide table) |
+| 36-10-0639 | household credit in dollars | 38-10-0235 (debt to disposable income) |
+| 17-10-0005 | July 1 estimates by age and sex | 17-10-0009 (quarterly demographic estimate) |
+
+Verified but left for their chapters: 33-10-0163 (monthly average FX —
+the markets 2006-07 fix), 17-10-0121/0023 (the non-permanent-resident
+stock — migration's missing piece, only from 2021), 10-10-0005 (CCOFOG
+— spending's national classification, not COFOG as the OECD knows it).
+
+**Conversions, in one place.**
+
+- CPI inflation (`macro/economy_statcan.csv`) is the year-over-year per
+  cent change of the published annual-average all-items index
+  (2002=100). The cube publishes the index level; the change is
+  arithmetic, done at curation, and the sidecar keeps only levels.
+- Trade % of GDP divides current-dollar exports and imports of goods
+  and services by current-dollar GDP, all from cube 36-10-0699 in one
+  fetch pass, so the ratio can never mix two vintages. Cross-check:
+  the World Bank's 2019 figures reproduce StatCan's own to a hundredth
+  of a point — the WB line is this same statistic redistributed.
+- The crude death rate is **not staged**: StatCan publishes no national
+  series for it. Integration divides the deaths in
+  `social/components_statcan.csv` by the July 1 population estimate.
+- Quarterly credit ratios (debt to disposable income, debt service) are
+  annualised by the house convention — Q4 value, mean of published
+  quarters, and the quarter count; StatCan's quarters are referenced by
+  their starting month, so Q4 is the October reference.
+- Component per-1,000 rates divide a July 1–June 30 count by the July 1
+  population of the same period start — both from the same vintage of
+  the demographic estimates.
+
+**Definition pairs the plates must keep as two lines.** The World Bank
+GDP, CPI, trade, population, birth/fertility rates and death counts
+reproduce StatCan's own numbers with small redistribution differences —
+same statistic, two publishers, still never spliced. The LFS annual
+unemployment (not seasonally adjusted, 5.7 in 2019) and the ILO
+modelled estimate (5.69) coincide by calibration, not identity. The
+MBM exists on two bases — 2018-base (2015-2023) and 2023-base
+(2020-) — as two columns that no plate may join. Household debt appears
+as BIS credit over GDP (~104% in 2019) and StatCan credit-market debt
+over disposable income (~177%): different denominators, both correct.
+Debt service appears as the BIS modelled ratio (13.7) and StatCan's
+actual payments (14.95). Homicide appears three times: police-reported
+(253-0001, 2.10 per 100k in 2021), UNODC's harmonised intentional
+homicide (2.08), and death-registered assault (497 deaths in 2021,
+inside `mortality_statcan.csv`). Each pair is two labelled lines.
+
 ## The un-banded 2015 contraction
 
 The 2015 oil-price shock met the mechanical two-quarter definition of a
@@ -158,8 +231,13 @@ reports would be partly an artefact of the reports.
 
 ## What is still pending even so
 
-- The Statistics Canada national lines mapped in `HANDOFF.md`: one fetcher
-  and one PR per chapter group now that the platform answers again.
+- The national line switch on the plates: the StatCan series are
+  fetched, curated and manifest-listed (see the pass above), but no
+  plate reads them yet — the panel footnotes still say the national
+  line is pending. The switch plan is in `HANDOFF.md`; it is a redraw
+  step, not a data step. The markets 2006-07 currency hole (33-10-0163)
+  and the non-permanent-resident stock (17-10-0121, 2021 on) stay open
+  for their chapters.
 - The S&P/TSX composite has no official publisher, so the markets plate
   draws the Yahoo redistributor feed — annual mean of month-end closes,
   labelled *not an official statistic* on the panel itself rather than
