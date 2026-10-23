@@ -17,53 +17,77 @@ are not background reading; they are the specification.
 
 ---
 
-## Statistics Canada — back up, fetch follow-up work
+## Statistics Canada — fetched, curated, staged; the plate switch is next
 
 From 02:40Z on 2026-10-22 `www150.statcan.gc.ca` served an outage page
 under **HTTP 200** for every WDS endpoint; that outage is why the seven
 chapters above were built from harmonised publishers instead of waiting.
+The platform answered again the same day, and on 2026-10-22 the
+`statcan-canada` lane wrote the fetcher and staged the national series:
 
-**Probed again at the start of the spine lane (2026-10-22):**
+- `fetch/fetch_statcan.py` — twelve cubes, each verified against
+  `getCubeMetadata` (title, CURRENT status, CANSIM id, start year)
+  before data is read; full-table zips shape-checked (zip magic, CSV
+  member) before caching, because the outage page arrived under HTTP 200
+  and a cached error page survives the retry that would have fixed it.
+  Spot values (43) and cross-checks against the staged harmonised twins
+  run before anything is written; offline reruns are byte-identical.
+- Sidecars: `*_from_statcan.csv` in macro/, trade/, social/, credit/.
+- Curated national files: `economy_statcan.csv`, `trade_statcan.csv`,
+  `gini_statcan.csv`, `poverty_statcan.csv`, `population_statcan.csv`,
+  `components_statcan.csv`, `demography_statcan.csv`,
+  `security_statcan.csv`, `mortality_statcan.csv`,
+  `household_credit_statcan.csv`, `debt_service_statcan.csv` — all
+  manifest-listed with provenance, all official Statistics Canada
+  numbers, all conversions recorded in `DATA_NOTES.md`.
 
-```sh
-curl -s -m 20 https://www150.statcan.gc.ca/t1/wds/rest/getAllCubesListLite | head -c 60
-# -> [{"productId":10100001,"cansimId":"183-0021","cubeTitleEn":"
-```
+**Candidate PIDs verified and swapped** (each resolved live):
+36-10-0222 → **36-10-0699** (the candidate is the provincial table);
+11-10-0190 → **11-10-0134** (the candidate is an income-level table);
+13-10-0386 → **11-10-0135** for MBM rates (the candidate is coroner
+deaths); 35-10-0177 → **35-10-0068** (the candidate is the whole UCR
+violation file); 36-10-0639 → **38-10-0235** (dollar liabilities, not
+the ratio); 17-10-0005 → **17-10-0009** for the quarterly estimate;
+12-10-0011 dropped outright — customs goods only, not the trade slots'
+goods-and-services national accounts. Kept for other chapters:
+33-10-0163 (markets FX, 2006-07), 17-10-0121 (NPR stock, 2021 only) and
+10-10-0005 (CCOFOG, spending).
 
-The reply starts with `[` — **the platform answers again.** Still, no
-StatCan fetcher exists in `fetch/` and the spine lane deliberately did
-not start a fetch campaign: the redraw is finished on the harmonised
-path, and the national lines below are follow-up work, one fetcher and
-one PR per chapter group. Any fetcher written against StatCan must check
-the payload shape before caching: the outage page arrived under HTTP 200,
-and a cached error page survives the retry that would have fixed it.
-
-### Slots that take the Statistics Canada line when it is fetched
+### The plate-switch plan (integration lane)
 
 The harmonised series stays canonical (spine rule 10); StatCan rides
-beside it as the labelled national line:
+beside it as the labelled national line. Nothing in the data is
+waiting; the switch is drawing and i18n:
 
-| chapter.slot | national line | candidate table |
+| chapter.slot | harmonised line (stays) | national line to add |
 |---|---|---|
-| 01 economy 1 | real GDP growth from the national accounts | 36-10-0222 |
-| 01 economy 3 | national CPI beside the WB series | 18-10-0005 |
-| 01 economy 4 | LFS unemployment beside the ILO estimate | 14-10-0327 |
-| 04 trade 1–2 | StatCan balance reprints beside the WB | 12-10-0011 |
-| 05 markets 3 | annual average FX filling the 2006–07 hole (the H.10 series covers it meanwhile) | 33-10-0163 |
-| 06 people 1 | StatCan's own Gini, not the WB derivation | 11-10-0190 |
-| 06 people 2 | the official Market Basket Measure line | (MBM, CANSIM) |
-| 08 demography 1/3/4 | quarterly demographic estimate, vital statistics, components of growth | 17-10-0005, 17-10-0008 |
-| 09 security 1 | police-reported homicide beside UNODC | 35-10-0177 |
-| 10 mortality 1–3 | death registrations direct from the source | 13-10-0394 |
-| 11 credit 1 | household debt-to-disposable-income beside the BIS debt-to-GDP | 36-10-0639 |
-| 12 migration 1–2 | outflows / components of growth | 17-10-0008 |
-| 12 migration 3 | census foreign-born share | census |
-| 12 migration 4 | the non-permanent-resident **stock** — the story's missing piece | 17-10-0040 |
+| 01 economy 1 | `growth_prices.csv:real_growth_pct` | `economy_statcan.csv:real_growth_pct` |
+| 01 economy 3 | `growth_prices.csv:cpi_inflation_pct` | `economy_statcan.csv:cpi_inflation_pct` (keep the target line) |
+| 01 economy 4 | `economy.csv:unemployment_pct` (ILO) | `economy_statcan.csv:lfs_unemployment_pct` |
+| 04 trade 1 | `trade.csv:exports/imports_pct_gdp` | `trade_statcan.csv:exports/imports_pct_gdp` |
+| 04 trade 2 | balance = WB difference | balance = StatCan difference (compute from `trade_statcan.csv`; still not stored) |
+| 06 people 1 | `gini.csv` (WB) + `income.csv` (OECD) | `gini_statcan.csv:gini_aftertax` ×100 — legend names the three definitions |
+| 06 people 2 | `poverty.csv:poverty_830_pct` | `poverty_statcan.csv:mbm_2018_pct` then `mbm_2023_pct` as two labelled segments — never one joined line |
+| 08 demography 1 | `international/population.csv` index | `population_statcan.csv:population_july1` as the national index |
+| 08 demography 2 | `demography.csv:fertility` | `demography_statcan.csv:total_fertility_rate` |
+| 08 demography 3 | `demography.csv:birth/death_rate_per_1000` | `demography_statcan.csv:birth_rate_per_1000`; crude death rate = `components_statcan.csv:deaths` ÷ `population_statcan.csv:population_july1` |
+| 08 demography 4 | `demography.csv:net_migration` per 1,000 | natural increase and net migration from `components_statcan.csv` per 1,000 of the same-vintage July population (July–June key!) |
+| 09 security 1 | `security.csv:homicide_per_100k` (UNODC) | `security_statcan.csv:homicide_rate_per_100k` (police-reported) |
+| 10 mortality 1 | `causes_of_death.csv:all_causes_per_100k` | crude rate from `mortality_statcan.csv:deaths_all_causes` ÷ July population |
+| 10 mortality 2 | excess from the OECD `deaths` counts | recompute excess on `deaths_all_causes` (2015-2019 mean, the house rule stays) |
+| 10 mortality 3 | `causes_of_death.csv:covid19_per_100k` | `deaths_covid_19` ÷ population ×100,000 |
+| 11 credit 1 | `household_credit.csv:hh_credit_pct_gdp_q4` (BIS) | `household_credit_statcan.csv:hh_debt_to_disp_income_q4` — legend says the denominators differ (GDP vs disposable income) |
+| 11 credit 4 | `debt_service.csv` (BIS modelled) | `debt_service_statcan.csv:hh_dsr_pct_q4` + mortgage split |
 
-The candidate table PIDs are **unverified against a live API**; treat
-every one as a candidate, not a fact. The full-table CSV download
-(`getFullTableDownloadCSV/<pid>/en` → a zip URL) is almost certainly the
-better route than the coordinate API.
+When the lines land: new panel titles/legends need i18n strings
+(`python3 -m pytest tests/test_catalogs.py -q -k canada` renders the
+catalog strict), `countries/canada/tests/test_plates.py` should assert
+at least one StatCan fact per switched slot (the spot values in
+`fetch_statcan.py`'s SPOT list are all reproducible), `tests/test_layout.py`
+fault counts must not grow in any language, and the panel footnotes
+currently saying "Statistics Canada line pending" must be removed from
+the plates *and* their i18n entries retired — a stale pending footnote
+above a drawn national line is the page lying about its own data.
 
 ---
 
@@ -153,10 +177,11 @@ Spot values, for checking that a rerun has not silently changed shape:
 
 ## What is left
 
-1. **The StatCan fetcher and the national lines** — the platform
-   answered again (probe above); write the fetcher, shape-check before
-   caching, and add the labelled national lines to the slots mapped
-   above. Nothing needs renumbering.
+1. **The plate switch** — the StatCan fetcher, sidecars and curated
+   national series are in (`fetch/fetch_statcan.py`, the `*_statcan.csv`
+   files); what is left is drawing the labelled national lines into the
+   slots mapped above, the i18n for the new legends, and retiring the
+   "pending" footnotes. Follow the switch-plan table.
 2. **The S&P/TSX composite** is drawn (05 markets slot 4) from Yahoo
    Finance month-end closes, `official: false`, sidecar kept. If an
    official publisher ever appears (stooq was behind a JS
@@ -164,9 +189,12 @@ Spot values, for checking that a rerun has not silently changed shape:
 3. **Transparency International's CPI** is drawn (07 world slot 3)
    from TI's 2012-onward series, the same way France curates it; the
    earlier 0–10 scores are not in TI's time series and are not drawn.
-4. **The non-permanent-resident stock** (StatCan 17-10-0040) for the
-   migration chapter — the story's missing piece: most of the 2023-24
-   growth never appears in the admissions file.
+4. **The non-permanent-resident stock** for the migration chapter — the
+   story's missing piece: most of the 2023-24 growth never appears in
+   the admissions file. The old candidate 17-10-0040 verified live as
+   components of international migration; the stock is 17-10-0121 (by
+   type, quarterly, 2021 on — short) or the inactive 17-10-0023 (ends
+   2022). Two labelled regimes on the panel, never a splice.
 5. When the national lines land: refresh `i18n.json` via
    `python3 -m pytest tests/test_catalogs.py -q -k canada`, extend
    `countries/canada/tests/`, and keep `tests/test_layout.py` fault
