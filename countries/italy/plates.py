@@ -124,12 +124,21 @@ def _pop(ctx):
 
 def _cause(ctx, code: str):
     """{year: deaths} for one European-shortlist code (never summed
-    across codes: the shortlist nests)."""
-    t = ctx.read_table(ctx.c.data("social/causes_of_death_from_istat.csv"))
+    across codes: the shortlist nests).
+
+    Read with the csv module, not ctx.table: read_table number-casts the
+    code column, and float("11_1") is 111.0 — Python's underscore digit
+    grouping. The codes are ICD shortlist labels, not numbers.
+    """
+    import csv
+    path = ctx.c.data("social/causes_of_death_from_istat.csv")
     out = {}
-    for y, c, d in zip(t["year"], t["code"], t["deaths"]):
-        if str(c) == code and d == d:
-            out[int(y)] = float(d)
+    with path.open(encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(ln for ln in fh
+                                if not ln.lstrip().startswith("#"))
+        for r in reader:
+            if r["code"] == code and (r.get("deaths") or "").strip():
+                out[int(float(r["year"]))] = float(r["deaths"])
     return out
 
 
@@ -216,7 +225,7 @@ def plate_economy(ctx, ig) -> None:
 
     ax = ig.slot("economy.unemployment", "Unemployment rate "
                  "(% of the labour force)")
-    uy, uv = _yr(ctx, "macro/unemployment_from_istat.csv", "estat")
+    uy, uv = _yr(ctx, "macro/unemployment_from_istat.csv", "unemp_rate_avg")
     ctx.line(ax, uy, uv, p.NAVY, label="ISTAT labour survey (backcast to 2006)")
     ey, ev = _yr(ctx, "macro/unemployment_from_estat.csv", "estat")
     _natl(ctx, ax, ey, ev, p.GOLD, "Eurostat (2009+)")
@@ -516,8 +525,8 @@ def plate_markets(ctx, ig) -> None:
     ax.annotate(f"{trough[1]:.0f} in {trough[0]}", trough,
                 textcoords="offset points", xytext=(4, -10), ha="left",
                 fontsize=8.4, fontweight="bold", color=p.GOLD)
-    _note(p, ax, 0.02, 0.96, f"the Milan market lost half its dollar value by "
-          f"{trough[0]};\nthe S&P 500 dashed comparator is not staged yet "
+    _note(p, ax, 0.02, 0.96, f"the Milan market lost 60% of its dollar value "
+          f"by {trough[0]};\nthe S&P 500 dashed comparator is not staged yet "
           "(meta.pending)", size=7.6)
     ctx.endlabel(ax, ey, ev, p.GOLD, lambda v: f"{v:.0f}", dy=8)
     _foot(p, ax, "FTSE MIB year-end closes (Yahoo, official: false) × ECB mean "
@@ -778,11 +787,12 @@ def plate_demography(ctx, ig) -> None:
     ctx.line(ax, my, mv, p.VERDE, label="Net migration (Eurostat, to 2024)")
     ig.add_recessions(ax, label=False)
     fl = _map(ctx, "migration/migration_flows_from_istat.csv", "balance")
-    ax.annotate(f"ISTAT 2025: {fl[2025]:+,} people", (2025, mv[-1]),
+    ax.annotate(f"ISTAT 2025: {fl[2025]:+,.0f} people", (2025, mv[-1]),
                 textcoords="offset points", xytext=(-4, 8), ha="right",
                 fontsize=8.2, fontweight="bold", color=p.VERDE)
-    _note(p, ax, 0.02, 0.96, "from 2017 births stop paying for deaths; net "
-          f"migration (~{mv[-1]:.1f}‰)\nno longer covers the natural deficit "
+    _note(p, ax, 0.02, 0.96, "births stop paying for deaths on these series "
+          f"from {next(y for y in sorted(b) if b[y] < d[y])};\nnet migration "
+          f"(~{mv[-1]:.1f}‰) no longer covers the natural deficit "
           f"({nv[-1]:.1f}‰ in {ny[-1]}). Italy is\nshrinking without meaning to",
           size=7.6)
     ax.legend(loc="lower left", fontsize=7.8, frameon=False)
@@ -802,11 +812,11 @@ def plate_security(ctx, ig) -> None:
     ctx.line(ax, py, pv, p.ROSSO, label="Police count, ISTAT's published rate")
     a = _map(ctx, "security/homicide_vital_from_istat.csv", "assault_deaths")
     ay, av = ctx.per_100k(a, {y: pop[y] for y in a})
-    _natl(ctx, ay, av, p.NAVY, "Death certificates, computed")
+    _natl(ctx, ax, ay, av, p.NAVY, "Death certificates, computed")
     ig.add_recessions(ax, label=False)
     _note(p, ax, 0.02, 0.96, "two counts, never spliced: police record more in "
-          f"every year\n(2023: {_map(ctx, 'security/homicide_police_from_istat.csv', 'intenhom')[2023]:,} "
-          f"against {a[2023]:,}); Italy's true story is the steady fall, "
+          f"every year\n(2023: {_map(ctx, 'security/homicide_police_from_istat.csv', 'intenhom')[2023]:,.0f} "
+          f"against {a[2023]:,.0f}); Italy's true story is the steady fall, "
           "halving\nacross the window — organised crime included", size=7.4)
     ax.legend(loc="lower left", fontsize=7.4, frameon=False)
     _foot(p, ax, "ISTAT 73_67 (Ministero dell'Interno data) and 39_494 "
@@ -945,11 +955,13 @@ def plate_migration(ctx, ig) -> None:
                       {y: pop[y] for y in emi if emi[y]})
     ctx.line(ax, *ki, p.VERDE, label="Immigrants (Eurostat, to 2024)")
     ctx.line(ax, *ke, p.ROSSO, label="Emigrants (Eurostat, to 2024)")
-    _natl(ctx, sorted(ifl), [ifl[y]["immigration"] / pop[y] * 1000
-                             for y in sorted(ifl)], p.NAVY,
+    iy_ = [y for y in sorted(ifl) if "immigration" in ifl[y]]
+    ey_ = [y for y in sorted(ifl) if "emigration" in ifl[y]]
+    _natl(ctx, ax, iy_, [ifl[y]["immigration"] / pop[y] * 1000
+                         for y in iy_], p.NAVY,
           "ISTAT register (to 2025)")
-    _natl(ctx, sorted(ifl), [ifl[y]["emigration"] / pop[y] * 1000
-                             for y in sorted(ifl)], p.GOLD,
+    _natl(ctx, ax, ey_, [ifl[y]["emigration"] / pop[y] * 1000
+                         for y in ey_], p.GOLD,
           "ISTAT register (to 2025)")
     ig.add_recessions(ax, label=False)
     _note(p, ax, 0.02, 0.96, "identical to the person in 2006–07 and 2011–24; "
@@ -967,7 +979,7 @@ def plate_migration(ctx, ig) -> None:
     bal = {y: ifl[y]["immigration"] - ifl[y]["emigration"]
            for y in sorted(ifl) if "immigration" in ifl[y]
            and "emigration" in ifl[y]}
-    _natl(ctx, *ctx.per_1000(bal, {y: pop[y] for y in bal}), p.NAVY,
+    _natl(ctx, ax, *ctx.per_1000(bal, {y: pop[y] for y in bal}), p.NAVY,
           "ISTAT register, computed")
     ig.add_recessions(ax, label=False)
     low = min(zip(ny, nv), key=lambda t: t[1])
@@ -975,7 +987,7 @@ def plate_migration(ctx, ig) -> None:
                 xytext=(4, -10), ha="left", fontsize=8.2, fontweight="bold",
                 color=p.VERDE)
     _note(p, ax, 0.02, 0.96, f"a positive flow every year, but thin after 2020; "
-          f"ISTAT 2025:\n{bal[2025]:+,} (439,916 in, 144,157 out) as "
+          f"ISTAT 2025:\n{bal[2025]:+,.0f} (439,916 in, 144,157 out) as "
           f"registration, not arrivals", size=7.6)
     _foot(p, ax, "the register's balance column needs no adjustment for the "
           "spine — but leaving needs no paperwork, and AIRE lags (DATA_NOTES)")
@@ -999,7 +1011,7 @@ def plate_migration(ctx, ig) -> None:
                 fontsize=8.4, fontweight="bold", color=p.VERDE)
     _note(p, ax, 0.02, 0.96, f"born elsewhere {fb[max(fb)]:.1f}%, holding another "
           f"passport {fc[max(fc)]:.1f}%:\nthe two lines pull apart because "
-          f"naturalisation ({_map(ctx, 'migration/naturalisation_from_estat.csv', 'acquisitions')[2024]:,} "
+          f"naturalisation ({_map(ctx, 'migration/naturalisation_from_estat.csv', 'acquisitions')[2024]:,.0f} "
           f"in 2024)\nmoves people from the green line to the red one",
           size=7.4)
     ax.legend(loc="lower left", fontsize=7.6, frameon=False)
@@ -1017,14 +1029,15 @@ def plate_migration(ctx, ig) -> None:
            and int(y) >= W0}
     ctx.line(ax, *ctx.per_1000(eit, {y: pop[y] for y in eit}), p.ROSSO,
              label="Emigrants who are Italian citizens (Eurostat)")
-    _natl(ctx, sorted(ifl), [ifl[y]["emigration_italian"] / pop[y] * 1000
-                             for y in sorted(ifl) if "emigration_italian" in ifl[y]],
+    _natl(ctx, ax, [y for y in sorted(ifl) if "emigration_italian" in ifl[y]],
+          [ifl[y]["emigration_italian"] / pop[y] * 1000
+           for y in sorted(ifl) if "emigration_italian" in ifl[y]],
           p.NAVY, "ISTAT register")
     ig.add_recessions(ax, label=False)
     ax.legend(loc="upper left", fontsize=7.0, frameon=False)
-    _note(p, ax, 0.02, 0.55, f"the AIRE line: citizens leaving, 1.0→~3 per "
-          f"thousand, mostly young,\nregistration lagging the fact; the peak "
-          f"of new citizenships was\n{max(acq.values()):,} in "
+    _note(p, ax, 0.02, 0.55, f"the AIRE line: citizens leaving, from about 1 "
+          f"to 3 per thousand, mostly young;\nregistration lags the fact. the "
+          f"peak of new citizenships was\n{max(acq.values()):,.0f} in "
           f"{max(acq, key=lambda y: acq[y])}. first permits (433,099 in 2025) "
           "and asylum\n(158,605 in 2024) stay out — permits are documents, "
           "not arrivals", size=7.2)
@@ -1047,7 +1060,7 @@ PLATES = (
              "a long stall near one percent; GDP per person stood near "
              "US$40,400 in 2024, barely above 2008; HICP inflation peaked at "
              "8.7% in 2022 with the national NIC near 8.1%; unemployment "
-             "peaked at 12.7% in 2014 and stood near 6% in 2025, on one "
+             "peaked at 12.8% in 2014 and stood near 6% in 2025, on one "
              "backcast ISTAT series from 2006."),
     dict(id="02", slug="fiscal", topic="fiscal", builder=plate_fiscal,
          title="Public Finances — The Debt That Never Left",
@@ -1142,8 +1155,9 @@ PLATES = (
          alt="Four panels on Italy's population. The index peaks in 2011 "
              "and declines to 58,943,464 in 2025; total fertility falls "
              "from 1.37 to 1.18 children per woman, the lowest in the "
-             "staged series; crude birth and death rates cross in 2017 "
-             "with births 6.0 and deaths 11.1 per 1,000 in 2025; natural "
+             "staged series; crude birth and death rates cross in 2007 "
+             "and never meet again, with births 6.0 and deaths 11.1 per "
+             "1,000 in 2025; natural "
              "decrease reaches −5.0 per 1,000 while net migration runs "
              "near +3."),
     dict(id="10", slug="security", topic="security", builder=plate_security,
