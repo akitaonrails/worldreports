@@ -61,6 +61,16 @@ def _fy(ctx, rel: str, col: str, since: int = W0):
     return [y for y, _ in out], [v for _, v in out]
 
 
+def _fy_gdp(ctx, col="gdp_nominal_fy_bn"):
+    """The fiscal-year GDP column of the calendar-keyed ESRI file, drawn
+    at the fiscal year's midpoint: row 2024 holds FY2024 (Apr-2024 –
+    Mar-2025)."""
+    rows = ctx.rows("macro/gdp_from_esri.csv", key="year") or {}
+    out = [(y + FY_SHIFT, float(r[col])) for y, r in sorted(rows.items())
+           if y >= W0 and (r.get(col) or "").strip()]
+    return [y for y, _ in out], [v for _, v in out]
+
+
 def _at(years, vals, year):
     return dict(zip(years, vals))[year]
 
@@ -102,7 +112,7 @@ def _cpi_annual(ctx, col="cpi2020_all"):
         if not (m or "").strip():
             continue
         y = int(m[:4])
-        v = ctx.nan(v)
+        v = float(v)
         if v == v:
             idx.setdefault(y, []).append(v)
     means = {y: sum(v) / len(v) for y, v in idx.items() if len(v) >= 12}
@@ -120,7 +130,7 @@ def _nikkei_usd(ctx):
     for m, v in zip(t["month"], t["close"]):
         if not (m or "").strip():
             continue
-        v = ctx.nan(v)
+        v = float(v)
         if v == v:
             closes.setdefault(int(m[:4]), []).append(v)
     fx = dict(zip(*_yr(ctx, "markets/usdjpy_from_boj.csv", "usdjpy_avg")))
@@ -263,8 +273,7 @@ def plate_fiscal(ctx, ig) -> None:
                  "Revenue and expenditure (% of GDP)")
     ey, ev = _fy(ctx, GG, "gg_expense_bn")
     ry, rv = _fy(ctx, GG, "gg_revenue_bn")
-    fy_gdp = ([x - FY_SHIFT for x, _ in _fy(ctx, GDPF, "gdp_nominal_fy_bn")],
-              _fy(ctx, GDPF, "gdp_nominal_fy_bn")[1])
+    fy_gdp = _fy_gdp(ctx)
     ey, epct = _div_years(ey, ev, *fy_gdp)
     ry, rpct = _div_years(ry, rv, *fy_gdp)
     ctx.line(ax, ey, epct, p.RED, dashed_partial=False,
@@ -285,11 +294,8 @@ def plate_fiscal(ctx, ig) -> None:
                  "balance (% of GDP)")
     by, bv = _yr(ctx, IMF, "net_lending_pct_gdp")
     ctx.bars(ax, by, bv, lambda v: p.GREEN if v >= 0 else p.RED)
-    fy_b = ([x - FY_SHIFT for x, _ in _fy(ctx, GG, "gg_net_lending_bn")],
-            _fy(ctx, GG, "gg_net_lending_bn")[1])
-    ly, lv = _div_years(*fy_b, *[x - FY_SHIFT for x, _ in
-                                 _fy(ctx, GDPF, "gdp_nominal_fy_bn")],
-                        _fy(ctx, GDPF, "gdp_nominal_fy_bn")[1])
+    fy_b = _fy(ctx, GG, "gg_net_lending_bn")
+    ly, lv = _div_years(*fy_b, *_fy_gdp(ctx))
     ctx.line(ax, ly, lv, p.NAVY, lw=1.8, ms=3.2, dashed_partial=False,
              label="ESRI, general government, fiscal years")
     ig.add_recessions(ax, label=False)
@@ -309,10 +315,8 @@ def plate_fiscal(ctx, ig) -> None:
     ax = ig.slot("fiscal.debt", "Gross debt (% of GDP) — and the three "
                  "figures quoted instead")
     dy, dv = _yr(ctx, IMF, "gross_debt_pct_gdp")
-    fof_d = ([y for y, _ in _yr(ctx, "fiscal/gg_liabilities_from_boj.csv",
-                                "gg_liabilities_bn")],
-             _yr(ctx, "fiscal/gg_liabilities_from_boj.csv",
-                 "gg_liabilities_bn")[1])
+    fof_d = _yr(ctx, "fiscal/gg_liabilities_from_boj.csv",
+                "gg_liabilities_bn")
     cy, cv = _yr(ctx, "fiscal/central_debt_from_mof.csv", "total_bn")
     gdp_cy = _yr(ctx, GDPF, "gdp_nominal_cy_bn")
     fy_, fv = _div_years(*fof_d, *gdp_cy)
@@ -453,9 +457,9 @@ def plate_spending(ctx, ig) -> None:
                 textcoords="offset points", xytext=(0, 7), ha="center",
                 fontsize=8.2, fontweight="bold", color=p.TEAL)
     ctx.endlabel(ax, py, pv, p.TEAL, lambda v: f"{v:.1f}%", dy=8)
-    _note(p, ax, 0.02, 0.96, "公的固定資本形成 — public corporations included, "
-          "so a little\nabove the strict general-government line the spine "
-          "prefers")
+    _note(p, ax, 0.02, 0.96, "public gross fixed capital formation — public "
+          "corporations included, so a\nlittle above the strict "
+          "general-government line the spine prefers")
     _finish(ctx, ig)
 
 
@@ -464,7 +468,7 @@ CUSTOMS_PARTNERS = [
     ("china", "China", "RED"),
     ("usa", "United States", "NAVY"),
     ("asean", "ASEAN", "TEAL"),
-    ("korea_south", "Korea", "GOLD"),
+    ("korea", "Korea", "GOLD"),
     ("eu", "European Union", "PURPLE"),
 ]
 
@@ -526,7 +530,7 @@ def plate_trade(ctx, ig) -> None:
                 color=p.RED)
     _note(p, ax, 0.02, 0.04, "goods only (customs), not the services line "
           "above; the EU line\nis EU28 to 2019 and EU27 from 2020 — the "
-          "2019→2020 step is Brexit\nplus COVID, and is not spliced",
+          "2019 to 2020 step is Brexit\nplus COVID, and is not spliced",
           va="bottom", size=7.4)
 
     ax = ig.slot("trade.lens", "Lens — the balance of payments: what Japan "
@@ -963,7 +967,8 @@ def plate_security(ctx, ig) -> None:
     ax.set_ylabel("deaths / recorded cases", fontsize=8.6, color=p.MUTED)
     ctx.endlabel(ax, ay, av, p.RED, lambda v: f"{v:,.0f}", dy=8)
     ax.legend(loc="upper left", fontsize=7.6, frameon=False)
-    _note(p, ax, 0.02, 0.96, f"警察庁 殺人 includes attempts and preparation: "
+    _note(p, ax, 0.02, 0.96, f"the police agency's homicide record includes "
+          f"attempts and preparation: "
           f"{av[-1]:,.0f} recorded\nagainst {dv0[-1]:,.0f} registered deaths in "
           f"{dy0[-1]} — {av[-1] / dv0[-1]:.1f}×. It is a\npolice-administration "
           "count, not a crime rate", size=7.4)
@@ -1033,8 +1038,9 @@ def plate_mortality(ctx, ig) -> None:
           "of Omicron —\nnot 2020: borders held until mid-2020 and reopened "
           "into\na late, large wave. The two codes are never added", size=7.4)
 
-    ax = ig.slot("mortality.lens", "Lens — senility (老衰) becomes a leading "
-                 "cause (per 100,000)")
+    ax = ig.slot("mortality.lens", "Lens — certified "
+                 "\"death from old age\" becomes a leading cause "
+                 "(per 100,000)")
     ys, sv = ctx.series(ctx.table(C), "senility_18100")
     sy, sr = ctx.per_100k(dict(zip(ys, sv)), jpp)
     ys2, cv2 = ctx.series(ctx.table(C), "malignant_neoplasms_02100")
@@ -1045,11 +1051,12 @@ def plate_mortality(ctx, ig) -> None:
     ig.add_recessions(ax, label=False)
     ctx.endlabel(ax, sy, sr, p.GOLD, lambda v: f"{v:.0f}", dy=8)
     ax.legend(loc="center right", fontsize=7.6, frameon=False)
-    _note(p, ax, 0.02, 0.97, "a certificate, not a disease: 老衰 rises with "
-          "the share of deaths at\nvery old ages — a doctor writing 老衰 skips "
-          "the mechanism work.\nIt makes Japan's cause rankings incomparable, "
-          "and aspiration\npneumonia split out of pneumonia in 2017 for the "
-          "same coding\nreason; neither line is spliced", size=7.4)
+    _note(p, ax, 0.02, 0.97, "a certificate, not a disease: \"death from "
+          "old age\" rises with the share\nof deaths at very old ages — a "
+          "doctor writing it skips the mechanism\nwork. It makes Japan's cause "
+          "rankings incomparable, and aspiration\npneumonia split out of "
+          "pneumonia in 2017 for the same coding\nreason; neither line is "
+          "spliced", size=7.4)
     _finish(ctx, ig)
 
 
@@ -1064,7 +1071,8 @@ def plate_migration(ctx, ig) -> None:
     _note(p, ax, 0.5, 0.55, "pending — and partly unavailable: Japan keeps no "
           "emigration\nregister, and ISA's entrant counts are travel events "
           "with tourists,\nnot people moving. The Statistics Bureau's "
-          "net-mover columns\n(≥3-month residents) are the national answer "
+          "net-mover columns\n(residents of three months or more) are the "
+          "national answer "
           "and a spine fetch", ha="center", va="center", size=7.6)
 
     ax = ig.slot("migration.net", "Net migration (per 1,000 people)")
@@ -1109,16 +1117,16 @@ def plate_migration(ctx, ig) -> None:
     res_y, res_v = _yr(ctx, R, "foreign_residents", since=2012)
     ctx.line(ax, reg_y, [v / 1e6 for v in reg_v], p.NAVY,
              dashed_partial=False,
-             label="外国人登録 register (to end-2011)")
+             label="foreigner-registration register (to end-2011)")
     ctx.line(ax, res_y, [v / 1e6 for v in res_v], p.TEAL,
-             label="在留 foreigners, residence-card regime (from end-2012)")
+             label="residence-card foreigners (from end-2012)")
     ig.add_recessions(ax, label=False)
     _mark(ig, ax, "residence", dy=0.90)
     ax.legend(loc="upper left", fontsize=7.2, frameon=False)
     ctx.endlabel(ax, res_y, [v / 1e6 for v in res_v], p.TEAL,
                  lambda v: f"{v:.1f}M", dy=8)
-    _note(p, ax, 0.02, 0.04, f"a stock, not a flow. The {reg_y[-1]}→{res_y[0]} "
-          f"step ({reg_v[-1] / 1e6:.2f}m → {res_v[0] / 1e6:.2f}m)\nis a "
+    _note(p, ax, 0.02, 0.04, f"a stock, not a flow. The {reg_y[-1]} to {res_y[0]} "
+          f"step ({reg_v[-1] / 1e6:.2f}m down to {res_v[0] / 1e6:.2f}m)\nis a "
           "change of register, not a fall; the doubling after 2019 is "
           "work-visa\nregimes opened by the Abe and Kishida governments. "
           "Asylum recognition\nis not drawn: UNHCR's 2024 figure folds "
