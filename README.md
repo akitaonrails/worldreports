@@ -108,6 +108,24 @@ so a bad upstream day shows up as a diff a person reads, not as a plate
 that quietly changed. No plate is ever drawn from a sidecar, and a test
 enforces that.
 
+### What proved hardest
+
+Source difficulty had two distinct forms. China was the hardest access
+problem: the NBS machine interface returned HTTP 403, Customs returned 412,
+and several central-bank and fiscal series endpoints could not be isolated.
+Japan and Taiwan were the hardest normalization problems because
+available-looking figures often measured different things. Japan mixes
+April–March fiscal years with calendar-year series, migration entries with
+immigrant persons, and citizenship with country of birth. Taiwan requires
+explicit conversion from ROC years, distinguishes cash from accrual
+accounts and central-government measures from general-government measures,
+and is covered inconsistently by international datasets.
+
+The practical lesson is to keep access failure separate from comparability
+failure. A statistic may not exist, may exist but resist reliable fetching,
+or may have a nearby proxy with a different definition. Those cases remain
+separate here rather than being hidden behind a plausible substitute.
+
 ## Reading the plates honestly
 
 - **The running year is not a full year.** Annual totals stop at the last
