@@ -166,10 +166,12 @@ def _fy_note(p, ax, size=7.6):
 def _finish(ctx, ig):
     for a in ig.axes_flat:
         if a.get_visible():
-            # Point annotations and in-panel legends collide with the fixed
-            # comparison frame in at least one of three languages. The exact
-            # values remain in the committed CSVs, card stats and accessible
-            # page copy; the plate keeps only the comparable marks and axes.
+            # Point annotations collide with the fixed comparison frame in
+            # at least one of three languages. The exact values remain in
+            # the committed CSVs, card stats and accessible page copy; the
+            # plate keeps only the comparable marks and axes. Legends stay:
+            # a stacked layer or a second series nobody can name is not
+            # comparable, it is unreadable (issue #3).
             for text in list(a.texts):
                 # Keep only the spine's own status markers. Data-point labels,
                 # event captions and end labels all fail in at least one
@@ -178,9 +180,6 @@ def _finish(ctx, ig):
                         text.get_text().startswith("data pending"):
                     continue
                 text.remove()
-            legend = a.get_legend()
-            if legend is not None:
-                legend.remove()
             ig.style_axis(a)
 
 
@@ -390,7 +389,10 @@ def plate_spending(ctx, ig) -> None:
                  labels=[n for n, _, _ in layers],
                  colors=[c for _, _, c in layers], alpha=0.9, lw=0)
     _bands_labelled_at(ig, ax, 0.84, p)
-    ax.legend(loc="lower right", fontsize=6.9, ncol=2, frameon=False)
+    # The stack fills the lower right; the only clear ground is upper left,
+    # under the title (the spine scale runs to 65, the stack peaks at ~46).
+    ax.legend(loc="upper left", fontsize=6.9, ncol=2, frameon=False,
+              bbox_to_anchor=(0.0, 0.98))
     tot = [sum(v) for v in zip(*[v for _, v, _ in layers])]
     i24 = yrs.index(2024)
     ax.annotate(f"{tot[i24]:.1f}%", (xs[i24], tot[i24]),
@@ -411,11 +413,11 @@ def plate_spending(ctx, ig) -> None:
     ctx.line(ax, xs, rest, p.NAVY, dashed_partial=False, label="Everything else")
     ctx.line(ax, xs, sp, p.RED, dashed_partial=False, label="Social protection")
     ig.add_recessions(ax, label=False)
-    ax.legend(loc="lower left", fontsize=7.8, frameon=False)
     cash = [float(rows[y]["social_benefits_cash_social_protection_bn"])
             / gdp_of(y) * 100 for y in yrs]
     ax.plot([], [], color=p.GOLD, lw=1.6, ls=":",
             label="of which cash benefits")
+    ax.legend(loc="lower left", fontsize=7.8, frameon=False)
     ctx.line(ax, xs, cash, p.GOLD, lw=1.4, ms=0, ls=(0, (1, 1.4)),
              dashed_partial=False)
     i24 = yrs.index(2024)
@@ -755,7 +757,8 @@ def plate_people(ctx, ig) -> None:
     ctx.line(ax, ey, ev, p.GREEN, label="employment rate")
     ax.set_ylabel("% of ages 15 and over", fontsize=8.6, color=p.MUTED)
     ig.add_recessions(ax, label=False)
-    ax.legend(loc="lower left", fontsize=7.8, frameon=False)
+    # The employment dip owns the lower left; the upper left is clear.
+    ax.legend(loc="upper left", fontsize=7.8, frameon=False)
     _note(p, ax, 0.02, 0.96, f"participation, {rv[0]:.1f}% to {rv[-1]:.1f}% "
           f"({ry[-1]}), while the 15+ population\nfalls: the workforce is "
           "older and thinner each year, and women\nand older workers are "
@@ -954,7 +957,8 @@ def plate_security(ctx, ig) -> None:
     ig.add_recessions(ax, label=False)
     ax.set_ylabel("deaths / recorded cases", fontsize=8.6, color=p.MUTED)
     ctx.endlabel(ax, ay, av, p.RED, lambda v: f"{v:,.0f}", dy=8)
-    ax.legend(loc="upper left", fontsize=7.6, frameon=False)
+    # The bar tops own the upper left; the bars fall away to the right.
+    ax.legend(loc="upper right", fontsize=7.6, frameon=False)
     _note(p, ax, 0.02, 0.96, f"the police agency's homicide record includes "
           f"attempts and preparation: "
           f"{av[-1]:,.0f} recorded\nagainst {dv0[-1]:,.0f} registered deaths in "
@@ -1038,7 +1042,9 @@ def plate_mortality(ctx, ig) -> None:
              label="all cancers (for scale)")
     ig.add_recessions(ax, label=False)
     ctx.endlabel(ax, sy, sr, p.GOLD, lambda v: f"{v:.0f}", dy=8)
-    ax.legend(loc="center right", fontsize=7.6, frameon=False)
+    # The rising senility line owns the centre right; the lower right below
+    # it is the only corner clear in every locale.
+    ax.legend(loc="lower right", fontsize=7.6, frameon=False)
     _note(p, ax, 0.02, 0.97, "a certificate, not a disease: \"death from "
           "old age\" rises with the share\nof deaths at very old ages — a "
           "doctor writing it skips the mechanism\nwork. It makes Japan's cause "

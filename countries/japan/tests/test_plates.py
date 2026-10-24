@@ -180,3 +180,27 @@ def test_road_slot_rejects_the_broader_all_accidents_category():
     assert "pending" in text
     notes = (Country.load(SLUG).dir / "DATA_NOTES.md").read_text().lower()
     assert "broader\naccident category" in notes
+
+
+def test_the_cofog_stack_names_all_seven_groups():
+    """Issue #3: `_finish` once stripped every in-panel legend, publishing
+    the spending stack as seven coloured layers nobody could name. The key
+    is part of the chart. The names are plates.py's COFOG7, in draw order.
+    """
+    want = ["Social protection", "Health", "Education",
+            "General public services", "Economic affairs",
+            "Defence and public order", "Other"]
+    panel = plate(SLUG, "plate_spending").panel("Spending by function")
+    assert panel.legend_labels() == want
+    for lang in Country.load(SLUG).locale_codes:
+        # Slot order is fixed, so the stack is the first panel in any locale.
+        first = plate(SLUG, "plate_spending", lang).panels()[0]
+        assert len(first.legend_labels()) == 7, \
+            f"{lang}: the COFOG key lost entries in translation"
+
+
+def test_the_cash_benefits_line_is_in_the_key():
+    """The dotted cash-benefits line was labelled after the legend was
+    built, so the key never named it. The label must land in the legend."""
+    panel = plate(SLUG, "plate_spending").panel("Social protection vs")
+    assert "of which cash benefits" in panel.legend_labels()
