@@ -156,11 +156,79 @@ def test_the_people_lens_states_it_is_derived():
     assert "CPI" in lens or "ІСЦ" in lens or "IPC" in lens
 
 
+
+
+# ------------------------------------------------------------------ fiscal
+def test_the_war_budget_is_one_imf_vintage():
+    f = by_year("fiscal/fiscal.csv")
+    assert num(f[2023], "expenditure_pct_gdp") == pytest.approx(73.40, abs=0.01)
+    assert num(f[2023], "revenue_pct_gdp") == pytest.approx(54.06, abs=0.01)
+    assert num(f[2023], "balance_pct_gdp") == pytest.approx(-19.30, abs=0.01)
+    assert num(f[2024], "interest_pct_gdp") == pytest.approx(3.98, abs=0.01)
+    # The overall and primary balances keep their published definitions:
+    # the primary is the overall before interest, and the two are not
+    # the same line.
+    assert num(f[2023], "balance_pct_gdp") < num(f[2023], "primary_balance_pct_gdp")
+
+
+def test_forecast_years_are_not_drawn_as_observed():
+    f = by_year("fiscal/fiscal.csv")
+    assert max(f) <= 2025
+    # 2025 carries only the WEO debt figure; revenue/expenditure/interest
+    # have no observed value and stay blank rather than carried.
+    assert num(f[2025], "debt_pct_gdp") == pytest.approx(107.1, abs=0.01)
+    assert num(f[2025], "revenue_pct_gdp") != num(f[2025], "revenue_pct_gdp")
+
+
+# ------------------------------------------------------------------- trade
+def test_trade_is_the_national_accounts_series_and_its_gap():
+    t = by_year("trade/trade.csv")
+    assert num(t[2025], "exports_pct_gdp") == pytest.approx(25.33, abs=0.01)
+    assert num(t[2025], "imports_pct_gdp") == pytest.approx(51.85, abs=0.01)
+    gap = num(t[2025], "exports_pct_gdp") - num(t[2025], "imports_pct_gdp")
+    assert gap == pytest.approx(-26.52, abs=0.02)
+
+
+# ----------------------------------------------------------------- markets
+def test_the_nbu_key_rate_is_a_central_bank_series():
+    k = by_year("markets/key_rate.csv")
+    assert num(k[2023], "policy_rate_pct") == pytest.approx(21.6, abs=1.0)
+    assert num(k[2025], "policy_rate_pct") == pytest.approx(15.26, abs=0.05)
+
+
+def test_the_official_hryvnia_rate_and_its_index():
+    f = by_year("markets/usd_uah.csv")
+    assert num(f[2006], "uah_per_usd") == pytest.approx(5.05, abs=0.005)
+    assert num(f[2025], "uah_per_usd") == pytest.approx(41.69, abs=0.01)
+    # The index is 2006 = 100, up = stronger: 5.05/41.69.
+    assert 100 * num(f[2006], "uah_per_usd") / num(f[2025], "uah_per_usd") < 13
+
+
+# ---------------------------------------------------------------- security
+def test_security_rates_stop_before_the_invasion():
+    s = by_year("security/security.csv")
+    assert num(s[2006], "homicide_per_100k") == pytest.approx(6.257, abs=0.001)
+    assert num(s[2021], "homicide_per_100k") == pytest.approx(3.777, abs=0.001)
+    assert max(y for y in s if num(s[y], "homicide_per_100k") == num(s[y], "homicide_per_100k")) == 2021
+    assert max(y for y in s if num(s[y], "road_deaths_per_100k") == num(s[y], "road_deaths_per_100k")) == 2019
+    assert num(s[2021], "suicide_per_100k") == pytest.approx(21.21, abs=0.01)
+
+
+# --------------------------------------------------------------- mortality
+def test_the_death_rate_and_life_expectancy():
+    m = by_year("mortality/mortality.csv")
+    assert num(m[2021], "death_rate_per_1000") == pytest.approx(17.13, abs=0.01)
+    assert num(m[2024], "death_rate_per_1000") == pytest.approx(13.60, abs=0.01)
+    assert num(m[2006], "life_expectancy") == pytest.approx(67.49, abs=0.01)
+    assert num(m[2024], "life_expectancy") == pytest.approx(74.69, abs=0.01)
+
+
 # ------------------------------------------------------------- the cards
 def test_the_cards_read_the_committed_csvs():
     cards = {ch["id"]: ch for ch in sitebuild.chapters_for(Country.load(SLUG))}
-    assert set(cards) == {"01-economy", "02-world", "03-demography",
-                          "04-people"}
+    assert set(cards) == {
+        "01-economy", "02-fiscal", "03-trade", "04-markets", "05-people",
+        "06-world", "07-demography", "08-security", "09-mortality"}
     cpi = cards["01-economy"]["stats"][0]
     assert cpi["year"] == 2025
     e = by_year("macro/economy.csv")
@@ -173,5 +241,10 @@ def test_parked_slots_stay_parked():
                         ("plate_demography", "Crude birth and death rates"),
                         ("plate_demography", "Natural increase and net migration"),
                         ("plate_people", "Poverty rate"),
-                        ("plate_people", "Minimum wage")]:
+                        ("plate_people", "Minimum wage"),
+                        ("plate_trade", "Top export destinations"),
+                        ("plate_markets", "10-year government bond yield"),
+                        ("plate_markets", "Main equity index in US$"),
+                        ("plate_mortality", "Excess deaths"),
+                        ("plate_mortality", "COVID-19 deaths")]:
         is_pending(name, panel)

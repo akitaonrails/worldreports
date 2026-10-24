@@ -4,17 +4,34 @@
   "macro/gdp_growth_imf.csv",
   "world/gdp_per_person.csv"
  ],
- "02-world": [
+ "02-fiscal": [
+  "fiscal/fiscal.csv"
+ ],
+ "03-trade": [
+  "trade/trade.csv"
+ ],
+ "04-markets": [
+  "macro/economy.csv",
+  "markets/key_rate.csv",
+  "markets/usd_uah.csv"
+ ],
+ "05-people": [
+  "macro/economy.csv",
+  "people/gini.csv"
+ ],
+ "06-world": [
   "world/gdp_usd.csv",
   "world/hdi.csv",
   "world/reserves.csv"
  ],
- "03-demography": [
+ "07-demography": [
   "demography/population.csv",
   "demography/population_ukrstat.csv"
  ],
- "04-people": [
-  "macro/economy.csv",
-  "people/gini.csv"
+ "08-security": [
+  "security/security.csv"
+ ],
+ "09-mortality": [
+  "mortality/mortality.csv"
  ]
 }

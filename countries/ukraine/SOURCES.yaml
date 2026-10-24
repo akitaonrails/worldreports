@@ -100,6 +100,83 @@ people:
       SDG portal's own Gini file (10-1-1.csv) carries 2015-2021 and
       blanks from 2022 — both are recorded, neither is spliced.
 
+fiscal:
+  fiscal.csv:
+    source: "IMF WEO (October 2026 vintage), general government — rev, exp, GGXCNL_NGDP, pb, ie, GGXWDG_NGDP"
+    url: "https://www.imf.org/external/datamapper/api/v1/rev/UKR"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-24. One vintage for all six columns. Observed to
+      2024 (revenue 54.1% of GDP, expenditure 73.4% in 2023, overall
+      balance -19.3%, interest 4.0%); 2025 debt 107.1% is the latest WEO
+      year and lives in its own `_proj` column in the sidecar, never
+      drawn as observed. The finance ministry's own releases answer 403
+      to this network (meta.pending); this is the harmonised general-
+      government layer, not the national cash-basis presentation.
+
+trade:
+  trade.csv:
+    source: "World Bank WDI — NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS (goods and services, national accounts)"
+    url: "https://api.worldbank.org/v2/country/UKR/indicator/NE.EXP.GNFS.ZS?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-24: 2025 exports 25.3% of GDP and imports 51.9%,
+      a gap of -26.5 points carried by war-time imports. The balance is
+      derived from the same series on the plate, never from a second
+      publisher. Partner destinations are NOT staged: the customs service
+      answers 403 and the 2023 UN Comtrade snapshot is one year, so the
+      canonical destination slot stays pending (meta.pending).
+
+markets:
+  key_rate.csv:
+    source: "National Bank of Ukraine — statistics API, KEY_PolicyRate (daily), annual mean"
+    url: "https://bank.gov.ua/NBUStatService/v1/statdirectory/key"
+    official: true
+    refreshed_by: fetch/fetch_nbu.py
+    notes: >-
+      VERIFIED 2026-10-24 against the raw daily row (25.0% on 2023-07-23).
+      The annual figure is the mean of the daily key rate, the same
+      convention the atlas uses for policy rates elsewhere. 2025 average
+      15.3%.
+  usd_uah.csv:
+    source: "National Bank of Ukraine — official exchange rate feed (daily), annual mean"
+    url: "https://bank.gov.ua/NBU_Exchange/exchange_site?valcode=usd&json"
+    official: true
+    refreshed_by: fetch/fetch_nbu.py
+    notes: >-
+      VERIFIED 2026-10-24: 2006 average 5.05 UAH/US$, 2025 41.69. The
+      feed quotes `rate` per `units` (100 before the 2015 redenomination,
+      1 after); the fetcher uses `rate_per_unit`, always per one dollar.
+      The plate indexes it 2006 = 100, up = stronger.
+
+security:
+  security.csv:
+    source: "UNODC and WHO via the World Bank — VC.IHR.PSRC.P5, SH.STA.SUIC.P5, SH.STA.TRAF.P5"
+    url: "https://api.worldbank.org/v2/country/UKR/indicator/VC.IHR.PSRC.P5?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-24: homicide 6.3 per 100,000 in 2006 to 3.8 in
+      2021; suicide 28.7 to 21.2; road deaths 25.3 in 2006 to 10.2 in
+      2019. Every series stops before the invasion — the Prosecutor
+      General's portal answers 403 (meta.pending), and no post-2021
+      count is invented.
+
+mortality:
+  mortality.csv:
+    source: "World Bank WDI — SP.DYN.CDRT.IN (crude death rate) and SP.DYN.LE00.IN (life expectancy, UN WPP)"
+    url: "https://api.worldbank.org/v2/country/UKR/indicator/SP.DYN.CDRT.IN?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-24: crude death rate 16.1 per 1,000 in 2006,
+      17.1 in 2021 and 13.6 in 2024; life expectancy 67.5 to 74.7 years.
+      Excess deaths need the registered-death count: the Ukrstat deaths
+      dataflow is cached but its dimension code list is not yet pinned
+      (meta.pending), so no count is drawn.
+
 demography:
   population.csv:
     source: "World Bank WDI — SP.POP.TOTL (UN World Population Prospects)"

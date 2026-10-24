@@ -250,18 +250,254 @@ def plate_people(ctx, ig) -> None:
     _finish(ctx, ig)
 
 
+# ------------------------------------------------------------------ fiscal
+def plate_fiscal(ctx, ig) -> None:
+    p = ctx.p
+    F = "fiscal/fiscal.csv"
+
+    ax = ig.slot("fiscal.revenue_expenditure", "Revenue and expenditure "
+                 "(% of GDP)")
+    ry, rv = _yr(ctx, F, "revenue_pct_gdp")
+    ey, ev = _yr(ctx, F, "expenditure_pct_gdp")
+    ctx.line(ax, ry, rv, p.TEAL, label="Revenue")
+    ctx.line(ax, ey, ev, p.ALERT, label="Expenditure")
+    ig.add_recessions(ax, label=False)
+    peak = max(zip(ey, ev), key=lambda t: t[1])
+    ax.annotate(f"{peak[1]:.1f}% in {peak[0]}", peak,
+                textcoords="offset points", xytext=(6, 2), ha="left",
+                fontsize=8.8, fontweight="bold", color=p.ALERT)
+    _note(p, ax, 0.02, 0.96, f"the war budget: expenditure "
+          f"{_at(ey, ev, 2023):.1f}% of GDP in 2023\nagainst revenue of "
+          f"{_at(ry, rv, 2023):.1f}%")
+    _foot(p, ax, "IMF WEO (October 2026 vintage), general government. One "
+          "vintage for every fiscal panel")
+
+    ax = ig.slot("fiscal.balance", "Overall and primary balance (% of GDP)")
+    by, bv = _yr(ctx, F, "balance_pct_gdp")
+    py, pv = _yr(ctx, F, "primary_balance_pct_gdp")
+    ctx.bars(ax, by, bv, lambda v: p.ALERT if v < 0 else p.GREEN)
+    ctx.line(ax, py, pv, p.NAVY, label="Primary balance")
+    ig.add_recessions(ax, label=False)
+    ax.annotate(f"{_at(by, bv, 2023):.1f}%", (2023, _at(by, bv, 2023)),
+                textcoords="offset points", xytext=(0, -2), ha="center",
+                va="top", fontsize=8.6, fontweight="bold", color=p.ALERT)
+    _note(p, ax, 0.02, 0.96, f"{_at(by, bv, 2023):.1f}% in 2023 — the "
+          f"overall balance,\nprimary {_at(py, pv, 2023):.1f}% after interest")
+    _foot(p, ax, "IMF WEO. The primary balance is the overall balance "
+          "before interest paid")
+
+    ax = ig.slot("fiscal.debt", "Gross debt (% of GDP)")
+    dy, dv = _yr(ctx, F, "debt_pct_gdp")
+    ctx.line(ax, dy, dv, p.PURPLE)
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, dy, dv, p.PURPLE, lambda v: f"{v:.0f}%", dy=8)
+    _note(p, ax, 0.02, 0.96, f"{_at(dy, dv, 2015):.0f}% after the 2014-15 "
+          f"crisis,\n{_at(dy, dv, 2021):.0f}% in 2021, {dv[-1]:.0f}% in {dy[-1]}")
+    _foot(p, ax, "IMF WEO general government gross debt")
+
+    ax = ig.slot("fiscal.interest", "Interest paid (% of GDP)")
+    iy, iv = _yr(ctx, F, "interest_pct_gdp")
+    ctx.line(ax, iy, iv, p.GOLD)
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, iy, iv, p.GOLD, lambda v: f"{v:.1f}%", dy=8)
+    _note(p, ax, 0.02, 0.96, f"{iv[-1]:.1f}% of GDP in {iy[-1]} —\nthe "
+          "cost of the debt, before any reconstruction")
+    _foot(p, ax, "IMF WEO")
+    _finish(ctx, ig)
+
+
+# ------------------------------------------------------------------- trade
+def plate_trade(ctx, ig) -> None:
+    p = ctx.p
+    T = "trade/trade.csv"
+
+    ax = ig.slot("trade.exports_imports", "Exports and imports (% of GDP)")
+    xy, xv = _yr(ctx, T, "exports_pct_gdp")
+    my, mv = _yr(ctx, T, "imports_pct_gdp")
+    ctx.line(ax, xy, xv, p.BLUE, label="Exports")
+    ctx.line(ax, my, mv, p.ALERT, label="Imports")
+    ig.add_recessions(ax, label=False)
+    _note(p, ax, 0.02, 0.96, f"imports {_at(my, mv, 2025):.1f}% of GDP in "
+          f"2025\nagainst exports of {_at(xy, xv, 2025):.1f}%")
+    _foot(p, ax, "World Bank national accounts, goods and services")
+
+    ax = ig.slot("trade.balance", "Trade balance (% of GDP)")
+    ex, im = dict(zip(xy, xv)), dict(zip(my, mv))
+    by = [y for y in xy if y in im]
+    bv = [ex[y] - im[y] for y in by]
+    ctx.bars(ax, by, bv, lambda v: p.GREEN if v >= 0 else p.ALERT)
+    ig.add_recessions(ax, label=False)
+    ax.annotate(f"{bv[-1]:.1f}%", (by[-1], bv[-1]), textcoords="offset points",
+                xytext=(0, -2), ha="center", va="top", fontsize=8.6,
+                fontweight="bold", color=p.ALERT)
+    _note(p, ax, 0.02, 0.96, "the gap widens with the war:\n"
+          "a goods deficit carried by services before it")
+    _foot(p, ax, "Derived: exports minus imports, same World Bank series")
+
+    ax = ig.slot("trade.destinations", "Top export destinations "
+                 "(% of goods exports)")
+    ctx.pending(ax)
+    _pending(ig, ax, "No annual partner series is staged: the customs\n"
+             "service answers 403, and the 2023 UN Comtrade snapshot is\n"
+             "a single year, not the slot's time series.")
+    _foot(p, ax, "SOURCES.yaml meta.pending")
+    _finish(ctx, ig)
+
+
+# ----------------------------------------------------------------- markets
+def plate_markets(ctx, ig) -> None:
+    p = ctx.p
+
+    ax = ig.slot("markets.policy_rate", "Policy rate vs inflation (%)")
+    ky, kv = _yr(ctx, "markets/key_rate.csv", "policy_rate_pct")
+    cy, cv = _yr(ctx, "macro/economy.csv", "cpi_inflation_pct")
+    ctx.line(ax, ky, kv, p.NAVY, label="NBU key rate")
+    ctx.line(ax, cy, cv, p.ALERT, label="Inflation")
+    ig.add_recessions(ax, label=False)
+    _note(p, ax, 0.02, 0.96, f"the key rate averaged "
+          f"{_at(ky, kv, 2025):.1f}% in 2025;\ninflation "
+          f"{_at(cy, cv, 2022):.1f}% in 2022")
+    _foot(p, ax, "NBU key policy rate (annual mean of the daily rate) and the "
+          "Ukrstat CPI")
+
+    ax = ig.slot("markets.bond_10y", "10-year government bond yield "
+                 "(%, annual average)")
+    ctx.pending(ax)
+    _pending(ig, ax, "No continuous official hryvnia 10-year series is\n"
+             "staged: the pre-2022 domestic market was thin and short-\n"
+             "dated, and the NBU API carries no yield curve.")
+    _foot(p, ax, "SOURCES.yaml meta.pending")
+
+    ax = ig.slot("markets.currency", "Currency against the US$ "
+                 "(index 2006 = 100, up = stronger)")
+    fy, fv = _yr(ctx, "markets/usd_uah.csv", "uah_per_usd")
+    base = _at(fy, fv, 2006)
+    iy, iv = ctx.fx_index(dict(zip(fy, fv)))
+    ctx.line(ax, iy, iv, p.TEAL)
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, iy, iv, p.TEAL, lambda v: f"{v:.0f}", dy=8)
+    _note(p, ax, 0.98, 0.96, f"the hryvnia fell from {base:.2f} per dollar "
+          f"in 2006\nto {_at(fy, fv, 2025):.2f} in 2025", ha="right")
+    _foot(p, ax, "NBU official rate, annual mean of the daily rate")
+
+    ax = ig.slot("markets.equities", "Main equity index in US$ "
+                 "(index 2006 = 100, in US$)")
+    ctx.pending(ax)
+    _pending(ig, ax, "Trading was suspended from 24 February 2022 and the\n"
+             "index is not published on an official machine feed;\n"
+             "no unofficial redistributor is substituted.")
+    _foot(p, ax, "SOURCES.yaml meta.pending")
+    _finish(ctx, ig)
+
+
+# ---------------------------------------------------------------- security
+def plate_security(ctx, ig) -> None:
+    p = ctx.p
+
+    ax = ig.slot("security.homicide", "Homicide rate (per 100,000)")
+    hy, hv = _yr(ctx, "security/security.csv", "homicide_per_100k")
+    ctx.line(ax, hy, hv, p.ALERT)
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, hy, hv, p.ALERT, lambda v: f"{v:.1f}", dy=8)
+    _note(p, ax, 0.02, 0.96, f"{hv[0]:.1f} in {hy[0]}, {hv[-1]:.1f} in "
+          f"{hy[-1]} —\nthe UNODC series stops before the invasion")
+    _foot(p, ax, "UNODC via the World Bank. No 2022+ value")
+
+    ax = ig.slot("security.suicide", "Suicide rate (per 100,000)")
+    sy, sv = _yr(ctx, "security/security.csv", "suicide_per_100k")
+    ctx.line(ax, sy, sv, p.PURPLE)
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, sy, sv, p.PURPLE, lambda v: f"{v:.1f}", dy=-14)
+    _note(p, ax, 0.02, 0.96, f"{sv[0]:.1f} in {sy[0]} — one of the highest\n"
+          f"rates in the window; {sv[-1]:.1f} in {sy[-1]}")
+    _foot(p, ax, "WHO via the World Bank. No 2022+ value")
+
+    ax = ig.slot("security.road_deaths", "Road traffic deaths "
+                 "(per 100,000)")
+    ry, rv = _yr(ctx, "security/security.csv", "road_deaths_per_100k")
+    ctx.line(ax, ry, rv, p.GOLD)
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, ry, rv, p.GOLD, lambda v: f"{v:.1f}", dy=8)
+    _note(p, ax, 0.02, 0.96, f"{rv[0]:.1f} in {ry[0]} to {rv[-1]:.1f} in "
+          f"{ry[-1]};\nthe WHO series stops there")
+    _foot(p, ax, "WHO via the World Bank")
+    _finish(ctx, ig)
+
+
+# --------------------------------------------------------------- mortality
+def plate_mortality(ctx, ig) -> None:
+    p = ctx.p
+    M = "mortality/mortality.csv"
+
+    ax = ig.slot("mortality.death_rate", "Crude death rate "
+                 "(per 1,000 people)")
+    dy, dv = _yr(ctx, M, "death_rate_per_1000")
+    ctx.line(ax, dy, dv, p.INK)
+    ig.add_recessions(ax, label=False)
+    peak = max(zip(dy, dv), key=lambda t: t[1])
+    ax.annotate(f"{peak[1]:.1f} in {peak[0]}", peak,
+                textcoords="offset points", xytext=(6, 2), ha="left",
+                fontsize=8.8, fontweight="bold", color=p.INK)
+    _note(p, ax, 0.02, 0.96, f"{dv[0]:.1f} in {dy[0]}, {dv[-1]:.1f} in "
+          f"{dy[-1]};\n{_at(dy, dv, 2021):.1f} in 2021")
+    _foot(p, ax, "World Bank (Ukrstat vital registration)")
+
+    ax = ig.slot("mortality.excess_deaths", "Excess deaths "
+                 "(% above 2015–2019 average)")
+    ctx.pending(ax)
+    _pending(ig, ax, "Excess deaths need the registered-death count, not\n"
+             "the rate: Ukrstat's deaths dataflow is cached but its\n"
+             "dimension code list is not yet pinned, so no count is drawn.")
+    _foot(p, ax, "SOURCES.yaml meta.pending")
+
+    ax = ig.slot("mortality.covid", "COVID-19 deaths, underlying cause "
+                 "(per 100,000)")
+    ctx.pending(ax)
+    _pending(ig, ax, "WHO's COVID-19 series answers from a redirect that\n"
+             "does not resolve here, and no official Ukrainian\n"
+             "underlying-cause file is staged.")
+    _foot(p, ax, "SOURCES.yaml meta.pending")
+
+    ax = ig.slot("mortality.lens", "Life expectancy at birth (years)",
+                 unit=False)
+    ly, lv = _yr(ctx, M, "life_expectancy")
+    ctx.line(ax, ly, lv, p.TEAL)
+    ig.add_recessions(ax, label=False)
+    # No end label: at the right edge it clips; the note carries the value.
+    _note(p, ax, 0.02, 0.96, f"{lv[0]:.1f} years in {ly[0]}, {lv[-1]:.1f} "
+          f"in {ly[-1]};\nthe 2021 dip is the war's first year")
+    _foot(p, ax, "World Bank (UN WPP life tables)")
+    _finish(ctx, ig)
+
+
 PLATES = (
     dict(id="01", slug="economy", topic="economy", builder=plate_economy,
          title="The Economy — a War-Shrunk Output and a Long Inflation",
          filename="01-economy"),
-    dict(id="02", slug="world", topic="world", builder=plate_world,
+    dict(id="02", slug="fiscal", topic="fiscal", builder=plate_fiscal,
+         title="Public Finances — The War Budget and the Debt It Leaves",
+         filename="02-fiscal"),
+    dict(id="03", slug="trade", topic="trade", builder=plate_trade,
+         title="Trade — A Widening Gap Where the Surplus Used to Be",
+         filename="03-trade"),
+    dict(id="04", slug="markets", topic="markets", builder=plate_markets,
+         title="Markets — The Key Rate, Inflation and the Hryvnia",
+         filename="04-markets"),
+    dict(id="05", slug="people", topic="people", builder=plate_people,
+         title="People — Inequality Before the War, and What the Hryvnia Buys",
+         filename="05-people"),
+    dict(id="06", slug="world", topic="world", builder=plate_world,
          title="Ukraine in the World — Size, Development and Reserves",
-         filename="02-world"),
-    dict(id="03", slug="demography", topic="demography",
+         filename="06-world"),
+    dict(id="07", slug="demography", topic="demography",
          builder=plate_demography,
          title="Demography — Two Perimeters, and the Line Between Them",
-         filename="03-demography"),
-    dict(id="04", slug="people", topic="people", builder=plate_people,
-         title="People — Inequality Before the War, and What the Hryvnia Buys",
-         filename="04-people"),
+         filename="07-demography"),
+    dict(id="08", slug="security", topic="security", builder=plate_security,
+         title="Security — Homicide, Suicide and the Road",
+         filename="08-security"),
+    dict(id="09", slug="mortality", topic="mortality",
+         builder=plate_mortality,
+         title="Mortality — The Death Rate and the Years Lost in 2021",
+         filename="09-mortality"),
 )
