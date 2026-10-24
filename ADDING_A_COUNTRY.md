@@ -304,7 +304,11 @@ the magnitude word (`Mrd.`, `mil milhões`, `bi`), the currency on the side
 that language puts it, and — in Japanese, Chinese and Vietnamese — the
 figure *rescaled* onto the language's own magnitudes, so `money_tn` 636.9
 for Japan is `637兆円` and `usd_bn` 684.4 is `6,844億ドル`
-(`core.numstyle.LADDERS`). Every style and currency in the atlas, with
+(`core.numstyle.LADDERS`). Elsewhere a figure of a thousand or more of
+the spec's unit moves one word up, to three significant digits —
+`usd_bn` 30,861 is `US$ 30.9tn`, `R$ 1,10 tri`, `1,04 Bio. US-$` —
+except in French and Italian, which keep `2 991 Md€` and `2.265 mld €`
+(`core.sitebuild.STEP_UP`). Every style and currency in the atlas, with
 its exact output, is pinned in `tests/test_numbers.py`; a new currency
 needs a `CURRENCY_AFFIX` entry for every style its country publishes. `kind=` says whether it is current: `flow` for an annual total,
 only comparable once the year is complete; `level` for a stock or a rate
