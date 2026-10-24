@@ -15,12 +15,12 @@
 # Israel-specific datasets (DSD_LFS@DF_IALFS_*), a harmonised layer the
 # way Eurostat is for EU countries.
 #
-# The blocking finding of the discovery pass: cbs.gov.il and
+# A continuing finding of the discovery pass: cbs.gov.il and
 # data.cbs.gov.il are unreachable from scripted clients on this machine
 # (TCP reset after TLS, and error pages served under HTTP 200 — an
-# "endpoints that lie" case). The domestic statistical spine therefore
-# goes to the pending list whole, and every fallback that IS verified
-# is staged beside where the national series will land.
+# "endpoints that lie" case). CBS-only national layers remain pending,
+# but verified OECD/WHO harmonised national data and direct Bank of Israel
+# workbooks now fill the slots documented below.
 
 meta:
   pending:
@@ -35,22 +35,21 @@ meta:
       accounts — GDP annual + quarterly, the q/q signs the bands need),
       macro/cpi.csv (CPI), the CBS LFS beside social/labour.csv,
       population incl. the Rosh Hashanah release (CBS register of
-      record), social/income.csv (household survey income/inequality),
+      record), social/income.csv (CBS household survey income/inequality),
       demography/births_deaths.csv (vital stats), demography/causes.csv
-      (causes of death, ICD-10), security/homicide_cbs.csv
+      (CBS-direct causes of death, ICD-10; OECD/WHO harmonised national
+      vital-registration mortality is staged separately), security/homicide_cbs.csv
       (death-certificate assault deaths, the §4a second count), and
       trade on the CBS national-accounts basis."
-    - "Bank of Israel beyond FX: the redesigned portal is a JS SPA;
-      PublicApi is live only for GetExchangeRates (verified, staged as
-      markets/usdils_boi.csv). GetInterestRates/GetCPI/GetMaccam
-      are 404; several wrong paths return a Radware bot-challenge
-      loader under HTTP 200 — another lying endpoint. Old BoI file URLs
-      advertised on data.gov.il are dead (404): meshulav_luah_heb.xls
-      (CPI composite), yaz0106.zip (daily FX history), pribmash/mashfix
-      .xls (mortgage rates), and dataset 381 points at the retired
-      www.bankisrael.gov.il/series catalogue. markets/rates.csv (policy
-      rate), FX history, reserves and mac\"m yields need the BoI MSIB
-      portal or hand curation from the monetary-committee pages."
+    - "Bank of Israel residual gaps: the redesigned topic pages are a JS SPA
+      and can return a Radware loader under HTTP 200, but stable boi_files
+      workbooks were verified for the policy rate, benchmark 10-year yield,
+      household debt, mortgage rate and banking-system NPL ratio. Those
+      series are staged below. The PublicApi remains useful for only the
+      current FX snapshot; the advertised daily-history ZIP and CPI composite
+      are dead (404). A BoI historical daily FX line, direct CPI line and
+      official reserves history remain pending rather than being inferred
+      from failed topic-page routes."
     - "Ministry of Finance / Accountant General: agf.gov.il does not
       resolve (NXDOMAIN); no MoF organisation on data.gov.il; budgets.
       gov.il does not resolve. mof.gov.il resolves (gov.il MoF pages)
@@ -59,13 +58,11 @@ meta:
       fallback (fiscal/general_government.csv); Israel's own
       D7 debt definition stays parked and gets its own column beside
       the IMF one when it lands — never a splice."
-    - "OECD inequality (IDD/WISE) and the national survey income.csv:
-      REST is live and the data-explorer reference is
-      DSD_WISE_IDD@DF_IDD (agency OECD.WISE.INE); the exact flow
-      version + key were not resolved this pass. WB SI.POV.GINI for
-      Israel (38.3 in 2019) is a market-income-looking figure whose
-      definition nobody verified — deliberately not staged. Two
-      definitions, two columns, when they land."
+    - "CBS national household-survey income/inequality remains blocked with
+      CBS. OECD IDD/WISE is now verified and staged as a separate harmonised
+      disposable-income layer, with METH2011/METH2012 and D_CUR/D_INC kept in
+      separate columns. WB SI.POV.GINI was rejected because its income concept
+      was not verified; it is not used as a substitute for either layer."
     - "PIBA/ASO asylum statistics (applications / decisions / grants /
       persons present) — no dataset under population_authority on
       data.gov.il; ASO (Asylum Seekers Unit) publishes on gov.il,
@@ -89,10 +86,13 @@ meta:
       schemas mid-run: the olim 2024 resource carries Hebrew column
       names while 2015-2023/2025 use transliterated ones — the fetcher
       detects the dialect per resource instead of assuming it."
-    - "BIS credit series: Israel is not in WS_TC/WS_DSR coverage — the
-      API answers 'No results for query' for IL (2026-10-22). The
-      credit chapter's national side is Bank of Israel (parked above);
-      there is no harmonised household-credit line for Israel."
+    - "Credit lens only — debt service ratio (DSR): Israel is absent from BIS
+      WS_DSR ('No results for query' for IL, checked 2026-10-22), and no
+      compatible BoI household-sector DSR time series was verified. The three
+      canonical credit panels are filled below from BoI series (with WDI
+      nominal GDP used only as the labelled debt-ratio denominator).
+      Mortgage-origination payment-to-income distributions are not a stock
+      DSR and are deliberately rejected as a proxy."
     - "TASE TA-35 index symbol: ^TA35.TA is 404 on Yahoo; ^TA125.TA
       verified instead and is the main index anyway. stooq is
       JS-walled from this machine (browser challenge under HTTP 200)."
@@ -139,6 +139,32 @@ macro:
       PCPIPCH is the live one.
 
 markets:
+  policy_rate.csv:
+    source: "Bank of Israel — bointcre_1 and bointcre_m policy-rate workbooks"
+    url: "https://www.boi.org.il/boi_files/Statistics/bointcre_1.xls"
+    alt_url: "https://www.boi.org.il/boi_files/Statistics/bointcre_m.xls"
+    official: true
+    refreshed_by: fetch/fetch_boi_gaps.py
+    notes: >-
+      VERIFIED 2026-10-23. Nominal percent, complete calendar years
+      2006-2025; partial 2026 is excluded. For 2006-2016 the annual value is
+      the arithmetic mean of the 12 published monthly liquidity-period
+      averages. For 2017-2025 it is the calendar-day-weighted mean of the
+      declared nominal rate in force, using each effective Start Date. The
+      annual_aggregation column preserves this definition seam: 2006 5.125%,
+      2017 0.100%, 2025 4.476027%.
+  government_bond_10y.csv:
+    source: "Bank of Israel — benchmark 10-year unindexed government-bond yield, shcd05_e"
+    url: "https://www.boi.org.il/boi_files/Statistics/shcd05_e.xls"
+    official: true
+    refreshed_by: fetch/fetch_boi_gaps.py
+    notes: >-
+      VERIFIED 2026-10-23. Annual arithmetic mean of exactly 12 monthly
+      percent yields, 2006-2025; partial 2026 excluded. The publisher defines
+      the observation as the longest government bond with 8-11 years of
+      remaining maturity. It is a benchmark-bond series, not a constant-
+      maturity/model zero-coupon curve or a MAKAM bill yield. Known checks:
+      2006 6.314167%, 2020 0.777500%, 2025 4.244167%.
   usdils_boi.csv:
     source: "Bank of Israel — PublicApi representative exchange rates"
     url: "https://www.boi.org.il/currency.xml"
@@ -216,6 +242,40 @@ fiscal:
       definition and is parked; when it lands it gets its own column
       beside this one.
 
+spending:
+  cofog.csv:
+    source: "OECD National Accounts at a Glance — OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_OTEF, OTES13F"
+    url: "https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_OTEF,/A.ISR.OTES13F...?startPeriod=2006&dimensionAtObservation=AllDimensions"
+    official: false
+    refreshed_by: fetch/fetch_spending_people.py
+    notes: >-
+      VERIFIED 2026-10-23, annual 2006-2024. Consolidated general-government
+      S13 total expenditure OTE, COFOG, percent of GDP (PT_B1GQ). The seven
+      spine groups map GF10; GF07; GF09; GF01; GF04; GF02+GF03; and
+      GF05+GF06+GF08. Each year's groups sum to OECD total within 0.02
+      percentage point; the 2020 total is 45.6604361637678% of GDP.
+  public_investment.csv:
+    source: "OECD National Accounts at a Glance — OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_VI, P51GS13"
+    url: "https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_VI,/A.ISR.P51GS13...?startPeriod=2006&dimensionAtObservation=AllDimensions"
+    official: false
+    refreshed_by: fetch/fetch_spending_people.py
+    notes: >-
+      VERIFIED 2026-10-23, annual 2006-2024. General-government S13 gross
+      fixed capital formation P51G, percent of GDP; 2019 is
+      4.87010331401071%. This perimeter is deliberately separate from
+      whole-economy investment. A newer Table 11 probe with structural-looking
+      early zeroes was rejected rather than treating missing as zero.
+  whole_economy_investment.csv:
+    source: "World Bank WDI — NE.GDI.FTOT.ZS"
+    url: "https://api.worldbank.org/v2/country/ISR/indicator/NE.GDI.FTOT.ZS?format=json&per_page=200&date=2006:2025"
+    official: false
+    refreshed_by: fetch/fetch_spending_people.py
+    notes: >-
+      VERIFIED 2026-10-23, annual 2006-2025. Whole-economy gross fixed
+      capital formation as percent of GDP, sourced by WDI from Israel's
+      national accounts; 2019 is 23.1324217345266%. It is not government GFCF
+      and is never substituted for public_investment.csv.
+
 social:
   labour.csv:
     source: "OECD SDMX REST — Israel LFS (OECD.SDD.TPS, DSD_LFS@DF_IALFS_INDIC)"
@@ -232,9 +292,75 @@ social:
       2020 4.33, 2024 2.97), youth 15-24, and the labour force level
       in thousands. This IS the LFS definition (survey), not the NII
       payroll register — survey-vs-administrative note kept for the
-      plate. The CBS LFS beside it is parked, and so are both Gini
-      series (meta.pending): national survey income.csv and the OECD
-      IDD cut, two definitions and two columns when they land.
+      plate. The CBS LFS beside it is parked. OECD IDD income distribution is
+      staged below as the harmonised layer; only the CBS national-survey
+      income series remains pending.
+  income_distribution.csv:
+    source: "OECD Income Distribution Database — OECD.WISE.INE,DSD_WISE_IDD@DF_IDD"
+    url: "https://sdmx.oecd.org/public/rest/data/OECD.WISE.INE,DSD_WISE_IDD@DF_IDD,/ISR.A.INC_DISP_GINI+PR_INC_DISP......?startPeriod=2006&dimensionAtObservation=AllDimensions"
+    official: false
+    refreshed_by: fetch/fetch_spending_people.py
+    notes: >-
+      VERIFIED 2026-10-23, observations 2008-2023. Disposable household
+      income: INC_DISP_GINI on the 0-1 scale and PR_INC_DISP as percent below
+      50% of median equivalised disposable income, for total, under-18 and
+      over-65 age groups. Segments remain separate: METH2011/D_CUR 2008-2011,
+      METH2012/D_INC 2011-2022, and METH2012/D_CUR a 2023 point only. They
+      must not be spliced. The 2023 current-definition values are Gini
+      0.34154999256134, total poverty 17.1729996800423%, child
+      23.2418423092589%, and old age 16.0038828849792%.
+  minimum_wage.csv:
+    source: "Israel National Insurance Institute (Bituach Leumi) — statutory adult minimum-wage history"
+    url: "https://www.btl.gov.il/Mediniyut/GeneralData/Pages/%D7%A9%D7%9B%D7%A8%20%D7%9E%D7%99%D7%A0%D7%99%D7%9E%D7%95%D7%9D.aspx"
+    official: true
+    refreshed_by: fetch/fetch_spending_people.py
+    notes: >-
+      VERIFIED 2026-10-23, calendar years 2006-2025. Nominal statutory adult
+      monthly wage in ILS, annualised as the mean of the 12 legal monthly
+      levels in force. USD equals that annual ILS mean divided by committed
+      annual-average ILS/USD; it is nominal, not PPP. Effective-level checks:
+      ILS 3,456.58 from 2006-04-01, ILS 5,300 from 2018-04-01, and ILS
+      6,247.67 from 2025-04-01. The 2025 annual mean is ILS 6,155.7575 /
+      US$1,783.30. The verified 2026 level is omitted because the year and its
+      full-year FX average are incomplete.
+
+credit:
+  household_debt.csv:
+    source: "Bank of Israel CRA_OUT_0204 household debt, with World Bank WDI NY.GDP.MKTP.CN denominator"
+    url: "https://www.boi.org.il/boi_files/Statistics/itrchove.xlsx"
+    alt_url: "https://api.worldbank.org/v2/country/ISR/indicator/NY.GDP.MKTP.CN?format=json&per_page=100"
+    official: false
+    refreshed_by: fetch/fetch_boi_gaps.py
+    notes: >-
+      VERIFIED 2026-10-23, 2006-2025. BoI sheet Credit Outstanding -
+      Quarterly, CRA_OUT_0204 Total debt to all lenders in the household
+      block: Q4 stock in current NIS billion. Ratio = BoI Q4 stock / (WDI
+      annual nominal GDP in current NIS / 1e9) * 100. This mixed-source
+      derived ratio is official:false despite the official BoI numerator.
+      Checks: 2006 NIS 246.200704bn / 34.815196%; 2024 NIS 845.849452bn /
+      GDP NIS 2,006.300600bn = 42.159657%; 2025 42.885234%.
+  mortgage_rate.csv:
+    source: "Bank of Israel — Average Rate of Interest on Unindexed Mortgages, mashfix"
+    url: "https://www.boi.org.il/boi_files/Pikuah/mashfix.xls"
+    official: true
+    refreshed_by: fetch/fetch_boi_gaps.py
+    notes: >-
+      VERIFIED 2026-10-23, complete years 2014-2025. Annual mean of exactly
+      12 monthly weighted-average effective rates on new unindexed-shekel
+      housing loans, fixed and variable. The combined series begins March
+      2013; the older fixed-only sheet is not spliced. Checks: 2014 2.695000%,
+      2020 2.455833%, 2025 5.054880%.
+  npl_ratio.csv:
+    source: "Bank of Israel report to IMF Financial Soundness Indicators — FSI_ISR, FSANL"
+    url: "https://www.boi.org.il/boi_files/Statistics/FSI_ISR.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_boi_gaps.py
+    notes: >-
+      VERIFIED 2026-10-23, Q4/end-year 2012-2025. Deposit-taker banking-system
+      nonperforming loans to total gross loans, percent; not household-only
+      delinquency. BoI marks a November 2022 transition from the IMF 2006 FSI
+      Guide to the 2019 Guide; method_vintage preserves the seam. Checks:
+      2012 3.454405%, 2022 0.711449%, 2025 0.638792%.
 
 trade:
   trade.csv:
@@ -324,10 +450,31 @@ demography:
       death 5.2 per 1,000 (2023). SM.POP.NETM is an estimate and
       small (10.6k, 2024) — aliyah is NOT net migration; the two are
       different objects and the migration plate draws them apart.
-      Series of record (CBS register + vital stats) parked with CBS;
+      Series of record (CBS register + direct vital stats) parked with CBS;
       the crude-rate columns staged here are the harmonised stand-in
-      until it returns, not a substitute, and causes of death
-      (ICD-10) are parked with CBS (meta.pending).
+      until it returns, not a substitute. A separate OECD/WHO harmonised
+      national vital-registration mortality series is staged below; only the
+      CBS-direct cause table remains blocked.
+
+mortality:
+  mortality.csv:
+    source: "OECD Health Statistics Causes of Mortality — OECD.ELS.HD,DSD_HEALTH_STAT@DF_COM,1.1 (WHO Mortality Database national vital registration)"
+    url: "https://sdmx.oecd.org/public/rest/data/OECD.ELS.HD,DSD_HEALTH_STAT@DF_COM,1.1/ISR.A...........?startPeriod=2005&endPeriod=2026"
+    official: false
+    refreshed_by: fetch/fetch_mortality.py
+    notes: >-
+      VERIFIED 2026-10-23, annual 2005-2023, both sexes and all ages,
+      MEASURE=CSEM. Harmonised redistribution of Israeli national vital-
+      registration underlying-cause records, not a model estimate or COVID
+      surveillance dashboard. All-cause and CICDCVID counts use DT; crude
+      DT_10P5HB rates are per 100,000 (all-cause divided by 100 for the
+      per-1,000 column). CICDTUME and CICDCIRC are crude per 100,000; age-
+      standardised rows are excluded. Excess = (deaths / mean(2015..2019) -
+      1) * 100, baseline 44,673.8, beginning 2015; it is unadjusted. OECD 2021
+      checks: 50,772 all deaths, 4,800 COVID, COVID 51.2/100k, cancer
+      123.6/100k and circulatory 109.3/100k; CBS independently confirms the
+      4,800 COVID count. OECD 2023 has 49,654 deaths and 1,028 COVID deaths.
+      No later Israeli observation exists in this vintage.
 
 security:
   security.csv:
@@ -358,14 +505,14 @@ security:
       than dropped. Counts are recorded-crime FILES, place-of-
       occurrence geography, and only 2021-2025.
   homicide_police.csv:
-    source: "Israel Police — crime records, StatisticTypeKod 301 (רצח) / 302 (hostile action)"
+    source: "Israel Police — crime records, StatisticTypeKod 301 (official taxonomy רצח; homicide cases in public copy) / 302 (hostile action)"
     url: "https://data.gov.il/api/3/action/package_show?id=crime_records_data"
     official: true
     refreshed_by: fetch/fetch_data_gov_il.py
     notes: >-
-      Murder (type 301): 2021 156, 2022 112, 2023 1,209, 2024 458,
-      2025 345. The 2023 jump is the October-7-2023 massacre recorded
-      as murder files in the police taxonomy — the data saying it;
+      Type-301 cases: 2021 156, 2022 112, 2023 1,209, 2024 458,
+      2025 345. The 2023 jump includes the October-7-2023 national-terror
+      files recorded under type 301 in the police taxonomy;
       annotate on the plate, never smooth or editorialise, and note
       the definitional seam (public "murder for the year" figures
       published in commentary often exclude the national-terror

@@ -42,11 +42,11 @@ country.yaml carries one band: `{from: 2020.0, to: 2020.9, label:
   2024, balance −8.1%, debt 61.9 → 67.7 → 67.9% of GDP — is annotated on
   the fiscal plate as events and notes. It is never turned into a band,
   because a band would assert a growth contraction the series denies.
-- The October-7 files inside the police murder count (2023: 1,209 type-301
-  files) are annotated on the security plate as recorded data. Police
-  commentary sometimes excludes the national-terror files from "murder
-  for the year"; **the file does not** — that definitional seam is stated
-  on the panel.
+- The October-7 files inside the Israel Police type-301 series (2023: 1,209
+  recorded cases) are annotated on the security plate as recorded data.
+  Police commentary sometimes excludes the national-terror files from its
+  annual homicide reporting; **the open-data file does not** — that
+  definitional seam is stated on the panel.
 
 ## Count→rate conversions (spine rule 5) and the population used
 
@@ -56,8 +56,9 @@ the UNODC/WHO rate series' own denominator when a published rate exists
 (where a publisher publishes a rate, the published rate is drawn, not a
 recomputed one):
 
-- police murders per 100,000: `security/homicide_police_from_datagovil.csv`
-  murder_301 ÷ that year's population × 100,000. Spot: 2023 =
+- Israel Police type-301 cases per 100,000:
+  `security/homicide_police.csv` type_301 count ÷ that year's
+  population × 100,000. Spot: 2023 =
   1,209 / 9,849,000 = **12.28** per 100,000 (test recomputes).
 - olim per 1,000: olim_flow ÷ population × 1,000. Spot: 2022 = 76,601 /
   9,557,500 = **8.01** per 1,000.
@@ -102,27 +103,80 @@ recomputed one):
 ## Harmonised lines with the national line named (CBS pattern)
 
 CBS is the publisher of record and unreachable from this machine
-(SOURCES.yaml meta.pending), so — exactly the Canada pre-StatCan pattern —
-economy, trade, people-shaped, demography and security slots ride the
-WB/IMF/OECD layer, each footered **"the CBS national line when CBS
-returns"**. The OECD `DSD_LFS@DF_IALFS_INDIC` unemployment line IS
+(SOURCES.yaml meta.pending), so CBS-only national layers remain visibly
+pending. Verified harmonised layers are used where their definitions fit:
+WB/IMF macro and trade, OECD LFS and IDD, and OECD/WHO national-vital-
+registration mortality. They are labelled as harmonised data, not as direct
+CBS downloads. The OECD `DSD_LFS@DF_IALFS_INDIC` unemployment line is
 Israel's own LFS re-published by the OECD, so it is labelled as the LFS
-definition (survey, not the NII payroll register); the ILO-modelled WB
-line is the beside-line.
+definition (survey, not the NII payroll register); the ILO-modelled WB line
+is the beside-line. Direct Bank of Israel workbooks provide the national
+policy-rate, government-yield, household-debt, mortgage-rate and banking NPL
+series independently of the blocked CBS route.
 
-## Pending slots (ctx.pending) and skipped chapters
+## Filled gaps and the remaining pending lens
 
-Claimed and pending, each with its reason on the panel:
-`markets.policy_rate` and `markets.bond_10y` (BoI beyond FX parked).
-The former fiscal-interest, trade-destination, world-CPI and migrant-stock
-gaps were filled on 2026-10-23 from IMF Fiscal Monitor, UN Comtrade,
-Transparency International and World Bank/UN DESA respectively.
-No chapters are drawn for **spending** (no COFOG staged), **people** (no
-Gini/poverty/minimum wage staged — OECD IDD version unresolved, WB Gini
-definition unverified), **credit** (BIS answers "No results for query"
-for IL; BoI side parked) and **mortality** (CBS-only). A chapter of six
-pending panels is worse than no chapter; the remaining routes are named
-in SOURCES.yaml meta.pending.
+The former policy-rate and 10-year-yield gaps are filled from stable BoI
+workbooks. Spending now has OECD COFOG and general-government investment plus
+a separately labelled WB whole-economy investment series. People now has OECD
+IDD Gini/relative-poverty segments and the official Bituach Leumi statutory
+minimum wage. Credit now has BoI household debt, new-mortgage rates and the
+banking-system NPL ratio. Mortality now has OECD/WHO harmonised Israeli
+national-vital-registration counts and crude rates.
+
+The only remaining credit lens gap is a household debt-service ratio. BIS
+WS_DSR has no Israel coverage and no compatible BoI household-sector DSR time
+series was verified. Mortgage-origination payment-to-income distributions are
+not substituted because they are not a stock DSR. CBS-direct national survey,
+national-accounts and mortality tables remain blocked as distinct national
+layers; their absence does not invalidate the explicitly labelled harmonised
+series. Other residual routes remain itemised in SOURCES.yaml `meta.pending`.
+
+## Spending and people normalization
+
+- OECD COFOG is consolidated general-government expenditure, percent of GDP,
+  2006-2024. The seven spine groups are explicit sums of GF01-GF10 and are
+  checked against OECD total within 0.02 percentage point. OECD public
+  investment is S13 gross fixed capital formation; WB whole-economy GFCF is a
+  different perimeter and is never used as its replacement.
+- OECD IDD preserves three definition segments in separate columns:
+  METH2011/D_CUR (2008-2011), METH2012/D_INC (2011-2022), and the
+  METH2012/D_CUR 2023 point. The plate must not connect them into one line.
+  Poverty means below 50% of median equivalised disposable household income,
+  not an absolute poverty line.
+- The statutory minimum wage is the calendar-year mean of the twelve monthly
+  legal ILS levels. Its USD view divides by committed annual-average ILS/USD;
+  it is a nominal conversion, not purchasing power. The incomplete 2026 year
+  is omitted.
+
+## Bank of Israel market and credit normalization
+
+- Policy rate: 2006-2016 is the mean of 12 monthly liquidity-period averages;
+  2017-2025 is the calendar-day-weighted declared nominal rate using effective
+  dates. `annual_aggregation` exposes this seam.
+- The 10-year yield is the mean of 12 monthly yields on the longest unindexed
+  government bond with 8-11 years remaining. It is not a constant-maturity or
+  model zero-coupon curve.
+- Household debt is BoI `CRA_OUT_0204`, total debt to all lenders, Q4 stock in
+  NIS billion. Percent of GDP is derived from WDI annual current-NIS GDP:
+  `Q4 debt / (GDP / 1e9) * 100`; the mixed-source ratio is labelled as such.
+- The mortgage rate covers new unindexed-shekel housing loans, fixed and
+  variable, and begins with complete years in 2014. The pre-2013 fixed-only
+  sheet is not spliced. The NPL ratio is the deposit-taker banking-system
+  `FSANL` Q4 ratio, not household delinquency, with the November 2022 IMF FSI
+  2006-to-2019 Guide seam retained.
+
+## Mortality normalization
+
+OECD Causes of Mortality redistributes national vital-registration underlying-
+cause records via the WHO Mortality Database. It is not a model estimate or a
+COVID surveillance series. The accepted rows are annual, both sexes, all
+ages, 2005-2023. Counts use `DT`; crude `DT_10P5HB` rates are per 100,000, so
+the all-cause rate is divided by 100 for the per-1,000 plate. Cancer and
+circulatory lines remain crude per 100,000; age-standardised rows are excluded.
+Excess mortality is `(deaths / 44,673.8 - 1) * 100`, where 44,673.8 is the
+fixed 2015-2019 mean. It begins in 2015 and is unadjusted. Later years stay
+blank until the same source vintage advances.
 
 ## Other honesty notes carried on the plates
 
