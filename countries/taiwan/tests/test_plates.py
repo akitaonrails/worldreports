@@ -20,6 +20,7 @@ import csv
 import pytest
 
 from core.country import Country
+from core import sitebuild
 from tests.probe import plate
 
 SLUG = "taiwan"
@@ -381,6 +382,20 @@ def test_gdp_and_reserves_us_dollar_columns():
     t = " ".join(texts("plate_world", "GDP at current"))
     assert "US$922bn" in t
     assert "2025: US$603bn" in " ".join(texts("plate_world", "Official reserves"))
+
+
+def test_homepage_goods_balance_converts_usd_thousands_to_billions():
+    """Homepage summaries must not label the MOF's raw thousands as bn."""
+    country = Country.load(SLUG)
+    headline = sitebuild.headline_for(country)
+    trade = next(ch for ch in sitebuild.chapters_for(country)
+                 if ch["topic"] == "trade")
+    headline_balance = next(s for s in headline
+                            if s["label"]["en"] == "Trade balance, goods")
+    card_balance = next(s for s in trade["stats"]
+                        if s["label"]["en"] == "Goods surplus")
+    assert headline_balance["value"]["en"] == "US$ 155bn"
+    assert card_balance["value"]["en"] == "US$ 155bn"
 
 
 def test_hdi_absent_but_ti_cpi_is_drawn():

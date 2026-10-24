@@ -45,6 +45,14 @@ def _per(ctx, rel: str, col: str, per: float = 1e5):
             for y, v in ctx.col(rel, col) if y in pop]
 
 
+def _goods_balance_usd_bn(ctx):
+    """MOF goods balance, converting the source's US$ thousands to bn."""
+    exports = ctx.col("trade/goods.csv", "exports_usd_thousands")
+    imports = ctx.col("trade/goods.csv", "imports_usd_thousands")
+    return [(year, (exported - imported) / 1e6)
+            for (year, exported), (_, imported) in zip(exports, imports)]
+
+
 def headline(ctx) -> list[dict]:
     """The figures the page leads with, above the plates."""
     return [
@@ -61,9 +69,7 @@ def headline(ctx) -> list[dict]:
                  "pct2", kind="level"),
         ctx.stat({ZH: "貿易餘絀(商品)", EN: "Trade balance, goods",
                   PT: "Saldo comercial, bens"},
-                 [(y, e - m) for (y, e), (_, m) in
-                  zip(ctx.col("trade/goods.csv", "exports_usd_thousands"),
-                      ctx.col("trade/goods.csv", "imports_usd_thousands"))],
+                 _goods_balance_usd_bn(ctx),
                  "usd_bn"),
         ctx.stat({ZH: "中央政府債務", EN: "Central government debt",
                   PT: "Dívida do governo central"},
@@ -285,10 +291,7 @@ def build(ctx) -> list[dict]:
                   "usd_bn"),
                 S({ZH: "商品順差", EN: "Goods surplus",
                    PT: "Superávit de bens"},
-                  [(y, e - m) for (y, e), (_, m) in
-                   zip(ctx.col("trade/goods.csv", "exports_usd_thousands"),
-                       ctx.col("trade/goods.csv",
-                               "imports_usd_thousands"))],
+                  _goods_balance_usd_bn(ctx),
                   "usd_bn"),
             ],
         },
