@@ -38,6 +38,7 @@ CARDS = [
     ("fr", "money_bn", "EUR", 2991.4, f"2{N}991{N}Md€"),
     ("fr", "pct_gdp", None, 12.5, f"12,5{N}% du PIB"),
     ("pt", "money_bn", "BRL", 11745.2, "R$ 11.745 bi"),
+    ("pt", "money_tn1", "BRL", 11.7452, "R$ 11,7 tri"),
     ("pt", "pct", None, 12.5, "12,5%"),
     ("es", "money_bn", "EUR", 1594.3, "€ 1.594 mm"),
     ("ko", "money_tn", "KRW", 2549.1, "2,549조 원"),

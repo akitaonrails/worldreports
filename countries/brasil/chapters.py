@@ -22,6 +22,11 @@ def per_100k(ctx, count_col, pop_mn_col):
     return [(y, v / (pop[y] * 1e6) * 1e5) for y, v in count_col if y in pop]
 
 
+def trillions(pairs):
+    """Convert a series stored in billions of reais to trillions."""
+    return [(year, value / 1_000) for year, value in pairs]
+
+
 def headline(ctx) -> list[dict]:
     """The figures the page leads with, above the plates.
 
@@ -38,7 +43,8 @@ def headline(ctx) -> list[dict]:
     """
     return [
         ctx.stat({"pt": 'PIB', "en": 'GDP'},
-                 ctx.col("macro/gdp.csv", "nominal_rbi"), "money_bn"),
+                 trillions(ctx.col("macro/gdp.csv", "nominal_rbi")),
+                 "money_tn1"),
         ctx.stat({"pt": 'PIB por pessoa, US$', "en": 'GDP per person, US$'},
                  ctx.col("macro/gdp.csv", "gdp_per_capita_usd"), "count"),
         ctx.stat({"pt": 'População', "en": 'Population'},
@@ -63,7 +69,8 @@ def build(ctx) -> list[dict]:
             "spark": ctx.col("macro/gdp.csv", "nominal_rbi"),
             "stats": [
                 ctx.stat({"en": "GDP", "pt": "PIB"},
-                     ctx.col("macro/gdp.csv", "nominal_rbi"), "money_bn"),
+                     trillions(ctx.col("macro/gdp.csv", "nominal_rbi")),
+                     "money_tn1"),
                 ctx.stat({"en": "Real growth", "pt": "Crescimento real"},
                      ctx.col("macro/gdp.csv", "real_growth"), "pct_s"),
                 ctx.stat({"en": "Inflation", "pt": "Inflação"},

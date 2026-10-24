@@ -36,6 +36,7 @@ NBSP = numstyle.NBSP
 # prefix and suffix each language puts around it.
 NUMFMT = {
     "money_bn": "{:,.0f}", "money": "{:,.0f}", "money_tn": "{:,.0f}",
+    "money_tn1": "{:,.1f}",
     "money2": "{:,.2f}",
     "usd_bn": "{:,.0f}", "usd_bn_s": "{:+,.0f}", "usd_bn1": "{:,.1f}",
     "pct": "{:,.1f}", "pct_s": "{:+,.1f}", "pct2": "{:,.2f}",
@@ -105,6 +106,7 @@ CURRENCY_AFFIX = {
                          "es": ("€", ""),
                          "pt": ("€ ", "")}},
     "BRL": {"money_bn": {"en": ("R$ ", "bn"), "pt": ("R$ ", " bi")},
+            "money_tn1": {"en": ("R$ ", "tn"), "pt": ("R$ ", " tri")},
             "money2":   {"en": ("R$ ", ""), "pt": ("R$ ", "")},
             "money":    {"en": ("R$ ", ""), "pt": ("R$ ", "")}},
     "USD": {"money_bn": {"en": ("US$ ", "bn"), "pt": ("US$ ", " bi")},
@@ -406,7 +408,8 @@ class SiteContext:
         """A figure written for each of this country's locales.
 
         Keyed by locale, written in that locale's number style: Portugal's
-        "pt" card reads 291 mil milhões de euros, Brazil's R$ 11.745 bi.
+        "pt" card reads 291 mil milhões de euros, while a Brazilian GDP
+        value can use the compact R$ 11,7 tri spec.
         """
         out = {}
         for locale in self.locales:
