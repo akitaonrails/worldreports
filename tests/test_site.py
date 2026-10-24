@@ -132,6 +132,17 @@ def test_every_page_is_well_formed(site):
         assert not left, f"{path}: never closed {left}"
 
 
+def test_google_analytics_is_loaded_once_on_every_page(site):
+    measurement_id = page.GOOGLE_ANALYTICS_ID
+    loader = ("https://www.googletagmanager.com/gtag/js?id="
+              f"{measurement_id}")
+    config = f"gtag('config', '{measurement_id}')"
+    for path in pages_of(site):
+        text = path.read_text(encoding="utf-8")
+        assert text.count(loader) == 1, f"{path}: GA4 loader missing or repeated"
+        assert text.count(config) == 1, f"{path}: GA4 config missing or repeated"
+
+
 def test_every_page_has_exactly_one_h1(site):
     for path in pages_of(site):
         doc = parse(path)

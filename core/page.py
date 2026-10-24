@@ -43,6 +43,7 @@ from core.country import COUNTRIES_DIR, ROOT, Country
 SITE = ROOT / "site"
 ORIGIN = "https://worldreports.io"
 REPO = "https://github.com/akitaonrails/worldreports"
+GOOGLE_ANALYTICS_ID = "G-7LKE9YHT74"
 
 # The thumbnails are rendered at this size; stating it in the markup lets the
 # browser reserve the space before the image arrives, so the cards do not
@@ -50,6 +51,17 @@ REPO = "https://github.com/akitaonrails/worldreports"
 THUMB_W, THUMB_H = 560, 357
 
 FAMILIES = ("money", "world", "people")
+
+
+def _analytics() -> str:
+    """The shared GA4 tag, included once in every HTML document."""
+    return f"""<script async src="https://www.googletagmanager.com/gtag/js?id={GOOGLE_ANALYTICS_ID}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {{ dataLayer.push(arguments); }}
+    gtag('js', new Date());
+    gtag('config', '{GOOGLE_ANALYTICS_ID}');
+  </script>"""
 
 
 def e(v) -> str:
@@ -749,6 +761,7 @@ def country_page(country: Country, locale: str, chapters: list[dict],
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {_analytics()}
   <title>{e(title)}</title>
   <meta name="description" content="{e(desc)}">
   <meta name="keywords" content="{e(', '.join(country.seo.get('keywords') or []))}">
@@ -832,6 +845,7 @@ def negotiator(country: Country, shared: dict, local: dict,
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {_analytics()}
   <meta name="robots" content="noindex, follow">
   <title>{e(ch.tx(country.name))} — worldreports.io</title>
   <link rel="canonical" href="{ORIGIN}/{country.slug}/{country.default_locale}/">
@@ -911,6 +925,7 @@ def home(countries: list[Country], shared: dict, built: str) -> str:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {_analytics()}
   <title>worldreports.io — official statistics, country by country</title>
   <meta name="description" content="Data plates on {len(countries)} countries, {years[0]}–{years[1]}, built only from the statistics their own institutions publish and regenerated from committed CSVs.">
   <link rel="canonical" href="{ORIGIN}/">
