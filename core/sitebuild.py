@@ -22,6 +22,7 @@ A chapter is declared in `countries/<slug>/chapters.py` and looks like this:
 from __future__ import annotations
 
 import json
+import math
 import re
 from pathlib import Path
 
@@ -129,7 +130,8 @@ CURRENCY_AFFIX = {
 # "{mag}" in a suffix is the style's own magnitude word, for the styles
 # that rescale onto a ladder (core.numstyle.LADDERS): 684 bn is written
 # 6,840億ドル, not 684億. A style without a ladder writes the spec's
-# magnitude one-for-one and never has the placeholder.
+# magnitude one-for-one, or one word up from a thousand (STEP_UP, below),
+# and never has the placeholder.
 _N = NBSP
 _STYLE_AFFIX = {
     # Duden and DIN 5008: a space before %, the amount before the unit,
@@ -337,18 +339,67 @@ def localize_prose(text: str, style: str) -> str:
     return _IN_PROSE.sub(lambda m: numstyle.swap(m.group(0), style), text)
 
 
+# A style without a ladder writes the spec's magnitude one-for-one, which
+# leaves a GDP of 30,861 bn reading as "US$ 30,861bn". From a thousand of
+# the spec's unit up, the figure moves one word up instead, to three
+# significant digits: US$ 30.9tn, R$ 1,10 tri, 1.41bn people. Each entry
+# is (the word at the spec's magnitude, the word a thousand times larger)
+# as it appears in that style's suffix. A style that is absent keeps its
+# published form on purpose: French and Italian write thousands of
+# milliards ("2 991 Md€", INSEE and ISTAT usage), and neither pt-PT nor
+# Hebrew has a figure on the site large enough to need one. Population
+# steps up only in en and pt: no es, de or ko page has a billion people.
+STEP_UP_SPECS = {"money_bn", "usd_bn", "usd_bn_s", "usd_bn1", "pop_mn"}
+STEP_UP = {
+    "en": (("bn", "tn"), ("M", "bn")),
+    "pt": ((" bi", " tri"), (" mi", " bi")),
+    # billón = 10^12 (RAE). The Spanish dollar specs are written "bn".
+    "es": ((" mm", " billones"), ("bn", " billones")),
+    "de": (("Mrd.", "Bio."),),
+    "ko": (("십억", "조"),),
+}
+_STEP_SIG = 3
+
+
+def _stepped_up(value: float, spec: str, style: str,
+                suffix: str) -> tuple[str, str] | None:
+    """`value` one magnitude word up, or None when it stays where it is."""
+    if spec not in STEP_UP_SPECS or not math.isfinite(value):
+        return None
+    # The threshold is the figure as it would print, so 999.6 bn steps up
+    # rather than rounding to "1,000bn", the form this rule exists to avoid.
+    shown = float(NUMFMT[spec].format(value).replace(",", ""))
+    if abs(shown) < 1000:
+        return None
+    for word, larger in STEP_UP.get(style, ()):
+        if word in suffix:
+            n = value / 1000
+            # Count the digits after rounding to three significant ones:
+            # 9.996 is 10.0, not 10.00.
+            digits = len(str(int(abs(float(f"{n:.{_STEP_SIG}g}")))))
+            sign = "+" if "{:+" in NUMFMT[spec] else ""
+            return (f"{n:{sign},.{max(0, _STEP_SIG - digits)}f}",
+                    suffix.replace(word, larger, 1))
+    return None
+
+
 def format_figure(value: float, spec: str, style: str,
                   prefix: str, suffix: str) -> str:
     """One figure in one number style, affixes included.
 
     A style with a magnitude ladder rescales the figure onto its own word
-    ("{mag}" in the suffix); every other style formats it with the spec's
-    NUMFMT and swaps the marks.
+    ("{mag}" in the suffix); a figure of a thousand or more of the spec's
+    unit moves one word up (STEP_UP); every other figure is formatted with
+    the spec's NUMFMT and has its marks swapped.
     """
     scaled = numstyle.rescaled(value, spec, style, NUMFMT[spec])
     if scaled is not None:
         n, mag = scaled
         return f"{prefix}{localize_number(n, style)}{suffix.replace('{mag}', mag)}"
+    stepped = _stepped_up(value, spec, style, suffix)
+    if stepped is not None:
+        n, suffix = stepped
+        return f"{prefix}{localize_number(n, style)}{suffix}"
     n = NUMFMT[spec].format(value)
     return f"{prefix}{localize_number(n, style)}{suffix}"
 

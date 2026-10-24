@@ -33,21 +33,51 @@ def card(style: str, spec: str, value: float, currency: str | None = None):
 # (style, spec, currency, value, expected)
 CARDS = [
     # The published styles. These are the strings already on the site and
-    # must not move.
-    ("en", "money_bn", "EUR", 2991.4, "€2,991bn"),
+    # must not move. (Figures of a thousand bn or more step up a word;
+    # those are pinned in the block after this one.)
+    ("en", "money_bn", "EUR", 291.4, "€291bn"),
     ("fr", "money_bn", "EUR", 2991.4, f"2{N}991{N}Md€"),
     ("fr", "pct_gdp", None, 12.5, f"12,5{N}% du PIB"),
-    ("pt", "money_bn", "BRL", 11745.2, "R$ 11.745 bi"),
+    ("pt", "money_bn", "BRL", 745.2, "R$ 745 bi"),
     ("pt", "money_tn1", "BRL", 11.7452, "R$ 11,7 tri"),
     ("pt", "pct", None, 12.5, "12,5%"),
-    ("es", "money_bn", "EUR", 1594.3, "€ 1.594 mm"),
+    ("es", "money_bn", "EUR", 594.3, "€ 594 mm"),
     ("ko", "money_tn", "KRW", 2549.1, "2,549조 원"),
     ("ko", "usd_bn", None, 684.4, "684십억 달러"),
+
+    # A thousand of the spec's unit or more moves one word up, to three
+    # significant digits (STEP_UP); French and Italian keep their
+    # thousands of milliards, and 조 is already the top Korean word.
+    ("en", "money_bn", "EUR", 2991.4, "€2.99tn"),
+    ("en", "money_bn", "JPY", 666441, "¥666tn"),
+    ("en", "usd_bn", None, 30861.0, "US$ 30.9tn"),
+    ("en", "usd_bn_s", None, -1248.0, "US$ -1.25tn"),
+    ("en", "usd_bn", None, 4003.0, "US$ 4.00tn"),
+    ("en", "pop_mn", None, 1406.6, "1.41bn"),
+    ("pt", "money_bn", "BRL", 1101.3, "R$ 1,10 tri"),
+    ("pt", "money_bn", "BRL", 11745.2, "R$ 11,7 tri"),
+    ("pt", "pop_mn", None, 1406.6, "1,41 bi"),
+    ("es", "money_bn", "EUR", 1690.2, "€ 1,69 billones"),
+    ("de", "usd_bn", None, 1044.0, f"1,04{N}Bio.{N}US-$"),
+    ("ko", "usd_bn", None, 1872.0, "1.87조 달러"),
+    ("it", "money_bn", "EUR", 2265.0, f"2.265{N}mld{N}€"),
+    ("ko", "money_tn", "KRW", 2677.0, "2,677조 원"),
+    ("en", "money_bn", "EUR", 999.4, "€999bn"),
+    # The edges: the threshold is the printed figure, and the digits are
+    # counted after rounding.
+    ("en", "usd_bn", None, 999.5, "US$ 1.00tn"),
+    ("en", "usd_bn_s", None, -999.6, "US$ -1.00tn"),
+    ("en", "pop_mn", None, 999.96, "1.00bn"),
+    ("pt", "money_bn", "BRL", 999.5, "R$ 1,00 tri"),
+    ("en", "usd_bn", None, 9996.0, "US$ 10.0tn"),
+    ("en", "usd_bn", None, 99960.0, "US$ 100tn"),
+    ("es", "usd_bn", None, 1044.0, "US$ 1,04 billones"),
+    ("es", "usd_bn", None, 683.3, "US$ 683bn"),
 
     # German: Duden / DIN 5008, on every German page — Switzerland's too.
     ("de", "pct_gdp", None, 12.5, f"12,5{N}% des BIP"),
     ("de", "pct_s", None, -0.4, f"-0,4{N}%"),
-    ("de", "money_bn", "EUR", 4305.3, f"4.305{N}Mrd.{N}€"),
+    ("de", "money_bn", "EUR", 4305.3, f"4,31{N}Bio.{N}€"),
     ("de", "money_bn", "CHF", 812.4, f"812{N}Mrd.{N}CHF"),
     ("de", "money", "CHF", 1234567, f"1.234.567{N}CHF"),
     ("de", "usd_bn", None, 684.4, f"684{N}Mrd.{N}US-$"),
@@ -112,10 +142,10 @@ CARDS = [
 
     # English forms of the new currencies (EU style guide: symbol first,
     # an ISO code first with a space).
-    ("en", "money_bn", "GBP", 2851.0, "£2,851bn"),
+    ("en", "money_bn", "GBP", 2851.0, "£2.85tn"),
     ("en", "money_bn", "CHF", 812.4, "CHF 812bn"),
     ("en", "money_tn", "JPY", 636.9, "¥637tn"),
-    ("pt", "money_bn", "GBP", 2851.0, "£ 2.851 bi"),
+    ("pt", "money_bn", "GBP", 2851.0, "£ 2,85 tri"),
 ]
 
 
@@ -387,7 +417,8 @@ def test_number_style_selects_european_portuguese(tmp_path):
 def test_brazil_keeps_the_base_style():
     c = Country.load("brasil")
     assert c.number_style("pt") == "pt"
-    assert SiteContext(c).render(11745.2, "money_bn")["pt"] == "R$ 11.745 bi"
+    assert SiteContext(c).render(11745.2, "money_bn")["pt"] == "R$ 11,7 tri"
+    assert SiteContext(c).render(745.2, "money_bn")["pt"] == "R$ 745 bi"
 
 
 def test_number_style_must_match_the_language(tmp_path):
@@ -414,3 +445,9 @@ def test_a_country_written_for_a_styled_audience_selects_the_style(country):
                 f"{country.slug}: {loc.code} is html_lang {loc.html_lang} — "
                 f"add `number_style: {{{loc.code}: {loc.html_lang}}}` to "
                 f"country.yaml")
+
+
+def test_a_missing_figure_does_not_crash_the_step_up():
+    prefix, suffix = AFFIX["usd_bn"]["en"]
+    assert format_figure(float("nan"), "usd_bn", "en", prefix, suffix) == "US$ nanbn"
+    assert format_figure(float("inf"), "usd_bn", "en", prefix, suffix) == "US$ infbn"

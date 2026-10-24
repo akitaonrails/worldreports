@@ -105,10 +105,11 @@ SCALE = {
 # it — 6,840億ドル but 1.2兆ドル — largest first; a value below the last
 # rung is written on the last rung.
 #
-# A style with no ladder writes the spec's own magnitude one-for-one
-# ("bn" → "Mrd.", "mil milhões", "מיליארד") and never rescales. Korean
-# would belong here (조/억) but keeps its published one-for-one forms
-# (십억, 조), which are exact, until its pages are reworked on purpose.
+# A style with no ladder writes the spec's own magnitude ("bn" → "Mrd.",
+# "mil milhões", "מיליארד") and never rescales onto a ladder; from a
+# thousand of that unit it moves one word up instead (core.sitebuild
+# STEP_UP: "Mrd." → "Bio.", 십억 → 조). Korean would belong here (조/억)
+# but keeps those exact forms until its pages are reworked on purpose.
 LADDERS = {
     "ja":      ((1e12, "兆"), (1e8, "億"), (1e4, "万")),
     "zh-Hans": ((1e12, "万亿"), (1e8, "亿"), (1e4, "万")),
