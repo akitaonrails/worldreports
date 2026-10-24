@@ -62,6 +62,7 @@ STYLES = {
     "en": "en", "fr": "fr", "pt": "pt", "pt-PT": "pt", "es": "es",
     "ko": "ko", "de": "de", "it": "it", "ja": "ja",
     "zh-Hans": "zh-Hans", "zh-Hant": "zh-Hant", "vi": "vi", "he": "he",
+    "uk": "uk",
 }
 
 # The decimal and thousands marks, for the styles that change them. A
@@ -75,6 +76,9 @@ SEPARATORS = {
     "de": {",": ".", ".": ","},
     "it": {",": ".", ".": ","},
     "vi": {",": ".", ".": ","},
+    # Ukrainian: CLDR uk — a comma for the decimal and a non-breaking
+    # space for the thousands, as in "1 234,5".
+    "uk": {",": NBSP, ".": ","},
 }
 
 

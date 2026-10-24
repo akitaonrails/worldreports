@@ -237,6 +237,13 @@ _UNITS.update({
         "vi", [(r"US\$", "USD", "USD"), ("₫", "đồng", "₫"),
                ("€", "EUR", "EUR")],
         "/100,000 dân", f"{NBSP}điểm %", gap=NBSP),
+    # Ukrainian: the currency after the amount ("30,9 млрд дол."), a space
+    # before the percent sign (Ukrainian orthography), and the magnitudes
+    # written one-for-one — "млрд" is 10^9, "трлн" 10^12.
+    "uk": _one_for_one(
+        [("₴", "грн"), (r"US\$", "дол."), ("€", "євро")],
+        {"tn": "трлн", "bn": "млрд", "mn": "млн"},
+        "/100 тис. осіб", f"{NBSP}в.п.", pct_space=True),
 })
 
 # Korean writes the currency after the number. These run last, on a string

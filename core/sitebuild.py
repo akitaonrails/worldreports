@@ -235,6 +235,21 @@ _STYLE_AFFIX = {
         "usd_bn_s": ("", f"{_N}מיליארד דולר"),
         "usd_bn1": ("", f"{_N}מיליארד דולר"),
     },
+    # Ukrainian: a space before the percent sign (Ukrainian orthography),
+    # the amount before the unit, "№" for a rank, "млн"/"млрд"/"трлн" one
+    # for one. The hryvnia follows the amount: "2 991 млрд грн".
+    "uk": {
+        "pct": ("", f"{_N}%"), "pct_s": ("", f"{_N}%"), "pct2": ("", f"{_N}%"),
+        "pct_gdp": ("", f"{_N}% ВВП"),
+        "pct_gdp_s": ("", f"{_N}% ВВП"),
+        "rank": ("№", ""), "score100": ("", "/100"),
+        "pop_mn": ("", f"{_N}млн"),
+        "per100k": ("", "/100 тис."), "per100k2": ("", "/100 тис."),
+        "years": ("", " років"),
+        "usd_bn": ("", f"{_N}млрд{_N}дол."),
+        "usd_bn_s": ("", f"{_N}млрд{_N}дол."),
+        "usd_bn1": ("", f"{_N}млрд{_N}дол."),
+    },
 }
 for _style, _forms in _STYLE_AFFIX.items():
     for _spec in ("count", "dec3", "dec2", "index"):
@@ -265,6 +280,16 @@ _STYLE_CURRENCY = {
                      "de": ("", f"{_N}CHF")},
         "money2":   {"en": ("CHF ", ""), "pt": ("CHF ", ""),
                      "de": ("", f"{_N}CHF")},
+    },
+    "UAH": {
+        "money_bn": {"en": ("₴", "bn"), "uk": ("", f"{_N}млрд{_N}грн"),
+                     "pt": ("₴ ", " bi")},
+        "money_tn": {"en": ("₴", "tn"), "uk": ("", f"{_N}трлн{_N}грн"),
+                     "pt": ("₴ ", " tri")},
+        "money":    {"en": ("₴", ""), "uk": ("", f"{_N}грн"),
+                     "pt": ("₴ ", "")},
+        "money2":   {"en": ("₴", ""), "uk": ("", f"{_N}грн"),
+                     "pt": ("₴ ", "")},
     },
     "JPY": {
         "money_bn": {"en": ("¥", "bn"), "pt": ("¥ ", " bi"),
@@ -357,6 +382,7 @@ STEP_UP = {
     "es": ((" mm", " billones"), ("bn", " billones")),
     "de": (("Mrd.", "Bio."),),
     "ko": (("십억", "조"),),
+    "uk": (("млрд", "трлн"), ("млн", "млрд")),
 }
 _STEP_SIG = 3
 
