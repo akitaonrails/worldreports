@@ -5,7 +5,7 @@ the spine's order, so a Taiwanese panel sits over the same panel of every
 other country in the comparison viewer: same indicator, same unit, same
 y-scale (PLATE_SPINE.md, core/spine.py).
 
-Ten chapters. The World Bank, the IMF and the UN do not carry Taiwan, so
+Twelve chapters. The World Bank, the IMF and the UN do not carry Taiwan, so
 there is no harmonised second series to lean on: the canonical lines are
 Taiwan's own publishers — DGBAS (行政院主計總處), the Central Bank (CBC),
 the Ministry of Finance (MOF) — and each label names which. Where two
@@ -13,8 +13,7 @@ official publishers measure one idea differently (DGBAS vs CBC inflation,
 customs vs balance-of-payments trade, accrual vs cash books, the index's
 annual average vs its year-end close), both ride as clearly labelled
 lines and are never spliced. Gaps are `ctx.pending` with the reason in
-the panel's footer and DATA_NOTES.md; nothing is invented. The people and
-migration chapters are absent rather than empty, for the same reason.
+the panel's footer and DATA_NOTES.md; nothing is invented.
 
 One convention worth naming:
 
@@ -575,6 +574,48 @@ def plate_credit(ctx, ig) -> None:
     _finish(ctx, ig)
 
 
+# ------------------------------------------------------------------- people
+def plate_people(ctx, ig) -> None:
+    p = ctx.p
+
+    ax = ig.slot("people.gini", "Income inequality — Gini (0–100 points)")
+    gy, gv = _yr(ctx, "people/gini.csv", "gini_points")
+    ctx.line(ax, gy, gv, p.RED, label="DGBAS household disposable income")
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, gy, gv, p.RED, lambda v: f"{v:.1f}", dy=8)
+    ax.legend(loc="upper right", fontsize=7.5, frameon=False)
+    _foot(p, ax, "DGBAS Family Income and Expenditure Survey; coefficient ×100")
+
+    ax = ig.slot("people.poverty", "Relative poverty rate (% of people)")
+    py, pv = _yr(ctx, "people/poverty.csv", "relative_poverty_pct")
+    ctx.line(ax, py, pv, p.PURPLE,
+             label="Below 50% of median equivalised disposable income")
+    ctx.endlabel(ax, py, pv, p.PURPLE, lambda v: f"{v:.2f}%", dy=8)
+    _note(p, ax, 0.02, 0.80, "official series begins in 2017; earlier years stay missing")
+    ax.legend(loc="upper right", fontsize=7.2, frameon=False)
+    _foot(p, ax, "DGBAS National Well-being Indicators; people, square-root equivalence scale")
+
+    ax = ig.slot("people.minimum_wage", "Statutory minimum wage (US$ per month)")
+    wy, wv = _yr(ctx, "people/minimum_wage.csv", "monthly_usd_at_avg_fx")
+    ctx.line(ax, wy, wv, p.NAVY, label="Calendar-average legal monthly wage")
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, wy, wv, p.NAVY, lambda v: f"US${v:,.0f}", dy=8)
+    ax.legend(loc="upper left", fontsize=7.5, frameon=False)
+    _foot(p, ax, "MOL effective-date history, day-weighted by calendar year; ÷ DGBAS annual-average FX")
+
+    ax = ig.slot("people.lens", "Lens — highest / lowest household quintile ratio")
+    qy, qv = _yr(ctx, "people/gini.csv", "quintile_ratio")
+    ctx.line(ax, qy, qv, p.GOLD, label="Top-quintile income ÷ bottom-quintile income")
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, qy, qv, p.GOLD, lambda v: f"{v:.2f}×", dy=8)
+    ax.set_ylim(0, 8)
+    ax.set_ylabel("ratio", fontsize=8.6, color=p.MUTED)
+    ax.legend(loc="upper right", fontsize=7.5, frameon=False)
+    _foot(p, ax, "same DGBAS survey and vintage as the Gini; a ratio, not another Gini")
+
+    _finish(ctx, ig)
+
+
 # -------------------------------------------------------------------- world
 def plate_world(ctx, ig) -> None:
     p = ctx.p
@@ -642,8 +683,8 @@ def plate_demography(ctx, ig) -> None:
     ax = ig.slot("demography.fertility", "Total fertility rate "
                  "(children per woman)")
     ctx.pending(ax)
-    _foot(p, ax, "births live behind the MOI/RIS register wall (SOURCES "
-          "pending) — the rate is not invented from the death side")
+    _foot(p, ax, "the audited RIS population/birth endpoint returned no data; "
+          "fertility is not inferred from a different table")
 
     ax = ig.slot("demography.birth_death", "Crude birth and death rates "
                  "(per 1,000 people)")
@@ -655,8 +696,8 @@ def plate_demography(ctx, ig) -> None:
     # The crude death rate never leaves the bottom third of this 0–25
     # range, so the note clears it and hangs from the open top, right of
     # the legend.
-    _note(p, ax, 0.35, 0.90, "deaths only: the births half of the pair sits "
-          "behind the same\nregister wall as fertility — the gap to the "
+    _note(p, ax, 0.35, 0.90, "deaths only: the audited birth endpoint returned "
+          "no data — the gap to the "
           "bottom of the axis is\nthe shape of the crisis, drawn honestly")
     ax.legend(loc="upper left", fontsize=7.6, frameon=False)
     _foot(p, ax, "DGBAS A170101020 all-cause deaths ÷ the same-year DGBAS "
@@ -665,8 +706,8 @@ def plate_demography(ctx, ig) -> None:
     ax = ig.slot("demography.natural_migration",
                  "Natural increase and net migration (per 1,000 people)")
     ctx.pending(ax)
-    _foot(p, ax, "neither component is staged: births from the MOI wall, "
-          "migration from the NIA wall — pending, both with reasons")
+    _foot(p, ax, "natural increase needs births, still unavailable; registered "
+          "international movement is kept on the migration plate")
 
     _finish(ctx, ig)
 
@@ -813,6 +854,49 @@ def plate_mortality(ctx, ig) -> None:
     _finish(ctx, ig)
 
 
+# ---------------------------------------------------------------- migration
+def plate_migration(ctx, ig) -> None:
+    p = ctx.p
+    fy, incoming = _yr(ctx, "migration/registration_flows.csv", "registered_immigration")
+    _, outgoing = _yr(ctx, "migration/registration_flows.csv", "registered_emigration")
+    _, net = _yr(ctx, "migration/registration_flows.csv", "registered_net")
+    py, pv = _yr(ctx, "demography/population.csv", "population")
+    pop = dict(zip(py, pv))
+
+    iy, iv = ctx.per_1000(dict(zip(fy, incoming)), pop)
+    ey, ev = ctx.per_1000(dict(zip(fy, outgoing)), pop)
+    ax = ig.slot("migration.flows", "Registered international in and out (per 1,000 people)")
+    ctx.line(ax, iy, iv, p.GREEN_D, label="In + initial household registration")
+    ctx.line(ax, ey, ev, p.RED_D, label="Foreign deregistration")
+    ax.legend(loc="upper left", fontsize=7.3, frameon=False)
+    _foot(p, ax, "MOI/RIS household-register events; not all ARC-holder migration")
+
+    ny, nv = ctx.per_1000(dict(zip(fy, net)), pop)
+    ax = ig.slot("migration.net", "Net registered migration (per 1,000 people)")
+    ctx.bars(ax, ny, nv, lambda v: p.GREEN if v >= 0 else p.RED)
+    _note(p, ax, 0.02, 0.95, "2020–22 include ex-officio deregistration after two years abroad")
+    _foot(p, ax, "same compatible RIS components: in + initial registration − out")
+
+    ax = ig.slot("migration.foreign_born", "Foreign-born share of population (%)")
+    ctx.pending(ax)
+    _foot(p, ax, "no audited foreign-born series; ARC residents are a narrower legal stock, shown in the lens")
+
+    ax = ig.slot("migration.lens", "Lens — foreign residents with a valid ARC (December)")
+    ay, av = _yr(ctx, "migration/foreign_residents.csv", "arc_foreign_residents_dec")
+    ly, lv = _yr(ctx, "migration/foreign_residents.csv", "foreign_labour_dec")
+    av_m = [v / 1e6 for v in av]
+    lv_m = [v / 1e6 for v in lv]
+    ctx.line(ax, ay, av_m, p.NAVY, label="ARC residents actually in Taiwan")
+    ctx.line(ax, ly, lv_m, p.GOLD, label="of whom foreign labour")
+    ax.set_ylim(0, 1.2)
+    ax.set_ylabel("million people", fontsize=8.6, color=p.MUTED)
+    ax.legend(loc="upper left", fontsize=7.3, frameon=False)
+    _note(p, ax, 0.02, 0.56, f"foreign labour is {lv[-1] / av[-1] * 100:.1f}% of the 2025 ARC stock")
+    _foot(p, ax, "NIA valid ARC holders physically present at month-end; not foreign-born population")
+
+    _finish(ctx, ig)
+
+
 # The plates, in the order the page lists them; the ids are the spine's
 # chapter numbers.
 PLATES = (
@@ -893,7 +977,12 @@ PLATES = (
              "from 2.1% of all loans to 0.15%. New-housing rates are compared "
              "with the rediscount rate. In the lens, building loans double, "
              "from 6.5% of GDP to 12.0%, peaking at 14.0% in 2023."),
-    dict(id="07", slug="world", topic="world", builder=plate_world,
+    dict(id="07", slug="people", topic="people", builder=plate_people,
+         title="Income, the Floor, and the Distance Between",
+         subtitle="Survey inequality and relative poverty beside the statutory monthly wage, converted with the same-year official exchange rate.",
+         source="Sources: DGBAS household income survey and National Well-being Indicators · Ministry of Labor minimum-wage history · DGBAS FX",
+         alt="Four panels on income distribution and the wage floor. The disposable-income Gini stays near 34 points; relative poverty is 7.57% in 2024 on the official 50%-of-median definition; the calendar-average statutory wage reaches US$917 a month in 2025; the top household quintile receives 6.17 times the bottom quintile's income."),
+    dict(id="08", slug="world", topic="world", builder=plate_world,
          title="In the World, on Uneven Statistical Ground",
          subtitle="Size and reserves from Taiwan's own publishers; HDI is "
                   "absent, while Transparency International does cover Taiwan.",
@@ -904,20 +993,21 @@ PLATES = (
              "rise from US$266 billion to US$603 billion, among the world's "
              "largest. HDI remains unavailable because the UN does not carry "
              "Taiwan; TI's CPI rises from 61 in 2012 to 68 in 2025."),
-    dict(id="08", slug="demography", topic="demography",
+    dict(id="09", slug="demography", topic="demography",
          builder=plate_demography,
          title="The Population Line Has Turned",
          subtitle="A register that peaked in 2019 and is already falling; "
-                  "the deaths half of the birth-and-death pair, drawn while "
-                  "the births half waits behind a wall.",
+                  "the deaths half of the birth-and-death pair is available, "
+                  "while the audited birth endpoint returns no data.",
          source="Sources: DGBAS A018101010 population · DGBAS A170101020 "
                 "deaths by cause",
          alt="Four panels on demography. The population index peaks at 103 "
              "in 2019 (23,596,027 people) and falls to 102; the crude death "
              "rate rises from 6.2 to 8.6 per 1,000 between 2008 and 2025. "
-             "The fertility and natural-increase panels are pending — "
-             "births and migration sit behind the MOI and NIA walls."),
-    dict(id="09", slug="security", topic="security", builder=plate_security,
+             "The fertility and natural-increase panels are pending because "
+             "the audited RIS birth endpoint returned no data; registered "
+             "international movement is shown separately on migration."),
+    dict(id="10", slug="security", topic="security", builder=plate_security,
          title="Deaths by Certificate — the Suicide Line and the Accidents",
          subtitle="Suicide never falls for good; all accidental deaths "
                   "fall; the homicide and road panels say exactly which "
@@ -929,7 +1019,7 @@ PLATES = (
              "accidental deaths fall from 30.8 per 100,000 to 28.6. The "
              "homicide and road-traffic panels are pending — the police "
              "series are walled and the certificates lump accidents."),
-    dict(id="10", slug="mortality", topic="mortality", builder=plate_mortality,
+    dict(id="11", slug="mortality", topic="mortality", builder=plate_mortality,
          title="Mortality — Ageing, and a Late Pandemic Wave",
          subtitle="Crude death rate, excess deaths against the 2015–2019 "
                   "mean, a pending COVID column, and the killers that grew "
@@ -941,4 +1031,9 @@ PLATES = (
              "mean in 2022, not 2020, and stay above it through 2025. The "
              "COVID panel is pending. Cancer rises to 235 per 100,000, "
              "heart disease to 98, and pneumonia doubles to 75."),
+    dict(id="12", slug="migration", topic="migration", builder=plate_migration,
+         title="Movement on the Household Register — and the ARC Stock Beside It",
+         subtitle="International registrations in and out are register events; valid ARC holders are a separate month-end legal stock, never relabelled foreign-born.",
+         source="Sources: MOI Household Registration Department RIS ODRP011 · National Immigration Agency foreign-resident statistics",
+         alt="Four panels on migration definitions. Household-register immigration and emigration are shown separately from 2018, with their net turning sharply negative during 2020–2022 ex-officio deregistrations and positive again in 2023. No audited foreign-born share is available. The lens shows 1,028,945 foreign residents with a valid ARC in December 2025, including 751,806 foreign labourers."),
 )

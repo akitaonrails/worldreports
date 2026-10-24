@@ -388,7 +388,27 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "07-world", "topic": "world", "n": "07", "family": WORLD,
+            "id": "07-people", "topic": "people", "n": "07", "family": PEOPLE,
+            "title": T(**{ZH: "所得、貧窮與法定工資底線",
+                          EN: "Income, Poverty and the Statutory Wage Floor",
+                          PT: "Renda, Pobreza e o Piso Salarial Legal"}),
+            "blurb": T(**{ZH: "家庭可支配所得不均維持在約34點；相對貧窮率與法定月薪使用各自官方定義。",
+                          EN: "Disposable-income inequality holds near 34 points; relative poverty and the monthly wage floor retain their official definitions.",
+                          PT: "A desigualdade da renda disponível fica perto de 34 pontos; pobreza relativa e piso mensal mantêm suas definições oficiais."}),
+            "alt": T(**{ZH: "所得的四個面板。 家庭可支配所得吉尼係數在2025年為34.1點； 2024年相對貧窮率為7.57%，門檻是全國等值可支配所得中位數的50%； 2025年法定月薪按年平均匯率折算為917美元； 最高五分位所得是最低五分位的6.17倍。",
+                          EN: "Four panels on income. The household disposable-income Gini is 34.1 points in 2025; relative poverty is 7.57% in 2024 below 50% of median equivalised disposable income; the statutory monthly wage converts to US$917 in 2025; and the top household quintile receives 6.17 times the bottom quintile's income.",
+                          PT: "Quatro painéis sobre renda. O Gini da renda disponível domiciliar é 34,1 pontos em 2025; a pobreza relativa é 7,57% em 2024 abaixo de 50% da mediana da renda disponível equivalente; o salário mínimo mensal equivale a US$ 917 em 2025; e o quinto superior recebe 6,17 vezes a renda do quinto inferior."}),
+            "sources": ["people/gini.csv", "people/poverty.csv", "people/minimum_wage.csv"],
+            "spark": ctx.col("people/gini.csv", "gini_points"),
+            "stats": [
+                S({ZH: "吉尼係數", EN: "Gini", PT: "Gini"},
+                  ctx.col("people/gini.csv", "gini_points"), "dec2", kind="level"),
+                S({ZH: "相對貧窮率", EN: "Relative poverty", PT: "Pobreza relativa"},
+                  ctx.col("people/poverty.csv", "relative_poverty_pct"), "pct2", kind="level"),
+            ],
+        },
+        {
+            "id": "08-world", "topic": "world", "n": "08", "family": WORLD,
             "title": T(**{ZH: "在世界之中,統計地位不均",
                           EN: "In the World, on Uneven Statistical Ground",
                           PT: "No Mundo, em Terreno Estatístico Desigual"}),
@@ -427,39 +447,30 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "08-demography", "topic": "demography", "n": "08",
+            "id": "09-demography", "topic": "demography", "n": "09",
             "family": PEOPLE,
             "title": T(**{ZH: "人口曲線已經轉彎",
                           EN: "The Population Line Has Turned",
                           PT: "A Linha da População Virou"}),
-            "blurb": T(**{ZH: "戶籍人口 2019 年見頂後已在下滑;出生與死亡這一對,"
-                            "死亡的一半已畫出,出生的那一半還在戶政牆後。",
+            "blurb": T(**{ZH: "戶籍人口 2019 年見頂後已在下滑；出生與死亡這一對只畫出可取得的死亡，戶政出生端點回傳查無資料。",
                           EN: "A register that peaked in 2019 and is already"
-                              " falling; the deaths half of the birth-and-"
-                              "death pair, drawn while the births half waits"
-                              " behind a wall.",
+                              " falling; deaths are available, while the audited RIS birth endpoint returns no data.",
                           PT: "Um registro que atingiu o pico em 2019 e já"
-                              " cai; a metade das mortes do par nascimentos-e-"
-                              "mortes, desenhada enquanto a metade dos"
-                              " nascimentos espera atrás de um muro."}),
+                              " cai; as mortes estão disponíveis, enquanto a rota RIS auditada de nascimentos devolve ausência de dados."}),
             "alt": T(**{ZH: "人口的四個面板。人口指數在 2019 年見頂 103(23,596,027 人),"
                             "之後降到 102;粗死亡率 2008 到 2025 年從每千人 6.2 升到 8.5。"
-                            "生育率與自然增加面板待補——出生與遷移分別卡在內政部與移民署牆後。",
+                            "生育率與自然增加面板待補，因戶政出生端點回傳查無資料；戶籍國際遷徙另列於遷徙圖板。",
                           EN: "Four panels on demography. The population index"
                               " peaks at 103 in 2019 (23,596,027 people) and"
                               " falls to 102; the crude death rate rises from"
                               " 6.2 to 8.5 per 1,000 between 2008 and 2025."
-                              " The fertility and natural-increase panels are"
-                              " pending — births and migration sit behind the"
-                              " MOI and NIA walls.",
+                              " Fertility and natural increase remain pending because the audited birth endpoint returned no data; registered international movement is shown on migration.",
                           PT: "Quatro painéis sobre demografia. O índice"
                               " populacional atinge o pico de 103 em 2019"
                               " (23.596.027 pessoas) e cai a 102; a taxa bruta"
                               " de mortalidade sobe de 6,2 para 8,5 por 1.000"
                               " entre 2008 e 2025. Os painéis de fecundidade e"
-                              " crescimento vegetativo estão pendentes —"
-                              " nascimentos e migração estão atrás dos muros"
-                              " do MOI e da NIA."}),
+                              " crescimento vegetativo estão pendentes porque a rota auditada de nascimentos não trouxe dados; o movimento internacional registrado aparece em migração."}),
             "sources": ["demography/population.csv",
                         "mortality/causes_of_death.csv"],
             "spark": ctx.col("demography/population.csv", "population"),
@@ -476,7 +487,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "09-security", "topic": "security", "n": "09",
+            "id": "10-security", "topic": "security", "n": "10",
             "family": PEOPLE,
             "title": T(**{ZH: "證書上的死亡——自殺曲線與意外",
                           EN: "Deaths by Certificate — the Suicide Line and"
@@ -524,7 +535,7 @@ def build(ctx) -> list[dict]:
             ],
         },
         {
-            "id": "10-mortality", "topic": "mortality", "n": "10",
+            "id": "11-mortality", "topic": "mortality", "n": "11",
             "family": PEOPLE,
             "title": T(**{ZH: "死亡率——老化,與一波遲來的疫情",
                           EN: "Mortality — Ageing, and a Late Pandemic Wave",
@@ -569,6 +580,29 @@ def build(ctx) -> list[dict]:
                    PT: "Taxa de mortalidade por câncer"},
                   _per(ctx, "mortality/causes_of_death.csv",
                        "deaths_cancer"), "per100k", kind="level"),
+            ],
+        },
+        {
+            "id": "12-migration", "topic": "migration", "n": "12",
+            "family": PEOPLE,
+            "title": T(**{ZH: "戶籍移動，以及旁邊的居留證人口",
+                          EN: "Register Movement, with the ARC Population Beside It",
+                          PT: "Movimento no Registro, com a População ARC ao Lado"}),
+            "blurb": T(**{ZH: "戶籍遷入與遷出是登記事件；有效居留證持有人是另一個月底法律存量。",
+                          EN: "Household-register arrivals and departures are registration events; valid ARC holders are a separate month-end legal stock.",
+                          PT: "Entradas e saídas do registro domiciliar são eventos; portadores de ARC válido formam um estoque jurídico separado no fim do mês."}),
+            "alt": T(**{ZH: "遷徙的四個面板。 2018年起分別顯示戶籍國際遷入與遷出； 2020至2022年的大幅負值受出境滿兩年逕為遷出登記影響，2023年轉正。 沒有經審核的外國出生人口比率。 2025年12月有1,028,945名持有效居留證且實際在臺的外僑，其中751,806名為外籍勞工。",
+                          EN: "Four panels on migration. Household-register international in and out are separate from 2018; the sharply negative 2020–2022 net includes ex-officio deregistration after two years abroad and turns positive in 2023. No audited foreign-born share is available. In December 2025, 1,028,945 foreign residents held a valid ARC and were actually in Taiwan, including 751,806 foreign labourers.",
+                          PT: "Quatro painéis sobre migração. Entradas e saídas internacionais do registro aparecem separadas desde 2018; o saldo fortemente negativo de 2020–2022 inclui baixas de ofício após dois anos no exterior e volta a ser positivo em 2023. Não há proporção auditada de nascidos no exterior. Em dezembro de 2025, 1.028.945 residentes estrangeiros tinham ARC válido e estavam em Taiwan, incluindo 751.806 trabalhadores estrangeiros."}),
+            "sources": ["migration/registration_flows.csv",
+                        "migration/foreign_residents.csv",
+                        "demography/population.csv"],
+            "spark": ctx.col("migration/registration_flows.csv", "registered_net"),
+            "stats": [
+                S({ZH: "戶籍淨遷徙", EN: "Net registration", PT: "Saldo registrado"},
+                  ctx.col("migration/registration_flows.csv", "registered_net"), "count"),
+                S({ZH: "外僑居留證人口", EN: "ARC foreign residents", PT: "Residentes estrangeiros com ARC"},
+                  ctx.col("migration/foreign_residents.csv", "arc_foreign_residents_dec"), "count", kind="level"),
             ],
         },
     ]

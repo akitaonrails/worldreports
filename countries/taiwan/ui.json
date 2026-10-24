@@ -16,12 +16,14 @@
       {"term": "利率、匯率、信用與準備資產", "detail": "中央銀行統計資料庫"},
       {"term": "中央政府財政與債務", "detail": "財政部及中央政府總決算官方表"},
       {"term": "商品貿易", "detail": "財政部關務署國際貿易統計"},
+      {"term": "所得、貧窮與最低工資", "detail": "主計總處家庭收支與福祉衡量指標；勞動部法定最低工資沿革"},
+      {"term": "戶籍遷徙與外僑居留", "detail": "內政部戶政 ODRP011 登記事件；移民署有效居留證月底存量"},
       {"term": "清廉指數", "detail": "透明國際 CPI 2025 工作簿；2012 年方法，0–100"}
     ],
     "unavailable": [
       {"term": "人類發展指數", "detail": "聯合國人類發展報告不收錄臺灣，國內亦沒有機關編製可比 HDI。"},
       {"term": "投資與公債殖利率", "detail": "尚未取得可比的政府固定資本形成序列與官方 10 年期公債殖利率序列。"},
-      {"term": "生育與遷徙", "detail": "內政部戶政及移民署明細置於無法可靠擷取的查詢牆後，因此不推算生育率或淨遷徙。"},
+      {"term": "生育與出生", "detail": "戶政 ODRP003 路徑在本次審核對歷史與目前月份皆回傳查無資料；不從其他口徑推算總生育率或出生數。"},
       {"term": "治安、道路與 COVID 死因", "detail": "警政統計及國健署完整死因表無法由此環境擷取，未以現有事故或超額死亡序列代替。"},
       {"term": "商品與服務貿易", "detail": "目前僅收錄海關與國際收支的商品資料；標準出口、進口與餘額位置在取得可比的商品與服務序列前保持待補。"}
     ]
@@ -43,12 +45,14 @@
       {"term": "Rates, exchange, credit and reserves", "detail": "Central Bank of the Republic of China (Taiwan) statistical database"},
       {"term": "Central-government finance and debt", "detail": "Ministry of Finance and official central-government final accounts"},
       {"term": "Goods trade", "detail": "Ministry of Finance customs international-trade statistics"},
+      {"term": "Income, poverty and minimum wage", "detail": "DGBAS household survey and well-being indicators; MOL statutory minimum-wage history"},
+      {"term": "Registered migration and ARC residents", "detail": "MOI/RIS ODRP011 registration events; NIA month-end valid-ARC stock"},
       {"term": "Corruption index", "detail": "Transparency International CPI 2025 workbook; 2012 method, 0–100"}
     ],
     "unavailable": [
       {"term": "Human Development Index", "detail": "The UN Human Development Report does not carry Taiwan, and no national publisher computes a comparable HDI."},
       {"term": "Investment and bond yield", "detail": "No comparable government fixed-capital-formation series or official 10-year government-bond yield series was obtained."},
-      {"term": "Fertility and migration", "detail": "MOI household-register and NIA detail remains behind query walls that could not be fetched reliably, so fertility and net migration are not estimated."},
+      {"term": "Fertility and births", "detail": "The audited RIS ODRP003 route returned no-data responses for historic and current months, so fertility and births are not inferred from another definition."},
       {"term": "Crime, roads and COVID deaths", "detail": "Police statistics and the HPA full cause-of-death table could not be fetched from this environment; existing accident and excess-death series are not used as proxies."},
       {"term": "Goods-and-services trade", "detail": "Only customs and balance-of-payments goods are staged. The canonical export/import and balance slots remain pending until a comparable goods-and-services series is obtained."}
     ]
@@ -70,12 +74,14 @@
       {"term": "Juros, câmbio, crédito e reservas", "detail": "Base estatística do Banco Central da República da China (Taiwan)"},
       {"term": "Finanças e dívida do governo central", "detail": "Ministério das Finanças e contas finais oficiais do governo central"},
       {"term": "Comércio de bens", "detail": "Estatísticas aduaneiras de comércio internacional do Ministério das Finanças"},
+      {"term": "Renda, pobreza e salário mínimo", "detail": "Pesquisa domiciliar e indicadores de bem-estar da DGBAS; histórico do salário mínimo legal do MOL"},
+      {"term": "Migração registrada e residentes ARC", "detail": "Eventos de registro MOI/RIS ODRP011; estoque mensal de ARC válidos da NIA"},
       {"term": "Índice de corrupção", "detail": "Planilha do IPC 2025 da Transparência Internacional; método de 2012, 0–100"}
     ],
     "unavailable": [
       {"term": "Índice de Desenvolvimento Humano", "detail": "O Relatório de Desenvolvimento Humano da ONU não inclui Taiwan, e nenhum publicador nacional calcula um IDH comparável."},
       {"term": "Investimento e rendimento de títulos", "detail": "Não foi obtida uma série comparável de formação bruta de capital fixo do governo nem do rendimento oficial do título público de dez anos."},
-      {"term": "Fecundidade e migração", "detail": "Os detalhes do registro domiciliar do MOI e da imigração da NIA continuam atrás de consultas que não puderam ser extraídas com confiabilidade; fecundidade e migração líquida não são estimadas."},
+      {"term": "Fecundidade e nascimentos", "detail": "A rota RIS ODRP003 auditada devolveu ausência de dados para meses históricos e atuais; fecundidade e nascimentos não são inferidos por outra definição."},
       {"term": "Crime, estradas e mortes por COVID", "detail": "As estatísticas policiais e a tabela completa de causas de morte da HPA não puderam ser obtidas neste ambiente; acidentes e excesso de mortes existentes não são usados como substitutos."},
       {"term": "Comércio de bens e serviços", "detail": "Só estão versionados bens aduaneiros e do balanço de pagamentos. Os espaços canônicos de exportações/importações e saldo ficam pendentes até haver uma série comparável de bens e serviços."}
     ]

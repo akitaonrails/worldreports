@@ -120,10 +120,9 @@ seo:
 # Named in the dek, and the institutions SOURCES.yaml must agree with.
 # The international layer (WB/IMF/UN) is deliberately absent — the WTO,
 # the MOF trade database (compiled from customs records) and the CBC
-# stand in for it. MOI/MOH/NIA/NPA appear in SOURCES.yaml only as
-# pending substitutes; the dek names the bodies that actually carry
-# the spine.
+# stand in for it. The dek names the domestic bodies that actually carry
+# the spine, including MOL, MOI/RIS and NIA for people and migration.
 sources:
-  zh-Hant: "行政院主計總處、中央銀行、財政部（含國際貿易統計）、世界貿易組織"
-  en: "the Directorate General of Budget, Accounting and Statistics, the Central Bank, the Ministry of Finance including its international trade statistics, and the World Trade Organization"
-  pt: "a Direção-Geral de Orçamento, Contabilidade e Estatística, o Banco Central, o Ministério das Finanças (incluindo as suas estatísticas de comércio internacional) e a Organização Mundial do Comércio"
+  zh-Hant: "行政院主計總處、中央銀行、財政部、勞動部、內政部戶政司與移民署"
+  en: "the Directorate General of Budget, Accounting and Statistics, the Central Bank, the ministries of Finance, Labor and the Interior, and the National Immigration Agency"
+  pt: "a Direção-Geral de Orçamento, Contabilidade e Estatística, o Banco Central, os ministérios das Finanças, do Trabalho e do Interior e a Agência Nacional de Imigração"

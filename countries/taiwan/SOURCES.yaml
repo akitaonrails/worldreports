@@ -31,25 +31,15 @@ meta:
       (i9111 etc.) compiled from the same customs records — goods_from_mof.csv
       / partners_from_mof.csv. The goods spine therefore stands; the Customs
       Administration itself stays a mirror, not the primary."
-    - "MOI household / RIS population register (monthly births, deaths,
-      registrations): registration.moi.gov.tw does not resolve here and
-      www.ris.gov.tw's query app is JS-rendered with no keyless endpoint found.
-      SUBSTITUTE IN USE: the DGBAS A018101010 mid-year population column
-      (demography/population.csv). Monthly vital detail stays pending."
     - "Health Promotion Administration annual ICD-10 causes of death
       (www.hpa.gov.tw answers 403 Web Application Firewall to non-browser
       agents). SUBSTITUTE IN USE: DGBAS A170101020 monthly deaths by cause
       aggregated annually (mortality/causes_of_death.csv). The underlying-
       cause vs deaths-involving split and the full ICD-10 detail are the second
       column, not a splice, when HPA lands."
-    - "National Immigration Agency (migration) / Ministry of Labour (foreign-
-      worker permits) / National Police Agency (recorded crime): portals
-      reachable, files JS-rendered or 403 to plain curl — no machine endpoint
-      found. PENDING with reason. Per SOURCING §4a the migration chapter will
-      use foreign-resident stock vs work-permit flow vs new-resident flow and
-      name the unmeasured emigration, never a net line; the security chapter's
-      police place-of-occurrence homicide is a second column to the DGBAS
-      death-certificate assault/suicide counts already staged."
+    - "National Police Agency recorded-crime and road series remain unresolved.
+      This no longer applies to migration: MOI/RIS ODRP011 and the NIA direct
+      ODS are now fetched and staged with their distinct definitions."
     - "MOEA (moea.gov.tw) export-orders indicator: Cloudflare 403 from this
       machine. The CBC BPP2 goods series and the MOF customs trade database
       already carry the goods signal, so MOEA is not on the spine."
@@ -342,8 +332,9 @@ demography:
       VERIFIED: 22,823,455 (2006) -> peak 23,596,027 (2019) -> 23,349,676 (2025),
       falling since 2020 (peak-then-decline asserted). This is the administrative
       register count carried in the national-accounts key table, not a census
-      estimate — say so on the panel. The MOI household register (RIS) for
-      monthly detail is pending; the substitute for annual stock is this column.
+      estimate — say so on the panel. MOI/RIS supplies the separate 2018-on
+      international-registration flow; this DGBAS mid-year register count is
+      the same-scope annual denominator used for its rate.
 
 mortality:
   causes_of_death.csv:
@@ -358,3 +349,63 @@ mortality:
       (also the security chapter's suicide rate). ICD follows the certifier
       (SOURCING §4); the HPA annual ICD-10 detail and the underlying-cause vs
       deaths-involving split are a second column, not a splice (HPA WAF-blocked).
+
+people:
+  gini.csv: &gini_source
+    source: DGBAS Family Income and Expenditure Survey open-data dataset 6566
+    url: https://data.gov.tw/en/datasets/6566
+    official: true
+    refreshed_by: fetch/fetch_people.py
+    notes: >-
+      Household disposable-income Gini and highest/lowest household-quintile
+      income ratio. Gini is stored as 0–100 points (publisher coefficient ×100).
+      Verified 2024 34.1 / 6.14 and 2025 34.1 / 6.17. The DGBAS download host
+      omits an intermediate certificate; the fetcher completes the chain from
+      TWCA's AIA certificate and still performs root and hostname validation.
+  gini_from_dgbas.csv: *gini_source
+  poverty.csv: &poverty_source
+    source: DGBAS National Well-being Indicators — relative poverty
+    url: https://www.stat.gov.tw/cp.aspx?n=2731
+    official: true
+    refreshed_by: fetch/fetch_people.py
+    notes: >-
+      People below 50% of national median equivalised disposable income,
+      household income divided by the square root of household size; 2017–2024.
+      Earlier years are missing, not zero-filled.
+  poverty_from_dgbas.csv: *poverty_source
+  minimum_wage.csv: &wage_source
+    source: Ministry of Labor — History of Enacting and Adjusting the Minimum Wage Policy
+    url: https://english.mol.gov.tw/21004/21015/21016/21033/21232/
+    official: true
+    refreshed_by: fetch/fetch_people.py
+    notes: >-
+      Statutory monthly NTD level, day-weighted within calendar years when an
+      effective date falls mid-year, then divided by DGBAS annual-average FX.
+      2025 is NT$28,590 / 31.19 = US$916.64. 2026 is not drawn without full-year FX.
+  minimum_wage_from_mol.csv: *wage_source
+  minimum_wage_levels_from_mol.csv: *wage_source
+
+migration:
+  registration_flows.csv: &ris_source
+    source: Ministry of the Interior Household Registration Department, RIS ODRP011 (dataset 77144)
+    url: https://data.gov.tw/dataset/77144
+    official: true
+    refreshed_by: fetch/fetch_migration.py
+    notes: >-
+      Monthly village/sex household-registration events, summed across every
+      page and month. Immigration = foreign in + initial registration;
+      emigration = foreign out. These are movements of the household-registered
+      population, not all foreign long-term migrants. 2020–2022 include
+      ex-officio deregistration after two years abroad.
+  registration_flows_from_ris.csv: *ris_source
+  foreign_residents.csv: &nia_source
+    source: National Immigration Agency — Foreign Residents statistics, December 2025 ODS
+    url: https://www.immigration.gov.tw/media/117189/%E5%A4%96%E5%83%91%E5%B1%85%E7%95%99%E4%BA%BA%E6%95%B8%E7%B5%B1%E8%A8%88%E8%A1%A811412.ods
+    official: true
+    refreshed_by: fetch/fetch_nia.py
+    notes: >-
+      Foreigners with a valid ARC actually in Taiwan at month-end; excludes
+      diplomatic/courtesy visa holders and residence-visa holders without an
+      ARC. This is not foreign-born population or all foreign citizens. December
+      checks: 2024 948,066, 2025 1,028,945; foreign labour 712,158 and 751,806.
+  foreign_residents_from_nia.csv: *nia_source

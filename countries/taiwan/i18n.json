@@ -47,10 +47,6 @@
   "zh-Hant": "十年期公債殖利率(%,年平均)",
   "pt": "Rendimento do título público de 10 anos (%, média anual)"
  },
- "A register that peaked in 2019 and is already falling; the deaths half of the birth-and-death pair, drawn while the births half waits behind a wall.": {
-  "zh-Hant": "戶籍人口在2019年見頂後已在下滑;出生與死亡這一對之中,死亡的一半已經繪出,出生的那一半還卡在牆後。",
-  "pt": "Um registro que atingiu o pico em 2019 e já cai; a metade das mortes do par nascimentos-e-mortes, desenhada enquanto a metade dos nascimentos espera atrás de um muro."
- },
  "Accidents, all kinds (DGBAS certificates)": {
   "zh-Hant": "各類意外(DGBAS證書)",
   "pt": "Acidentes, todos os tipos (certidões da DGBAS)"
@@ -347,10 +343,6 @@
   "zh-Hant": "財政部 i0232,只含中央政府——沒有公佈的一般政府債務存量(依骨格的邊界規則標示)",
   "pt": "i0232 da Fazenda, só governo central — nenhum estoque de dívida do governo geral é publicado (rotulado pela regra de perímetro da espinha)"
  },
- "MOF trade database, compiled from customs declarations; the same records the geo-blocked Customs DB would publish": {
-  "zh-Hant": "財政部貿易資料庫,由報關單彙編;與地區封鎖的海關資料庫會公佈的同一批紀錄",
-  "pt": "base de comércio da Fazenda, compilada de declarações aduaneiras; os mesmos registros que a base aduaneira bloqueada por geo publicaria"
- },
  "MOF/DGBAS all-levels accrual final accounts, calendar years; the treasury's cash ledger is the second reading in DATA_NOTES": {
   "zh-Hant": "財政部/主計總處全層級權責發生制決算,歷年制;國庫現金帳是 DATA_NOTES 裡的第二次紀錄",
   "pt": "contas finais de competência de todos os níveis da Fazenda/DGBAS, anos civis; o caixa do Tesouro é a segunda leitura nos DATA_NOTES"
@@ -591,10 +583,6 @@
   "zh-Hant": "年平均與年底收盤是兩種不同的量;",
   "pt": "média anual e fechamento de fim de ano são grandezas diferentes;"
  },
- "births live behind the MOI/RIS register wall (SOURCES pending) — the rate is not invented from the death side": {
-  "zh-Hant": "出生資料卡在內政部戶政司牆後(SOURCES待補)——這個率不是從死亡端推臆的",
-  "pt": "os nascimentos vivem atrás do muro do registro do MOI/RIS (SOURCES pendente) — a taxa não é inventada pelo lado das mortes"
- },
  "book that barely grows, and half the G7's ratio": {
   "zh-Hant": "信用帳簿幾乎沒有成長,比率只有 G7 的一半",
   "pt": "de contas doméstico que mal cresce, metade da razão do G7"
@@ -634,10 +622,6 @@
  "death certificates by underlying cause; the police place-of-occurrence series will be a second column, not a splice": {
   "zh-Hant": "按根本死因的死因證書;警方的發生地序列將來會另開一欄,不會接合",
   "pt": "certidões de óbito por causa básica; a série de local de ocorrência da polícia será uma segunda coluna, não uma emenda"
- },
- "deaths only: the births half of the pair sits behind the same": {
-  "zh-Hant": "只有死亡:這一對裡的出生那一半同樣卡在",
-  "pt": "só mortes: a metade dos nascimentos está atrás do mesmo"
  },
  "differ by US${0}bn on exports alone — two publishers, never one line": {
   "zh-Hant": "僅出口一項就差 {0}0 億美元——兩家發布者,永不併成一條線",
@@ -687,10 +671,6 @@
   "zh-Hant": "整個區間成長超過一倍:{1} 年的 {0} 美元,到 {3} 年的 {2} 美元",
   "pt": "mais que dobra na janela: de US$ {0} em {1} para US$ {2} em {3}"
  },
- "neither component is staged: births from the MOI wall, migration from the NIA wall — pending, both with reasons": {
-  "zh-Hant": "兩個成分都未取得:出生在內政部牆後,遷移在移民署牆後——待補,各有理由",
-  "pt": "nenhum componente foi coletado: nascimentos do muro do MOI, migração do muro da NIA — pendentes, ambos com motivo"
- },
  "never in deficit in the window — the collapse shrinks the": {
   "zh-Hant": "整個區間從未逆差——崩跌讓順差",
   "pt": "nunca houve déficit na janela — o colapso encolhe o"
@@ -730,10 +710,6 @@
  "primary = overall + MOF i0121 debt-category outlays — the closest published proxy, drawn as a line over the bars": {
   "zh-Hant": "賒欠前餘絀 = 總餘絀加財政部 i0121 債務類支出——最接近的公佈替代指標,以線疊在柱上",
   "pt": "primário = geral + despesas da categoria dívida i0121 da Fazenda — o proxy publicado mais próximo, desenhado como linha sobre as barras"
- },
- "register wall as fertility — the gap to the bottom of the axis is": {
-  "zh-Hant": "戶政牆後——到軸底的空缺正是",
-  "pt": "muro do registro que a fecundidade — o vão até o fundo"
  },
  "scale extended": {
   "zh-Hant": "刻度已延伸",
@@ -949,5 +925,47 @@
  "Trade balance, goods and services (% of GDP)": {"zh-Hant": "商品與服務貿易餘額（占GDP百分比）", "pt": "Saldo de bens e serviços (% do PIB)"},
  "Only customs goods are staged; comparable national-accounts goods-and-services ratios are not available": {"zh-Hant": "目前僅收錄海關商品；可比的國民帳商品與服務比率尚不可得", "pt": "Somente bens aduaneiros estão versionados; não há razões comparáveis de bens e serviços das contas nacionais"},
  "The staged customs-goods balance is retained in the lens and is not relabelled as goods and services": {"zh-Hant": "已收錄的海關商品餘額保留在視野面板，不會改標為商品與服務", "pt": "O saldo de bens aduaneiros versionado fica na lente e não é rebatizado como bens e serviços"},
- "Comparable goods-and-services totals remain pending; MOF customs destinations and the two goods definitions stay visible.": {"zh-Hant": "可比的商品與服務總額仍待補；MOF海關目的地與兩種商品定義保持可見。", "pt": "Totais comparáveis de bens e serviços seguem pendentes; destinos aduaneiros do MOF e as duas definições de bens continuam visíveis."}
+ "Comparable goods-and-services totals remain pending; MOF customs destinations and the two goods definitions stay visible.": {"zh-Hant": "可比的商品與服務總額仍待補；MOF海關目的地與兩種商品定義保持可見。", "pt": "Totais comparáveis de bens e serviços seguem pendentes; destinos aduaneiros do MOF e as duas definições de bens continuam visíveis."},
+ "Income inequality — Gini (0–100 points)": {"zh-Hant": "所得不均——吉尼係數（0–100點）", "pt": "Desigualdade de renda — Gini (0–100 pontos)"},
+ "DGBAS household disposable income": {"zh-Hant": "主計總處家庭可支配所得", "pt": "Renda disponível domiciliar da DGBAS"},
+ "DGBAS Family Income and Expenditure Survey; coefficient ×100": {"zh-Hant": "主計總處家庭收支調查；係數×100", "pt": "Pesquisa de Renda e Despesa Familiar da DGBAS; coeficiente ×100"},
+ "Relative poverty rate (% of people)": {"zh-Hant": "相對貧窮率（人口百分比）", "pt": "Taxa de pobreza relativa (% das pessoas)"},
+ "Below 50% of median equivalised disposable income": {"zh-Hant": "低於等值可支配所得中位數50%", "pt": "Abaixo de 50% da mediana da renda disponível equivalente"},
+ "official series begins in 2017; earlier years stay missing": {"zh-Hant": "官方序列始於2017年；更早年份維持缺值", "pt": "a série oficial começa em 2017; anos anteriores permanecem ausentes"},
+ "DGBAS National Well-being Indicators; people, square-root equivalence scale": {"zh-Hant": "主計總處福祉衡量指標；人數，平方根等值尺度", "pt": "Indicadores de Bem-Estar da DGBAS; pessoas, escala de equivalência pela raiz quadrada"},
+ "Statutory minimum wage (US$ per month)": {"zh-Hant": "法定最低工資（每月美元）", "pt": "Salário mínimo legal (US$ por mês)"},
+ "Calendar-average legal monthly wage": {"zh-Hant": "曆年平均法定月薪", "pt": "Salário mensal legal médio no ano civil"},
+ "MOL effective-date history, day-weighted by calendar year; ÷ DGBAS annual-average FX": {"zh-Hant": "勞動部生效日沿革，按曆年日數加權；除以主計總處年平均匯率", "pt": "Histórico de vigência do MOL, ponderado por dias no ano civil; ÷ câmbio médio anual da DGBAS"},
+ "Lens — highest / lowest household quintile ratio": {"zh-Hant": "視野——最高／最低家庭五分位所得倍數", "pt": "Lente — razão entre os quintos domiciliares superior e inferior"},
+ "Top-quintile income ÷ bottom-quintile income": {"zh-Hant": "最高五分位所得÷最低五分位所得", "pt": "Renda do quinto superior ÷ renda do quinto inferior"},
+ "ratio": {"zh-Hant": "倍數", "pt": "razão"},
+ "same DGBAS survey and vintage as the Gini; a ratio, not another Gini": {"zh-Hant": "與吉尼係數相同的主計總處調查與版本；這是倍數，不是另一個吉尼", "pt": "mesma pesquisa e versão da DGBAS que o Gini; é uma razão, não outro Gini"},
+ "Registered international in and out (per 1,000 people)": {"zh-Hant": "戶籍國際遷入與遷出（每千人）", "pt": "Entradas e saídas internacionais registradas (por 1.000 pessoas)"},
+ "In + initial household registration": {"zh-Hant": "國外遷入＋初設戶籍", "pt": "Entrada + registro domiciliar inicial"},
+ "Foreign deregistration": {"zh-Hant": "遷出國外登記", "pt": "Baixa de registro para o exterior"},
+ "MOI/RIS household-register events; not all ARC-holder migration": {"zh-Hant": "內政部戶政登記事件；不涵蓋所有居留證持有人遷徙", "pt": "Eventos do registro domiciliar MOI/RIS; não toda a migração de portadores de ARC"},
+ "Net registered migration (per 1,000 people)": {"zh-Hant": "戶籍淨遷徙（每千人）", "pt": "Migração líquida registrada (por 1.000 pessoas)"},
+ "2020–22 include ex-officio deregistration after two years abroad": {"zh-Hant": "2020–22年包含出境滿兩年逕為遷出登記", "pt": "2020–22 inclui baixas de ofício após dois anos no exterior"},
+ "same compatible RIS components: in + initial registration − out": {"zh-Hant": "相同且相容的戶政組成：遷入＋初設戶籍－遷出", "pt": "mesmos componentes RIS compatíveis: entrada + registro inicial − saída"},
+ "Foreign-born share of population (%)": {"zh-Hant": "外國出生人口占比（%）", "pt": "Parcela da população nascida no exterior (%)"},
+ "no audited foreign-born series; ARC residents are a narrower legal stock, shown in the lens": {"zh-Hant": "無經審核的外國出生序列；居留證人口是較窄的法律存量，列於視野面板", "pt": "não há série auditada de nascidos no exterior; residentes com ARC são um estoque jurídico mais restrito, mostrado na lente"},
+ "Lens — foreign residents with a valid ARC (December)": {"zh-Hant": "視野——持有效居留證之外僑（12月）", "pt": "Lente — residentes estrangeiros com ARC válido (dezembro)"},
+ "ARC residents actually in Taiwan": {"zh-Hant": "實際在臺之外僑居留證人口", "pt": "Residentes com ARC efetivamente em Taiwan"},
+ "of whom foreign labour": {"zh-Hant": "其中外籍勞工", "pt": "dos quais trabalhadores estrangeiros"},
+ "million people": {"zh-Hant": "百萬人", "pt": "milhão de pessoas"},
+ "foreign labour is 73.1% of the 2025 ARC stock": {"zh-Hant": "外籍勞工占2025年居留證人口73.1%", "pt": "trabalhadores estrangeiros são 73,1% do estoque ARC de 2025"},
+ "NIA valid ARC holders physically present at month-end; not foreign-born population": {"zh-Hant": "移民署月底實際在臺且持有效居留證者；不是外國出生人口", "pt": "portadores de ARC válido fisicamente presentes no fim do mês, segundo a NIA; não população nascida no exterior"},
+ "the audited RIS population/birth endpoint returned no data; fertility is not inferred from a different table": {"zh-Hant": "經審核的戶政人口／出生端點回傳查無資料；不從其他表推算生育率", "pt": "a rota RIS auditada de população/nascimentos não trouxe dados; a fecundidade não é inferida de outra tabela"},
+ "deaths only: the audited birth endpoint returned no data — the gap to the bottom of the axis is\nthe shape of the crisis, drawn honestly": {"zh-Hant": "僅死亡：經審核的出生端點回傳查無資料——與座標軸底部的距離\n如實呈現危機形狀", "pt": "somente mortes: a rota auditada de nascimentos não trouxe dados — a distância até a base do eixo\nmostra honestamente a forma da crise"},
+ "natural increase needs births, still unavailable; registered international movement is kept on the migration plate": {"zh-Hant": "自然增加需要仍不可得的出生數；戶籍國際遷徙保留於遷徙圖板", "pt": "o crescimento natural exige nascimentos, ainda indisponíveis; o movimento internacional registrado fica na prancha de migração"},
+ "Income, the Floor, and the Distance Between": {"zh-Hant": "所得、底線與其間的距離", "pt": "Renda, o Piso e a Distância Entre Eles"},
+ "Survey inequality and relative poverty beside the statutory monthly wage, converted with the same-year official exchange rate.": {"zh-Hant": "調查所得不均與相對貧窮，並列以同年官方匯率折算的法定月薪。", "pt": "Desigualdade e pobreza relativa da pesquisa ao lado do salário mensal legal, convertido pelo câmbio oficial do mesmo ano."},
+ "Sources: DGBAS household income survey and National Well-being Indicators · Ministry of Labor minimum-wage history · DGBAS FX": {"zh-Hant": "來源：主計總處家庭收支調查與福祉衡量指標 · 勞動部最低工資沿革 · 主計總處匯率", "pt": "Fontes: pesquisa de renda domiciliar e Indicadores de Bem-Estar da DGBAS · histórico do salário mínimo do Ministério do Trabalho · câmbio DGBAS"},
+ "Four panels on income distribution and the wage floor. The disposable-income Gini stays near 34 points; relative poverty is 7.57% in 2024 on the official 50%-of-median definition; the calendar-average statutory wage reaches US$917 a month in 2025; the top household quintile receives 6.17 times the bottom quintile's income.": {"zh-Hant": "所得分配與工資底線的四個面板。可支配所得吉尼係數維持約34點；依官方中位數50%定義，2024年相對貧窮率為7.57%；曆年平均法定月薪在2025年達917美元；最高家庭五分位所得為最低五分位的6.17倍。", "pt": "Quatro painéis sobre distribuição de renda e piso salarial. O Gini da renda disponível fica perto de 34 pontos; a pobreza relativa é 7,57% em 2024 pela definição oficial de 50% da mediana; o salário legal médio no ano chega a US$ 917 por mês em 2025; o quinto domiciliar superior recebe 6,17 vezes a renda do inferior."},
+ "Movement on the Household Register — and the ARC Stock Beside It": {"zh-Hant": "戶籍移動——以及旁邊的居留證存量", "pt": "Movimento no Registro Domiciliar — e o Estoque ARC ao Lado"},
+ "International registrations in and out are register events; valid ARC holders are a separate month-end legal stock, never relabelled foreign-born.": {"zh-Hant": "國際遷入與遷出是戶籍登記事件；有效居留證持有人是另一個月底法律存量，絕不改標為外國出生人口。", "pt": "Entradas e saídas internacionais são eventos de registro; portadores de ARC válido são um estoque jurídico separado no fim do mês, nunca rebatizado como nascidos no exterior."},
+ "Sources: MOI Household Registration Department RIS ODRP011 · National Immigration Agency foreign-resident statistics": {"zh-Hant": "來源：內政部戶政司 RIS ODRP011 · 移民署外僑居留統計", "pt": "Fontes: Departamento de Registro Domiciliar do MOI, RIS ODRP011 · estatísticas de residentes estrangeiros da NIA"},
+ "Four panels on migration definitions. Household-register immigration and emigration are shown separately from 2018, with their net turning sharply negative during 2020–2022 ex-officio deregistrations and positive again in 2023. No audited foreign-born share is available. The lens shows 1,028,945 foreign residents with a valid ARC in December 2025, including 751,806 foreign labourers.": {"zh-Hant": "遷徙定義的四個面板。2018年起分別顯示戶籍遷入與遷出，2020–2022年逕為遷出登記使淨值大幅轉負，2023年再度轉正。沒有經審核的外國出生人口占比。視野面板顯示2025年12月有1,028,945名持有效居留證之外僑，其中751,806名為外籍勞工。", "pt": "Quatro painéis sobre definições migratórias. Imigração e emigração do registro domiciliar aparecem separadas desde 2018; o saldo fica fortemente negativo nas baixas de ofício de 2020–2022 e positivo novamente em 2023. Não há parcela auditada de nascidos no exterior. A lente mostra 1.028.945 residentes estrangeiros com ARC válido em dezembro de 2025, incluindo 751.806 trabalhadores estrangeiros."},
+ "A register that peaked in 2019 and is already falling; the deaths half of the birth-and-death pair is available, while the audited birth endpoint returns no data.": {"zh-Hant": "戶籍人口2019年見頂後已在下滑；出生與死亡這一對已有死亡資料，但經審核的出生端點回傳查無資料。", "pt": "Um registro que atingiu o pico em 2019 e já cai; as mortes do par nascimento-morte estão disponíveis, enquanto a rota auditada de nascimentos não traz dados."},
+ "Four panels on demography. The population index peaks at 103 in 2019 (23,596,027 people) and falls to 102; the crude death rate rises from 6.2 to 8.6 per 1,000 between 2008 and 2025. The fertility and natural-increase panels are pending because the audited RIS birth endpoint returned no data; registered international movement is shown separately on migration.": {"zh-Hant": "人口的四個面板。人口指數在2019年以23,596,027人見頂103，之後降至102；粗死亡率在2008至2025年間從每千人6.2升至8.6。生育率與自然增加面板待補，因經審核的RIS出生端點回傳查無資料；戶籍國際移動另列於遷徙圖板。", "pt": "Quatro painéis sobre demografia. O índice populacional atinge 103 em 2019 (23.596.027 pessoas) e cai a 102; a taxa bruta de mortalidade sobe de 6,2 para 8,6 por 1.000 entre 2008 e 2025. Fecundidade e crescimento natural ficam pendentes porque a rota RIS auditada de nascimentos não trouxe dados; o movimento internacional registrado aparece separadamente em migração."}
 }

@@ -16,14 +16,11 @@ series ride as two clearly labelled lines and are never spliced.
 
 ## Chapter set
 
-Ten chapters: economy, fiscal, spending, trade, markets, credit, world,
-demography, security, mortality. **people** and **migration** are not
-drawn at all rather than drawn empty: every input they need — income
-distribution, poverty, the statutory minimum wage in US$, immigration
-flows — sits behind a wall that Phase A recorded as pending (WTO key,
-Customs geo-block, MOI/RIS, NIA, NPA, MOEA; SOURCES.yaml `meta.pending`).
-Inventing nothing means no chapter with four `pending` panels. The
-pending list below names each gap and its reason.
+Twelve chapters: economy, fiscal, spending, trade, markets, credit, people,
+world, demography, security, mortality and migration. The earlier claim that
+people and migration sat behind query walls was stale: the DGBAS open-data
+CSV/PDF, MOL effective-date page, RIS JSON API and NIA direct ODS are now
+fetched into review sidecars and promoted only after their pinned checks pass.
 
 ## Bands (verified against the staged vintage)
 
@@ -83,6 +80,19 @@ in 2019–2021".
   the test. Primary balance = overall balance + that ratio, labelled
   honestly as balance + debt-category outlays (the MOF category is
   債務; treat it as interest-plus-charges, the closest published proxy).
+- **Minimum wage:** MOL effective-date monthly NTD levels are day-weighted
+  within each calendar year and divided by that year's DGBAS annual-average
+  NTD/US$ rate from `economy/gdp.csv`. Mid-year changes are therefore neither
+  backdated nor treated as a year-end annual value; 2026 is not drawn without
+  a complete annual FX observation.
+- **Registered migration:** RIS ODRP011 is summed over every village, sex,
+  month and API page. `foreign in + initial registration` is the registered
+  incoming flow; `foreign out` is the outgoing flow. Rates divide by the
+  DGBAS mid-year administrative-register population of the same governed
+  territory. These are household-registration events, not all ARC migration.
+- **ARC stock:** NIA counts foreigners with a valid ARC actually present at
+  month-end. It is shown only in the migration lens, because it is neither a
+  foreign-born stock nor all foreign citizens. Foreign labour is a subset.
 
 ## Seams and never-splice pairs
 
@@ -116,9 +126,11 @@ in 2019–2021".
 - **world slot 2 (HDI):** the UN does not carry Taiwan and no national
   publisher computes the HDI; this remains a true absence. Slot 3 is filled
   from Transparency International's CPI Historical sheet (2012 method).
-- **demography slots 2 and 4 (fertility, natural increase/migration):**
-  monthly births live behind the MOI/RIS wall (SOURCES.yaml pending);
-  deaths-only is drawn, births are not invented.
+- **demography slots 2 and 4 (fertility, natural increase/migration):** the
+  audited ODRP003 route returned the RIS `查無資料` response for both historic
+  and current months on 2026-10-23. ODRP011 fills registered international
+  migration, but does not publish births or fertility; those remain pending
+  rather than being inferred from a different table.
 - **security slots 1 and 3 (homicide, road deaths):** police series are
   NPA-walled; the DGBAS death-certificate assault count was not in the
   staged cause set — pending with reason.

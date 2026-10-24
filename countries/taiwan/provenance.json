@@ -35,21 +35,31 @@
   "economy/gdp.csv",
   "markets/policy_rate.csv"
  ],
- "07-world": [
+ "07-people": [
+  "people/gini.csv",
+  "people/minimum_wage.csv",
+  "people/poverty.csv"
+ ],
+ "08-world": [
   "economy/gdp.csv",
   "world/corruption.csv",
   "world/reserves.csv"
  ],
- "08-demography": [
+ "09-demography": [
   "demography/population.csv",
   "mortality/causes_of_death.csv"
  ],
- "09-security": [
+ "10-security": [
   "demography/population.csv",
   "mortality/causes_of_death.csv"
  ],
- "10-mortality": [
+ "11-mortality": [
   "demography/population.csv",
   "mortality/causes_of_death.csv"
+ ],
+ "12-migration": [
+  "demography/population.csv",
+  "migration/foreign_residents.csv",
+  "migration/registration_flows.csv"
  ]
 }

@@ -399,11 +399,49 @@ def test_hdi_absent_but_ti_cpi_is_drawn():
     assert drawn[2025.0] == pytest.approx(68)
 
 
+# -------------------------------------------------------------------- people
+def test_people_definitions_and_wage_conversion():
+    g = by_year("people/gini.csv")
+    p = by_year("people/poverty.csv")
+    w = by_year("people/minimum_wage.csv")
+    fx = by_year("economy/gdp.csv")
+    assert num(g[2025], "gini_points") == 34.1
+    assert num(g[2025], "quintile_ratio") == 6.17
+    assert num(p[2024], "relative_poverty_pct") == 7.57
+    assert num(w[2025], "monthly_usd_at_avg_fx") == pytest.approx(
+        num(w[2025], "monthly_ntd_calendar_average")
+        / num(fx[2025], "avg_fx_ntd_per_usd"), abs=0.01)
+    drawn = plate(SLUG, "plate_people")
+    assert drawn.panel("Gini").points("DGBAS")[2025.0] == pytest.approx(34.1)
+    assert drawn.panel("minimum wage").points("Calendar-average")[2025.0] == pytest.approx(916.64)
+
+
+# ----------------------------------------------------------------- migration
+def test_registration_flows_are_components_not_border_trips():
+    f = by_year("migration/registration_flows.csv")
+    for year, expected in {2018: 9309, 2021: -155696,
+                           2023: 225980, 2024: 47613}.items():
+        assert num(f[year], "registered_net") == expected
+        assert (num(f[year], "registered_immigration")
+                - num(f[year], "registered_emigration")) == expected
+
+
+def test_arc_stock_is_not_drawn_as_foreign_born():
+    is_pending("plate_migration", "Foreign-born share")
+    nia = by_year("migration/foreign_residents.csv")
+    assert num(nia[2025], "arc_foreign_residents_dec") == 1028945
+    assert num(nia[2025], "foreign_labour_dec") == 751806
+    lens = plate(SLUG, "plate_migration").panel("valid ARC")
+    assert lens.points("ARC residents")[2025.0] == pytest.approx(1.028945)
+    assert lens.points("foreign labour")[2025.0] == pytest.approx(0.751806)
+
+
 # -------------------------------------------------------------- global rules
 @pytest.mark.parametrize("panel_slug", [
     "plate_economy", "plate_fiscal", "plate_trade", "plate_credit",
     "plate_spending", "plate_demography", "plate_security",
-    "plate_mortality", "plate_markets", "plate_world"])
+    "plate_mortality", "plate_markets", "plate_world", "plate_people",
+    "plate_migration"])
 def test_nothing_is_clipped(panel_slug):
     for p in plate(SLUG, panel_slug).panels():
         p.nothing_is_clipped()
