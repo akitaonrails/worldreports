@@ -200,7 +200,7 @@ def write(rows: dict[int, dict[str, float]]) -> Path:
         "malignant_neoplasms_per_100k", "circulatory_per_100k",
     ]
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         for year in sorted(rows):
             values = rows[year]
