@@ -28,7 +28,7 @@ Two conventions run through the file:
 - **Counts become rates** through ctx.per_1000 / ctx.per_100k against the
   Eurostat 1-January population (`social/demography.csv`) —
   the same territory and the same registered-resident scope as the
-  counts; where ISTAT publishes its own rate (the police homicide rate)
+  counts; where ISTAT publishes its own rate (the police-recorded homicide rate)
   the plate uses ISTAT's. UN Comtrade supplies the customs-goods destination
   snapshot that Coeweb could not serve, and TI's pinned workbook supplies the
   comparable post-2012 corruption index.
@@ -1197,16 +1197,16 @@ PLATES = (
              "decrease reaches −5.0 per 1,000 while net migration runs "
              "near +3."),
     dict(id="10", slug="security", topic="security", builder=plate_security,
-         title="Security — A Country That Stopped Killing Itself",
+         title="Security — Homicide in Long Decline",
          subtitle="Two homicide counts that never cross, a flat suicide "
                   "line, and a pending slot for organised crime.",
          source="Sources: ISTAT 73_67 (Ministero dell'Interno via ISTAT) · "
                 "ISTAT 39_494",
          alt="Four panels on violent and accidental death in Italy. The "
-             "police homicide rate halves from 1.1 to 0.6 per 100,000 with "
+             "police-recorded homicide rate halves from 1.1 to 0.6 per 100,000 with "
              "the certificate count always lower and never spliced; "
              "suicide holds 6.1–6.5 per 100,000; all-transport deaths fall "
-             "from 5.6 to under 3.5, road-only pending; the mafia-homicide "
+             "from 5.6 to under 3.5, road-only pending; the organised-crime homicide "
              "lens is pending at ISTAT."),
     dict(id="11", slug="mortality", topic="mortality",
          builder=plate_mortality,

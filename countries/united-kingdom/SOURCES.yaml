@@ -589,7 +589,7 @@ security:
       enumerated too, but its recrime-geo-pfa.csv is only a
       force-area GEOGRAPHY LOOKUP (no counts): the fetcher uses it for
       one thing, asserting the 43 territorial forces of England & Wales
-      that define this series' scope. No UK-wide police homicide count
+      that define this series' scope. No UK-wide police-recorded homicide count
       exists; Scotland and NI are meta.pending.
   homicide_deaths_from_ons.csv:
     source: ONS — 21st Century Mortality dataset (deaths registered by 4-character ICD-10 underlying cause), England & Wales

@@ -6,13 +6,13 @@
       "2026 היא שנה חלקית. סיכומים וממוצעים שנתיים מסתיימים ב־2025; תצפיות עדכניות באמת מסומנות כ<em>נתון אחרון</em>.",
       "רצועת מיתון מופיעה רק ב־2020. הצמיחה השנתית נשארה חיובית בשנות המלחמה 2023–2025, ולכן 7 באוקטובר והתגובה התקציבית מסומנים כאירועים ולא כמיתון.",
       "שיעורים המחושבים מספירות משתמשים באוכלוסיית אמצע השנה של הבנק העולמי לאותה שנה. שיעור שפרסם גוף רשמי מוצג כפי שפורסם.",
-      "תיקי רצח של המשטרה, שיעור UNODC, עולים, היתרים ואומדן הגירה נטו הם מדדים שונים. הלוחות מציגים אותם בנפרד ואינם מחברים אותם לסדרה אחת.",
-      "מקורות לאומיים אחדים היו חסומים לגישה אוטומטית. משבצות ללא סדרה מאומתת מסומנות כחסרות במקום להציג מספר חלופי.",
+      "מקרי המתה שתועדו במשטרת ישראל, שיעור UNODC, עולים, היתרים ואומדן הגירה נטו הם מדדים שונים. הלוחות מציגים אותם בנפרד ואינם מחברים אותם לסדרה אחת.",
+      "חלק מהשכבות הישירות של הלמ״ס נשארו חסומות לגישה אוטומטית; במקומן מוצגות רק סדרות בין־לאומיות מזוהות ומאומתות.",
       "הלוחות והעמוד מתפרסמים בעברית, באנגלית ובפורטוגזית."
     ],
     "unavailable": [
-      {"term": "השכבה הלאומית של הלמ״ס", "detail": "פורטל הלמ״ס חסם גישה אוטומטית. חשבונות לאומיים, הכנסה, סיבות מוות וסדרות לאומיות נוספות אינם מוצגים עד שניתן יהיה לאמתם."},
-      {"term": "ריבית ותשואה של בנק ישראל", "detail": "היסטוריית ריבית המדיניות ותשואת אג״ח ממשלתית לעשר שנים לא אותרו בנקודת קצה יציבה; שתי המשבצות נשארות גלויות כחסרות."},
+      {"term": "השכבה הישירה של הלמ״ס", "detail": "פורטל הלמ״ס חסם גישה אוטומטית. לוחות המבוססים על סדרות בין־לאומיות מזוהות אינם מוצגים כאילו היו שליפת הלמ״ס הישירה."},
+      {"term": "שירות חוב של משקי הבית", "detail": "לא אותרה סדרת יחס שירות חוב מאומתת ובת־השוואה לישראל; לוח האשראי אינו מחליף אותה במדד אחר."},
       {"term": "זרמי הגירה ומקלט", "detail": "אין עדיין סדרה מאומתת ועקבית של הגירה יוצאת, מלאי היתרים ובקשות והחלטות מקלט."}
     ],
     "colophon": [
@@ -20,7 +20,7 @@
       {"term": "כספים ציבוריים", "detail": "IMF Fiscal Monitor ו־WEO — ממשלה כללית"},
       {"term": "שער חליפין ויתרות", "detail": "בנק ישראל והבנק העולמי, כשכל הגדרה מסומנת בנפרד"},
       {"term": "עלייה והיתרי שהייה", "detail": "משרד העלייה והקליטה ורשות האוכלוסין וההגירה"},
-      {"term": "פשיעה", "detail": "משטרת ישראל דרך data.gov.il; רצח ופעולת איבה נשארים קטגוריות נפרדות"},
+      {"term": "פשיעה", "detail": "משטרת ישראל דרך data.gov.il; מקרי המתה ופעולת איבה נשארים קטגוריות נפרדות"},
       {"term": "מדד TA-125", "detail": "Yahoo Finance — מפיץ לא רשמי; מדד מחיר ללא דיבידנדים"}
     ]
   },
@@ -31,13 +31,13 @@
       "2026 is a partial year. Annual totals and averages stop at 2025; genuinely current observations are marked <em>latest</em>.",
       "Only 2020 is shaded as a contraction. Annual growth remained positive in the 2023–2025 war years, so 7 October and the fiscal response are marked as events rather than recession bands.",
       "Rates computed from counts use the World Bank mid-year population for the same year. Where a publisher supplies a rate, the published rate is used unchanged.",
-      "Police murder files, the UNODC homicide rate, olim, permits and estimated net migration are different measures. The plates keep them separate and never join them into one series.",
-      "Several national sources blocked automated access. A slot without a verified series is marked pending rather than filled with a substitute number.",
+      "Homicide cases recorded by Israel Police, the UNODC homicide rate, olim, permits and estimated net migration are different measures. The plates keep them separate and never join them into one series.",
+      "Some direct CBS layers remained blocked to automated access; only named and verified international series are shown in their place.",
       "The plates and page are published in Hebrew, English and Portuguese."
     ],
     "unavailable": [
-      {"term": "CBS national layer", "detail": "The CBS portal blocked automated access. National accounts, income, causes of death and other national series remain unpublished here until they can be verified."},
-      {"term": "Bank of Israel rates and yields", "detail": "Stable historical endpoints for the policy rate and ten-year government yield were not isolated; both slots remain visibly unavailable."},
+      {"term": "Direct CBS layer", "detail": "The CBS portal blocked automated access. Plates based on named international series are not presented as direct CBS retrievals."},
+      {"term": "Household debt service", "detail": "No verified, comparable debt-service-ratio series for Israel was found; the credit plate does not substitute a different measure."},
       {"term": "Migration and asylum flows", "detail": "No verified consistent series is staged for emigration, permit stocks, or asylum applications and decisions."}
     ],
     "colophon": [
@@ -45,7 +45,7 @@
       {"term": "Public finances", "detail": "IMF Fiscal Monitor and WEO — general government"},
       {"term": "Exchange rate and reserves", "detail": "Bank of Israel and World Bank, with each definition labelled separately"},
       {"term": "Aliyah and residence permits", "detail": "Ministry of Aliyah and Integration and Population and Immigration Authority"},
-      {"term": "Crime", "detail": "Israel Police via data.gov.il; murder and hostile-action files remain separate categories"},
+      {"term": "Crime", "detail": "Israel Police via data.gov.il; homicide cases and hostile-action cases remain separate categories"},
       {"term": "TA-125 index", "detail": "Yahoo Finance — unofficial redistributor; price index, dividends excluded"}
     ]
   },
@@ -56,13 +56,13 @@
       "2026 é um ano parcial. Totais e médias anuais param em 2025; observações realmente correntes são marcadas como <em>mais recentes</em>.",
       "Só 2020 aparece sombreado como contração. O crescimento anual permaneceu positivo nos anos de guerra de 2023–2025; 7 de outubro e a resposta fiscal são eventos, não faixas de recessão.",
       "Taxas calculadas a partir de contagens usam a população de meio de ano do Banco Mundial no mesmo ano. Quando o publicador fornece uma taxa, ela é mantida sem alteração.",
-      "Registros policiais de homicídio, a taxa da UNODC, olim, autorizações e a estimativa de migração líquida são medidas diferentes. As pranchas as mantêm separadas e nunca as unem numa série.",
-      "Várias fontes nacionais bloquearam o acesso automatizado. Uma posição sem série verificada aparece como pendente, em vez de receber um número substituto.",
+      "Casos de homicídio registrados pela Polícia de Israel, a taxa da UNODC, olim, autorizações e a estimativa de migração líquida são medidas diferentes. As pranchas as mantêm separadas e nunca as unem numa série.",
+      "Algumas camadas diretas do CBS continuaram bloqueadas ao acesso automatizado; apenas séries internacionais identificadas e verificadas são mostradas em seu lugar.",
       "As pranchas e a página são publicadas em hebraico, inglês e português."
     ],
     "unavailable": [
-      {"term": "Camada nacional do CBS", "detail": "O portal do CBS bloqueou o acesso automatizado. Contas nacionais, renda, causas de morte e outras séries nacionais ficam ausentes até poderem ser verificadas."},
-      {"term": "Juros e rendimentos do Banco de Israel", "detail": "Não foi possível isolar endpoints históricos estáveis para a taxa de política e o título público de dez anos; ambas as posições continuam visivelmente indisponíveis."},
+      {"term": "Camada direta do CBS", "detail": "O portal do CBS bloqueou o acesso automatizado. Pranchas baseadas em séries internacionais identificadas não são apresentadas como extrações diretas do CBS."},
+      {"term": "Serviço da dívida das famílias", "detail": "Não foi encontrada uma série verificada e comparável da razão de serviço da dívida para Israel; a prancha de crédito não a substitui por outra medida."},
       {"term": "Fluxos migratórios e asilo", "detail": "Ainda não há série consistente verificada para emigração, estoque de autorizações ou pedidos e decisões de asilo."}
     ],
     "colophon": [
@@ -70,7 +70,7 @@
       {"term": "Finanças públicas", "detail": "Fiscal Monitor e WEO do FMI — governo geral"},
       {"term": "Câmbio e reservas", "detail": "Banco de Israel e Banco Mundial, com cada definição rotulada separadamente"},
       {"term": "Aliá e autorizações de residência", "detail": "Ministério da Aliá e Integração e Autoridade de População e Imigração"},
-      {"term": "Criminalidade", "detail": "Polícia de Israel via data.gov.il; homicídio e ação hostil permanecem categorias separadas"},
+      {"term": "Criminalidade", "detail": "Polícia de Israel via data.gov.il; casos de homicídio e de ação hostil permanecem categorias separadas"},
       {"term": "Índice TA-125", "detail": "Yahoo Finance — redistribuidor não oficial; índice de preços, sem dividendos"}
     ]
   }

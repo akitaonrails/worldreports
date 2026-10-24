@@ -119,7 +119,7 @@ and emigration rows.
 
 ## Scopes: the UK, Great Britain, and England & Wales
 
-There is no UK-wide police homicide count and no UK-wide cause-of-death
+There is no UK-wide police-recorded homicide count and no UK-wide cause-of-death
 table. Scotland and Northern Ireland publish their own (`meta.pending`).
 So the scopes are mixed, and every plate must name the one it uses:
 

@@ -141,7 +141,7 @@ def test_the_fbsp_line_is_the_published_rate():
 def test_police_killings_are_per_100k_residents_of_the_same_year():
     pk = column("social/violence_fbsp.csv", "police_killings")
     pop = column("social/population.csv", "pop_mn")
-    pts = plate(SLUG, "fig_security").panel("police").points("Killed by police")
+    pts = plate(SLUG, "fig_security").panel("police").points("Deaths following police intervention")
     assert close(pts[2025], pk[2025] / (pop[2025] * 1e6) * 1e5)
 
 

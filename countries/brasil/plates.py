@@ -771,9 +771,9 @@ def fig_security(ctx, ig) -> None:
     legend(ax, loc="upper right")
     recessions(ig, ax)
 
-    # the lens: police lethality and violence against women, both FBSP
+    # the lens: deaths following police intervention and violence against women, both FBSP
     # police records, each over its own population
-    ax = ig.slot("security.lens", "Police killings and women killed, per 100,000")
+    ax = ig.slot("security.lens", "Deaths following police intervention and homicides of women, per 100,000")
     pk = series_per(col(fb, "police_killings"), pop, 1e5, ctx)
     fem_pop = {y: v / 1e6 for y, v in col(wb, "population_female").items()}
     wh = series_per(col(fb, "women_homicides"), fem_pop, 1e5, ctx)
@@ -782,7 +782,7 @@ def fig_security(ctx, ig) -> None:
     ax.fill_between(ys, [wh[y] for y in ys], [fe[y] for y in ys],
                     color=ctx.p.INK, alpha=0.07, lw=0, zorder=1)
     ctx.line(ax, *xy(pk), ctx.p.PURPLE,
-             label="Killed by police, per 100k people")
+             label="Deaths following police intervention, per 100k people")
     ctx.line(ax, *xy(wh), ctx.p.INK, lw=1.8, ms=3,
              label="All homicides of women, per 100k women")
     ctx.line(ax, *xy(fe), ctx.p.RED, lw=1.8, ms=3,
@@ -979,14 +979,14 @@ PLATES = (
               "and death rates per 1,000; and natural increase and net "
               "migration per 1,000.")),
     dict(slug="10_security", topic="security", builder=fig_security,
-         title="Violence — Homicides, Suicide, Roads and the Police",
+         title="Violence — Homicides, Suicide, Roads and Police Intervention",
          subtitle=("Two homicide systems drawn side by side, never spliced: "
                    "IPEA/SIM death certificates by residence and FBSP police "
                    "records by occurrence. Everything per 100,000."),
          source="Sources: " + SOURCE["security"],
          alt=("Four panels: homicide rates on a log scale from IPEA/SIM, "
               "registered and estimated, and from FBSP; the suicide rate; "
-              "road traffic deaths; and police killings per 100,000 people "
+              "road traffic deaths; and deaths resulting from police intervention per 100,000 people "
               "beside homicides of women and femicides per 100,000 women.")),
     dict(slug="05_credit", topic="credit", builder=fig_credit,
          title="Credit & Household Debt — Supply, Price and Burden",

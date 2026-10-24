@@ -107,7 +107,7 @@ plate quotes Eurostat's rate, use the published one rather than ours.
 
 ## Homicide: police counts are higher in every year
 
-| Year | Police, completed intentional (73_67) | Certificates, assault X85–Y09 (39_494) | Certificates ÷ police |
+| Year | Police-recorded completed intentional homicides (73_67) | Certificates, assault X85–Y09 (39_494) | Certificates ÷ police-recorded |
 |---|---|---|---|
 | 2006 | 621 | 475 | 0.76 |
 | 2010 | 526 | 413 | 0.79 |
@@ -333,7 +333,7 @@ statutory minimum wage**. Pay floors come from sector collective agreements
     minimum wage exists; the panel states that absence explicitly.
 - **Rates** are counts over the Eurostat 1-January population from the
   same file (`demo_gind`), the same territory and registered-resident
-  scope; where ISTAT publishes its own rate (police homicides) its rate
+  scope; where ISTAT publishes its own rate (police-recorded homicides) its rate
   is used. CBR 6.27 and CDR 11.08 for 2024, pinned.
 - **The NIC panel draws one base only** (`index_b2015`, 2016–2025); the
   base-2025 index starts 2026-01 and is staged but not drawn; nothing

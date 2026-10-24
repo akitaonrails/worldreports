@@ -178,7 +178,7 @@ def test_homicide_rates_keep_scope_and_reference_periods_separate():
     police = by_year("security/homicide_police.csv", "fiscal_year")
     cert = by_year("security/homicide_deaths.csv")
     panel = plate(SLUG, "plate_security").panel("Homicide rate")
-    police_points = panel.points("Police Homicide Index")
+    police_points = panel.points("Home Office Homicide Index")
     cert_points = panel.points("Death certificate")
     assert police_points[2022.25] == pytest.approx(
         float(police[2022]["offences_currently_recorded"]) / ew_2022 * 1e5)

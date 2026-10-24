@@ -240,7 +240,7 @@ French one. What that took, and the judgement calls in it:
 | Panel | Count | Population (same year, same scope) |
 |---|---|---|
 | Security: suicide, road deaths | SIM by residence (`social/deaths.csv`: X60–X84, V01–V89) | IBGE resident population, 1 July, projection rev. 2024 (`social/population.csv : pop_mn`) |
-| Security lens: killed by police | FBSP `police_killings` | the same IBGE population. FBSP's own MVI rate implies 213.37M for 2025 against IBGE's 213.42M, so it is the denominator FBSP uses |
+| Security lens: deaths resulting from police intervention | FBSP `police_killings` | the same IBGE population. FBSP's own MVI rate implies 213.37M for 2025 against IBGE's 213.42M, so it is the denominator FBSP uses |
 | Security lens: homicides of women, femicides | FBSP `women_homicides`, `femicides` | female population, mid-year, UN WPP via the World Bank (`social/demography.csv : population_female`). IBGE's projection by sex is not staged; the WPP total runs about 0.3% under IBGE's, so these rates are, if anything, a hair high |
 | Mortality: crude death rate, excess | SIM registered deaths (`social/deaths.csv : registered`) | IBGE population as above |
 | Mortality: COVID-19, influenza, dengue | SIM, B34 / J09–J11 / A90+A91+A97 | IBGE population as above |

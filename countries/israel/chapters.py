@@ -1,333 +1,111 @@
-"""The Israel chapters: the cards, their copy and their provenance.
-
-Every chapter declares its spine topic (PLATE_SPINE.md); the card's stem
-must match the plate file, so the comparison viewer finds 01-economy.png
-under chapter id 01-economy. `alt` is written prose about what the plate
-shows — the only thing a reader using a screen reader gets.
-
-Four spine chapters (spending, people, credit, mortality) are not here
-yet: no series for them is staged (SOURCES.yaml meta.pending), and a
-chapter of pending panels is worse than no chapter — DATA_NOTES.md keeps
-the decision honest. The he copy is the reader's language, not a
-back-translation; the RTL page work itself is Phase C.
-"""
+"""Israel's twelve page cards, computed from reviewed publication CSVs."""
 from __future__ import annotations
 
 MONEY, WORLD, PEOPLE = "money", "world", "people"
 
 
-def build(ctx) -> list[dict]:
+def _scaled(ctx, path, column, divisor):
+    return [(y, v / divisor) for y, v in ctx.col(path, column)]
+
+
+def headline(ctx):
     T = ctx.text
     return [
-        {
-            "id": "01-economy", "topic": "economy", "n": "01",
-            "family": MONEY,
-            "title": T(
-                he="המשק הישראלי — צמיחה, הכנסה, מחירים ותעסוקה",
-                en="The Israeli Economy — Growth, Income, Prices and Jobs",
-                pt="A Economia Israelense — Crescimento, Renda, Preços e Emprego"),
-            "blurb": T(
-                he="גירסת שנתית אחת של קרן המטבע ושל הבנק העולמי מציגה שנת "
-                   "היצגבות אחת בלבד — 2020. שנות המלחמה בולטות בהסברים, לא "
-                   "בפסי הכנסה.",
-                en="One annual vintage shows exactly one contraction year — "
-                   "2020. The war years are told as events, not recession bands.",
-                pt="Uma única safra anual mostra exatamente um ano de "
-                   "contração — 2020. Os anos de guerra são eventos, não faixas de recessão."),
-            "alt": T(
-                he="ארבעה פאנלים על הכלכלה הישראלית, 2006–2025. הצמיחה "
-                   "הריאלית חיובית בכל שנה מלבד 2020 ‎(-1.9%)‎; ב-2008 וב-2009, "
-                   "שנות המשבר העולמי, צמחה המשק ב-3.2% וב-1.2%, ולכן אין פס "
-                   "הכנסה. תל\"ג לנפש בדולרים עלה מ-22,500 ל-60,300 בערך. "
-                   "האינפלציה נגעה בדפלציה באמצע שנות ה-2010 והגיעה ל-4.4% "
-                   "ב-2022 מול יעד של 1%–3%; האבטלה ירדה מ-8.4% לכ-3%. "
-                   "המקורות בינלאומיים עד שהלמ\"ס יחזור.",
-                en="Four panels on the Israeli economy, 2006–2025. Real "
-                   "growth is positive every year except 2020 (-1.9%); the "
-                   "crisis years 2008 and 2009 grew +3.2% and +1.2%, so no "
-                   "band. GDP per person in US$ rose from about 22,500 to "
-                   "60,300. Inflation touched deflation in the mid-2010s and "
-                   "peaked at 4.4% in 2022 against the 1–3% target; "
-                   "unemployment fell from 8.4% to about 3%.",
-                pt="Quatro painéis sobre a economia israelense, 2006–2025. "
-                   "O crescimento real é positivo em todos os anos menos "
-                   "2020 (-1,9%); os anos de crise 2008 e 2009 cresceram "
-                   "+3,2% e +1,2%, sem faixa. O PIB por pessoa em dólares "
-                   "subiu de cerca de 22.500 para 60.300. A inflação roçou a "
-                   "deflação em meados dos anos 2010 e atingiu 4,4% em 2022 "
-                   "contra a meta de 1–3%; o desemprego caiu de 8,4% para "
-                   "cerca de 3%."),
-            "sources": ["macro/gdp_growth_from_imf.csv",
-                        "international/world_from_wb.csv",
-                        "macro/cpi_inflation_from_imf.csv",
-                        "macro/economy_from_wb.csv",
-                        "social/labour_from_oecd.csv"],
-        },
-        {
-            "id": "02-fiscal", "topic": "fiscal", "n": "02", "family": MONEY,
-            "title": T(
-                he="פיסקליות — הנפילה הארוכה בחוב, ושנות המלחמה",
-                en="Public Finances — the Long Fall in Debt, and the War Years",
-                pt="Finanças Públicas — a Longa Queda da Dívida e os Anos de Guerra"),
-            "blurb": T(
-                he="הממשלות הכלליות לפי קרן המטבע. המלחמה נראית בגרעון ובחוב "
-                   "— לא בפס צמיחה, כי הצמיחה השנתית נשארה חיובית.",
-                en="General government on the IMF's basis. The war shows in "
-                   "the balance and the debt, not in a growth band, because "
-                   "annual growth stayed positive.",
-                pt="Governo geral na base do FMI. A guerra aparece no "
-                   "saldo e na dívida, não numa faixa de crescimento: o "
-                   "crescimento anual ficou positivo."),
-            "alt": T(
-                he="ארבעה פאנלים על הפיסקליות הישראלית. ההכנסות 35%–40% מהתמ\"ג "
-                   "וההוצאות 37%–45%; הגרעון הגיע ל-10.7%- ב-2020 ול-8.1%- "
-                   "ב-2024, שנת המלחמה; החוב הגולמי ירד מ-85.7% ב-2005 ל-59.5% "
-                   "ב-2019, זינק ל-71.4% ב-2020 וניצב ב-67.9% ב-2025. המאזן "
-                   "הראשוני והריבית הנגזרת משתמשים באותה מהדורת Fiscal Monitor.",
-                en="Four panels on Israeli public finances. Revenue runs "
-                   "35–40% of GDP and expenditure 37–45%; the balance hits "
-                   "-10.7% in 2020 and -8.1% in 2024, the war year; gross "
-                   "debt falls from 85.7% (2005) to 59.5% (2019), jumps to "
-                   "71.4% (2020) and sits at 67.9% in 2025. The primary "
-                   "balance and derived interest use the same Fiscal Monitor vintage.",
-                pt="Quatro painéis sobre as finanças públicas de Israel. "
-                   "Receitas de 35–40% do PIB e despesas de 37–45%; o saldo "
-                   "chega a -10,7% em 2020 e -8,1% em 2024, o ano de guerra; "
-                   "a dívida bruta cai de 85,7% (2005) a 59,5% (2019), salta "
-                   "a 71,4% (2020) e fica em 67,9% em 2025. O resultado "
-                   "primário e os juros derivados usam a mesma edição do Fiscal Monitor."),
-            "sources": ["fiscal/general_government.csv"],
-        },
-        {
-            "id": "03-trade", "topic": "trade", "n": "03", "family": WORLD,
-            "title": T(
-                he="מסחר — עודף שירותים שנושא גרעון סחורות",
-                en="Trade — a Services Surplus Carrying a Goods Deficit",
-                pt="Comércio — um Superávit de Serviços Carregando um Déficit de Bens"),
-            "blurb": T(
-                he="יצוא ויבוא לפי חשבונות לאומיים בבנק העולמי; קו הלמ\"ס "
-                   "הארצי יחזור עם הלמ\"ס.",
-                en="Exports and imports on the World Bank's national-accounts "
-                   "basis; the CBS national line returns with CBS.",
-                pt="Exportações e importações pela base de contas nacionais "
-                   "do Banco Mundial; a linha nacional do CBS volta com o CBS."),
-            "alt": T(
-                he="שלושה פאנלים מצוירים. יצוא ויבוא כל אחד "
-                   "בכ-שליש מהתמ\"ג ומעלה, והמאזן נע בין ‎-3%‎ ל-‎+5%‎; פאנל "
-                   "יעדי 2023 משתמש ביצוא סחורות המכס של UN Comtrade ומחריג את קטגוריה 837.",
-                en="Three panels drawn. Exports and "
-                   "imports each run a third of GDP or more and the balance "
-                   "swings between about -3% and +5%; the 2023 destinations "
-                   "use UN Comtrade customs-goods exports and exclude special category 837.",
-                pt="Três painéis desenhados. "
-                   "Exportações e importações passam de um terço do PIB cada, "
-                   "e o saldo oscila entre cerca de -3% e +5%; os destinos de "
-                   "2023 usam bens alfandegários do UN Comtrade e excluem a categoria especial 837."),
-            "sources": ["trade/trade_from_wb.csv",
-                        "trade/trade_partners_comtrade.csv"],
-        },
-        {
-            "id": "04-markets", "topic": "markets", "n": "04",
-            "family": MONEY,
-            "title": T(
-                he="שווקים — השקל והבורסה בתל אביב",
-                en="Markets — the Shekel and the Tel Aviv Exchange",
-                pt="Mercados — o Shekel e a Bolsa de Tel Aviv"),
-            "blurb": T(
-                he="שני פאנלים מושהים עד שבנק ישראל נגיש: הריבית והתשואות. "
-                   "קו המט\"ח רוכב על הממוצעים השנתיים של הבנק העולמי.",
-                en="Two panels pending while the Bank of Israel portal stays "
-                   "unreachable: the rates and the yields. The FX line rides "
-                   "the World Bank's annual averages.",
-                pt="Dois painéis pendentes enquanto o portal do Banco de "
-                   "Israel permanece inacessível: juros e rendimentos. A "
-                   "linha de câmbio usa as médias anuais do Banco Mundial."),
-            "alt": T(
-                he="ארבעה פאנלים על השווקים בישראל. פאנלי הריבית ותשואת "
-                   "האג\"ח מציינים שהמקור חסום; השקל, עם מדד בסיס 2006, התחזק "
-                   "לכ-129 עד 2025 לפי הממוצעים הרשמיים של הבנק העולמי, ותמונת "
-                   "השער היציג של בנק ישראל מצוטטת כצילום־מצב מתויג; "
-                   "בדולרים מדד ת\"א־125 מגיע לכ-510 מול מדד S&P 500 "
-                   "שעומד על כ-483.",
-                en="Four panels on Israeli markets. The policy-rate and bond-"
-                   "yield panels say their sources are parked; the shekel, "
-                   "indexed 2006 = 100, strengthened to about 129 by 2025 on "
-                   "the World Bank's official annual averages, with the Bank "
-                   "of Israel's intraday representative rate quoted as a "
-                   "labelled snapshot; in US$ the TA-125 index reaches about "
-                   "510 against the S&P 500's 483.",
-                pt="Quatro painéis sobre os mercados israelenses. Os painéis "
-                   "de juro e de rendimento de títulos dizem que suas fontes "
-                   "estão arquivadas; o shekel, indexado em 2006 = 100, se "
-                   "fortaleceu para cerca de 129 até 2025 pelas médias anuais "
-                   "oficiais do Banco Mundial, com a taxa representativa "
-                   "intraday do Banco de Israel citada como retrato rotulado; "
-                   "em dólares o índice TA-125 chega a cerca de 510 contra "
-                   "483 do S&P 500."),
-            "sources": ["markets/usdils_from_wb.csv", "markets/usdils_from_boi.csv",
-                        "markets/ta125_from_yahoo.csv",
-                        "markets/sp500_from_yahoo.csv"],
-        },
-        {
-            "id": "05-world", "topic": "world", "n": "05", "family": WORLD,
-            "title": T(
-                he="ישראל בעולם — גודל, פיתוח ורזרבות",
-                en="Israel in the World — Size, Development and Reserves",
-                pt="Israel no Mundo — Tamanho, Desenvolvimento e Reservas"),
-            "blurb": T(
-                he="תמ\"ג ורזרבות בדולרים, מדד הפיתוח של UNDP ומדד השחיתות בר-ההשוואה של Transparency International.",
-                en="GDP and reserves in US dollars, UNDP development and "
-                   "Transparency International's comparable CPI.",
-                pt="PIB e reservas em dólares, desenvolvimento do PNUD e o "
-                   "CPI comparável da Transparency International."),
-            "alt": T(
-                he="ארבעה פאנלים מצוירים. התמ\"ג בדולרים עלה מ-159 "
-                   "מיליארד ל-611 מיליארד; מדד הפיתוח האנושי טפס מ-0.867 "
-                   "ל-0.919 (2023, דירוג 27); הרזרבות הרשמיות עלו מ-29 ל-229 "
-                   "מיליארד דולר; מדד השחיתות נע מ-60 ב-2012 ל-62 ב-2025.",
-                en="Four panels drawn. GDP in US dollars rises from "
-                   "about 159bn to 611bn; the Human Development Index climbs "
-                   "from 0.867 to 0.919 (2023, rank 27); official reserves "
-                   "climb from about 29bn to 229bn dollars; the CPI runs "
-                   "from 60 in 2012 to 62 in 2025.",
-                pt="Quatro painéis desenhados. O PIB em dólares sobe "
-                   "de cerca de 159 bilhões para 611 bilhões; o IDH sobe de "
-                   "0,867 para 0,919 (2023, posição 27); as reservas oficiais "
-                   "sobem de cerca de 29 para 229 bilhões de dólares; o CPI "
-                   "vai de 60 em 2012 a 62 em 2025."),
-            "sources": ["international/world_from_wb.csv",
-                        "international/hdi_from_undp.csv",
-                        "international/cpi_ti.csv"],
-        },
-        {
-            "id": "06-demography", "topic": "demography", "n": "06",
-            "family": PEOPLE,
-            "title": T(
-                he="דמוגרפיה — עשרה מיליון, ופריון ילודה מהגבוהים ב-OECD",
-                en="Demography — Ten Million, and the OECD's Highest Fertility",
-                pt="Demografia — Dez Milhões e a Mais Alta Fertilidade da OCDE"),
-            "blurb": T(
-                he="נתוני הבנק העולמי (UN WPP) עד שמרשם האוכלוסין של הלמ\"ס, "
-                   "מתפרסם בראש השנה, יהיה שוב נגיש.",
-                en="World Bank (UN WPP) while the CBS population register — "
-                   "published each Rosh Hashanah — is unreachable.",
-                pt="Banco Mundial (UN WPP) enquanto o registro populacional "
-                   "do CBS — publicado a cada Rosh Hashaná — está inacessível."),
-            "alt": T(
-                he="ארבעה פאנלים על האוכלוסייה בישראל. מדד 2006=100 טפס לכ-144 "
-                   "עד 2025 — התושב העשירי במיליון נרשם ב-2024, והפאנל נושא את "
-                   "סימון \"הסקלה הורחבה\"; הפריון נע בין 2.84 ל-3.11 ילדים "
-                   "לאישה; לידות גולמיות ירדו מ-21.0 ל-18.6 והתמותה עלתה לכ-5.3 "
-                   "לכל 1,000; תוספת טבעית כ-13 ל-1,000, וקו ההגירה נטה של ה-UN "
-                   "מתחתיה.",
-                en="Four panels on Israel's population. The index 2006 = 100 "
-                   "runs to about 144 by 2025 — the ten-millionth resident "
-                   "was registered in 2024, and the panel carries the scale-"
-                   "extended marker; fertility stays between 2.84 and 3.11 "
-                   "children per woman; crude births fall from 21.0 to 18.6 "
-                   "while deaths rise toward 5.3 per 1,000; natural increase "
-                   "sits near 13 per 1,000, above the UN net-migration line.",
-                pt="Quatro painéis sobre a população de Israel. O índice "
-                   "2006 = 100 sobe para cerca de 144 em 2025 — o décimo "
-                   "milionésimo residente foi registrado em 2024, e o painel "
-                   "traz o marcador de escala ampliada; a fertilidade fica "
-                   "entre 2,84 e 3,11 filhos por mulher; nascimentos brutos "
-                   "caem de 21,0 para 18,6 e óbitos sobem para perto de 5,3 "
-                   "por mil; o aumento natural fica perto de 13 por mil, "
-                   "acima da linha de migração líquida da ONU."),
-            "sources": ["demography/demography_from_wb.csv"],
-        },
-        {
-            "id": "07-security", "topic": "security", "n": "07",
-            "family": PEOPLE,
-            "title": T(
-                he="ביטחון — שני רישומי רצח, וקבצי ה-7 באוקטובר",
-                en="Security — Two Homicide Records, and the 7 October Files",
-                pt="Segurança — Dois Registros de Homicídio e os Arquivos de 7 de Outubro"),
-            "blurb": T(
-                he="שיעורי UNODC ממלאים את 2006–2020; חלון הנתונים הפתוח של "
-                   "המשטרה נפתח ב-2021. שני טורים, לעולם לא קו אחד תפור.",
-                en="UNODC rates fill 2006–2020; the police open-data window "
-                   "opens in 2021. Two series, never one spliced line.",
-                pt="Taxas da UNODC preenchem 2006–2020; a janela de dados "
-                   "abertos da polícia abre em 2021. Duas séries, nunca uma "
-                   "linha costurada."),
-            "alt": T(
-                he="ארבעה פאנלים על מוות אלימה ותאונות. בפאנל הרצח (סקלה לוג) "
-                   "שיעור UNODC נע סביב 1.3–2.2 ל-100,000, וקבצי 301 של המשטרה "
-                   "לכל 100,000 תושבים מתחילים ב-2021 בלבד וקופצים לכ-12.3 ב-2023, "
-                   "שנת ה-7 באוקטובר; האבדות בדרכים יורדות מ-6.4 ל-3.4 לפני "
-                   "שסדרת WHO נעצרת; פאנל השפתון סופר את קבצי הרצח עצמם — 156, "
-                   "112, 1,209, 458, 345 — וקובע שעמודת 2023 היא הטבח שנספר "
-                   "בתוך סוג 301.",
-                en="Four panels on violent and accidental death. On the log "
-                   "homicide panel the UNODC rate runs near 1.3–2.2 per "
-                   "100,000 while the police type-301 files per 100,000 start "
-                   "only in 2021 and spike to about 12.3 in 2023, the "
-                   "October-7 year; road deaths fall from 6.4 to 3.4 before "
-                   "WHO's series stops; the lens panel counts the recorded "
-                   "murder files themselves — 156, 112, 1,209, 458, 345 — "
-                   "saying the 2023 column is the attack counted inside "
-                   "type 301.",
-                pt="Quatro painéis sobre morte violenta e acidental. No "
-                   "painel logarítmico de homicídio, a taxa da UNODC fica "
-                   "perto de 1,3–2,2 por 100 mil, enquanto os arquivos tipo "
-                   "301 da polícia por 100 mil começam só em 2021 e disparam "
-                   "para cerca de 12,3 em 2023, o ano de 7 de outubro; mortes "
-                   "no trânsito caem de 6,4 para 3,4 antes da série da OMS "
-                   "parar; a lente conta os arquivos de homicídio registrados "
-                   "— 156, 112, 1.209, 458, 345 — dizendo que a "
-                   "coluna de 2023 é o ataque contado dentro do tipo 301."),
-            "sources": ["security/security_from_wb.csv",
-                        "security/homicide_police_from_datagovil.csv"],
-        },
-        {
-            "id": "08-migration", "topic": "migration", "n": "08",
-            "family": PEOPLE,
-            "title": T(
-                he="הגירה — זרם חוק השבות וזרם ההיתרים",
-                en="Migration — the Law of Return Flow and the Permit Flow",
-                pt="Migração — o Fluxo da Lei do Retorno e o Fluxo de Permissões"),
-            "blurb": T(
-                he="שני סדרות רשמיות פתוחות: עולים חדשים ממשרד העלייה "
-                   "והקליטה (מ-2015) והנפקות היתרים של רשות האוכלוסין "
-                   "(מ-2019). לעולם לא נסכום אותם לשורה אחת.",
-                en="Two official open-data series: new olim from the Ministry "
-                   "of Aliyah and Integration (from 2015), PIBA issuance "
-                   "(from 2019). Never summed into one line.",
-                pt="Duas séries oficiais abertas: novos olim pelo Ministério "
-                   "da Aliyah e Integração (desde 2015) e emissões da PIBA "
-                   "(desde 2019). Nunca somadas numa só linha."),
-            "alt": T(
-                he="ארבעה פאנלים על הגירה לישראל, לכל 1,000 תושבים. זרם העולים "
-                   "— באים בחוק השבות — הגיע לשיא של 76,601 ב-2022, גל מלחמת "
-                   "אוקראינה (כ-8 ל-1,000); אומדן הנדידה נטה של ה-UN הגיע לכ-5.2 "
-                   "באותה שנה, והפאנל קובע שאלה שני חפצים שונים; שיעור ילידי־חוץ "
-                   "של UN DESA יורד מ-26.6% ב-2010 ל-22.3% ב-2024; פאנל השפתון מצייר היתרי "
-                   "תושבות ועבודה חדשים (זרם, רשומות לא בני־אדם) עם קו ההארכות "
-                   "לצידם, ומחריג בשמות את מחלקות התיירות והדיפלומטיה.",
-                en="Four panels on Israeli migration, per 1,000 people. The "
-                   "olim flow — arrivals under the Law of Return — peaks at "
-                   "76,601 in 2022, the Ukraine-war wave (about 8 per 1,000); "
-                   "the UN's net-migration estimate peaks near 5.2 per 1,000 "
-                   "the same year, and the panel says the two are different "
-                   "objects; the UN DESA foreign-born share falls from 26.6% "
-                   "in 2010 to 22.3% in 2024; the lens draws new residence and work permits (a "
-                   "flow, records not people) with extensions beside them, "
-                   "visitor and diplomatic classes excluded by name.",
-                pt="Quatro painéis sobre a migração para Israel, por mil "
-                   "habitantes. O fluxo de olim — chegadas pela Lei do "
-                   "Retorno — atinge 76.601 em 2022, a onda da guerra da "
-                   "Ucrânia (cerca de 8 por mil); a estimativa de migração "
-                   "líquida da ONU atinge perto de 5,2 por mil no mesmo ano, "
-                   "e o painel diz que são objetos diferentes; a parcela de "
-                   "nascidos no exterior da UN DESA cai de 26,6% em 2010 para 22,3% em 2024; a lente "
-                   "desenha novas permissões de residência e trabalho (um "
-                   "fluxo, registros não pessoas) com prorrogações ao lado, "
-                   "excluindo nominalmente as classes de turista e diplomáticas."),
-            "sources": ["migration/olim_flow_from_datagovil.csv",
-                        "migration/permits_from_datagovil.csv",
-                        "demography/demography_from_wb.csv",
-                        "migration/migrant_stock_wb.csv"],
-        },
+        ctx.stat(T(he="תמ״ג לנפש, דולר", en="GDP per person, US$", pt="PIB por pessoa, US$"),
+                 ctx.col("international/world.csv", "gdp_per_person_usd"), "count"),
+        ctx.stat(T(he="אוכלוסייה", en="Population", pt="População"),
+                 _scaled(ctx, "demography/demography.csv", "population", 1e6), "pop_mn", kind="level"),
+        ctx.stat(T(he="ריבית בנק ישראל", en="Bank of Israel rate", pt="Taxa do Banco de Israel"),
+                 ctx.col("markets/policy_rate.csv", "policy_rate_pct"), "pct2"),
+        ctx.stat(T(he="חוב משקי הבית", en="Household debt", pt="Dívida das famílias"),
+                 ctx.col("credit/household_debt.csv", "household_debt_pct_gdp"), "pct_gdp"),
+        ctx.stat(T(he="עוני יחסי", en="Relative poverty", pt="Pobreza relativa"),
+                 ctx.col("social/income_distribution.csv", "poverty50_pct_meth2012_current"), "pct"),
+        ctx.stat(T(he="עולים חדשים", en="New olim", pt="Novos olim"),
+                 ctx.col("migration/olim_flow.csv", "olim"), "count"),
     ]
+
+
+def build(ctx):
+    T = ctx.text
+    specs = [
+        ("01-economy", "economy", MONEY,
+         T(he="המשק הישראלי", en="The Israeli Economy", pt="A Economia Israelense"),
+         T(he="צמיחה, הכנסה, מחירים ותעסוקה בסדרות השוואתיות של קרן המטבע, הבנק העולמי ו־OECD.", en="Growth, income, prices and jobs in comparable IMF, World Bank and OECD series.", pt="Crescimento, renda, preços e emprego em séries comparáveis do FMI, Banco Mundial e OCDE."),
+         T(he="ארבעה פאנלים לשנים 2006–2025. הצמיחה הריאלית שלילית רק ב־2020; התמ״ג לנפש עולה, האינפלציה מגיעה לשיא ב־2022 והאבטלה יורדת.", en="Four panels for 2006–2025. Real growth is negative only in 2020; GDP per person rises, inflation peaks in 2022 and unemployment declines.", pt="Quatro painéis para 2006–2025. O crescimento real só é negativo em 2020; o PIB por pessoa sobe, a inflação atinge o pico em 2022 e o desemprego recua."),
+         "macro/gdp_growth.csv", "gdp_growth_pct", "pct_s",
+         ["macro/gdp_growth.csv", "international/world.csv", "macro/cpi_inflation.csv", "macro/economy.csv", "social/labour.csv"]),
+        ("02-fiscal", "fiscal", MONEY,
+         T(he="כספי הציבור", en="Public Finances", pt="Finanças Públicas"),
+         T(he="הכנסות, הוצאות, מאזן וחוב של הממשלה הכללית לפי אותה מהדורת Fiscal Monitor.", en="General-government revenue, spending, balances and debt from one IMF Fiscal Monitor vintage.", pt="Receitas, despesas, saldos e dívida do governo geral em uma mesma edição do Fiscal Monitor do FMI."),
+         T(he="ארבעה פאנלים. הגירעון מתרחב ב־2020 ושוב ב־2024; החוב יורד עד 2019, מזנק ב־2020 ועולה שוב בשנות המלחמה.", en="Four panels. The deficit widens in 2020 and again in 2024; gross debt falls through 2019, jumps in 2020 and rises again during the war years.", pt="Quatro painéis. O déficit aumenta em 2020 e novamente em 2024; a dívida bruta cai até 2019, salta em 2020 e volta a subir nos anos de guerra."),
+         "fiscal/general_government.csv", "gross_debt_pct_gdp", "pct_gdp",
+         ["fiscal/general_government.csv"]),
+        ("03-spending", "spending", MONEY,
+         T(he="לאן הולך הכסף", en="Where the Money Goes", pt="Para Onde Vai o Dinheiro"),
+         T(he="הוצאות הממשלה לפי תפקיד, לצד השקעה ציבורית והשקעה במשק כולו — מדדים שאינם בני החלפה.", en="Government spending by function beside public and whole-economy investment—measures that are not interchangeable.", pt="Despesa pública por função ao lado do investimento público e da economia inteira — medidas que não são intercambiáveis."),
+         T(he="ארבעה פאנלים מציגים את סך ההוצאה, קבוצות תפקידים, השקעה ממשלתית והשקעה קבועה במשק כולו כאחוז מהתמ״ג.", en="Four panels show total spending, functional groups, government investment and economy-wide fixed investment as shares of GDP.", pt="Quatro painéis mostram despesa total, grupos funcionais, investimento do governo e investimento fixo da economia como parcelas do PIB."),
+         "spending/cofog.csv", "total_pct_gdp", "pct_gdp",
+         ["spending/cofog.csv", "spending/public_investment.csv", "spending/whole_economy_investment.csv"]),
+        ("04-trade", "trade", WORLD,
+         T(he="סחר", en="Trade", pt="Comércio"),
+         T(he="סחר סחורות ושירותים בחשבונות הלאומיים לצד יעדי יצוא סחורות במכס — שני תחומי כיסוי נפרדים.", en="National-accounts goods and services beside customs-goods destinations—two distinct coverage concepts.", pt="Bens e serviços das contas nacionais ao lado de destinos aduaneiros de bens — dois conceitos de cobertura distintos."),
+         T(he="שלושה פאנלים. היצוא והיבוא נעים סביב שליש מהתמ״ג; יעדי 2023 משתמשים ב־UN Comtrade ללא קטגוריה 837.", en="Three panels. Exports and imports run near a third of GDP; 2023 destinations use UN Comtrade customs-goods exports excluding category 837.", pt="Três painéis. Exportações e importações ficam perto de um terço do PIB; os destinos de 2023 usam o UN Comtrade, excluída a categoria 837."),
+         "trade/trade.csv", "exports_pct_gdp", "pct_gdp",
+         ["trade/trade.csv", "trade/trade_partners_comtrade.csv"]),
+        ("05-markets", "markets", MONEY,
+         T(he="כסף ושווקים", en="Money & Markets", pt="Moeda e Mercados"),
+         T(he="ריבית בנק ישראל, תשואת האג״ח הממשלתית ל־8–11 שנים, השקל ומניות תל אביב בדולרים.", en="The Bank of Israel rate, the 8–11-year government-bond yield, the shekel and Tel Aviv equities in US dollars.", pt="A taxa do Banco de Israel, o rendimento do título público de 8–11 anos, o shekel e as ações de Tel Aviv em dólares."),
+         T(he="ארבעה פאנלים לשנים 2006–2025. הריבית והתשואה הן ממוצעים שנתיים; מדד השקל מבוסס על ממוצע השער, ות״א־125 מוצג בדולרים מול S&P 500.", en="Four panels for 2006–2025. The policy rate and 8–11-year yield are annual averages; the shekel index uses annual exchange-rate averages, and the TA-125 is shown in US dollars against the S&P 500.", pt="Quatro painéis para 2006–2025. A taxa básica e o rendimento de 8–11 anos são médias anuais; o índice do shekel usa médias cambiais e o TA-125 aparece em dólares contra o S&P 500."),
+         "markets/policy_rate.csv", "policy_rate_pct", "pct2",
+         ["markets/policy_rate.csv", "markets/government_bond_10y.csv", "markets/usdils.csv", "markets/usdils_boi.csv", "markets/ta125.csv", "markets/sp500.csv"]),
+        ("06-credit", "credit", MONEY,
+         T(he="אשראי למשקי בית", en="Household Credit", pt="Crédito às Famílias"),
+         T(he="חוב משקי הבית, ריבית על משכנתאות חדשות והלוואות לא־מתפקדות — כל מדד בהגדרתו.", en="Household debt, rates on new mortgages and non-performing loans—each kept on its own definition.", pt="Dívida das famílias, taxas de novas hipotecas e empréstimos inadimplentes — cada medida em sua definição."),
+         T(he="שלושה פאנלים: מלאי חוב חלקי תמ״ג; ריבית משוקללת על הלוואות דיור חדשות ולא־צמודות; ושיעור הלוואות לא־מתפקדות ברבעון הרביעי.", en="Three panels: household debt stock divided by GDP; weighted rates on new unindexed housing loans; and the fourth-quarter NPL ratio for deposit takers.", pt="Três painéis: estoque de dívida familiar dividido pelo PIB; taxas ponderadas de novos financiamentos habitacionais não indexados; e inadimplência no quarto trimestre."),
+         "credit/household_debt.csv", "household_debt_pct_gdp", "pct_gdp",
+         ["credit/household_debt.csv", "credit/mortgage_rate.csv", "credit/npl_ratio.csv"]),
+        ("07-people", "people", PEOPLE,
+         T(he="אנשים, הכנסה ועוני", en="People, Income & Poverty", pt="Pessoas, Renda e Pobreza"),
+         T(he="אי־שוויון ועוני של OECD לצד שכר המינימום הסטטוטורי; מקטעי השיטה אינם מחוברים.", en="OECD inequality and poverty beside the statutory minimum wage; method segments are not spliced.", pt="Desigualdade e pobreza da OCDE ao lado do salário mínimo legal; segmentos metodológicos não são unidos."),
+         T(he="ארבעה פאנלים. ג׳יני ועוני מוצגים בשלושה מקטעי שיטה נפרדים; שכר המינימום הוא ממוצע חודשי משוקלל לפי מועדי התחולה.", en="Four panels. Gini and poverty appear as three separate method segments; the minimum wage is a month-weighted statutory average.", pt="Quatro painéis. Gini e pobreza aparecem em três segmentos metodológicos separados; o salário mínimo é uma média legal ponderada pelos meses."),
+         "social/income_distribution.csv", "poverty50_pct_meth2012_current", "pct",
+         ["social/income_distribution.csv", "social/minimum_wage.csv"]),
+        ("08-world", "world", WORLD,
+         T(he="ישראל בעולם", en="Israel in the World", pt="Israel no Mundo"),
+         T(he="גודל כלכלי ורזרבות בדולרים, פיתוח אנושי ותפיסת שחיתות בהגדרות בין־לאומיות.", en="Economic size and reserves in US dollars, human development and perceived corruption on international definitions.", pt="Tamanho econômico e reservas em dólares, desenvolvimento humano e percepção de corrupção em definições internacionais."),
+         T(he="ארבעה פאנלים. התמ״ג והרזרבות עולים; מדד הפיתוח האנושי מגיע ל־0.919 ב־2023, ומדד תפיסת השחיתות מוצג בסולם 0–100.", en="Four panels. GDP and reserves rise; HDI reaches 0.919 in 2023, and the Corruption Perceptions Index is shown on its 0–100 scale.", pt="Quatro painéis. PIB e reservas sobem; o IDH chega a 0,919 em 2023 e o Índice de Percepção da Corrupção aparece na escala 0–100."),
+         "international/hdi.csv", "hdi", "dec3",
+         ["international/world.csv", "international/hdi.csv", "international/cpi_ti.csv"]),
+        ("09-demography", "demography", PEOPLE,
+         T(he="דמוגרפיה", en="Demography", pt="Demografia"),
+         T(he="אוכלוסייה, פריון, לידות, פטירות וגידול טבעי בסדרת הבנק העולמי המבוססת על UN WPP.", en="Population, fertility, births, deaths and natural increase in the World Bank series based on UN WPP.", pt="População, fecundidade, nascimentos, óbitos e crescimento natural na série do Banco Mundial baseada no UN WPP."),
+         T(he="ארבעה פאנלים. האוכלוסייה גדלה לכעשרה מיליון; הפריון קרוב לשלושה ילדים לאישה; הילודה יורדת והתמותה עולה.", en="Four panels. Population grows to about ten million; fertility remains near three children per woman; the birth rate falls and the death rate rises.", pt="Quatro painéis. A população cresce para cerca de dez milhões; a fecundidade fica perto de três filhos por mulher; a natalidade cai e a mortalidade sobe."),
+         "demography/demography.csv", "fertility", "dec2",
+         ["demography/demography.csv"]),
+        ("10-security", "security", PEOPLE,
+         T(he="ביטחון ובטיחות", en="Security & Safety", pt="Segurança Pública"),
+         T(he="שיעורי תמותה מ־UNODC ו־WHO לצד מקרי המתה שתועדו במשטרת ישראל — מדדים נפרדים.", en="UNODC and WHO mortality rates beside homicide cases recorded by Israel Police—separate measures.", pt="Taxas de mortalidade da UNODC e OMS ao lado de casos de homicídio registrados pela Polícia de Israel — medidas separadas."),
+         T(he="ארבעה פאנלים. שיעורי המתה, התאבדות ותמותה בדרכים מוצגים בנפרד ממקרי המתה שתועדו במשטרת ישראל. הזינוק ב־2023 כולל את מתקפת 7 באוקטובר בסיווג הטכני 301.", en="Four panels. Homicide, suicide and road-death rates remain separate from homicide cases recorded by Israel Police. The 2023 spike includes the 7 October attack within technical category 301.", pt="Quatro painéis. Taxas de homicídio, suicídio e mortes no trânsito ficam separadas dos casos de homicídio registrados pela Polícia de Israel. O salto de 2023 inclui o ataque de 7 de outubro na categoria técnica 301."),
+         "security/security.csv", "homicide_per_100k", "per100k2",
+         ["security/security.csv", "security/homicide_police.csv"]),
+        ("11-mortality", "mortality", PEOPLE,
+         T(he="תמותה", en="Mortality", pt="Mortalidade"),
+         T(he="פטירות רשומות, עודף מול ממוצע 2015–2019 וסיבות המוות הבסיסיות לפי OECD/WHO.", en="Registered deaths, excess against the 2015–2019 mean and underlying causes from OECD/WHO.", pt="Óbitos registrados, excesso contra a média de 2015–2019 e causas básicas da OCDE/OMS."),
+         T(he="ארבעה פאנלים עד 2023 מציגים פטירות ושיעור גולמי, עודף מול בסיס קבוע, COVID-19 כסיבה בסיסית ושיעורי סרטן ומחלות מחזור הדם.", en="Four panels through 2023 show deaths and the crude rate, excess against a fixed baseline, COVID-19 as the underlying cause, and cancer and circulatory-disease rates.", pt="Quatro painéis até 2023 mostram óbitos e taxa bruta, excesso contra uma base fixa, COVID-19 como causa básica e taxas de câncer e doenças circulatórias."),
+         "mortality/mortality.csv", "death_rate_per_1000", "dec2",
+         ["mortality/mortality.csv"]),
+        ("12-migration", "migration", PEOPLE,
+         T(he="הגירה", en="Migration", pt="Migração"),
+         T(he="עולים, אומדן הגירה נטו, מלאי ילידי חו״ל ורישומי היתרים — ארבעה מושגים נפרדים.", en="Olim, estimated net migration, foreign-born stock and permit records—four distinct concepts.", pt="Olim, migração líquida estimada, estoque de nascidos no exterior e registros de autorizações — quatro conceitos distintos."),
+         T(he="ארבעה פאנלים. זרם העולים מגיע לשיא ב־2022; אומדן האו״ם נשאר נפרד; חלק ילידי החוץ נמדד בשנות תמונת מצב; והיתרים הם רשומות, לא בני אדם ייחודיים.", en="Four panels. The olim flow peaks in 2022; the UN estimate remains separate; foreign-born share uses snapshot years; and permits are records, not unique people.", pt="Quatro painéis. O fluxo de olim atinge o pico em 2022; a estimativa da ONU fica separada; a parcela de nascidos no exterior usa anos de referência; e autorizações são registros, não pessoas únicas."),
+         "migration/olim_flow.csv", "olim", "count",
+         ["migration/olim_flow.csv", "demography/demography.csv", "migration/migrant_stock_wb.csv", "migration/permits.csv"]),
+    ]
+    out = []
+    for ident, topic, family, title, blurb, alt, path, column, fmt, sources in specs:
+        pairs = ctx.col(path, column)
+        out.append({"id": ident, "topic": topic, "n": ident[:2], "family": family,
+                    "title": title, "blurb": blurb, "alt": alt, "spark": pairs,
+                    "stats": [ctx.stat(title, pairs, fmt)], "sources": sources})
+    return out

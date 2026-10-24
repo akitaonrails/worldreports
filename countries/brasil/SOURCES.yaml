@@ -178,13 +178,13 @@ social:
     source: FBSP — Anuário Brasileiro de Segurança Pública 2026 (20th ed., 2025 data)
     url: https://forumseguranca.org.br/wp-content/uploads/2026/07/anuario-2026.xlsx
     notes: >-
-      Sheets T02 (MVI count + rate), P03 (police lethality), P06 (homicides of
+      Sheets T02 (MVI count + rate), P03 (deaths resulting from police intervention), P06 (homicides of
       women, femicides). MVI = homicídio doloso + latrocínio + lesão corporal
       seguida de morte + mortes por intervenção policial, by OCCURRENCE, from
       state police records. A different universe from homicides.csv — never
       splice them. Starts 2012 (properly 2013) but publishes ~18 months
       sooner, so it is the only source for the latest year. Use THIS for
-      police killings, never SIM's Y35: SIM captures about a third of them,
+      deaths resulting from police intervention, never SIM's Y35: SIM captures about a third of them,
       since the ICD code follows the death certificate rather than the police
       classification. The rising femicide share is substantially a
       classification effect (qualifier created by Lei 13.104/2015, autonomous

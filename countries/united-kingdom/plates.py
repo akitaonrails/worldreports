@@ -860,7 +860,7 @@ def plate_security(ctx, ig) -> None:
     cert = {y: v / ew_pop[y] * 100_000 for y, v in zip(cert_y, cert_v)
             if y in ew_pop}
     ctx.line(ax, *zip(*sorted(police_rate.items())), p.RED,
-             label="Police Homicide Index (year ending March)")
+             label="Home Office Homicide Index — police-recorded (year ending March)")
     ctx.line(ax, *zip(*sorted(cert.items())), p.PURPLE,
              label="Death certificate, ONS definition (calendar year)")
     ig.add_recessions(ax, inside=True, label=False)
@@ -896,8 +896,8 @@ def plate_security(ctx, ig) -> None:
     _foot(p, ax, "WHO Global Health Observatory via World Bank "
           "SH.STA.TRAF.P5; rate is not recomputed")
 
-    ax = ig.slot("security.lens", "Lens — police homicide revisions "
-                 "(offences, England & Wales)")
+    ax = ig.slot("security.lens", "Lens — police-recorded homicide revisions "
+                 "(England & Wales)")
     py, initial = _fy(ctx, "security/homicide_police.csv",
                       "offences_initially_recorded")
     _, current = _fy(ctx, "security/homicide_police.csv",
@@ -1129,7 +1129,7 @@ PLATES += (
          title="Security — Homicide, Suicide and Road Deaths",
          subtitle="England & Wales homicide systems beside comparable WHO rates for the UK.",
          source="Sources: Home Office Homicide Index · ONS · WHO / World Bank WDI",
-         alt="Four panels on security: separately labelled police and death-certificate homicide rates for England and Wales; WHO suicide and road-death rates for the UK; and revisions to the police homicide count."),
+         alt="Four panels on security: separately labelled police-recorded and death-certificate homicide rates for England and Wales; WHO suicide and road-death rates for the UK; and revisions to the police-recorded homicide count."),
     dict(id="11", slug="mortality", topic="mortality", builder=plate_mortality,
          title="Mortality — Registered Deaths and the Classification Seam",
          subtitle="England & Wales registrations, with exact COVID deaths left pending rather than proxied.",

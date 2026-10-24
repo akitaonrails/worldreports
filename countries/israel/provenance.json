@@ -9,30 +9,51 @@
  "02-fiscal": [
   "fiscal/general_government.csv"
  ],
- "03-trade": [
+ "03-spending": [
+  "spending/cofog.csv",
+  "spending/public_investment.csv",
+  "spending/whole_economy_investment.csv"
+ ],
+ "04-trade": [
   "trade/trade.csv",
   "trade/trade_partners_comtrade.csv"
  ],
- "04-markets": [
+ "05-markets": [
+  "macro/cpi_inflation.csv",
+  "markets/government_bond_10y.csv",
+  "markets/policy_rate.csv",
   "markets/sp500.csv",
   "markets/ta125.csv",
   "markets/usdils.csv",
   "markets/usdils_boi.csv"
  ],
- "05-world": [
+ "06-credit": [
+  "credit/household_debt.csv",
+  "credit/mortgage_rate.csv",
+  "credit/npl_ratio.csv",
+  "markets/policy_rate.csv"
+ ],
+ "07-people": [
+  "social/income_distribution.csv",
+  "social/minimum_wage.csv"
+ ],
+ "08-world": [
   "international/cpi_ti.csv",
   "international/hdi.csv",
   "international/world.csv"
  ],
- "06-demography": [
+ "09-demography": [
   "demography/demography.csv"
  ],
- "07-security": [
+ "10-security": [
   "demography/demography.csv",
   "security/homicide_police.csv",
   "security/security.csv"
  ],
- "08-migration": [
+ "11-mortality": [
+  "mortality/mortality.csv"
+ ],
+ "12-migration": [
   "demography/demography.csv",
   "migration/migrant_stock_wb.csv",
   "migration/olim_flow.csv",

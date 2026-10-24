@@ -195,14 +195,14 @@ def build(ctx) -> list[dict]:
         {
             "id": "10_security", "topic": "security", "n": "10", "family": PEOPLE,
             "title": ctx.text(en="Violence", pt="Violência"),
-            "blurb": ctx.text(en="Homicides falling while police lethality climbs — two "
-                "measurement systems, deliberately not spliced.", pt="Homicídios caindo enquanto a letalidade policial sobe — "
+            "blurb": ctx.text(en="Homicides falling while recorded deaths resulting from police intervention rise — two "
+                "measurement systems, deliberately not spliced.", pt="Homicídios caindo enquanto os óbitos registrados decorrentes de intervenção policial aumentam — "
                 "dois sistemas de medição, deliberadamente não emendados."),
             "spark": ctx.col("social/homicides.csv", "rate"),
             "stats": [
                 ctx.stat({"en": "Homicide rate", "pt": "Taxa de homicídios"},
                      ctx.col("social/homicides.csv", "rate"), "per100k"),
-                ctx.stat({"en": "Killed by police", "pt": "Mortos pela polícia"},
+                ctx.stat({"en": "Deaths following police intervention", "pt": "Mortes decorrentes de intervenção policial"},
                      per_100k(ctx, ctx.col("social/violence_fbsp.csv", "police_killings"),
                               ctx.col("social/population.csv", "pop_mn")), "per100k"),
                 ctx.stat({"en": "Femicides", "pt": "Feminicídios"},

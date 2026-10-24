@@ -437,7 +437,7 @@ def build(ctx) -> list[dict]:
                    "di mafia in attesa che l'ISTAT riapra i suoi flussi.",
                 en="Homicides counted twice — police and certificates — and "
                    "falling either way; suicides flat for two decades; the "
-                   "mafia killing count waiting for ISTAT to open its "
+                   "organised-crime homicide count waiting for ISTAT to open its "
                    "flows again.",
                 pt="Homicídios contados duas vezes — polícia e certidões — "
                    "e sempre em queda; suicídios estáveis há duas décadas; "
@@ -446,14 +446,14 @@ def build(ctx) -> list[dict]:
             "spark": ctx.col("security/homicide_police.csv",
                              "intenhom"),
             "stats": [
-                ctx.stat({"it": "Omicidi volontari (polizia)",
-                          "en": "Intentional homicides (police)",
-                          "pt": "Homicídios dolosos (polícia)"},
+                ctx.stat({"it": "Omicidi volontari registrati dalla polizia",
+                          "en": "Police-recorded intentional homicides",
+                          "pt": "Homicídios dolosos registrados pela polícia"},
                          ctx.col("security/homicide_police.csv",
                                  "intenhom"), "count"),
-                ctx.stat({"it": "Tasso di omicidi (polizia)",
-                          "en": "Homicide rate (police)",
-                          "pt": "Taxa de homicídios (polícia)"},
+                ctx.stat({"it": "Tasso di omicidi registrati dalla polizia",
+                          "en": "Police-recorded homicide rate",
+                          "pt": "Taxa de homicídios registrados pela polícia"},
                          ctx.col("security/homicide_police.csv",
                                  "intenhom_per100k"), "per100k"),
                 ctx.stat({"it": "Tasso di suicidi",

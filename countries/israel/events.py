@@ -13,7 +13,7 @@ Two deliberate refusals, both checked in country.yaml and pinned by tests:
   contraction the staged series does not show. What the war does to the
   books — revenue 34.6% of GDP in 2024 against expenditure 43.7%, debt
   61.9 -> 67.7 -> 67.9% — is drawn as events and notes on the fiscal
-  plate. The October-7 files in the police murder count are annotated on
+  plate. The October-7 files in the police-recorded type-301 count are annotated on
   the security plate as the data saying it.
 """
 

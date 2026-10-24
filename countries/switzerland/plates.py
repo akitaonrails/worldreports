@@ -442,7 +442,7 @@ def plate_security(ctx, ig):
     pop = _pop(ctx)
     ax = ig.slot("security.homicide", "Homicide rate (per 100,000)")
     y, v = _yr(ctx, "security/homicide_police_bfs.csv", "homicide_completed_per_100k")
-    ctx.line(ax, y, v, p.RED, label="BFS police, completed")
+    ctx.line(ax, y, v, p.RED, label="BFS, police-recorded completed homicides")
     wy, wv = _yr(ctx, "security/homicide_wb.csv", "homicide_per_100k")
     ctx.line(ax, wy, wv, p.FAINT, ls="--", label="UNODC via World Bank")
     ax.legend(loc="upper right", fontsize=7.2, frameon=False)
