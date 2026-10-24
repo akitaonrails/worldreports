@@ -118,6 +118,20 @@ def test_a_page_exists_for_every_country_and_language(site, country):
         f"{country.slug}: no language negotiator"
 
 
+def test_every_country_homepage_has_a_summary_strip(site, country):
+    """A country may add readings, but it may not silently lose the summary."""
+    headline = sitebuild.headline_for(country)
+    assert len(headline) >= 6, \
+        f"{country.slug}: homepage has only {len(headline)} summary readings"
+    for loc in country.locales:
+        path = site / country.slug / loc.code / "index.html"
+        text = path.read_text(encoding="utf-8")
+        assert text.count('<section class="headline"') == 1, \
+            f"{country.slug}/{loc.code}: homepage summary strip is missing"
+        assert text.count('class="headline__item"') == len(headline), \
+            f"{country.slug}/{loc.code}: homepage summary is incomplete"
+
+
 def test_the_front_page_links_to_every_country(site, countries):
     doc = parse(site / "index.html")
     for c in countries:
