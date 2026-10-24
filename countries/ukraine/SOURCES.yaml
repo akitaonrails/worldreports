@@ -1,643 +1,131 @@
-# Data provenance — every planned series for Ukraine.
+# Data provenance — every series Ukraine publishes.
 #
-# Written 2026-10-24 BEFORE any CSV exists, as the research pass
-# prescribes (SOURCING_A_COUNTRY.md §3 step 2). Every endpoint below was
-# probed live on 2026-10-24 from the discovery network; the result is in
-# the notes. Two Ukrainian government hosts are WAF/geo-blocked from
-# that network (stat.gov.ua, openbudget.gov.ua), two more partially
-# (mof.gov.ua, customs.gov.ua), and one is unreachable outright
-# (zakon.rada.gov.ua); each block is recorded under `meta.pending` with
-# its exact failure mode. The blocked hosts are documented and were
-# reachable to the issue #1 contributor, so their entries here describe
-# verified-by-proxy endpoints (docs quoted from the publisher's own
-# pages via search indexes) plus the accessible official mirrors that
-# carry the same numbers.
+# Research pass 2026-10-24 (DISCOVERY.md is the record), curated 2026-10-24.
+# Each entry below names a curated CSV under data/, written by reviewing
+# the sidecar a fetch/*.py pulled; re-running a fetcher writes the
+# `*_from_*` sidecar again, never a curated file. Every endpoint was
+# probed live from the discovery network and its failure mode recorded
+# under meta.pending when it did not answer.
 #
-# Territorial scope is per-series and recorded in each note: "excl.
-# TOT" means excluding the temporarily occupied territories (Crimea and
-# Sevastopol from 2014, and the occupied parts of Donetsk, Luhansk,
-# Kherson and Zaporizhzhia oblasts from 2022) — Ukrstat's post-2014
-# national series exclude them; World Bank/UN population includes
-# Crimea throughout. The two are never mixed in one line.
+# Territorial scope is per-series and repeated in each note. "Excl. TOT"
+# means excluding the temporarily occupied territories (Crimea and
+# Sevastopol from 2014, the occupied parts of Donetsk, Luhansk, Kherson
+# and Zaporizhzhia oblasts from 2022); post-2014 Ukrstat series exclude
+# them, World Bank and UN population series include Crimea throughout.
+# The two are never mixed in one line.
 
 macro:
-  growth_prices.csv:
-    source: 'World Bank — World Development Indicators (NY.GDP.MKTP.KD.ZG, FP.CPI.TOTL.ZG)'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/NY.GDP.MKTP.KD.ZG?format=json
-    refreshed_by: fetch/fetch_comparables.py
-    official: false
-    notes: >-
-      The canonical harmonised growth and CPI lines (economy slots 1
-      and 3): Ukrstat's own outturns as redistributed by the World
-      Bank. Verified live 2026-10-24: real growth 2022 = −28.76,
-      2023 = +5.53, 2024 = +3.25, 2025 = +1.82 (matches the issue's
-      Ukrstat anchors −28.8/+5.5/+3.2/+1.8 and the IMF's NGDP_RPCH);
-      2009 = −15.14, 2014 = −10.08, 2015 = −9.77. CPI 2025 = 12.73,
-      2015 = 43.3 (fits the −5..225 spine range). 2022 leaves the
-      economy.growth range: the shared-scale change is recorded in
-      country.yaml and done in core/spine.py at integration.
-  growth_prices_from_wb.csv:
-    source: 'World Bank — World Development Indicators (NY.GDP.MKTP.KD.ZG, FP.CPI.TOTL.ZG)'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/NY.GDP.MKTP.KD.ZG?format=json
-    refreshed_by: fetch/fetch_comparables.py
-    official: false
-  gdp_ukrstat.csv:
-    source: 'State Statistics Service of Ukraine (Ukrstat) — annual and quarterly national accounts, via the SDMX REST API (SSSU dataflows) or the data.gov.ua mirror datasets (annual: dataset 112265b4-9ffa-47c2-9e40-b7089003ef89; quarterly: 70a05137-e8df-4d1f-9a8e-7bf22ddbe7fa)'
-    url: https://stat.gov.ua/sdmx/workspaces/default:integration/registry/sdmx/2.1/dataflow/SSSU/all/latest?detail=allstubs
-    refreshed_by: fetch/fetch_ukrstat.py
-    notes: >-
-      The national line: real GDP growth, current-price GDP in UAH, and
-      GDP per person, from the computing institution. The SDMX API
-      (documented at stat.gov.ua/en/development-api; the dataflow-list
-      URL here is quoted from the publisher's own step-by-step page) is
-      WAF-BLOCKED from the discovery network today (HTTP 403 "The
-      request is blocked", every path and scheme) — see meta.pending.
-      The data.gov.ua CKAN mirror (organization
-      derzhavna-sluzhba-statystyky-ukrayiny, 388 datasets) answers and
-      was probed: resources are CSV/XLSX/JSON, CP1251-encoded CSVs, and
-      per-resource vintage varies (one national-accounts resource dates
-      from 2020), so each resource's freshness and content are asserted
-      in the fetcher. Cross-check of record pulled live from the World
-      Bank's local-currency series: GDP 2024 = 7,662,376 million UAH —
-      identical to Ukrstat's published figure quoted in the issue.
   economy.csv:
-    source: 'World Bank — World Development Indicators (NE.GDI.FTOT.ZS, SL.UEM.TOTL.ZS)'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/SL.UEM.TOTL.ZS?format=json
+    source: "World Bank WDI — NY.GDP.MKTP.KD.ZG (growth), FP.CPI.TOTL.ZG (CPI), NE.GDI.FTOT.ZS (GFCF), SL.UEM.TOTL.ZS (unemployment, ILO modelled)"
+    url: "https://api.worldbank.org/v2/country/UKR/indicator/NY.GDP.MKTP.KD.ZG?format=json"
+    official: false
     refreshed_by: fetch/fetch_comparables.py
-    official: false
     notes: >-
-      Whole-economy GFCF % of GDP (spending slot 3; 2025 = 19.36,
-      verified) and the ILO modelled unemployment estimate (economy
-      slot 4). The ILO series for Ukraine STOPS IN 2021 at 9.834%
-      (verified: latest non-null observation): the national labour
-      force survey was suspended in the war and the ILO has not
-      modelled 2022+ — the hole is drawn as a hole, and the slot
-      carries the wartime note. Never splice in Ukrstat's registered-
-      unemployment or any administrative count.
-  economy_from_wb.csv:
-    source: 'World Bank — World Development Indicators (NE.GDI.FTOT.ZS, SL.UEM.TOTL.ZS)'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/SL.UEM.TOTL.ZS?format=json
+      VERIFIED 2026-10-24, current vintage: 2006-2025 observed. Growth
+      2022 = -28.8 (the invasion year), 2023 = +5.5; CPI 2015 = 48.7
+      (the hryvnia collapse). The CPI and unemployment lines are the
+      World Bank's republication of Ukrstat's own indices — the
+      national line joins them when the SSSU API answers (meta.pending).
+      Unemployment is ILO-modelled: it covers the war years when the
+      LFS itself was suspended, and is labelled as modelled on the plate.
+  gdp_growth_imf.csv:
+    source: "IMF DataMapper (WEO, current vintage) — NGDP_RPCH"
+    url: "https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH"
+    official: false
     refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-24: the independent agreement line for the World
+      Bank growth series — 2022 = -28.8 on both. WEO staff projections
+      live only in gdp_growth_pct_proj, so observed and projected years
+      never share a column.
+  gdp_uah.csv:
+    source: "World Bank WDI — NY.GDP.MKTP.CN (current-price GDP in hryvnia)"
+    url: "https://api.worldbank.org/v2/country/UKR/indicator/NY.GDP.MKTP.CN?format=json"
     official: false
-  cpi_ukrstat.csv:
-    source: 'State Statistics Service of Ukraine — CPI publications, redistributed machine-readably by the National Bank of Ukraine (statdirectory inflation cube)'
-    url: https://bank.gov.ua/NBUStatService/v1/statdirectory/inflation?period=m&date=202609&json
-    refreshed_by: fetch/fetch_nbu.py
-    notes: >-
-      The NBU inflation endpoint answers (200 OK, browser UA): annual
-      (period=y) and monthly (period=m) cubes with dimensions ku
-      (region: 1–25 oblast codes, null = Ukraine), mcrd081 (COICOP
-      division 01–12, "Total" = all items) and tzep (comparison basis:
-      PCPM_ month-on-month, DTPY_ to December of the previous year,
-      PCCM_/PCCP_ year-on-year and year-to-date variants). The
-      all-items Ukraine row for September 2026 gives 10.9/11.1/10.8
-      across the year-on-year bases — the issue's "110.0 index
-      (Sep-2026 y/y)" anchor is NOT reproduced exactly, so the
-      headline-row basis is pinned against the Technical_instructions
-      PDF (linked from bank.gov.ua/en/open-data/api-dev) before the
-      fetcher writes anything. The annual-average national CPI stays a
-      World Bank line until Ukrstat's own table is reachable.
-  population_ukrstat.csv:
-    source: 'State Statistics Service of Ukraine — population size and structure (registered population, 1 January)'
-    url: https://stat.gov.ua/en/datasets/population-size-and-structure
-    refreshed_by: fetch/fetch_ukrstat.py
-    notes: >-
-      The national population line (demography slot 1's index base and
-      the per-100k denominator). Ukrstat's last solid count is
-      1 January 2022 = 41,167,335 (issue anchor; stat.gov.ua blocked
-      today — corroborated within 0.4% by Eurostat demo_gind's
-      1-Jan-2022 = 40,997,698 and the World Bank's 2022 mid-year
-      41,048,766). From 2014 the national series EXCLUDES Crimea and
-      Sevastopol; the World Bank line (international/population.csv)
-      INCLUDES them (2021: 41.17mn-equivalent national vs WB 44.30mn).
-      Two labelled lines, never a splice. No solid post-2022 count
-      exists; later years stay blank nationally, with the WB/UN
-      estimate drawn as the harmonised line. A data.gov.ua SSSU
-      dataset (Чисельність та склад населення) exists; its resource
-      vintage is unchecked.
-
-fiscal:
-  general_government.csv:
-    source: 'IMF — World Economic Outlook and Fiscal Monitor, via DataMapper (GGXCNL_NGDP, GGXWDG_NGDP; GGR_G01_GDP_PT, G_X_G01_GDP_PT, GGXONLB_G01_GDP_PT)'
-    url: https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP/UKR
-    refreshed_by: fetch/fetch_harmonised.py
-    official: false
-    notes: >-
-      The canonical fiscal slots: GENERAL government, calendar years,
-      % of GDP. Verified live 2026-10-24: gross debt 77.7 (2022),
-      89.7 (2024), 107.1 (2025); net lending −15.6 (2022), −19.3
-      (2023), −17.2 (2024), −17.6 (2025); revenue 49.8/54.1/56.6 and
-      expenditure 65.4/73.4/74.2 for 2022/2023/2025. Wartime grants
-      inside revenue are why the balance and the revenue-minus-
-      expenditure gap differ. TWO shared-scale breaches recorded in
-      country.yaml: balance below −16 (2023–2025) and expenditure
-      above 70 (2022–2025). Stop at 2025: later IMF years are staff
-      projections.
-  general_government_from_imf.csv:
-    source: 'IMF — World Economic Outlook and Fiscal Monitor, via DataMapper'
-    url: https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP/UKR
-    refreshed_by: fetch/fetch_harmonised.py
-    official: false
-  gfs_operations.csv:
-    source: 'IMF — Government Finance Statistics, statement of operations, flow GFS_SOO, series UKR.S13....A'
-    url: https://api.imf.org/external/sdmx/2.1/data/IMF.STA,GFS_SOO/UKR.S13....A?startPeriod=2015
-    refreshed_by: fetch/fetch_spine.py
-    official: false
-    notes: >-
-      Verified live 2026-10-24: 233 series, 2015–2025, general
-      government (S13), % of GDP. Carries interest payable (G24_T,
-      fiscal slot 4), the G1/G2 revenue and expense totals as a
-      cross-check on general_government.csv, and G31 (net acquisition
-      of non-financial assets, the spending slot 4 public-investment
-      candidate). 2006–2014 are NOT in the IMF table — the hole stays
-      a hole; the NBU's republication of Treasury budget execution is
-      the national line, not a filler.
-  gfs_operations_from_imf.csv:
-    source: 'IMF — Government Finance Statistics, statement of operations, flow GFS_SOO, series UKR.S13....A'
-    url: https://api.imf.org/external/sdmx/2.1/data/IMF.STA,GFS_SOO/UKR.S13....A?startPeriod=2015
-    refreshed_by: fetch/fetch_spine.py
-    official: false
-  public_debt_mof.csv:
-    source: 'Ministry of Finance of Ukraine — state and state-guaranteed debt, monthly, via data.gov.ua dataset 4119d762-a5c1-4c4c-9c30-e2abdd383fb4 (mof.gov.ua itself is blocked)'
-    url: https://data.gov.ua/api/3/action/package_show?id=4119d762-a5c1-4c4c-9c30-e2abdd383fb4
-    refreshed_by: fetch/fetch_datagovua.py
-    notes: >-
-      STATE plus STATE-GUARANTEED debt — NOT the canonical general-
-      government debt of the fiscal slot; drawn as the labelled
-      national line beside the IMF one. Verified live 2026-10-24: the
-      CKAN package lists monthly XLS snapshots (legacy .xls, OLE2
-      signature), each a time-series workbook in bn UAH and bn USD
-      with the state/guaranteed split; the 31.12.2022 edition shows
-      the total at 3,929.7 bn UAH in November 2022, and the wartime
-      path (2,672 bn end-2021 → ~3,930 bn Nov-2022) is plausible
-      against the IMF's 77.7% of GDP for 2022. The issue's MoF anchor
-      (9,602.89 bn UAH at 31 Aug 2026) is consistent with that
-      trajectory; mof.gov.ua itself 403s, so the anchor is confirmed
-      by magnitude, not by the page.
-  budget_execution.csv:
-    source: 'National Bank of Ukraine — statdirectory budget cube (republication of State Treasury budget execution), functional classification, annual from 2014'
-    url: https://bank.gov.ua/NBUStatService/v1/statdirectory/budget?period=y&date=202401&json
-    refreshed_by: fetch/fetch_nbu.py
-    notes: >-
-      Verified live 2026-10-24: annual functional execution, 66 rows
-      for 2024 — Defence (gf_budgtef_0200) 2,097,621.9 mn UAH, total
-      expenditure 4,441,364.6 mn — and the series starts in 2014
-      (2014 and 2015 answer with 112 rows; 2010 and 2006 answer
-      empty). The budget perimeter (state vs consolidated) is pinned
-      from the cube's own metadata before use. The national functional
-      classification maps onto the spine's seven COFOG-like groups
-      only where the mapping is clean; the mapping is recorded in
-      DATA_NOTES.md. Open Budget's portal API is the richer source and
-      is blocked — meta.pending.
-
-spending:
-  cofog.csv:
-    source: 'IMF — Government Finance Statistics, expenditure by function (COFOG), flow GFS_COFOG, series UKR.S13....A'
-    url: https://api.imf.org/external/sdmx/2.1/data/IMF.STA,GFS_COFOG/UKR.S13....A?startPeriod=2015
-    refreshed_by: fetch/fetch_spine.py
-    official: false
-    notes: >-
-      Verified live 2026-10-24: 240 series, 2015–2025, general
-      government, % of GDP, the ten COFOG divisions (GF01–GF10 as
-      *_T indicators). Spending slots 1 and 2. Defence's wartime share
-      is the story here; it maps onto the spine's "defence + public
-      order" group without invention. 2006–2014 hole stays a hole; the
-      NBU functional budget execution (from 2014) is the national
-      line beside it, never spliced in.
-  cofog_from_imf.csv:
-    source: 'IMF — Government Finance Statistics, expenditure by function (COFOG), flow GFS_COFOG, series UKR.S13....A'
-    url: https://api.imf.org/external/sdmx/2.1/data/IMF.STA,GFS_COFOG/UKR.S13....A?startPeriod=2015
-    refreshed_by: fetch/fetch_spine.py
-    official: false
-  public_investment.csv:
-    source: 'IMF — Government Finance Statistics, statement of operations (G31, net acquisition of non-financial assets), flow GFS_SOO, series UKR.S13....A'
-    url: https://api.imf.org/external/sdmx/2.1/data/IMF.STA,GFS_SOO/UKR.S13....A?startPeriod=2015
-    refreshed_by: fetch/fetch_spine.py
-    official: false
-    notes: >-
-      Spending slot 4. Ukraine is not in the OECD NAAG table the other
-      countries use (not a member — verified by absence); the IMF GFS
-      G31 series covers 2015–2025. G31 is net acquisition of
-      non-financial assets, not gross fixed capital formation exactly:
-      the panel legend says which, and the two are not mixed.
-
-trade:
-  trade.csv:
-    source: 'World Bank — World Development Indicators (NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS)'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/NE.EXP.GNFS.ZS?format=json
-    refreshed_by: fetch/fetch_harmonised.py
-    official: false
-    notes: >-
-      Exports and imports of goods AND services, national-accounts
-      basis, % of GDP (trade slots 1–2; the balance is their
-      difference and is not stored). Verified live 2026-10-24:
-      2025 exports 25.3, imports 51.8 — the wartime trade deficit is
-      real and enormous. The NBU's quarterly national-accounts cube
-      (economicactivity: ea_gdp_es_egs / ea_gdp_es_igs) is the
-      national line from 2010, beside this one, never spliced.
-  trade_from_wb.csv:
-    source: 'World Bank — World Development Indicators (NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS)'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/NE.EXP.GNFS.ZS?format=json
-    refreshed_by: fetch/fetch_harmonised.py
-    official: false
-  partners.csv:
-    source: 'IMF — International Trade in Goods (IMTS), flow IMTS, series UKR.XG_FOB_USD+TBG_USD; UN Comtrade public preview for 2006–2017'
-    url: https://api.imf.org/external/sdmx/2.1/data/IMF.STA,IMTS/UKR.XG_FOB_USD..A?startPeriod=2018
-    refreshed_by: fetch/fetch_spine.py
-    official: false
-    notes: >-
-      Goods exports FOB by partner and goods balances, raw current US$
-      units (verified: Poland 2024 = 4,397,056,671). TWO SEGMENTS,
-      NEVER SPLICED: the IMF table covers 2018–2025 only (verified:
-      the time dimension starts in 2018), so 2006–2017 come from UN
-      Comtrade's public preview API (verified live 2026-10-24 with a
-      2006 UKR→POL commodity query; the public preview caps at 500
-      rows per call — the fetcher pages by commodity or uses the
-      TOTAL aggregate). Both are customs-basis goods; the seam between
-      redistributors is annotated anyway. Partners ranked once, on the
-      last full year. Customs.gov.ua (the computing institution) is
-      blocked — meta.pending; its series would replace both segments
-      if it becomes reachable.
-
-markets:
-  policy_rate.csv:
-    source: 'National Bank of Ukraine — key policy rate, statdirectory key cube (daily)'
-    url: https://bank.gov.ua/NBUStatService/v1/statdirectory/key?date=20240101&json
-    refreshed_by: fetch/fetch_nbu.py
-    notes: >-
-      Verified live 2026-10-24: KEY_PolicyRate on a daily basis back
-      to 2006 (2006-01-01 = 9.5, 2024-01-01 = 15.0, 2026-10-23 = 16.0 —
-      the 2006 anchor matches the known NBU discount rate of the
-      time). Markets slot 1 against the CPI from macro/. The cube also
-      carries the overnight-loan and overnight-deposit-certificate
-      corridor rates; only the policy rate is drawn.
-  uahusd.csv:
-    source: 'National Bank of Ukraine — official hryvnia exchange rates, statdirectory exchange (daily)'
-    url: https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=USD&date=20240101&json
-    refreshed_by: fetch/fetch_nbu.py
-    notes: >-
-      Verified live 2026-10-24: official USD rate daily back to at
-      least 2006 (2006-01-03 = 5.05, the peg; 2024-01-01 = 38.002).
-      UAH per USD — a RISING line is a WEAKER hryvnia, so the spine's
-      index (2006 = 100, up = stronger) inverts it via ctx.fx_index.
-      One series throughout (the NBU official rate), so no seam; the
-      fixed-rate regime from 24 Feb 2022 to Oct 2023 is an event
-      annotation, not a second series. The same endpoint's annual
-      averages convert the minimum wage and other UAH figures to US$.
-  bond_yield.csv:
-    source: pending — no verified publisher
-    url: ''
-    refreshed_by: ''
-    notes: >-
-      Markets slot 2 (10-year government bond yield) is UNVERIFIED for
-      Ukraine: the NBU open-data API has no yield series (its
-      securities endpoint is balance-sheet stocks, and the OVDP
-      auction data are primary-market results, not a benchmark yield);
-      Eurostat's Maastricht yield (irt_lt_mcby_a) returns a well-
-      formed EMPTY slice for UA (verified 2026-10-24); Ukraine is not
-      in the BIS. Ukraine's domestic bond market before 2022 was thin
-      and short-dated, so a continuous 10-year series may genuinely
-      not exist — classify before pending: if a national yield series
-      is found (NBU yield-curve publications, Ministry of Finance
-      auctions aggregated), it lands here; otherwise ctx.pending with
-      exactly that explanation.
-  equities.csv:
-    source: pending — redistributor for the PFTS/UX index
-    url: ''
-    refreshed_by: fetch/fetch_markets.py
-    official: false
-    notes: >-
-      Markets slot 4. No official body publishes an equity index, so
-      this is a redistributor feed flagged official: false. Yahoo
-      Finance's ^PFTS symbol is delisted (verified: chart API answers
-      "No data found, symbol may be delisted", 2026-10-24); the UX
-      index (Ukrainian Exchange) and PFTS are the candidates, via
-      stooq or investing.com, both of which were JS-walled to other
-      countries' lanes — the fetch swarm retries them with a browser
-      profile. Trading on the Ukrainian exchanges was suspended on
-      24 Feb 2022 and resumed months later; whatever series lands
-      carries that gap unsmoothed.
-
-credit:
-  household_credit.csv:
-    source: 'National Bank of Ukraine — loans granted by deposit-taking corporations (statdirectory loan cube), divided by GDP; national line only'
-    url: https://bank.gov.ua/NBUStatService/v1/statdirectory/loan?date=20241201&json
-    refreshed_by: fetch/fetch_nbu.py
-    notes: >-
-      The BIS total-credit dataset does not carry Ukraine (verified:
-      WS_TC Q.UA.H.A.M.770.A answers HTTP 404, and WS_DSR likewise,
-      2026-10-24), so credit slot 1 has NO harmonised line. The
-      national derivation is the NBU loan cube's household-sector
-      stock (the endpoint answers; 43,898 rows for one month across
-      its sector/currency/maturity dimensions — the exact household
-      id_api is pinned from the technical guide) divided by the same-
-      vintage GDP. The derivation formula is recorded in DATA_NOTES.md
-      with a known-value test; never presented as the BIS measure.
-  lending_rates.csv:
-    source: 'National Bank of Ukraine — interest rates on new business (statdirectory mir cube)'
-    url: https://bank.gov.ua/NBUStatService/v1/statdirectory/mir?date=20241001&json
-    refreshed_by: fetch/fetch_nbu.py
-    notes: >-
-      Credit slot 2. Verified live 2026-10-24: the mir cube answers
-      (51,154 rows for one month; new-business deposit and loan rates
-      by sector — "New business on deposits from non-financial
-      corporations" is a verified row; the household mortgage/consumer
-      rate id_api is pinned from the technical guide). Ukraine had
-      effectively no mortgage market for most of the window, so the
-      household new-loan rate — not a mortgage rate — is the likely
-      national line; the legend says which.
-  npl.csv:
-    source: 'World Bank — WDI FB.AST.NPER.ZS (IMF Financial Soundness Indicators); National Bank of Ukraine NPL publications as the national line'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/FB.AST.NPER.ZS?format=json
-    refreshed_by: fetch/fetch_nbu.py
-    official: false
-    notes: >-
-      Credit slot 3. WB/IMF FSI verified live 2026-10-24: 2005–2025,
-      2025 = 13.92. The NBU's own NPL ratio is the national line and
-      was pulled live from the publisher's Flourish data file
-      (bank.gov.ua/files/npl/en/chart_4_line_npl_ratio/data2_serias.js,
-      beside the editioned Data_NPLs_*_en.xlsx workbook): quarterly
-      from 2006, peak 56.2% in Q3 2017, 27–39% through 2022–2025, and
-      a SHARP DROP from 27.0% (Q3 2025) to 13.9% (Q1 2026) that lands
-      on the FSI value — a presumed definition or write-off change the
-      fetcher must confirm against the workbook's DataExplanation
-      sheet before the series is drawn; the break is a seam, never
-      smoothed. Ukraine exceeds the spine's 0–20 range for most of the
-      window: shared-scale change recorded in country.yaml.
-  npl_from_nbu.csv:
-    source: 'National Bank of Ukraine — NPL ratio publications (Data_NPLs xlsx and Flourish data files under /files/npl/)'
-    url: https://bank.gov.ua/en/stability/npl
-    refreshed_by: fetch/fetch_nbu.py
-    notes: >-
-      The xlsx is editioned (Data_NPLs _2026-09-01_en.xlsx verified
-      live: per-bank NPL volume, loan volume and ratio sheets, one
-      date per edition), served as application/octet-stream — the
-      fetcher checks the zip signature, not the content type. The
-      time series lives in the Flourish data JS files.
-
-people:
-  gini.csv:
-    source: 'State Statistics Service of Ukraine — SDG indicator 10.1.1 (Gini), via the Open SDG portal CSV mirror; World Bank SI.POV.GINI beside it'
-    url: https://uaukrstat.github.io/data-ukraine-sdg/uk/data/10-1-1.csv
-    refreshed_by: fetch/fetch_ukrstat.py
-    notes: >-
-      The national inequality line, VERIFIED LIVE 2026-10-24 from the
-      SDG portal's own CSV (the portal page sdg.stat.gov.ua/uk/10-1-1
-      answers 200 and links these files): 2015 = 0.227, 2016 = 0.22,
-      2017 = 0.232, 2018 = 0.238, 2019 = 0.249, 2020 = 0.247,
-      2021 = 0.244, and 2022–2025 PRESENT BUT BLANK — the household
-      survey behind the Gini was suspended in the war. The blanks stay
-      blank. 2006–2014 are not in the SDG file and come from Ukrstat's
-      household-survey publications if retrievable, else the line
-      starts in 2015 and says so. The World Bank's SI.POV.GINI (ends
-      2020 = 25.6, on a 0–100 scale, different income definition) is
-      the harmonised line beside it, never spliced. The CSV carries
-      oblast and urban/rural disaggregations in the same file (ku-style
-      region rows, CP-safe UTF-8) — the headline is the all-Ukraine
-      row, and the plate draws 0–100.
-  gini_from_wb.csv:
-    source: 'World Bank — SI.POV.GINI'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/SI.POV.GINI?format=json
     refreshed_by: fetch/fetch_comparables.py
-    official: false
     notes: >-
-      Harmonised Gini, 0–100 as published, survey years only. Latest
-      2020 = 25.6. A different income definition from Ukrstat's SDG
-      figure — two labelled lines.
-  poverty.csv:
-    source: 'World Bank — Poverty and Inequality Platform, SI.POV.UMIC'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/SI.POV.UMIC?format=json
-    refreshed_by: fetch/fetch_harmonised.py
-    official: false
-    notes: >-
-      Share below US$8.30 a day (2021 PPP), survey years only — 2020 =
-      11.3, and the series ends there: the wartime hole stays a hole.
-      Ukraine's national poverty line (a relative subsistence-minimum
-      measure published by Ukrstat and the Ministry of Social Policy)
-      is the national line and is pending with Ukrstat's household
-      statistics; the two measures are never spliced.
-  minimum_wage.csv:
-    source: 'Verkhovna Rada — annual State Budget Laws (minimum wage is set in each year''s budget law, e.g. Law № 4695-IX of 03.12.2025, Article 8, for 2026)'
-    url: https://zakon.rada.gov.ua/laws/show/4695-20
-    refreshed_by: fetch/fetch_rada.py
-    notes: >-
-      People slot 3: the statutory national monthly minimum wage, in
-      UAH, converted to US$ per month at the NBU official annual
-      average rate. zakon.rada.gov.ua is UNREACHABLE from the
-      discovery network (connection failure on both schemes,
-      2026-10-24 — meta.pending), so today's verification is by
-      convergent secondary citation: multiple Ukrainian professional
-      outlets quote Law 4695-IX Article 8 setting 8,647 UAH/month from
-      1 January 2026 (2025: 8,000). Each year's value is set by that
-      year's budget law, so the 2006–2026 series is hand-curated from
-      the laws with per-year law numbers in the CSV comment — the
-      fetcher validates the latest year against the law text once
-      rada.gov.ua is reachable.
+      Cross-check only, not drawn: 2024 = 7,662,376 mn UAH, byte-
+      identical to the figure Ukrstat publishes, which is the evidence
+      that the dollar series and the national accounts describe the
+      same economy.
 
 world:
   gdp_usd.csv:
-    source: 'World Bank — World Development Indicators, NY.GDP.MKTP.CD'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/NY.GDP.MKTP.CD?format=json
-    refreshed_by: fetch/fetch_comparables.py
+    source: "World Bank WDI — NY.GDP.MKTP.CD"
+    url: "https://api.worldbank.org/v2/country/UKR/indicator/NY.GDP.MKTP.CD?format=json"
     official: false
-    notes: >-
-      Verified live 2026-10-24: 2021 = US$199.8bn, 2024 = US$190.8bn,
-      2025 = US$214.2bn. Harmonised, not Ukrstat's national accounts;
-      the UAH level is in macro/gdp_ukrstat.csv.
-  gdp_pc.csv:
-    source: 'World Bank — NY.GDP.PCAP.CD'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/NY.GDP.PCAP.CD?format=json
     refreshed_by: fetch/fetch_comparables.py
-    official: false
     notes: >-
-      Economy slot 2. Verified: 2025 = US$5,865.9. The wartime rise is
-      partly the denominator (WB population includes the occupied
-      territories' residents who left) — the panel note says so rather
-      than letting the line read as prosperity.
-  hdi.csv:
-    source: 'UNDP — Human Development Report 2025, composite indices complete time series'
-    url: https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
+      VERIFIED 2026-10-24, current US$. The 2022 fall to US$161bn and
+      the 2023-25 recovery are nominal; the real story is on the growth
+      panel and the two are never mixed.
+  gdp_per_person.csv:
+    source: "World Bank WDI — NY.GDP.PCAP.CD"
+    url: "https://api.worldbank.org/v2/country/UKR/indicator/NY.GDP.PCAP.CD?format=json"
+    official: false
     refreshed_by: fetch/fetch_comparables.py
-    official: false
     notes: >-
-      Verified live 2026-10-24, one vintage throughout: Ukraine 2006 =
-      0.762, 2014 = 0.788, 2021 = 0.772, 2022 = 0.772, 2023 = 0.779
-      (latest). 2021 and 2022 identical — a UNDP estimate carried
-      across the first war year, noted, not "corrected".
-  cpi_ti.csv:
-    source: 'Transparency International — Corruption Perceptions Index, 2025 edition results and trends'
-    url: https://images.transparencycdn.org/images/CPI2025-Results-and-trends.xlsx
-    refreshed_by: fetch/fetch_spine.py
-    notes: >-
-      World slot 3, 0–100 on the 2012+ method; earlier 0–10 scores are
-      not drawn. The CDN bucket answers 403 AccessDenied from the
-      discovery network today (verified 2026-10-24, plain and browser
-      UA); Canada's lane fetched the same file successfully on
-      2026-10-22, so this is a network-specific block, not a dead
-      endpoint — meta.pending with that evidence.
+      VERIFIED 2026-10-24. The 2022 drop is population-covered (the UN
+      series includes refugees abroad), so this is GDP per resident, not
+      per person present — said on the plate.
   reserves.csv:
-    source: 'World Bank — FI.RES.TOTL.CD (IMF IFS); NBU statdirectory res cube as the national line'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/FI.RES.TOTL.CD?format=json
-    refreshed_by: fetch/fetch_comparables.py
+    source: "World Bank WDI — FI.RES.TOTL.CD"
+    url: "https://api.worldbank.org/v2/country/UKR/indicator/FI.RES.TOTL.CD?format=json"
     official: false
+    refreshed_by: fetch/fetch_comparables.py
     notes: >-
-      World slot 4. WB verified live 2026-10-24: 2025 = US$57.27bn.
-      The NBU res endpoint answers with monthly official reserve
-      assets in USD mn (2024-12 = 39,927.12 — the published
-      composition: foreign currency 37,330.69, gold 2,332.39, SDRs
-      263.72). The WB total and the NBU total differ by definition of
-      inclusion; drawn as harmonised and national lines, never one.
-  reserves_from_nbu.csv:
-    source: 'National Bank of Ukraine — official reserve assets, statdirectory res (monthly)'
-    url: https://bank.gov.ua/NBUStatService/v1/statdirectory/res?date=20241201&json
-    refreshed_by: fetch/fetch_nbu.py
+      VERIFIED 2026-10-24, year-end, current US$. The wartime build-up
+      to the 2024-25 peak is the NBU's reserves as the World Bank
+      records them; the NBU's own monthly line is a fetch away
+      (meta.pending).
+  hdi.csv:
+    source: "UNDP Human Development Report 2025 — HDI time series"
+    url: "https://hdr.undp.org/data-center/documentation-and-downloads"
+    official: true
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-24, one vintage (HDR 2025) throughout — the HDR
+      recomputes the whole back-series, so a mixed vintage would be a
+      splice. Covers 2006-2023; 2024-25 are not yet published.
+
+people:
+  gini.csv:
+    source: "World Bank WDI — SI.POV.GINI"
+    url: "https://api.worldbank.org/v2/country/UKR/indicator/SI.POV.GINI?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-24: 2006-2020, the household survey's Gini as the
+      World Bank records it. The survey stopped with the invasion; the
+      SDG portal's own Gini file (10-1-1.csv) carries 2015-2021 and
+      blanks from 2022 — both are recorded, neither is spliced.
 
 demography:
   population.csv:
-    source: 'World Bank — SP.POP.TOTL (UN World Population Prospects)'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/SP.POP.TOTL?format=json
+    source: "World Bank WDI — SP.POP.TOTL (UN World Population Prospects)"
+    url: "https://api.worldbank.org/v2/country/UKR/indicator/SP.POP.TOTL?format=json"
+    official: false
     refreshed_by: fetch/fetch_comparables.py
-    official: false
     notes: >-
-      The harmonised line for demography slot 1 (index 2006 = 100):
-      2006 = 47,278,694; 2021 = 44,298,640; 2022 = 41,048,766; 2025 =
-      38,980,376 (verified live). WB/UN include Crimea throughout; the
-      national line (macro-adjacent population_ukrstat.csv) excludes
-      the occupied territories from 2014 and stops at 1-Jan-2022 —
-      two labelled lines. The index dips toward the 80 floor of the
-      spine range (~82.5 in 2025) but stays inside it.
-  demography.csv:
-    source: 'World Bank — World Development Indicators (SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SM.POP.NETM), from UN WPP and national vital statistics'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/SP.DYN.TFRT.IN?format=json
-    refreshed_by: fetch/fetch_harmonised.py
-    official: false
-    notes: >-
-      Verified live 2026-10-24: TFR 2024 = 0.988 (one of the lowest
-      in the atlas; the spine range 0–3.5 holds); births 5.466 and
-      deaths 13.603 per 1,000 in 2024; net migration −5,699,445 in
-      2022, +1,146,012 in 2024, +1,702,358 in 2025 — the WPP's
-      wartime emigration and modelled return, a COUNT converted to
-      per-1,000 on the same year's population (≈ −139 per 1,000 in
-      2022: leaves the demography slot 4 range, shared-scale decision
-      recorded in country.yaml). Ukrstat's own births/deaths
-      (registration, excl. TOT from 2014) are the national lines,
-      pending with Ukrstat; data.gov.ua carries SSSU births and
-      deaths datasets whose resource vintage is unchecked.
-  population_eurostat.csv:
-    source: 'Eurostat — demo_gind, population on 1 January (geo=UA, indic_de=JAN)'
-    url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?geo=UA&indic_de=JAN&format=JSON
-    refreshed_by: fetch/fetch_harmonised.py
-    official: false
-    notes: >-
-      Verified live 2026-10-24: 1-Jan values 1996–2020 (the 2014→2015
-      step 45,245,894 → 42,759,661 IS the Crimea exclusion), then 2021
-      MISSING and 2022 = 40,997,698 — the last value Eurostat carries;
-      2023+ absent. A second harmonised vintage beside the WB line,
-      drawn for what it documents: even the harmonisers stop. Never
-      spliced with the WB series.
-
-security:
-  security.csv:
-    source: 'World Bank — World Development Indicators: VC.IHR.PSRC.P5 (UNODC), SH.STA.SUIC.P5 and SH.STA.TRAF.P5 (WHO Global Health Estimates)'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/VC.IHR.PSRC.P5?format=json
-    refreshed_by: fetch/fetch_harmonised.py
-    official: false
-    notes: >-
-      The canonical security series, all per 100,000: intentional
-      homicide (UNODC harmonised) ends 2021 = 3.78; suicide (WHO,
-      age-standardised) ends 2021 = 21.21; road-traffic deaths (WHO)
-      end 2019 = 10.2 — verified live 2026-10-24. The wartime holes
-      stay holes: UNODC excludes war casualties from intentional
-      homicide by definition, and civilian war deaths are NOT drawn on
-      this line — they are a separately labelled lens or they are
-      nothing. The police-recorded national series rides beside:
-      security_gp.csv.
-  security_gp.csv:
-    source: 'Office of the Prosecutor General of Ukraine — recorded criminal offences (monthly statistical releases and attached workbooks)'
-    url: https://new.gp.gov.ua/en/posts/statistika
-    refreshed_by: fetch/fetch_gp.py
-    notes: >-
-      Verified live 2026-10-24 with a browser User-Agent (the
-      contributor's 403 was UA-related): new.gp.gov.ua's statistics
-      index (200 OK) links the monthly "registered criminal offences"
-      posts, whose attachments are real xlsx workbooks on
-      old.gp.gov.ua's file_downloader (verified download, zip
-      signature, served as application/octet-stream). The intentional-
-      homicide row (Criminal Code Article 115) inside those workbooks
-      is NOT yet confirmed — the table structure, article breakdown
-      and year coverage are pinned by the fetch swarm before anything
-      is staged. Police-recorded offences counted at the place of
-      occurrence: never spliced with the UNODC line or the death-
-      certificate assault count. Wartime coverage (court and
-      prosecutor statistics were restricted in 2022) is expected to
-      leave a hole; the hole stays.
-  security_from_wb.csv:
-    source: 'World Bank — World Development Indicators: VC.IHR.PSRC.P5, SH.STA.SUIC.P5, SH.STA.TRAF.P5'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/VC.IHR.PSRC.P5?format=json
-    refreshed_by: fetch/fetch_harmonised.py
-    official: false
-
-mortality:
-  causes_of_death.csv:
-    source: 'State Statistics Service of Ukraine — deaths by cause (ICD-10); data.gov.ua SSSU mirror dataset Смертність; WHO context via the security file'
-    url: https://stat.gov.ua/en/datasets/number-deaths-death-causes
+      VERIFIED 2026-10-24, mid-year de-facto total. TERRITORIAL
+      CONVENTION: INCLUDES Crimea and Sevastopol throughout (2021 =
+      44,298,640; 2022 = 41,048,766). This is the harmonised comparable
+      line, never the national register; the two are drawn as separate
+      labelled lines.
+  population_ukrstat.csv:
+    source: "State Statistics Service of Ukraine (SSSU), SDMX dataflow DF_POPULATION_STRUCTURE(8.0.0) — indicator PNMI_01, national, all ages, both sexes"
+    url: "https://stat.gov.ua/sdmx/workspaces/default:integration/registry/sdmx/2.1/dataflow/SSSU/DF_POPULATION_STRUCTURE/8.0.0"
+    official: true
     refreshed_by: fetch/fetch_ukrstat.py
     notes: >-
-      The national cause-of-death registrations (underlying cause,
-      the code following the certifier) — Ukrstat publishes them, but
-      stat.gov.ua is blocked from the discovery network today, so the
-      machine-readable table is UNVERIFIED except that the SSSU
-      mirror on data.gov.ua has a Смертність (mortality) dataset
-      whose resource vintage is unchecked. Wartime gaps (2022+ cause
-      detail) cannot be interpolated. COVID-19 deaths (U07.1/U07.2,
-      underlying) come from this table when reachable; excess
-      mortality (slot 2) is computed from the all-causes counts on
-      the 2015–2019 baseline per the house rule, only on years the
-      registrations cover.
-  deaths_wb.csv:
-    source: 'World Bank — SP.DYN.CDRT.IN (crude death rate, UN WPP / national vital statistics)'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/SP.DYN.CDRT.IN?format=json
-    refreshed_by: fetch/fetch_harmonised.py
-    official: false
-    notes: >-
-      Mortality slot 1's harmonised line: 13.6 per 1,000 in 2024
-      (verified), inside the 0–16 spine range. Registration coverage
-      excl. TOT from 2014 is the national line's scope; the two are
-      labelled, never spliced.
-
-migration:
-  migration.csv:
-    source: 'World Bank — SM.POP.NETM (UN WPP net migration, a COUNT) and SM.POP.TOTL.ZS (UN DESA international migrant stock)'
-    url: https://api.worldbank.org/v2/country/UKR/indicator/SM.POP.NETM?format=json
-    refreshed_by: fetch/fetch_harmonised.py
-    official: false
-    notes: >-
-      Verified live 2026-10-24: net migration 2021 = −1,129; 2022 =
-      −5,699,445 (the invasion-year outflow); 2024 = +1,146,012; 2025
-      = +1,702,358 (modelled return). Five-yearly migrant stock 2024 =
-      13.4% of the population (UN DESA, foreign-born). Ukraine's own
-      flow statistics (Ukrstat migration archive, 2002–2021 per the
-      publisher's catalogue) are the national line for slots 1–2 and
-      are blocked with stat.gov.ua; Eurostat carries NO Ukraine-as-
-      reporter migration data (migr_imm1ctz geo=UA returns a well-
-      formed empty slice, verified 2026-10-24). Wartime displacement
-      is NOT these series: refugees recorded abroad (UNHCR) and IDPs
-      (IOM DTM) are event/estimate counts drawn, if at all, as a
-      separately labelled lens with the publisher's definitions.
-  displacement.csv:
-    source: pending — UNHCR Ukraine situation; IOM DTM Ukraine
-    url: https://data.unhcr.org/en/situations/ukraine
-    refreshed_by: ''
-    official: false
-    notes: >-
-      The migration lens. data.unhcr.org's situation page answers 200
-      but its data API is JS-assembled (verified 2026-10-24: the
-      documented JSON endpoints redirect or return the app shell), so
-      the machine-readable channel is unresolved; IOM DTM not yet
-      probed. Both measure events and survey estimates, not resident
-      flows or stocks — if drawn, labelled as such, beside the
-      canonical slots, never in them.
-
+      VERIFIED 2026-10-24 against two known values (1989 = 51,706,700;
+      2021 = 41,588,354), 34 annual observations. The publisher's own
+      note: the 1 January register from 2015 EXCLUDES the temporarily
+      occupied territories — the 45.4m -> 42.9m step between 2014 and
+      2015 is that perimeter change, not a demographic event, and is
+      annotated on the plate. stat.gov.ua answers HTTP 403 to this
+      network; the dataflow payload was retrieved once and the fetcher
+      reads that cache offline (meta.pending records the block).
 meta:
   pending:
     - name: Ukrstat SDMX REST API and all stat.gov.ua publications

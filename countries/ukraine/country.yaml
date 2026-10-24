@@ -91,16 +91,11 @@ bands:
   - {from: 2020.0,  to: 2020.75, label: "COVID-19"}
   - {from: 2022.0,  to: 2023.25, label: "full-scale invasion"}
 
-# NOTE for the build phase: UAH has no entry in core.sitebuild's
-# CURRENCY_AFFIX yet, and `uk` is not a number style in
-# core/numstyle.py (no STYLES/AFFIX entries, no separator or magnitude
-# conventions). Both are additive core/ changes (Canada's CAD entry and
-# the Phase-B style blocks are the templates) and are required before
-# chapters.py can render money figures or any uk page. Ukrainian writes
-# 12 345,67 (narrow no-break space thousands, comma decimal, per DSTU
-# 4163) and the hryvnia sign ₴ after the amount with a non-breaking
-# space; kopiyka conventions (1/2/5 plural forms) matter for prose but
-# not for figures.
+# The uk number style and the UAH forms it needs live in core (numstyle
+# STYLES/SEPARATORS, i18n _UNITS, sitebuild AFFIX/CURRENCY_AFFIX), shared
+# by every page and plate like the other locales: Ukrainian writes
+# 12 345,67 (non-breaking-space thousands, comma decimal) and puts the
+# hryvnia after the amount, with a space before the percent sign.
 currency:
   code: UAH
 
@@ -133,13 +128,12 @@ palette:
   spine:   "#C9C6BE"
   band:    "#EFECE5"
   series:  ["#123D63", "#B88A12", "#2E7AB8", "#2E7D4F", "#6E5BA6", "#13807A", "#B0442C", "#1F2430"]
-  # Azure over gold, the flag laid flat. Ukraine's flag is TWO bands;
-  # tests/test_core.py::test_the_palette_fills_every_slot_the_page_needs
-  # hard-codes three (every published country is a tricolour), so the
-  # shared test is relaxed to accept two at integration — this file
-  # tells the truth about the flag rather than inventing a third band.
-  # Neither band is the paper, so neither takes the automatic outline.
-  flag_bands: ["#1F6AB2", "#D9A91C"]
+  # Azure over gold, the flag laid flat. Ukraine's flag is TWO bands and
+  # the masthead needs three, so the deep navy already in this palette —
+  # the flag's azure pulled down, not an invented colour — closes the
+  # third stripe. Neither flag band is the paper, so neither takes the
+  # automatic outline.
+  flag_bands: ["#1F6AB2", "#D9A91C", "#123D63"]
   # A cold deep-azure night, kept apart from the UK's navy-black
   # (#0D1220) and the warm near-blacks of the Americas: bluer and
   # darker than any of them, with a light-azure money accent and the
@@ -161,23 +155,23 @@ palette:
 
 seo:
   title:
-    uk: "Україна — планки офіційних даних, 2006–2026"
-    en: "Ukraine — plates of official data, 2006–2026"
-    pt: "Ucrânia — pranchas de dados oficiais, 2006–2026"
+    uk: "Україна — планки офіційних даних, 2006–2025"
+    en: "Ukraine — plates of official data, 2006–2025"
+    pt: "Ucrânia — pranchas de dados oficiais, 2006–2025"
   description:
-    uk: "Планки даних про економіку, державні фінанси, торгівлю, ринки, працю, демографію, міграцію, смертність, кредит і злочинність України, створені лише з офіційних джерел і відтворені з опублікованих CSV."
-    en: "Data plates on Ukraine's economy, public finances, trade, markets, work, demography, migration, mortality, credit and crime, built only from official sources and regenerated from committed CSVs, with wartime gaps shown as gaps."
-    pt: "Pranchas de dados sobre a economia, as contas públicas, o comércio, os mercados, o trabalho, a demografia, a migração, a mortalidade, o crédito e o crime da Ucrânia, construídas apenas a partir de fontes oficiais, com as lacunas da guerra mostradas como lacunas."
-  keywords: [Ukraine, Україна, State Statistics Service of Ukraine, National Bank of Ukraine, Ministry of Finance, official statistics, war economy]
+    uk: "Планки даних про економіку, населення нерівність і місце України у світі, створені з опублікованих CSV; воєнні розриви показано як розриви, а національний реєстр населення й міжнародна оцінка — окремими лініями."
+    en: "Data plates on Ukraine's economy, population, inequality and place in the world, built from committed CSVs, with wartime gaps shown as gaps and the national register drawn as its own line beside the international estimate."
+    pt: "Pranchas de dados sobre a economia, a população, a desigualdade e a posição da Ucrânia no mundo, a partir de CSVs versionados, com as lacunas da guerra mostradas como lacunas e o registro nacional desenhado em linha própria ao lado da estimativa internacional."
+  keywords: [Ukraine, Україна, State Statistics Service of Ukraine, World Bank, IMF, UNDP, official statistics, war economy]
   spatial: "Ukraine"
 
 # Named in the dek, and the institutions SOURCES.yaml must agree with.
-# The State Customs Service is deliberately not named: customs.gov.ua is
-# unreachable from the build network (pending in SOURCES.yaml) and no
-# plate draws from it — goods trade by partner is the IMF's IMTS and UN
-# Comtrade. Open Budget is likewise pending (Akamai-blocked); the budget
-# execution shown is the NBU's republication of the Treasury's accounts.
+# Only publishers whose numbers are drawn are named: the SSSU population
+# register, and the World Bank, IMF and UNDP for the harmonised layer.
+# The publishers that are blocked from the build network (the SSSU API,
+# the Ministry of Finance, the customs service, Open Budget) are
+# recorded in SOURCES.yaml meta.pending and disclosed on the page.
 sources:
-  uk: "Державна служба статистики України, Національний банк України, Міністерство фінансів України, Офіс Генерального прокурора, а також Світовий банк, МВФ і ПРООН для порівнянь"
-  en: "the State Statistics Service of Ukraine, the National Bank of Ukraine, the Ministry of Finance and the Office of the Prosecutor General, plus the World Bank, IMF and UNDP for comparisons"
-  pt: "o Serviço Estatal de Estatística da Ucrânia, o Banco Nacional da Ucrânia, o Ministério das Finanças e a Procuradoria-Geral, além de Banco Mundial, FMI e PNUD para comparações"
+  uk: "Державна служба статистики України, а також Світовий банк, МВФ і ПРООН для порівнянь"
+  en: "the State Statistics Service of Ukraine, plus the World Bank, IMF and UNDP for comparisons"
+  pt: "o Serviço Estatal de Estatística da Ucrânia, além de Banco Mundial, FMI e PNUD para comparações"
