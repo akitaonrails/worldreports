@@ -15,7 +15,9 @@ without changing a byte of its data rows. `plates.py` reads only those stable
 publication copies; `provenance.json` and the country tests enforce that no
 `_from_` or `_check` file can reach a published chart. Missing histories remain
 visible pending panels rather than inferred values: the SBV policy rate, the
-ten-year government yield and the four-region statutory minimum wage. The
+ten-year government yield, household debt, comparable excess deaths and the
+four-region statutory minimum wage. Commercial lending rates remain on the
+credit plate rather than being relabelled as policy rates. The
 Transparency International CPI was staged on 2026-10-23 from its pinned 2025
 workbook, using only the comparable 2012-method series.
 
@@ -85,7 +87,9 @@ Real growth is within-scale and continuous on every source: 2009 5.40,
   are two tables and two lines, and each standard is drawn as its own
   segment. The World Bank's national headcount (SI.POV.NAHC) is a
   **population** share on a different line (2010 jump) and is kept in
-  its own file.
+  its own file. The canonical poverty slot is explicitly a share of people
+  and therefore uses only SI.POV.NAHC. The NSO household-rate histories remain
+  documented and available, but are not overlaid on that person-based panel.
 - **Traffic deaths, 2021→2022.** Deaths go from 5,790 to 13,551 and
   accidents from 11,487 to 23,352. Minor collisions fall in 2022
   (4,055 → 3,490), rise again in 2023 (5,766) and are blank in 2024.
@@ -137,10 +141,11 @@ are not:
 
 ## Spine departures to record when the plates are built
 
-- **Credit** becomes "credit to the economy". Vietnam has no
-  household-debt series, and the BIS total-credit dataset does not
-  cover it. Credit to the economy is about 145% of GDP in 2025
-  (18,598 tn / 12,848 tn VND).
+- **Credit.** Vietnam has no verified household-debt series, and the BIS
+  total-credit dataset does not cover it. The canonical household-debt slot
+  therefore remains pending. Economy-wide private credit is retained only in
+  the country lens and is never presented as household debt. Credit to the
+  economy is about 145% of GDP in 2025 (18,598 tn / 12,848 tn VND).
 - **Mortality** has no ICD-coded death register. The NSO publishes
   three things here:
   - a survey-based CDR;
@@ -150,7 +155,9 @@ are not:
 
   Causes come only from the WHO's modelled Global Health Estimates. For
   example, GHE puts COVID-19 deaths in 2021 at 85,608. The chapter has
-  to say "modelled" in its title.
+  to say "modelled" in its title. The short registered-deaths history cannot
+  supply the canonical 2015–2019 excess-deaths baseline, so that slot is
+  pending rather than recomputed against the incomplete 2018–2019 window.
 - **Security** has no national homicide count. The NSO publishes only
   what the justice system processed (V14.77): prosecutions,
   indictments and trials. A rise in those numbers measures enforcement

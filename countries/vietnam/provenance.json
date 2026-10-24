@@ -21,8 +21,6 @@
   "trade/imports_by_partner.csv"
  ],
  "05-markets": [
-  "macro/cpi.csv",
-  "markets/rates_fx.csv",
   "markets/usdvnd.csv",
   "markets/vnindex.csv"
  ],
@@ -34,8 +32,7 @@
  "07-people": [
   "social/gini.csv",
   "social/income_quintiles.csv",
-  "social/inequality_wb.csv",
-  "social/poverty.csv"
+  "social/inequality_wb.csv"
  ],
  "08-world": [
   "international/cpi_ti.csv",
@@ -61,8 +58,7 @@
  ],
  "11-mortality": [
   "demography/vital_rates.csv",
-  "mortality/causes.csv",
-  "mortality/registered_deaths.csv"
+  "mortality/causes.csv"
  ],
  "12-migration": [
   "demography/population.csv",

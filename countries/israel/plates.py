@@ -26,7 +26,7 @@ W0 = 2006
 # residence (א/…) plus work (ב/1…) permit families. Everything else the
 # file carries is excluded by name and the exclusion is said on the panel
 # (visitor/tourist classes dominate the raw totals; the עולה/חוזר classes
-# would double-count the olim panel; the rest are diplomatic or definitions
+# would double-count the olim line; the rest are diplomatic or definitions
 # this pass could not verify). ASCII codes are the join keys — the Hebrew
 # display strings stay data, never keys (DISCOVERY.md).
 RES_CLASSES = {"A2", "A2KLLY", "A3", "A4", "A5", "B1", "B1KLLY", "B1XVCf",
@@ -327,21 +327,27 @@ def plate_trade(ctx, ig) -> None:
     _foot(p, ax, "Computed from slot 1. The CBS line when CBS returns")
 
     ax = ig.slot("trade.destinations", "Top export destinations "
+                 "(% of goods exports)")
+    ctx.pending(ax)
+    _foot(p, ax, "a comparable annual partner series is not staged; the "
+          "reviewed 2023 customs snapshot is retained in the lens")
+
+    ax = ig.slot("trade.lens", "Top export destinations, 2023 "
                  "(% of goods exports)", unit=False)
+    destinations_ax = ax
     t = ctx.table("trade/trade_partners_comtrade.csv") or {}
     short = {"United States": "US", "United Kingdom": "UK",
              "Hong Kong SAR, China": "Hong Kong"}
     names = [short.get(name, name) for name in t.get("partner", [])][::-1]
     shares = [float(v) for v in t.get("share_of_exports_pct", [])][::-1]
-    ax._categorical_x = True
-    ax.barh(names, shares, color=p.BLUE, alpha=0.88)
-    ax.set_xlim(0, max(shares) * 1.12)
+    positions = list(range(len(names)))
+    ax.bar(positions, shares, color=p.BLUE, alpha=0.88)
     _foot(p, ax, "UN Comtrade 2023; customs goods, not the services-inclusive "
           "national-accounts line above")
 
-    # Slot 4 is a lens slot, and Israel has no trade lens staged; an
-    # unclaimed lens is left out by the spine, not filled with chrome.
     _finish(ctx, ig)
+    destinations_ax.set_xlim(-0.6, len(names) - 0.4)
+    destinations_ax.set_xticks(positions, names, fontsize=6.8)
 
 
 # ----------------------------------------------------------------- markets
@@ -801,22 +807,13 @@ def plate_migration(ctx, ig) -> None:
     p = ctx.p
     pop = _pop(ctx)
 
-    ax = ig.slot("migration.flows", "New olim — a flow (per 1,000 people)")
     oy, ov = _yr(ctx, "migration/olim_flow.csv", "olim")
     ry, rv = ctx.per_1000(dict(zip(oy, ov)), pop)
-    ctx.bars(ax, ry, rv, lambda v: p.BLUE)
-    ig.add_recessions(ax, label=False)
-    pk_i = max(range(len(ov)), key=lambda i: ov[i])
-    pk_year = oy[pk_i]
-    ax.annotate(f"{ov[pk_i]:,.0f}", (pk_year, rv[pk_i]),
-                textcoords="offset points", xytext=(0, 4), ha="center",
-                fontsize=8.6, fontweight="bold", color=p.BLUE)
-    _mark(ig, ax, "ukraine")
-    _note(p, ax, 0.02, 0.96, "olim arrive under the Law of Return — a legal "
-          "category, not a visa;\nemigration is CBS-only: pending. The portal "
-          "flow starts in {0}".format(oy[0]), size=7.8)
-    _foot(p, ax, "Ministry of Aliyah and Integration PUF ÷ the WB mid-year "
-          "population")
+    ax = ig.slot("migration.flows", "Immigration and emigration "
+                 "(per 1,000 people)")
+    ctx.pending(ax)
+    _foot(p, ax, "no verified comparable immigration/emigration pair is "
+          "staged; the Law of Return subset is retained in the lens")
 
     ax = ig.slot("migration.net", "Net migration (per 1,000 people)")
     D = "demography/demography.csv"
@@ -828,11 +825,9 @@ def plate_migration(ctx, ig) -> None:
     ax.annotate(f"{pk[1]:.1f}", pk, textcoords="offset points",
                 xytext=(0, 4), ha="center", fontsize=8.6, fontweight="bold",
                 color=p.TEAL)
-    olim = dict(zip(oy, ov))
-    _note(p, ax, 0.02, 0.96, f"the UN's estimate — not the olim flow: in "
-          f"{pk[0]} this line counts\n{int(_at(my, mv, pk[0])):,} while the "
-          f"olim panel above counts {olim[pk[0]]:,.0f};\ntwo objects, two "
-          "panels, never added", size=7.8)
+    _note(p, ax, 0.02, 0.96, "the UN's net estimate is not the Law of Return "
+          "subset retained in the lens;\nthe two objects are never added",
+          size=7.8)
     _foot(p, ax, "World Bank (UN WPP) ÷ the mid-year population. The CBS "
           "register line when CBS returns")
 
@@ -859,6 +854,8 @@ def plate_migration(ctx, ig) -> None:
     nfy, nfv = ctx.per_1000(new_by_year, pop)
     efy, efv = ctx.per_1000(ext_by_year, pop)
     ctx.bars(ax, nfy, nfv, lambda v: p.GOLD)
+    ctx.line(ax, ry, rv, p.BLUE, lw=1.8, ms=3.2,
+             label="new olim under the Law of Return")
     ctx.line(ax, efy, efv, p.NAVY, lw=1.8, ms=3.2, label="extensions of "
              "permits already issued")
     ig.add_recessions(ax, label=False)
@@ -874,7 +871,7 @@ def plate_migration(ctx, ig) -> None:
           "flow and amendments\nare in the file but off this panel; visitor "
           "classes, diplomatic\nclasses and the aliyah-named classes are "
           "excluded by name;\nrecords, not people, and never added to the "
-          "olim panel", size=7.4)
+          "olim line", size=7.4)
     _foot(p, ax, "PIBA stats_rish ÷ the WB mid-year population; permit stocks "
           "and asylum figures are parked (four numbers, never one line)")
     _finish(ctx, ig)
@@ -926,11 +923,11 @@ PLATES = (
          subtitle="Exports and imports on the World Bank's national-accounts "
                   "basis; the CBS national-accounts line returns with CBS.",
          source="Sources: World Bank WDI · UN Comtrade · " + _PENDING_SRC,
-         alt="Three panels drawn. Exports and imports each "
+         alt="Four panels drawn. Exports and imports each "
              "run a third of GDP or more and the balance swings between about "
-             "-3% and +5% of GDP; the 2023 destinations panel uses UN "
-             "Comtrade customs-goods exports and excludes special category "
-             "837."),
+             "-3% and +5% of GDP; the comparable annual destination slot is "
+             "pending, while the lens retains a 2023 UN Comtrade customs-"
+             "goods snapshot excluding special category 837."),
     dict(id="05", slug="markets", topic="markets", builder=plate_markets,
          title="Markets — Rates, the Shekel and the Tel Aviv Exchange",
          subtitle="Bank of Israel rates and yields, with the policy-rate "
@@ -1026,21 +1023,21 @@ PLATES = (
              "circulatory diseases are shown separately."),
     dict(id="12", slug="migration", topic="migration",
          builder=plate_migration,
-         title="Migration — the Law of Return Flow and the Permit Flow",
+         title="Migration — Comparable Gaps, Net Estimates and Policy Flows",
          subtitle="Two official open-data series: new olim by the Ministry of "
                   "Aliyah and Integration (from 2015), PIBA permit issuance "
                   "(from 2019). Never summed into one line.",
          source="Sources: Ministry of Aliyah and Integration open data · "
                 "Population and Immigration Authority open data · World Bank "
                 "WDI (UN WPP) · " + _PENDING_SRC,
-         alt="Four panels on Israeli migration, per 1,000 people. The olim "
-             "flow — arrivals under the Law of Return — peaks at 76,601 in "
-             "2022, the Ukraine-war wave (about 8 per 1,000); the UN's net-"
+         alt="Four panels on Israeli migration. Comparable gross immigration "
+             "and emigration remain pending; the UN's net-"
              "migration estimate peaks near 5.2 per 1,000 the same year, and "
-             "the panel says the two are different objects; the UN DESA "
+             "the panel keeps it distinct from olim; the UN DESA "
              "foreign-born share falls from 26.6% in 2010 to 22.3% in 2024; "
              "the lens panel "
-             "draws new residence and work permits issued (a flow, records "
-             "not people) with the extension line beside them, visitor and "
+             "draws new residence and work permits issued (records, not "
+             "people), extensions, and the distinct Law of Return subset, "
+             "with visitor and "
              "diplomatic classes excluded by name."),
 )

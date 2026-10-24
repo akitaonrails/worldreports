@@ -185,12 +185,12 @@ def plate_economy(ctx, ig) -> None:
              "housing costs")
     ctx.line(ax, cy, cv, p.RED, lw=1.8, ms=3.2, label="CPI, the target measure")
     ig.add_recessions(ax, label=False)
-    ax.legend(loc="lower left", fontsize=7.4, ncol=2, frameon=False)
+    ax.legend(loc="upper right", fontsize=7.4, ncol=2, frameon=False)
     peak = max(zip(cy, cv), key=lambda t: t[1])
     ax.annotate(f"{peak[1]:.1f}% in {peak[0]}", peak,
                 textcoords="offset points", xytext=(-8, 4), ha="right",
                 fontsize=8.8, fontweight="bold", color=p.RED)
-    _note(p, ax, 0.02, 0.96, "Bank of England target: 2% on the CPI. The gap "
+    _note(p, ax, 0.02, 0.58, "Bank of England target: 2% on the CPI. The gap "
           "between\nthe two lines is mostly housing costs, which the CPI "
           "leaves out")
     _foot(p, ax, "ONS CPIH and CPI; Eurostat's HICP for the UK stops at 2019")
@@ -454,7 +454,7 @@ def plate_trade(ctx, ig) -> None:
                  lw=2.2 if name == "United States" else 1.7, ms=3.4,
                  label=name)
     ig.add_recessions(ax, label=False)
-    _mark(ig, ax, "customs_break", dy=0.06)
+    _mark(ig, ax, "customs_break", dy=0.72)
     ax.legend(loc="upper right", fontsize=7.2, ncol=2, frameon=False)
     _note(p, ax, 0.02, 0.96, f"customs-value goods, HMRC; each share uses all "
           f"UK goods\nexports in {last}, including unallocated special buckets.\n"
@@ -526,7 +526,7 @@ def plate_markets(ctx, ig) -> None:
     ix_y, ix_v = ctx.index_2006(dict(zip(fy, fv)))
     ctx.line(ax, ix_y, ix_v, p.NAVY)
     ig.add_recessions(ax, label=False)
-    _mark(ig, ax, "referendum", dy=0.88)
+    _mark(ig, ax, "referendum", dy=0.20)
 
     ax = ig.slot("markets.equities", "FTSE 100 in US$ "
                  "(index 2006 = 100)")
@@ -631,7 +631,7 @@ def plate_people(ctx, ig) -> None:
     ig.add_recessions(ax, label=False)
     ig.add_event(ax, *events.MARKS["hbai_seam"], dy=0.54, fontsize=7.0)
     ax.legend(loc="upper right", fontsize=7.8, frameon=False)
-    _note(p, ax, 0.02, 0.18, "the DWP lines are relative to that year's median; the\n"
+    _note(p, ax, 0.02, 0.66, "the DWP lines are relative to that year's median; the\n"
           "World Bank line is an absolute international threshold",
           va="bottom", size=7.7)
     _foot(p, ax, "DWP HBAI, UK (financial-year midpoint); World Bank "
@@ -1055,7 +1055,7 @@ def plate_migration(ctx, ig) -> None:
     ig.add_recessions(ax, label=False)
     _mark(ig, ax, "ltim_admin", dy=0.96)
     ax.legend(loc="upper left", fontsize=6.6, ncol=2, frameon=False)
-    _note(p, ax, 0.98, 0.06, "Eurostat calendar years and ONS YE-December overlap;\n"
+    _note(p, ax, 0.98, 0.66, "Eurostat calendar years and ONS YE-December overlap;\n"
           "the labelled systems are never joined", ha="right", va="bottom",
           size=7.3)
 

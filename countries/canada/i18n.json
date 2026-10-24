@@ -703,6 +703,10 @@
   "fr": "Population — inégalités, pauvreté et salaire minimum",
   "pt": "Pessoas — desigualdade, pobreza e salário mínimo"
  },
+ "Immigration and emigration (per 1,000 people)": {
+  "fr": "Immigration et émigration (pour 1 000 personnes)",
+  "pt": "Imigração e emigração (por 1.000 pessoas)"
+ },
  "Permanent residents admitted (per 1,000 people)": {
   "fr": "Résidents permanents admis (pour 1 000 personnes)",
   "pt": "Residentes permanentes admitidos (por 1.000 pessoas)"
@@ -1640,7 +1644,7 @@
   "pt": "Série do Banco Mundial das contas nacionais do Statistics Canada"
  },
  "World Bank series of Statistics Canada's national accounts (bars); the line is StatCan cube 36-10-0699, never spliced into it": {
-  "fr": "Série Banque mondiale des comptes nationaux de Statistique Canada (barres) ; la ligne est le cube 36-10-0699 de StatCan, jamais soudée aux barres",
+  "fr": "Banque mondiale (barres); StatCan 36-10-0699 (ligne), séries séparées",
   "pt": "Série do Banco Mundial das contas nacionais do Statistics Canada (barras); a linha é o cubo 36-10-0699 do StatCan, nunca emendada às barras"
  },
  "World Bank, current US$ at market exchange rates": {
@@ -1830,5 +1834,33 @@
  "{0}% in {1}: cheap credit put Canada\namong the most indebted\nhouseholds in the G{2}": {
   "fr": "{0} % en {1} : le crédit bon marché\na mis le Canada parmi les ménages\nles plus endettés du G{2}",
   "pt": "{0}% em {1}: o crédito barato\npôs o Canadá entre as famílias\nmais endividadas do G{2}"
+ },
+ "Gross debt (% of GDP)": {
+  "fr": "Dette brute (% du PIB)",
+  "pt": "Dívida bruta (% do PIB)"
+ },
+ "federal accumulated deficit (not gross debt); quoted here as context, not overlaid": {
+  "fr": "déficit fédéral cumulé (pas la dette brute); cité ici comme contexte, sans superposition",
+  "pt": "déficit federal acumulado (não dívida bruta); citado aqui como contexto, sem sobreposição"
+ },
+ "BIS credit to households over GDP; StatCan's disposable-income ratio is retained in the source file but not mixed onto this canonical GDP axis": {
+  "fr": "Crédit de la BRI aux ménages sur le PIB; le ratio de StatCan au revenu disponible reste dans le fichier source sans être mélangé à cet axe canonique du PIB",
+  "pt": "Crédito da BIS às famílias sobre o PIB; a razão do StatCan sobre a renda disponível fica no arquivo-fonte sem ser misturada a este eixo canônico do PIB"
+ },
+ "Comparable gross flows are pending; admissions, permits and net migration remain distinct measures.": {
+  "fr": "Les flux bruts comparables sont en attente; admissions, permis et migration nette restent des mesures distinctes.",
+  "pt": "Os fluxos brutos comparáveis estão pendentes; admissões, permissões e migração líquida permanecem medidas distintas."
+ },
+ "Household debt from the BIS on the canonical GDP basis, and servicing costs measured twice.": {
+  "fr": "Dette des ménages de la BRI sur la base canonique du PIB, et coûts du service mesurés deux fois.",
+  "pt": "Dívida das famílias da BIS na base canônica do PIB e custos do serviço medidos duas vezes."
+ },
+ "IRCC policy flows ÷ the mid-year population; admissions are a subset of immigration, not the canonical gross flow": {
+  "fr": "Flux de politique d’IRCC ÷ population de milieu d’année; les admissions sont un sous-ensemble de l’immigration, pas le flux brut canonique",
+  "pt": "Fluxos de política do IRCC ÷ população de meio do ano; admissões são um subconjunto da imigração, não o fluxo bruto canônico"
+ },
+ "StatCan gross flows not staged; PR admissions stay in the lens": {
+  "fr": "Flux bruts StatCan non préparés; admissions RP dans la lentille",
+  "pt": "Fluxos brutos do StatCan não preparados; admissões RP na lente"
  }
 }

@@ -362,40 +362,16 @@ PARTNERS = [("United States", "United States", "RED"),
 
 def plate_trade(ctx, ig) -> None:
     p = ctx.p
-    ty, ex, im, gdp = _trade(ctx)
+    ty, ex, im, _ = _trade(ctx)
 
     ax = ig.slot("trade.exports_imports",
-                 "Exports and imports, goods (% of GDP)")
-    xp = [v / gdp[y] * 100 for y, v in zip(ty, ex)]
-    imp = [v / gdp[y] * 100 for y, v in zip(ty, im)]
-    ctx.line(ax, ty, xp, p.GREEN, label="Exports, customs basis")
-    ctx.line(ax, ty, imp, p.RED, label="Imports, customs basis")
-    ig.add_recessions(ax, label=False)
-    ctx.endlabel(ax, ty, xp, p.GREEN, lambda v: f"{v:.0f}", dy=6)
-    ctx.endlabel(ax, ty, imp, p.RED, lambda v: f"{v:.0f}", dy=-12)
-    ax.legend(loc="upper left", fontsize=7.6, frameon=False)
-    _note(p, ax, 0.02, 0.30, f"MOF customs goods only; services are outside this dataset;\n"
-          f"{xp[-1]:.0f}% of the GDP is exported, "
-          f"{imp[-1]:.0f}% imported")
-    _foot(p, ax, "MOF trade database, compiled from customs declarations; "
-          "the same records the geo-blocked Customs DB would publish")
+                 "Exports and imports, goods and services (% of GDP)")
+    ctx.pending(ax)
+    _foot(p, ax, "Only customs goods are staged; comparable national-accounts goods-and-services ratios are not available")
 
-    ax = ig.slot("trade.balance", "Trade balance, goods (% of GDP)")
-    bal = [(x - m) / gdp[y] * 100 for y, x, m in zip(ty, ex, im)]
-    ctx.bars(ax, ty, bal, lambda v: p.GREEN if v >= 0 else p.RED)
-    _barkey(ax, p.GREEN, "Customs difference, computed here")
-    ig.add_recessions(ax, label=False)
-    pk = max(zip(ty, bal), key=lambda t: t[1])
-    # The bar runs past the reference top, so the marker for the grown
-    # scale owns the corner above it: the label lives inside the bar.
-    ax.annotate(f"{pk[0]}: +{pk[1]:.1f}%", pk, textcoords="offset points",
-                xytext=(0, -14), ha="center", va="top", fontsize=8.4,
-                fontweight="bold", color="#FFFFFF", gid="qa-on-data")
-    _note(p, ax, 0.02, 0.96, "never in deficit in the window — the collapse "
-          "shrinks the\nsurplus (2009), it does not turn it")
-    ax.legend(loc="lower left", fontsize=7.6, frameon=False)
-    _foot(p, ax, "their difference, computed here and never stored; the "
-          "balance-of-payments version is the lens panel's second answer")
+    ax = ig.slot("trade.balance", "Trade balance, goods and services (% of GDP)")
+    ctx.pending(ax)
+    _foot(p, ax, "The staged customs-goods balance is retained in the lens and is not relabelled as goods and services")
 
     PT = "trade/partners.csv"
     tot = dict(zip(ty, ex))
@@ -428,10 +404,10 @@ def plate_trade(ctx, ig) -> None:
     _note(p, ax, 0.02, 0.55, f"Mainland China peaks at {chpk[1]:.0f}% in "
           f"{chpk[0]} and then halves;\nthe United States takes the lead "
           f"({us[2025]:.0f}% in 2025)")
-    # Every partner line stays above 3 of 40, so the legend fits in the
-    # empty strip along the bottom in one row, and the ECFA mark keeps
-    # the clear air up top.
-    ax.legend(loc="lower left", fontsize=6.9, frameon=False, ncol=5)
+    # The shared destination scale leaves clear air above these series.
+    # Keep the legend there so its labels do not lie across the compressed
+    # partner lines.
+    ax.legend(loc="upper right", fontsize=6.9, frameon=False, ncol=2)
     _foot(p, ax, "customs records by partner, via MOF; ranked on 2025; the "
           "mainland share counts direct trade only")
 
@@ -882,14 +858,12 @@ PLATES = (
              "formation column was staged."),
     dict(id="04", slug="trade", topic="trade", builder=plate_trade,
          title="The Shipping Lanes — and the Customer Switch",
-         subtitle="MOF customs goods exports, imports and destinations; "
-                  "services are outside that dataset, and the lens panel "
-                  "shows the same flow counted twice.",
+         subtitle="Comparable goods-and-services totals remain pending; "
+                  "MOF customs destinations and the two goods definitions stay visible.",
          source="Sources: MOF trade database (customs records) · CBC balance "
                 "of payments · GDP: DGBAS A018101010",
-         alt="Four panels on trade. Goods exports run near 60% of GDP and "
-             "imports near 50%; the customs surplus peaks at +16.8% of GDP "
-             "in 2025 and never turns negative. Mainland China's share of "
+         alt="Four panels on trade. Comparable goods-and-services totals "
+             "and balances remain visibly pending. Mainland China's share of "
              "goods exports peaks near 30% in 2020 and halves to 16%, while "
              "the United States rises from 14% to 31%. The lens panel draws "
              "customs and balance-of-payments goods side by side, differing "

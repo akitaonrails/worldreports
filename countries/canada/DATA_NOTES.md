@@ -126,9 +126,10 @@ All three are correct and all three get quoted as "Canada's debt":
 
 The net figure is low because it nets off the assets of the Canada and
 Quebec Pension Plans, which most G7 members do not hold in that form. The
-net series is therefore never drawn alone: the fiscal debt panel draws
-general-government gross and net together, with the federal accumulated
-deficit beside them and a note saying none of the three is "the" debt.
+canonical fiscal debt panel therefore draws only general-government gross
+debt. Net debt and the federal accumulated deficit remain documented source
+context; the latter's C$ level is quoted in a note but neither is overlaid on
+the gross-debt axis.
 
 ## The fiscal-year convention
 
@@ -178,9 +179,10 @@ whole 2008 easing missing in front of it.
 
 ## The IRCC files
 
-The permanent-resident and study-permit open data **begin in 2015** — the
-2006-2014 half of this atlas's window is not in them, and the migration
-plate leaves that visible rather than starting the axis late. Every cell is
+The permanent-resident and study-permit open data **begin in 2015**. They are
+policy subsets retained in the migration lens, not substitutes for the
+canonical gross immigration and emigration pair, which remains pending.
+Every cell is
 rounded to a multiple of five (all 19,503 of them; IRCC labels the files
 "not for calculations"). Nationally it is nothing — 2024 sums to 482,960
 against a published 483,390 — but a small country of citizenship is
@@ -194,6 +196,10 @@ StatCan's non-permanent-resident estimate (table 17-10-0040, quarterly).
 That estimate is the missing piece of the migration story: most of the
 2023-24 population growth of about 3% a year — unmatched in the G7 — was
 non-permanent residents who never appear in the admissions file at all.
+
+Statistics Canada's household-debt-to-disposable-income series is also kept
+in the reviewed source files, but not drawn on the canonical household-credit
+axis, which is debt as a share of GDP. The two denominators are not comparable.
 
 ## The comparables layer
 

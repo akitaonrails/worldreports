@@ -217,7 +217,9 @@ def test_the_running_year_is_never_drawn_as_a_full_one():
 
 def test_no_trade_balance_is_drawn_for_a_year_without_gdp():
     panel = plate(SLUG, "plate_trade").panel("Trade balance")
-    xs = [float(x) for ln in panel.data_lines() for x in ln.get_xdata()]
+    xs = [float(patch.get_x() + patch.get_width() / 2)
+          for patch in panel.ax.patches
+          if patch.get_data_transform() is panel.ax.transData]
     assert max(xs) <= LAST
     assert max(p.get_x() + p.get_width() / 2 for p in panel.ax.patches
                if p.get_data_transform() is panel.ax.transData) <= LAST + 0.01

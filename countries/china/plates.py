@@ -163,21 +163,23 @@ def plate_trade(ctx, ig):
     rows = _rows(ctx, "trade/trade_comtrade_partner.csv")
     exports = [r for r in rows if r["flow"] == "X" and r["partner"] != "World"]
     exports.sort(key=lambda r: float(r["share_of_flow_pct"]), reverse=True)
-    ax = ig.slot("trade.destinations", "Top export destinations, 2023 (% of goods exports)",
-                 unit=False)
+    ax = ig.slot("trade.destinations", "Top export destinations (% of goods exports)")
+    _pending(ctx, ig, ax, "Only a 2023 partner snapshot is staged; the canonical slot requires a time series")
+
+    ax = ig.slot("trade.lens", "Lens — top export destinations, 2023 (% of goods exports)")
     names = [r["partner"] for r in exports[:8]][::-1]
     vals = [float(r["share_of_flow_pct"]) for r in exports[:8]][::-1]
     ax.barh(names, vals, color=p.RED, alpha=0.88)
+    for i, value in enumerate(vals):
+        ax.text(value + max(vals) * 0.015, i, f"{value:.1f}%",
+                va="center", fontsize=7.0, color=p.INK)
     _foot(p, ax, "UN Comtrade snapshot; China reporter, customs goods; Taiwan absent from response")
-
-    imports = [r for r in rows if r["flow"] == "M" and r["partner"] != "World"]
-    imports.sort(key=lambda r: float(r["share_of_flow_pct"]), reverse=True)
-    ax = ig.slot("trade.lens", "Lens — top import origins, 2023 (% of goods imports)")
-    names = [r["partner"] for r in imports[:8]][::-1]
-    vals = [float(r["share_of_flow_pct"]) for r in imports[:8]][::-1]
-    ax.barh(names, vals, color=p.BLUE, alpha=0.88)
-    _foot(p, ax, "UN Comtrade snapshot; not spliced to GACC, whose endpoint is blocked")
     _finish(ig)
+    # This country lens is categorical, not a time series. `_finish` gives
+    # every panel the normal year window, so restore a truthful percentage
+    # axis after the shared styling pass.
+    ax.set_xlim(0, max(vals) * 1.18)
+    ax.set_xticks([0, 5, 10, 15])
 
 
 def plate_markets(ctx, ig):

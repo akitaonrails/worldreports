@@ -170,6 +170,31 @@ test a known result. Align series by year or date, never by list position.
 
 ## Verification and visual review
 
+### Comparison-scale contract
+
+The comparison viewer wipes one finished country SVG over another. Canonical
+panels therefore need more than the same topic and position: they must use the
+same indicator definition, denominator, unit, base year, axis type, limits and
+ticks. Follow `PLATE_SPINE.md` and `core/spine.py` exactly.
+
+- Put only the canonical definition in a canonical slot. A useful proxy or
+  adjacent national measure belongs in the lens or remains visibly pending;
+  disclosure does not make unlike units comparable.
+- Convert counts with the same-scope population and canonical denominator.
+  Do not mix people with households, gross with net, goods with goods and
+  services, admissions with total immigration, or a non-2006 index with a
+  `2006 = 100` slot.
+- Never set a canonical y-scale in country code. The atlas-wide range is the
+  one in `core/spine.py`, and pending panels inherit it too. If verified data
+  exceed it, update the shared range and regenerate every country carrying
+  that topic; never extend only one country.
+- Canonical time-series slots use the common year window. A one-year category
+  snapshot belongs in a lens, not in a canonical time-series slot.
+- Before opening a PR, run `python3 -m pytest tests/test_spine.py -q`. Its
+  comparison-contract test requires identical positions, scales, limits,
+  ticks and units across every peer. Then inspect representative overlay wipes
+  (a low, middle and outlier country) for every changed topic.
+
 During iteration, run focused country tests and renders. Before a country PR is
 ready, run from the repository root:
 

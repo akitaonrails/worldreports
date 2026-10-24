@@ -13,7 +13,8 @@
       {"term": "家計貸出金利と不良債権", "detail": "日本銀行の住宅・新規貸出金利と金融庁の不良債権比率は、定義を確認した時系列としてまだ収録できていません。"},
       {"term": "最低賃金の全国換算", "detail": "最低賃金は都道府県別です。全国加重平均の履歴と月額への換算方法を一つの検証済み系列としてまだ収録していません。"},
       {"term": "入国と出国の総フロー", "detail": "入管の入国件数は旅行イベントを含み、日本には対応する移住者の出国登録がないため、比較可能な二本の総フローは描いていません。"},
-      {"term": "出生国別人口", "detail": "検証済みの出生国別時系列は見つかっていません。図版は代替であることを明示して外国籍人口を表示します。"}
+      {"term": "出生国別人口", "detail": "検証済みの出生国別時系列は見つかっていません。図版は代替であることを明示して外国籍人口を表示します。"},
+      {"term": "道路交通死亡", "detail": "厚生労働省コード20100は道路交通に限定されず、2011年の災害を含む全事故です。検証済みの道路交通限定系列が収録されるまで標準パネルは保留です。"}
     ],
     "colophon": [
       {"term": "国民経済計算・物価・労働", "detail": "内閣府、総務省統計局"},
@@ -37,7 +38,8 @@
       {"term": "Household lending and bad loans", "detail": "Bank of Japan housing/new-loan rates and the FSA bad-loan ratio have not yet been staged as definition-checked histories."},
       {"term": "National minimum-wage conversion", "detail": "Minimum wages are prefectural. A reviewed history of the national weighted average and its monthly conversion is not yet staged."},
       {"term": "Gross immigration and emigration", "detail": "ISA entries include travel events and Japan has no matching emigrant register, so two comparable gross migration flows cannot be drawn."},
-      {"term": "Country-of-birth population", "detail": "No verified national history by country of birth was found. The plate shows foreign citizenship and labels it as a substitute."}
+      {"term": "Country-of-birth population", "detail": "No verified national history by country of birth was found. The plate shows foreign citizenship and labels it as a substitute."},
+      {"term": "Road-traffic deaths", "detail": "MHLW code 20100 is all accidents, not road-only, and includes the 2011 disaster. The canonical panel remains pending until a verified road-only history is staged."}
     ],
     "colophon": [
       {"term": "National accounts, prices and labour", "detail": "Cabinet Office and Statistics Bureau"},
@@ -61,7 +63,8 @@
       {"term": "Crédito familiar e empréstimos problemáticos", "detail": "As taxas de crédito habitacional/novo do Banco do Japão e a razão de créditos problemáticos da FSA ainda não foram organizadas como séries com definição verificada."},
       {"term": "Conversão nacional do salário mínimo", "detail": "Os pisos são definidos por prefeitura. Ainda falta uma história revisada da média nacional ponderada e do método de conversão mensal."},
       {"term": "Imigração e emigração brutas", "detail": "As entradas da ISA incluem eventos de viagem e o Japão não possui registro equivalente de emigrantes; por isso não se desenham dois fluxos brutos comparáveis."},
-      {"term": "População por país de nascimento", "detail": "Não foi encontrada uma série nacional verificada por país de nascimento. A prancha mostra cidadania estrangeira e a identifica como substituto."}
+      {"term": "População por país de nascimento", "detail": "Não foi encontrada uma série nacional verificada por país de nascimento. A prancha mostra cidadania estrangeira e a identifica como substituto."},
+      {"term": "Mortes no trânsito", "detail": "O código 20100 do MHLW cobre todos os acidentes, não apenas o trânsito, e inclui o desastre de 2011. O painel canônico fica pendente até haver uma série rodoviária verificada."}
     ],
     "colophon": [
       {"term": "Contas nacionais, preços e trabalho", "detail": "Gabinete do Governo e Escritório de Estatística"},

@@ -210,8 +210,9 @@ def pending(ax, palette) -> None:
             transform=ax.transAxes, ha="center", va="center",
             fontsize=11, color=palette.faint, style="italic")
     ax.grid(False)
-    # A spine slot with nothing in it keeps its place on the grid but is
-    # not put on a reference scale: there is nothing to scale.
+    # A spine slot with nothing in it keeps its place on the grid. The
+    # shared scale is applied later by Infographic.apply_spine, because an
+    # empty overlay must still register with a peer that has data.
     ax.spine_pending = True
 
 

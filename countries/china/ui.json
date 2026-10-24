@@ -24,7 +24,8 @@
       {"term": "国家季度与官方宏观层", "detail": "国家统计局机器接口返回403，季度GDP、城镇调查失业率、国家基尼与人口普查序列无法可靠取得。"},
       {"term": "职能支出与公共投资", "detail": "尚未找到可比的COFOG映射或单独政府固定资本形成序列。"},
       {"term": "央行利率与债券收益率", "detail": "人民银行门户可访问，但LPR/旧贷款基准制度、住户贷款利率和10年期国债收益率的机器端点尚未定位。"},
-      {"term": "国家安全、死亡与迁移流量", "detail": "可比的警务、死因、超额死亡和移入移出流量表未能从可访问的国家来源取得。"}
+      {"term": "国家安全、死亡与迁移流量", "detail": "可比的警务、死因、超额死亡和移入移出流量表未能从可访问的国家来源取得。"},
+      {"term": "出口伙伴时间序列", "detail": "目前仅取得2023年UN Comtrade海关快照；该快照保留在中国视角面板，不作为标准时间序列。"}
     ]
   },
   "en": {
@@ -52,7 +53,8 @@
       {"term": "Quarterly and national macro layer", "detail": "The NBS machine API returned 403, preventing a reliable pull of quarterly GDP, surveyed urban unemployment, the national Gini and census-vintage series."},
       {"term": "Functional spending and public investment", "detail": "No comparable COFOG mapping or separately identified government fixed-capital-formation series could be obtained."},
       {"term": "Central-bank rates and bond yield", "detail": "The PBoC portal is reachable, but endpoints for the LPR/old benchmark regimes, household lending and the 10-year government yield were not isolated."},
-      {"term": "National security, mortality and gross migration", "detail": "Comparable police, cause-of-death, excess-death and immigration/emigration flow tables could not be obtained from accessible national sources."}
+      {"term": "National security, mortality and gross migration", "detail": "Comparable police, cause-of-death, excess-death and immigration/emigration flow tables could not be obtained from accessible national sources."},
+      {"term": "Export-partner time series", "detail": "Only a 2023 UN Comtrade customs snapshot was obtained; it stays in China's lens rather than occupying the canonical time-series slot."}
     ]
   },
   "pt": {
@@ -80,7 +82,8 @@
       {"term": "Camada trimestral e macro nacional", "detail": "A API automatizada do NBS respondeu 403, impedindo coleta confiável de PIB trimestral, desemprego urbano pesquisado, Gini nacional e séries com base censitária."},
       {"term": "Gasto por função e investimento público", "detail": "Não foi possível obter um mapeamento COFOG comparável nem uma série separada de formação de capital fixo do governo."},
       {"term": "Juros do banco central e rendimento soberano", "detail": "O portal do PBoC responde, mas os endpoints dos regimes LPR/benchmark antigo, crédito familiar e título público de 10 anos não foram isolados."},
-      {"term": "Segurança, mortalidade e fluxos migratórios nacionais", "detail": "Tabelas comparáveis de polícia, causas de morte, excesso de mortes e imigração/emigração não puderam ser obtidas de fontes nacionais acessíveis."}
+      {"term": "Segurança, mortalidade e fluxos migratórios nacionais", "detail": "Tabelas comparáveis de polícia, causas de morte, excesso de mortes e imigração/emigração não puderam ser obtidas de fontes nacionais acessíveis."},
+      {"term": "Série temporal de parceiros de exportação", "detail": "Só foi obtido um retrato aduaneiro do UN Comtrade para 2023; ele fica na lente da China em vez de ocupar o espaço temporal canônico."}
     ]
   }
 }

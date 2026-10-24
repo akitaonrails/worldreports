@@ -39,13 +39,14 @@ executable form, and `tests/test_spine.py` holds every country to it.
    Japanese-national population, mid-year where the publisher's own rates
    use mid-year. Where the publisher already publishes the rate, use the
    published rate. The panel or DATA_NOTES names the population series.
-6. **One reference scale per canonical slot.** It is listed below and
-   lives in `core/spine.py`. Levels and shares start at zero, and signed
-   series use the listed signed range. When a country's data leave the
-   reference range, the axis **grows to contain them** and the panel
-   carries the "scale extended" marker. Data are never clipped,
-   truncated or rescaled to fit. Log axes are used only where the spine
-   says so, for every country at once, with fixed decades.
+6. **One atlas-wide scale per canonical slot.** It is listed below and
+   lives in `core/spine.py`. Every country, including one whose panel is
+   visibly pending, uses exactly that scale and those ticks. A pixel wipe
+   cannot compare country-local extensions. When accepted data leave the
+   range, rendering fails: widen the single shared range deliberately,
+   regenerate every country carrying that topic, and review the visual
+   cost. Data are never clipped or silently rescaled. Log axes are used
+   only where the spine says so, for every country at once.
 7. **Same direction everywhere.** Higher is more on every axis, with no
    inverted Gini or rank axes. The title says which way is good when it
    matters.
@@ -72,15 +73,16 @@ executable form, and `tests/test_spine.py` holds every country to it.
 ## Topics and slots
 
 Slot numbers are reading order (1 top-left, 2 top-right, 3 bottom-left,
-4 bottom-right). "ref" is the reference y-range; ↑ means the range grows
-upward to fit the data and is marked when it does.
+4 bottom-right). "ref" is the fixed atlas-wide y-range. Historical arrow
+marks show which end originally drove range selection; they do not permit
+country-local extension.
 
 ### economy — growth, income, prices, jobs
 | slot | indicator | unit | ref scale | preferred source |
 |---|---|---|---|---|
-| 1 | Real GDP growth | % per year, bars | −12 … +12 symmetric ↕ | national accounts / Eurostat |
-| 2 | GDP per person | US$ current, line | log 1,000 … 200,000 | World Bank NY.GDP.PCAP.CD |
-| 3 | Consumer price inflation (+ target line) | % per year | −2 … 12 ↑ | national CPI; HICP beside it in the EU |
+| 1 | Real GDP growth | % per year, bars | −18 … +18 symmetric | national accounts / Eurostat |
+| 2 | GDP per person | US$ current, line | log 500 … 200,000 | World Bank NY.GDP.PCAP.CD |
+| 3 | Consumer price inflation (+ target line) | % per year | −5 … 225 | national CPI; HICP beside it in the EU |
 | 4 | Unemployment rate | % of labour force | 0 … 30 ↑ | national LFS; Eurostat/ILO beside it |
 The nominal GDP size moves to **world** slot 1.
 
@@ -89,8 +91,8 @@ The nominal GDP size moves to **world** slot 1.
 |---|---|---|---|---|
 | 1 | Revenue and expenditure | % of GDP, two lines | 0 … 70 | Eurostat / OECD / IMF WEO |
 | 2 | Overall balance (bars), primary balance (line) | % of GDP | −16 … +8 ↕ | same |
-| 3 | Gross debt | % of GDP | 0 … 150 ↑ | Eurostat EDP / IMF GGXWDG_NGDP |
-| 4 | Interest paid | % of GDP | 0 … 8 ↑ | Eurostat D41PAY / IMF / OECD |
+| 3 | Gross debt | % of GDP | 0 … 300 | Eurostat EDP / IMF GGXWDG_NGDP |
+| 4 | Interest paid | % of GDP | 0 … 10 | Eurostat D41PAY / IMF / OECD |
 A federal or fiscal-year national perimeter (US, Canada, Brazil central
 government) is drawn as a second, labelled line where it is the series the
 country argues about. The general-government line stays canonical.
@@ -100,8 +102,8 @@ country argues about. The general-government line stays canonical.
 |---|---|---|---|---|
 | 1 | Spending by function, stacked | % of GDP | 0 … 65 | COFOG (Eurostat / OECD table 11) |
 | 2 | Social protection vs everything else | % of GDP | 0 … 45 | COFOG |
-| 3 | Investment rate, whole economy (GFCF) | % of GDP | 0 … 40 | national accounts / WB NE.GDI.FTOT.ZS |
-| 4 | Public investment (government GFCF) | % of GDP | 0 … 8 ↑ | Eurostat P51G / OECD |
+| 3 | Investment rate, whole economy (GFCF) | % of GDP | 0 … 50 | national accounts / WB NE.GDI.FTOT.ZS |
+| 4 | Public investment (government GFCF) | % of GDP | 0 … 12 | Eurostat P51G / OECD |
 COFOG groups (seven): social protection, health, education, general public
 services, economic affairs, defence + public order, other. A country
 without COFOG uses its national functional classification, mapped onto
@@ -112,23 +114,23 @@ those seven where the mapping is clean, and the note says so.
 |---|---|---|---|---|
 | 1 | Exports and imports | % of GDP, two lines | 0 … 100 ↑ | national accounts / WB NE.EXP/IMP.GNFS.ZS |
 | 2 | Trade balance | % of GDP, bars | −15 … +15 ↕ | same |
-| 3 | Top export destinations | % of goods exports | 0 … 40 ↑ | customs / Comtrade |
+| 3 | Top export destinations | % of goods exports | 0 … 90 | customs / Comtrade |
 | 4 | lens (products, energy share, two official deficits, …) | | | |
 US$ or local-currency levels go in the annotations.
 
 ### markets
 | slot | indicator | unit | ref | source |
 |---|---|---|---|---|
-| 1 | Policy rate vs inflation | %, two lines | −1 … 15 ↑ | central bank; CPI from economy |
-| 2 | 10-year government bond yield | %, annual average | 0 … 15 ↑ | central bank / Eurostat irt_lt_mcby_a |
-| 3 | Currency against the US$ | index 2006 = 100, annual average, up = stronger | log 10 … 200 | central bank; US uses the broad dollar index |
+| 1 | Policy rate vs inflation | %, two lines | −5 … 225 | central bank; CPI from economy |
+| 2 | 10-year government bond yield | %, annual average | −2 … 30 | central bank / Eurostat irt_lt_mcby_a |
+| 3 | Currency against the US$ | index 2006 = 100, annual average, up = stronger | log 0.1 … 200 | central bank; US uses the broad dollar index |
 | 4 | Main equity index in US$, with the S&P 500 in US$ dashed | index 2006 = 100 | log 10 … 1,000 | exchange / redistributor (`official: false`) |
 
 ### credit
 | slot | indicator | unit | ref | source |
 |---|---|---|---|---|
 | 1 | Household debt | % of GDP | 0 … 140 | BIS total credit WS_TC Q.CC.H.A.M.770.A (year-end Q4) |
-| 2 | Household lending rate vs policy rate | % | 0 … 20 ↑ | central bank (new mortgage loans where possible) |
+| 2 | Household lending rate vs policy rate | % | −2 … 110 | central bank (new mortgage loans where possible) |
 | 3 | Non-performing / delinquent loans | % of loans | 0 … 20 ↑ | central bank (definition in the legend) |
 | 4 | lens (debt service ratio, stock in local currency, arrears, …) | | | BIS WS_DSR where available |
 
@@ -136,7 +138,7 @@ US$ or local-currency levels go in the annotations.
 | slot | indicator | unit | ref | source |
 |---|---|---|---|---|
 | 1 | Income inequality, Gini | 0 … 100 points, not inverted | 20 … 60 | national survey + WB/SILC beside it |
-| 2 | Poverty rate, national definition; WB US$8.30/day line beside it where it exists | % of people | 0 … 50 ↑ | national; WB PIP |
+| 2 | Poverty rate, national definition; WB US$8.30/day line beside it where it exists | % of people | 0 … 80 | national; WB PIP |
 | 3 | Minimum wage | US$ per month at the annual average exchange rate | 0 … 3,000 ↑ | national; converted with the staged FX |
 | 4 | lens (median income, child or old-age poverty, employment, …) | | | |
 A country with no statutory national minimum wage (Italy, Switzerland)
@@ -155,10 +157,10 @@ The WEF competitiveness rank was discontinued after 2019 and leaves the spine.
 ### demography
 | slot | indicator | unit | ref | source |
 |---|---|---|---|---|
-| 1 | Population | index 2006 = 100, level in the note | 80 … 130 ↕ | national statistics |
-| 2 | Total fertility rate (+2.1 line) | children per woman | 0 … 3 | national / WB |
+| 1 | Population | index 2006 = 100, level in the note | 80 … 150 | national statistics |
+| 2 | Total fertility rate (+2.1 line) | children per woman | 0 … 3.5 | national / WB |
 | 3 | Crude birth and death rates | per 1,000 people | 0 … 25 | national / WB / Eurostat |
-| 4 | Natural increase and net migration | per 1,000 people | −10 … +25 ↕ | national / Eurostat CNMIGRATRT / WB SM.POP.NETM |
+| 4 | Natural increase and net migration | per 1,000 people | −10 … +40 | national / Eurostat CNMIGRATRT / WB SM.POP.NETM |
 Projections are a note on slot 1 (e.g. projected peak and year), not a
 panel with its own axis.
 
@@ -167,14 +169,14 @@ panel with its own axis.
 |---|---|---|---|---|
 | 1 | Homicide rate: national series, plus UNODC/WHO where it differs | per 100,000 | log 0.1 … 100 | national; UNODC VC.IHR.PSRC.P5 |
 | 2 | Suicide rate | per 100,000 | 0 … 40 | national cause-of-death / WHO |
-| 3 | Road traffic deaths | per 100,000 | 0 … 25 | national / WHO |
+| 3 | Road traffic deaths | per 100,000 | 0 … 40 | national / WHO |
 | 4 | lens (femicide per 100k women, police killings, overdoses, workplace deaths, …) | | | |
 
 ### mortality
 | slot | indicator | unit | ref | source |
 |---|---|---|---|---|
 | 1 | Crude death rate | per 1,000 people | 0 … 16 | national vital statistics |
-| 2 | Excess deaths | % above the 2015–2019 average | −10 … +40 ↑ | computed from slot 1's counts |
+| 2 | Excess deaths | % above the 2015–2019 average | −20 … +40 | computed from slot 1's counts |
 | 3 | COVID-19 deaths, underlying cause | per 100,000 | 0 … 300 ↑ | national cause-of-death |
 | 4 | lens (influenza, dengue, the big killers, …) | per 100,000 | | |
 Korea's cause-of-death content moves from security to a new mortality
@@ -183,8 +185,8 @@ chapter, and Argentina's from demography to a new mortality chapter.
 ### migration
 | slot | indicator | unit | ref | source |
 |---|---|---|---|---|
-| 1 | Immigration and emigration | per 1,000 people | 0 … 30 ↑ | national / Eurostat |
-| 2 | Net migration | per 1,000 people | −10 … +25 ↕ | national / Eurostat / WB |
+| 1 | Immigration and emigration | per 1,000 people | 0 … 50 | national / Eurostat |
+| 2 | Net migration | per 1,000 people | −10 … +40 | national / Eurostat / WB |
 | 3 | Foreign-born share of the population (+ foreign-citizen share) | % of population | 0 … 50 ↑ | national / Eurostat |
 | 4 | lens (asylum, permits, citizenship, regimes, …) | | | |
 

@@ -111,7 +111,10 @@ def test_comtrade_snapshot_uses_world_denominator_and_keeps_caveat():
     expected = float(us["value_usd"]) / float(world["value_usd"]) * 100
     assert float(us["share_of_flow_pct"]) == pytest.approx(expected, abs=0.01)
     assert not any("Taiwan" in r["partner"] for r in table)
-    panel = plate(SLUG, "plate_trade").panel("Top export destinations")
+    canonical = plate(SLUG, "plate_trade").panel("Top export destinations")
+    assert not canonical.lines()
+    assert "requires a time series" in " ".join(canonical.texts())
+    panel = plate(SLUG, "plate_trade").panel("Lens — top export destinations")
     assert any("Taiwan absent" in t for t in panel.texts())
 
 

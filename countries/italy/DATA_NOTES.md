@@ -227,7 +227,9 @@ Points to annotate:
 - ISTAT absolute poverty (household incidence, 34_727) is the national
   headline: 6.0% in 2014, 8.1% in 2025. The new series starts in 2014 on
   a revised basket. The old series (34_201, to 2013) is a different
-  basket and is not staged.
+  basket and is not staged. Household incidence is not overlaid on the
+  canonical person-rate axis. The lens explicitly contrasts person-based
+  EU-SILC risk with ISTAT's household-based relative-poverty measure.
 
 ## Markets
 
@@ -322,12 +324,13 @@ statutory minimum wage**. Pay floors come from sector collective agreements
     (36.1 for 2024 against BIS 36.0 and Eurostat 36.1). The S&P 500
     dashed comparator is `meta.pending`.
   - security slot 3: the staged death certificate shortlist carries only
-    `17_1_1`, transport accidents by **all modes**, not road-only; the
-    panel title says *all-transport basis* and the note says what the
-    code is. The road-only count (ISTAT road-accident deaths, 30-day)
-    stays pending.
+    `17_1_1`, transport accidents by **all modes**, not road-only. It is
+    therefore kept out of the canonical panel, which remains visibly pending
+    for the ISTAT 30-day road-death or Eurostat `tran_sf_roadus` series.
   - trade slot 3 uses the 2023 Italy-reporter UN Comtrade customs-goods
-    snapshot, with shares divided by the World export total. World slot 3
+    snapshot, with shares divided by the World export total. It is retained
+    in the trade lens; canonical destination slot 3 remains pending until an
+    annual partner series is staged. World slot 3
     uses TI's CPI 2025 workbook and keeps only its comparable 2012–2025
     method. People slot 3 remains empty because no statutory national
     minimum wage exists; the panel states that absence explicitly.

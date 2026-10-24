@@ -7,8 +7,8 @@ place, in the same unit and on the same scale as every other country's
 the spine asks for one — IMF general government, World Bank GDP per
 person and trade, BIS household credit — and the Brazilian series the
 country actually argues about rides beside them as a labelled second
-line: the Tesouro's central-government primary result, the BCB's DBGG
-and DLSP debt, the NFSP interest bill. The lens slot is Brazil's own
+line: the Tesouro's central-government primary result, the BCB's gross
+DBGG debt, and the NFSP interest bill. The lens slot is Brazil's own
 story.
 
 Counts are rates (PLATE_SPINE.md rule 5). Every per-100k and per-1,000
@@ -213,14 +213,12 @@ def fig_fiscal(ctx, ig) -> None:
                    "Overall balance, general government (IMF)")])
     recessions(ig, ax)
 
-    ax = ig.slot("fiscal.debt", "Gross debt — three Brazilian definitions")
+    ax = ig.slot("fiscal.debt", "Gross debt — two Brazilian definitions")
     imf = col(gg, "gross_debt_pct_gdp")
-    dbgg, dlsp = col(debt, "gross"), col(debt, "net")
+    dbgg = col(debt, "gross")
     ctx.line(ax, *xy(imf, 2006), ctx.p.RED, label="Gross, general government (IMF)")
     ctx.line(ax, *xy(dbgg), ctx.p.PURPLE, lw=1.8, ms=3,
              label="Gross, DBGG (BCB concept)")
-    ctx.line(ax, *xy(dlsp), ctx.p.TEAL, lw=1.8, ms=3, ls="--",
-             label="Net, public sector — DLSP (BCB)")
     y = max(imf)
     note(ax, f"{y}: IMF {imf[y]:.1f}% vs DBGG {dbgg[y]:.1f}% — the IMF counts "
          f"the Treasury bonds the BCB holds", y=0.06, va="bottom")
@@ -321,7 +319,7 @@ def fig_spending(ctx, ig) -> None:
     ctx.line(ax, *xy(rtn), ctx.p.YELLOW, lw=1.8, ms=3, ls="--",
              label="Federal investment paid, GND 4+5 (Tesouro RTN)")
     note(ax, f"the OECD series stops in {max(pub)} · federal: "
-         f"{rtn[max(rtn)]:.2f}% of GDP in {max(rtn)}", y=0.06, va="bottom")
+         f"{rtn[max(rtn)]:.2f}% of GDP in {max(rtn)}", y=0.97)
     legend(ax, loc="upper right")
     recessions(ig, ax)
     finish(ig)
@@ -430,9 +428,9 @@ def fig_markets(ctx, ig) -> None:
              label="IPCA, Dec/Dec (IBGE)")
     note(ax, f"{full}: Selic {selic[full]:.2f}%,\nIPCA {ipca[full]:.2f}%",
          x=0.56, y=0.75)
-    legend(ax, loc="lower center", bbox_to_anchor=(0.5, 0.06), ncol=2)
+    legend(ax, loc="upper center", bbox_to_anchor=(0.5, 0.90), ncol=2)
     ig.mark_partial(ax, ctx.YEARS[-1], f"{ctx.YEARS[-1]}: Oct")
-    recessions(ig, ax, first=True, y=0.03)
+    recessions(ig, ax, first=True, y=0.60)
 
     ax = ig.slot("markets.bond_10y", "10-year government bond yield")
     b = col(bond, "yield_10y")
@@ -504,7 +502,7 @@ def fig_credit(ctx, ig) -> None:
              label="Household credit, average rate, Dec (BCB)")
     ctx.line(ax, *xy(selic), NAVY_C, lw=1.8, ms=3, label="Selic target, year-end")
     note(ax, f"BCB rebuilt these statistics on SCR microdata in {min(pf)}"
-         f"\n{full}: {pf[full]:.1f}% a year", y=0.06, va="bottom")
+         f"\n{full}: {pf[full]:.1f}% a year", y=0.97)
     legend(ax, loc="center left", bbox_to_anchor=(0.0, 0.52))
     ig.mark_partial(ax, ctx.YEARS[-1], f"{ctx.YEARS[-1]}: Aug")
     recessions(ig, ax)
@@ -584,8 +582,8 @@ def fig_people(ctx, ig) -> None:
     note(ax, "Brazil sets no official poverty line; IBGE reports the World "
          f"Bank's · {last}: {p830[last]:.1f}% and {p300[last]:.1f}%",
          y=0.97)
-    ig.add_event(ax, *MARKS["emergency_aid"], dy=0.84)
-    legend(ax, loc="lower right", bbox_to_anchor=(1.0, 0.18))
+    ig.add_event(ax, *MARKS["emergency_aid"], dy=0.64)
+    legend(ax, loc="upper right", bbox_to_anchor=(1.0, 0.88))
     recessions(ig, ax)
 
     ax = ig.slot("people.minimum_wage", "Minimum wage")
@@ -874,7 +872,7 @@ SOURCE = {
                 "(GDP per person, ILO unemployment) · CMN (inflation target)"),
     "fiscal": ("IMF WEO / Fiscal Monitor (general government) · Tesouro "
                "Nacional (central-government primary result, carga "
-               "tributária) · Banco Central (DBGG, DLSP, NFSP)"),
+               "tributária) · Banco Central (DBGG, NFSP)"),
     "spending": ("Tesouro Nacional (COFOG, general government; RTN) · IBGE "
                  "(FBCF) · OECD National Accounts at a Glance (government GFCF)"),
     "trade": ("World Bank WDI (goods and services, % of GDP) · MDIC/SECEX "
@@ -911,12 +909,12 @@ PLATES = (
          title="Public Finances — Balance, Debt and Interest, 2006–2025",
          subtitle=("General government on the IMF's basis, with the "
                    "Brazilian measures beside it: the central-government "
-                   "primary result, DBGG, DLSP and the NFSP interest bill."),
+                   "primary result, DBGG gross debt and the NFSP interest bill."),
          source="Sources: " + SOURCE["fiscal"],
          alt=("Four panels on Brazilian public finances: general-government "
               "revenue and expenditure with the tax burden; the overall "
               "balance as bars with the general-government and "
-              "central-government primary balances; gross debt on three "
+              "central-government primary balances; gross debt on two "
               "definitions; and interest paid, IMF and BCB.")),
     dict(slug="03_spending", topic="spending", builder=fig_spending,
          title="Where the Money Goes — Spending and Investment",

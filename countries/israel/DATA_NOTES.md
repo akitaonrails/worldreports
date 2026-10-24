@@ -85,8 +85,11 @@ recomputed one):
   into one "immigration" line. The PIBA lens excludes the tourist/visitor
   classes (ב/2 family dominate the raw totals), excludes the diplomatic
   and unverified-definition classes, and excludes the PIBA classes named
-  עולה/חוזר because they would double-count the olim panel; which classes
+  עולה/חוזר because they would double-count the olim line; which classes
   are in is stated on the panel and computed from the CSV in tests.
+- **Trade destinations:** the staged UN Comtrade file is a reviewed 2023
+  customs-goods snapshot, not an annual time series. It remains in the trade
+  lens; the canonical destinations slot stays visibly pending.
 - **FX:** the WB `PA.NUS.FCRF` annual averages (2005-2025) carry the
   index line. The Bank of Israel PublicApi row is a **snapshot of the
   representative rate on one intraday timestamp** (2026-10-22), quoted as

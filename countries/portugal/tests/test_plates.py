@@ -57,13 +57,10 @@ def test_trade_destinations_use_all_goods_exports():
     assert panel.points("Spain")[2025] == pytest.approx(want)
 
 
-def test_equity_conversion_uses_year_end_euro_rate():
-    s, fx = years("psi20_yahoo"), years("eurusd_ecb")
-    panel = plate(SLUG, "plate_markets").panel("PSI index in US$")
-    p = panel.data_lines()[0]
-    got = dict(zip(map(int, p.get_xdata()), p.get_ydata()))
-    base = num(s[2013], "close") * num(fx[2013], "eop")
-    assert got[2025] == pytest.approx(num(s[2025], "close") * num(fx[2025], "eop") / base * 100)
+def test_equity_slot_does_not_publish_a_2013_base_as_2006_base():
+    panel = plate(SLUG, "plate_markets").panel("Main equity index")
+    assert not panel.data_lines()
+    assert any("data pending" in text.lower() for text in panel.texts())
 
 
 def test_credit_keeps_the_stock_and_ratio_concepts():

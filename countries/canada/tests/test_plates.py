@@ -76,15 +76,14 @@ def test_the_actuarial_split_is_never_back_filled():
         "from 2006 — check what replaced it before trusting the split")
 
 
-def test_the_federal_debt_panel_reads_the_liabilities_file():
+def test_the_canonical_debt_panel_draws_only_general_government_gross():
     """The accumulated deficit — what budget documents call 'the federal
     debt' — closed fiscal 2024-25 at C$1,266,480mn; net debt at
     C$1,393,590mn. On the spine the fiscal debt panel holds the
-    general-government measures; the federal accumulated deficit rides
-    beside them as a labelled % GDP line, and the panel's note quotes
-    the C$ trillion figure out of liabilities.csv — so a refetch that
-    moves the level fails the note. Net debt is published only from
-    1983; it must stay blank before that."""
+    canonical panel draws only general-government gross debt. The federal
+    level remains a contextual note sourced from liabilities.csv, so a
+    refetch that moves it still fails the note. Net debt is published only
+    from 1983; it must stay blank before that."""
     t = by_year("fiscal/liabilities.csv", key="fiscal_year")
     assert float(t[2024]["accumulated_deficit_mn"]) == pytest.approx(1266480)
     assert float(t[2024]["net_debt_mn"]) == pytest.approx(1393590)
@@ -92,16 +91,13 @@ def test_the_federal_debt_panel_reads_the_liabilities_file():
         if y < 1983:
             assert not (r["net_debt_mn"] or "").strip(), \
                 f"{y}: net debt back-filled before its 1983 start"
-    tx = by_year("fiscal/transactions_pct_gdp.csv", key="fiscal_year")
     panel = plate(SLUG, "plate_fiscal").panel("Gross debt")
-    acc = panel.points("Federal accumulated deficit")
-    assert acc[2024.25] == pytest.approx(float(tx[2024]["accumulated_deficit"])), \
-        "the debt panel's federal line is not the ratio in transactions.csv"
+    panel.points("General government, gross")
+    labels = panel.legend_labels()
+    assert not any("accumulated deficit" in label.lower() for label in labels)
+    assert not any("net of CPP/QPP" in label for label in labels)
     assert any("C$1.27tn" in s for s in panel.texts()), \
         "the panel no longer quotes the accumulated deficit in C$ from liabilities.csv"
-    # And the net figure is still drawn only beside the gross one.
-    panel.points("General government, gross")
-    panel.points("net of CPP/QPP")
 
 
 # ------------------------------------------------------------- markets
@@ -147,22 +143,18 @@ def test_the_two_dollar_series_are_never_spliced():
 
 
 # ------------------------------------------------------------- the world
-def test_the_two_g7_debts_are_drawn_together():
+def test_g7_net_debt_is_kept_out_of_the_canonical_gross_debt_slot():
     """2024: Canada at 12.5% of GDP net, 111.3% gross on Finance Canada's
     G7 table. The net figure nets off CPP/QPP assets most of the G7 does
-    not hold in that form, so net is never drawn alone — and never above
-    gross. On the spine the pairing lives in fiscal slot 3: the IMF
-    gross line and the net-of-CPP/QPP line on one panel, whatever the
-    two publishers' vintages make of the same year."""
+    not hold in that form. It remains verified source context but does not
+    ride on the canonical gross-debt axis."""
     gross = by_year("international/g7_gross_debt.csv")
     net = by_year("international/g7_net_debt.csv")
     assert float(net[2024]["canada"]) == pytest.approx(12.5, abs=0.05)
     assert float(gross[2024]["canada"]) == pytest.approx(111.3, abs=0.05)
     panel = plate(SLUG, "plate_fiscal").panel("Gross debt")
-    pairs = panel.paired("General government, gross", "net of CPP/QPP")
-    assert len(pairs) >= 15
-    above = [(int(y), g, n) for y, g, n in pairs if n >= g]
-    assert not above, f"net at or above gross in {above[:4]}"
+    panel.points("General government, gross")
+    assert not any("net of CPP/QPP" in label for label in panel.legend_labels())
 
 
 def test_the_pandemic_balance_is_general_government_not_federal():
@@ -211,9 +203,9 @@ def test_the_admissions_series_visibly_starts_in_2015():
     t = rows("migration/pr_admissions.csv")
     years = [int(r["year"]) for r in t]
     assert min(years) == 2015
-    panel = plate(SLUG, "plate_migration").panel("Permanent residents")
-    assert panel.ax.get_xlim()[0] < 2015, "the 2006-14 hole is not visible"
-    assert any("begins in 2015" in s for s in panel.texts())
+    panel = plate(SLUG, "plate_migration").panel("Study permits")
+    admissions = panel.points("Permanent residents admitted per year")
+    assert min(admissions) == 2015
 
 
 def test_the_admissions_peak_and_reversal():
@@ -223,8 +215,11 @@ def test_the_admissions_peak_and_reversal():
     assert float(t[2020]["admissions"]) == 183075
     assert float(t[2024]["admissions"]) == 480955
     assert float(t[2025]["admissions"]) == 390625
-    panel = plate(SLUG, "plate_migration").panel("Permanent residents")
-    assert any("480,955" in s for s in panel.texts())
+    panel = plate(SLUG, "plate_migration").panel("Study permits")
+    admissions = panel.points("Permanent residents admitted per year")
+    pop = by_year("international/population.csv")
+    assert admissions[2024] == pytest.approx(
+        480955 / float(pop[2024]["population"]) * 1000)
 
 
 def test_the_top_ten_stays_a_subset_of_the_total():
@@ -505,20 +500,19 @@ def test_statcan_covid_counts_over_the_july_population_per_100k():
             / float(pop[y]["population_july1"]) * 1e5, abs=1.0)
 
 
-def test_the_two_household_debt_ratios_have_different_denominators():
+def test_disposable_income_debt_ratio_stays_off_the_canonical_gdp_axis():
     """11 credit 1: BIS over GDP, StatCan over disposable income
     (38-10-0235). 2025 Q4 = 171.89, peak 181.88 in 2022; the ratio must
-    never touch the GDP scale it rides beside."""
+    never touches the canonical GDP scale."""
     t = by_year("credit/household_credit_statcan.csv")
     assert float(t[2025]["hh_debt_to_disp_income_q4"]) == pytest.approx(171.89)
     panel = plate(SLUG, "plate_credit").panel("Household debt")
-    sc = panel.points("StatCan, share of disposable")
-    bis = panel.points("BIS, share of GDP")
-    assert sc[2025] == pytest.approx(171.89)
-    assert max(sc.values()) == pytest.approx(181.88)
-    assert min(sc.values()) > max(bis.values()) * 1.2, \
-        "the ratios converged — one denominator must have drifted"
-    assert any("denominator" in s for s in panel.texts())
+    assert max(float(r["hh_debt_to_disp_income_q4"]) for r in t.values()
+               if r["hh_debt_to_disp_income_q4"].strip()) == \
+        pytest.approx(181.88)
+    panel.points("BIS, share of GDP")
+    assert not any("disposable" in label.lower()
+                   for label in panel.legend_labels())
 
 
 def test_debt_service_measured_twice_and_mortgages_stay_a_part():

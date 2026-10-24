@@ -100,9 +100,10 @@ in 2019–2021".
   (`world/bop_goods.csv`). Different definitions (FOB customs vs BoP),
   both kept, never spliced; the test asserts the levels differ.
 - **TAIEX average vs year-end:** see equities above.
-- **Trade coverage:** the spine's trade slots want national-accounts
-  exports of goods *and services*; only goods is staged, and every trade
-  panel says "goods" in its label — services pending with the WTO note.
+- **Trade coverage:** the spine's first two trade slots require
+  national-accounts goods *and services*. Only customs and BoP goods are
+  staged, so those canonical slots are visibly pending; the verified goods
+  partner history remains in slot 3 and the two goods definitions in the lens.
 
 ## Pending (drawn as `ctx.pending` or as an absent chapter, with reason)
 

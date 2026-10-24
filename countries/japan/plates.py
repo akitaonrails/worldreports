@@ -939,21 +939,8 @@ def plate_security(ctx, ig) -> None:
 
     ax = ig.slot("security.road_deaths", "Road traffic deaths "
                  "(per 100,000)")
-    ys, vs = ctx.series(t, "accidents_20100")
-    ry_, rv_ = ctx.per_100k(dict(zip(ys, vs)), jpp)
-    ctx.line(ax, ry_, rv_, p.NAVY,
-             label="all transport accidents, death registrations "
-                   "(÷ Japanese-national population)")
-    ig.add_recessions(ax, label=False)
-    ax.legend(loc="upper right", fontsize=7.2, frameon=False)
-    lo = min(zip(ry_, rv_), key=lambda t_: t_[1])
-    ax.annotate(f"{lo[1]:.1f} in {lo[0]}", lo, textcoords="offset points",
-                xytext=(0, 8), ha="center", fontsize=8.2, fontweight="bold",
-                color=p.NAVY)
-    _note(p, ax, 0.02, 0.96, "ICD-10 20100 is all transport accidents — rail, "
-          "water and air sit\nwith road, and the WHO road-only line (NPA's "
-          "30-day count) is a\nfetch — so this line runs a little high",
-          size=7.4)
+    ctx.pending(ax)
+    _foot(p, ax, "MHLW code 20100 covers all accidents, including the 2011 disaster; a verified road-only series is not staged")
 
     ax = ig.slot("security.lens", "Lens — two counts of the same crime, "
                  "4.6× apart (deaths and cases per year)")
@@ -1257,16 +1244,15 @@ PLATES = (
              "plate."),
     dict(id="10", slug="security", topic="security", builder=plate_security,
          title="Security — The Low-Crime Country, Counted Twice",
-         subtitle="Homicide, suicide and transport deaths from MHLW "
-                  "registrations on the Japanese-national population, and "
-                  "the police count as the lens.",
+         subtitle="Homicide and suicide from MHLW registrations, with the "
+                  "road-only slot visibly pending and the police count as the lens.",
          source="Sources: MHLW causes of death · World Bank/UNODC · National "
                 "Police Agency",
          alt="Four panels on security. Homicide falls to about 0.19 per "
              "100,000 on the MHLW deaths and near 0.23 on UNODC; suicide "
              "runs 23.7 per 100,000 in 2006, peaks inside the window in "
-             "2011, and falls to 16.3 by 2024; transport deaths fall "
-             "steadily; the lens shows police-recorded homicide at about "
+             "2011, and falls to 16.3 by 2024; road-only deaths remain "
+             "pending because the staged accident category is broader; the lens shows police-recorded homicide at about "
              "4.6× registered homicide deaths."),
     dict(id="11", slug="mortality", topic="mortality", builder=plate_mortality,
          title="Mortality — An Ageing Pyramid Writing Its Own Statistics",

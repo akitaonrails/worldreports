@@ -10,8 +10,7 @@
   "fiscal/general_government.csv",
   "fiscal/gfs_operations.csv",
   "fiscal/liabilities.csv",
-  "fiscal/transactions_pct_gdp.csv",
-  "international/g7_net_debt.csv"
+  "fiscal/transactions_pct_gdp.csv"
  ],
  "03-spending": [
   "fiscal/cofog.csv",
@@ -69,7 +68,6 @@
   "credit/debt_service.csv",
   "credit/debt_service_statcan.csv",
   "credit/household_credit.csv",
-  "credit/household_credit_statcan.csv",
   "credit/mortgage_rates.csv",
   "credit/npl.csv",
   "markets/rates.csv"
@@ -77,7 +75,6 @@
  "12-migration": [
   "international/population.csv",
   "migration/pr_admissions.csv",
-  "migration/pr_by_origin.csv",
   "migration/study_permits.csv",
   "social/demography.csv",
   "social/migrant_stock.csv"

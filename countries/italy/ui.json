@@ -20,7 +20,9 @@
     ],
     "unavailable": [
       {"term": "Salario minimo legale nazionale", "detail": "Non applicabile: l'Italia non ha un salario minimo legale nazionale; i minimi dei CCNL sono misure diverse."},
-      {"term": "Omicidi di criminalità organizzata", "detail": "Le colonne ISTAT 73_67 MAFFIAHOM/ATTEMPHOM non sono state recuperabili durante questa edizione; la tavola resta vuota invece di usare un sostituto."}
+      {"term": "Omicidi di criminalità organizzata", "detail": "Le colonne ISTAT 73_67 MAFFIAHOM/ATTEMPHOM non sono state recuperabili durante questa edizione; la tavola resta vuota invece di usare un sostituto."},
+      {"term": "Serie annuale delle destinazioni delle esportazioni", "detail": "È stata verificata solo l'istantanea Comtrade del 2023. Lo slot canonico resta in attesa; l'istantanea doganale è conservata nella lente."},
+      {"term": "Morti stradali comparabili", "detail": "La serie disponibile da certificati copre tutti i modi di trasporto. Lo slot stradale resta in attesa dei decessi ISTAT a 30 giorni o di Eurostat tran_sf_roadus."}
     ]
   },
   "en": {
@@ -44,7 +46,9 @@
     ],
     "unavailable": [
       {"term": "National statutory minimum wage", "detail": "Not applicable: Italy has no national statutory minimum wage; sectoral collective-agreement floors are different measures."},
-      {"term": "Organised-crime homicide", "detail": "ISTAT columns 73_67 MAFFIAHOM/ATTEMPHOM could not be retrieved for this edition; the plate remains blank rather than using a substitute."}
+      {"term": "Organised-crime homicide", "detail": "ISTAT columns 73_67 MAFFIAHOM/ATTEMPHOM could not be retrieved for this edition; the plate remains blank rather than using a substitute."},
+      {"term": "Annual export-destination series", "detail": "Only the reviewed 2023 Comtrade snapshot is staged. The canonical time-series slot remains pending; the customs snapshot is retained in the lens."},
+      {"term": "Comparable road deaths", "detail": "The available death-certificate series covers all transport modes. The road slot remains pending for ISTAT 30-day road deaths or Eurostat tran_sf_roadus."}
     ]
   },
   "pt": {
@@ -68,7 +72,9 @@
     ],
     "unavailable": [
       {"term": "Salário mínimo legal nacional", "detail": "Não aplicável: a Itália não tem salário mínimo legal nacional; os pisos de acordos coletivos setoriais são medidas diferentes."},
-      {"term": "Homicídios ligados ao crime organizado", "detail": "Não foi possível recuperar as colunas 73_67 MAFFIAHOM/ATTEMPHOM do ISTAT nesta edição; a prancha permanece vazia em vez de usar um substituto."}
+      {"term": "Homicídios ligados ao crime organizado", "detail": "Não foi possível recuperar as colunas 73_67 MAFFIAHOM/ATTEMPHOM do ISTAT nesta edição; a prancha permanece vazia em vez de usar um substituto."},
+      {"term": "Série anual de destinos das exportações", "detail": "Só a fotografia Comtrade de 2023 foi verificada. O slot canônico permanece pendente; a fotografia aduaneira fica na lente."},
+      {"term": "Mortes rodoviárias comparáveis", "detail": "A série disponível por certidões cobre todos os modos de transporte. O slot rodoviário fica pendente até os óbitos do ISTAT em 30 dias ou Eurostat tran_sf_roadus."}
     ]
   }
 }

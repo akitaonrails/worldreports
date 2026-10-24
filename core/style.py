@@ -14,6 +14,7 @@ other.
 from __future__ import annotations
 
 from pathlib import Path
+import re
 
 import matplotlib as mpl
 import matplotlib.lines
@@ -212,9 +213,9 @@ class Infographic:
 
         The axes carries its key as its gid and as `ax.spine_slot`. A
         signed slot gets its zero line now and a log slot its log scale,
-        so the plate draws onto the right axis; the reference range is
-        applied in save(), after the drawing, so it can see every value
-        and grow to hold them. `unit=False` leaves the shared unit off the
+        so the plate draws onto the right axis; the shared range is applied
+        in save(), after the drawing, so overflow is caught. `unit=False`
+        leaves the shared unit off the
         y-axis label, for a panel that states it some other way.
         """
         where = f"{self.country.slug}/{self.topic}"
@@ -243,6 +244,7 @@ class Infographic:
         ax = self.axes_flat[i]
         ax.set_gid(key)
         ax.spine_slot = s
+        ax.spine_unit = s.unit
         if label:
             self._title(ax, label)
         if unit and s.unit:
@@ -367,11 +369,11 @@ class Infographic:
         """Put every canonical panel on its reference scale.
 
         Run after the plate has drawn, so the limits can see every value.
-        Data inside the reference range get exactly that range; data that
-        leave it grow the axis until they fit — they are never clipped —
-        and the panel says "scale extended". A pending panel has nothing
-        to scale and a lens slot is the country's own, so both are left
-        as drawn. Does nothing on a plate without a topic.
+        Every canonical panel gets exactly the atlas-wide range, including
+        a visibly pending one. Data that leave it fail the render so a
+        maintainer widens the one shared range and regenerates every peer;
+        one country's SVG must never acquire a different pixel transform.
+        Lens slots remain country-specific. Does nothing off the spine.
         """
         if self.topic is None:
             return
@@ -390,7 +392,7 @@ class Infographic:
                         f"claimed as {s.key}")
                 ax.set_visible(False)
                 continue
-            if not s.canonical or getattr(ax, "spine_pending", False):
+            if not s.canonical:
                 continue
             (lo, hi), grew = spine.fit(s, spine.data_extent(ax))
             if s.scale == spine.LOG:
@@ -402,11 +404,6 @@ class Infographic:
                 ax.yaxis.set_minor_locator(mticker.NullLocator())
             ax.set_ylim(lo, hi)
             ax.spine_extended = grew
-            if grew:
-                ax.text(1.0, 1.0, spine.EXTENDED, transform=ax.transAxes,
-                        ha="right", va="bottom", fontsize=7.6,
-                        color=self.p.faint, style="italic",
-                        gid=spine.EXTENDED_GID, clip_on=False)
 
     # ------------------------------------------------------------- save
     def compose(self) -> None:
@@ -433,7 +430,15 @@ class Infographic:
         if i18n.LANG != "en":
             path = path.with_name(f"{path.stem}.{i18n.LANG}{path.suffix}")
         self.fig.savefig(path, dpi=170)
-        self.fig.savefig(path.with_suffix(".svg"))
+        svg = path.with_suffix(".svg")
+        self.fig.savefig(svg)
+        # Matplotlib emits trailing spaces in multi-line SVG path data.
+        # Git treats them as whitespace errors; normalise the generated
+        # artifact centrally so every render is diff-check clean.
+        raw = svg.read_bytes()
+        clean = re.sub(rb"[ \t]+(?=\r?$)", b"", raw, flags=re.MULTILINE)
+        if clean != raw:
+            svg.write_bytes(clean)
         plt.close(self.fig)
         return path
 

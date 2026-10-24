@@ -156,10 +156,6 @@
     "vi": "Kinh tế",
     "pt": "Assuntos econômicos"
   },
-  "Economy-wide credit is an explicit substitute for unavailable household debt.": {
-    "vi": "Tín dụng toàn nền kinh tế là dữ liệu thay thế được nêu rõ cho nợ hộ gia đình còn thiếu.",
-    "pt": "O crédito à economia é uma substituição explícita para a dívida familiar indisponível."
-  },
   "Education": {
     "vi": "Giáo dục",
     "pt": "Educação"
@@ -284,14 +280,6 @@
     "vi": "Hàn Quốc",
     "pt": "Coreia do Sul"
   },
-  "Lending rate vs inflation (%)": {
-    "vi": "Lãi suất cho vay và lạm phát (%)",
-    "pt": "Taxa de empréstimo e inflação (%)"
-  },
-  "Lending, the đồng and the VN-Index; missing official histories stay visible.": {
-    "vi": "Lãi suất cho vay, đồng Việt Nam và VN-Index; các chuỗi chính thức còn thiếu được nêu rõ.",
-    "pt": "Crédito, o đồng e o VN-Index; as séries oficiais ausentes permanecem explícitas."
-  },
   "Lens — Vietnamese emigrants abroad (millions)": {
     "vi": "Góc nhìn — người Việt ở nước ngoài (triệu)",
     "pt": "Lente — emigrantes vietnamitas no exterior (milhões)"
@@ -372,10 +360,6 @@
     "vi": "Tài sản cố định theo Cục Thống kê, tính theo tỷ trọng GDP",
     "pt": "Ativos fixos do NSO como proporção do PIB"
   },
-  "NSO households, national standard": {
-    "vi": "Hộ gia đình theo chuẩn quốc gia của Cục Thống kê",
-    "pt": "Domicílios segundo o padrão nacional do NSO"
-  },
   "NSO monthly income per person: quintile 5 divided by quintile 1": {
     "vi": "Thu nhập bình quân tháng theo Cục Thống kê: nhóm 5 chia nhóm 1",
     "pt": "Renda mensal por pessoa do NSO: quintil 5 dividido pelo quintil 1"
@@ -452,17 +436,9 @@
     "vi": "Tăng trưởng dân số chậm lại khi mức sinh giảm xuống dưới mức thay thế.",
     "pt": "O crescimento populacional desacelera com a fecundidade abaixo do nível de reposição."
   },
-  "Poverty rate (% of households / people)": {
-    "vi": "Tỷ lệ nghèo (% hộ / người)",
-    "pt": "Taxa de pobreza (% de domicílios / pessoas)"
-  },
   "Primary balance": {
     "vi": "Cân đối cơ bản",
     "pt": "Resultado primário"
-  },
-  "Private-sector credit (World Bank)": {
-    "vi": "Tín dụng khu vực tư nhân (Ngân hàng Thế giới)",
-    "pt": "Crédito ao setor privado (Banco Mundial)"
   },
   "Prosecuted": {
     "vi": "Khởi tố",
@@ -484,10 +460,6 @@
     "vi": "Tăng trưởng GDP thực (% mỗi năm)",
     "pt": "Crescimento real do PIB (% ao ano)"
   },
-  "Registered deaths vs 2018–2019 mean (%)": {
-    "vi": "Số chết đăng ký so với bình quân 2018–2019 (%)",
-    "pt": "Óbitos registrados ante a média de 2018–2019 (%)"
-  },
   "Revenue and expenditure (% of GDP)": {
     "vi": "Thu và chi (% GDP)",
     "pt": "Receita e despesa (% do PIB)"
@@ -496,10 +468,6 @@
     "vi": "Tử vong giao thông (trên 100.000)",
     "pt": "Mortes no trânsito (por 100.000)"
   },
-  "SBV policy-rate history unavailable; lending rate shown explicitly": {
-    "vi": "Không có chuỗi lãi suất chính sách của SBV; lãi suất cho vay được nêu rõ",
-    "pt": "Série da taxa básica do SBV indisponível; taxa de empréstimo mostrada explicitamente"
-  },
   "Secondary-income credits / 10": {
     "vi": "Tín dụng thu nhập thứ cấp / 10",
     "pt": "Créditos de renda secundária / 10"
@@ -507,10 +475,6 @@
   "Security and Road Safety": {
     "vi": "An ninh và an toàn đường bộ",
     "pt": "Segurança e Trânsito"
-  },
-  "Short register forces a fixed 2018–2019 baseline": {
-    "vi": "Chuỗi đăng ký ngắn buộc dùng đường cơ sở cố định 2018–2019",
-    "pt": "A série curta de registros exige uma base fixa de 2018–2019"
   },
   "Short-term VND lending": {
     "vi": "Lãi suất cho vay VND ngắn hạn",
@@ -767,5 +731,49 @@
   "Sources: IMF · UNDP · NSO · World Bank · Transparency International": {
     "vi": "Nguồn: IMF · UNDP · Cục Thống kê · Ngân hàng Thế giới · Transparency International",
     "pt": "Fontes: FMI · PNUD · NSO · Banco Mundial · Transparency International"
+  },
+  "Economy-wide private credit / GDP": {
+    "vi": "Tín dụng tư nhân toàn nền kinh tế / GDP",
+    "pt": "Crédito privado de toda a economia / PIB"
+  },
+  "Economy-wide private credit is not household debt; no verified household series is staged": {
+    "vi": "Tín dụng tư nhân toàn nền kinh tế không phải là nợ hộ gia đình; chưa có chuỗi hộ gia đình đã được kiểm chứng",
+    "pt": "O crédito privado de toda a economia não é dívida familiar; não há série familiar verificada preparada"
+  },
+  "Excess deaths vs 2015–2019 mean (%)": {
+    "vi": "Số tử vong vượt mức so với bình quân 2015–2019 (%)",
+    "pt": "Óbitos excedentes ante a média de 2015–2019 (%)"
+  },
+  "Household debt (% of GDP)": {
+    "vi": "Nợ hộ gia đình (% GDP)",
+    "pt": "Dívida familiar (% do PIB)"
+  },
+  "Household debt stays pending; economy-wide credit remains in the country lens.": {
+    "vi": "Nợ hộ gia đình vẫn đang chờ; tín dụng toàn nền kinh tế chỉ được giữ trong góc nhìn quốc gia.",
+    "pt": "A dívida familiar permanece pendente; o crédito de toda a economia fica na lente nacional."
+  },
+  "No verified SBV policy-rate history is staged; commercial lending rates remain on the credit plate": {
+    "vi": "Chưa có lịch sử lãi suất chính sách của SBV đã được kiểm chứng; lãi suất cho vay thương mại nằm trên bảng tín dụng",
+    "pt": "Não há histórico verificado da taxa de política do SBV; as taxas de empréstimos comerciais permanecem no quadro de crédito"
+  },
+  "Policy rate vs inflation (%)": {
+    "vi": "Lãi suất chính sách và lạm phát (%)",
+    "pt": "Taxa de política e inflação (%)"
+  },
+  "Poverty rate (% of people)": {
+    "vi": "Tỷ lệ nghèo (% dân số)",
+    "pt": "Taxa de pobreza (% de pessoas)"
+  },
+  "The death register begins in 2018, so the canonical 2015–2019 baseline cannot be computed": {
+    "vi": "Đăng ký tử vong bắt đầu từ năm 2018, nên không thể tính đường cơ sở chuẩn 2015–2019",
+    "pt": "O registro de óbitos começa em 2018, portanto não é possível calcular a base canônica de 2015–2019"
+  },
+  "The policy history stays pending; the đồng and VN-Index remain comparable.": {
+    "vi": "Lịch sử lãi suất chính sách vẫn đang chờ; đồng Việt Nam và VN-Index vẫn có thể so sánh.",
+    "pt": "O histórico da taxa de política permanece pendente; o đồng e o VN-Index continuam comparáveis."
+  },
+  "The short register cannot supply the shared 2015–2019 excess baseline; WHO causes remain separate.": {
+    "vi": "Chuỗi đăng ký ngắn không thể cung cấp đường cơ sở tử vong vượt mức chung 2015–2019; nguyên nhân của WHO được giữ riêng.",
+    "pt": "O registro curto não fornece a base comum de excesso de 2015–2019; as causas da OMS permanecem separadas."
   }
 }

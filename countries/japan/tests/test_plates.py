@@ -171,3 +171,12 @@ def test_unavailable_disclosures_exist_in_every_published_language():
     ui = json.loads((Country.load(SLUG).dir / "ui.json").read_text())
     assert set(ui) == {"ja", "en", "pt"}
     assert all(locale["unavailable"] for locale in ui.values())
+
+
+def test_road_slot_rejects_the_broader_all_accidents_category():
+    panel = plate(SLUG, "plate_security").panel("Road traffic deaths")
+    assert not panel.lines()
+    text = " ".join(panel.texts()).lower()
+    assert "pending" in text
+    notes = (Country.load(SLUG).dir / "DATA_NOTES.md").read_text().lower()
+    assert "broader\naccident category" in notes

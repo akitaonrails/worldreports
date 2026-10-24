@@ -776,7 +776,9 @@ mortality:
       because late registrations land in the year they are filed. The
       "Quá hạn" (late) column measures that, and the plate shows it. No
       cause of death: Vietnam has no national ICD-coded death register in
-      any machine-readable form.
+      any machine-readable form. Because the register begins only in 2018,
+      it cannot supply the canonical 2015–2019 excess-deaths baseline; the
+      canonical slot remains pending rather than using a 2018–2019 substitute.
   hiv_from_gso.csv:
     source: Cục Thống kê (NSO) — PX-Web V14.19, HIV/AIDS cases and deaths by province; source of record Ministry of Health
     url: https://pxweb.nso.gov.vn/pxweb/vi/Y tế, văn hóa và MSDC/Y tế, văn hóa và MSDC/V14.19.px/

@@ -173,7 +173,8 @@ def plate_economy(ctx, ig) -> None:
                 textcoords="offset points", xytext=(-8, 4), ha="right",
                 fontsize=8.8, fontweight="bold", color=p.RED)
     _note(p, ax, 0.02, 0.96, "Bank of Canada target: 2%, inside a 1–3% band")
-    ax.legend(loc="lower left", fontsize=7.6, frameon=False)
+    ax.legend(loc="upper right", fontsize=7.6, frameon=False,
+              bbox_to_anchor=(1.0, 0.90))
     _foot(p, ax, "World Bank redistribution of StatCan's CPI and StatCan's "
           "own 18-10-0005 annual average — one statistic, two publishers")
 
@@ -248,25 +249,18 @@ def plate_fiscal(ctx, ig) -> None:
     _note(p, ax, 0.98, 0.10, "2020-21: the largest federal deficit\n"
           "in Canadian peacetime", ha="right", va="bottom", size=7.8)
 
-    ax = ig.slot("fiscal.debt", "Gross debt (% of GDP) — and the two "
-                 "figures quoted instead")
+    ax = ig.slot("fiscal.debt", "Gross debt (% of GDP)")
     gy, gv = _yr(ctx, GG, "gross_debt_pct_gdp")
-    ny, nv = _yr(ctx, "international/g7_net_debt.csv", "canada")
-    fy_d = _fy(ctx, TX, "accumulated_deficit")
     ctx.line(ax, gy, gv, p.RED, label="General government, gross")
-    ctx.line(ax, *fy_d, p.GOLD, lw=1.8, ms=3.2, dashed_partial=False,
-             label="Federal accumulated deficit (fiscal years)")
-    ctx.line(ax, ny, nv, p.NAVY, lw=1.8, ms=3.2,
-             label="General government, net of CPP/QPP assets")
     ig.add_recessions(ax, label=False)
     ctx.endlabel(ax, gy, gv, p.RED, lambda v: f"{v:.1f}%", dy=7)
     ax.legend(loc="upper left", fontsize=7.6, frameon=False)
     acc = ctx.rows("fiscal/liabilities.csv", key="fiscal_year") or {}
     last = max(acc)
-    _note(p, ax, 0.98, 0.40, f"federal accumulated deficit {last}-"
+    _note(p, ax, 0.02, 0.40, f"federal accumulated deficit {last}-"
           f"{(last + 1) % 100:02d}: C${float(acc[last]['accumulated_deficit_mn']) / 1e6:.2f}tn;\n"
-          "the net figure is low because the pension plans'\nassets are "
-          "netted off", ha="right", va="bottom", size=7.6)
+          "federal accumulated deficit (not gross debt); quoted here as "
+          "context, not overlaid", ha="left", va="bottom", size=7.6)
 
     ax = ig.slot("fiscal.interest", "Interest paid (% of GDP)")
     iy, iv = _yr(ctx, "fiscal/gfs_operations.csv", "interest_payable")
@@ -279,7 +273,7 @@ def plate_fiscal(ctx, ig) -> None:
     ctx.endlabel(ax, iy, iv, p.PURPLE, lambda v: f"{v:.1f}%", dy=8)
     ax.legend(loc="upper right", fontsize=7.6, frameon=False)
     low = min(zip(iy, iv), key=lambda t: t[1])
-    _note(p, ax, 0.02, 0.38, f"cheap money: a {low[1]:.1f}% trough in "
+    _note(p, ax, 0.02, 0.58, f"cheap money: a {low[1]:.1f}% trough in "
           f"{low[0]};\n{iv[-1]:.1f}% again by {iy[-1]}", size=7.8)
     _finish(ctx, ig)
 
@@ -477,11 +471,9 @@ def plate_markets(ctx, ig) -> None:
     _bands_labelled_at(ig, ax, 0.80, p)
     ctx.endlabel(ax, ey, ev, p.NAVY, lambda v: f"{v:.2f}%", dy=8)
     ax.legend(loc="upper left", fontsize=7.8, frameon=False)
-    ax.annotate(f"{_at(ey, ev, 2007):.2f}% to {_at(ey, ev, 2009):.2f}% "
-                "in sixteen months", xy=(2009, _at(ey, ev, 2009)),
-                xytext=(2009.6, 7.2), fontsize=8.0, color=p.MUTED,
-                style="italic",
-                arrowprops=dict(arrowstyle="-", color=p.FAINT, lw=0.8))
+    _note(p, ax, 0.98, 0.90,
+          f"{_at(ey, ev, 2007):.2f}% to {_at(ey, ev, 2009):.2f}% "
+          "in sixteen months", ha="right")
     _mark(ig, ax, "hikes", dy=0.62)
 
     ax = ig.slot("markets.bond_10y", "10-year government bond yield "
@@ -847,9 +839,9 @@ def plate_security(ctx, ig) -> None:
              label="all transport accidents, death registrations (OECD)")
     ig.add_recessions(ax, label=False)
     ax.legend(loc="upper right", fontsize=7.8, frameon=False)
-    _note(p, ax, 0.02, 0.10, f"WHO's road series ends in {max(ry)}; the "
+    _note(p, ax, 0.02, 0.64, f"WHO's road series ends in {max(ry)}; the "
           "registrations include\nrail, water and air, so they sit a "
-          "little above it", va="bottom", size=7.6)
+          "little above it", size=7.6)
     _foot(p, ax, "WHO via the World Bank, and the OECD")
 
     ax = ig.slot("security.lens", "Lens — apparent opioid toxicity deaths "
@@ -970,25 +962,17 @@ def plate_credit(ctx, ig) -> None:
     hy, hv = _yr(ctx, "credit/household_credit.csv", "hh_credit_pct_gdp_q4")
     ctx.line(ax, hy, hv, p.RED, label="BIS, share of GDP")
     ig.add_recessions(ax, label=False)
-    sy, sv = _yr(ctx, "credit/household_credit_statcan.csv",
-                 "hh_debt_to_disp_income_q4")
-    ctx.line(ax, sy, sv, p.PURPLE, label="StatCan, share of "
-             "disposable income")
     pk = max(zip(hy, hv), key=lambda t: t[1])
     ax.annotate(f"{pk[1]:.1f}% in {pk[0]}", pk, textcoords="offset points",
                 xytext=(0, 8), ha="center", fontsize=8.6, fontweight="bold",
                 color=p.RED)
-    spk = max(zip(sy, sv), key=lambda t: t[1])
-    ax.annotate(f"{spk[1]:.1f}% in {spk[0]}", spk, textcoords="offset points",
-                xytext=(0, -20), ha="center", va="top", fontsize=8.6,
-                fontweight="bold", color=p.PURPLE)
     _note(p, ax, 0.98, 0.16, f"{hv[0]:.0f}% in {hy[0]}: cheap credit put "
           "Canada\namong the most indebted\nhouseholds in the G7", size=7.8,
           ha="right")
     ax.legend(loc="lower left", fontsize=7.4, frameon=False)
-    _foot(p, ax, "BIS credit to households over GDP; StatCan measures the "
-          "same balance sheet against disposable income — different "
-          "denominators, two lines")
+    _foot(p, ax, "BIS credit to households over GDP; StatCan's disposable-"
+          "income ratio is retained in the source file but not mixed onto "
+          "this canonical GDP axis")
 
     ax = ig.slot("credit.lending_rate", "Mortgage rates vs the policy "
                  "rate (%)")
@@ -1054,27 +1038,15 @@ def plate_migration(ctx, ig) -> None:
                         since=2005)))
     last_pop = max(pop)
 
-    ax = ig.slot("migration.flows", "Permanent residents admitted "
+    ax = ig.slot("migration.flows", "Immigration and emigration "
                  "(per 1,000 people)")
+    ctx.pending(ax)
+    _foot(p, ax, "StatCan gross flows not staged; PR admissions stay in "
+          "the lens")
+
     ay, av = _yr(ctx, "migration/pr_admissions.csv", "admissions",
                  until=last_pop)
     ry, rv = ctx.per_1000(dict(zip(ay, av)), pop)
-    ctx.bars(ax, ry, rv, lambda v: p.RED)
-    _bands_labelled_at(ig, ax, 0.46, p)
-    pk = max(zip(ay, av), key=lambda t: t[1])
-    ax.annotate(f"{pk[1]:,.0f}", (pk[0], _at(ry, rv, pk[0])),
-                textcoords="offset points", xytext=(0, 4), ha="center",
-                fontsize=8.6, fontweight="bold", color=p.RED)
-    o = ctx.rows("migration/pr_by_origin.csv") or {}
-    india = float(o[pk[0]]["india"])
-    _note(p, ax, 0.02, 0.96, "IRCC's open data begins in 2015:\n2006–14 are "
-          f"not in this series. India: {india / pk[1] * 100:.0f}% of "
-          f"the {pk[0]} admissions", size=7.8)
-    _note(p, ax, 0.02, 0.72, "emigration here is the UN's estimate; "
-          "StatCan's own is in the demography plate", size=7.6,
-          color=p.FAINT)
-    _foot(p, ax, "IRCC (cells rounded to fives) ÷ the mid-year population; "
-          "2026, a part-year, is not drawn")
 
     ax = ig.slot("migration.net", "Net migration (per 1,000 people)")
     D = "social/demography.csv"
@@ -1112,6 +1084,8 @@ def plate_migration(ctx, ig) -> None:
                  until=last_pop)
     py, pv = ctx.per_1000(dict(zip(sy, sv)), pop)
     ctx.bars(ax, py, pv, lambda v: p.TEAL)
+    ctx.line(ax, ry, rv, p.RED, lw=1.8, ms=3.2,
+             label="Permanent residents admitted per year")
     ax.set_ylabel("per 1,000 people", fontsize=8.6, color=p.MUTED)
     ig.add_recessions(ax, label=False)
     pk = max(zip(sy, sv), key=lambda t: t[1])
@@ -1123,8 +1097,9 @@ def plate_migration(ctx, ig) -> None:
     _note(p, ax, 0.02, 0.96, "permits signed in the year — a permit runs "
           "for years, so the\nstock of students present is several times "
           "larger", size=7.8)
-    _foot(p, ax, "IRCC ÷ the mid-year population; the non-permanent-resident "
-          "stock is Statistics Canada's — pending")
+    ax.legend(loc="lower left", fontsize=7.5, frameon=False)
+    _foot(p, ax, "IRCC policy flows ÷ the mid-year population; admissions "
+          "are a subset of immigration, not the canonical gross flow")
     _finish(ctx, ig)
 
 
@@ -1158,9 +1133,9 @@ PLATES = (
              "41%; the general-government balance reaches −10.9% of GDP in "
              "2020 while the federal budgetary balance reaches −14.8% in "
              "fiscal 2020-21, the largest federal deficit in peacetime; "
-             "gross general-government debt is 113.6% of GDP in 2025, while "
-             "the federal accumulated deficit is about 41% and the net "
-             "general-government debt about 12%; interest paid by all "
+             "gross general-government debt is 113.6% of GDP in 2025; the "
+             "federal accumulated-deficit level is quoted only as context, "
+             "not overlaid on the canonical gross axis; interest paid by all "
              "governments returns to 3.5% of GDP."),
     dict(id="03", slug="spending", topic="spending", builder=plate_spending,
          title="Where the Money Goes — Spending by Function and Investment",
@@ -1277,16 +1252,15 @@ PLATES = (
              "100,000."),
     dict(id="11", slug="credit", topic="credit", builder=plate_credit,
          title="Credit — Household Debt and What It Costs",
-         subtitle="Household debt from the BIS with StatCan's "
-                  "debt-to-income line beside it, and servicing costs "
-                  "measured twice.",
+         subtitle="Household debt from the BIS on the canonical GDP basis, "
+                  "and servicing costs measured twice.",
          source="Sources: BIS · Bank of Canada — Valet · World Bank / IMF "
                 "Financial Soundness Indicators · Statistics Canada "
                 "38-10-0235, 11-10-0065",
          alt="Four panels on household credit. Household debt climbs from "
              "76% of GDP in 2006 to 113% in 2020 and is about 100% in 2025, "
-             "while StatCan's own debt-to-disposable-income ratio peaks at "
-             "182% in 2022; "
+             "with StatCan's differently denominated debt-to-income ratio "
+             "kept in the source file rather than overlaid; "
              "the rate on new mortgages rises from about 2% in 2021 to 5.8% "
              "in 2023; non-performing bank loans peak at 1.3% in 2009; the "
              "debt service ratio reaches 14.6% of disposable income in "
@@ -1295,13 +1269,14 @@ PLATES = (
     dict(id="12", slug="migration", topic="migration",
          builder=plate_migration,
          title="Migration — Who Arrives, and How the Policy Reversed",
-         subtitle="Admissions, permits and net migration per 1,000 people; "
-                  "IRCC's open data begins in 2015.",
+         subtitle="Comparable gross flows are pending; admissions, permits "
+                  "and net migration remain distinct measures.",
          source="Sources: IRCC open data · World Bank WDI (UN WPP, "
                 "UN DESA)",
-         alt="Four panels on Canadian migration, per 1,000 people. "
-             "Permanent-resident admissions run from about 7.6 per 1,000 in "
-             "2015 to 11.7 in 2024 (480,955 people), then are cut; net "
+         alt="Four panels on Canadian migration, per 1,000 people. The "
+             "canonical gross immigration and emigration pair is pending; "
+             "permanent-resident admissions are retained in the policy lens, "
+             "rising to 480,955 people in 2024 before being cut; net "
              "migration peaks near 12 per 1,000 in 2022; the foreign-born "
              "share is about 22% of the population; study permits signed "
              "peak at 17.5 per 1,000 in 2023, a flow, not the stock."),

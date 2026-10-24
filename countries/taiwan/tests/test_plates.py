@@ -171,16 +171,9 @@ def test_social_protection_pair_adds_to_total():
 
 
 # --------------------------------------------------------------------- trade
-def test_the_balance_is_the_difference_not_a_third_series():
-    gd = by_year("trade/goods.csv")
-    g = by_year("economy/gdp.csv")
-    want = (num(gd[2025], "exports_usd_thousands") - num(gd[2025], "imports_usd_thousands")) \
-        / 1e3 / num(g[2025], "gdp_nominal_usd_mn") * 100
-    assert want == pytest.approx(16.8, abs=0.1)
-    t = " ".join(texts("plate_trade", "Trade balance"))
-    assert "+16.8%" in t, "the gap label must print the difference once converted"
-    assert all(num(r, "exports_usd_thousands") >= num(r, "imports_usd_thousands")
-               for r in gd.values()), "the never-in-deficit note"
+def test_goods_only_data_do_not_occupy_goods_and_services_slots():
+    is_pending("plate_trade", "Exports and imports, goods and services")
+    is_pending("plate_trade", "Trade balance, goods and services")
 
 
 def test_the_twice_counted_lens_keeps_both_counts_apart():

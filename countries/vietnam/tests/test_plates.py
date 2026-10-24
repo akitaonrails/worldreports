@@ -60,10 +60,34 @@ def test_currency_index_is_inverted():
     assert points[2024] == pytest.approx(rate[2006]/rate[2024]*100)
 
 
-def test_credit_substitute_is_labelled_not_household_debt():
-    p = plate(SLUG,"plate_credit").panel("Credit to the economy")
-    assert "Private-sector credit (World Bank)" in p.legend_labels()
-    assert any("no household-debt" in t for t in p.texts())
+def test_household_debt_is_pending_and_economy_wide_credit_stays_in_lens():
+    household = plate(SLUG, "plate_credit").panel("Household debt")
+    assert not household.data_lines()
+    assert any("not household debt" in t for t in household.texts())
+
+    lens = plate(SLUG, "plate_credit").panel("Lens")
+    assert "Economy-wide private credit / GDP" in lens.legend_labels()
+
+
+def test_commercial_lending_rates_do_not_fill_the_policy_slot():
+    policy = plate(SLUG, "plate_markets").panel("Policy rate")
+    assert not policy.data_lines()
+    assert any("commercial lending rates" in t for t in policy.texts())
+
+    lending = plate(SLUG, "plate_credit").panel("Average lending")
+    assert "Short-term VND lending" in lending.legend_labels()
+
+
+def test_poverty_panel_does_not_mix_households_and_people():
+    p = plate(SLUG, "plate_people").panel("Poverty rate")
+    assert p.legend_labels() == ["World Bank people, national line"]
+    assert not any("household" in label.lower() for label in p.legend_labels())
+
+
+def test_excess_deaths_requires_the_canonical_baseline():
+    p = plate(SLUG, "plate_mortality").panel("Excess deaths")
+    assert not p.data_lines()
+    assert any("2015–2019 baseline" in t for t in p.texts())
 
 
 def test_gini_method_segments_do_not_join():

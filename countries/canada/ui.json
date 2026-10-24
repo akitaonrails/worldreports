@@ -5,8 +5,8 @@
   "notes": [
    "2026 is a partial year. Annual totals and averages on this page stop at 2025; readings that are genuinely current — a policy rate, an exchange rate — are marked <em>latest</em>.",
    "The fiscal plates run on Ottawa’s fiscal year, April to March, labelled by the year it starts in: 2024 is 2024-25. The same panels draw general government on calendar years beside the federal accounts on fiscal ones, drawn at the fiscal year’s midpoint; every line says which basis it is on.",
-   "Canada has three debts that are quoted as one: the federal accumulated deficit, federal net debt, and general-government gross debt. The plates draw them separately and say which is which.",
-   "IRCC’s open data begins in 2015 and rounds every cell to a multiple of five; the migration plates start there and say so.",
+   "Canada has three debts that are quoted as one: the federal accumulated deficit, federal net debt, and general-government gross debt. The canonical panel draws only gross debt and keeps the other definitions in notes and source files.",
+   "IRCC’s open data begins in 2015 and rounds every cell to a multiple of five. Admissions and study permits are policy subsets in the lens, not substitutes for gross immigration and emigration.",
    "The Bank of Canada retired the USD noon rate in March 2017. The two exchange-rate series are drawn side by side and never spliced; 2006–07, where the Bank has no annual average, fall to the Federal Reserve’s H.10 series.",
    "The plates are drawn in all three languages, and so is this page."
   ],
@@ -35,6 +35,9 @@
     "term": "The national series, meanwhile",
     "detail": "World Bank WDI · IMF WEO, GFS and FSI · OECD · UN · WHO · BIS — the harmonised international versions of Statistics Canada’s tables, drawn while its platform is down; the StatCan line returns when the platform does"
    }
+  ],
+  "unavailable": [
+   {"term": "Comparable gross migration flows", "detail": "A consistent StatCan immigration-and-emigration pair was not staged while its platform was unavailable. The canonical slot remains pending; IRCC admissions and study permits stay in the lens as policy subsets."}
   ]
  },
  "fr": {
@@ -43,8 +46,8 @@
   "notes": [
    "2026 est une année incomplète. Les totaux et moyennes annuels de cette page s’arrêtent à 2025 ; les lectures réellement courantes — un taux directeur, un taux de change — portent la mention <em>dernier point</em>.",
    "Les planches budgétaires suivent l’exercice fédéral, d’avril à mars, nommé par l’année où il commence : 2024 signifie 2024-25. Les mêmes planches tracent les administrations publiques en années civiles à côté des comptes fédéraux en exercices, positionnés à leur mi-exercice ; chaque ligne dit sur quelle base elle est.",
-   "Le Canada a trois dettes que l’on cite comme une seule : le déficit accumulé fédéral, la dette nette fédérale et la dette brute des administrations publiques. Les planches les tracent séparément et disent laquelle est laquelle.",
-   "Les données ouvertes d’IRCC commencent en 2015 et arrondissent chaque cellule à un multiple de cinq ; les planches sur la migration commencent là et le disent.",
+   "Le Canada a trois dettes que l’on cite comme une seule : le déficit accumulé fédéral, la dette nette fédérale et la dette brute des administrations publiques. Le panneau canonique ne trace que la dette brute et garde les autres définitions dans les notes et fichiers sources.",
+   "Les données ouvertes d’IRCC commencent en 2015 et arrondissent chaque cellule à un multiple de cinq. Admissions et permis d’études sont des sous-ensembles de politique dans la lentille, pas des substituts aux flux bruts d’immigration et d’émigration.",
    "La Banque du Canada a retiré le taux de midi du dollar américain en mars 2017. Les deux séries de change sont tracées côte à côte et jamais raccordées ; 2006-07, où la Banque n’a pas de moyenne annuelle, reviennent à la série H.10 de la Réserve fédérale.",
    "Les planches sont tracées dans les trois langues, comme cette page."
   ],
@@ -73,6 +76,9 @@
     "term": "Les séries nationales, en attendant",
     "detail": "Banque mondiale (WDI) · FMI (PEP, SGP et IFS) · OCDE · ONU · OMS · BRI — les versions harmonisées des tableaux de Statistique Canada, tracées pendant que sa plateforme est hors service ; la ligne Statistique Canada reviendra avec la plateforme"
    }
+  ],
+  "unavailable": [
+   {"term": "Flux migratoires bruts comparables", "detail": "Une paire cohérente immigration-émigration de Statistique Canada n’a pas été mise en scène pendant l’indisponibilité de sa plateforme. Le panneau canonique reste en attente; admissions IRCC et permis d’études restent dans la lentille comme sous-ensembles de politique."}
   ]
  },
  "pt": {
@@ -81,8 +87,8 @@
   "notes": [
    "2026 é um ano parcial. Totais e médias anuais desta página param em 2025; as leituras genuinamente correntes — um juro básico, uma taxa de câmbio — vêm marcadas como <em>último dado</em>.",
    "As pranchas fiscais seguem o ano fiscal federal, de abril a março, nomeado pelo ano em que começa: 2024 significa 2024-25. As mesmas pranchas desenham o governo geral em anos civis ao lado das contas federais em anos fiscais, posicionados na meia-anualidade do exercício; cada linha diz em qual base está.",
-   "O Canadá tem três dívidas que são citadas como uma só: o déficit acumulado federal, a dívida líquida federal e a dívida bruta do governo geral. As pranchas as desenham separadamente e dizem qual é qual.",
-   "Os dados abertos do IRCC começam em 2015 e arredondam cada célula a um múltiplo de cinco; as pranchas de migração começam aí e dizem isso.",
+   "O Canadá tem três dívidas que são citadas como uma só: o déficit acumulado federal, a dívida líquida federal e a dívida bruta do governo geral. O painel canônico desenha apenas a dívida bruta e mantém as outras definições nas notas e arquivos-fonte.",
+   "Os dados abertos do IRCC começam em 2015 e arredondam cada célula a um múltiplo de cinco. Admissões e permissões de estudo são subconjuntos de política na lente, não substitutos para fluxos brutos de imigração e emigração.",
    "O Banco do Canadá aposentou a taxa do meio-dia do dólar americano em março de 2017. As duas séries de câmbio são desenhadas lado a lado e nunca emendadas; 2006-07, onde o Banco não tem média anual, ficam a cargo da série H.10 do Federal Reserve.",
    "As pranchas são desenhadas nos três idiomas, e esta página também."
   ],
@@ -111,6 +117,9 @@
     "term": "As séries nacionais, enquanto isso",
     "detail": "Banco Mundial (WDI) · FMI (PEM, SGF e IFS) · OCDE · ONU · OMS · BIS — as versões harmonizadas das tabelas do Statistics Canada, desenhadas enquanto sua plataforma está fora do ar; a linha do StatCan volta com a plataforma"
    }
+  ],
+  "unavailable": [
+   {"term": "Fluxos migratórios brutos comparáveis", "detail": "Um par consistente de imigração e emigração do Statistics Canada não foi preparado enquanto a plataforma estava indisponível. O painel canônico permanece pendente; admissões do IRCC e permissões de estudo ficam na lente como subconjuntos de política."}
   ]
  }
 }

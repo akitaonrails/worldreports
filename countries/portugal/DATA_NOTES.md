@@ -221,9 +221,10 @@ on 2021–2022.
   The DE yield beside it gives a computed spread (8.98pp in 2012).
 - Mortgage rates: two compilations (long series from 2003, percentile
   variable-rate from Dec-2018), two columns.
-- PSI 20: Yahoo starts 2013-04-30, so 2006–2012 are holes, and the 2026
-  cell is the live bar of the fetch date. It is a price index and
-  `official: false`.
+- PSI 20: Yahoo starts 2013-04-30, so it cannot truthfully be rebased to the
+  spine's common 2006 base. The canonical equity slot stays pending rather
+  than publishing a 2013-base series as comparable. The source remains
+  `official: false`; the 2026 cell is the live bar of the fetch date.
 - The policy rate's 2026 cell is the live DFR (2.50), not a year-end.
 
 ## Trade: two bases

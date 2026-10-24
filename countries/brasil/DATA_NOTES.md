@@ -266,14 +266,17 @@ There is no age adjustment.
 ### Fiscal: the IMF line is canonical, the Brazilian lines ride beside it
 
 General government on the IMF's basis is the spine's series. Brazil argues
-in other measures, and each is drawn as a labelled second line rather
-than substituted: the Tesouro's central-government primary result, the
+in other measures: the Tesouro's central-government primary result, the
 BCB's DBGG gross and DLSP net debt, and the NFSP nominal interest bill
 (new, `fiscal/nfsp.csv`, consolidated public sector). The IMF's interest
 is net interest, primary balance minus overall balance; the BCB's is
 nominal interest on the NFSP perimeter. They agree within about a point
 except 2023–24, when the BCB's runs higher. The tax burden keeps its 2010
 seam: two segments, never joined.
+
+The canonical debt slot draws only gross measures: IMF general-government
+gross and the BCB's DBGG gross definition. DLSP remains documented in the
+curated source but is not overlaid on the gross-debt axis.
 
 ### Spending: COFOG for the whole general government
 

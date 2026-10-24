@@ -81,9 +81,9 @@ def build(ctx) -> list[dict]:
             "id": "02_fiscal", "topic": "fiscal", "n": "02", "family": MONEY,
             "title": ctx.text(en="Balance, Debt & Interest", pt="Resultado, Dívida e Juros"),
             "blurb": ctx.text(en="General government on the IMF's basis, beside the "
-                "measures Brazil argues in: the primary result, DBGG, DLSP and the "
+                "measures Brazil argues in: the primary result, DBGG gross debt and the "
                 "interest bill.", pt="O governo geral pelo critério do FMI, ao lado das "
-                "medidas do debate brasileiro: resultado primário, DBGG, DLSP e a "
+                "medidas do debate brasileiro: resultado primário, dívida bruta DBGG e a "
                 "conta de juros."),
             "spark": ctx.col("fiscal/general_government.csv", "gross_debt_pct_gdp"),
             "spark_level": True,

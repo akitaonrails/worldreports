@@ -259,7 +259,7 @@ def plate_fiscal(ctx, ig):
     _legend(ctx, ax, loc="upper left", fontsize=8.0)
     _note(ctx, ax, "Federal gross debt includes what the Social Security\n"
                    "and Medicare trust funds hold; held by the public does not.",
-          y=0.04)
+          x=0.985, y=0.96, ha="right", va="top")
 
     ax = ig.slot("fiscal.interest", "Interest paid")
     gdp = _d(ctx, "macro/gdp.csv", "nominal_usdbn")
@@ -282,7 +282,7 @@ def plate_fiscal(ctx, ig):
     if cross:
         _note(ctx, ax, f"FY{cross}: federal net interest, {_fmt_bn(net[cross])},\n"
                        f"passed national defense, {_fmt_bn(defense[cross])}.",
-              y=0.05)
+              x=0.985, y=0.96, ha="right", va="top")
 
 
 # =============================================================== spending
@@ -411,8 +411,8 @@ def plate_trade(ctx, ig):
               getattr(ctx.p, colour), label=name, lw=2.2)
     _frame(ig, ax)
     _legend(ctx, ax, loc="upper left", ncol=3, fontsize=8.0)
-    _note(ctx, ax, "Census, goods on the customs basis.", y=0.04,
-          x=0.985, ha="right")
+    _note(ctx, ax, "Census, goods on the customs basis.", y=0.96,
+          x=0.985, ha="right", va="top")
 
     ax = ig.slot("trade.lens", "Where the goods come from")
     imports_total = _d(ctx, "trade/goods.csv", "imports")
@@ -488,7 +488,7 @@ def plate_markets(ctx, ig):
     last = max(usd)
     peak = max(usd, key=usd.get)
     _label(ctx, ax, peak, usd[peak], f"{usd[peak]:.0f} in {peak}",
-           ctx.p.NAVY, offset=(0, 7))
+           ctx.p.NAVY, offset=(0, -8), va="top")
     _legend(ctx, ax, loc="lower right")
     _note(ctx, ax, "Federal Reserve H.10, trade-weighted. The dollar is the\n"
                    "base currency, so the US line is a basket, not a rate.",
@@ -630,11 +630,7 @@ def plate_people(ctx, ig):
 
     ax = ig.slot("people.minimum_wage", "The federal minimum wage, a month of full-time work")
     mw = _d(ctx, "social/minimum_wage.csv", "federal_min_jan1")
-    idx = _d(ctx, "macro/cpi.csv", "index")
-    base = ctx.LAST_FULL_YEAR
     month = _scale(mw, HOURS_PER_MONTH)
-    real = {y: v * idx[base] / idx[y] for y, v in month.items() if y in idx}
-    _line(ctx, ax, real, ctx.p.RED, label=f"in {base} dollars (CPI-U)", lw=2.4)
     _line(ctx, ax, month, ctx.p.NAVY, label="in the dollars of the day",
           lw=2.6)
     _frame(ig, ax)
@@ -1010,8 +1006,8 @@ PLATES = (
               "its 2013 and 2017 method breaks, with the World Bank Gini "
               "beside it; the official and supplemental poverty rates and "
               "the World Bank's US$8.30-a-day line; the federal minimum wage "
-              "as a month of full-time work, in current and constant "
-              "dollars; and child poverty on the official and supplemental "
+              "as a month of full-time work in current dollars; and child "
+              "poverty on the official and supplemental "
               "measures, where the 2021 Child Tax Credit shows on one and "
               "not the other.")),
     dict(id="07", slug="world", topic="world", builder=plate_world,

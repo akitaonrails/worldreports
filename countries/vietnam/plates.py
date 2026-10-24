@@ -209,13 +209,9 @@ def plate_trade(ctx, ig):
 
 def plate_markets(ctx, ig):
     p = ctx.p
-    ax = ig.slot("markets.policy_rate", "Lending rate vs inflation (%)")
-    _line(ctx, ax, "markets/rates_fx.csv", "lending_vnd_short", p.NAVY,
-          "Average short-term lending rate")
-    y, idx = _yr(ctx, "macro/cpi.csv", "cpi")
-    ctx.line(ax, y, [n-100 for n in idx], p.RED, label="CPI inflation")
-    ax.legend(loc="upper right", fontsize=7.2, frameon=False)
-    _foot(p, ax, "SBV policy-rate history unavailable; lending rate shown explicitly")
+    ax = ig.slot("markets.policy_rate", "Policy rate vs inflation (%)")
+    ctx.pending(ax)
+    _foot(p, ax, "No verified SBV policy-rate history is staged; commercial lending rates remain on the credit plate")
 
     ax = ig.slot("markets.bond_10y", "10-year government bond yield")
     ctx.pending(ax)
@@ -240,11 +236,9 @@ def plate_markets(ctx, ig):
 
 def plate_credit(ctx, ig):
     p = ctx.p
-    ax = ig.slot("credit.household_debt", "Credit to the economy (% of GDP)")
-    _line(ctx, ax, "credit/private_credit.csv", "private_credit_pct_gdp", p.NAVY,
-          "Private-sector credit (World Bank)")
-    ax.legend(loc="upper left", fontsize=7.3, frameon=False)
-    _foot(p, ax, "Vietnam has no household-debt series; this is an explicit substitute")
+    ax = ig.slot("credit.household_debt", "Household debt (% of GDP)")
+    ctx.pending(ax)
+    _foot(p, ax, "Economy-wide private credit is not household debt; no verified household series is staged")
 
     ax = ig.slot("credit.lending_rate", "Average lending rate (%)")
     _line(ctx, ax, "markets/rates_fx.csv", "lending_vnd_short", p.GOLD,
@@ -258,6 +252,8 @@ def plate_credit(ctx, ig):
     _foot(p, ax, "ADB/IMF Financial Soundness Indicator")
 
     ax = ig.slot("credit.lens", "Lens — credit growth and money (% / % of GDP)")
+    _line(ctx, ax, "credit/private_credit.csv", "private_credit_pct_gdp", p.NAVY,
+          "Economy-wide private credit / GDP")
     _line(ctx, ax, "credit/credit_adb.csv", "m2_growth_pct", p.JADE, "M2 growth")
     _line(ctx, ax, "credit/credit_adb.csv", "m2_pct_gdp", p.PURPLE, "M2 / GDP")
     ax.legend(loc="upper left", fontsize=7.4, frameon=False)
@@ -275,9 +271,7 @@ def plate_people(ctx, ig):
           "World Bank consumption Gini")
     _mark(ig, ax, "gini_break"); ax.legend(loc="lower left", fontsize=6.8, frameon=False)
 
-    ax = ig.slot("people.poverty", "Poverty rate (% of households / people)")
-    _line(ctx, ax, "social/poverty.csv", "poverty_national_pct", p.RED,
-          "NSO households, national standard")
+    ax = ig.slot("people.poverty", "Poverty rate (% of people)")
     _line(ctx, ax, "social/inequality_wb.csv", "poverty_national_line_pct", p.GOLD,
           "World Bank people, national line", ls="--")
     ax.legend(loc="upper right", fontsize=6.9, frameon=False)
@@ -377,11 +371,9 @@ def plate_mortality(ctx, ig):
     ax = ig.slot("mortality.death_rate", "Crude death rate (per 1,000)")
     _line(ctx, ax, "demography/vital_rates.csv", "cdr_total_per_mille", p.RED, "NSO survey")
 
-    ax = ig.slot("mortality.excess_deaths", "Registered deaths vs 2018–2019 mean (%)")
-    y, v = _yr(ctx, "mortality/registered_deaths.csv", "deaths_registered_total", since=2018)
-    base = sum(n for yy,n in zip(y,v) if yy in (2018,2019))/2
-    ctx.bars(ax, y, [(n/base-1)*100 for n in v], lambda n: p.RED if n>0 else p.JADE)
-    _foot(p, ax, "Short register forces a fixed 2018–2019 baseline")
+    ax = ig.slot("mortality.excess_deaths", "Excess deaths vs 2015–2019 mean (%)")
+    ctx.pending(ax)
+    _foot(p, ax, "The death register begins in 2018, so the canonical 2015–2019 baseline cannot be computed")
 
     ax = ig.slot("mortality.covid", "COVID-19 deaths, modelled (per 100,000)")
     t = ctx.table("mortality/causes.csv")
@@ -429,12 +421,12 @@ PLATES = (
     dict(id="02", slug="fiscal", topic="fiscal", builder=plate_fiscal, title="Public Finances", subtitle="General-government accounts remain separate from the state budget.", source="Sources: ADB · IMF · NSO", alt="Four panels on Vietnam's public finances."),
     dict(id="03", slug="spending", topic="spending", builder=plate_spending, title="Public Spending and Investment", subtitle="National budget heads beside the whole economy's investment rate.", source="Sources: NSO · ADB", alt="Four panels on spending and investment in Vietnam."),
     dict(id="04", slug="trade", topic="trade", builder=plate_trade, title="Trade", subtitle="An export economy whose partner balances point in opposite directions.", source="Source: NSO", alt="Four panels on Vietnam's trade."),
-    dict(id="05", slug="markets", topic="markets", builder=plate_markets, title="Markets", subtitle="Lending, the đồng and the VN-Index; missing official histories stay visible.", source="Sources: NSO/SBV · World Bank · CafeF", alt="Four panels on Vietnam's markets."),
-    dict(id="06", slug="credit", topic="credit", builder=plate_credit, title="Credit and Money", subtitle="Economy-wide credit is an explicit substitute for unavailable household debt.", source="Sources: NSO/SBV · ADB · World Bank", alt="Four panels on credit and money in Vietnam."),
+    dict(id="05", slug="markets", topic="markets", builder=plate_markets, title="Markets", subtitle="The policy history stays pending; the đồng and VN-Index remain comparable.", source="Sources: NSO/SBV · World Bank · CafeF", alt="Four panels on Vietnam's markets, with policy rates visibly pending."),
+    dict(id="06", slug="credit", topic="credit", builder=plate_credit, title="Credit and Money", subtitle="Household debt stays pending; economy-wide credit remains in the country lens.", source="Sources: NSO/SBV · ADB · World Bank", alt="Four panels on credit and money in Vietnam, separating household debt from economy-wide credit."),
     dict(id="07", slug="people", topic="people", builder=plate_people, title="People and Incomes", subtitle="Survey seams and changing poverty standards stay separate.", source="Sources: NSO · World Bank", alt="Four panels on inequality, poverty and income in Vietnam."),
     dict(id="08", slug="world", topic="world", builder=plate_world, title="Vietnam in the World", subtitle="International comparables beside Vietnam's national HDI.", source="Sources: IMF · UNDP · NSO · World Bank · Transparency International", alt="Four panels placing Vietnam in international context, including the comparable 2012-method Corruption Perceptions Index."),
     dict(id="09", slug="demography", topic="demography", builder=plate_demography, title="Demography", subtitle="Population growth slows as fertility falls below replacement.", source="Sources: NSO · World Bank · UN", alt="Four panels on Vietnam's demography."),
     dict(id="10", slug="security", topic="security", builder=plate_security, title="Security and Road Safety", subtitle="Modelled violence rates beside police and justice-system counts.", source="Sources: WHO · World Bank/UNODC · NSO", alt="Four panels on security and road deaths in Vietnam."),
-    dict(id="11", slug="mortality", topic="mortality", builder=plate_mortality, title="Mortality", subtitle="A short death register beside WHO's modelled cause estimates.", source="Sources: NSO · WHO GHE", alt="Four panels on mortality in Vietnam."),
+    dict(id="11", slug="mortality", topic="mortality", builder=plate_mortality, title="Mortality", subtitle="The short register cannot supply the shared 2015–2019 excess baseline; WHO causes remain separate.", source="Sources: NSO · WHO GHE", alt="Four panels on mortality in Vietnam, with comparable excess deaths pending."),
     dict(id="12", slug="migration", topic="migration", builder=plate_migration, title="Migration", subtitle="Stocks and modelled net migration, without invented international flows.", source="Sources: UN DESA · World Bank/WPP · ADB", alt="Four panels on migration related measures for Vietnam."),
 )

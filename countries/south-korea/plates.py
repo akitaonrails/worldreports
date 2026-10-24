@@ -225,13 +225,14 @@ def plate_economy(ctx, ig):
             ls=(0, (5, 3)), zorder=2)
     ctx.line(ax, *_xy(cpi), p.RED, label="CPI, % change on a year earlier")
     _finish(ig, ax)
-    _note(ctx, ax, 2016.0, 2.5, "2% target (since 2016)", color=p.TEAL,
-          va="bottom")
+    _note(ctx, ax, 0.02, 0.92, "2% target (since 2016)", color=p.TEAL,
+          axes=True, va="top")
     y, v = _peak(cpi)
-    _note(ctx, ax, y + 0.4, v + 1.2, f"{y}: {v:.1f}%", color=p.RED,
-          weight="bold")
+    _note(ctx, ax, 0.02, 0.82, f"{y}: {v:.1f}%", color=p.RED,
+          axes=True, va="top", weight="bold")
     y, v = _low(cpi)
-    _note(ctx, ax, y, -1.2, f"{y}: {v:.1f}%, the floor so far", ha="center")
+    _note(ctx, ax, 0.02, 0.72, f"{y}: {v:.1f}%, the floor so far",
+          axes=True, va="top")
 
     ax = ig.slot("economy.unemployment", "Unemployment rate")
     ctx.line(ax, *_xy(unemp), p.PURPLE, label="Labour force survey, 15+")
@@ -297,8 +298,8 @@ def plate_fiscal(ctx, ig):
     _finish(ig, ax)
     _legend(ax, loc="upper left")
     y, v = _last(imf["gross_debt_pct_gdp"])
-    _note(ctx, ax, y, v + 9, f"{y}: {v:.1f}%", color=p.BLUE_D, ha="right",
-          weight="bold")
+    _note(ctx, ax, 0.98, 0.82, f"{y}: {v:.1f}%", color=p.BLUE_D,
+          ha="right", axes=True, weight="bold")
 
     ax = ig.slot("fiscal.interest", "Interest paid")
     ctx.line(ax, *_xy(interest), p.PURPLE,
@@ -452,7 +453,7 @@ def plate_trade(ctx, ig):
     china = shares["China"]
     y, v = _peak(china)
     y2, v2 = _last(china)
-    _note(ctx, ax, 0.98, 0.06, f"China: {v:.1f}% at the {y} peak, "
+    _note(ctx, ax, 0.98, 0.70, f"China: {v:.1f}% at the {y} peak, "
           f"{v2:.1f}% in {y2}", ha="right", axes=True, color=p.RED)
 
     ax = ig.slot("trade.lens", "Lens: what Korea exports, US$ bn")
@@ -503,7 +504,7 @@ def plate_markets(ctx, ig):
     _finish(ig, ax, slot_one=True, band_y=0.93)
     _legend(ax, loc="center right")
     y, v = _low(base)
-    _note(ctx, ax, y, v - 0.9, f"{y}: {v:.2f}%", ha="center", va="top",
+    _note(ctx, ax, 0.02, 0.80, f"{y}: {v:.2f}%", axes=True, va="top",
           color=p.BLUE_D, weight="bold")
 
     ax = ig.slot("markets.bond_10y", "10-year government bond yield")
@@ -521,7 +522,7 @@ def plate_markets(ctx, ig):
     ig.add_event(ax, 2024.92, "martial law", dy=0.97)
     _legend(ax, loc="lower left")
     y = ctx.LAST_FULL_YEAR
-    _note(ctx, ax, 0.98, 0.84, f"{y}: ₩{avg[y]:,.0f} per US$, against "
+    _note(ctx, ax, 0.98, 0.20, f"{y}: ₩{avg[y]:,.0f} per US$, against "
           f"₩{avg[min(avg)]:,.0f} in {min(avg)}", ha="right", axes=True)
 
     ax = ig.slot("markets.equities", "Main equity index in US$")
@@ -802,7 +803,7 @@ def plate_demography(ctx, ig):
     _finish(ig, ax)
     _legend(ax, loc="upper right")
     y, v = _last(natural)
-    _note(ctx, ax, 0.02, 0.22, f"bars: births minus deaths, {v:.1f} per "
+    _note(ctx, ax, 0.02, 0.72, f"bars: births minus deaths, {v:.1f} per "
           f"1,000 in {y}", axes=True, size=7.8)
     m = dict(zip(yrs, mig))
     y = min(m, key=lambda k: m[k])

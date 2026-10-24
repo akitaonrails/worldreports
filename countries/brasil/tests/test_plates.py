@@ -72,16 +72,13 @@ def test_the_currency_index_rises_when_the_real_strengthens():
 
 
 # ------------------------------------------------------------- fiscal
-def test_gross_debt_is_plotted_above_net_debt():
-    """Net debt subtracts the government's financial assets, so it is
-    below gross every year; the IMF's gross also counts the Treasury
-    bonds the BCB holds, so it is above the DBGG. Any other order means
-    the columns are crossed."""
+def test_canonical_debt_panel_contains_only_gross_definitions():
+    """The IMF and BCB gross perimeters can share the canonical slot;
+    DLSP net debt cannot inherit a gross-debt axis."""
     panel = plate(SLUG, "fig_fiscal").panel("gross debt")
     for _, imf, dbgg in panel.paired("(IMF)", "DBGG"):
         assert imf > dbgg
-    for _, dbgg, net in panel.paired("DBGG", "DLSP"):
-        assert dbgg > net
+    assert not any("DLSP" in label for label in panel.legend_labels())
 
 
 def test_the_tax_burden_is_not_drawn_across_its_2010_break():

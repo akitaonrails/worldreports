@@ -77,8 +77,8 @@ def test_comtrade_destinations_use_country_rows_and_the_world_denominator():
     assert table[0]["partner"] == "United States"
     assert float(table[0]["share_of_exports_pct"]) == pytest.approx(29.42)
     assert "837" not in {row["partner_code"] for row in table}
-    panel = plate(SLUG, "plate_trade").panel("destinations")
-    assert max(patch.get_width() for patch in panel.ax.patches) == \
+    panel = plate(SLUG, "plate_trade").panel("destinations, 2023")
+    assert max(patch.get_height() for patch in panel.ax.patches) == \
         pytest.approx(29.42)
 
 
@@ -135,9 +135,8 @@ def test_olim_are_a_law_of_return_flow_not_net_migration():
     pop = by_year("demography/demography.csv")
     olim = by_year("migration/olim_flow.csv")
     want = float(olim[2022]["olim"]) / float(pop[2022]["population"]) * 1_000
-    panel = plate(SLUG, "plate_migration").panel("New olim")
-    assert panel.bars()[list(panel.bars()).index(max(panel.bars()))] == \
-        pytest.approx(want)
+    panel = plate(SLUG, "plate_migration").panel("new residence and work permits")
+    assert panel.points("new olim")[2022] == pytest.approx(want)
     assert float(olim[2022]["olim"]) == 76_601
 
 

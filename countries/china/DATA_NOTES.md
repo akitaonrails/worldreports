@@ -101,9 +101,10 @@ name goes in the panel note.
 - UN DESA migrant stock exists only at five-year vintages (2010, 2015,
   2020, 2024) — a stepped line, not interpolated.
 - HDI is ONE vintage (HDR25) and ends 2023 (2024 not published for CHN).
-- Comtrade partner shares are a 2023 SNAPSHOT, labelled with the year on
-  the panel title; Comtrade's China report carries no Taiwan partner
-  code, and that attribution caveat rides in the CSV header.
+- Comtrade partner shares are a 2023 SNAPSHOT, kept in the country lens rather
+  than the canonical destination time-series slot; Comtrade's China report
+  carries no Taiwan partner code, and that attribution caveat rides in the CSV
+  header.
 - No plate splices a harmonised line to a national one anywhere: there
   are no national lines yet to splice to.
 

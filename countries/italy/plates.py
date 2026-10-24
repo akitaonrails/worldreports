@@ -236,7 +236,9 @@ def plate_economy(ctx, ig) -> None:
           "line starts in 2017\nbecause the 2006–15 years live on older "
           "bases, still pending at ISTAT —\nno rate is ever computed across "
           "the 2026 rebase", size=7.4)
-    ax.legend(loc="lower left", fontsize=7.6, frameon=False)
+    # The shared inflation range is deliberately tall enough for Argentina;
+    # Italy's lines sit near the floor, so the legend belongs above them.
+    ax.legend(loc="upper right", fontsize=7.6, frameon=False)
     _foot(p, ax, "HICP is the spine's line; ISTAT's NIC runs beside it, "
           "0.1–0.6 points lower in 2022–23")
 
@@ -454,7 +456,12 @@ def plate_trade(ctx, ig) -> None:
     _foot(p, ax, "computed from the same P6/P7 and GDP columns — goods and "
           "services, never customs")
 
-    ax = ig.slot("trade.destinations", "Top export destinations, 2023 "
+    ax = ig.slot("trade.destinations", "Top export destinations (% of goods exports)")
+    ctx.pending(ax)
+    _foot(p, ax, "a comparable annual partner series is not staged; the "
+          "reviewed 2023 customs snapshot is retained in the lens")
+
+    ax = ig.slot("trade.lens", "Top export destinations, 2023 "
                  "(% of goods exports)", unit=False)
     destinations_ax = ax
     partners = [r for r in _records(ctx, "trade/trade_comtrade_partner.csv")
@@ -467,22 +474,6 @@ def plate_trade(ctx, ig) -> None:
     ax.bar(positions, values, color=p.ROSSO, alpha=0.88)
     _foot(p, ax, "UN Comtrade 2023; Italy reporter, customs goods; "
           "World-total shares")
-
-    ax = ig.slot("trade.lens", "Lens — the euro amounts behind the shares")
-    ctx.line(ax, sorted(x), [x[y] for y in sorted(x)], p.VERDE,
-             label="Exports (EUR bn)")
-    ctx.line(ax, sorted(m), [m[y] for y in sorted(m)], p.ROSSO,
-             label="Imports (EUR bn)")
-    ig.add_recessions(ax, label=False)
-    pk = max(zip(sorted(m), [m[y] for y in sorted(m)]), key=lambda t: t[1])
-    ax.annotate(f"{pk[1]:,.0f} in {pk[0]}", pk, textcoords="offset points",
-                xytext=(-10, 4), ha="right", fontsize=8.6, fontweight="bold",
-                color=p.ROSSO)
-    _note(p, ax, 0.02, 0.98, "levels in euros, which rule 4 keeps off the "
-          "shared slots,\nhere where they can be read", size=7.4)
-    ax.legend(loc="lower right", fontsize=7.6, frameon=False)
-    _foot(p, ax, "the same Eurostat table, in the currency the invoices are "
-          "written in")
     _finish(ctx, ig)
     # This panel is a one-year categorical snapshot. The shared spine still
     # controls its 0–40% y scale; replace the time-axis defaults with partner
@@ -518,12 +509,11 @@ def plate_markets(ctx, ig) -> None:
     _mark(ig, ax, "monti", dy=0.66)
     _mark(ig, ax, "wit", dy=0.80)
     peak = max(zip(yy, yv), key=lambda t: t[1])
-    ax.annotate(f"{peak[1]:.2f}% in {peak[0]}", peak,
-                textcoords="offset points", xytext=(-6, 4), ha="right",
-                fontsize=8.8, fontweight="bold", color=p.ROSSO)
     _note(p, ax, 0.02, 0.96, "the 2011–12 peak is the spread crisis: the "
           "yield Italy pays,\nnot the rate Germany does; OMT after July 2012 "
           "broke it", size=7.6)
+    _note(p, ax, 0.98, 0.78, f"{peak[1]:.2f}% in {peak[0]}",
+          ha="right", size=8.0, color=p.ROSSO)
     ctx.endlabel(ax, yy, yv, p.ROSSO, lambda v: f"{v:.1f}%", dy=8)
     _foot(p, ax, "Eurostat irt_lt_mcby_a, equal to the ECB's monthly IRS to "
           "0.01 in every year")
@@ -538,9 +528,10 @@ def plate_markets(ctx, ig) -> None:
     ax.annotate(f"{trough[1]:.0f} in {trough[0]}", trough,
                 textcoords="offset points", xytext=(4, -10), ha="left",
                 fontsize=8.4, fontweight="bold", color=p.BLUE)
-    _note(p, ax, 0.02, 0.96, "Italy's currency is the euro: this is the whole "
+    _note(p, ax, 0.02, 0.05, "Italy's currency is the euro: this is the whole "
           "euroarea's line,\nshared with France, Spain and Germany — the "
-          "lira left the board\nin 1999, before this window opens", size=7.4)
+          "lira left the board\nin 1999, before this window opens", size=7.4,
+          va="bottom")
     ctx.endlabel(ax, iy, iv, p.BLUE, lambda v: f"{v:.0f}", dy=8)
     _foot(p, ax, "ECB annual mean USD per EUR, indexed 2006 = 100 (up = the "
           "euro stronger)")
@@ -593,9 +584,6 @@ def plate_credit(ctx, ig) -> None:
     dy_, dv = _yr(ctx, "markets/policy_rate.csv", "dfr")
     ctx.line(ax, dy_, dv, p.NAVY, label="ECB deposit rate, year-end")
     ig.add_recessions(ax, label=False)
-    ax.annotate(f"{_at(ry, rv, 2020):.2f}% in 2020", (2020, _at(ry, rv, 2020)),
-                textcoords="offset points", xytext=(2, -10), ha="left",
-                fontsize=8.2, fontweight="bold", color=p.ROSSO)
     ax.annotate(f"{_at(ry, rv, 2023):.2f}% in 2023", (2023, _at(ry, rv, 2023)),
                 textcoords="offset points", xytext=(-4, 6), ha="right",
                 fontsize=8.2, fontweight="bold", color=p.ROSSO)
@@ -664,18 +652,14 @@ def plate_people(ctx, ig) -> None:
     ay, av = _yr(ctx, "social/poverty.csv", "arop60")
     ctx.line(ax, ay, av, p.VERDE, label="At risk after transfers, 60% median "
                 "(EU-SILC)")
-    ny, nv = _yr(ctx, "social/poverty_abs.csv", "abs_hh")
-    _natl(ctx, ax, ny, nv, p.ROSSO, "ISTAT absolute poverty, households "
-          "(2014+)")
     ig.add_recessions(ax, label=False)
     _note(p, ax, 0.02, 0.96, "two different ideas of poor: the EU's relative "
-          f"line ({av[-1]:.1f}%) against\na fixed basket "
-          f"({nv[-1]:.1f}% in {ny[-1]}); the World Bank's US$8.30 line is "
-          "not\ncomputed for Italy, so it is not drawn (meta.pending)",
+          f"line ({av[-1]:.1f}%); household-based national measures stay "
+          "in the lens.\nThe World Bank's US$8.30 line is not computed for "
+          "Italy, so it is not drawn (meta.pending)",
           size=7.4)
     ax.legend(loc="center", fontsize=7.4, frameon=False)
-    _foot(p, ax, "Eurostat ilc_li02 (survey-year axis) and ISTAT 34_727 new "
-          "series; the old basket ends 2013")
+    _foot(p, ax, "Eurostat ilc_li02, persons on the survey-year axis")
 
     ax = ig.slot("people.minimum_wage", "Minimum wage (US$ per month)")
     ctx.pending(ax)
@@ -867,21 +851,13 @@ def plate_security(ctx, ig) -> None:
     _foot(p, ax, "ISTAT death certificates, European shortlist code 17_2 ÷ "
           "the 1-January population")
 
-    ax = ig.slot("security.road_deaths", "Road traffic deaths — "
-                 "all-transport basis (per 100,000)")
-    t = _cause(ctx, "17_1_1")
-    ty, tv = ctx.per_100k(t, {y: pop[y] for y in t})
-    ctx.line(ax, ty, tv, p.GOLD)
-    ig.add_recessions(ax, label=False)
-    ax.annotate(f"{tv[ty.index(2020)]:.1f} in 2020", (2020, tv[ty.index(2020)]),
-                textcoords="offset points", xytext=(2, -10), ha="left",
-                fontsize=8.2, fontweight="bold", color=p.GOLD)
-    _note(p, ax, 0.02, 0.96, "labelled honestly: ICD shortlist 17_1_1 is all "
-          "transport modes,\nnot road only — the road-only series (ISTAT at "
-          "30 days, or\nEurostat tran_sf_roadus) is not staged; 2020 falls "
-          "with the lockdowns", size=7.4)
-    _foot(p, ax, "same certificates file, code 17_1_1; road-only is a fetch "
-          "away (SOURCES.yaml meta.pending)")
+    ax = ig.slot("security.road_deaths", "Road traffic deaths (per 100,000)")
+    ctx.pending(ax)
+    _note(p, ax, 0.50, 0.96, "the road-only series is not staged; the available "
+          "death-certificate series covers all transport modes and is kept "
+          "out of this comparable slot", ha="center", size=7.4)
+    _foot(p, ax, "ISTAT 30-day road deaths or Eurostat tran_sf_roadus pending; "
+          "no all-transport proxy drawn")
 
     ax = ig.slot("security.lens", "Lens — mafia and attempted homicides")
     ctx.pending(ax)
@@ -1128,9 +1104,9 @@ PLATES = (
          alt="Four panels on Italian trade. Exports run near 32% of GDP and "
              "imports peaked at 37% in 2022 on imported energy; the balance "
              "swung from about +3% of GDP in 2019 to −1.7% in 2022; Germany, "
-             "the United States and France lead the 2023 customs destinations; the lens "
-             "panel shows exports and imports in euro billions, imports "
-             "peaking near 731bn in 2022."),
+             "the United States and France lead the 2023 customs destinations "
+             "retained in the lens while the comparable annual destination "
+             "series remains pending."),
     dict(id="05", slug="markets", topic="markets", builder=plate_markets,
          title="Markets — Frankfurt's Rate, Rome's Spread",
          subtitle="The policy rate belongs to the euroarea; what is "
@@ -1159,15 +1135,15 @@ PLATES = (
              "disposable income the same debt reads 64% at its 2020 peak."),
     dict(id="07", slug="people", topic="people", builder=plate_people,
          title="People — Inequality, Poverty, and No Minimum Wage",
-         subtitle="Two readings of EU-SILC, two national poverty lines, and "
+         subtitle="Person-based EU-SILC in the canonical slot, a labelled "
+                  "household comparison in the lens, and "
                   "an explicit absence: Italy sets pay floors through "
                   "collective agreements.",
          source="Sources: Eurostat ILC · ISTAT 34_727 · World Bank",
          alt="Four panels on Italian incomes. The Gini reads 31.0 in 2025 "
              "on Eurostat's SILC, with the World Bank's reading 1.0–3.2 "
              "points higher before 2024 and no splice between; "
-             "at-risk-of-poverty sits near 19% against ISTAT's absolute-"
-             "poverty households near 8%; the minimum-wage panel states "
+             "at-risk-of-poverty for people sits near 19%; the minimum-wage panel states "
              "that no statutory minimum exists; the lens panel contrasts "
              "the EU's relative line with ISTAT's relative households."),
     dict(id="08", slug="world", topic="world", builder=plate_world,
@@ -1205,9 +1181,9 @@ PLATES = (
          alt="Four panels on violent and accidental death in Italy. The "
              "police-recorded homicide rate halves from 1.1 to 0.6 per 100,000 with "
              "the certificate count always lower and never spliced; "
-             "suicide holds 6.1–6.5 per 100,000; all-transport deaths fall "
-             "from 5.6 to under 3.5, road-only pending; the organised-crime homicide "
-             "lens is pending at ISTAT."),
+             "suicide holds 6.1–6.5 per 100,000; road-only deaths remain "
+             "pending rather than using the available all-transport proxy; "
+             "the organised-crime homicide lens is also pending at ISTAT."),
     dict(id="11", slug="mortality", topic="mortality",
          builder=plate_mortality,
          title="Mortality — Old Before Their Time",

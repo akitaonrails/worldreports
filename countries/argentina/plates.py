@@ -416,11 +416,8 @@ def plate_state(ctx, ig) -> None:
 
     ax = ig.slot("fiscal.interest", "Interest paid")
     interest = {y: prim[y] - bal[y] for y in prim if y in bal}
-    svc = col(ctx, "fiscal/spending_by_function.csv", "deuda")
     line(ctx, ax, interest, p.RED,
          label="general government, primary − overall (IMF)")
-    line(ctx, ax, svc, p.ASTERISK, label="debt service, national budget",
-         lw=1.6, ms=2.6, ls=(0, (3, 2)))
     finish(ig, ax, ctx, intervened=True)
     legend(ctx, ax, loc="upper left")
     note(ctx, ax, 0.98, 0.97,
@@ -450,10 +447,6 @@ def plate_trade(ctx, ig) -> None:
     bal = {y: x[y] - m[y] for y in x if y in m}
     bars(ctx, ax, bal, signed(ctx))
     usd = col(ctx, "trade/trade.csv", "balance")
-    gdp = col(ctx, "macro/gdp.csv", "usd_bn")
-    goods_bal = {y: v / gdp[y] * 100 for y, v in usd.items() if y in gdp}
-    line(ctx, ax, goods_bal, p.NAVY, label="goods only, customs (INDEC)",
-         lw=1.6, ms=2.6)
     finish(ig, ax, ctx, intervened=True)
     legend(ctx, ax, loc="upper left", extra=[
         Patch(color=p.GREEN, label="goods and services (bars)")])

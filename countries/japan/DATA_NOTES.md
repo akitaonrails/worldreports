@@ -70,9 +70,14 @@ consolidation confirmed: 2024 deaths 1,605,378 ÷ 120.296mn Japanese =
 13.35‰. That matches the published 13.3. Divided by the total population
 it would be 12.97.
 
-The rule this sets for every per-100k slot (homicide, suicide, COVID,
-road deaths): **the count's population is `japanese_k`** in
+The rule this sets for every drawn per-100k slot (homicide, suicide, COVID):
+**the count's population is `japanese_k`** in
 `population_from_stat.csv`.
+
+MHLW cause code 20100 is not a road-death series: it covers the broader
+accident category and its 2011 jump includes disaster deaths. It therefore
+stays out of the canonical road-traffic slot, which remains visibly pending
+until an NPA or WHO road-only history is staged.
 
 - 2006–2024: the estimates' Japanese population on 1 October. The
   2006–2020 values are intercensally adjusted. The 2021–2024 values are

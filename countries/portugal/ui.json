@@ -17,7 +17,8 @@
       {"term": "PSI", "detail": "Yahoo Finance — non-official market redistributor"}
     ],
     "unavailable": [
-      {"term": "COVID-19 deaths by underlying cause", "detail": "The exact U07.1/U07.2 underlying-cause series was not available in the reviewed INE table; the panel remains blank rather than using a different mortality measure."}
+   {"term": "COVID-19 deaths by underlying cause", "detail": "The exact U07.1/U07.2 underlying-cause series was not available in the reviewed INE table; the panel remains blank rather than using a different mortality measure."},
+   {"term": "Equity index with a 2006 base", "detail": "The reviewed PSI history begins in 2013. The canonical panel remains pending rather than comparing a 2013-base index with countries rebased to 2006."}
     ]
   },
   "pt": {
@@ -38,7 +39,8 @@
       {"term": "PSI", "detail": "Yahoo Finance — redistribuidor de mercado não oficial"}
     ],
     "unavailable": [
-      {"term": "Óbitos por COVID-19 segundo a causa básica", "detail": "A série exata U07.1/U07.2 por causa básica não estava disponível na tabela do INE analisada; o painel permanece vazio em vez de usar outra medida de mortalidade."}
+   {"term": "Óbitos por COVID-19 segundo a causa básica", "detail": "A série exata U07.1/U07.2 por causa básica não estava disponível na tabela do INE analisada; o painel permanece vazio em vez de usar outra medida de mortalidade."},
+   {"term": "Índice acionista com base em 2006", "detail": "A série revista do PSI começa em 2013. O painel canónico fica pendente em vez de comparar um índice com base em 2013 com países recalculados para 2006."}
     ]
   }
 }

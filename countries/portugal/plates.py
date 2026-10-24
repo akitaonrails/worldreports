@@ -233,15 +233,10 @@ def plate_markets(ctx, ig):
     ctx.line(ax, y, [n / base * 100 for n in v], p.BLUE)
     _bands(ig, ax)
 
-    ax = ig.slot("markets.equities", "PSI index in US$ (index 2013 = 100)")
-    sy, sv = _yr(ctx, "psi20_yahoo", "close")
-    fx = _d(ctx, "eurusd_ecb", "eop")
-    vals = {y: v * fx[y] for y, v in zip(sy, sv) if y in fx}
-    basey = min(vals)
-    yy = sorted(vals)
-    ctx.line(ax, yy, [vals[y] / vals[basey] * 100 for y in yy], p.VERDE)
-    _bands(ig, ax)
-    _foot(ctx, ax, "Yahoo Finance price index; non-official, history begins in 2013")
+    ax = ig.slot("markets.equities", "Main equity index in US$ (index 2006 = 100)")
+    ctx.pending(ax)
+    _foot(ctx, ax, "the reviewed Yahoo Finance history begins in 2013; a "
+          "2013-base index is not overlaid on the canonical 2006-base slot")
     _finish(ctx, ig)
 
 
@@ -483,7 +478,7 @@ PLATES = (
     dict(id="04", slug="trade", topic="trade", builder=plate_trade,
          title="Trade — Openness, Partners and the Services Economy", subtitle="National-accounts trade beside customs goods, kept as distinct definitions.", source="Sources: Eurostat national accounts · INE international trade", alt="Four panels on Portuguese exports, imports, the trade balance, goods destinations and the goods share of exports."),
     dict(id="05", slug="markets", topic="markets", builder=plate_markets,
-         title="Markets — Frankfurt's Rate, Portuguese Yields and the PSI", subtitle="The ECB rate, Portuguese benchmark yield, euro and equity index.", source="Sources: ECB · Banco de Portugal · INE · Yahoo Finance", alt="Four panels on Portuguese interest rates, the euro and the PSI equity index."),
+         title="Markets — Frankfurt's Rate, Portuguese Yields and the PSI", subtitle="The ECB rate, Portuguese benchmark yield and euro; the 2006-base equity slot remains pending.", source="Sources: ECB · Banco de Portugal · INE · Yahoo Finance", alt="Four panels on Portuguese markets. Interest rates, the euro and yields are drawn; the comparable 2006-base equity index remains pending because the reviewed PSI history begins in 2013."),
     dict(id="06", slug="credit", topic="credit", builder=plate_credit,
          title="Credit — Household Deleveraging and Bank Repair", subtitle="Household debt, mortgage pricing and non-performing loans.", source="Source: Banco de Portugal BPstat", alt="Four panels on household debt, mortgage rates, non-performing loans and housing debt."),
     dict(id="07", slug="people", topic="people", builder=plate_people,

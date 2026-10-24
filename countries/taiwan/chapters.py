@@ -243,23 +243,14 @@ def build(ctx) -> list[dict]:
             "title": T(**{ZH: "航運路線——與客戶的轉換",
                           EN: "The Shipping Lanes — and the Customer Switch",
                           PT: "As Rotas Marítimas — e a Troca de Cliente"}),
-            "blurb": T(**{ZH: "只有商品的進出口與出口目的地;視野面板把同一個流量"
-                            "用海關與國際收支各算一次。",
-                          EN: "Goods exports and imports and their"
-                              " destinations; the lens panel counts the same"
-                              " flow twice, customs and balance-of-payments.",
-                          PT: "Exportações e importações de bens e seus"
-                              " destinos; o painel-lente conta o mesmo fluxo"
-                              " duas vezes, aduaneiro e balanço de pagamentos."}),
-            "alt": T(**{ZH: "貿易的四個面板。商品出口佔 GDP 從 2006 年的 58% 升到 2025"
-                            "年的 69%,進口約 53%;海關順差從未翻轉,2009 年只是縮小。中國"
+            "blurb": T(**{ZH: "可比的商品與服務總額仍待補;海關商品保留在目的地與視野面板。",
+                          EN: "Comparable goods-and-services totals remain pending; customs goods stay in the destination and lens panels.",
+                          PT: "Totais comparáveis de bens e serviços seguem pendentes; os bens aduaneiros ficam nos painéis de destinos e de lente."}),
+            "alt": T(**{ZH: "貿易的四個面板。可比的商品與服務總額及餘額仍明確待補。中國"
                             "大陸佔商品出口在 2020 年攀到約 30% 的頂峯後減半到 16%,美國從 14%"
                             " 升到 31% 取得領先。視野面板把同一個商品流量繪了兩次:2025 年僅"
                             "出口就差約 560 億美元。MOF海關資料只含商品,服務不在這個資料集中。",
-                          EN: "Four panels on trade. Goods exports rise from"
-                              " 58% of GDP in 2006 to 69% in 2025 and imports"
-                              " sit near 53%; the customs surplus never turns,"
-                              " only shrinking in 2009. Mainland China's share"
+                          EN: "Four panels on trade. Comparable goods-and-services totals and the balance remain visibly pending. Mainland China's share"
                               " of goods exports peaks near 30% in 2020 and"
                               " halves to 16%, while the United States rises"
                               " from 14% to 31% and takes the lead. The lens"
@@ -267,11 +258,7 @@ def build(ctx) -> list[dict]:
                               " two answers differ by about US$56bn on exports"
                               " alone. The MOF customs dataset covers goods;"
                               " services are outside its scope.",
-                          PT: "Quatro painéis sobre o comércio. As exportações"
-                              " de bens sobem de 58% do PIB em 2006 para 69%"
-                              " em 2025 e as importações ficam perto de 53%;"
-                              " o superávit aduaneiro nunca inverte, só encolhe"
-                              " em 2009. A fatia da China continental nas"
+                          PT: "Quatro painéis sobre o comércio. Totais e saldo comparáveis de bens e serviços seguem visivelmente pendentes. A fatia da China continental nas"
                               " exportações de bens atinge quase 30% em 2020 e"
                               " cai à metade, para 16%, enquanto os Estados"
                               " Unidos sobem de 14% para 31% e assumem a"

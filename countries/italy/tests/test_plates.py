@@ -244,14 +244,12 @@ def test_the_two_homicide_counts_are_both_drawn_and_never_spliced():
     assert any("341 against 239" in s for s in panel.texts())
 
 
-def test_the_road_panel_says_what_it_actually_draws():
-    """The staged series is ICD shortlist 17_1_1 — all transport modes.
-    The title says so and the note promises the road-only fetch; if a
-    future fetch swaps in road-only deaths, this test is the tripwire."""
-    assert "all-transport basis" in plate(SLUG, "plate_security").panel(
-        "Road traffic deaths").title
+def test_the_road_panel_rejects_the_all_transport_proxy():
+    """All-transport deaths cannot occupy the canonical road-only slot."""
     panel = plate(SLUG, "plate_security").panel("Road traffic deaths")
-    assert any("not road only" in s for s in panel.texts())
+    assert not panel.data_lines()
+    assert any("road-only series is not staged" in s for s in panel.texts())
+    assert any("all transport modes" in s for s in panel.texts())
 
 
 def test_the_mafia_slot_is_pending_and_draws_nothing():
@@ -329,7 +327,7 @@ def test_trade_destinations_use_comtrade_world_as_the_denominator():
     germany = next(r for r in table if r["partner"] == "Germany")
     expected = float(germany["value_usd"]) / float(world["value_usd"]) * 100
     assert float(germany["share_of_flow_pct"]) == pytest.approx(expected, abs=.005)
-    panel = plate(SLUG, "plate_trade").panel("Top export destinations")
+    panel = plate(SLUG, "plate_trade").panel("Top export destinations, 2023")
     heights = [float(patch.get_height()) for patch in panel.ax.patches]
     assert max(heights) == pytest.approx(float(germany["share_of_flow_pct"]))
     assert any("customs goods" in text for text in panel.texts())

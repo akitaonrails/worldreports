@@ -12,7 +12,8 @@
       {"term":"Lợi suất trái phiếu 10 năm","detail":"Chuỗi lịch sử từ nhà xuất bản chính thức hoặc AsianBondsOnline chưa được lưu và kiểm tra đầy đủ."},
       {"term":"Lương tối thiểu theo vùng","detail":"Việt Nam có bốn mức vùng. Lịch sử đã rà soát và phương pháp quy đổi sang đô la mỗi tháng chưa được xây dựng."},
       {"term":"Dòng nhập cư và xuất cư quốc tế","detail":"Chưa tìm được hai chuỗi dòng quốc gia tương thích; ước tính di cư ròng của Liên Hợp Quốc không được dùng thay thế."},
-      {"term":"Nợ hộ gia đình và lãi suất chính sách","detail":"Chưa có lịch sử quốc gia đã kiểm chứng cho nợ hộ gia đình hoặc lãi suất chính sách của SBV. Tín dụng toàn nền kinh tế và lãi suất cho vay bình quân được ghi rõ là thước đo thay thế."}
+      {"term":"Nợ hộ gia đình và lãi suất chính sách","detail":"Chưa có lịch sử quốc gia đã kiểm chứng cho nợ hộ gia đình hoặc lãi suất chính sách của SBV. Hai ô chuẩn để trống; tín dụng toàn nền kinh tế và lãi suất cho vay chỉ xuất hiện trong phần riêng phù hợp."},
+      {"term":"Tử vong vượt mức","detail":"Sổ tử vong bắt đầu từ năm 2018 nên không thể tính đường cơ sở chuẩn 2015–2019; ô này vẫn đang chờ."}
     ],
     "colophon": [
       {"term":"Số liệu quốc gia","detail":"Cục Thống kê và Ngân hàng Nhà nước Việt Nam qua cơ sở PX-Web"},
@@ -32,7 +33,8 @@
       {"term":"Ten-year government yield","detail":"A complete verified history from an official publisher or AsianBondsOnline has not yet been staged."},
       {"term":"Regional minimum wages","detail":"Vietnam has four regional rates. A reviewed history and explicit monthly US-dollar conversion are not yet staged."},
       {"term":"Gross international migration flows","detail":"No compatible national immigration and emigration series was found; the UN net estimate is not used as a substitute."},
-      {"term":"Household debt and policy rate","detail":"No verified national history is staged for household debt or the SBV policy rate. Economy-wide credit and the average lending rate are explicitly labelled substitutes."}
+      {"term":"Household debt and policy rate","detail":"No verified national history is staged for household debt or the SBV policy rate. Both canonical slots remain pending; economy-wide credit and lending rates appear only in their appropriate country-specific or lending panels."},
+      {"term":"Excess deaths","detail":"The death register begins in 2018, so the canonical 2015–2019 baseline cannot be computed; this slot remains pending."}
     ],
     "colophon": [
       {"term":"National data","detail":"National Statistics Office and State Bank of Vietnam through the NSO PX-Web database"},
@@ -52,7 +54,8 @@
       {"term":"Rendimento do título público de dez anos","detail":"Ainda não foi versionada uma história completa e verificada de fonte oficial ou do AsianBondsOnline."},
       {"term":"Salários mínimos regionais","detail":"O Vietnã possui quatro valores regionais. Ainda faltam uma história revisada e uma conversão mensal explícita para dólares."},
       {"term":"Fluxos migratórios internacionais brutos","detail":"Não foi encontrada uma dupla compatível de séries nacionais de imigração e emigração; a estimativa líquida da ONU não é usada como substituto."},
-      {"term":"Dívida familiar e taxa de política","detail":"Não há história nacional verificada para dívida familiar ou taxa de política do SBV. O crédito da economia e a taxa média de empréstimo aparecem explicitamente como substitutos."}
+      {"term":"Dívida familiar e taxa de política","detail":"Não há história nacional verificada para dívida familiar nem para a taxa de política do SBV. Ambos os espaços canônicos ficam pendentes; crédito da economia e juros de empréstimos aparecem somente nos painéis apropriados."},
+      {"term":"Excesso de mortes","detail":"O registro de óbitos começa em 2018, portanto não permite calcular a base canônica de 2015–2019; este espaço segue pendente."}
     ],
     "colophon": [
       {"term":"Dados nacionais","detail":"Escritório Nacional de Estatística e Banco do Estado do Vietnã pela base PX-Web"},
