@@ -108,9 +108,9 @@ SPINE: dict[str, tuple[Slot, ...]] = {
     ),
     "fiscal": (
         _c("fiscal.revenue_expenditure", "Revenue and expenditure",
-           "% of GDP", (0, 70)),
+           "% of GDP", (0, 80)),
         _c("fiscal.balance", "Overall and primary balance", "% of GDP",
-           (-16, 8), BOTH, zero=True),
+           (-24, 8), BOTH, zero=True),
         _c("fiscal.debt", "Gross debt", "% of GDP", (0, 300), UP),
         _c("fiscal.interest", "Interest paid", "% of GDP", (0, 10), UP),
     ),
@@ -127,7 +127,7 @@ SPINE: dict[str, tuple[Slot, ...]] = {
     "trade": (
         _c("trade.exports_imports", "Exports and imports", "% of GDP",
            (0, 100), UP),
-        _c("trade.balance", "Trade balance", "% of GDP", (-15, 15), BOTH,
+        _c("trade.balance", "Trade balance", "% of GDP", (-30, 15), BOTH,
            zero=True),
         _c("trade.destinations", "Top export destinations",
            "% of goods exports", (0, 90), UP),
@@ -191,7 +191,7 @@ SPINE: dict[str, tuple[Slot, ...]] = {
     ),
     "mortality": (
         _c("mortality.death_rate", "Crude death rate", "per 1,000 people",
-           (0, 16)),
+           (0, 22)),
         _c("mortality.excess_deaths", "Excess deaths",
            "% above 2015–2019 average", (-20, 40), UP, zero=True),
         _c("mortality.covid", "COVID-19 deaths, underlying cause",
