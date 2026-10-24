@@ -157,7 +157,10 @@ def plate_economy(ctx, ig) -> None:
                if abs(_at(dy_, dv, y) - _at(cy, cv, y)) >= spread - 1e-9)
     _note(p, ax, 0.02, 0.96, f"the two official readings part most in "
           f"{ysp}: {_at(dy_, dv, ysp):.1f} vs {_at(cy, cv, ysp):.1f}")
-    ax.legend(loc="lower right", fontsize=7.4, frameon=False)
+    # The canonical scale leaves the upper half empty. Keep the two-row
+    # Portuguese legend there: Liberation Sans (the Pages runner's Latin
+    # fallback) is wider than Noto Sans and otherwise reaches the CBC line.
+    ax.legend(loc="upper right", fontsize=7.4, frameon=False)
     _foot(p, ax, "two published rates on different bases, never spliced; the "
           "CBC has no formal CPI target to draw")
 
@@ -842,8 +845,11 @@ def plate_mortality(ctx, ig) -> None:
     ctx.line(ax, hy_, hv_, p.RED, label="Heart disease")
     ctx.line(ax, ny_, nv_, p.TEAL, label="Pneumonia")
     ig.add_recessions(ax, label=False)
-    ax.set_ylim(0, max(cv_) * 1.3)
-    ax.legend(loc="lower left", fontsize=7.6, frameon=False)
+    # Leave a real legend shelf above the three series. This lens does not use
+    # a canonical comparison scale; 1.6× keeps both Noto Sans and the wider
+    # Liberation Sans used by Pages clear of the heart-disease line.
+    ax.set_ylim(0, max(cv_) * 1.6)
+    ax.legend(loc="upper right", fontsize=7.6, frameon=False)
     _note(p, ax, 0.02, 0.96, f"pneumonia doubles: {nv_[0]:.0f} to "
           f"{nv_[-1]:.0f} per 100,000 — the ageing\npopulation is the story "
           "behind all three lines")
