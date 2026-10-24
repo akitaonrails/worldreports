@@ -1,0 +1,177 @@
+# Ukraine. The tenth new country, proposed in GitHub issue #1 and
+# discovered in this lane on 2026-10-24. A wartime country: every series
+# here carries its territorial scope (the 2014 annexation of Crimea and
+# the 2022 full-scale invasion both change what Ukraine's publishers
+# measure), several national series stop in 2021 or 2022 because the
+# surveys behind them were suspended, and 2022 real GDP growth of
+# −28.8% leaves the shared spine range. All of that is recorded in
+# SOURCES.yaml and the DISCOVERY report; holes stay holes.
+slug: ukraine
+flag_emoji: "🇺🇦"
+wordmark: Ukraine
+name:
+  en: "Ukraine"
+  fr: "Ukraine"
+  pt: "Ucrânia"
+  es: "Ucrania"
+  ko: "우크라이나"
+  it: "Ucraina"
+  he: "אוקראינה"
+  ja: "ウクライナ"
+  zh-Hans: "乌克兰"
+  zh-Hant: "烏克蘭"
+  vi: "U-crai-na"
+  de: "Ukraine"
+  uk: "Україна"
+
+locales:
+  - {code: uk, html_lang: uk,    og_locale: uk_UA, endonym: Українська}
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete. 2025 is complete for the national accounts
+# (Ukrstat's final 2025 GDP was published in March 2026), the IMF
+# fiscal harmonised series and IMF goods trade; the wartime national
+# gaps (Gini and the national labour-force survey stop at 2021, the
+# last solid population count is 1 January 2022) are per-series and
+# stay visible regardless of this number.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+# On the plate spine (PLATE_SPINE.md): every plate declares its topic and
+# draws its panels in the shared slots, units and scales.
+spine: true
+
+# SHARED-SCALE CONFLICTS, RECORDED NOT FIXED (AGENTS.md: the atlas-wide
+# range lives in core/spine.py and is changed there, regenerating every
+# country carrying the topic — never overridden in country code):
+#   economy.growth  ref −18..+18: 2022 = −28.8% (WB NY.GDP.MKTP.KD.ZG
+#     −28.76 and IMF NGDP_RPCH −28.8 agree, pulled live 2026-10-24).
+#   fiscal.balance  ref −16..+8: IMF WEO GGXCNL_NGDP −15.6 (2022),
+#     −19.3 (2023), −17.2 (2024), −17.6 (2025).
+#   fiscal.revenue_expenditure  ref 0..70: IMF Fiscal Monitor
+#     G_X_G01_GDP_PT expenditure 65.4 (2022), 73.4 (2023), 71.2 (2024),
+#     74.2 (2025) — over the ceiling in four consecutive years.
+#   credit.npl  ref 0..20: NBU NPL ratio peaks at 56.2% (2017 Q3) and
+#     sits at 27–39% through 2022–2025.
+#   demography.natural_increase_net_migration / migration.net  ref
+#     −10..+40 per 1,000: WB SM.POP.NETM 2022 = −5,699,445 ≈ −139 per
+#     1,000 (wartime emigration; +1.15mn 2024 and +1.70mn 2025 are the
+#     modelled return). The wartime displacement belongs in a labelled
+#     lens in any case; the canonical slot's scale decision is shared.
+# economy.inflation (ref −5..225) and economy.unemployment (0..30) fit:
+# CPI peaks at 43.3% in 2015, unemployment at no more than ~10.7%.
+
+# Bands drawn behind the data. Ukrstat's quarterly GDP is unreachable
+# from the discovery network (stat.gov.ua is WAF-blocked, recorded in
+# SOURCES.yaml), so the dating below is on the NBU's quarterly GDP
+# year-on-year series (economicactivity endpoint, current vintage,
+# pulled live 2026-10-24) — NOT the quarter-on-quarter rule the UK used.
+# The NBU labels a quarter by the first month of the following one
+# (verified: its 202207 row is −36.6, Ukrstat's 2022 Q2). Negative runs:
+#   2014 Q1 to 2015 Q4: eight consecutive negative quarters (annexation
+#     of Crimea, war in the east, and the hryvnia collapse) — banded.
+#   2020 Q1 to Q3 (−0.9, −11.0, −3.3; Q4 −0.1, 2021 Q1 −2.3): COVID —
+#     banded as 2020.0–2020.75 on this evidence; the house q/q rule
+#     would give 2020.0–2020.5. Final dating when Ukrstat answers.
+#   2022 Q1 to 2023 Q1: five consecutive negative quarters (Q2 2022
+#     −36.6, the deepest quarter in the series) — banded.
+#   2009: annual −15.1% (WB/IMF agree); the NBU quarterly series starts
+#     in 2010 so the quarterly dating is provisional on the known
+#     profile (all four quarters of 2009 deeply negative year-on-year,
+#     Q4 2008 −8.0) until Ukrstat's quarterly table can be checked.
+# Explicitly NOT banded: 2012 Q4 to 2013 Q4 is five consecutive mildly
+# negative quarters (−1.3 to −2.4) but annual 2013 is ≈ 0.0% — a
+# stagnation, not a recession; candidate event for the economy plate.
+bands:
+  - {from: 2008.75, to: 2009.75, label: "2008–09 crisis"}
+  - {from: 2014.0,  to: 2016.0,  label: "2014–15 crisis"}
+  - {from: 2020.0,  to: 2020.75, label: "COVID-19"}
+  - {from: 2022.0,  to: 2023.25, label: "full-scale invasion"}
+
+# The uk number style and the UAH forms it needs live in core (numstyle
+# STYLES/SEPARATORS, i18n _UNITS, sitebuild AFFIX/CURRENCY_AFFIX), shared
+# by every page and plate like the other locales: Ukrainian writes
+# 12 345,67 (non-breaking-space thousands, comma decimal) and puts the
+# hryvnia after the amount, with a space before the percent sign.
+currency:
+  code: UAH
+
+# The flag is azure #005BBB over yellow #FFD500, which is not a chart
+# palette: the flag azure is too bright to hold small lines on paper
+# and the yellow vanishes against it. These are darkened, desaturated
+# siblings — the azure pulled down into a steel blue and a navy, the
+# yellow pulled down into a gold that survives greyscale — plus the
+# cool greens, purple and teal every country needs beside its own hues.
+palette:
+  AZURE:   "#1F6AB2"
+  AZURE_D: "#155079"
+  NAVY:    "#123D63"
+  BLUE:    "#2E7AB8"
+  BLUE_D:  "#1E5985"
+  GOLD:    "#B88A12"
+  GOLD_D:  "#8A6609"
+  GREEN:   "#2E7D4F"
+  GREEN_D: "#1F5F3A"
+  PURPLE:  "#6E5BA6"
+  TEAL:    "#13807A"
+  primary: "#123D63"
+  alert:   "#B0442C"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#123D63", "#B88A12", "#2E7AB8", "#2E7D4F", "#6E5BA6", "#13807A", "#B0442C", "#1F2430"]
+  # Azure over gold, the flag laid flat. Ukraine's flag is TWO bands and
+  # the masthead needs three, so the deep navy already in this palette —
+  # the flag's azure pulled down, not an invented colour — closes the
+  # third stripe. Neither flag band is the paper, so neither takes the
+  # automatic outline.
+  flag_bands: ["#1F6AB2", "#D9A91C", "#123D63"]
+  # A cold deep-azure night, kept apart from the UK's navy-black
+  # (#0D1220) and the warm near-blacks of the Americas: bluer and
+  # darker than any of them, with a light-azure money accent and the
+  # flag's gold for the people family.
+  web:
+    # U opens the wordmark: two vertical stems, a rounded base — the
+    # same bearing the UK and US pages use for their U.
+    mark_bearing: "0.06em"
+    ground:   "#071521"
+    raised:   "#0C1F30"
+    raised_2: "#11283C"
+    rule:     "#1E3D59"
+    ink:      "#EAF1F6"
+    muted:    "#9DB3C6"
+    faint:    "#64798C"
+    money:    "#7FB2E5"
+    world:    "#46B3A9"
+    people:   "#E3B341"
+
+seo:
+  title:
+    uk: "Україна — планки офіційних даних, 2006–2025"
+    en: "Ukraine — plates of official data, 2006–2025"
+    pt: "Ucrânia — pranchas de dados oficiais, 2006–2025"
+  description:
+    uk: "Планки даних про економіку, населення нерівність і місце України у світі, створені з опублікованих CSV; воєнні розриви показано як розриви, а національний реєстр населення й міжнародна оцінка — окремими лініями."
+    en: "Data plates on Ukraine's economy, population, inequality and place in the world, built from committed CSVs, with wartime gaps shown as gaps and the national register drawn as its own line beside the international estimate."
+    pt: "Pranchas de dados sobre a economia, a população, a desigualdade e a posição da Ucrânia no mundo, a partir de CSVs versionados, com as lacunas da guerra mostradas como lacunas e o registro nacional desenhado em linha própria ao lado da estimativa internacional."
+  keywords: [Ukraine, Україна, State Statistics Service of Ukraine, World Bank, IMF, UNDP, official statistics, war economy]
+  spatial: "Ukraine"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+# Only publishers whose numbers are drawn are named: the SSSU population
+# register, and the World Bank, IMF and UNDP for the harmonised layer.
+# The publishers that are blocked from the build network (the SSSU API,
+# the Ministry of Finance, the customs service, Open Budget) are
+# recorded in SOURCES.yaml meta.pending and disclosed on the page.
+sources:
+  uk: "Державна служба статистики України, а також Світовий банк, МВФ і ПРООН для порівнянь"
+  en: "the State Statistics Service of Ukraine, plus the World Bank, IMF and UNDP for comparisons"
+  pt: "o Serviço Estatal de Estatística da Ucrânia, além de Banco Mundial, FMI e PNUD para comparações"

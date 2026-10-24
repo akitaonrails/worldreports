@@ -1,0 +1,20 @@
+{
+ "01-economy": [
+  "macro/economy.csv",
+  "macro/gdp_growth_imf.csv",
+  "world/gdp_per_person.csv"
+ ],
+ "02-world": [
+  "world/gdp_usd.csv",
+  "world/hdi.csv",
+  "world/reserves.csv"
+ ],
+ "03-demography": [
+  "demography/population.csv",
+  "demography/population_ukrstat.csv"
+ ],
+ "04-people": [
+  "macro/economy.csv",
+  "people/gini.csv"
+ ]
+}
