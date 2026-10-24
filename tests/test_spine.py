@@ -256,7 +256,7 @@ def test_a_log_axis_uses_the_declared_ladder():
 def test_data_outside_a_shared_scale_fail_loudly():
     s = spine.SLOTS["economy.growth"]
     with pytest.raises(spine.SpineError, match="atlas-wide range"):
-        spine.fit(s, (-20, 5))
+        spine.fit(s, (-40, 5))
     assert spine.fit(s, (-3, 5)) == (s.ref, False)
 
 

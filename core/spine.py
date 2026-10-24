@@ -98,7 +98,7 @@ _LADDER_HOMICIDE = (0.1, 0.3, 1, 3, 10, 30, 100)
 SPINE: dict[str, tuple[Slot, ...]] = {
     "economy": (
         _c("economy.growth", "Real GDP growth", "% per year",
-           (-18, 18), BOTH, zero=True),
+           (-32, 18), BOTH, zero=True),
         _c("economy.gdp_per_person", "GDP per person", "US$, current",
            (500, 200_000), NONE, LOG, _LADDER_GDP_PC),
         _c("economy.inflation", "Consumer price inflation", "% per year",
@@ -172,7 +172,7 @@ SPINE: dict[str, tuple[Slot, ...]] = {
     ),
     "demography": (
         _c("demography.population", "Population", "index 2006 = 100",
-           (80, 150), BOTH),
+           (75, 150), BOTH),
         _c("demography.fertility", "Total fertility rate",
            "children per woman", (0, 3.5)),
         _c("demography.birth_death", "Crude birth and death rates",
