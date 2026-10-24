@@ -1,41 +1,98 @@
 {
  "argentina/en": {},
  "argentina/es": {},
- "argentina/pt": {},
- "brasil/en": {},
- "brasil/pt": {},
+ "argentina/pt": {
+  "ONDATA": 1
+ },
+ "brasil/en": {
+  "OVERLAP": 1
+ },
+ "brasil/pt": {
+  "OVERLAP": 1
+ },
  "canada/en": {},
  "canada/fr": {},
  "canada/pt": {},
  "china/en": {},
  "china/pt": {},
  "china/zh-Hans": {},
- "france/en": {},
- "france/fr": {},
- "france/pt": {},
- "israel/en": {},
- "israel/he": {},
- "israel/pt": {},
- "italy/en": {},
- "italy/it": {},
- "italy/pt": {},
- "japan/en": {},
+ "france/en": {
+  "ONDATA": 2
+ },
+ "france/fr": {
+  "ONDATA": 2
+ },
+ "france/pt": {
+  "ONDATA": 2
+ },
+ "israel/en": {
+  "CLIPPED": 2,
+  "ONDATA": 1,
+  "OVERLAP": 1
+ },
+ "israel/he": {
+  "CLIPPED": 2,
+  "OVERLAP": 1
+ },
+ "israel/pt": {
+  "CLIPPED": 2,
+  "ONDATA": 1,
+  "OVERLAP": 1
+ },
+ "italy/en": {
+  "ONDATA": 1
+ },
+ "italy/it": {
+  "ONDATA": 1
+ },
+ "italy/pt": {
+  "ONDATA": 1
+ },
+ "japan/en": {
+  "OVERLAP": 1
+ },
  "japan/ja": {},
- "japan/pt": {},
+ "japan/pt": {
+  "OVERLAP": 1
+ },
  "portugal/en": {},
  "portugal/pt": {},
  "south-korea/en": {},
  "south-korea/ko": {},
  "south-korea/pt": {},
- "spain/en": {},
- "spain/es": {},
- "spain/pt": {},
- "switzerland/de": {},
- "switzerland/en": {},
- "switzerland/pt": {},
- "taiwan/en": {},
- "taiwan/pt": {},
- "taiwan/zh-Hant": {},
+ "spain/en": {
+  "ONDATA": 1
+ },
+ "spain/es": {
+  "ONDATA": 1
+ },
+ "spain/pt": {
+  "ONDATA": 1
+ },
+ "switzerland/de": {
+  "ONDATA": 1
+ },
+ "switzerland/en": {
+  "ONDATA": 1
+ },
+ "switzerland/pt": {
+  "ONDATA": 1
+ },
+ "taiwan/en": {
+  "CLIPPED": 1,
+  "OVERLAP": 2
+ },
+ "taiwan/pt": {
+  "CLIPPED": 1,
+  "OVERLAP": 2
+ },
+ "taiwan/zh-Hant": {
+  "CLIPPED": 1,
+  "OVERLAP": 2
+ },
+ "ukraine/en": {},
+ "ukraine/pt": {},
+ "ukraine/uk": {},
  "united-kingdom/en": {},
  "united-kingdom/pt": {},
  "usa/en": {},
