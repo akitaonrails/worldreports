@@ -338,4 +338,18 @@ def build(ctx) -> list[dict]:
                 "facts": ('total', 'credit_card'),
             },
         },
+        {
+            "id": "12-migration", "topic": "migration", "n": "12", "family": PEOPLE,
+            "title": ctx.text(en="Migration, without mixing unlike measures", pt="Migração, sem misturar medidas diferentes"),
+            "blurb": ctx.text(en="Census net migration and ACS birthplace and citizenship stocks; gross PEP components remain unpublished.", pt="Migração líquida do Census e estoques do ACS por nascimento e cidadania; os componentes brutos do PEP seguem inéditos."),
+            "spark": ctx.col("migration/stock_acs.csv", "foreign_born"),
+            "spark_level": True,
+            "stats": [ctx.stat({"en": "Foreign-born residents", "pt": "Residentes nascidos no exterior"}, ctx.col("migration/stock_acs.csv", "foreign_born"), "count", kind="level")],
+            "table": {"csv": "migration/stock_acs.csv", "key": "year",
+                      "columns": [("year", ctx.text(en="Year", pt="Ano")),
+                                  ("foreign_born", ctx.text(en="Foreign-born", pt="Nascidos no exterior")),
+                                  ("naturalized", ctx.text(en="Naturalized citizens", pt="Cidadãos naturalizados")),
+                                  ("noncitizen", ctx.text(en="Noncitizens", pt="Não cidadãos"))],
+                      "facts": ("foreign_born", "noncitizen")},
+        },
     ]

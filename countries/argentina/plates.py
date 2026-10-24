@@ -959,6 +959,51 @@ def plate_mortality(ctx, ig) -> None:
          f"as the pneumonia it became.", ha="right")
 
 
+# ========================================================== 13 migration
+def plate_migration(ctx, ig) -> None:
+    p = ctx.p
+    ax = ig.slot("migration.flows",
+                 "Resident immigration and emigration — not verified")
+    ctx.pending(ax)
+    finish(ig, ax, ctx)
+    note(ctx, ax, 0.50, 0.34,
+         "DNM movements count trips; residence grants count decisions.\n"
+         "Neither is a comparable resident-flow pair.", ha="center")
+    ax = ig.slot("migration.net", "Net migration — UN WPP estimate")
+    t = ctx.table("social/demography_intl.csv")
+    counts = {int(y): float(v)
+              for y, v in zip(t["year"], t["net_migration"]) if v == v}
+    pop = {int(y): float(v)
+           for y, v in zip(t["year"], t["population"]) if v == v}
+    net = dict(zip(*ctx.per_1000(counts, pop)))
+    line(ctx, ax, net, p.CELESTE_D, label="UN WPP, modelled")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="upper left")
+    ax = ig.slot("migration.foreign_born", "Foreign-born share — census")
+    stock = col(ctx, "migration/foreign_born_census.csv", "foreign_born_pct")
+    line(ctx, ax, stock, p.CELESTE_D, label="INDEC, private dwellings")
+    finish(ig, ax, ctx)
+    legend(ctx, ax, loc="upper left")
+    for y, value in stock.items():
+        ax.text(y, value, f"{value:.1f}%", ha="center", va="bottom",
+                fontsize=8.4, fontweight="bold", color=p.CELESTE_D)
+    note(ctx, ax, 0.98, 0.97,
+         "Country of birth, not citizenship. Census snapshots only.",
+         ha="right")
+    ax = ig.slot("migration.lens", "Lens: largest countries of birth, 2022")
+    t = ctx.table("migration/origins_census_2022.csv")
+    names = list(t["origin"])
+    values = [float(v) / 1000 for v in t["count"]]
+    ax.bar(names, values, color=[p.CELESTE_D, p.SUN, p.PURPLE], width=0.62)
+    ax.set_ylabel("thousand residents", fontsize=8.6, color=p.muted)
+    for i, value in enumerate(values):
+        ax.text(i, value, f"{value:,.0f}k", ha="center", va="bottom",
+                fontsize=8.5, fontweight="bold", color=p.ink)
+    ig.style_axis(ax)
+    ax.set_xlim(-0.6, len(names) - 0.4)
+    ax.set_xticks(range(len(names)), names)
+
+
 # ============================================================== registry
 # The plates, in page order. `alt` is what a screen-reader user gets
 # instead of the figure, so it states what the panels show.
@@ -1140,4 +1185,9 @@ PLATES = [
              "confirmed and probable together. Pneumonia kills 40 to 87 "
              "per 100,000 a year; influenza barely appears, because a fatal "
              "flu is certified as pneumonia."),
+    dict(id="13", slug="migration", topic="migration", builder=plate_migration,
+         title="Migration on the definitions that survive scrutiny",
+         subtitle="Modelled net movement, census birthplace and origins",
+         source="Sources: INDEC, Censo 2022; UN World Population Prospects via World Bank WDI",
+         alt="Gross resident immigration and emigration remain visibly pending because DNM movements count trips and residence grants count administrative decisions, not changes of usual residence. UN WPP supplies modelled net migration per 1,000. INDEC census snapshots show 4.5% foreign-born in 2010 and 4.2% in 2022; Paraguay, Bolivia and Venezuela are the origins shown."),
 ]

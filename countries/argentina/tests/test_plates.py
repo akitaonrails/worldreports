@@ -52,11 +52,11 @@ def segments(panel, needle: str) -> list[list[float]]:
 
 
 # ---------------------------------------------------------------- registry
-def test_twelve_plates_with_unique_ids_slugs_and_topics():
-    assert len(plates.PLATES) == 12
-    assert len(set(IDS)) == 12
-    assert len({p["slug"] for p in plates.PLATES}) == 12
-    assert len({p["topic"] for p in plates.PLATES}) == 12
+def test_thirteen_plates_with_unique_ids_slugs_and_topics():
+    assert len(plates.PLATES) == 13
+    assert len(set(IDS)) == 13
+    assert len({p["slug"] for p in plates.PLATES}) == 13
+    assert len({p["topic"] for p in plates.PLATES}) == 13
     assert IDS == sorted(IDS), "the plates are numbered out of order"
 
 
@@ -69,7 +69,8 @@ def test_the_chapters_keep_their_ids_and_answer_their_topics():
         "04-state": "fiscal", "05-trade": "trade", "06-credit": "credit",
         "07-markets": "markets", "08-people": "demography",
         "09-violence": "security", "10-spending": "spending",
-        "11-world": "world", "12-mortality": "mortality"}
+        "11-world": "world", "12-mortality": "mortality",
+        "13-migration": "migration"}
 
 
 def test_plates_is_defined_once():
@@ -344,3 +345,12 @@ def test_the_us_dollar_yield_is_labelled_as_a_sum_not_a_bond():
     embi = column("markets/country_risk.csv", "avg_bp")
     assert panel.points("EMBI")[2023] == pytest.approx(ust[2023]
                                                        + embi[2023] / 100)
+
+
+def test_migration_uses_birthplace_and_preserves_pending_gross_flows():
+    stock = column("migration/foreign_born_census.csv", "foreign_born_pct")
+    assert stock == {2010: 4.5, 2022: 4.2}
+    spec = next(p for p in plates.PLATES if p["topic"] == "migration")
+    assert "trips" in spec["alt"] and "decisions" in spec["alt"]
+    origins = (COUNTRY.data_dir / "migration/origins_census_2022.csv").read_text()
+    assert "Paraguay,522598" in origins and "Venezuela,161495" in origins

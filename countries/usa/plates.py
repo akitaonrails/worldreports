@@ -932,6 +932,47 @@ def plate_violence(ctx, ig):
                    f"most of them suicides.", y=0.05, x=0.985, ha="right")
 
 
+# ============================================================= migration
+def plate_migration(ctx, ig):
+    ax = ig.slot("migration.flows",
+                 "Gross PEP immigration and emigration — unpublished")
+    ctx.pending(ax)
+    _frame(ig, ax, slot1=True)
+    _note(ctx, ax,
+          "Census publishes the adjusted net component, but not its\n"
+          "gross components separately. DHS events are not substitutes.",
+          x=0.5, y=0.34, ha="center")
+    ax = ig.slot("migration.net",
+                 "Net international migration — Census PEP")
+    rate = _d(ctx, "social/components.csv", "net_migration_rate")
+    _line(ctx, ax, rate, ctx.p.NAVY, label="Census PEP, per 1,000", lw=2.6)
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper left")
+    stock = "migration/stock_acs.csv"
+    total = _d(ctx, stock, "total_population")
+    foreign = _d(ctx, stock, "foreign_born")
+    noncitizen = _d(ctx, stock, "noncitizen")
+    ax = ig.slot("migration.foreign_born", "Foreign-born and noncitizen share")
+    _line(ctx, ax, _ratio(foreign, total), ctx.p.NAVY, label="foreign-born", lw=2.6)
+    _thin(ctx, ax, _ratio(noncitizen, total), ctx.p.RED, label="noncitizen")
+    _frame(ig, ax)
+    _legend(ctx, ax, loc="upper left")
+    _note(ctx, ax,
+          "ACS B05002; birthplace and citizenship are different cuts.",
+          y=0.05)
+    ax = ig.slot("migration.lens",
+                 "Lens: citizenship within the foreign-born stock")
+    naturalized = _d(ctx, stock, "naturalized")
+    _line(ctx, ax, _ratio(naturalized, foreign), ctx.p.NAVY,
+          label="naturalized US citizens", lw=2.6)
+    _line(ctx, ax, _ratio(noncitizen, foreign), ctx.p.RED,
+          label="not US citizens", lw=2.2)
+    _frame(ig, ax)
+    ax.set_ylabel("% of foreign-born", fontsize=8.6, color=ctx.p.muted)
+    ax.set_ylim(0, 100)
+    _legend(ctx, ax, loc="upper left")
+
+
 # ------------------------------------------------------------- the plates
 def _src(*parts: str) -> str:
     return "Sources: " + " · ".join(parts)
@@ -1065,4 +1106,10 @@ PLATES = (
               "against the policy rate; the share of balances 90 days or "
               "more delinquent, by type; and household debt by type in US "
               "dollars.")),
+    dict(id="12", slug="migration", topic="migration", builder=plate_migration,
+         title="Migration, without mixing unlike measures",
+         subtitle="Census net migration and ACS birthplace and citizenship stocks",
+         source=_src("Census Bureau, Population Estimates Program",
+                     "Census Bureau, ACS 1-year table B05002"),
+         alt=("Gross Census PEP immigration and emigration are visibly pending because Census does not publish the components separately. The PEP net migration rate is shown per 1,000. ACS B05002 shows foreign-born and noncitizen shares, and the lens divides the foreign-born stock into naturalized citizens and noncitizens.")),
 )

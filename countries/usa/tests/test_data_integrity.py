@@ -120,3 +120,12 @@ def test_budget_rows_name_their_publisher():
             continue
         assert row["source"] in ("omb", "treasury"), \
             f"{year}: source {row['source']!r}"
+
+
+def test_acs_migration_stock_uses_one_survey_universe():
+    rows = read("migration/stock_acs.csv")
+    row = rows[2024]
+    assert num(row, "total_population") == 340_110_990
+    assert num(row, "foreign_born") == 50_234_858
+    assert num(row, "naturalized") + num(row, "noncitizen") == num(row, "foreign_born")
+    assert 2020 not in rows

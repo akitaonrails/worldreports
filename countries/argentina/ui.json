@@ -1,32 +1,35 @@
 {
  "en": {
-  "line": "Twenty years of official statistics, {window}, in twelve plates — and an honest account of where each number came from.",
+  "line": "Twenty years of official statistics, {window}, in thirteen plates — and an honest account of where each number came from.",
   "dek": "Argentina publishes more open data, through better machinery, than most countries in the region — and a decade of it cannot be used. Both of those are true at once, and nearly every editorial decision here follows from the second. Where a source is broken or was withdrawn by the state that produced it, the plate says so on the panel instead of drawing through it.",
   "notes": [
    "What it was actually like to collect this: which series are published but empty, which are dated six months wrong, and which had to be reconstructed. Written while gathering, not afterwards.",
-   "Thirty-nine datasets. The four marked as market references are not official statistics — nobody publishes them — and are labelled that way on the plates rather than attributed to an institution that never produced them. Ten more are international compilations (the World Bank, the IMF, the BIS, Transparency International) set beside Argentina's own series so the plates can be compared with other countries'.",
+   "Forty-one datasets. The four marked as market references are not official statistics — nobody publishes them — and are labelled that way on the plates rather than attributed to an institution that never produced them. Ten more are international compilations (the World Bank, the IMF, the BIS, Transparency International) set beside Argentina's own series so the plates can be compared with other countries'.",
    "Generated from committed CSVs on {generated}. Charts are a build artefact; the CSVs are the record."
   ],
-  "colophon": []
+  "colophon": [],
+  "unavailable": ["Gross resident immigration and emigration: DNM movements count trips and residence grants count administrative decisions; no comparable pair was verified."]
  },
  "es": {
-  "line": "Veinte años de estadísticas oficiales, {window}, en doce láminas — y un relato honesto de dónde salió cada número.",
+  "line": "Veinte años de estadísticas oficiales, {window}, en trece láminas — y un relato honesto de dónde salió cada número.",
   "dek": "La Argentina publica más datos abiertos, y con mejor maquinaria, que la mayoría de los países de la región — y hay una década que no se puede usar. Las dos cosas son ciertas a la vez, y casi todas las decisiones editoriales de este atlas salen de la segunda. Cuando una fuente está rota o fue retirada por el propio Estado que la produjo, la lámina lo dice en el panel en lugar de dibujar por encima.",
   "notes": [
    "Cómo fue realmente juntar esto: qué series se publican vacías, cuáles están fechadas seis meses corridas y cuáles hubo que reconstruir. Escrito mientras se recolectaba, no después.",
-   "Treinta y nueve conjuntos de datos. Los cuatro marcados como referencia de mercado no son estadísticas oficiales — no los publica nadie — y así se los señala en las láminas, en lugar de atribuirlos a una institución que nunca los produjo. Otros diez son compilaciones internacionales (Banco Mundial, FMI, BIS, Transparencia Internacional) puestas junto a las series propias de la Argentina para poder comparar las láminas con las de otros países.",
+   "Cuarenta y un conjuntos de datos. Los cuatro marcados como referencia de mercado no son estadísticas oficiales — no los publica nadie — y así se los señala en las láminas, en lugar de atribuirlos a una institución que nunca los produjo. Otros diez son compilaciones internacionales (Banco Mundial, FMI, BIS, Transparencia Internacional) puestas junto a las series propias de la Argentina para poder comparar las láminas con las de otros países.",
    "Generado a partir de CSV versionados el {generated}. Los gráficos son un artefacto de compilación; los CSV son el registro."
   ],
-  "colophon": []
+  "colophon": [],
+  "unavailable": ["Flujos brutos de inmigración y emigración de residentes: los movimientos de la DNM cuentan viajes y las residencias cuentan decisiones administrativas; no se verificó un par comparable."]
  },
  "pt": {
-  "line": "Vinte anos de estatísticas oficiais, {window}, em doze pranchas — e um relato honesto de onde saiu cada número.",
+  "line": "Vinte anos de estatísticas oficiais, {window}, em treze pranchas — e um relato honesto de onde saiu cada número.",
   "dek": "A Argentina publica mais dados abertos, e com maquinário melhor, que a maioria dos países da região — e há uma década inteira que não dá para usar. As duas coisas são verdadeiras ao mesmo tempo, e quase toda decisão editorial deste atlas vem da segunda. Quando uma fonte está quebrada ou foi retirada pelo próprio Estado que a produziu, a prancha diz isso no painel em vez de desenhar por cima.",
   "notes": [
    "Como foi de fato reunir isto: quais séries são publicadas vazias, quais estão datadas seis meses deslocadas e quais tiveram de ser reconstruídas. Escrito durante a coleta, não depois.",
-   "Trinta e nove conjuntos de dados. Os quatro marcados como referência de mercado não são estatísticas oficiais — ninguém os publica — e são assinalados assim nas pranchas, em vez de atribuídos a uma instituição que nunca os produziu. Outros dez são compilações internacionais (Banco Mundial, FMI, BIS, Transparência Internacional) postas ao lado das séries próprias da Argentina para que as pranchas possam ser comparadas com as de outros países.",
+   "Quarenta e um conjuntos de dados. Os quatro marcados como referência de mercado não são estatísticas oficiais — ninguém os publica — e são assinalados assim nas pranchas, em vez de atribuídos a uma instituição que nunca os produziu. Outros dez são compilações internacionais (Banco Mundial, FMI, BIS, Transparência Internacional) postas ao lado das séries próprias da Argentina para que as pranchas possam ser comparadas com as de outros países.",
    "Gerado a partir de CSVs versionados em {generated}. Os gráficos são um artefato de build; os CSVs são o registro."
   ],
-  "colophon": []
+  "colophon": [],
+  "unavailable": ["Fluxos brutos de imigração e emigração de residentes: movimentos da DNM contam viagens e residências contam decisões administrativas; nenhum par comparável foi verificado."]
  }
 }

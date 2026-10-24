@@ -304,4 +304,29 @@ def build(ctx) -> list[dict]:
                   ctx.col('social/covid.csv', 'deaths'), 'count', kind="total"),
             ],
         },
+        {
+            "id": '12_migration', "topic": "migration", "n": '12', "family": PEOPLE,
+            "title": ctx.text(ko='국제이동', en='Migration', pt='Migração'),
+            "blurb": ctx.text(
+                ko='90일을 초과해 들어오고 나간 사람, 그리고 인구주택총조사가 집계한 국내 거주 외국인.',
+                en='People who enter or leave for more than 90 days, and resident foreign citizens counted by the census.',
+                pt='Pessoas que entram ou saem por mais de 90 dias, e cidadãos estrangeiros residentes contados pelo censo.'),
+            "alt": ctx.text(
+                ko='한국의 국제이동을 다룬 네 개 패널. 입국자와 출국자는 내·외국인을 모두 포함한 90일 초과 국제이동으로, 인구 1천 명당 비율은 2025년 각각 13.3명과 11.8명이다. 순이동은 국경이 닫힌 2021년에만 마이너스다. 등록센서스가 11월 1일 기준으로 집계한 국내 거주 외국인은 2022년 175만 2천 명(3.4%)에서 2024년 204만 3천 명(3.9%)으로 늘었다. 이는 출생지가 아니라 국적 기준이다. 한국의 시선 패널은 같은 90일 초과 순이동을 내국인과 외국인으로 나눈다.',
+                en='Four panels on migration in South Korea. Immigration and emigration count Korean and foreign citizens entering or leaving for more than 90 days; in 2025 they are 13.3 and 11.8 per 1,000 residents. Net migration is negative only in 2021, when the borders closed. The register census counts 1.752 million resident foreign citizens (3.4%) in 2022 and 2.043 million (3.9%) in 2024, at 1 November; this is citizenship, not birthplace. The lens splits the same >90-day net flow between Korean and foreign citizens.',
+                pt='Quatro painéis sobre a migração na Coreia do Sul. Imigração e emigração contam cidadãos coreanos e estrangeiros que entram ou saem por mais de 90 dias; em 2025 são 13,3 e 11,8 por mil habitantes. A migração líquida só é negativa em 2021, quando as fronteiras fecharam. O censo de registros conta 1,752 milhão de cidadãos estrangeiros residentes (3,4%) em 2022 e 2,043 milhões (3,9%) em 2024, em 1º de novembro; é um corte por cidadania, não por local de nascimento. A lente separa o mesmo fluxo líquido de mais de 90 dias entre cidadãos coreanos e estrangeiros.'),
+            "sources": ['social/migration.csv',
+                        'migration/foreign_residents_census.csv',
+                        'migration/flows_by_citizenship.csv',
+                        'social/population.csv'],
+            "spark": ctx.col('social/migration.csv', 'net'),
+            "stats": [
+                S({"ko": '순이동', "en": 'Net migration', "pt": 'Migração líquida'},
+                  ctx.col('social/migration.csv', 'net'), 'count', kind="flow"),
+                S({"ko": '외국인 비중', "en": 'Foreign-citizen share',
+                   "pt": 'Parcela de cidadãos estrangeiros'},
+                  ctx.col('migration/foreign_residents_census.csv',
+                          'foreign_citizen_share_pct'), 'pct', kind="level"),
+            ],
+        },
     ]

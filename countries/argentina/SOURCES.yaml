@@ -25,6 +25,28 @@ meta:
     a build artefact.
 
 datasets:
+  - file: migration/foreign_born_census.csv
+    title: Foreign-born residents in private dwellings, census snapshots
+    publisher: INDEC — Censo Nacional de Población, Hogares y Viviendas 2022
+    official: true
+    access: https://www.indec.gob.ar/ftp/cuadros/poblacion/censo2022_migraciones.pdf
+    fetcher: fetch/fetch_migration.py
+    sidecar: migration/foreign_born_census_check.csv
+    caveats: >
+      Country of birth, not citizenship. The published percentage uses the
+      private-dwelling census population and is not recomputed with WPP.
+
+  - file: migration/origins_census_2022.csv
+    title: Largest countries of birth among foreign-born residents, 2022
+    publisher: INDEC — Censo Nacional de Población, Hogares y Viviendas 2022
+    official: true
+    access: https://www.indec.gob.ar/ftp/cuadros/poblacion/censo2022_migraciones.pdf
+    fetcher: fetch/fetch_migration.py
+    sidecar: migration/origins_census_2022_check.csv
+    caveats: >
+      Census stock at habitual residence, not arrivals, border movements or
+      residence decisions.
+
   - file: macro/gdp.csv
     title: GDP in dollars and pesos, real growth, GDP per capita, population
     publisher: INDEC — Cuentas Nacionales, base 2004

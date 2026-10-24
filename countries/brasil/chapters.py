@@ -257,6 +257,14 @@ def build(ctx) -> list[dict]:
                      kind="level"),
             ],
         },
+        {
+            "id": "12_migration", "topic": "migration", "n": "12", "family": PEOPLE,
+            "title": ctx.text(en="Migration, on compatible definitions", pt="Migração, em definições compatíveis"),
+            "blurb": ctx.text(en="Modelled net migration and census stocks; unresolved gross components stay visibly pending.", pt="Migração líquida modelada e estoques censitários; componentes brutos incompatíveis ficam visivelmente pendentes."),
+            "spark": ctx.col("migration/stock_census.csv", "foreign_born_pct"),
+            "spark_level": True,
+            "stats": [ctx.stat({"en": "Foreign-born", "pt": "Nascidos no exterior"}, ctx.col("migration/stock_census.csv", "foreign_born_pct"), "pct", kind="level")],
+        },
     ]
 
     # Plate numbers are assigned by family — money 01-05, world 06-07,

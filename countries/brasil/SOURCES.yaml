@@ -501,6 +501,23 @@ markets:
       constant-maturity 10-year yield for Brazil; the OECD's "long-term
       interest rate" for Brazil is the TJLP, a BNDES lending rate. 2026 =
       Jan to 21 Aug. Curated from bond_10y_from_tesouro.csv on 2026-10-22.
+migration:
+  stock_census.csv:
+    source: IBGE — Censo Demográfico 2022, Migração e Deslocamento
+    url: https://biblioteca.ibge.gov.br/visualizacao/livros/liv102187.pdf
+    refreshed_by: fetch/fetch_migration.py
+    notes: >-
+      Same-census numerator and denominator. Foreign-born is from the migration
+      report; citizenship is refreshed from SIDRA table 10157
+      (https://sidra.ibge.gov.br/tabela/10157). Neither is an annual flow.
+  origins_census.csv:
+    source: IBGE — Censo Demográfico 2010 and 2022, Migração e Deslocamento
+    url: https://biblioteca.ibge.gov.br/visualizacao/livros/liv102187.pdf
+    refreshed_by: fetch/fetch_migration.py
+    notes: >-
+      Census residents born in Latin America, two snapshots. The 2022 report
+      preserves the 2010 comparison on the same named origin region.
+
 international:
   wef.csv:
     source: World Economic Forum — Global Competitiveness Report editions 2006-07 through 2017-18 (GCI, scale 1-7) and GCI 4.0 2018/2019 (scale 0-100, via World Bank data360)

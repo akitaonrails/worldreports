@@ -395,3 +395,35 @@ social/poverty_wb.csv, social/gini_wb.csv.
 - Trade openness is trade slot 1 now; nominal GDP in won is a note on
   world slot 1.
 - The CPI axis no longer starts at zero, so a year of deflation would show.
+
+## 8. Migration: duration, citizenship and two population dates
+
+The migration chapter uses Statistics Korea's International Migration
+Statistics, not border-crossing totals. An immigrant or emigrant in that
+table is a Korean or foreign citizen entering or leaving for **more than 90
+days**. The total and citizenship rows share one definition and vintage, and
+the Korean plus foreign rows reproduce the total in every year. In 2024 the
+table records 727,357 arrivals, 601,954 departures and net migration of
+125,403; Korean citizens account for +27,647 of that net and foreign citizens
+for +97,756. The fetcher asserts both the landmark and the identity before it
+writes review sidecars.
+
+The stock panel is a different statistical object: the register-based
+Population and Housing Census count at **1 November**. Its major-indicators
+table gives the numerator and denominator together, so the plate preserves
+that same-date census perimeter rather than dividing a Ministry of Justice
+stock by the mid-year projection. Resident foreign citizens rise from 1.752
+million of 51.692 million (3.4%) in 2022 to 2.043 million of 51.806 million
+(3.9%) in 2024. The published English table rounds counts to the nearest
+thousand and publishes the shares to one decimal; both are retained as
+published.
+
+This is a **citizenship** stock, not a foreign-born one. Naturalisation can
+move a person out of it without migration, and a Korean citizen born abroad
+is not in it. A definition-checked foreign-born series was not found in the
+bounded official-source review, so the plate names the citizenship measure
+in its title, legend, note, page copy and unavailable-data disclosure. The
+Ministry of Justice's broader `stay foreigners` figure (which also includes
+short-term foreigners and foreign-national Koreans reporting domestic
+residence) was rejected for the canonical stock slot because its perimeter
+does not match the register census.

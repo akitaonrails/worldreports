@@ -635,6 +635,16 @@ credit:
       as one quarter, not a year. Wider than bank-loan series: every
       lender and debt securities are in it.
 
+migration:
+  stock_acs.csv:
+    source: Census Bureau — American Community Survey 1-year table B05002
+    url: https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/1YRData/acsdt1y2024-b05002.dat
+    refreshed_by: fetch/fetch_migration.py
+    notes: >-
+      National resident population. Foreign-born is birthplace; naturalized
+      and noncitizen partition that stock by citizenship. Annual 2020 is
+      absent because no standard ACS 1-year estimates were released.
+
 international:
   world.csv:
     source: 'World Bank — World Development Indicators (NY.GDP.PCAP.CD, FI.RES.TOTL.CD)'

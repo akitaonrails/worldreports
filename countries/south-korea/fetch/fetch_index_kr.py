@@ -32,7 +32,7 @@ Outputs:
   data/social/mortality.csv       year,suicide,transport,pneumonia,cancer,heart,liver,diabetes,all_causes,cerebrovascular
   data/social/road.csv            year,road_rate
   data/social/vital.csv           year,births,deaths,natural_change,tfr,life_expectancy,crude_birth_rate,crude_death_rate
-  data/social/migration.csv       year,arrivals,departures,net
+  data/social/migration_check.csv year,arrivals,departures,net
   data/social/workplace.csv       year,injury_rate,fatal_rate,deaths,disease_cases
   data/fiscal/debt.csv            year,d1,d2
 """
@@ -290,7 +290,10 @@ def main() -> None:
     mig = tables["migration"]
     net = as_series(mig, "순이동")
     assert net.get(2023) == "121309", net.get(2023)
-    write("social/migration.csv", "year,arrivals,departures,net", years,
+    # Review sidecar: migration is now consumed by its own chapter and must
+    # never be silently revised under a published plate.  The dedicated
+    # fetch_migration.py also validates the citizenship components and stock.
+    write("social/migration_check.csv", "year,arrivals,departures,net", years,
           [as_series(mig, "입국자"), as_series(mig, "출국자"), net])
 
     # Two different road-death counts exist and are not interchangeable. The

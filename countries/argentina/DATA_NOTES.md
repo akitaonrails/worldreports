@@ -569,3 +569,12 @@ margins over it), and it tracks the policy rate closely where both exist
 - Influenza deaths are drawn, per 100,000, beside pneumonia in the
   mortality lens, so the reader sees how little the code is used rather
   than being told.
+# Migration
+
+The gross-flow slot is deliberately pending. DNM entry and exit totals count
+border movements (trips), while residence grants count administrative
+decisions; neither is a resident immigration/emigration pair. Net migration is
+the existing UN WPP modelled count divided by the same WDI population. Stock
+uses INDEC's published census share of private-dwelling residents born abroad,
+and the lens uses 2022 census countries of birth. Birthplace is never relabelled
+as citizenship.

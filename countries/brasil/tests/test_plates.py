@@ -237,4 +237,13 @@ def test_every_plate_renders():
     """The renderer catches a failing plate so one does not stop the rest,
     which means a broken figure reaches the site unless something fails
     loudly here."""
-    assert len(plate_names(SLUG)) == 11
+    assert len(plate_names(SLUG)) == 12
+
+
+def test_migration_census_stock_and_definition_gate():
+    stock = column("migration/stock_census.csv", "foreign_born")
+    citizen = column("migration/stock_census.csv", "foreign_citizens")
+    assert stock[2022] == 1_064_056
+    assert citizen[2022] == 793_000
+    # The failed 2020 identity is why no gross-flow CSV is published.
+    assert not (DATA / "migration/flows_ibge.csv").exists()

@@ -72,5 +72,10 @@
  "12-mortality": [
   "macro/gdp.csv",
   "social/causes.csv"
+ ],
+ "13-migration": [
+  "migration/foreign_born_census.csv",
+  "migration/origins_census_2022.csv",
+  "social/demography_intl.csv"
  ]
 }

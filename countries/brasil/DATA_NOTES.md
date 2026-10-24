@@ -334,3 +334,12 @@ on offer matured within 1.5 years of ten.
   in 2042).
 - The mortality log panel is gone: everything is per 100,000 on linear
   axes, where influenza and dengue no longer need a log scale to show.
+# Migration
+
+The gross-flow slot remains pending after a focused definition gate. IBGE's
+2024 projection report publishes estimated immigration and an STI-based net
+balance, but naively applying its stated identity implies negative emigration
+in 2020. That is a method incompatibility, not a zero and not permission to
+splice in border movements. The plate therefore uses WPP net migration only,
+plus same-census IBGE birthplace and citizenship stocks and the 2010/2022
+Latin-America-born census comparison.

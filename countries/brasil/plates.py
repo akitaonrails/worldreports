@@ -865,6 +865,53 @@ def fig_epidemics(ctx, ig) -> None:
     finish(ig)
 
 
+# ----------------------------------------------------------- migration
+def fig_migration(ctx, ig) -> None:
+    ax = ig.slot("migration.flows",
+                 "Immigration and emigration — incompatible components")
+    ctx.pending(ax)
+    recessions(ig, ax, first=True)
+    note(ax, "IBGE estimates imply impossible negative emigration in 2020;\n"
+             "the gross pair stays pending until the method is reconciled.",
+         x=0.5, y=0.34, ha="center")
+    ax = ig.slot("migration.net", "Net migration — UN WPP estimate")
+    demo = ctx.table("social/demography.csv")
+    rate = dict(zip(*ctx.per_1000(col(demo, "net_migration"),
+                                  col(demo, "population"))))
+    ctx.line(ax, *xy(rate), ctx.p.BLUE, label="UN WPP, modelled")
+    recessions(ig, ax)
+    legend(ax, loc="upper left")
+    ax = ig.slot("migration.foreign_born",
+                 "Foreign-born and foreign-citizen share")
+    stock = ctx.table("migration/stock_census.csv")
+    ctx.line(ax, *xy(col(stock, "foreign_born_pct")), ctx.p.BLUE,
+             label="born abroad")
+    ctx.line(ax, *xy(col(stock, "foreign_citizens_pct")), ctx.p.YELLOW,
+             label="foreign citizens")
+    for value, colour in ((col(stock, "foreign_born_pct")[2022], ctx.p.BLUE),
+                          (col(stock, "foreign_citizens_pct")[2022], ctx.p.YELLOW)):
+        ax.text(2022, value, f"{value:.2f}%", ha="center", va="bottom",
+                fontsize=8.4, fontweight="bold", color=colour)
+    recessions(ig, ax)
+    legend(ax, loc="upper left")
+    note(ax, "Censo 2022, same-census denominator. Birthplace and\n"
+             "citizenship are different stocks.", x=0.985, y=0.08,
+         ha="right", va="bottom")
+    ax = ig.slot("migration.lens", "Lens: residents born in Latin America")
+    origins = col(ctx.table("migration/origins_census.csv"),
+                  "latin_america_born")
+    ys, vals = xy(origins)
+    vals = [v / 1000 for v in vals]
+    ax.bar([str(y) for y in ys], vals,
+           color=[ctx.p.YELLOW, ctx.p.GREEN_D], width=0.58)
+    ax.set_ylabel("thousand residents", fontsize=8.6, color=ctx.p.MUTED)
+    for i, value in enumerate(vals):
+        ax.text(i, value, f"{value:,.0f}k", ha="center", va="bottom",
+                fontsize=8.5, fontweight="bold", color=ctx.p.INK)
+    finish(ig, skip=(3,))
+    ax.set_xlim(-0.6, len(ys) - 0.4)
+
+
 # The plates, in the order the page lists them. `slug` is the chapter id
 # the files have always been saved under, so no link breaks.
 SOURCE = {
@@ -892,6 +939,8 @@ SOURCE = {
                  "populations"),
     "mortality": ("Ministério da Saúde — SIM/DATASUS (TabNet, ICD-10) · IBGE "
                   "(population, projection model)"),
+    "migration": ("IBGE, Censos Demográficos 2010 e 2022 · UN World "
+                  "Population Prospects via World Bank WDI"),
 }
 
 PLATES = (
@@ -1004,4 +1053,9 @@ PLATES = (
          alt=("Four panels: the crude death rate from registered deaths; "
               "excess deaths against the 2015–19 average; COVID-19 deaths "
               "per 100,000; and influenza and dengue deaths per 100,000.")),
+    dict(slug="12_migration", topic="migration", builder=fig_migration,
+         title="Brazilian migration, on compatible definitions",
+         subtitle="Modelled net movement and census stocks; gross flows remain pending",
+         source="Sources: " + SOURCE["migration"],
+         alt="Gross immigration and emigration remain visibly pending because the published components imply impossible negative emigration in 2020. UN WPP supplies modelled net migration per 1,000. The 2022 census shows foreign-born and foreign-citizen shares, and the lens compares Latin-America-born residents in 2010 and 2022."),
 )

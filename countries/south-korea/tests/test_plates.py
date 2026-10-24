@@ -168,13 +168,13 @@ def test_every_band_runs_forwards():
 
 # ------------------------------------------------------------ registry
 def test_the_registry_and_the_chapters_agree_on_the_plates():
-    """Two lists name the eleven plates, and every card has its figure."""
+    """Two lists name the twelve plates, and every card has its figure."""
     from core import sitebuild
     from core.render import load_plates
 
     drawn = {pl.filename[:-4] for pl in load_plates(COUNTRY)}
     carded = {ch["id"] for ch in sitebuild.chapters_for(COUNTRY)}
-    assert drawn == carded and len(carded) == 11
+    assert drawn == carded and len(carded) == 12
     for plate_id in carded:
         assert (COUNTRY.out_dir / f"{plate_id}.png").exists(), \
             f"card {plate_id} has no rendered plate"
@@ -270,6 +270,62 @@ def test_deflation_would_not_be_cut_off(ctx):
     """The old CPI axis started at zero. On the spine it starts at -2."""
     panel = plate(SLUG, "plate_economy").panel("inflation")
     assert panel.ylim()[0] <= -2
+
+
+def test_migration_citizenship_rows_sum_to_the_official_totals(ctx):
+    total = {column: S(ctx, "social/migration.csv", column)
+             for column in ("arrivals", "departures", "net")}
+    split = {column: S(ctx, "migration/flows_by_citizenship.csv", column)
+             for column in ("korean_arrivals", "korean_departures",
+                            "korean_net", "foreign_arrivals",
+                            "foreign_departures", "foreign_net")}
+    for year in total["net"]:
+        assert total["arrivals"][year] == (
+            split["korean_arrivals"][year] + split["foreign_arrivals"][year])
+        assert total["departures"][year] == (
+            split["korean_departures"][year] + split["foreign_departures"][year])
+        assert total["net"][year] == (
+            split["korean_net"][year] + split["foreign_net"][year])
+    assert total["net"][2024] == 125_403
+    assert split["korean_net"][2024] == 27_647
+    assert split["foreign_net"][2024] == 97_756
+
+
+def test_register_census_stock_keeps_its_own_denominator(ctx):
+    total = S(ctx, "migration/foreign_residents_census.csv",
+              "total_population_thousands")
+    foreign = S(ctx, "migration/foreign_residents_census.csv",
+                "foreign_citizens_thousands")
+    share = S(ctx, "migration/foreign_residents_census.csv",
+              "foreign_citizen_share_pct")
+    assert (total[2024], foreign[2024], share[2024]) == (51_806, 2_043, 3.9)
+    # Counts are published rounded to thousands; the displayed one-decimal
+    # share must still agree after rounding on that same census perimeter.
+    assert round(foreign[2024] / total[2024] * 100, 1) == share[2024]
+
+
+def test_migration_plate_uses_rates_and_the_fixed_comparison_scales(ctx):
+    flows = plate(SLUG, "plate_migration").panel("Immigration and emigration")
+    immigration = flows.points("Immigration")
+    population = S(ctx, "social/population.csv", "pop_mn")[2025] * 1e6
+    arrivals = S(ctx, "social/migration.csv", "arrivals")[2025]
+    assert immigration[2025] == pytest.approx(arrivals / population * 1000)
+    assert flows.ylim() == pytest.approx((0, 50))
+
+    net = plate(SLUG, "plate_migration").panel("Net migration")
+    assert net.ylim() == pytest.approx((-10, 40))
+    stock = plate(SLUG, "plate_migration").panel("Foreign-citizen share")
+    assert stock.points("Resident foreigners at 1 November")[2024] == 3.9
+    assert stock.ylim() == pytest.approx((0, 50))
+
+
+def test_citizenship_lens_reconstructs_total_net_rate(ctx):
+    panel = plate(SLUG, "plate_migration").panel("net migration by citizenship")
+    korean = panel.points("Korean citizens")
+    foreign = panel.points("Foreign citizens")
+    total = dict(zip(*plates.net_migration_rate(ctx)))
+    for year in total:
+        assert korean[year] + foreign[year] == pytest.approx(total[year])
 
 
 @pytest.mark.parametrize("name", NAMES)

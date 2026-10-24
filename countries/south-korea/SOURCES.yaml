@@ -803,7 +803,7 @@ files:
     publisher: Statistics Korea — International Migration Statistics, via e-National Indicators
     url: https://www.index.go.kr/
     series: index.go.kr 101401/1014 — 국제인구이동 (계 = Koreans and foreigners)
-    fetcher: fetch/fetch_index_kr.py
+    fetcher: fetch/fetch_migration.py
     unit: people per year
     caveats:
       - >-
@@ -818,6 +818,54 @@ files:
       - >-
         2021 is the one negative year (-65,978): borders closed and
         arrivals fell to 410,398.
+      - >-
+        An international migrant is a person entering or leaving Korea for
+        more than 90 days. This is not the Ministry of Justice count of all
+        border crossings. The source table was reviewed through 2025: 2024
+        has 727,357 arrivals, 601,954 departures and net 125,403; 2025 has
+        685,242, 610,860 and 74,382.
+
+  migration/flows_by_citizenship.csv:
+    title: International migration by Korean and foreign citizenship
+    publisher: Statistics Korea — International Migration Statistics, via e-National Indicators
+    url: https://www.index.go.kr/unify/idx-info.do?idxCd=1014
+    series: index.go.kr 101401/1014 — 국제인구이동, 내국인 and 외국인 groups
+    fetcher: fetch/fetch_migration.py
+    unit: people per year
+    caveats:
+      - >-
+        The Korean- and foreign-citizen rows use the same more-than-90-day
+        definition and revision vintage as the total flow in
+        social/migration.csv. For every year, the two citizenship components
+        sum exactly to the total arrivals, departures and net migration.
+      - >-
+        Citizenship is not birthplace. A naturalised Korean is in the Korean
+        group even if born abroad. The migration plate uses these rows only
+        for its explicitly labelled citizenship lens.
+      - >-
+        Known-value check for 2024: Korean citizens 276,490 in, 248,843 out,
+        net +27,647; foreign citizens 450,867 in, 353,111 out, net +97,756.
+
+  migration/foreign_residents_census.csv:
+    title: Resident population by Korean and foreign citizenship
+    publisher: Statistics Korea — Population and Housing Census (register-based census)
+    url: https://www.kostat.go.kr/board.es?act=view&bid=11739&list_no=439063&mid=a20108010000
+    series: 2024 Population and Housing Census, major-indicators table
+    fetcher: fetch/fetch_migration.py
+    unit: thousand people; percent of total census population
+    caveats:
+      - >-
+        Stock at 1 November, on the census's citizenship definition and its
+        own same-date population denominator. It is not a foreign-born
+        series, and the plate never calls it one. Counts in the English
+        release are rounded to the nearest thousand; the shares are the
+        publisher's displayed one-decimal values.
+      - >-
+        The audited release provides 2022–2024 in one consistent table:
+        resident foreign citizens 1.752m (3.4%), 1.935m (3.7%) and 2.043m
+        (3.9%), against census populations 51.692m, 51.775m and 51.806m.
+        This deliberately does not mix the census numerator with the
+        mid-year projection denominator used for annual migration flows.
 
   # ------------------------------------------------ harmonised
   fiscal/cofog_from_oecd.csv:

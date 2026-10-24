@@ -1,12 +1,13 @@
 {
  "en": {
-  "line": "Eleven plates of official data, 2006–2026",
+  "line": "Twelve plates of official data, 2006–2026",
   "dek": "Every number here comes from the source that publishes it — IBGE, Banco Central, Tesouro Nacional, MDIC, IPEA, FBSP — and every plate is regenerated from committed CSVs, so the charts and the numbers on this page cannot drift apart. Where a series breaks, it is annotated rather than smoothed.",
   "notes": [
    "2026 is a partial year. Annual totals and averages on this page stop at 2025; readings that are genuinely current — a debt stock, a policy rate, a closing price — are marked <em>latest</em>.",
    "Two pairs of series are deliberately never spliced: homicides counted from death certificates (IPEA/SIM, by residence) against police records (FBSP, by occurrence); and the tax burden before and after its 2010 methodology change.",
-   "The plates themselves are labelled in English; this page is bilingual."
+   "The plates and this page are bilingual."
   ],
+  "unavailable": ["Gross immigration and emigration: the published IBGE components imply impossible negative emigration in 2020; the pair remains pending until the methodology is reconciled."],
   "colophon": [
    {
     "term": "National accounts, population, jobs",
@@ -35,13 +36,14 @@
   ]
  },
  "pt": {
-  "line": "Onze pranchas de dados oficiais, 2006–2026",
+  "line": "Doze pranchas de dados oficiais, 2006–2026",
   "dek": "Cada número aqui vem da fonte que o publica — IBGE, Banco Central, Tesouro Nacional, MDIC, IPEA, FBSP — e cada prancha é gerada a partir de CSVs versionados, de modo que os gráficos e os números desta página não podem divergir. Onde uma série se quebra, isso é anotado em vez de suavizado.",
   "notes": [
    "2026 é um ano parcial. Totais e médias anuais nesta página param em 2025; leituras genuinamente correntes — um estoque de dívida, uma taxa de juros, um fechamento — aparecem marcadas como <em>atual</em>.",
    "Dois pares de séries nunca são emendados de propósito: homicídios contados por declaração de óbito (IPEA/SIM, por residência) contra registros policiais (FBSP, por ocorrência); e a carga tributária antes e depois da mudança metodológica de 2010.",
-   "As pranchas em si estão rotuladas em inglês; esta página é bilíngue."
+   "As pranchas e esta página são bilíngues."
   ],
+  "unavailable": ["Imigração e emigração brutas: os componentes publicados pelo IBGE implicam emigração negativa impossível em 2020; o par fica pendente até a compatibilidade metodológica ser resolvida."],
   "colophon": [
    {
     "term": "Contas nacionais, população, trabalho",
