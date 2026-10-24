@@ -90,7 +90,7 @@ def build(ctx) -> list[dict]:
                        "economy/gdp.csv", "gdp_nominal_usd_mn", 1e-3)
     out_share = _ratio(ctx, "spending/function.csv", "spending_total",
                        "economy/gdp.csv", "gdp_nominal_ntd_mn",
-                       1e-3, 1e-6)
+                       1e3, 1e6)
     household = _ratio(ctx, "credit/household_credit.csv",
                        "consumer_loans_ntd_mn",
                        "economy/gdp.csv", "gdp_nominal_ntd_mn")
@@ -235,7 +235,7 @@ def build(ctx) -> list[dict]:
                   _ratio(ctx, "spending/function.csv",
                          "spending_social_security_pension_subtotal",
                          "economy/gdp.csv", "gdp_nominal_ntd_mn",
-                         1e-3, 1e-6), "pct_gdp"),
+                         1e3, 1e6), "pct_gdp"),
             ],
         },
         {

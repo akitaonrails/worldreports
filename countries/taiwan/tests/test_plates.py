@@ -170,6 +170,45 @@ def test_social_protection_pair_adds_to_total():
         assert rest[float(y)] + soc[float(y)] == pytest.approx(want, abs=0.05)
 
 
+def _spending_card() -> dict[str, dict]:
+    """The spending chapter's card figures, by English label."""
+    for ch in sitebuild.chapters_for(Country.load(SLUG)):
+        stats = {s["label"]["en"]: s for s in ch["stats"]}
+        if "Total outlays (final accounts)" in stats:
+            return stats
+    raise AssertionError("no card carries 'Total outlays (final accounts)'")
+
+
+def test_spending_card_shares_use_the_plate_unit_factor():
+    """The card once inverted thousand-NTD ÷ million-NTD and printed
+    14,450,760.0% of GDP; it must agree with the plate's × 1e3 ÷ 1e6."""
+    stats = _spending_card()
+    spend = by_year("spending/function.csv")
+    gdp = by_year("economy/gdp.csv")
+    for label, col in (("Total outlays (final accounts)", "spending_total"),
+                       ("Social security & pensions",
+                        "spending_social_security_pension_subtotal")):
+        s = stats[label]
+        y = s["year"]
+        assert y in spend and y in gdp, f"{label}: {y} missing from a CSV"
+        want = num(spend[y], col) * 1e3 / (num(gdp[y], "gdp_nominal_ntd_mn") * 1e6) * 100
+        assert 0 < want < 100
+        assert s["value"]["en"] == f"{want:,.1f}% GDP"
+
+
+def test_spending_card_outlays_match_the_publishers_own_share():
+    """An independent check on the unit factor: MOF i2101 publishes its own
+    expenditure % of GDP (14.5 in 2025). The card divides by DGBAS GDP and
+    MOF rounds against its own, so they agree to within a rounding step,
+    not to the printed digit."""
+    s = _spending_card()["Total outlays (final accounts)"]
+    y = s["year"]
+    budget = by_year("fiscal/budget.csv")
+    assert y in budget, f"card year {y} is not in fiscal/budget.csv yet"
+    card = float(s["value"]["en"].removesuffix("% GDP"))
+    assert card == pytest.approx(num(budget[y], "expenditure_pct_gdp"), abs=0.15)
+
+
 # --------------------------------------------------------------------- trade
 def test_goods_only_data_do_not_occupy_goods_and_services_slots():
     is_pending("plate_trade", "Exports and imports, goods and services")
