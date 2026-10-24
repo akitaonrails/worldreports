@@ -50,6 +50,10 @@ GOOGLE_ANALYTICS_ID = "G-7LKE9YHT74"
 # jump as the grid fills.
 THUMB_W, THUMB_H = 560, 357
 
+# Every full plate is rendered at this size (core.render); stated on the
+# og:image so a share preview can lay out before the image arrives.
+PLATE_W, PLATE_H = 2720, 1733
+
 FAMILIES = ("money", "world", "people")
 
 
@@ -195,6 +199,21 @@ def _alternates(country: Country, ui: dict, local: dict, n: int) -> str:
     return "\n  ".join(out)
 
 
+def _keywords(country: Country, locale: str) -> list[str]:
+    """The seo keywords in one language.
+
+    Most countries declare one flat list; a country whose keywords are
+    themselves translated (Taiwan's) declares them per locale. Reading a
+    dict with `', '.join(...)` joins its keys — "zh-Hant, en, pt" as
+    keywords — so the shape is resolved here rather than at each use.
+    """
+    kw = country.seo.get("keywords")
+    if isinstance(kw, dict):
+        kw = kw.get(locale) or kw.get(country.default_locale) \
+            or next((v for v in kw.values() if v), [])
+    return [str(k) for k in (kw or [])]
+
+
 def _jsonld(country: Country, ch: Chrome, datasets: list[dict]) -> str:
     """A Dataset record, so the page is findable as data and not only as text.
 
@@ -212,7 +231,7 @@ def _jsonld(country: Country, ch: Chrome, datasets: list[dict]) -> str:
         "description": ch.tx(country.seo.get("description")),
         "url": f"{ORIGIN}/{country.slug}/{loc}/",
         "inLanguage": country.locale(loc).html_lang,
-        "keywords": list(country.seo.get("keywords") or []),
+        "keywords": _keywords(country, loc),
         "temporalCoverage": years,
         "spatialCoverage": country.seo.get("spatial") or ch.tx(country.name),
         "isAccessibleForFree": True,
@@ -753,8 +772,16 @@ def country_page(country: Country, locale: str, chapters: list[dict],
     desc = ch.tx(country.seo.get("description"))
     cards = "\n    ".join(_card(country, ch, d, i, provenance, by_file)
                           for i, d in enumerate(chapters))
-    social = f"{ORIGIN}/{country.slug}/output/{chapters[0]['id']}.png" \
+    # The share image is the first plate in the page's own language — a
+    # Portuguese page shared into a feed should preview the Portuguese
+    # plate, not the English one behind the plain filename.
+    suffix = "" if locale == "en" else f".{locale}"
+    social = f"{ORIGIN}/{country.slug}/output/{chapters[0]['id']}{suffix}.png" \
         if chapters else ""
+    social_alt = ch.tx(chapters[0]["title"]) if chapters else ""
+    og_alt_locales = "\n  ".join(
+        f'<meta property="og:locale:alternate" content="{e(l.og_locale)}">'
+        for l in country.locales if l.code != locale)
 
     return f"""<!doctype html>
 <html lang="{e(loc.html_lang)}" dir="{e(loc.direction)}">
@@ -764,17 +791,26 @@ def country_page(country: Country, locale: str, chapters: list[dict],
   {_analytics()}
   <title>{e(title)}</title>
   <meta name="description" content="{e(desc)}">
-  <meta name="keywords" content="{e(', '.join(country.seo.get('keywords') or []))}">
+  <meta name="keywords" content="{e(', '.join(_keywords(country, locale)))}">
   <link rel="canonical" href="{ORIGIN}/{country.slug}/{locale}/">
   {_alternates(country, shared, local, len(chapters))}
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="worldreports.io">
   <meta property="og:locale" content="{e(loc.og_locale)}">
+  {og_alt_locales}
   <meta property="og:title" content="{e(title)}">
   <meta property="og:description" content="{e(desc)}">
   <meta property="og:url" content="{ORIGIN}/{country.slug}/{locale}/">
   <meta property="og:image" content="{e(social)}">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="{PLATE_W}">
+  <meta property="og:image:height" content="{PLATE_H}">
+  <meta property="og:image:alt" content="{e(social_alt)}">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{e(title)}">
+  <meta name="twitter:description" content="{e(desc)}">
+  <meta name="twitter:image" content="{e(social)}">
+  <meta name="twitter:image:alt" content="{e(social_alt)}">
   <link rel="icon" href="data:image/svg+xml,{e('<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1 1\"><text y=\".85\" font-size=\"1\">' + country.flag_emoji + '</text></svg>')}">
   <link rel="stylesheet" href="../../assets/app.css">
   <style>{css_vars(country)}</style>
@@ -930,9 +966,13 @@ def home(countries: list[Country], shared: dict, built: str) -> str:
   <meta name="description" content="Data plates on {len(countries)} countries, {years[0]}–{years[1]}, built only from the statistics their own institutions publish and regenerated from committed CSVs.">
   <link rel="canonical" href="{ORIGIN}/">
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
   <meta property="og:title" content="worldreports.io">
   <meta property="og:description" content="Official statistics, country by country.">
   <meta property="og:url" content="{ORIGIN}/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="worldreports.io">
+  <meta name="twitter:description" content="Official statistics, country by country.">
   <link rel="icon" href="data:image/svg+xml,{e('<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1 1\"><text y=\".85\" font-size=\"1\">🌍</text></svg>')}">
   <link rel="stylesheet" href="assets/app.css">
   <script type="application/ld+json">

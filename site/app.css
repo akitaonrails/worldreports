@@ -71,11 +71,17 @@ a { color: inherit; }
 }
 
 .skip {
-  position: absolute; left: -9999px; top: 0; z-index: 100;
+  position: absolute; top: 0; z-index: 100;
+  /* inset-inline-start, not left: in a right-to-left document the
+     scrollable overflow grows leftward, so `left: -9999px` is reachable
+     by scrolling and widens the page by ten thousand pixels. Offscreen at
+     the inline start is offscreen in the non-scrollable direction in both
+     writing directions. */
+  inset-inline-start: -9999px;
   background: var(--paper); color: var(--ground);
   padding: .7rem 1rem; border-radius: var(--r);
 }
-.skip:focus { left: 1rem; top: 1rem; }
+.skip:focus { inset-inline-start: 1rem; top: 1rem; }
 
 :focus-visible {
   outline: 2px solid var(--people);
@@ -426,6 +432,13 @@ html[dir="rtl"] .colophon { text-align: right; }
   .viewer__n { display: none; }
   .tool--wide { min-width: 2.7rem; padding-inline: .4rem; font-size: .74rem; }
   .viewer__bar, .viewer__foot { gap: .5rem; }
+  /* The tools do not fit beside the title once a comparison adds its own
+     button and label — the close button slid off the right edge. Let the
+     bar take a second row rather than push a control out of reach. */
+  .viewer__bar { flex-wrap: wrap; }
+  /* flex-shrink: 0 would hold the tools at their one-line width and push
+     the row past the edge; allowed to shrink, they wrap internally. */
+  .viewer__tools { flex-wrap: wrap; justify-content: flex-end; flex-shrink: 1; min-width: 0; }
   .step { font-size: .8rem; }
   /* The label is the first thing to go: a phone bar has room for the
      glyph and the zoom controls and not for a sentence. Once a country
@@ -492,6 +505,18 @@ html[dir="rtl"] .colophon { text-align: right; }
   background: var(--raised); border: 1px solid var(--rule);
   border-radius: var(--r); box-shadow: 0 18px 50px rgb(0 0 0 / .5);
   list-style: none; margin: 0;
+}
+/* On a phone the corner wraps to the left edge, and a menu hung from the
+   pill's right edge opens with its left half off-screen. Anchored to the
+   masthead row instead, it opens full-width below the switchers. */
+@media (max-width: 560px) {
+  .masthead__top { position: relative; }
+  .atlas { position: static; }
+  .atlas__menu {
+    right: 0; min-width: 0;
+    width: max-content; max-width: calc(100vw - 2 * var(--pad));
+    max-height: 60vh; overflow-y: auto;
+  }
 }
 .atlas__menu a {
   display: flex; align-items: center; gap: .55rem;
@@ -621,6 +646,12 @@ table.srctable code { overflow-wrap: anywhere; }
 .srctable--all col:nth-child(3) { width: 26%; }
 .srctable--all col:nth-child(4) { width: 12%; }
 .srctable--all col:nth-child(5) { width: 10%; }
+/* Five prose columns at a phone's width give one word per line. Below the
+   width where that happens the table keeps a readable layout and scrolls
+   inside its own box, which is what the wrap is for. */
+@media (max-width: 700px) {
+  table.srctable--all { min-width: 36rem; }
+}
 /* The first header cell is sticky on both axes, so it needs to outrank
    both the row heads it scrolls over and the column heads beside it. */
 table.t thead th:first-child { z-index: 3; background: var(--raised); }
@@ -813,6 +844,20 @@ table.srctable .is-other { color: var(--faint); }
 }
 .cmp__empty { color: var(--faint); font-size: .78rem; padding: .3rem .45rem; }
 
+/* On a phone the bar wraps and the button the sheet hangs from is no
+   longer near the right edge, so a right-anchored sheet opens half off
+   the left edge of the screen. Anchored to the bar instead — after the
+   base rules above, so equal specificity resolves this way — it opens
+   full-width below the toolbar. */
+@media (max-width: 560px) {
+  .viewer__bar { position: relative; }
+  .cmp__menu { position: static; }
+  .cmp__sheet {
+    left: .75rem; right: .75rem; top: calc(100% + .4rem);
+    min-width: 0; max-width: none;
+  }
+}
+
 
 /* the same seam, full screen, where the plate is actually readable */
 .viewer__cmp { clip-path: inset(0 0 0 var(--wipe, 50%)); }
@@ -889,3 +934,17 @@ table.srctable .is-other { color: var(--faint); }
 }
 .availability__list strong { color: var(--ink); font-weight: 650; }
 .availability__list span:empty { display: none; }
+
+/* Fingers, not cursors: the viewer controls are 2.1rem squares, which is
+   a precise hover target and a frustrating touch one. Coarse pointers get
+   the same controls at the 44px a thumb can actually hit; the desktop,
+   on a fine pointer, is untouched. Last in the file on purpose: the base
+   rules for these controls set the same properties, and at equal
+   specificity the later rule wins. */
+@media (pointer: coarse) {
+  .tool { min-width: 2.75rem; height: 2.75rem; }
+  .tool--wide { min-width: 3.4rem; padding-inline: .6rem; }
+  .cmp__btn { height: 2.75rem; }
+  .step { min-height: 2.75rem; padding-inline: .6rem; }
+  .vcmp__grip { width: 48px; height: 48px; margin: -24px 0 0 -24px; }
+}
