@@ -75,3 +75,39 @@ published at all this pass rather than assembled from a different perimeter
 or a partner's mirror data. The blocked publishers and their exact failure
 modes are in `SOURCES.yaml` `meta.pending`, and the page discloses the
 absence in each locale.
+
+## Fiscal, trade, markets, security and mortality
+
+These five chapters were added after the route audit (2026-10-24): the
+national publishers that block automated access are the Ministry of
+Finance, the customs service and the Prosecutor General, but the
+harmonised layer and the central bank answer.
+
+- **Fiscal** — IMF WEO (October 2026 vintage), general government, one
+  vintage for all six columns. Observed to 2024; the 2025 debt figure
+  (107.1% of GDP) is the latest WEO year and stays in its `_proj` column
+  in the sidecar, never drawn as observed. Interest is the published
+  `ie` series, not a subtraction of two rounded balances.
+- **Trade** — World Bank national accounts, goods and services. The
+  balance is derived from the same two columns on the plate, never from
+  a second publisher.
+- **Markets** — the NBU's own statistics API: the key policy rate
+  (`KEY_PolicyRate`, annual mean of the daily rate) and the official
+  exchange rate (`rate_per_unit`, annual mean). The hryvnia index is
+  2006 = 100, up = stronger, so the line falls as the currency weakens.
+- **Security** — UNODC and WHO rates via the World Bank. Homicide and
+  suicide stop in 2021 and road deaths in 2019; the holes are real.
+- **Mortality** — crude death rate and life expectancy from the World
+  Bank. The 2021 death-rate peak (17.1 per 1,000) is drawn at its size.
+
+## Still not drawn
+
+Credit is the one chapter deliberately absent: the NBU publishes credit
+aggregates as monthly distributions that need their own definition
+review, and no comparable household-debt series is staged. The remaining
+pending slots are listed on the page in all three languages and in
+`ui.json`.
+
+The atlas-wide ranges were widened a second time for this pass —
+revenue/expenditure to 80, fiscal balance to -24, trade balance to -30
+and the crude death rate to 22 — with every country regenerated.

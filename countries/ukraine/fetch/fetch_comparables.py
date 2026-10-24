@@ -117,12 +117,45 @@ WANTED = [
     ("world/reserves_from_wb.csv", "FI.RES.TOTL.CD", "reserves_usd", 0),
     ("people/gini_from_wb.csv", "SI.POV.GINI", "gini", 1),
     ("demography/population_from_wb.csv", "SP.POP.TOTL", "population", 0),
+    ("trade/trade_from_wb.csv", "NE.EXP.GNFS.ZS", "exports_pct_gdp", 2),
+    ("trade/trade_from_wb.csv", "NE.IMP.GNFS.ZS", "imports_pct_gdp", 2),
+    ("mortality/mortality_from_wb.csv", "SP.DYN.CDRT.IN",
+     "death_rate_per_1000", 2),
+    ("mortality/mortality_from_wb.csv", "SP.DYN.LE00.IN",
+     "life_expectancy", 2),
+    ("security/security_from_wb.csv", "VC.IHR.PSRC.P5",
+     "homicide_per_100k", 3),
+    ("security/security_from_wb.csv", "SH.STA.SUIC.P5",
+     "suicide_per_100k", 2),
+    ("security/security_from_wb.csv", "SH.STA.TRAF.P5",
+     "road_deaths_per_100k", 2),
+]
+
+# The IMF fiscal block: one vintage (WEO October 2026) for every column,
+# observed years in the plain column and WEO forecasts only in `_proj`.
+# Interest paid is a published WEO indicator (`ie`), not a subtraction —
+# the difference between the overall and the primary balance would mix
+# two rounded series.
+IMF_FISCAL = [
+    ("rev", "revenue_pct_gdp", 2),
+    ("exp", "expenditure_pct_gdp", 2),
+    ("GGXCNL_NGDP", "balance_pct_gdp", 2),
+    ("pb", "primary_balance_pct_gdp", 2),
+    ("ie", "interest_pct_gdp", 2),
+    ("GGXWDG_NGDP", "debt_pct_gdp", 2),
 ]
 
 COMMENTS = {
     "demography/population_from_wb.csv": POPULATION_COMMENTS,
     "macro/gdp_uah_from_wb.csv": GDP_UAH_COMMENTS,
     "macro/growth_from_imf.csv": IMF_GROWTH_COMMENTS,
+    "fiscal/fiscal_from_imf.csv": [
+        "IMF WEO (October 2026 vintage), general government: rev, exp,",
+        "GGXCNL_NGDP, pb, ie, GGXWDG_NGDP. Observed years in the plain",
+        "columns; WEO forecasts only in the _proj columns, never mixed.",
+        "2023: expenditure 73.4% of GDP and a -19.3% overall balance —",
+        "the war budget; 2024 gross debt 89.7%, 2025 107.1%.",
+    ],
 }
 
 
@@ -295,8 +328,41 @@ def write_imf(rel: str, code: str, column: str, dec: int) -> dict[int, float]:
     return series
 
 
+
+def write_fiscal() -> dict[str, dict[int, float]]:
+    """The IMF fiscal sidecar: six series, one vintage, projections apart."""
+    series = {code: imf_series(code) for code, _, _ in IMF_FISCAL}
+    if not all(series.values()):
+        print("  !! fiscal: a series came back empty, nothing written",
+              file=sys.stderr)
+        return {}
+    path = ROOT / "data" / "fiscal" / "fiscal_from_imf.csv"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    obs = [(col, series[code], dec) for code, col, dec in IMF_FISCAL]
+    proj = [("balance_pct_gdp_proj", series["GGXCNL_NGDP"], 2),
+            ("debt_pct_gdp_proj", series["GGXWDG_NGDP"], 2)]
+    lines = [f"# {c}" for c in COMMENTS["fiscal/fiscal_from_imf.csv"]]
+    lines.append("year," + ",".join(c for c, _, _ in obs + proj))
+    years = sorted(set().union(*(s for _, s, _ in obs + proj)))
+    rows = 0
+    for y in years:
+        if not YEAR_FROM <= y <= YEAR_TO:
+            continue
+        cells = [f"{s[y]:.{dec}f}" if (y <= LAST_FULL_YEAR and y in s) else ""
+                 for _, s, dec in obs]
+        cells += [f"{s[y]:.{dec}f}" if (y > LAST_FULL_YEAR and y in s) else ""
+                  for _, s, dec in proj]
+        lines.append(f"{y}," + ",".join(cells))
+        rows += 1
+    path.write_text("\n".join(lines) + "\n")
+    print(f"  data/fiscal/fiscal_from_imf.csv  {rows} rows "
+          f"(observed <= {LAST_FULL_YEAR}, projections apart)")
+    return {code: series[code] for code, _, _ in IMF_FISCAL}
+
+
 def verify(wb: dict[str, dict[int, float]], hdi: dict[int, float],
-           imf_growth: dict[int, float]) -> None:
+           imf_growth: dict[int, float],
+           fiscal: dict[str, dict[int, float]] | None = None) -> None:
     """Pin the numbers the discovery pass verified live 2026-10-24, so a
     silent revision, a unit change or a truncated payload fails here
     instead of landing in a sidecar."""
@@ -348,6 +414,27 @@ def verify(wb: dict[str, dict[int, float]], hdi: dict[int, float],
     assert abs(hdi[2006] - 0.762) < 0.001, f"UNDP hdi_2006: {hdi.get(2006)}"
     assert max(hdi) == 2023 and abs(hdi[2023] - 0.779) < 0.001, \
         f"UNDP HDI row set changed: {sorted(hdi)[-3:]}"
+    # Trade: the goods-and-services lines the plate draws.
+    exports = wb["NE.EXP.GNFS.ZS"]
+    imports = wb["NE.IMP.GNFS.ZS"]
+    assert abs(exports[2025] - 25.33) < 0.02, f"WB exports 2025: {exports.get(2025)}"
+    assert abs(imports[2025] - 51.85) < 0.02, f"WB imports 2025: {imports.get(2025)}"
+    # Mortality: crude death rate and life expectancy, latest full year.
+    deaths = wb["SP.DYN.CDRT.IN"]
+    assert abs(deaths[2024] - 13.6) < 0.02, f"WB death rate 2024: {deaths.get(2024)}"
+    assert abs(wb["SP.DYN.LE00.IN"][2024] - 74.69) < 0.02, \
+        f"WB life expectancy 2024: {wb['SP.DYN.LE00.IN'].get(2024)}"
+    if fiscal:
+        # The war budget, pinned: 2023 expenditure 73.4% of GDP and an
+        # overall balance of -19.3%; 2025 gross debt 107.1%.
+        assert abs(fiscal["rev"][2024] - 54.06) < 0.02, \
+            f"IMF revenue 2024: {fiscal['rev'].get(2024)}"
+        assert abs(fiscal["exp"][2023] - 73.40) < 0.02, \
+            f"IMF expenditure 2023: {fiscal['exp'].get(2023)}"
+        assert abs(fiscal["GGXCNL_NGDP"][2023] - -19.3) < 0.02, \
+            f"IMF balance 2023: {fiscal['GGXCNL_NGDP'].get(2023)}"
+        assert abs(fiscal["GGXWDG_NGDP"][2025] - 107.1) < 0.02, \
+            f"IMF debt 2025: {fiscal['GGXWDG_NGDP'].get(2025)}"
 
 
 def main() -> None:
@@ -362,8 +449,9 @@ def main() -> None:
     write("world/hdi_from_undp.csv", [("hdi", hdi, 3)])
     imf_growth = write_imf("macro/growth_from_imf.csv", "NGDP_RPCH",
                            "gdp_growth_pct", 2)
-    if all(fetched.values()) and hdi and imf_growth:
-        verify(fetched, hdi, imf_growth)
+    fiscal = write_fiscal()
+    if all(fetched.values()) and hdi and imf_growth and fiscal:
+        verify(fetched, hdi, imf_growth, fiscal)
         print("All discovery anchors verified.")
     else:
         print("!! incomplete fetch — verification skipped, sidecars partial",
