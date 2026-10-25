@@ -272,6 +272,8 @@ python3 -I fetch/fetch_financial.py    # APRA NPL, BITRE road deaths
 `fetch_abs.py` must run before `fetch_abs_tables.py` and `fetch_oecd.py`
 (both read the quarterly GDP sidecar for a denominator), and
 `fetch_comparables.py` before `fetch_oecd.py` and `fetch_markets.py` (both
-read the World Bank FX column). Every fetcher writes `*_from_<source>.csv`
+read the World Bank FX column). `make C=australia fetch` runs them in the
+directory's glob order, which is that order; each dependent fetcher refuses
+to guess a denominator and exits with the reason if its input is missing. Every fetcher writes `*_from_<source>.csv`
 sidecars and **no** curated file: the promotion from sidecar to
 `data/**/<name>.csv` was done by hand against these notes.
