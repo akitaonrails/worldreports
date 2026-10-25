@@ -1,0 +1,26 @@
+# IMF SDMX CPI, PRY.CPI._T.YOY_PCH_PA_PT: all items, year on year,
+# percent. This is the BCP's consumer price index as the IMF records
+# it — the BCP computes Paraguay's CPI, not the INE, and bcp.gov.py
+# answers a Cloudflare challenge from this network. Identical to the
+# World Bank's FP.CPI.TOTL.ZG to two decimals (2006: 9.59 on both).
+year,cpi_inflation_pct
+2006,9.59
+2007,8.13
+2008,10.15
+2009,2.59
+2010,4.65
+2011,8.25
+2012,3.68
+2013,2.68
+2014,5.03
+2015,3.13
+2016,4.09
+2017,3.60
+2018,3.98
+2019,2.76
+2020,1.77
+2021,4.79
+2022,9.77
+2023,4.63
+2024,3.84
+2025,4.04
