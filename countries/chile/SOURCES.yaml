@@ -1,0 +1,391 @@
+# Data provenance — every series Chile publishes.
+#
+# Research pass 2026-10-25 (DISCOVERY.md is the full record). Each entry
+# names one curated CSV under data/, written by reviewing the sidecar a
+# fetch/*.py pulled; re-running a fetcher rewrites the `*_from_*` sidecar
+# and never a curated file.
+#
+# `official: true` means the body that computes the number published it.
+# The World Bank, the IMF, the BIS, the OECD, UNDP, TI and UN Comtrade are
+# harmonisers and redistributors, so everything drawn only from them is
+# `official: false` even when the underlying series is a national one:
+# the page prints an Official column and it has to be true.
+#
+# Chile's own publishers mostly answer this network as HTML, not as data
+# (Banco Central, INE, Dipres, CMF, Aduanas, SII — the route results are
+# in DISCOVERY.md and reproducible with countries/chile/fetch/fetch_*.py).
+# Where that happened the harmonised series is staged and the national one
+# is listed under meta.pending with the exact endpoint and failure.
+
+world:
+  world.csv:
+    source: "World Bank WDI — NY.GDP.MKTP.CD (GDP), NY.GDP.PCAP.CD (per person), FI.RES.TOTL.CD (reserves); UNDP HDR 2025 composite series (HDI); Transparency International CPI 2025 workbook (score)"
+    url: "https://api.worldbank.org/v2/country/CHL/indicator/NY.GDP.MKTP.CD?format=json"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py, fetch/fetch_transparency.py
+    notes: >-
+      VERIFIED 2026-10-25. gdp_usd_bn: current US$, 2006 = 153.8,
+      2025 = 357.4. gdp_per_person_usd: current US$, 2006 = 9,319,
+      2025 = 17,995. reserves_usd_bn: total reserves including gold, year
+      end, 2006 = 19.4, 2025 = 49.4. hdi: UNDP, one vintage (HDR 2025,
+      1990-2023 recomputed in full each report), 2006 = 0.804,
+      2023 = 0.878. cpi_score: TI, 0-100, 2012 method, 2012 = 72,
+      2025 = 63 (the 2015-16 financing scandals and the 2022-23
+      convenio/audio cases both sit inside that decline). TI is an
+      association, not a statistical office, and the whole file is marked
+      not-official for that reason, not only for the World Bank columns.
+
+macro:
+  economy.csv:
+    source: "World Bank WDI — NY.GDP.MKTP.KD.ZG (growth), FP.CPI.TOTL.ZG (CPI), SL.UEM.TOTL.ZS (unemployment), NE.GDI.FTOT.ZS (GFCF)"
+    url: "https://api.worldbank.org/v2/country/CHL/indicator/NY.GDP.MKTP.KD.ZG?format=json"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25, vintage of 2026-10-08: 2006-2025 observed.
+      Growth is constant-price GDP, % change per year (2020 = -6.14, the
+      pandemic; 2021 = +11.3, the rebound). CPI is the annual average
+      change in the national index — 2022 = 11.64, the highest since
+      1993. Unemployment is ILO modelled (2020 = 10.93), which is what
+      makes the pandemic year comparable with 2006; the national INE
+      labour-force rate joins it when INE's series API answers
+      (meta.pending). GFCF is whole-economy gross fixed capital formation.
+      These are the World Bank's republication of Chile's own accounts.
+  fx.csv:
+    source: "World Bank WDI — PA.NUS.FCRF (official exchange rate, annual average)"
+    url: "https://api.worldbank.org/v2/country/CHL/indicator/PA.NUS.FCRF?format=json"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25: 2006-2025. CLP per US$, annual average, from
+      the Banco Central de Chile. A level: the markets plate rebases it
+      to 2006 = 100 with up = stronger. 2006 = 530.3, 2022 = 873.3,
+      2025 = 951.3 — the peso lost about 44% of its dollar value over
+      the window. The 1975 peso redenomination is outside the window.
+
+fiscal:
+  fiscal.csv:
+    source: "IMF — World Economic Outlook and Fiscal Monitor via DataMapper (GGR_G01_GDP_PT, G_X_G01_GDP_PT, GGXONLB_G01_GDP_PT, GGXCNL_NGDP, GGXWDG_NGDP)"
+    url: "https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25: general government, calendar years, % of GDP,
+      2006-2025. Revenue and expenditure are Fiscal Monitor codes;
+      balance and gross debt are WEO. The fetcher checks that the WEO and
+      Fiscal Monitor balances agree (0.05 pt apart on the worst year of
+      this window) because mixing two vintages of one number in one file
+      would be a splice. Chile's own argument is about the CENTRAL
+      government and its structural balance rule, which is a narrower
+      perimeter than this one; Dipres' national series is in
+      meta.pending. 2006-07 show the copper-boom surplus (+7.5, +8.0);
+      2020-21 the pandemic deficit (-7.1, -7.5); gross debt rose from 5%
+      of GDP in 2006 to 41.5% in 2025.
+  tax.csv:
+    source: "World Bank WDI — GC.TAX.TOTL.GD.ZS (tax revenue, % of GDP)"
+    url: "https://api.worldbank.org/v2/country/CHL/indicator/GC.TAX.TOTL.GD.ZS?format=json"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25: 2006-2024 (2025 not yet published). Taxes
+      only, excluding social contributions, which is why it sits about
+      six points below the general-government revenue in fiscal.csv and
+      is not a substitute for it. The 2022 spike (21.4) is the copper
+      windfall plus the mining royalty, not a rate change alone.
+
+spending:
+  cofog.csv:
+    source: "OECD — National Accounts at a Glance, table 11 (COFOG), general government"
+    url: "https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_OTEF,/A.CHL.OTES13F...?startPeriod=2005&dimensionAtObservation=AllDimensions"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25: 2018-2024 only. Chile began reporting the COFOG
+      table to the OECD in 2018; 2006-2017 are blank, not back-filled from
+      the national functional classification, which is a different
+      mapping. The ten divisions sum to the published total in every year
+      (the fetcher asserts it). 2024: social protection 8.2% of GDP,
+      health 5.3%, education 4.5%, total 27.5%.
+  public_investment.csv:
+    source: "OECD — National Accounts at a Glance P51GS13 (general government gross fixed capital formation)"
+    url: "https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAAG_VI@DF_NAAG_VI,/A.CHL.P51GS13...?startPeriod=2005&dimensionAtObservation=AllDimensions"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25: 2007-2012 only. The OECD series stops in 2012
+      for Chile (the series was discontinued, not the investment); the
+      column is blank after that rather than continued from the national
+      accounts on another basis. Public investment is the piece of the
+      spending chapter the 2014-25 mining cycle turns on and it is the
+      weakest line in this country's data.
+
+trade:
+  trade.csv:
+    source: "World Bank WDI — NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS (exports and imports of goods and services, % of GDP)"
+    url: "https://api.worldbank.org/v2/country/CHL/indicator/NE.EXP.GNFS.ZS?format=json"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25: 2006-2025, national-accounts basis, goods AND
+      services. Not a customs series: the customs goods-only snapshot is
+      trade/partners_2024.csv and the two are never spliced. Exports peak
+      at 37.7% of GDP in 2011 (the copper price), fall to 28.5% in 2018,
+      and the balance swings from +2.9 (2011) to -1.1 (2018) and back to
+      +3.5 (2024).
+  partners_2024.csv:
+    source: "UN Comtrade — Chile goods exports by partner, calendar 2024 (HS, TOTAL, flow exports; declarations of the Servicio Nacional de Aduanas)"
+    url: "https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=152&period=2024&partnerCode=&cmdCode=TOTAL&flowCode=X"
+    official: false
+    refreshed_by: fetch/fetch_comtrade.py
+    notes: >-
+      VERIFIED 2026-10-25: 177 partners, 100% of the US$ 98.9bn world
+      total, top 15 committed. China 37.8%, United States 15.9%, Japan
+      8.5%, Brazil 5.1%, Korea 4.6%. One year is a snapshot for the lens
+      slot, not a time series: Comtrade's series for Chile needs a
+      subscription key and the free preview is capped at recent periods.
+      The fetcher fails if China is not the top destination, so a change
+      in the ranking cannot pass silently.
+
+markets:
+  policy_rate.csv:
+    source: "BIS — WS_CBPOL D.CL (daily monetary policy rate, the Banco Central de Chile's own series)"
+    url: "https://stats.bis.org/api/v1/data/WS_CBPOL/D.CL/all?format=csv&startPeriod=2005-01-01"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25: 2006-2026, annual mean of the daily target.
+      2006 = 5.01, the 2020 floor 0.79, the 2022-23 tightening to 11.25
+      at the peak, 2025 = 4.89. days_observed counts the daily
+      observations behind each mean, so 2026 (201 trading days at the
+      review date) is visibly a running year. The Banco Central's own
+      API is credentialled and answers anonymously with an HTML error
+      page (meta.pending), so this harmonised copy of the Bank's series
+      is what is staged.
+
+credit:
+  household_credit.csv:
+    source: "BIS — WS_TC Q.CL.H.A.M.770.A (credit to households from all sources, % of GDP)"
+    url: "https://stats.bis.org/api/v1/data/WS_TC/Q.CL.H.A.M.770.A/all?format=csv&startPeriod=2005-Q1"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25: quarterly 2006-2026, Q4 stock plus the mean of
+      the quarters published and their count, so a running year cannot
+      pass for a year's result (2026: one quarter, Q4 blank). 2006 = 26.4,
+      2020 = 48.3 (the peak), 2024 = 45.0. The 2020-21 pension-fund
+      withdrawals raised household DEPOSITS, not debt: they are not a
+      cause of this line and are drawn in the lens, not here. Chilean
+      household debt is mostly mortgage and consumer credit in UF-indexed
+      and peso terms, so the ratio moves with the exchange rate as well
+      as with borrowing.
+
+people:
+  gini.csv:
+    source: "World Bank WDI — SI.POV.GINI (from CASEN)"
+    url: "https://api.worldbank.org/v2/country/CHL/indicator/SI.POV.GINI?format=json"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25: 2006-2024, nine observations. CASEN is not
+      annual (2006, 2009, 2011, 2013, 2015, 2017, 2020, 2022, 2024), so
+      blank years are years with no survey, not years without
+      inequality. 2017 = 45.3, 2020 = 47.0 (the pandemic and the
+      withdrawals), 2024 = 43.0. Income per capita, before taxes and
+      transfers are netted out, which is why it is higher than the OECD's
+      disposable-income Gini.
+  poverty.csv:
+    source: "World Bank WDI — SI.POV.NAHC (national poverty line, CASEN) and SI.POV.UMIC (US$8.30/day, 2021 PPP, PIP)"
+    url: "https://api.worldbank.org/v2/country/CHL/indicator/SI.POV.NAHC?format=json"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25. The national line is Chile's own: 2020 = 10.7%,
+      2022 = 6.5%. It was rebased in 2013 and again with the 2017 CASEN,
+      so the level is not one method across the window and the plate says
+      so. The US$8.30/day line is a different population on a different
+      question (2024 = 4.5%) and is drawn beside, never spliced.
+
+demography:
+  demography.csv:
+    source: "World Bank WDI — SP.POP.TOTL, SP.POP.TOTL.FE.IN, SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN (UN WPP and INE)"
+    url: "https://api.worldbank.org/v2/country/CHL/indicator/SP.POP.TOTL?format=json"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25: population 2006-2025, the demographic rates
+      2006-2024. Mid-year population; 2006 = 16.5m, 2025 = 19.9m. TFR
+      1.80 (2006) to 1.14 (2024), one of the fastest fertility collapses
+      in the region; crude birth rate 14.0 to 8.7 per 1,000. natural
+      increase is births minus deaths per 1,000, computed here. The
+      population DEIS embeds in its deaths file is an INE projection and
+      runs about 0.5% below this one — two denominators, never mixed.
+
+mortality:
+  mortality.csv:
+    source: "MINSAL/DEIS — registered deaths by epidemiological week (datos.gob.cl), summed to the year; World Bank SP.DYN.CDRT.IN for the comparison rate"
+    url: "https://datos.gob.cl/dataset/1c2811cd-13a4-4406-b20d-cda1544b65d0/resource/90d092cc-bf19-4bcc-bfb0-22b0c5db6707/download/def_semana_epidemiologica.csv"
+    official: true
+    refreshed_by: fetch/fetch_deis.py
+    notes: >-
+      VERIFIED 2026-10-25: the national series covers 2010-2025; 2026 is
+      incomplete (later weeks present as zeros) and is not committed.
+      Deaths by year of occurrence, aggregated over 16 regions, two sexes
+      and five age bands: the vital-statistics count, not a
+      cause-of-death table. population is the sum of DEIS's own
+      age-sex-region cells (2019 = 19,107,216, about 0.5% below the UN
+      series). Crude rate 2019 = 5.72, 2021 = 6.98 per 1,000.
+      excess_deaths_pct_vs_2015_2019 uses the 2015-2019 mean of 105,681
+      deaths as its baseline and is blank before 2020 by construction.
+      crude_death_rate_wb is the World Bank's rate on the UN denominator:
+      two lines, two denominators, labelled.
+
+security:
+  security.csv:
+    source: "World Bank WDI — VC.IHR.PSRC.P5 (UNODC homicide), SH.STA.SUIC.P5 (WHO suicide), SH.STA.TRAF.P5 (WHO road deaths)"
+    url: "https://api.worldbank.org/v2/country/CHL/indicator/VC.IHR.PSRC.P5?format=json"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25. Homicide 2006-2023: 2019 = 4.81 per 100,000,
+      2022 = 6.80, 2023 = 6.35 — the post-2020 rise is real and is the
+      country's loudest security argument. UNODC's count is a compromise
+      between the police record and the death certificates; Chile's own
+      Carabineros/PDI and Fiscalía counts are separate series on separate
+      bases (meta.pending) and are not spliced into this line. Suicide
+      ends in 2021 and road deaths in 2019: WHO has not refreshed them
+      for Chile since, and the columns are blank rather than carried
+      forward.
+
+migration:
+  migration.csv:
+    source: "World Bank WDI — SM.POP.NETM (UN WPP net migration) and SM.POP.TOTL (UN international migrant stock)"
+    url: "https://api.worldbank.org/v2/country/CHL/indicator/SM.POP.NETM?format=json"
+    official: false
+    refreshed_by: fetch/fetch_harmonised.py
+    notes: >-
+      VERIFIED 2026-10-25. net_migration is a count per year, shown with
+      its per-1,000 equivalent; 2022 = 59,374 people. It is a difference
+      of two badly measured numbers and the departures side is the weak
+      one. migrant_stock is on a five-year grid only (2005, 2010, 2015,
+      2020, 2024), so foreign_born_share_pct is a step series and must
+      not be drawn as an annual line. It is FOREIGN-BORN (UN definition),
+      not foreign-citizen: the 2020-24 naturalisation wave moves the
+      second without moving the first. National immigration and
+      emigration flows (SERMIG permits, INE estimates) are pending.
+
+meta:
+  research_date: "2026-10-25"
+  window: "2006-2026, last_full_year 2025"
+  pending:
+    - series: "National CPI (INE), monthly index and annual variation"
+      slot: "economy.slot3 (national line beside the World Bank's)"
+      endpoint: "https://stat.ine.cl/ (INE.STAT portal) and https://www.ine.gob.cl/estadisticas/economia/indices-de-precio-e-inflacion/indice-de-precios-al-consumidor"
+      failure: >-
+        The IPC page answers (HTTP 200) but links only monthly bulletins
+        as PDF; no xlsx/csv of the index is exposed. stat.ine.cl is a
+        login shell and /api/v1/auth/login answers 404. datos.gob.cl
+        lists the IPC dataset with num_resources 0. Attempted
+        2026-10-25 with fetch/fetch_ine.py. The index is also base
+        2018=100 up to 2023 and base 2023=100 since, which is a seam the
+        national line would have to carry.
+    - series: "National labour force survey (INE, ENE) unemployment rate"
+      slot: "economy.slot4 (national line beside ILO modelled)"
+      endpoint: "https://bancodatosene.ine.cl/ ; https://stat.ine.cl/api/v1/"
+      failure: >-
+        bancodatosene is a JavaScript dashboard with no export endpoint;
+        the INE API tree is not served anonymously (404). Attempted
+        2026-10-25 with fetch/fetch_ine.py.
+    - series: "Banco Central de Chile series: policy rate, 10-year yield, exchange rate, monetary aggregates"
+      slot: "markets.slot2 (10-year yield) — still pending; the policy rate and FX are staged from BIS and the World Bank"
+      endpoint: "https://si3.bcentral.cl/SieteRestWS/SieteRestWS.ashx?function=GetSeries&timeseries=... (token required)"
+      failure: >-
+        The REST API answers HTTP 200 with an HTML error page and a
+        redirect when anonymous, and with JSON {"Codigo": -5,
+        "Descripcion": "Invalid username or password"} when credentials
+        are supplied: it is credentialled and the Bank issues tokens by
+        registration. www.bcentral.cl and the si3 static Excel tree answer
+        with bot-wall HTML under HTTP 200. Attempted 2026-10-25 with
+        fetch/fetch_bcentral.py. The 10-year sovereign yield has no
+        route through the harmonised layer either (BIS carries it for
+        larger markets only), so markets slot 2 is pending.
+    - series: "Equity index (IPSA), in US$"
+      slot: "markets.slot4"
+      endpoint: "https://www.bolsadesantiago.com (IPSA) ; Yahoo Finance ^IPSA"
+      failure: >-
+        The Bolsa de Santiago's API paths answer a Radware captcha page;
+        Yahoo Finance returns 'No data found' for ^IPSA and for IPSA.SN
+        at 2026-10-25; stooq serves a JavaScript challenge. No
+        redistributor with a stable endpoint was found. The index is the
+        one canonical slot in markets that stays visibly pending.
+    - series: "General government interest paid, % of GDP"
+      slot: "fiscal.slot4"
+      endpoint: "https://www.dipres.gob.cl/598/w3-channel.html ; IMF DataMapper"
+      failure: >-
+        DataMapper carries no general-government interest indicator.
+        Dipres' statistics channel answers as HTML whose files are
+        attached to article pages, with no file index (a property page
+        answers 404). Attempted 2026-10-25 with fetch/fetch_dipres.py.
+    - series: "National fiscal statistics (central government revenue, expenditure, balance, debt)"
+      slot: "fiscal.slots 1-3, national line beside the IMF general-government layer"
+      endpoint: "https://www.dipres.gob.cl/597/w3-multipropertyvalues-15199-37782.html"
+      failure: >-
+        HTML listing; workbooks behind article pages, no enumerable
+        index. Attempted 2026-10-25 with fetch/fetch_dipres.py.
+    - series: "Bank delinquency / non-performing loans"
+      slot: "credit.slot3"
+      endpoint: "https://www.cmfchile.cl/portal/estadisticas/626/w4-propertyname-619.html ; /institucional/estadisticas/..."
+      failure: >-
+        The statistics pages answer HTML with client-side grids; the
+        historical archive path answers 403. datos.gob.cl carries CMF/SBIF
+        board lending rates but no arrears ratio. Attempted 2026-10-25
+        with fetch/fetch_cmf.py.
+    - series: "National homicide count (Carabineros/PDI, Fiscalía)"
+      slot: "security.slot1, national line beside UNODC"
+      endpoint: "https://www.ine.gob.cl/estadisticas/sociales/seguridad-ciudadana/estadisticas-policiales ; datos.gob.cl"
+      failure: >-
+        The INE police-statistics page returns 404 at that path; the
+        ENUSC and police datasets on datos.gob.cl are victimisation
+        surveys and per-year tables, not a homicide series. The
+        Ministerio Público publishes the count in annual reports as PDF.
+        Attempted 2026-10-25.
+    - series: "COVID-19 deaths, underlying cause, per 100,000"
+      slot: "mortality.slot3"
+      endpoint: "https://covid19.who.int/WHO-COVID-19-global-data.csv ; DEIS cause-of-death tables"
+      failure: >-
+        The WHO global CSV now serves the dashboard's HTML page instead
+        of the file. DEIS's week/sex/age/region file carries no cause
+        column; a datos.gob.cl search for covid returns 165 datasets, all
+        procurement and mining, with no death counts; INE's vital-
+        statistics path answers 404 and its cause-of-death tables are
+        annual PDFs. Pending rather than proxied by all-cause excess
+        deaths.
+    - series: "Statutory minimum wage (Ingreso Mínimo Mensual), CLP per month"
+      slot: "people.slot3"
+      endpoint: "https://www.dt.gob.cl/ ; https://www.mintrab.gob.cl/ ; OECD DSD_EARNINGS@MW_CURP ; ILOSTAT"
+      failure: >-
+        Chile has a statutory minimum wage — this is not a case of
+        absence. It is set by law and reajustado annually, and no
+        machine-readable official series was found on 2026-10-25: the
+        Dirección del Trabajo's site is HTML, mintrab.gob.cl is a
+        WordPress site of news posts, chileatiende's ficha answers 404,
+        the OECD's minimum-wage-at-current-prices flow returns
+        NoRecordsFound for CHL, the OECD real-minimum-wage flow likewise,
+        and ILOSTAT's bulk download answers 403. Left pending rather than
+        transcribed from memory; the next route is the statutes on
+        bcn.cl/leychile, one law per reajuste, cited by law number.
+    - series: "Immigration and emigration flows (people per year)"
+      slot: "migration.slot1"
+      endpoint: "https://serviciomigraciones.cl/ ; INE migration estimates"
+      failure: >-
+        Chile's migration service publishes visas and permits granted,
+        not arrivals and departures, and its statistics are PDF tables;
+        INE's migration estimates are not exposed as a series. Only the
+        UN net-migration residual is staged, with the caveat that its
+        departures side is the weak one. Attempted 2026-10-25.
+    - series: "SII tax revenue and firm statistics"
+      slot: "fiscal, national tax line"
+      endpoint: "https://www.sii.cl/sobre_el_sii/estadisticas_de_empresas.html"
+      failure: >-
+        Per-year HTML pages with downloads attached, no series; the
+        statistics landing page answers 404. Attempted 2026-10-25 with
+        fetch/fetch_sii.py. The World Bank tax series stands in.

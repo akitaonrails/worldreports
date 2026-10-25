@@ -1,0 +1,25 @@
+# Exports and imports of goods AND services, national-accounts basis,
+# % of GDP (World Bank NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS). Not a customs
+# series: the customs goods-only snapshot is trade/partners_2024.csv and
+# the two are never spliced. Balance is exports minus imports.
+year,exports_pct_gdp,imports_pct_gdp,trade_balance_pct_gdp
+2006,43.87,29.85,14.02
+2007,45.13,31.85,13.28
+2008,41.16,39.51,1.65
+2009,37.12,29.57,7.55
+2010,37.90,31.81,6.09
+2011,37.69,34.79,2.90
+2012,33.85,34.31,-0.46
+2013,32.09,33.06,-0.97
+2014,33.00,32.63,0.37
+2015,29.19,30.16,-0.97
+2016,27.92,28.13,-0.21
+2017,28.33,27.69,0.64
+2018,28.53,29.65,-1.12
+2019,27.87,29.73,-1.86
+2020,31.32,26.85,4.47
+2021,31.97,32.87,-0.90
+2022,35.62,39.61,-3.99
+2023,30.78,29.90,0.88
+2024,33.73,30.23,3.50
+2025,34.56,30.42,4.14

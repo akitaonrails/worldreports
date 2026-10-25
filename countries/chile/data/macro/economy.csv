@@ -1,0 +1,27 @@
+# World Bank WDI for Chile, reviewed 2026-10-25. WDI republication of
+# the national accounts, the INE CPI and ILO-modelled unemployment — see
+# SOURCES.yaml, official: false. real_growth is constant-price GDP, %
+# change per year; inflation is the annual average CPI change; gfcf is
+# gross fixed capital formation, whole economy, % of GDP. Unemployment is
+# ILO modelled, which is what makes 2020-21 comparable with 2006.
+year,real_growth_pct,inflation_pct,unemployment_pct,gfcf_pct_gdp
+2006,6.05,3.39,9.02,21.06
+2007,5.17,4.41,8.43,21.98
+2008,3.79,8.72,9.29,26.88
+2009,-1.12,0.35,11.31,24.12
+2010,5.85,1.41,8.55,23.02
+2011,6.22,3.34,7.49,24.72
+2012,6.16,3.01,6.79,26.75
+2013,3.31,1.79,6.36,26.35
+2014,1.79,4.72,6.76,25.47
+2015,2.15,4.35,6.61,25.47
+2016,1.75,3.79,6.93,24.13
+2017,1.36,2.18,7.26,22.26
+2018,3.99,2.43,7.62,23.05
+2019,0.64,2.56,7.49,24.55
+2020,-6.14,3.05,10.93,22.56
+2021,11.34,4.52,9.28,23.31
+2022,2.06,11.64,8.25,25.65
+2023,0.68,7.58,9.01,24.40
+2024,2.81,4.30,8.72,23.66
+2025,2.46,4.21,8.97,24.09

@@ -1,0 +1,117 @@
+# Chile. Palette drawn from the flag (cobalt, paper, blood red) plus the
+# copper that pays for most of it; darkened and desaturated so the bands
+# survive greyscale and the plates do not vibrate.
+slug: chile
+flag_emoji: "🇨🇱"
+wordmark: Chile
+name:
+  en: "Chile"
+  fr: "Chili"
+  pt: "Chile"
+  es: "Chile"
+  ko: "칠레"
+  it: "Cile"
+  he: "צ'ילה"
+  ja: "チリ"
+  zh-Hans: "智利"
+  zh-Hant: "智利"
+  vi: "Chile"
+  de: "Chile"
+  uk: "Чилі"
+  pl: "Chile"
+  ru: "Чили"
+
+locales:
+  - {code: es, html_lang: es-CL, og_locale: es_CL, endonym: Español}
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: es
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete. 2025 is the last full year in the staged vintages
+# (World Bank WDI 2025, DEIS weekly deaths through week 53 of 2025);
+# every plate dashes or hatches anything past it.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+# Label every second year on the x-axis (PLATE_SPINE.md rule 2).
+tick_every: 2
+# Held to the plate spine by tests/test_spine.py.
+spine: true
+
+# Recession bands: every calendar year in which real GDP fell, read off
+# macro/economy.csv (real_growth < 0), grouped where the years run on.
+# A year is drawn centred on its tick, so a band covers Y-0.5 to Y+0.5.
+# Chile's only two contractions in this window are 2009 (the copper price
+# collapse) and 2020 (the pandemic). tests/ in Phase B checks this list
+# against the CSV.
+bands:
+  - {from: 2008.5, to: 2009.5, label: "2009"}
+  - {from: 2019.5, to: 2020.5, label: "2020"}
+
+# The peso has been a floating currency since 1999 and lost roughly a
+# third of its value against the dollar over this window (about 530 to
+# 950 per US$), so a nominal peso level is only meaningful beside its own
+# year. Everything comparable across years is indexed, in dollars or as a
+# share of GDP — never in nominal pesos.
+currency:
+  code: CLP
+
+palette:
+  COBALT:    "#2A4E8F"
+  COBALT_D:  "#1B3564"
+  NAVY:      "#12233F"
+  BLOOD:     "#B23A38"
+  COPPER:    "#A8642D"
+  COPPER_L:  "#D79A5B"
+  GREEN:     "#2F7F5B"
+  TEAL:      "#1D7B78"
+  SAND:      "#C9B49A"
+  PURPLE:    "#6E5A93"
+  primary:   "#2A4E8F"
+  alert:     "#B23A38"
+  ink:       "#1E2430"
+  muted:     "#59606F"
+  faint:     "#9AA0AC"
+  paper:     "#FBFAF7"
+  card:      "#FFFFFF"
+  grid:      "#E6E3DC"
+  spine:     "#C8C5BD"
+  band:      "#EFECE5"
+  series:    ["#2A4E8F", "#B23A38", "#A8642D", "#2F7F5B", "#6E5A93", "#1D7B78", "#1E2430"]
+  flag_bands: ["#2A4E8F", "#FBFAF7", "#B23A38"]
+  web:
+    # A six-letter wordmark; the C and L are open on the right, the I is
+    # a stem, so the bearing stays small.
+    mark_bearing: "0.010em"
+    mark_size: "clamp(3.4rem, 10vw, 7.4rem)"
+    ground:   "#101C30"
+    raised:   "#17263D"
+    raised_2: "#1D3150"
+    rule:     "#2A4166"
+    ink:      "#EAE8E2"
+    muted:    "#9AA6BC"
+    faint:    "#6C7B93"
+    money:    "#7FA9DC"
+    world:    "#D79A5B"
+    people:   "#E08585"
+
+seo:
+  title:
+    es: "Chile en números — un atlas de datos, 2006–2026"
+    en: "Chile in numbers — a data atlas, 2006–2026"
+    pt: "Chile em números — um atlas de dados, 2006–2026"
+  description:
+    es: "Veinte años de estadísticas oficiales chilenas en planchas editoriales: producto y precios, cuentas fiscales y gasto público, comercio del cobre, mercados, empleo e ingresos, población, migración, delito y mortalidad. Cada número rastreable hasta el CSV del que salió."
+    en: "Twenty years of Chilean official statistics as editorial plates: output and prices, public accounts and spending, the copper trade, markets, work and income, population, migration, crime and mortality. Every number traced to the CSV it came from."
+    pt: "Vinte anos de estatísticas oficiais chilenas em pranchas editoriais: produto e preços, contas públicas e gasto, o comércio do cobre, mercados, trabalho e renda, população, migração, criminalidade e mortalidade. Cada número rastreável até o CSV de onde veio."
+  keywords: [Chile, Banco Central de Chile, INE, copper, inflation, public accounts, official statistics]
+  spatial: "Chile — all 16 regions, including Easter Island and the Juan Fernández archipelago; the Antarctic claim is not covered by any series here"
+
+# The institutions whose numbers are drawn. The Banco Central and the INE
+# are named because their series are, even where a harmoniser republishes
+# them; Dipres, the CMF, Aduanas and the SII are not, because nothing of
+# theirs is staged (SOURCES.yaml meta.pending records why).
+sources:
+  es: "el Banco Central de Chile, el INE, el DEIS/MINSAL, datos.gob.cl y la capa armonizada de la OCDE, el FMI, el Banco Mundial, el PNUD y Transparencia Internacional"
+  en: "the Banco Central de Chile, the INE, DEIS/MINSAL, datos.gob.cl and the harmonised OECD, IMF, World Bank, UNDP and Transparency International layer"
+  pt: "o Banco Central de Chile, o INE, o DEIS/MINSAL, o datos.gob.cl e a camada harmonizada da OCDE, do FMI, do Banco Mundial, do PNUD e da Transparência Internacional"

@@ -1,0 +1,16 @@
+# poverty_national_pct: share of people below Chile's own poverty line
+# (CASEN, via World Bank SI.POV.NAHC) — the line was rebased in 2013 and
+# again with the 2017 survey, so the series is drawn, not read as one
+# method. poverty_830_pct: share below US$8.30/day at 2021 PPP (SI.POV.UMIC,
+# World Bank PIP), which is a different population and a different
+# question.
+year,poverty_national_pct,poverty_830_pct
+2006,28.7,32.0
+2009,24.8,27.6
+2011,21.7,23.5
+2013,13.9,14.4
+2015,11.2,11.7
+2017,8.5,9.0
+2020,10.7,11.3
+2022,6.5,6.1
+2024,,4.5

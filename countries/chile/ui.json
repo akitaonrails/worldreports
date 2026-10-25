@@ -1,0 +1,272 @@
+{
+ "es": {
+  "line": "{n} planchas de datos, {window}",
+  "dek": "Cada cifra de esta página sale de un editor que nombra su definición — el DEIS/MINSAL para las muertes registradas, y la capa armonizada del Banco Mundial, el FMI, el BIS, la OCDE, el PNUD y Transparencia Internacional para el resto — y cada plancha se regenera desde CSV versionados, así que los gráficos y los números no pueden separarse. Chile es el país donde la capa nacional quedó más corta: la API de series del Banco Central pide credenciales, el INE entrega PDF mensuales, y Dipres, la CMF, Aduanas, el SII y SERMIG responden con HTML o muros. Lo que se dibuja es la serie armonizada que republica la serie chilena, y cada pie de panel dice de quién es. Nada se empalma: gobierno general y gobierno central, dos denominadores de población, encuesta y registro, aduana y balanza de pagos.",
+  "notes": [
+   "2026 es un año incompleto. Los totales anuales se detienen en 2025, el último año completo en cada fuente preparada; la tasa de política de 2026 (201 días hábiles) y el crédito de los hogares de 2026 (un trimestre) se dibujan punteados o rayados y nunca como resultado del año.",
+   "La capa nacional es corta por una razón registrada, no por ausencia de datos: el Banco Central, el INE, Dipres, la CMF, Aduanas y el SII respondieron a esta red con HTML, credenciales o muros (DISCOVERY.md y SOURCES.yaml, meta.pending). Donde existe una serie armonizada que republica la serie chilena, se usa esa y el pie lo dice; donde no existe, el panel queda visiblemente pendiente.",
+   "El perímetro fiscal es el gobierno general del FMI, en años calendario. La cifra que se discute en Chile es la del gobierno central y su regla de balance estructural, que es más estrecha y no está dibujada: sustituirla por una línea «parecida» sería el gráfico más plausible y más falso de este país.",
+   "Hay dos series de población y nunca se mezclan: la de la ONU/Banco Mundial es el denominador de sus propias tasas y de la migración neta; la proyección del INE que el DEIS incorpora en su archivo es el denominador de la tasa nacional de mortalidad, y la plancha las dibuja como dos líneas rotuladas.",
+   "La CASEN no es anual y se rebasó dos veces: el Gini, la pobreza y el stock de nacidos en el exterior se dibujan como puntos, sin interpolar y sin convertir un año sin encuesta en un año sin dato.",
+   "COFOG empieza en 2018, cuando Chile comenzó a reportar la tabla a la OCDE, y la inversión pública del gobierno termina en 2012, cuando la OCDE discontinuó la serie. Ambas planchas rotulan su ventana en vez de estirar otra serie sobre los años que faltan.",
+   "El comercio de bienes y servicios de las cuentas nacionales y el retrato aduanero de 2024 por destino son dos objetos distintos: el segundo es un año y vive en la lente, no en la serie canónica.",
+   "Las planchas se dibujan en los tres idiomas que publica este país — español, inglés y portugués — y esta página también."
+  ],
+  "unavailable": [
+   {
+    "term": "Rendimiento de los bonos a 10 años",
+    "detail": "La API de series del Banco Central de Chile pide credenciales y responde una página de error HTML sin token; el BIS no lleva un bono de referencia a 10 años para Chile. El panel queda pendiente y no se sustituye por un proxy."
+   },
+   {
+    "term": "Índice bursátil (IPSA)",
+    "detail": "La API de la Bolsa de Santiago responde con un captcha, Yahoo Finance no tiene símbolo ^IPSA y stooq plantea un desafío. No se encontró un redistribuidor con una ruta estable; el panel queda pendiente."
+   },
+   {
+    "term": "Salario mínimo",
+    "detail": "Chile tiene salario mínimo legal y se reajusta cada año: no es un caso de ausencia. Ninguna serie oficial legible respondió (Dirección del Trabajo, mintrab, el flujo MW_CURP de la OCDE, ILOSTAT). La ruta siguiente es la ley en bcn.cl/leychile, una ley por reajuste, citada por número; no se transcribe de memoria."
+   },
+   {
+    "term": "Muertes por COVID-19 como causa básica",
+    "detail": "El CSV global de la OMS ahora sirve el HTML del tablero; el archivo semanal del DEIS no trae columna de causa y las tablas de causas de muerte del INE son PDF anuales. El panel no se sustituye por el exceso de mortalidad total, que es otra pregunta."
+   },
+   {
+    "term": "Intereses pagados por el gobierno general",
+    "detail": "DataMapper del FMI no trae un indicador de intereses para Chile, y las estadísticas de Dipres son HTML tras páginas de artículos, sin índice de archivos. El panel queda pendiente."
+   },
+   {
+    "term": "Tasa de los créditos y morosidad (CMF)",
+    "detail": "Las páginas de estadísticas de la CMF responden en HTML con grillas del lado del cliente y el archivo histórico devuelve 403; datos.gob.cl trae tasas de colocación pero ninguna serie de mora. Los dos paneles quedan pendientes."
+   },
+   {
+    "term": "IPC y encuesta de empleo del INE",
+    "detail": "La página del IPC responde pero solo enlaza boletines mensuales en PDF; stat.ine.cl es una cáscara con login y datos.gob.cl lista el conjunto con cero recursos. La encuesta de empleo es un tablero JavaScript sin ruta de exportación. Se dibuja la serie del Banco Mundial que republica esos índices, y la línea nacional queda pendiente."
+   },
+   {
+    "term": "Homicidios de Carabineros/PDI y la Fiscalía",
+    "detail": "La página de estadísticas policiales del INE responde 404 y los conjuntos de datos.gob.cl son encuestas de victimización y tablas por año, no una serie de homicidios; el Ministerio Público publica el conteo en informes anuales en PDF. La línea de UNODC es otra base y no se empalma con la nacional."
+   },
+   {
+    "term": "Flujos de inmigración y emigración",
+    "detail": "SERMIG publica visados y permisos otorgados, no llegadas y salidas, y sus estadísticas son tablas PDF; las estimaciones migratorias del INE no se publican como serie. Se dibuja el saldo neto de la ONU, cuyo lado débil son las salidas."
+   },
+   {
+    "term": "Estadísticas tributarias y de empresas del SII",
+    "detail": "Las páginas del SII son HTML por año con descargas adjuntas y sin serie; la portada de estadísticas responde 404. La serie tributaria del Banco Mundial (que excluye cotizaciones) aparece en la tabla de fuentes, sin dibujarse como si fuera el ingreso del gobierno general."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Muertes registradas",
+    "detail": "MINSAL/DEIS, archivo semanal por semana epidemiológica vía datos.gob.cl, sumado al año (2010–2025). Es la única serie oficial de esta página."
+   },
+   {
+    "term": "Cuentas nacionales, precios y empleo",
+    "detail": "Banco Mundial (WDI), que republica las cuentas, el IPC del INE y el desempleo modelado por la OIT; FMI WEO como contraste independiente del crecimiento."
+   },
+   {
+    "term": "Finanzas públicas y gasto por función",
+    "detail": "FMI (WEO y Fiscal Monitor vía DataMapper), gobierno general, años calendario; OCDE, National Accounts at a Glance, tabla 11 (COFOG) y P51GS13."
+   },
+   {
+    "term": "Mercados y crédito",
+    "detail": "BIS (WS_CBPOL para la tasa de política diaria del Banco Central y WS_TC para el crédito de los hogares); Banco Mundial PA.NUS.FCRF para el tipo de cambio."
+   },
+   {
+    "term": "Comercio",
+    "detail": "Banco Mundial (cuentas nacionales, bienes y servicios) y UN Comtrade, Chile como declarante, 2024, sobre las declaraciones del Servicio Nacional de Aduanas."
+   },
+   {
+    "term": "Desarrollo y transparencia",
+    "detail": "PNUD, Informe sobre Desarrollo Humano 2025, una sola edición; Transparencia Internacional, índice de percepción de la corrupción, método de 2012 en adelante."
+   },
+   {
+    "term": "Población y migración",
+    "detail": "Banco Mundial (WDI) sobre las proyecciones de la ONU y del INE; stock de migrantes internacionales de la ONU en una grilla quinquenal."
+   },
+   {
+    "term": "Seguridad",
+    "detail": "UNODC (homicidio intencional) y OMS (suicidio estandarizado por edad y muertes en el tránsito) vía el Banco Mundial."
+   }
+  ]
+ },
+ "en": {
+  "line": "{n} plates of data, {window}",
+  "dek": "Every figure on this page comes from a publisher that names its definition — DEIS/MINSAL for registered deaths, and the harmonised World Bank, IMF, BIS, OECD, UNDP and Transparency International layer for the rest — and every plate is regenerated from committed CSVs, so the charts and the numbers here cannot drift apart. Chile is the country where the national layer came up shortest: the Banco Central's series API is credentialled, INE delivers monthly PDFs, and Dipres, the CMF, Aduanas, the SII and SERMIG answer with HTML or walls. What is drawn is the harmonised series that republishes the Chilean one, and every panel footer says whose it is. Nothing is spliced: general and central government, two population denominators, survey and register, customs and balance of payments.",
+  "notes": [
+   "2026 is a partial year. Annual totals stop at 2025, the last complete year in every staged source; the 2026 policy rate (201 trading days) and 2026 household credit (one quarter) are dashed or hatched and never drawn as the year's result.",
+   "The national layer is short for a recorded reason, not for absence of data: the Banco Central, INE, Dipres, the CMF, Aduanas and the SII answered this network with HTML, credentials or walls (DISCOVERY.md and SOURCES.yaml, meta.pending). Where a harmonised series republishes the Chilean one it is used and the footer says so; where none exists the panel stays visibly pending.",
+   "The fiscal perimeter is the IMF's general government, calendar years. The number Chileans argue about is the central government and its structural-balance rule, a narrower object that is not drawn: a 'close enough' line would be the most plausible-looking wrong chart in this country.",
+   "There are two population series and they are never mixed: the UN/World Bank figure is the denominator of its own rates and of net migration; the INE projection DEIS embeds in its deaths file is the denominator of the national death rate, and the plate draws them as two labelled lines.",
+   "CASEN is not annual and was rebased twice: the Gini, poverty and the foreign-born stock are drawn as points, never interpolated and never turning a year without a survey into a year without data.",
+   "COFOG begins in 2018, when Chile started reporting the table to the OECD, and government investment ends in 2012, when the OECD discontinued the series. Both plates label their window instead of stretching another series across the missing years.",
+   "Goods-and-services trade on the national-accounts basis and the 2024 customs snapshot by destination are different objects: the second is one year and lives in the lens, not in the canonical series.",
+   "The plates are drawn in the three languages this country publishes — Spanish, English and Portuguese — and so is this page."
+  ],
+  "unavailable": [
+   {
+    "term": "10-year government bond yield",
+    "detail": "The Banco Central de Chile's series API is credentialled and answers an HTML error page without a token; BIS carries no 10-year benchmark for Chile. The panel stays pending and is not replaced by a proxy."
+   },
+   {
+    "term": "Equity index (IPSA)",
+    "detail": "The Bolsa de Santiago's API answers a captcha page, Yahoo Finance has no ^IPSA symbol and stooq a challenge. No redistributor with a stable endpoint was found; the panel stays pending."
+   },
+   {
+    "term": "Minimum wage",
+    "detail": "Chile has a statutory minimum wage, reajustado every year: this is not absence. No machine-readable official series answered (Dirección del Trabajo, mintrab, the OECD's MW_CURP flow, ILOSTAT). The next route is the statutes on bcn.cl/leychile, one law per reajuste, cited by law number; it is not transcribed from memory."
+   },
+   {
+    "term": "COVID-19 deaths as underlying cause",
+    "detail": "The WHO global CSV now serves the dashboard's HTML; DEIS's weekly file carries no cause column and INE's cause-of-death tables are annual PDFs. The panel is not replaced by all-cause excess mortality, which answers a different question."
+   },
+   {
+    "term": "Interest paid by general government",
+    "detail": "IMF DataMapper carries no interest indicator for Chile, and Dipres' statistics are HTML behind article pages with no file index. The panel stays pending."
+   },
+   {
+    "term": "Lending rate and non-performing loans (CMF)",
+    "detail": "The CMF's statistics pages answer HTML with client-side grids and the historical archive returns 403; datos.gob.cl carries placement rates but no arrears series. Both panels stay pending."
+   },
+   {
+    "term": "INE's CPI and labour-force survey",
+    "detail": "The CPI page answers but links only monthly PDF bulletins; stat.ine.cl is a login shell and datos.gob.cl lists the dataset with zero resources. The labour survey is a JavaScript dashboard with no export route. The World Bank series that republishes those indices is drawn; the national line stays pending."
+   },
+   {
+    "term": "Carabineros/PDI and Fiscalía homicide count",
+    "detail": "INE's police-statistics page returns 404 and the datos.gob.cl sets are victimisation surveys and per-year tables, not a homicide series; the Ministerio Público publishes the count in annual PDF reports. The UNODC line is another basis and is not spliced with the national one."
+   },
+   {
+    "term": "Immigration and emigration flows",
+    "detail": "SERMIG publishes visas and permits granted, not arrivals and departures, and its statistics are PDF tables; INE's migration estimates are not exposed as a series. The UN net balance is drawn, with departures as its weak side."
+   },
+   {
+    "term": "SII tax and firm statistics",
+    "detail": "The SII's pages are per-year HTML with downloads attached and no series; its statistics landing page returns 404. The World Bank tax series (which excludes social contributions) appears in the sources table, not drawn as if it were general-government revenue."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Registered deaths",
+    "detail": "MINSAL/DEIS, the weekly epidemiological-week file via datos.gob.cl, summed to the year (2010–2025). The only official series on this page."
+   },
+   {
+    "term": "National accounts, prices and jobs",
+    "detail": "World Bank WDI, which republishes Chile's accounts, the INE CPI and ILO-modelled unemployment; IMF WEO as the independent growth check."
+   },
+   {
+    "term": "Public finances and spending by function",
+    "detail": "IMF (WEO and Fiscal Monitor via DataMapper), general government, calendar years; OECD National Accounts at a Glance, table 11 (COFOG) and P51GS13."
+   },
+   {
+    "term": "Markets and credit",
+    "detail": "BIS (WS_CBPOL for the Banco Central's daily target, WS_TC for household credit); World Bank PA.NUS.FCRF for the exchange rate."
+   },
+   {
+    "term": "Trade",
+    "detail": "World Bank national accounts (goods and services) and UN Comtrade, Chile as reporter, 2024, on the Servicio Nacional de Aduanas' declarations."
+   },
+   {
+    "term": "Development and transparency",
+    "detail": "UNDP Human Development Report 2025, one vintage; Transparency International's Corruption Perceptions Index, 2012 method onwards."
+   },
+   {
+    "term": "Population and migration",
+    "detail": "World Bank WDI on the UN and INE projections; UN international migrant stock on a five-year grid."
+   },
+   {
+    "term": "Security",
+    "detail": "UNODC (intentional homicide) and WHO (age-standardised suicide, road deaths) via the World Bank."
+   }
+  ]
+ },
+ "pt": {
+  "line": "{n} pranchas de dados, {window}",
+  "dek": "Todo número desta página vem de um editor que nomeia a sua definição — o DEIS/MINSAL para as mortes registadas, e a camada harmonizada do Banco Mundial, do FMI, do BIS, da OCDE, do PNUD e da Transparência Internacional para o resto — e cada prancha é regenerada a partir de CSVs versionados, de modo que os gráficos e os números daqui não podem divergir. O Chile é o país onde a camada nacional ficou mais curta: a API de séries do Banco Central exige credenciais, o INE entrega PDFs mensais, e a Dipres, a CMF, a Aduanas, o SII e a SERMIG respondem com HTML ou muros. O que se desenha é a série harmonizada que republica a série chilena, e cada pé de painel diz de quem é. Nada é emendado: governo geral e governo central, dois denominadores de população, inquérito e registro, alfândega e balança de pagamentos.",
+  "notes": [
+   "2026 é um ano incompleto. Os totais anuais param em 2025, o último ano completo em cada fonte preparada; a taxa de política de 2026 (201 dias úteis) e o crédito das famílias de 2026 (um trimestre) são desenhados tracejados ou hachurados e nunca como resultado do ano.",
+   "A camada nacional é curta por uma razão registada, não por ausência de dados: o Banco Central, o INE, a Dipres, a CMF, a Aduanas e o SII responderam a esta rede com HTML, credenciais ou muros (DISCOVERY.md e SOURCES.yaml, meta.pending). Onde existe uma série harmonizada que republica a série chilena, usa-se essa e o pé o diz; onde não existe, o painel fica visivelmente pendente.",
+   "O perímetro fiscal é o governo geral do FMI, anos-calendário. O número que se discute no Chile é o do governo central e a sua regra de saldo estrutural, um objeto mais estreito que não está desenhado: substituí-lo por uma linha «parecida» seria o gráfico mais plausível e mais falso deste país.",
+   "Há duas séries de população e nunca se misturam: a da ONU/Banco Mundial é o denominador das suas próprias taxas e da migração líquida; a projeção do INE que o DEIS incorpora no seu arquivo é o denominador da taxa nacional de mortalidade, e a prancha desenha as duas como linhas rotuladas.",
+   "A CASEN não é anual e foi rebaseada duas vezes: o Gini, a pobreza e o estoque de nascidos no exterior são desenhados como pontos, sem interpolação e sem transformar um ano sem inquérito num ano sem dado.",
+   "O COFOG começa em 2018, quando o Chile passou a reportar a tabela à OCDE, e o investimento público do governo termina em 2012, quando a OCDE descontinuou a série. Ambas as pranchas rotulam a sua janela em vez de esticar outra série sobre os anos que faltam.",
+   "O comércio de bens e serviços das contas nacionais e o retrato aduaneiro de 2024 por destino são dois objetos distintos: o segundo é um ano e vive na lente, não na série canônica.",
+   "As pranchas são desenhadas nas três línguas em que este país publica — espanhol, inglês e português — como esta página."
+  ],
+  "unavailable": [
+   {
+    "term": "Rendimento dos títulos de 10 anos",
+    "detail": "A API de séries do Banco Central do Chile exige credenciais e responde uma página de erro HTML sem token; o BIS não tem título de referência de 10 anos para o Chile. O painel fica pendente e não é substituído por um proxy."
+   },
+   {
+    "term": "Índice de ações (IPSA)",
+    "detail": "A API da Bolsa de Santiago responde com um captcha, o Yahoo Finance não tem símbolo ^IPSA e o stooq apresenta um desafio. Não se encontrou um redistribuidor com rota estável; o painel fica pendente."
+   },
+   {
+    "term": "Salário mínimo",
+    "detail": "O Chile tem salário mínimo legal, reajustado todo ano: não é um caso de ausência. Nenhuma série oficial legível respondeu (Direção do Trabalho, mintrab, o fluxo MW_CURP da OCDE, a ILOSTAT). A próxima rota é a lei em bcn.cl/leychile, uma lei por reajuste, citada pelo número; não é transcrita de memória."
+   },
+   {
+    "term": "Mortes por COVID-19 como causa básica",
+    "detail": "O CSV global da OMS agora serve o HTML do painel; o arquivo semanal do DEIS não traz coluna de causa e as tabelas de causas de morte do INE são PDFs anuais. O painel não é substituído pelo excesso de mortalidade total, que responde a outra pergunta."
+   },
+   {
+    "term": "Juros pagos pelo governo geral",
+    "detail": "O DataMapper do FMI não traz um indicador de juros para o Chile, e as estatísticas da Dipres são HTML atrás de páginas de artigos, sem índice de arquivos. O painel fica pendente."
+   },
+   {
+    "term": "Taxa dos empréstimos e inadimplência (CMF)",
+    "detail": "As páginas de estatísticas da CMF respondem em HTML com grades do lado do cliente e o arquivo histórico devolve 403; o datos.gob.cl traz taxas de colocação mas nenhuma série de atraso. Ambos os painéis ficam pendentes."
+   },
+   {
+    "term": "IPC e pesquisa de emprego do INE",
+    "detail": "A página do IPC responde mas só liga boletins mensais em PDF; o stat.ine.cl é uma casca com login e o datos.gob.cl lista o conjunto com zero recursos. A pesquisa de emprego é um painel JavaScript sem rota de exportação. Desenha-se a série do Banco Mundial que republica esses índices; a linha nacional fica pendente."
+   },
+   {
+    "term": "Homicídios dos Carabineros/PDI e da Fiscalía",
+    "detail": "A página de estatísticas policiais do INE responde 404 e os conjuntos do datos.gob.cl são inquéritos de vitimização e tabelas por ano, não uma série de homicídios; o Ministério Público publica a contagem em relatórios anuais em PDF. A linha da UNODC é outra base e não é emendada com a nacional."
+   },
+   {
+    "term": "Fluxos de imigração e emigração",
+    "detail": "A SERMIG publica vistos e autorizações concedidos, não chegadas e partidas, e as suas estatísticas são tabelas PDF; as estimativas migratórias do INE não são publicadas como série. Desenha-se o saldo líquido da ONU, cujo lado fraco são as saídas."
+   },
+   {
+    "term": "Estatísticas tributárias e de empresas do SII",
+    "detail": "As páginas do SII são HTML por ano com descargas anexas e sem série; a portada de estatísticas responde 404. A série tributária do Banco Mundial (que exclui contribuições sociais) aparece na tabela de fontes, sem ser desenhada como se fosse receita do governo geral."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Mortes registadas",
+    "detail": "MINSAL/DEIS, o arquivo semanal por semana epidemiológica via datos.gob.cl, somado ao ano (2010–2025). É a única série oficial desta página."
+   },
+   {
+    "term": "Contas nacionais, preços e emprego",
+    "detail": "Banco Mundial (WDI), que republica as contas chilenas, o IPC do INE e o desemprego modelado pela OIT; FMI WEO como contraste independente do crescimento."
+   },
+   {
+    "term": "Finanças públicas e gasto por função",
+    "detail": "FMI (WEO e Fiscal Monitor via DataMapper), governo geral, anos-calendário; OCDE, National Accounts at a Glance, tabela 11 (COFOG) e P51GS13."
+   },
+   {
+    "term": "Mercados e crédito",
+    "detail": "BIS (WS_CBPOL para a meta diária do Banco Central, WS_TC para o crédito das famílias); Banco Mundial PA.NUS.FCRF para o câmbio."
+   },
+   {
+    "term": "Comércio",
+    "detail": "Banco Mundial (contas nacionais, bens e serviços) e UN Comtrade, Chile como declarante, 2024, sobre as declarações do Servicio Nacional de Aduanas."
+   },
+   {
+    "term": "Desenvolvimento e transparência",
+    "detail": "PNUD, Relatório de Desenvolvimento Humano 2025, uma única edição; Transparência Internacional, índice de perceção da corrupção, método de 2012 em diante."
+   },
+   {
+    "term": "População e migração",
+    "detail": "Banco Mundial (WDI) sobre as projeções da ONU e do INE; estoque de migrantes internacionais da ONU numa grade quinquenal."
+   },
+   {
+    "term": "Segurança",
+    "detail": "UNODC (homicídio intencional) e OMS (suicídio padronizado por idade e mortes no trânsito) via o Banco Mundial."
+   }
+  ]
+ }
+}
