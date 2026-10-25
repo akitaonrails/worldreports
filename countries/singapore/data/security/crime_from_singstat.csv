@@ -1,0 +1,20 @@
+# Singapore Department of Statistics, Table Builder M890891 (selected major offences, cases recorded), M651421 (road-traffic death rate, per 100,000 population) and M810131 (suicides).
+# Murder is a LEGAL category (Penal Code), not the UNODC intentional-homicide definition; the UNODC series is drawn beside it, never substituted for it.
+# M890891 'Total' sums the selected offence types and is dominated by cheating-related offences; it is not an all-crime count. M891481 carries the broader recorded-crime series from 2020.
+# Rates per 100,000 here use the publisher's population basis where it states one; counts are otherwise converted with the same-year resident or total population and the choice is recorded on the plate.
+year,murder_count,serious_hurt_count,rape_count,robbery_count,housebreaking_count,total_selected_offences_count,road_death_rate_per_100k,suicide_count
+2011,16,406,150,394,637,8012,3.76,361
+2012,11,452,133,290,545,7333,3.16,467
+2013,16,476,120,254,507,7198,2.96,422
+2014,14,513,164,230,311,8716,2.83,415
+2015,14,473,162,123,250,11058,2.73,409
+2016,18,492,149,96,212,10857,2.51,429
+2017,8,420,185,69,160,11062,2.16,361
+2018,9,429,213,72,204,12117,2.20,397
+2019,11,373,281,55,186,15088,2.07,400
+2020,8,444,343,34,163,18972,1.46,452
+2021,7,446,393,28,110,27951,1.96,378
+2022,7,458,400,27,111,36751,1.92,476
+2023,4,389,436,17,135,52751,2.30,434
+2024,10,401,401,21,118,58249,2.35,441
+2025,7,375,479,26,108,44927,,256
