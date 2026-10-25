@@ -92,7 +92,7 @@ _LADDER_FX = (0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200)
 _LADDER_EQUITY = (10, 20, 50, 100, 200, 500, 1_000)
 _LADDER_GDP = (10, 100, 1_000, 10_000, 50_000)
 _LADDER_RESERVES = (1, 10, 100, 1_000, 5_000)
-_LADDER_HOMICIDE = (0.1, 0.3, 1, 3, 10, 30, 100)
+_LADDER_HOMICIDE = (0.05, 0.1, 0.3, 1, 3, 10, 30, 100)
 
 #: topic → its slots, in reading order (1 top-left … 4 bottom-right).
 SPINE: dict[str, tuple[Slot, ...]] = {
@@ -179,10 +179,10 @@ SPINE: dict[str, tuple[Slot, ...]] = {
            "per 1,000 people", (0, 25)),
         _c("demography.natural_migration",
            "Natural increase and net migration", "per 1,000 people",
-           (-30, 40), BOTH, zero=True),
+           (-30, 45), BOTH, zero=True),
     ),
     "security": (
-        _c("security.homicide", "Homicide rate", "per 100,000", (0.1, 100),
+        _c("security.homicide", "Homicide rate", "per 100,000", (0.05, 100),
            NONE, LOG, _LADDER_HOMICIDE),
         _c("security.suicide", "Suicide rate", "per 100,000", (0, 45)),
         _c("security.road_deaths", "Road traffic deaths", "per 100,000",
@@ -193,7 +193,7 @@ SPINE: dict[str, tuple[Slot, ...]] = {
         _c("mortality.death_rate", "Crude death rate", "per 1,000 people",
            (0, 22)),
         _c("mortality.excess_deaths", "Excess deaths",
-           "% above 2015–2019 average", (-20, 40), UP, zero=True),
+           "% above 2015–2019 average", (-25, 40), UP, zero=True),
         _c("mortality.covid", "COVID-19 deaths, underlying cause",
            "per 100,000", (0, 300), UP),
         _lens("mortality.lens", unit="per 100,000"),
@@ -201,7 +201,7 @@ SPINE: dict[str, tuple[Slot, ...]] = {
     "migration": (
         _c("migration.flows", "Immigration and emigration",
            "per 1,000 people", (0, 50), UP),
-        _c("migration.net", "Net migration", "per 1,000 people", (-30, 40),
+        _c("migration.net", "Net migration", "per 1,000 people", (-30, 45),
            BOTH, zero=True),
         _c("migration.foreign_born", "Foreign-born share of the population",
            "% of population", (0, 50), UP),
