@@ -1,0 +1,137 @@
+# Australia. Prepared in the 2026-10-25 lane (Phase A, data only).
+#
+# Two facts shape this manifest. First, the Australian Bureau of Statistics
+# publishes through an SDMX gateway whose working host is the *reversed*
+# subdomain data.api.abs.gov.au — the documented api.data.abs.gov.au has no
+# DNS record at all (DISCOVERY.md records both probes). Second, the Reserve
+# Bank of Australia's whole site answers HTTP 403 to this network, so the
+# cash rate arrives through the BIS republication of the RBA's own series
+# and the mortgage-rate panel is a recorded gap rather than a substitute.
+#
+# Australia's fiscal year is July-June. The national accounts here are
+# CALENDAR years, built by summing the four quarters (DATA_NOTES.md); the
+# fiscal chapter is on the Fund's fiscal-year basis, labelled FY, and the
+# two are never drawn on one axis without saying which is which.
+slug: australia
+flag_emoji: "🇦🇺"
+wordmark: Australia
+name:
+  en: "Australia"
+  pt: "Austrália"
+  es: "Australia"
+  fr: "Australie"
+  ko: "오스트레일리아"
+  it: "Australia"
+  he: "אוסטרליה"
+  ja: "オーストラリア"
+  zh-Hans: "澳大利亚"
+  zh-Hant: "澳洲"
+  vi: "Úc"
+  de: "Australien"
+  uk: "Австралія"
+  pl: "Australia"
+  ru: "Австралия"
+
+# English is the de-facto official language and the only one the country
+# publishes its statistics in; Portuguese is the atlas's second language.
+locales:
+  - {code: en, html_lang: en,    og_locale: en_AU, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The window every plate shares, and the last year whose annual totals are
+# complete. Calendar 2025 is complete for the ABS national accounts (the
+# December-quarter 2025 release), the CPI, the labour force, deaths and
+# recorded crime; 2026 has two quarters and is drawn as a running year.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+spine: true
+
+# Bands are dated from the staged ABS quarterly national accounts, seasonally
+# adjusted, chain volume measures (TSEST 20), which is the only series here
+# whose quarter-on-quarter sign is not an artefact of the original terms.
+# Negative quarters 2006-2026: 2008-Q4 (-0.43), 2011-Q1 (-0.27), 2020-Q1
+# (-0.16), 2020-Q2 (-6.79), 2021-Q3 (-1.76).
+#   * 2020-Q1 to 2020-Q2 is the only run of two consecutive negative
+#     quarters in the window: banded, 2020.0-2020.5.
+#   * 2021-Q3 is the Delta-lockdown contraction, a single quarter: banded,
+#     2021.5-2021.75.
+#   * 2008-Q4 and 2011-Q1 are single negative quarters — Australia did not
+#     have a technical recession in the global financial crisis, which is
+#     the fact worth keeping — so they are an annotation, not a band.
+bands:
+  - {from: 2020.0, to: 2020.5,  label: "COVID-19"}
+  - {from: 2021.5, to: 2021.75, label: "Delta lockdowns"}
+
+# The plate money slots are in Australian dollars where they are levels;
+# the ratio slots are % of GDP.
+currency:
+  code: AUD
+
+# The flag is navy #00247D, red #E4002B and white, which is not a chart
+# palette: the flag navy swallows thin lines and the red vibrates against
+# it. These are darkened, desaturated siblings that survive greyscale,
+# plus the wattle gold and the greens and teals every country needs.
+palette:
+  NAVY:    "#0F3B6B"
+  NAVY_D:  "#0A2949"
+  BLUE:    "#2C6CA8"
+  BLUE_D:  "#1D4F7C"
+  RED:     "#B03A48"
+  RED_D:   "#8A2A36"
+  GOLD:    "#B8912A"
+  GOLD_D:  "#8E6F1C"
+  GREEN:   "#2E7D4F"
+  GREEN_D: "#1F5F3A"
+  TEAL:    "#13807A"
+  PURPLE:  "#6E5BA6"
+  primary: "#0A2949"
+  alert:   "#B0442C"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#0F3B6B", "#B8912A", "#B03A48", "#2E7D4F", "#2C6CA8", "#13807A", "#6E5BA6", "#1F2430"]
+  # Navy, red and the flag's white, laid flat. The masthead needs three
+  # bands; Australia's flag is navy and red around a white field, so the
+  # third band is the white — which is the paper colour and therefore
+  # takes the automatic outline rather than disappearing.
+  flag_bands: ["#0F3B6B", "#B03A48", "#FBFAF7"]
+  # A deep Southern-Ocean night: bluer and greyer than the northern
+  # navies, with the wattle gold for the people family and a salt-white
+  # ink.
+  web:
+    mark_bearing: "0.05em"
+    ground:   "#08131F"
+    raised:   "#0D1E2E"
+    raised_2: "#12293C"
+    rule:     "#1F3B52"
+    ink:      "#E9F0F5"
+    muted:    "#9BAEBE"
+    faint:    "#647889"
+    money:    "#7FAFDC"
+    world:    "#4FB3A6"
+    people:   "#D9B44A"
+
+seo:
+  title:
+    en: "Australia — plates of official data, 2006–2025"
+    pt: "Austrália — pranchas de dados oficiais, 2006–2025"
+  description:
+    en: "Data plates on Australia's economy, budget, population, migration and place in the world, built from committed CSVs: calendar-year national accounts assembled from the ABS quarters, a fiscal chapter on the July–June year, and the Reserve Bank's blocked data disclosed rather than filled with a different series."
+    pt: "Pranchas de dados sobre a economia, o orçamento, a população, a migração e a posição da Austrália no mundo, a partir de CSVs versionados: contas nacionais em ano civil montadas a partir dos trimestres do ABS, um capítulo fiscal no ano julho–junho e os dados bloqueados do banco central declarados, não substituídos por outra série."
+  keywords: [Australia, ABS, Australian Bureau of Statistics, Reserve Bank of Australia, IMF, OECD, World Bank, official statistics]
+  spatial: "Australia"
+
+# Named in the dek. Only publishers whose numbers are drawn are named; the
+# Reserve Bank of Australia is not among them because its site is blocked
+# from this network and its series arrive through the BIS, which is named
+# in SOURCES.yaml and on the plates.
+sources:
+  en: "the Australian Bureau of Statistics, APRA and BITRE, plus the IMF, OECD, World Bank, BIS, WHO and UNDP for comparisons"
+  pt: "o Australian Bureau of Statistics, a APRA e o BITRE, além de FMI, OCDE, Banco Mundial, BIS, OMS e PNUD para comparações"

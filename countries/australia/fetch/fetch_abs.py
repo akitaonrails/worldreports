@@ -274,7 +274,8 @@ def destinations() -> list[dict]:
                 raise FetchError(f"MERCH_EXP: unit {r.get('UNIT_MEASURE')}"
                                  f"/{r.get('UNIT_MULT')}")
             k = (year, r["COUNTRY_DEST"])
-            out[k] = out.get(k, 0.0) + float(r["OBS_VALUE"])
+            # UNIT_MULT is 3: OBS_VALUE is thousands of AUD.
+            out[k] = out.get(k, 0.0) + float(r["OBS_VALUE"]) * 1e3 / 1e9
             months[k] = months.get(k, 0) + 1
         print(f"  MERCH_EXP {year}: {len(rows)} rows")
     rows = []
@@ -283,7 +284,7 @@ def destinations() -> list[dict]:
             continue                      # a partial year is not a year
         rows.append({"year": year, "country_code": code,
                      "country": names.get(code, code),
-                     "exports_aud_mn": round(v, 1)})
+                     "exports_aud_bn": round(v, 3)})
     return rows
 
 
@@ -292,8 +293,8 @@ def main() -> None:
         print("ABS SDMX — quarterly national accounts")
         quarters = quarter_series()
         write_csv(DATA / "macro" / "ana_quarterly_from_abs.csv",
-                  ["year", "quarter"] + list(ANA),
-                  [{"year": y, "quarter": q, **v}
+                  ["year", "period"] + list(ANA),
+                  [{"year": y, "period": f"{y}-Q{q}", **v}
                    for (y, q), v in sorted(quarters.items())])
         annual = annualise_ana(quarters)
         write_csv(DATA / "macro" / "activity_from_abs.csv",
@@ -323,7 +324,7 @@ def main() -> None:
         write_csv(DATA / "mortality" / "deaths_from_abs.csv",
                   ["year", "deaths", "crude_death_rate"], deaths())
         write_csv(DATA / "trade" / "destinations_all_from_abs.csv",
-                  ["year", "country_code", "country", "exports_aud_mn"],
+                  ["year", "country_code", "country", "exports_aud_bn"],
                   destinations())
     except FetchError as e:
         print(f"fetch error: {e}", file=sys.stderr)

@@ -80,7 +80,7 @@ def gdp_calendar() -> dict[int, float]:
         raise FetchError(f"{path.name} missing: run fetch_abs.py first")
     q: dict[tuple[int, int], float] = {}
     for r in csv.DictReader(path.open(encoding="utf-8")):
-        q[(int(r["year"]), int(r["quarter"]))] = float(
+        q[(int(r["year"]), int(r["period"][-1]))] = float(
             r["gdp_current_aud_mn"])
     out = {}
     for y in range(2006, 2027):
