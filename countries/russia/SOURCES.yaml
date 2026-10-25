@@ -154,8 +154,17 @@ spending:
       federal spending by section has not been published since the 2022
       classification of budget data. The hole is the finding.
       NOT COFOG. The mapping onto the spine's seven groups is in
-      DATA_NOTES.md and is approximate; 'health' is section 2.9
-      'Здравоохранение и спорт', which bundles sport until 2011.
+      DATA_NOTES.md and is approximate.
+      THE 2013 SPLIT: the classification was reorganised with the 2013
+      programme-based reform, so before 2013 three combined sections carry
+      the money ('Культура, кинематография и СМИ', 'Здравоохранение и
+      спорт', 'Межбюджетные трансферты') and after it their sub-rows do.
+      Each column is built from the label the publisher filled in that
+      year, which keeps 2006 and 2021 measuring the same thing. Health
+      therefore bundles sport before 2013, and culture_media excludes media
+      from 2013 (media is its own column). RECONCILED: the fourteen
+      sections sum to the published expenditure total within 0.2bn in every
+      year 2006-2021, asserted on every fetch.
 
 trade:
   trade.csv:

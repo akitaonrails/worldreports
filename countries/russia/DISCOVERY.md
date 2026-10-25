@@ -195,7 +195,7 @@ definitional decisions that matter are:
   `test_no_plate_is_drawn_from_a_sidecar`) — nothing in this lane draws a
   plate. `tests/test_numbers.py -k russia` → **1 failed, 1 passed**: the
   failure is `no forms for RUB` (`CURRENCY_AFFIX`), recorded in
-  `DATA_NOTES.md` §14 as a core need, not patched here.
+  `DATA_NOTES.md` §15 as a core need, not patched here.
 - **Determinism, online twice:** all five fetchers re-run against a live
   network → every sidecar **byte-identical** (md5 diff empty).
 - **Determinism, offline-warm:** with `http_proxy`/`https_proxy` pointing

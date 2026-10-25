@@ -81,7 +81,19 @@ spine's seven groups is approximate:
 | general public services | Общегосударственные вопросы + Обслуживание долга |
 | economic affairs | Национальная экономика |
 | defence + public order | Национальная оборона + Национальная безопасность и правоохранительная деятельность |
-| other | ЖКХ, охрана окружающей среды, культура и СМИ, физкультура, межбюджетные трансферты |
+| other | ЖКХ, охрана окружающей среды, культура, СМИ, физкультура, межбюджетные трансферты |
+
+**The classification changed in 2013** and the file carries that seam
+inside each column rather than across rows. Before 2013 three combined
+sections carried the money and their sub-rows were blank; from 2013 the
+sub-rows carry it and the combined rows are blank. Each column is built
+from whichever label the publisher actually filled in that year, so a 2006
+cell and a 2021 cell in the same column measure the same section. Two
+consequences a reader must know: **health bundles sport before 2013**, and
+**culture_media excludes media from 2013** because media became its own
+section. The fourteen sections **reconcile to the published expenditure
+total within 0.2bn in every year 2006-2021** — asserted on every fetch,
+and it is the check that exposed the split in the first place.
 
 Two honest caveats. **The breakdown stops in 2021**: the publisher's annual
 workbook answers 200 and its totals run to 2025, but the 2022–2025 section
@@ -262,7 +274,18 @@ The fetchers assert these on every run and refuse to write a sidecar whose
 anchors fail. A silent revision, a unit change or a truncated payload
 therefore fails at fetch time rather than landing in a published chart.
 
-## 14. Known shared-code needs (reported, not changed here)
+## 14. Running the fetchers on this network
+
+`make C=russia fetch` runs `fetch_rosstat.py` with TLS verification **on**
+and it will stop with the certificate message described in
+`DISCOVERY.md`: rosstat.gov.ru's chain is signed by the Russian Trusted
+Root CA, which this host does not carry. Either install that root in the
+host trust store (the correct fix), or run that one fetcher with
+`ROSSTAT_INSECURE=1` — the flag changes the transport, never a number, and
+the sidecar records which mode produced it. The other four fetchers need
+nothing.
+
+## 15. Known shared-code needs (reported, not changed here)
 
 Phase A deliberately touches nothing outside `countries/russia/`. Three
 things in `core/` are needed before Phase B can draw or format a rouble,

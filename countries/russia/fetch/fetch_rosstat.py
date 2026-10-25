@@ -55,6 +55,7 @@ from __future__ import annotations
 import argparse
 import csv
 import io
+import os
 import ssl
 import sys
 import urllib.request
@@ -317,8 +318,11 @@ def write(rel: str, header: list[str], rows: list[list[str]],
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--rosstat-insecure", action="store_true",
+                    default=bool(os.environ.get("ROSSTAT_INSECURE")),
                     help="skip TLS verification for rosstat.gov.ru "
-                         "(Russian Trusted Root CA not installed)")
+                         "(Russian Trusted Root CA not installed); also "
+                         "settable with ROSSTAT_INSECURE=1, which is what a "
+                         "`make C=russia fetch` on such a host uses")
     args = ap.parse_args()
     mode = "insecure" if args.rosstat_insecure else "verified"
 

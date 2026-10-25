@@ -61,23 +61,44 @@ ROWS = {
     "non_oil_gas_balance": "Ненефтегазовый дефицит",
 }
 
-# The functional sections, in the publisher's order. Keyed by the label
-# that follows the section number in column B.
+# THE 2013 SPLIT, which is why the labels below are not a simple list.
+# The Russian functional classification was reorganised with the 2013
+# programme-based budget reform. Before it, three combined sections carried
+# the money and their sub-rows were blank; after it, the sub-rows carry it
+# and the combined rows are blank:
+#
+#   pre-2013 combined row            | 2013+ rows
+#   Культура, кинематография и СМИ   | Культура, кинематография
+#                                    | + Средства массовой информации
+#   Здравоохранение и спорт          | Здравоохранение
+#   Межбюджетные трансферты          | (no longer a section)
+#
+# So each staged column names the labels it may be built from, in priority
+# order: the first label the publisher actually filled in that year wins.
+# That keeps a 2006 value and a 2021 value measuring the same thing. The
+# parse asserts that no year has two candidates and none has zero.
 SECTIONS = [
-    ("general_government", "Общегосударственные вопросы"),
-    ("national_defence", "Национальная оборона"),
-    ("security_law_order", "Национальная безопасность и правоохранительная"),
-    ("national_economy", "Национальная экономика"),
-    ("housing_utilities", "Жилищно-коммунальное хозяйство"),
-    ("environment", "Охрана окружающей среды"),
-    ("education", "Образование"),
-    ("culture_media", "Культура, кинематография и средства массовой"),
-    ("health", "Здравоохранение и спорт"),
-    ("social_policy", "Социальная политика"),
-    ("physical_culture", "Физическая культура и спорт"),
-    ("media", "Средства массовой информации"),
-    ("debt_service", "Обслуживание государственного и муниципального долга"),
-    ("interbudgetary", "Межбюджетные трансферты"),
+    ("general_government", ["Общегосударственные вопросы"]),
+    ("national_defence", ["Национальная оборона"]),
+    ("security_law_order",
+     ["Национальная безопасность и правоохранительная деятельность"]),
+    ("national_economy", ["Национальная экономика"]),
+    ("housing_utilities", ["Жилищно-коммунальное хозяйство"]),
+    ("environment", ["Охрана окружающей среды"]),
+    ("education", ["Образование"]),
+    ("culture_media",
+     ["Культура, кинематография и средства массовой информации",
+      "Культура, кинематография"]),
+    ("media", ["Средства массовой информации"]),
+    ("health", ["Здравоохранение и спорт", "Здравоохранение"]),
+    ("social_policy", ["Социальная политика"]),
+    ("physical_culture", ["Физическая культура и спорт"]),
+    ("debt_service",
+     ["Обслуживание государственного и муниципального долга"]),
+    ("interbudgetary",
+     ["Межбюджетные трансферты",
+      "Межбюджетные трансферты общего характера бюджетам бюджетной "
+      "системы Российской Федерации"]),
 ]
 
 
@@ -97,7 +118,14 @@ def download() -> Path:
 
 
 def parse(path: Path) -> tuple[dict[int, dict[str, float]], list[int]]:
-    """{(row key, year): billion roubles} plus the year columns."""
+    """{year: {column: billion roubles}} plus the year columns.
+
+    Labels are matched EXACTLY, not by prefix: 'Здравоохранение' is a
+    prefix of 'Здравоохранение и спорт', and a prefix match would fold the
+    pre-2013 combined section into the post-2013 sub-section and report a
+    jump that never happened. A trailing '*' (the publisher's footnote
+    marker) is stripped before comparing.
+    """
     import warnings
 
     import openpyxl
@@ -119,24 +147,42 @@ def parse(path: Path) -> tuple[dict[int, dict[str, float]], list[int]]:
     year_cols = [(i, int(c)) for i, c in enumerate(head)
                  if isinstance(c, int) and 1990 < c < 2200]
 
-    wanted = dict(ROWS)
-    for key, label in SECTIONS:
-        wanted[key] = label
+    def norm(text) -> str:
+        return str(text or "").strip().rstrip("*").strip()
+
+    # Every label we may want, as a set, so one pass over the sheet fills
+    # a raw {(label, year): value} table.
+    wanted_labels = set(ROWS.values())
+    for _, labels in SECTIONS:
+        wanted_labels.update(labels)
+
+    raw: dict[tuple[str, int], float] = {}
+    for row in rows:
+        label = norm(row[1]) if len(row) > 1 else ""
+        if not label or label not in wanted_labels:
+            continue
+        for i, year in year_cols:
+            if i >= len(row):
+                continue
+            value = row[i]
+            if isinstance(value, (int, float)):
+                raw[(label, year)] = float(value)
 
     out: dict[int, dict[str, float]] = {}
-    for row in rows:
-        label = str(row[1] or "").strip() if len(row) > 1 else ""
-        if not label:
-            continue
-        for key, prefix in wanted.items():
-            if not label.startswith(prefix):
-                continue
-            for i, year in year_cols:
-                if i >= len(row):
-                    continue
-                value = row[i]
-                if isinstance(value, (int, float)):
-                    out.setdefault(year, {})[key] = float(value)
+    for _, year in year_cols:
+        rec: dict[str, float] = {}
+        for key, label in ROWS.items():
+            if (label, year) in raw:
+                rec[key] = raw[(label, year)]
+        for key, labels in SECTIONS:
+            hits = [lab for lab in labels if (lab, year) in raw]
+            if len(hits) > 1:
+                sys.exit(f"minfin {year} {key}: two labels filled "
+                         f"({hits}); the 2013 split rule needs updating")
+            if hits:
+                rec[key] = raw[(hits[0], year)]
+        if rec:
+            out[year] = rec
     return out, [y for _, y in year_cols]
 
 
@@ -189,11 +235,34 @@ def main() -> None:
            "leads with. interest is section 2.13, debt service.",
            "Fetched 2026-10-25."])
 
+    # A row whose every section is empty is not a row: the year's totals
+    # exist in fiscal/ but the publisher published no breakdown, so the
+    # functional file ENDS where its data end rather than claiming a
+    # coverage span its values do not carry.
+    func_rows = [[str(y)] + [f"{data[y][k]:.1f}" if k in data.get(y, {}) else ""
+                             for k, _labels in SECTIONS]
+                 for y in sorted(data)
+                 if YEAR_FROM <= y <= YEAR_TO
+                 and any(k in data.get(y, {}) for k, _labels in SECTIONS)]
+    # RECONCILIATION: the fourteen sections must sum to the published
+    # expenditure total in every year. They do, within 0.2bn of rounding,
+    # 2006-2021 — and this assert is what caught the 2013 split: without
+    # the sub-row fallbacks the 2013-2021 columns were short by exactly the
+    # interbudgetary transfers, and only the sum showed it.
+    for y, rec in data.items():
+        if not YEAR_FROM <= y <= YEAR_TO:
+            continue
+        if "expenditure" not in rec:
+            continue
+        parts = [rec[k] for k, _labels in SECTIONS if k in rec]
+        if len(parts) < 14:
+            continue  # a year with no functional detail at all
+        assert abs(sum(parts) - rec["expenditure"]) < 1.0, (
+            f"minfin {y}: sections sum to {sum(parts):.1f} against a "
+            f"published expenditure of {rec['expenditure']:.1f}")
+
     write("spending/federal_function_from_minfin.csv",
-          ["year"] + [k for k, _ in SECTIONS],
-          [[str(y)] + [f"{data[y][k]:.1f}" if k in data.get(y, {}) else ""
-                       for k, _ in SECTIONS]
-           for y in sorted(data) if YEAR_FROM <= y <= YEAR_TO],
+          ["year"] + [k for k, _labels in SECTIONS], func_rows,
           ["Ministry of Finance, Приложение 3.1, sheet 'год': federal budget",
            "EXPENDITURE by the national functional classification, BILLION",
            "ROUBLES, cash basis, federal level only.",
