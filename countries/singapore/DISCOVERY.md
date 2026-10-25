@@ -337,10 +337,12 @@ slots:
 - **Six Gini coefficients** in one table (before/after transfers and taxes, on
   three equivalisation bases). The gap between before (0.426) and after
   (0.359) is the redistribution, and drawing only one hides it.
-- **Non-residents by pass type**: work permits 44%, migrant domestic workers
-  16%, long-term visit/dependant's 15%, employment pass 11%, S pass 9%,
-  student pass 5% (mid-2026). This is the closest Singapore comes to a
-  migration chapter, and it is a stock by legal status, not a flow.
+- **Non-residents by pass type**, as a share of the non-resident population
+  at mid-2025: work permits 44%, migrant domestic workers 16%, long-term
+  visit/dependant's passes 15%, employment passes 11%, S passes 9%, student
+  passes 5% (mid-2026 has already moved to 45/16/15/10/9/5). This is the
+  closest Singapore comes to a migration chapter, and it is a stock by legal
+  status, not a flow.
 - **Land area** 744.3 km² in 2025 against 581.5 in 1960 — the country is
   physically growing.
 - **TFR 0.87** in 2025 (0.97 in 2023 and 2024): among the lowest ever recorded
@@ -412,3 +414,53 @@ matter:
 6. **mortality slot 3** — no COVID series exists on any route; pending.
 7. **people slot 2** — no poverty line exists; slot 3 — no minimum wage
    exists. Both are findings to state, not gaps to fill.
+
+---
+
+## 9. Gate results, and the one core change this lane needs
+
+`pytest tests/ -k "singapore and not test_site"` on 2026-10-25 (lane):
+**40 passed, 20 failed.** Eighteen of the twenty are the expected Phase B
+set — every one is a plate, catalogue or provenance test that cannot pass
+before `plates.py`, `i18n.json`, `ui.json` and `provenance.json` exist:
+
+- `test_catalogs.py` × 6 — no `i18n.json`;
+- `test_isolation.py` × 3, `test_layout.py` × 4, `test_legends.py` × 1,
+  `test_spine.py` × 2 — no `plates.py`/`chapters.py`;
+- `test_sources.py` × 2 — no `provenance.json` (it is written by a real
+  render).
+
+Focused gate (`tests/test_sources.py tests/test_data.py -k singapore`):
+**15 passed, 2 failed**, the same provenance pair. Every data test passes:
+shapes, year ordering, duplicates, placeholders, empty columns, thousands
+separators, and the reader round-trip.
+
+**The two failures that are a real core gap, not a Phase B gap:**
+
+```
+tests/test_core.py::test_the_currency_is_one_the_site_can_write[singapore]
+tests/test_numbers.py::test_every_country_can_write_its_own_money[singapore]
+```
+
+Both fail on `'SGD' has no per-language form`. `core/sitebuild.py`'s
+`CURRENCY_AFFIX` has ARS, BRL, CAD, CHF, CNY, EUR, GBP, ILS, JPY, KRW, TWD,
+UAH, USD and VND — not SGD. **This lane does not edit `core/`.** The exact
+entry Singapore needs, following the USD shape and Singapore's own S$
+convention (the prefix exists precisely to distinguish the Singapore dollar
+from the US one, so it is not dropped for the short form either):
+
+```python
+"SGD": {
+    "money":    {"en": ("S$ ", ""),     "pt": ("S$ ", "")},
+    "money_bn": {"en": ("S$ ", "bn"),   "pt": ("S$ ", " bi")},
+},
+```
+
+The test requires `money` plus at least one of `money_bn`/`money_tn`, and a
+form for every declared locale (here `en` and `pt`). If a Phase B chapter uses
+`money_tn`, `money_tn1` or `money2`, those need entries too:
+`("S$ ", "tn")` / `("S$ ", "tri")` on the same pattern. `usd_bn` and its
+siblings are already covered by the existing USD entry.
+
+**No other core change is required by this country.** The `en` and `pt` number
+styles both already exist and both already have plate unit rules.

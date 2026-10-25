@@ -30,8 +30,9 @@ what a small open economy's national accounts look like. It also means the
 customs series (domestic exports *plus* re-exports) and the national-accounts
 series are different objects, and they are staged in different files.
 
-**Land area and density are legitimate readings here.** 744 km², up from 581
-in 1960 by reclamation, and 8,332 people per km². They are in the demography
+**Land area and density are legitimate readings here.** 744.3 km² at
+end-2025, up from 581.5 in 1960 by reclamation, and 8,300 people per km² in
+that year (8,332 by mid-2026). They are in the demography
 file because they change what the other numbers mean. They are *lens*
 material, not a comparison slot: no other country in the atlas is also its own
 city, so a density axis wiped across Germany would compare incomparable
