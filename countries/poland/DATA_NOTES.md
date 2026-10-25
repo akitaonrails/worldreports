@@ -166,7 +166,7 @@ This is the chapter where a careless chart would be worst.
 | `emigration_registered` | 228,006 | the same register, outward |
 | `net_migration_registered_per_1000` | 0.2 | the register's own balance |
 | `net_migration_residual_per_1000` | 12.6 | population change minus natural change |
-| `temporary_protection_beneficiaries` | 954,800 (end-2023) | people under temporary protection |
+| `temporary_protection_beneficiaries` | 961,340 (end-2022); 954,800 (end-2023) | people under temporary protection |
 | `foreign_citizens` / `foreign_born` | 435,964 / 933,118 (1 Jan 2023) | two legal cuts of the same stock |
 
 The Ukrainian inflow of 2022 was roughly a million people, and the
