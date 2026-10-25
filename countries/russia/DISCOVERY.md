@@ -157,7 +157,7 @@ argument is actually about.
 
 ## What is staged, and on which definition
 
-Twenty-nine curated CSVs across eleven topic directories, each with its
+Thirty curated CSVs across eleven topic directories, each with its
 sidecar beside it. The manifest (`SOURCES.yaml`) is the list; the
 definitional decisions that matter are:
 
@@ -210,7 +210,7 @@ a claim, and this one was not yet a claim about the country's data.
 
 - **Gate** (2026-10-25, lane):
   `pytest tests/test_sources.py tests/test_data.py -k russia` →
-  **15 passed, 2 failed**. Both failures are `provenance.json` missing,
+  **15 passed, 2 failed** (final run on the committed diff). Both failures are `provenance.json` missing,
   which is a Phase-B artefact (`test_every_plate_cites_files_the_manifest_declares`,
   `test_no_plate_is_drawn_from_a_sidecar`) — nothing in this lane draws a
   plate. `tests/test_numbers.py -k russia` → **1 failed, 1 passed**: the
