@@ -1,0 +1,290 @@
+{
+ "en": {
+  "line": "{n} plates of official data, {window}",
+  "dek": "Every figure on this page comes from a publisher that names its definition — the National Institute of Statistics for the Gini, and the IMF, the World Bank, UNDP and UNHCR for everything the Venezuelan state stopped publishing — and every plate is regenerated from committed CSVs, so the charts and the numbers here cannot drift apart. This is the first country in the atlas whose national statistical system is largely absent: the Central Bank's site does not answer over TLS from this network, the INE publishes no consumer prices and no national accounts, and the open-data portal times out. What is left is the harmonised layer, drawn as what it is — a staff estimate — never as a Venezuelan outturn. Two series leave the atlas's comparison ranges on purpose and are drawn in lens panels on their own axes: a hyperinflation of 65,374% and an emigration wave of −45.5 per 1,000.",
+  "notes": [
+   "2026 is a partial year. Annual totals on this page stop at 2025, the last year both harmonised publishers carry as an outturn; everything after it is a projection and stays out of the plates.",
+   "The bolívar was redenominated three times inside this window: 1,000 bolívares became 1 bolívar fuerte in 2008, 100,000 bolívares fuertes became 1 bolívar soberano in 2018, and 1,000,000 soberanos became 1 bolívar digital in 2021. No local-currency level is drawn anywhere: money is a share of GDP, US$ or an index, and the one series that crosses a redenomination — the official exchange rate — is converted through the documented divisor and says so.",
+   "The exchange rate and the reserves stop in 2017 and the holes are left open. The Central Bank stopped publishing on a route this network can reach, and no parallel or market rate is substituted: a parallel rate is not an official statistic.",
+   "Growth, the overall balance and the trade balance are drawn on the atlas's shared comparison scales, which were widened for this country and regenerated for every peer, so a collapsed economy registers in the comparison viewer instead of being squeezed into a range built for business cycles.",
+   "Two panels are lenses and say so on their faces. Inflation is drawn on a log axis — the IMF's staff estimate for the whole window and the BCV's own INPC as a separate short line to 2016 — because no linear axis can hold 65,374% beside a 2% deflation without either clipping the peak or flattening twenty years to a line. Net migration is drawn on its own axis for the same reason: −45.5 per 1,000 in 2018 is an emigration wave, not a migration rate.",
+   "Two publishers, two lines: real growth, dollar GDP and unemployment are drawn from both the World Bank and the Fund wherever both exist, labelled, because Venezuela submits no national accounts and the two are independent estimates of the same rebased series. The gap between the two dollar GDP lines is which official exchange rate each used, not a revision.",
+   "The population is the UN model, not a count: no census has been taken since 2011. It is the denominator for every per-1,000 rate on these plates, and the 2016–2021 fall in it is modelled emigration.",
+   "Two seams are annotated rather than smoothed: the 2009 inflation seam, where the BCV's rebased INPC says 27.08% and the Fund did not follow the revision and says 26.00%; and the 2016 suicide spike from 6.1 to 10.5 per 100,000, which is a change of WHO estimate vintage and not behaviour.",
+   "The Gini is the one national series that runs the whole window, and it is nearly flat through the largest economic collapse in the region's modern history. That is the publisher's claim, not this atlas's finding: the INE documents neither the survey's coverage nor its non-response in the emigration years, and the independent university survey that reports far higher inequality is not an official statistic and is not used.",
+   "The plates are drawn in the three languages this country publishes — Spanish, English and Portuguese — and so is this page."
+  ],
+  "unavailable": [
+   {
+    "term": "The Central Bank — consumer prices, national accounts, policy rate, reserves, exchange rate",
+    "detail": "The BCV is the publisher of the INPC, the quarterly national accounts, the policy rate, the international reserves and the official exchange rate, and its site does not answer over TLS from this network: every host fails at the certificate chain, both schemes, with curl exiting 000 after a timeout (2026-10-25). This is the reason so much of this page is a harmonised estimate. No unofficial mirror is substituted; the national series will be drawn the day a route answers."
+   },
+   {
+    "term": "The INE — consumer prices and national accounts",
+    "detail": "Two separate findings. The CPI is not published by the INE at all — it is the BCV's — and the INE's portal describes an integrated economic-statistics system in prose while linking no price and no national-accounts table. The portal's host also does not answer the build network (exit 000 after 25 s, both hostnames), only an agent's egress proxy, which is how the Gini workbook was retrieved."
+   },
+   {
+    "term": "Government debt",
+    "detail": "Every official route was tried: the IMF's GGXWDG_NGDP carries no Venezuelan observation in the October 2026 vintage, the World Bank's debt indicator returns zero rows, the BCV is unreachable and the finance ministry's debt publications are not machine-readable. The panel stays pending rather than drawn from a different concept: a hole, not a zero."
+   },
+   {
+    "term": "Policy rate, ten-year yield and equity index",
+    "detail": "The policy rate is the BCV's and the BCV is unreachable; the Fund carries no Venezuelan policy-rate indicator and its exchange-rate dataset returns an empty Venezuela slice. No official bolívar yield curve is published, and the domestic market is thin enough that a secondary-market quote would need its own definition note. No verified machine-readable series exists for the Caracas exchange's index. All three panels stay pending; no redistributor is substituted."
+   },
+   {
+    "term": "Credit",
+    "detail": "The chapter has no panel it could fill. BIS total credit returns HTTP 404 for the Venezuelan series key while the identical US key answers 200, so Venezuela is not a reporting country and there is no harmonised household-credit series; the BCV is unreachable; SUDEBAN publishes no machine-readable banking statistics. The chapter is not published rather than published as four empty frames."
+   },
+   {
+    "term": "Poverty and the minimum wage",
+    "detail": "The World Bank's PIP series has six Venezuelan observations and the last is 2006; the INE publishes no poverty tabulado. The widely quoted ENCOVI figures are a university survey, not an official statistic, and are not used. The minimum wage is set in bolívares across three redenominations, the official rate that would convert it to US$ per month stops in 2017, and the Gaceta's publisher does not resolve in DNS."
+   },
+   {
+    "term": "The functional budget, COFOG and public investment",
+    "detail": "Venezuela reports no COFOG table to the IMF, and the finance ministry's own budget execution stops in 2009 — in nominal bolívares of three different currencies, so it cannot be drawn as a share of anything. Three of the four spending panels stay pending; only the whole-economy investment rate is drawable, and it is not a substitute for the public one."
+   },
+   {
+    "term": "COVID-19 deaths and excess deaths",
+    "detail": "WHO's GHO catalogue no longer carries a general COVID-19 death indicator in its machine-readable API, and covid19.who.int's global CSV now serves an HTML page. Excess deaths need registered death counts, which are the INE's legacy .xls tabulados with no coverage statement and a host this network cannot reach. Neither is drawn, and the crude death rate panel says it is a model."
+   },
+   {
+    "term": "Annual export destinations",
+    "detail": "Venezuela's own UN Comtrade reporting stops after 2013, and that submission attributes about US$82bn of US$88bn of exports to residual buckets (\"North America and Central America, nes\", \"Other Asia, nes\" and two more), against US$0.55bn to the United States. A destination chart built on it would be a chart of Comtrade's code list, so the canonical slot stays pending and no proxy is drawn."
+   },
+   {
+    "term": "The national labour, birth and death series",
+    "detail": "Retrieved and inspected, then deferred rather than guessed: the INE's labour tabulado identifies its rows by numeric concept codes whose legend is not in the workbook, and its civil-registration tabulados are legacy BIFF8 .xls files with no publication year and no coverage statement. The harmonised ILO and UN WPP series are drawn instead and labelled as modelled."
+   },
+   {
+    "term": "Corruption Perceptions Index",
+    "detail": "Transparency International's workbook answers 403 from its CDN and from its own site, with a browser user agent and a plain one — the same block the Ukraine lane recorded. It is not an official statistic in any case, and no redistributor is substituted."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Income inequality",
+    "detail": "Instituto Nacional de Estadística, 'Tabulados — Coeficiente GINI', household survey; the workbook's 0–1 index is drawn as 0–100 points. The World Bank's SEDLAC-harmonised Gini is kept as a one-point cross-check for 2006, not as a line."
+   },
+   {
+    "term": "National accounts, prices, labour",
+    "detail": "World Bank WDI, which republishes the Fund's and the UN's series; IMF WEO October 2026 as the independent estimate. Both are staff estimates: Venezuela submits no national accounts and no consumer price index is published on a reachable route."
+   },
+   {
+    "term": "Exchange rate and reserves",
+    "detail": "World Bank WDI: PA.NUS.FCRF (the official rate, converted to bolívares digitales through the documented divisor) and FI.RES.TOTL.CD (the BCV's reserves as the Bank records them), both ending in 2017."
+   },
+   {
+    "term": "Public finances",
+    "detail": "IMF WEO October 2026, general government: revenue, expenditure, the overall and primary balances and interest paid. One vintage for every fiscal panel, and no projection past 2025."
+   },
+   {
+    "term": "Population and vital rates",
+    "detail": "World Bank WDI over the UN World Population Prospects: mid-year population, fertility, crude birth and death rates, life expectancy. Modelled throughout; nothing here is a civil-registration count."
+   },
+   {
+    "term": "Human development",
+    "detail": "UNDP Human Development Report 2025, composite indices, one vintage for the whole back-series."
+   },
+   {
+    "term": "Migration and displacement",
+    "detail": "World Bank WDI SM.POP.NETM and SM.POP.TOTL (UN WPP net migration and the UN DESA migrant stock) for the rates; UNHCR's Refugee Data Finder for the origin-country caseload, which is an operational estimate and never a rate."
+   },
+   {
+    "term": "Violence and road deaths",
+    "detail": "UNODC (VC.IHR.PSRC.P5) and WHO (SH.STA.SUIC.P5, SH.STA.TRAF.P5) via the World Bank. The national publishers — the CICPC for homicides and the INE for causes of death — are not reachable as machine-readable series."
+   }
+  ]
+ },
+ "es": {
+  "line": "{n} planchas de datos oficiales, {window}",
+  "dek": "Cada cifra de esta página viene de un editor que nombra su definición — el Instituto Nacional de Estadística para el Gini, y el FMI, el Banco Mundial, el PNUD y ACNUR para todo lo que el Estado venezolano dejó de publicar — y cada plancha se regenera a partir de CSVs versionados, así que los gráficos y los números de aquí no pueden divergir. Es el primer país del atlas cuyo sistema estadístico nacional está en buena parte ausente: el sitio del Banco Central no responde por TLS desde esta red, el INE no publica precios al consumidor ni cuentas nacionales, y el portal de datos abiertos expira. Lo que queda es la capa harmonizada, dibujada por lo que es — una estimación técnica — y nunca como un resultado venezolano. Dos series salen a propósito de los rangos comparables del atlas y se dibujan en lentes con eje propio: una hiperinflación de 65.374% y una ola de emigración de −45,5 por 1.000.",
+  "notes": [
+   "2026 es un año incompleto. Los totales anuales de esta página terminan en 2025, el último año que ambos editores harmonizados traen como resultado; lo que viene después es proyección y queda fuera de las planchas.",
+   "El bolívar fue redenominado tres veces dentro de esta ventana: 1.000 bolívares pasaron a ser 1 bolívar fuerte en 2008, 100.000 bolívares fuertes pasaron a 1 bolívar soberano en 2018, y 1.000.000 de soberanos pasaron a 1 bolívar digital en 2021. No se dibuja ningún nivel en moneda local: el dinero es una proporción del PIB, dólares o un índice, y la única serie que cruza una redenominación — el tipo de cambio oficial — se convierte con el divisor documentado y lo dice.",
+   "El tipo de cambio y las reservas terminan en 2017 y los huecos quedan abiertos. El Banco Central dejó de publicar en una ruta que esta red pueda alcanzar, y no se sustituye ningún tipo paralelo ni de mercado: un tipo paralelo no es una estadística oficial.",
+   "El crecimiento, el balance global y el balance comercial se dibujan en las escalas compartidas del atlas, que se ampliaron para este país y se regeneraron para todos los pares, de modo que una economía colapsada registra en el comparador en lugar de quedar comprimida en un rango hecho para ciclos económicos.",
+   "Dos paneles son lentes y lo dicen en su cara. La inflación se dibuja en eje logarítmico — la estimación técnica del FMI para toda la ventana y el INPC del BCV como línea corta aparte hasta 2016 — porque ningún eje lineal puede sostener 65.374% junto a una deflación del 2% sin recortar el pico o aplanar veinte años en una línea. La migración neta se dibuja en eje propio por la misma razón: −45,5 por 1.000 en 2018 es una ola de emigración, no una tasa migratoria.",
+   "Dos editores, dos líneas: el crecimiento real, el PIB en dólares y el desempleo se dibujan del Banco Mundial y del Fondo donde ambos existen, con etiqueta, porque Venezuela no entrega cuentas nacionales y las dos son estimaciones independientes de la misma serie reconstruida. La brecha entre las dos líneas del PIB en dólares es qué tipo oficial usó cada uno, no una revisión.",
+   "La población es el modelo de la ONU, no un conteo: no hay censo desde 2011. Es el denominador de cada tasa por 1.000 de estas planchas, y la caída de 2016–2021 es emigración modelada.",
+   "Dos costuras están anotadas en vez de suavizadas: la costura de inflación de 2009, donde el INPC reconstruido del BCV dice 27,08% y el Fondo no siguió la revisión y dice 26,00%; y el salto del suicidio de 2016, de 6,1 a 10,5 por 100.000, que es un cambio de edición de la estimación de la OMS y no de conducta.",
+   "El Gini es la única serie nacional que recorre toda la ventana, y es casi plano a través del mayor derrumbe económico de la historia moderna de la región. Eso es la afirmación del editor, no un hallazgo de este atlas: el INE no documenta ni la cobertura de la encuesta ni su no respuesta en los años de emigración, y la encuesta universitaria independiente que reporta una desigualdad mucho mayor no es una estadística oficial y no se usa.",
+   "Las planchas se dibujan en las tres lenguas en que este país publica — español, inglés y portugués — y esta página también."
+  ],
+  "unavailable": [
+   {
+    "term": "El Banco Central — precios al consumidor, cuentas nacionales, tasa de política, reservas, tipo de cambio",
+    "detail": "El BCV es el editor del INPC, de las cuentas nacionales trimestrales, de la tasa de política, de las reservas internacionales y del tipo de cambio oficial, y su sitio no responde por TLS desde esta red: todos los hosts fallan en la cadena de certificados, con ambos esquemas, y curl sale con 000 tras un tiempo de espera (2026-10-25). Es la razón de que buena parte de esta página sea una estimación harmonizada. No se sustituye ningún espejo no oficial; la serie nacional se dibujará el día que una ruta responda."
+   },
+   {
+    "term": "El INE — precios al consumidor y cuentas nacionales",
+    "detail": "Dos hallazgos distintos. El IPC no lo publica el INE en absoluto — es del BCV — y el portal del INE describe en prosa un sistema integrado de estadísticas económicas sin enlazar ninguna tabla de precios ni de cuentas nacionales. Además, el host del portal no responde a la red de compilación (salida 000 tras 25 s, ambos nombres), solo al proxy de salida de un agente, que es como se obtuvo el libro del Gini."
+   },
+   {
+    "term": "Deuda pública",
+    "detail": "Se probaron todas las rutas oficiales: el GGXWDG_NGDP del FMI no trae ninguna observación venezolana en la edición de octubre de 2026, el indicador de deuda del Banco Mundial devuelve cero filas, el BCV es inalcanzable y las publicaciones de deuda del ministerio de finanzas no son legibles por máquina. El panel queda pendiente en vez de dibujarse con otro concepto: un hueco, no un cero."
+   },
+   {
+    "term": "Tasa de política, rendimiento a diez años e índice bursátil",
+    "detail": "La tasa de política es del BCV y el BCV es inalcanzable; el Fondo no tiene indicador de tasa de política para Venezuela y su conjunto de tipos de cambio devuelve una rebanada vacía. No se publica ninguna curva de rendimiento oficial en bolívares, y el mercado interno es tan delgado que una cotización de segunda mano necesitaría su propia nota de definición. No existe serie verificable legible por máquina para el índice de la bolsa de Caracas. Los tres paneles quedan pendientes; no se sustituye ningún redistribuidor."
+   },
+   {
+    "term": "Crédito",
+    "detail": "La plancha no tiene ningún panel que pueda llenar. El crédito total del BIS devuelve HTTP 404 para la clave venezolana mientras la misma clave estadounidense responde 200, así que Venezuela no es país informante y no hay serie harmonizada de crédito a los hogares; el BCV es inalcanzable; la SUDEBAN no publica estadísticas bancarias legibles por máquina. La plancha no se publica en vez de publicarse como cuatro marcos vacíos."
+   },
+   {
+    "term": "Pobreza y salario mínimo",
+    "detail": "La serie PIP del Banco Mundial tiene seis observaciones venezolanas y la última es de 2006; el INE no publica ningún tabulado de pobreza. Las cifras de ENCOVI que se citan mucho son una encuesta universitaria, no una estadística oficial, y no se usan. El salario mínimo se fija en bolívares a través de tres redenominaciones, el tipo oficial que lo convertiría a dólares por mes termina en 2017, y el editor de la Gaceta no resuelve en DNS."
+   },
+   {
+    "term": "El presupuesto funcional, COFOG y la inversión pública",
+    "detail": "Venezuela no reporta ninguna tabla COFOG al FMI, y la propia ejecución presupuestaria del ministerio de finanzas termina en 2009 — en bolívares nominales de tres monedas distintas, así que no se puede dibujar como proporción de nada. Tres de los cuatro paneles de gasto quedan pendientes; solo la tasa de inversión de toda la economía se puede dibujar, y no es un sustituto de la pública."
+   },
+   {
+    "term": "Muertes por COVID-19 y mortalidad excedente",
+    "detail": "El catálogo GHO de la OMS ya no trae ningún indicador general de muertes por COVID-19 en su API legible por máquina, y el CSV global de covid19.who.int ahora sirve una página HTML. La mortalidad excedente necesita conteos de defunciones registradas, que son los tabulados .xls heredados del INE, sin declaración de cobertura y con un host que esta red no alcanza. Ninguna de las dos se dibuja, y el panel de mortalidad bruta dice que es un modelo."
+   },
+   {
+    "term": "Destinos anuales de exportación",
+    "detail": "El propio reporte de Venezuela al UN Comtrade termina después de 2013, y ese envío atribuye unos US$82 mil millones de US$88 mil millones de exportaciones a cubos residuales (\"Norteamérica y Centroamérica, n.e.p.\", \"Otra Asia, n.e.p.\" y dos más), frente a US$0,55 mil millones a Estados Unidos. Un gráfico de destinos construido sobre eso sería un gráfico de la lista de códigos del Comtrade, así que la posición canónica queda pendiente y no se dibuja ningún proxy."
+   },
+   {
+    "term": "Las series nacionales de trabajo, nacimientos y defunciones",
+    "detail": "Obtenidas e inspeccionadas, y luego diferidas en vez de adivinadas: el tabulado laboral del INE identifica sus filas por códigos numéricos de concepto cuya leyenda no está en el libro, y sus tabulados de registro civil son archivos .xls BIFF8 heredados, sin año de publicación y sin declaración de cobertura. Se dibujan en su lugar las series harmonizadas de la OIT y de la ONU, etiquetadas como modeladas."
+   },
+   {
+    "term": "Índice de Percepción de la Corrupción",
+    "detail": "El libro de Transparency International responde 403 desde su CDN y desde su propio sitio, con un agente de navegador y con uno simple — el mismo bloqueo que registró el carril de Ucrania. Tampoco es una estadística oficial en ningún caso, y no se sustituye ningún redistribuidor."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Desigualdad de ingreso",
+    "detail": "Instituto Nacional de Estadística, «Tabulados — Coeficiente GINI», encuesta de hogares; el índice 0–1 del libro se dibuja en puntos de 0–100. El Gini harmonizado del Banco Mundial se conserva como verificación de un punto para 2006, no como línea."
+   },
+   {
+    "term": "Cuentas nacionales, precios, trabajo",
+    "detail": "Banco Mundial WDI, que republica las series del Fondo y de la ONU; FMI WEO octubre de 2026 como estimación independiente. Ambas son estimaciones técnicas: Venezuela no entrega cuentas nacionales y ningún índice de precios al consumidor se publica en una ruta alcanzable."
+   },
+   {
+    "term": "Tipo de cambio y reservas",
+    "detail": "Banco Mundial WDI: PA.NUS.FCRF (el tipo oficial, convertido a bolívares digitales con el divisor documentado) y FI.RES.TOTL.CD (las reservas del BCV tal como el Banco las registra), ambos terminando en 2017."
+   },
+   {
+    "term": "Finanzas públicas",
+    "detail": "FMI WEO octubre de 2026, gobierno general: ingresos, gastos, los balances global y primario y los intereses pagados. Una sola edición para cada panel fiscal, y sin proyección después de 2025."
+   },
+   {
+    "term": "Población y tasas vitales",
+    "detail": "Banco Mundial WDI sobre las Perspectivas de Población Mundial de la ONU: población de mitad de año, fecundidad, tasas brutas de natalidad y mortalidad, esperanza de vida. Modelado en todo; nada aquí es un conteo de registro civil."
+   },
+   {
+    "term": "Desarrollo humano",
+    "detail": "PNUD, Informe sobre Desarrollo Humano 2025, índices compuestos, una edición para toda la serie histórica."
+   },
+   {
+    "term": "Migración y desplazamiento",
+    "detail": "Banco Mundial WDI SM.POP.NETM y SM.POP.TOTL (migración neta de la ONU y stock de migrantes de la ONU) para las tasas; ACNUR Refugee Data Finder para el stock por país de origen, que es una estimación operativa y nunca una tasa."
+   },
+   {
+    "term": "Violencia y muertes de tránsito",
+    "detail": "UNODC (VC.IHR.PSRC.P5) y OMS (SH.STA.SUIC.P5, SH.STA.TRAF.P5) vía el Banco Mundial. Los editores nacionales — el CICPC para homicidios y el INE para causas de muerte — no son alcanzables como series legibles por máquina."
+   }
+  ]
+ },
+ "pt": {
+  "line": "{n} pranchas de dados oficiais, {window}",
+  "dek": "Todo número desta página vem de um editor que nomeia a sua definição — o Instituto Nacional de Estatística para o Gini, e o FMI, o Banco Mundial, o PNUD e o ACNUR para tudo o que o Estado venezuelano parou de publicar — e cada prancha é regenerada a partir de CSVs versionados, de modo que os gráficos e os números daqui não podem divergir. É o primeiro país do atlas cujo sistema estatístico nacional está em boa parte ausente: o site do Banco Central não responde por TLS a partir desta rede, o INE não publica preços ao consumidor nem contas nacionais, e o portal de dados abertos expira. O que resta é a camada harmonizada, desenhada pelo que é — uma estimativa técnica — e nunca como um resultado venezuelano. Duas séries saem de propósito das faixas comparáveis do atlas e são desenhadas em lentes com eixo próprio: uma hiperinflação de 65.374% e uma onda de emigração de −45,5 por 1.000.",
+  "notes": [
+   "2026 é um ano incompleto. Os totais anuais desta página param em 2025, o último ano que os dois editores harmonizados trazem como resultado; o que vem depois é projeção e fica fora das pranchas.",
+   "O bolívar foi redenominado três vezes dentro desta janela: 1.000 bolívares viraram 1 bolívar fuerte em 2008, 100.000 bolívares fuertes viraram 1 bolívar soberano em 2018, e 1.000.000 de soberanos viraram 1 bolívar digital em 2021. Nenhum nível em moeda local é desenhado: dinheiro é parcela do PIB, dólares ou um índice, e a única série que cruza uma redenominação — o câmbio oficial — é convertida pelo divisor documentado e o diz.",
+   "O câmbio e as reservas param em 2017 e os buracos ficam abertos. O Banco Central parou de publicar numa rota que esta rede alcança, e nenhum câmbio paralelo ou de mercado é usado: um câmbio paralelo não é uma estatística oficial.",
+   "O crescimento, o saldo total e o saldo comercial são desenhados nas escalas compartilhadas do atlas, que foram alargadas para este país e regeneradas para todos os pares, de modo que uma economia colapsada registra no comparador em vez de ficar comprimida numa faixa feita para ciclos econômicos.",
+   "Dois painéis são lentes e o dizem na cara. A inflação é desenhada em eixo logarítmico — a estimativa técnica do FMI para toda a janela e o INPC do BCV como linha curta separada até 2016 — porque nenhum eixo linear sustenta 65.374% ao lado de uma deflação de 2% sem cortar o pico ou achatar vinte anos numa linha. A migração líquida é desenhada em eixo próprio pela mesma razão: −45,5 por 1.000 em 2018 é uma onda de emigração, não uma taxa migratória.",
+   "Dois editores, duas linhas: o crescimento real, o PIB em dólares e o desemprego são desenhados do Banco Mundial e do Fundo onde ambos existem, com rótulo, porque a Venezuela não entrega contas nacionais e as duas são estimativas independentes da mesma série reconstruída. A distância entre as duas linhas do PIB em dólares é qual câmbio oficial cada um usou, não uma revisão.",
+   "A população é o modelo da ONU, não uma contagem: não há censo desde 2011. É o denominador de cada taxa por 1.000 destas pranchas, e a queda de 2016–2021 é emigração modelada.",
+   "Duas costuras estão anotadas em vez de suavizadas: a costura de inflação de 2009, onde o INPC reconstruído do BCV diz 27,08% e o Fundo não seguiu a revisão e diz 26,00%; e o salto do suicídio de 2016, de 6,1 para 10,5 por 100.000, que é uma mudança de edição da estimativa da OMS e não de comportamento.",
+   "O Gini é a única série nacional que atravessa toda a janela, e é quase plano através do maior colapso econômico da história moderna da região. Isso é a afirmação do editor, não uma descoberta deste atlas: o INE não documenta nem a cobertura da pesquisa nem a sua não resposta nos anos de emigração, e a pesquisa universitária independente que reporta desigualdade muito maior não é uma estatística oficial e não é usada.",
+   "As pranchas são desenhadas nas três línguas em que este país publica — espanhol, inglês e português — e esta página também."
+  ],
+  "unavailable": [
+   {
+    "term": "O Banco Central — preços ao consumidor, contas nacionais, taxa de política, reservas, câmbio",
+    "detail": "O BCV é o editor do INPC, das contas nacionais trimestrais, da taxa de política, das reservas internacionais e do câmbio oficial, e o seu site não responde por TLS a partir desta rede: todos os hosts falham na cadeia de certificados, nos dois esquemas, com o curl saindo com 000 depois de um tempo limite (2026-10-25). É a razão de boa parte desta página ser uma estimativa harmonizada. Nenhum espelho não oficial é usado; a série nacional será desenhada no dia em que uma rota responder."
+   },
+   {
+    "term": "O INE — preços ao consumidor e contas nacionais",
+    "detail": "Duas descobertas distintas. O IPC não é publicado pelo INE em absoluto — é do BCV — e o portal do INE descreve em prosa um sistema integrado de estatísticas econômicas sem ligar nenhuma tabela de preços nem de contas nacionais. Além disso, o host do portal não responde à rede de compilação (saída 000 após 25 s, nos dois nomes), só ao proxy de saída de um agente, que é como a planilha do Gini foi obtida."
+   },
+   {
+    "term": "Dívida pública",
+    "detail": "Todas as rotas oficiais foram tentadas: o GGXWDG_NGDP do FMI não traz nenhuma observação venezuelana na edição de outubro de 2026, o indicador de dívida do Banco Mundial devolve zero linhas, o BCV é inalcançável e as publicações de dívida do ministério das finanças não são legíveis por máquina. O painel fica pendente em vez de desenhado a partir de outro conceito: um buraco, não um zero."
+   },
+   {
+    "term": "Taxa de política, rendimento a dez anos e índice de ações",
+    "detail": "A taxa de política é do BCV e o BCV é inalcançável; o Fundo não tem indicador de taxa de política para a Venezuela e o seu conjunto de câmbios devolve uma fatia vazia. Não se publica nenhuma curva de rendimento oficial em bolívares, e o mercado interno é tão fino que uma cotação de segunda mão precisaria da sua própria nota de definição. Não existe série verificável legível por máquina para o índice da bolsa de Caracas. Os três painéis ficam pendentes; nenhum redistribuidor é usado."
+   },
+   {
+    "term": "Crédito",
+    "detail": "A prancha não tem nenhum painel que possa preencher. O crédito total do BIS devolve HTTP 404 para a chave venezuelana enquanto a mesma chave americana responde 200, então a Venezuela não é país informante e não há série harmonizada de crédito às famílias; o BCV é inalcançável; a SUDEBAN não publica estatísticas bancárias legíveis por máquina. A prancha não é publicada em vez de publicada como quatro molduras vazias."
+   },
+   {
+    "term": "Pobreza e salário mínimo",
+    "detail": "A série PIP do Banco Mundial tem seis observações venezuelanas e a última é de 2006; o INE não publica nenhum tabulado de pobreza. Os números da ENCOVI muito citados são uma pesquisa universitária, não uma estatística oficial, e não são usados. O salário mínimo é fixado em bolívares ao longo de três redenominações, o câmbio oficial que o converteria em dólares por mês para em 2017, e o editor da Gaceta não resolve em DNS."
+   },
+   {
+    "term": "O orçamento funcional, COFOG e o investimento público",
+    "detail": "A Venezuela não reporta nenhuma tabela COFOG ao FMI, e a própria execução orçamentária do ministério das finanças para em 2009 — em bolívares nominais de três moedas diferentes, então não pode ser desenhada como parcela de nada. Três dos quatro painéis de despesa ficam pendentes; só a taxa de investimento de toda a economia pode ser desenhada, e não é substituta da pública."
+   },
+   {
+    "term": "Mortes por COVID-19 e excesso de mortes",
+    "detail": "O catálogo GHO da OMS já não traz nenhum indicador geral de mortes por COVID-19 na sua API legível por máquina, e o CSV global do covid19.who.int agora serve uma página HTML. O excesso de mortes exige contagens de óbitos registrados, que são os tabulados .xls legados do INE, sem declaração de cobertura e com um host que esta rede não alcança. Nenhuma das duas é desenhada, e o painel da taxa bruta diz que é um modelo."
+   },
+   {
+    "term": "Destinos anuais das exportações",
+    "detail": "O próprio reporte da Venezuela ao UN Comtrade para depois de 2013, e esse envio atribui cerca de US$82 bilhões de US$88 bilhões de exportações a cestas residuais (\"América do Norte e Central, n.e.p.\", \"Outra Ásia, n.e.p.\" e mais duas), contra US$0,55 bilhão aos Estados Unidos. Um gráfico de destinos construído sobre isso seria um gráfico da lista de códigos do Comtrade, então a posição canônica fica pendente e nenhum proxy é desenhado."
+   },
+   {
+    "term": "As séries nacionais de trabalho, nascimentos e óbitos",
+    "detail": "Obtidas e inspecionadas, e depois adiadas em vez de adivinhadas: o tabulado trabalhista do INE identifica as suas linhas por códigos numéricos de conceito cuja legenda não está na planilha, e os seus tabulados de registro civil são arquivos .xls BIFF8 legados, sem ano de publicação e sem declaração de cobertura. As séries harmonizadas da OIT e da ONU são desenhadas no lugar e rotuladas como modeladas."
+   },
+   {
+    "term": "Índice de Percepção da Corrupção",
+    "detail": "A planilha da Transparency International responde 403 a partir do seu CDN e do seu próprio site, com um agente de navegador e com um simples — o mesmo bloqueio que a pista da Ucrânia registrou. Também não é uma estatística oficial em nenhum caso, e nenhum redistribuidor é usado."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Desigualdade de renda",
+    "detail": "Instituto Nacional de Estatística, «Tabulados — Coeficiente GINI», pesquisa domiciliar; o índice 0–1 da planilha é desenhado em pontos de 0–100. O Gini harmonizado do Banco Mundial é mantido como verificação de um ponto para 2006, não como linha."
+   },
+   {
+    "term": "Contas nacionais, preços, trabalho",
+    "detail": "Banco Mundial WDI, que republica as séries do Fundo e da ONU; FMI WEO outubro de 2026 como estimativa independente. Ambas são estimativas técnicas: a Venezuela não entrega contas nacionais e nenhum índice de preços ao consumidor é publicado numa rota alcançável."
+   },
+   {
+    "term": "Câmbio e reservas",
+    "detail": "Banco Mundial WDI: PA.NUS.FCRF (o câmbio oficial, convertido em bolívares digitais pelo divisor documentado) e FI.RES.TOTL.CD (as reservas do BCV como o Banco as registra), ambos terminando em 2017."
+   },
+   {
+    "term": "Finanças públicas",
+    "detail": "FMI WEO outubro de 2026, governo geral: receitas, despesas, os saldos total e primário e os juros pagos. Uma única edição para cada painel fiscal, e sem projeção depois de 2025."
+   },
+   {
+    "term": "População e taxas vitais",
+    "detail": "Banco Mundial WDI sobre as Perspectivas da População Mundial da ONU: população de meio do ano, fecundidade, taxas brutas de natalidade e mortalidade, expectativa de vida. Modelado em tudo; nada aqui é uma contagem de registro civil."
+   },
+   {
+    "term": "Desenvolvimento humano",
+    "detail": "PNUD, Relatório de Desenvolvimento Humano 2025, índices compostos, uma edição para toda a série histórica."
+   },
+   {
+    "term": "Migração e deslocamento",
+    "detail": "Banco Mundial WDI SM.POP.NETM e SM.POP.TOTL (migração líquida da ONU e estoque de migrantes da ONU) para as taxas; ACNUR Refugee Data Finder para o estoque por país de origem, que é uma estimativa operacional e nunca uma taxa."
+   },
+   {
+    "term": "Violência e mortes no trânsito",
+    "detail": "UNODC (VC.IHR.PSRC.P5) e OMS (SH.STA.SUIC.P5, SH.STA.TRAF.P5) via Banco Mundial. Os editores nacionais — o CICPC para homicídios e o INE para causas de morte — não são alcançáveis como séries legíveis por máquina."
+   }
+  ]
+ }
+}

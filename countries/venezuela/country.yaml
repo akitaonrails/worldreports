@@ -48,37 +48,37 @@ tick_every: 2
 # draws its panels in the shared slots, units and scales.
 spine: true
 
-# SHARED-SCALE CONFLICTS, RECORDED NOT FIXED (AGENTS.md: the atlas-wide range
-# lives in core/spine.py and is changed there, regenerating every country
-# carrying the topic — never overridden in country code). Ranges below are the
-# ones in core/spine.py as of 2026-10-25, after the Ukraine widening; PLATE_
-# SPINE.md's table is older and quotes the pre-Ukraine numbers. Venezuela hits
-# more of them than any country so far, because this is a hyperinflation and a
-# collapse, not a business cycle:
-#   economy.inflation ref −5..225: IMF PCPIPCH reaches 65,374% (2018) and
-#     19,906% (2019). An arithmetic axis cannot hold this at any range: the
-#     slot needs a log axis atlas-wide, or the value has to be clipped
-#     (never). THIS IS THE BLOCKING SHARED DECISION for this country.
-#   economy.growth ref −32..+18: IMF NGDP_RPCH 2020 = −33.2 (the World Bank's
-#     −29.8 fits). One point outside.
-#   fiscal.balance ref −24..+8: GGXCNL_NGDP 2018 = −31.9, 2017 = −25.6.
-#   trade.balance ref −30..+15: exports 47.2% of GDP against imports 10.9%
-#     (2019) is +36.3 points — the oil-export surplus of a collapsed import
-#     economy.
-#   migration.net ref −10..+40 per 1,000: net migration 2018 = −1,355,602 ≈
-#     −45.5 per 1,000.
+# SHARED-SCALE CONFLICTS, AND HOW THEY WERE SETTLED. The atlas-wide range
+# lives in core/spine.py (AGENTS.md, PLATE_SPINE.md rule 6) and is changed
+# there, regenerating every country carrying the topic — never overridden in
+# country code. Venezuela hit five of them, because this is a hyperinflation
+# and a collapse, not a business cycle. The settlement, as drawn:
+#   economy.growth (−35..+18) — WIDENED ATLAS-WIDE for this country, so the
+#     Fund's −33.2 in 2020 fits. Drawn canonically.
+#   fiscal.balance (−35..+8) — widened with it; GGXCNL_NGDP 2018 = −31.9 and
+#     2017 = −25.6 fit. Drawn canonically.
+#   trade.balance (−30..+40) — widened with it; the +36.3 points of 2019 fit.
+#     Drawn canonically.
+#   economy.inflation (−5..225) — NOT drawn in the canonical slot: 65,374%
+#     (2018) and 19,906% (2019) cannot share a linear axis with a 2%
+#     deflation, and clipping is not an option. The slot stays visibly pending
+#     and the series is drawn in the people plate's lens on a log axis, which
+#     is the decision this country asked for.
+#   migration.net (−10..+40 per 1,000) — NOT drawn in the canonical slot:
+#     −45.5 per 1,000 in 2018 leaves the range on purpose. Pending, with the
+#     whole series in the migration plate's lens on its own axis.
 # INSIDE their ranges, recorded because it is easy to assume otherwise:
 #   markets.currency log 0.1..200 — the bolívar index falls to 21.5 by 2017,
 #     which fits; it fits only because the official rate series stops in 2017
 #     and the unmeasurable collapse after it is a documented hole, not a line.
 #   demography.population 75..150 — the index peaks at 113.0 (2016) and is
-#     103.7 in 2021.
+#     104.7 in 2025.
 #   economy.unemployment 0..30, world.gdp 10..50,000, security.homicide
 #     0.1..100, spending.investment 0..50, mortality.death_rate 0..22,
 #     fiscal.revenue_expenditure 0..80, fiscal.interest 0..10 — all fit.
-# Opening the four that do not is a shared-code decision for the orchestrator,
-# not a country-local choice; the values are staged at full size and never
-# clipped.
+# No country-local axis is set anywhere in this lane: the two panels that
+# could not register are lenses, and the lens slots were made for exactly
+# this.
 
 # Bands drawn behind the data, dated from the staged annual GDP vintage only:
 # no official quarterly national accounts survive any route tried (the BCV is

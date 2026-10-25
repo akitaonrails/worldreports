@@ -107,32 +107,95 @@ The UNHCR displacement figures are **origin-country totals** (people with a
 protection status abroad), so they are never divided by Venezuela's
 population to make a rate: they are the lens, on their own axis.
 
-## The scale conflicts this country opens
+## How the scale conflicts were settled
 
-Per `PLATE_SPINE.md` the atlas-wide range lives in `core/spine.py`; a country
-never sets its own. Venezuela exceeds several of them, and the values are
-staged at full size and never clipped. These are recorded in `country.yaml`
-and **need a shared-code decision by the orchestrator**. The ranges quoted are
-the ones in `core/spine.py` on 2026-10-25 (after the Ukraine widening; the
-table in `PLATE_SPINE.md` predates it):
+Per `PLATE_SPINE.md` rule 6 the atlas-wide range lives in `core/spine.py`; a
+country never sets its own, and data are never clipped to fit. Venezuela hit
+five ranges, and the Phase B render settled them three ways:
 
-| slot | shared range | Venezuela |
-|---|---|---|
-| economy.inflation | −5 … 225 % | 65,374% (2018), 19,906% (2019), 2,355% (2020) — needs a log axis atlas-wide; this is the blocking decision |
-| economy.growth | −32 … +18 % | −33.2 (2020, IMF); the World Bank's −29.8 fits |
-| fiscal.balance | −24 … +8 % of GDP | −31.9 (2018), −25.6 (2017) |
-| trade.balance | −30 … +15 % of GDP | +36.3 (2019) |
-| migration.net | −10 … +40 per 1,000 | −45.5 (2018) |
+| slot | shared range | Venezuela | settlement |
+|---|---|---|---|
+| economy.growth | −35 … +18 % | −33.2 (2020, IMF) | range **widened atlas-wide**; drawn canonically |
+| fiscal.balance | −35 … +8 % of GDP | −31.9 (2018), −25.6 (2017) | widened with it; drawn canonically |
+| trade.balance | −30 … +40 % of GDP | +36.3 (2019) | widened with it; drawn canonically |
+| economy.inflation | −5 … 225 % | 65,374% (2018), 19,906% (2019) | **not drawn** in the canonical slot; pending, series in the prices lens on a log axis |
+| migration.net | −10 … +40 per 1,000 | −45.5 (2018) | **not drawn** in the canonical slot; pending, series in the migration lens |
+
+The first three needed one atlas-wide widening (`core/spine.py`, regenerated
+for every country carrying the topic), not a country-local extension. The
+last two are not scale problems that a wider number can solve: an arithmetic
+axis would have to reach 65,374% to hold the inflation peak, which flattens
+twenty years to the axis, and −45.5 per 1,000 is an emigration wave rather
+than a migration rate. Both canonical slots therefore stay visibly pending
+with the reason on the panel, and the series are drawn in the lens slots,
+which exist for exactly this and are not expected to register in the
+comparison viewer.
 
 Inside their ranges, and worth saying because it is easy to assume otherwise:
 `markets.currency` (log 0.1…200) — the index falls to 21.5, which fits, but
 only because the official rate series stops in 2017; `demography.population`
-(75…150) — the index peaks at 113.0 in 2016 and is 103.7 in 2021;
-`security.homicide`, `world.gdp`, `economy.unemployment`,
-`spending.investment`, `mortality.death_rate`, `fiscal.revenue_expenditure`
-and `fiscal.interest` all fit.
+(75…150) — the index peaks at 113.0 in 2016 and is 104.7 in 2025;
+`security.homicide` (log 0.1…100), `world.gdp`, `world.reserves`,
+`economy.unemployment`, `spending.investment`, `mortality.death_rate`,
+`fiscal.revenue_expenditure` and `fiscal.interest` all fit.
 
-No country-local axis is set anywhere in this lane.
+No country-local axis is set anywhere: the plates read their ranges from
+`core/spine.py` and `tests/test_spine.py` holds them there.
+
+## The two lenses, and how they are labelled
+
+Both are labelled twice — on the panel title, so a reader knows before reading
+the axis, and in the footer, so the publisher and the definition travel with
+the picture.
+
+- **Prices (people plate, slot 4)**: *"Prices — consumer inflation on its own
+  scale (%, log axis)"*. The y-axis is log with plain-number ticks from 10 to
+  100,000; the note on the face says "a log axis, because a hyperinflation has
+  no comparable linear scale: the canonical slot is left pending"; the footer
+  names both series — the IMF's `PCPIPCH` staff estimate for 2006–2025 and the
+  BCV's INPC as the World Bank republishes it for 2009–2016 — and says they
+  are two lines, never joined. The 2009 seam (26.00% against 27.08%) is
+  annotated on the panel and asserted in the tests.
+- **The exodus (migration plate, slot 4)**: *"The exodus — net migration
+  (bars, left) and the caseload abroad (line, right)"*. Two axes on one lens,
+  each labelled by the note on the face ("UN WPP net migration, per 1,000; and
+  UNHCR's origin-country caseload, in millions (gold, right). Two publishers,
+  two scales, neither clipped to fit the other") and by the footer. The
+  caseload is never divided by Venezuela's population: it is a count of
+  people with a protection status abroad, not a rate.
+
+## Derived series on the plates (and how)
+
+Everything below is computed at draw time from two columns of the same
+publisher and vintage, and the panel footer says "derived":
+
+- **Trade balance** — `exports − imports` of goods and services, World Bank
+  national accounts. 2019 = +36.27 points of GDP.
+- **Exports and imports in US$ bn** (trade lens) — `share of GDP ÷ 100 ×
+  the World Bank's current-US$ GDP`. 2012 ≈ US$110bn of exports,
+  2025 ≈ US$14.8bn. A level derived from the same vintage's denominator, not
+  a published dollar series.
+- **Natural increase** — `crude birth rate − crude death rate`, UN WPP, both
+  per 1,000 of the same population: 16.90 in 2006, 7.55 in 2024. The
+  `demography.natural_migration` slot draws only this half; net migration is
+  on the migration plate, and the panel says so.
+- **Net migration per 1,000** — `SM.POP.NETM ÷ population × 1,000`, same
+  vintage: 2018 = −1,355,602 ÷ 29,807,592 = −45.48.
+- **Foreign-born share** — `UN DESA migrant stock ÷ the same year's
+  population`: 4.68% (2010), 4.59% (2015), 4.66% (2020), 4.45% (2024).
+  Snapshot years only; never interpolated.
+- **Currency index** — `2.147 ÷ lcu_per_usd × 100`: 100 in 2006, 21.52 in
+  2017, where the series stops.
+
+## A fiscal seam worth writing down
+
+The WEO's `pb` (primary balance) does not reconcile with its own `ie`
+(interest paid) in every year: 2018 is −31.9% overall, 0.69% of interest and
+−30.29% primary, where the arithmetic would give −31.21%. 2017 diverges much
+further (−25.6, 0.04, −13.23). The primary balance is therefore drawn as
+published and the panel calls it "the Fund's own definition"; it is never
+recomputed from the interest line, and `tests/test_plates.py` pins that
+mismatch so a future vintage which does reconcile is noticed.
 
 ## What is not drawn, and why
 
@@ -240,12 +303,29 @@ from that dated reference. Running the fetcher from a network that reaches the
 INE regenerates the sidecar to diff against it — that is the expected path,
 not a workaround.
 
-## What Phase B needs from `core/`
+## What Phase B asked of `core/` — resolved
 
-1. A log axis (or a widened range) for `economy.inflation` — see the table
-   above. Venezuela cannot be drawn on an arithmetic −5…225 axis, and clipping
-   is not an option.
-2. Shared-range decisions for growth, fiscal balance, trade balance and net
-   migration, and a decision on the `markets.currency` floor, all of which
-   this country exceeds. Those are atlas-wide changes, not this lane's.
-3. Nothing else: the country's own directory reads only its own data.
+1. **A log axis for the hyperinflation.** Not granted atlas-wide, and not
+   needed: the canonical `economy.inflation` slot stays pending and the series
+   is drawn in the prices lens on a log axis, which a lens may set for itself.
+   That is the same settlement the atlas uses for Ukraine's wartime migration:
+   the comparable slot keeps its scale, the outlier series keeps its data.
+2. **Shared-range decisions for growth, the fiscal balance, the trade
+   balance and net migration.** Granted for the first three — the atlas-wide
+   ranges were widened once in `core/spine.py` and regenerated for every
+   country carrying the topic — and refused for net migration, which is drawn
+   in the migration lens instead. `markets.currency` needed nothing: its log
+   floor of 0.1 already holds the 21.5 the index falls to.
+3. Nothing else. The country's own directory reads only its own data, and
+   `tests/test_isolation.py` proves it.
+
+## Phase B, as delivered
+
+Eleven plates on the spine, in this order: economy, fiscal, spending, trade,
+markets, people, world, demography, security, mortality, migration. Three
+locale catalogs (es, en, pt), `events.py` for the two dated rules drawn (the
+2018 redenomination on the currency panel and COVID-19 on the death rate),
+eleven chapter cards whose copy interpolates the committed figures, and the
+localised `unavailable` list of eleven gaps. Rendered, thumbnailed and
+provenanced in all three locales; the layout probe reports zero faults in
+each.

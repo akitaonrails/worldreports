@@ -164,16 +164,24 @@ layout baseline.
 
 ---
 
-## 5. What this lane needs from the orchestrator
+## 5. What this lane asked of the orchestrator, and what it got
 
-1. **`economy.inflation` needs a log axis** (or a deliberately widened shared
-   range). 65,374% cannot sit on −5…225. This is the one blocking shared-scale
-   decision: the panel cannot be drawn honestly without it.
-2. Shared-range decisions for the four slots this country exceeds:
-   `economy.growth` (IMF −33.2 against a −32 floor), `fiscal.balance`
-   (−31.9 against −24), `trade.balance` (+36.3 against +15) and
-   `migration.net` (−45.5 per 1,000 against −10). All values are staged at
-   full size and never clipped; none of these ranges is set in country code.
-   `markets.currency` was checked and **fits** (the index bottoms at 21.5,
-   inside log 0.1…200) only because the official rate series stops in 2017.
-3. No core code change is otherwise required by this country's data.
+Recorded as asked, then as answered. The answers are what the plates draw, and
+`DATA_NOTES.md` ("How the scale conflicts were settled") is the decision record.
+
+1. **`economy.inflation` — asked for a log axis or a widened shared range.**
+   Answered with neither: the canonical slot stays visibly pending, and the
+   series is drawn in the prices lens on a log axis. A hyperinflation cannot
+   share a linear comparable scale, and the lens is the slot the spine keeps
+   for a country's own story.
+2. **Shared ranges — asked for four decisions.**
+   `economy.growth` (IMF −33.2 against the old −32 floor), `fiscal.balance`
+   (−31.9 against −24) and `trade.balance` (+36.3 against +15) were **widened
+   atlas-wide** in `core/spine.py` and every country carrying those topics was
+   regenerated; the three are drawn canonically. `migration.net` (−45.5 per
+   1,000 against −10) was **refused**, on the same reasoning as the inflation:
+   the canonical slot stays pending and the series is drawn in the migration
+   lens on its own axis. `markets.currency` was checked and **fits** (the index
+   bottoms at 21.5, inside log 0.1…200) only because the official rate series
+   stops in 2017.
+3. No core code change was otherwise required by this country's data.
