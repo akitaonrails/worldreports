@@ -161,6 +161,24 @@ trade:
       services split: the three are separate series here and only this one
       is drawn on the trade plate. 2025: exports 23.3%, imports 23.1%,
       balance +0.25% of GDP.
+  destinations.csv:
+    source: "Australian Bureau of Statistics — MERCH_EXP (merchandise exports by SITC and country of destination), TOT commodity, state TOT, monthly summed to calendar years"
+    url: "https://data.api.abs.gov.au/rest/data/ABS,MERCH_EXP/TOT..TOT.M?startPeriod=2005-01&format=csv"
+    official: true
+    refreshed_by: fetch/fetch_abs.py
+    notes: >-
+      VERIFIED 2026-10-25. The canonical destinations panel: the four
+      largest destinations of 2025 (China, Japan, Korea, the United
+      States) as a share of total MERCHANDISE exports, 2006-2025. The
+      denominator is the ABS's own "Total" row of the same table
+      (A$523.6bn in 2025); the four partners are ranked once, on 2025, and
+      held fixed through the back-series, so a line moves for what
+      Australia shipped and not because the ranking changed. Customs basis:
+      services are not in this table and the shares do not add to the
+      national-accounts exports ratio. Promoted by the Phase B agent from
+      `destinations_all_from_abs.csv`, checked row by row against the
+      published table; China 2025 33.59% and the United States 7.67% match
+      `destinations_2025.csv` exactly.
   destinations_2025.csv:
     source: "Australian Bureau of Statistics — MERCH_EXP (merchandise exports by SITC and country of destination), TOT commodity, state TOT, monthly summed to calendar 2025"
     url: "https://data.api.abs.gov.au/rest/data/ABS,MERCH_EXP/TOT..TOT.M?startPeriod=2025-01&format=csv"
@@ -372,6 +390,11 @@ security:
       unstandardised cut. road_deaths_per_100k is BITRE's fatality count
       over the ABS ERP (2006-2022; 2022: 1,180 deaths, 4.54 per 100,000),
       both from the ARDD; 2023-25 are pending (meta.pending).
+      homicide_victims and road_deaths are those publishers' COUNTS, the
+      numerators the rates were computed from (562 victims in 2006, 435 in
+      2025; 1,598 road deaths in 2006, 1,180 in 2022). The security lens
+      draws them because a count and a rate answer different questions;
+      the canonical panels keep the rates.
 mortality:
   mortality.csv:
     source: "Derived from ABS Deaths, Australia (DEATHS_SUMMARY) and Causes of Death, Australia 2024 (cat. 3303.0, Table 1.2)"

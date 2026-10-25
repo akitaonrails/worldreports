@@ -277,3 +277,59 @@ directory's glob order, which is that order; each dependent fetcher refuses
 to guess a denominator and exits with the reason if its input is missing. Every fetcher writes `*_from_<source>.csv`
 sidecars and **no** curated file: the promotion from sidecar to
 `data/**/<name>.csv` was done by hand against these notes.
+
+## What Phase B promoted, and why (2026-10-25)
+
+Two values that already existed in reviewed sidecars were promoted into
+curated files so the spine's canonical panels could be drawn from published
+data rather than left pending. Both were checked against the publisher's own
+presentation before the promotion, and neither is a new measurement.
+
+- **`trade/destinations.csv`** — the four largest merchandise-export
+  destinations of 2025 (China, Japan, Korea, the United States) as a share of
+  total goods exports, 2006–2025, from the ABS MERCH_EXP table already staged
+  as `destinations_all_from_abs.csv`. The denominator is the ABS's own "Total"
+  row of the same table. The four partners are ranked **once, on 2025**, and
+  held fixed for the whole back-series: a line moves because Australia shipped
+  a different mix, never because the ranking changed under it. 2025 reproduces
+  `destinations_2025.csv` exactly (China 33.59%, Japan 11.60%, Korea 7.87%,
+  United States 7.67%). It is the customs/merchandise basis and does not add
+  up to the national-accounts exports ratio on slot 1.
+- **`security/security.csv`** — two count columns, `homicide_victims` and
+  `road_deaths`, the numerators the published rates were computed from (ABS
+  recorded crime; BITRE ARDD). The rates stay canonical; the counts are drawn
+  only in the security lens, where a count answers the question a rate cannot
+  (how many people, in a country whose population grew 35%).
+
+## How the plates draw the fiscal year
+
+The fiscal chapter is the one place the plates leave the calendar grid. Every
+fiscal series is July–June and its `year` column is the year the year **ends**
+(the Fund's convention, confirmed against the ABS in the section above), so a
+value is drawn at its year's midpoint, `year − 0.5` — FY2024/25 at 2024.5 —
+which is where that year actually sits between the calendar years either side
+of it. Each fiscal panel carries an "FY" label, and the axis is the atlas's
+shared 2006–2026 axis: the fiscal lines must register horizontally with every
+other country's fiscal plate, because the viewer wipes one over another.
+Nothing calendar-year is ever drawn on that plate.
+
+## What the plates leave pending, and where the proxy sits
+
+- **Credit slot 2 (household lending rate)** is a pending panel: the RBA's F5
+  table is blocked, IMF IFS ends in 2019, and APRA publishes no rate. The
+  panel says which endpoint is missing; three other panels carry the chapter.
+- **Road deaths** stop in 2022 and the panel says so on its face. The rest of
+  the axis is a hole, not a zero.
+- **Poverty** is drawn as the World Bank's US$4.20-a-day line, labelled as the
+  international line, because no national poverty rate exists: the ABS
+  publishes none and the domestic 50%-of-median figure is a research
+  compilation. The panel and the page both say this; the panel does not
+  pretend the proxy is the national measure.
+- **Corruption Perceptions Index** starts in 2012. TI's retired 0–10 scale is
+  not comparable and the 2026 workbook does not carry it; the panel says where
+  the line begins and why.
+- **The Migration Program lens is not drawn.** Home Affairs publishes the
+  program outcome as PDF and HTML report tables, not as a machine series, and
+  a visa-grant count on a NOM axis would be the exact error this file warns
+  about. The migration lens draws net overseas migration in persons instead,
+  labelled as a count of the same NOM series the canonical panel divides.

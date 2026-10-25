@@ -1,0 +1,126 @@
+{
+  "en": {
+    "line": "{n} plates of official data, {window}",
+    "dek": "Every figure on this page comes from a publisher that names its definition — the Australian Bureau of Statistics for the national accounts, prices, labour, population, births, deaths, crime and causes of death; APRA for bank asset quality; BITRE for the road toll — and every plate is regenerated from committed CSVs, so the charts and the numbers here cannot drift apart. Australia publishes on two clocks: the national accounts, prices, labour and population are calendar-year series built from the ABS quarters, while the budget, the Government Finance Statistics and the IMF's fiscal rows are July–June years, and the two are never drawn on one axis. The Reserve Bank's own site answers 403 to this network, so the cash rate arrives through the BIS republication of the Reserve Bank's series and one credit panel is honestly empty rather than filled with a different rate.",
+    "notes": [
+      "2026 is a partial year: the plates stop at 2025 because a calendar year with fewer than four quarters is not an annual figure at all. Nothing is forward-filled.",
+      "Calendar years are assembled from the ABS quarterly national accounts — flows summed over the four quarters, rates averaged, population the 30 June stock. The sum of original (not seasonally adjusted) quarters is the year; the seasonal adjustment is used only to date the downturn bands.",
+      "The fiscal chapter is on the July–June year, labelled by the year the year ends: 2025 is FY2024/25. Each fiscal value is drawn at its year's midpoint, 2024.5, and every panel on that plate says FY. Nothing calendar-year is drawn there.",
+      "The World Bank's Australian growth series is on a fiscal-year basis labelled by the year the year ends (its 2020 is −0.13%, which is FY2019/20). It is not used anywhere here; the calendar-year check is the IMF's WEO line, which agrees with the ABS to a tenth of a point.",
+      "Rates use the publisher's own figure where one exists. Where only a count exists, it is divided by the ABS estimated resident population at 30 June of the same year — the population the ABS itself divides by, and the one named under each panel.",
+      "Recession bands are dated from the seasonally adjusted quarterly series, and Australia has two: the COVID-19 quarters of 2020 and the Delta lockdown of 2021. The 2008–09 crisis is not banded because Australia never had two consecutive negative quarters — that absence is the fact, and it is annotated where it matters.",
+      "The currency index is 2006 AUD/US$ divided by the year's rate, so the line rises when the Australian dollar strengthens. The same single exchange-rate vintage converts the minimum wage, so the page never shows two different dollars.",
+      "The housing-credit series come from the BIS's harmonised compilation, not the Reserve Bank's own credit aggregates, because the Reserve Bank's tables are blocked from this network. A fetch from an unblocked network should replace them where the Reserve Bank is the computing body."
+    ],
+    "unavailable": [
+      {
+        "term": "Household lending rate",
+        "detail": "The credit chapter's second panel is drawn as pending, with the reason on it. The Reserve Bank's F5 indicator lending rates answer 403 on every path including robots.txt; IMF IFS answers but stops in 2019, seven years before the plate window ends; APRA publishes loan stocks, impaired and non-performing exposures and performance ratios, but no interest rate; the ABS publishes new loan commitments, not rates. A shorter or differently defined line would be worse than an honestly empty panel, so nothing is substituted."
+      },
+      {
+        "term": "Road deaths 2023–2025",
+        "detail": "The road-traffic panel ends in 2022 with a caption saying so. BITRE's host resets the connection or times out, and the data.gov.au mirror of the Australian Road Deaths Database carries complete calendar years only to 2022, with a partial 2023 (1,042 records to October) that is dropped rather than annualised. The WHO's modelled estimate would extend the line but is a model, not a count, and is not drawn."
+      },
+      {
+        "term": "National poverty rate",
+        "detail": "Australia has no official poverty line and the ABS publishes no poverty rate; the last Household Income and Wealth survey ran in 2019–20 and reports a Gini. The panel therefore draws the World Bank's US$4.20-a-day line (2008–2020, 0.9–1.5% of people) and labels it as the international line. The domestic 50%-of-median estimate is a research compilation, cited here and not drawn."
+      },
+      {
+        "term": "Corruption Perceptions Index before 2012",
+        "detail": "Transparency International moved to the 0–100 scale in 2012 and declares the earlier 0–10 scores incomparable. The panel begins in 2012 and says so on its face; no back-cast is spliced on. Transparency International is a think tank, not a statistical office, and the source is marked not official."
+      },
+      {
+        "term": "Permanent Migration Program additions",
+        "detail": "The migration chapter's lens draws net overseas migration in persons, not the Migration Program. Home Affairs publishes the annual program outcome as PDF and HTML report tables with no machine-readable series found on the portal, and a visa-grant count drawn on a NOM axis would be exactly the definition error this atlas separates. The count is therefore disclosed here and not drawn."
+      }
+    ],
+    "colophon": [
+      {
+        "term": "National accounts, prices, labour",
+        "detail": "Australian Bureau of Statistics, ANA_EXP and the CPI and Labour Force dataflows through the ABS SDMX gateway (data.api.abs.gov.au, one vintage prepared 2026-10-25), built into calendar years from the original quarterly series."
+      },
+      {
+        "term": "Government finance",
+        "detail": "IMF Fiscal Monitor general government, accrual, July–June years labelled by the year they end; the ABS's Government Finance Statistics 5512.0 (all levels of government) from FY2015/16 beside it. Interest paid is derived from the World Bank's interest-to-revenue ratio times the Fund's revenue-to-GDP ratio."
+      },
+      {
+        "term": "Cash rate and the bond market",
+        "detail": "BIS WS_CBPOL republication of the Reserve Bank of Australia's cash rate target, and the OECD's long-term interest rate for the same instrument. The Reserve Bank's own host answers 403 to this network on every path, which is recorded in SOURCES.yaml with the probes."
+      },
+      {
+        "term": "Population",
+        "detail": "ABS estimated resident population at 30 June, the denominator of every rate on this page. It is revised after each census; the June 2021 quarter carries the 2021 Census rebase, which is a revision and not a demographic event."
+      },
+      {
+        "term": "Mortality and causes of death",
+        "detail": "ABS Deaths, Australia (year of registration) and Causes of Death 2024, one vintage, for COVID-19 as the underlying cause. Excess deaths are computed against the 2015–2019 mean of the same series, unadjusted for age, and the panel says so."
+      },
+      {
+        "term": "Credit and the road toll",
+        "detail": "BIS total credit for household debt and the debt-service ratio; APRA's quarterly ADI performance for asset quality, on two definitions; BITRE's Australian Road Deaths Database for road deaths, over the ABS population."
+      }
+    ]
+  },
+  "pt": {
+    "line": "{n} pranchas de dados oficiais, {window}",
+    "dek": "Todo número desta página vem de um editor que nomeia a sua definição — o Australian Bureau of Statistics para as contas nacionais, os preços, o trabalho, a população, nascimentos, óbitos, criminalidade e causas de morte; a APRA para a qualidade dos ativos bancários; o BITRE para as mortes no trânsito — e cada prancha é regenerada a partir de CSVs versionados, de modo que os gráficos e os números daqui não podem divergir. A Austrália publica em dois relógios: contas nacionais, preços, trabalho e população são séries de ano civil montadas a partir dos trimestres do ABS, enquanto o orçamento, as Estatísticas de Finanças Públicas e as linhas fiscais do FMI são anos julho–junho, e os dois nunca são desenhados no mesmo eixo. O site do próprio Reserve Bank responde 403 a esta rede, então a taxa básica chega pela republicação do BIS da série do banco central e um painel de crédito fica honestamente vazio, em vez de preenchido com outra taxa.",
+    "notes": [
+      "2026 é um ano incompleto: as pranchas param em 2025 porque um ano civil com menos de quatro trimestres não é uma cifra anual. Nada é preenchido por extrapolação.",
+      "Os anos civis são montados a partir das contas nacionais trimestrais do ABS — fluxos somados nos quatro trimestres, taxas com média, população como estoque de 30 de junho. A soma dos trimestres originais (não dessazonalizados) é o ano; o ajuste sazonal só é usado para datar as faixas de recessão.",
+      "O capítulo fiscal está no ano julho–junho, rotulado pelo ano em que ele termina: 2025 é o ano fiscal 2024/25. Cada valor fiscal é desenhado no ponto médio do seu ano, 2024,5, e todo painel dessa prancha diz AF. Nada de ano civil é desenhado ali.",
+      "A série de crescimento do Banco Mundial para a Austrália está em base de ano fiscal rotulada pelo ano em que termina (o seu 2020 é −0,13%, ou seja, 2019/20). Ela não é usada em nenhum ponto desta página; a conferência em ano civil é a linha do WEO do FMI, que concorda com o ABS até um décimo.",
+      "As taxas usam a cifra do próprio editor quando existe. Onde só existe uma contagem, ela é dividida pela população residente estimada pelo ABS em 30 de junho do mesmo ano — a população pela qual o próprio ABS divide, nomeada sob cada painel.",
+      "As faixas de recessão são datadas pela série trimestral dessazonalizada, e a Austrália tem duas: os trimestres de COVID-19 em 2020 e o confinamento Delta de 2021. A crise de 2008–09 não é faixada porque a Austrália nunca teve dois trimestres negativos seguidos — essa ausência é o fato, e ela é anotada onde importa.",
+      "O índice cambial é o AUD/US$ de 2006 dividido pela taxa do ano, então a linha sobe quando o dólar australiano se fortalece. A mesma e única edição do câmbio converte o salário mínimo, para a página nunca mostrar dois dólares diferentes.",
+      "As séries de crédito às famílias vêm da compilação harmonizada do BIS, não dos agregados de crédito do próprio Reserve Bank, porque as tabelas do banco central estão bloqueadas a esta rede. Uma coleta de uma rede desbloqueada deveria substituí-las onde o Reserve Bank é o órgão que calcula."
+    ],
+    "unavailable": [
+      {
+        "term": "Taxa de empréstimo às famílias",
+        "detail": "O segundo painel do capítulo de crédito é desenhado como pendente, com o motivo nele. As taxas indicativas de empréstimo F5 do Reserve Bank respondem 403 em todos os caminhos, inclusive robots.txt; o IFS do FMI responde, mas termina em 2019, sete anos antes do fim da janela; a APRA publica estoques de crédito, exposições deterioradas e inadimplentes e índices de desempenho, mas nenhuma taxa de juros; o ABS publica novas contratações de crédito, não taxas. Uma linha mais curta ou de outra definição seria pior que um painel honestamente vazio, então nada é substituído."
+      },
+      {
+        "term": "Mortes no trânsito de 2023–2025",
+        "detail": "O painel de mortes no trânsito termina em 2022 com uma legenda dizendo isso. O servidor do BITRE reinicia a conexão ou expira, e o espelho do data.gov.au para a Base Australiana de Mortes no Trânsito traz anos civis completos só até 2022, com um 2023 parcial (1.042 registros até outubro) que é descartado em vez de anualizado. A estimativa modelada da OMS estenderia a linha, mas é modelo, não contagem, e não é desenhada."
+      },
+      {
+        "term": "Taxa nacional de pobreza",
+        "detail": "A Austrália não tem linha oficial de pobreza e o ABS não publica taxa de pobreza; o último inquérito de Renda e Riqueza das Famílias foi em 2019–20 e reporta um Gini. O painel desenha, portanto, a linha de US$ 4,20 por dia do Banco Mundial (2008–2020, 0,9% a 1,5% das pessoas) e a rotula como a linha internacional. A estimativa doméstica de 50% da mediana é uma compilação de pesquisa, citada aqui e não desenhada."
+      },
+      {
+        "term": "Índice de Percepção da Corrupção antes de 2012",
+        "detail": "A Transparency International passou à escala 0–100 em 2012 e declara as notas 0–10 anteriores incomparáveis. O painel começa em 2012 e diz isso na sua face; nenhuma retroprojeção é emendada. A Transparency International é um think tank, não um instituto de estatística, e a fonte está marcada como não oficial."
+      },
+      {
+        "term": "Adições do Programa Permanente de Migração",
+        "detail": "A lente do capítulo de migração desenha a migração líquida em pessoas, não o Programa de Migração. O Home Affairs publica o resultado anual do programa como tabelas em PDF e HTML, sem série legível por máquina encontrada no portal, e uma contagem de vistos desenhada num eixo de NOM seria exatamente o erro de definição que este atlas separa. A contagem fica, portanto, declarada aqui e não desenhada."
+      }
+    ],
+    "colophon": [
+      {
+        "term": "Contas nacionais, preços, trabalho",
+        "detail": "Australian Bureau of Statistics, ANA_EXP e os conjuntos de IPC e Força de Trabalho pelo gateway SDMX do ABS (data.api.abs.gov.au, uma edição preparada em 2026-10-25), montados em anos civis a partir da série trimestral original."
+      },
+      {
+        "term": "Finanças públicas",
+        "detail": "Monitor Fiscal do FMI, governo geral, por competência, anos julho–junho rotulados pelo ano em que terminam; ao lado, as Estatísticas de Finanças Públicas 5512.0 do ABS (todos os níveis de governo) desde 2015/16. Os juros pagos são derivados da razão juros/receita do Banco Mundial pela razão receita/PIB do Fundo."
+      },
+      {
+        "term": "Taxa básica e mercado de títulos",
+        "detail": "Republicação WS_CBPOL do BIS para a meta da taxa básica do Reserve Bank of Australia, e a taxa de juros de longo prazo da OCDE para o mesmo instrumento. O servidor do próprio Reserve Bank responde 403 a esta rede em todos os caminhos, o que está registrado em SOURCES.yaml com as sondagens."
+      },
+      {
+        "term": "População",
+        "detail": "População residente estimada pelo ABS em 30 de junho, o denominador de todas as taxas desta página. Ela é revisada depois de cada censo; o trimestre de junho de 2021 carrega a rebase do Censo de 2021, que é uma revisão e não um evento demográfico."
+      },
+      {
+        "term": "Mortalidade e causas de morte",
+        "detail": "ABS Óbitos, Austrália (ano de registro) e Causas de Morte 2024, uma edição, para a COVID-19 como causa básica. O excesso de mortes é calculado contra a média de 2015–2019 da mesma série, sem ajuste por idade, e o painel diz isso."
+      },
+      {
+        "term": "Crédito e mortes no trânsito",
+        "detail": "Crédito total do BIS para a dívida das famílias e o índice de serviço da dívida; desempenho trimestral das ADIs da APRA para a qualidade dos ativos, em duas definições; Base Australiana de Mortes no Trânsito do BITRE, sobre a população do ABS."
+      }
+    ]
+  }
+}
