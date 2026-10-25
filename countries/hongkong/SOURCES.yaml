@@ -343,11 +343,15 @@ demography:
     official: true
     refreshed_by: "fetch/fetch_censtatd.py → sidecar demography/components_from_censtatd.csv"
     notes: >-
-      VERIFIED 2026-10-25. Half-yearly flows summed to calendar years (H1+H2),
-      thousands. 2025: births 31.1 + 28.6, deaths ~50, net movement +27.1 in
-      H2 alone. net_movement is the residual the publisher reports after
-      births and deaths; it is not a measured migration flow (see
-      migration/net_movement.csv).
+      VERIFIED 2026-10-25. Thousand persons. Each published observation is
+      the change over the 12 MONTHS ENDING at that time point (the table's own
+      note), so the December row is the calendar year and the two halves are
+      never summed — summing would double every figure. 2024: births 36.7,
+      deaths 51.4, natural change -14.7, net movement -12.6 (of which one-way
+      permit holders +40.0 and everyone else -52.5). The deaths figure here
+      and the Department of Health's registered deaths for 2024 (52,366) are
+      two publishers' counts of nearly the same event, one year apart in
+      vintage; they are not spliced.
   fertility.csv:
     source: "C&SD — table 115-01011, total fertility rate excluding foreign domestic helpers"
     url: "https://www.censtatd.gov.hk/api/get.php?id=115-01011&lang=en&full_series=1"
@@ -414,14 +418,16 @@ migration:
     official: true
     refreshed_by: "fetch/fetch_censtatd.py → sidecar demography/components_from_censtatd.csv"
     notes: >-
-      VERIFIED 2026-10-25. Net movement per 1,000 mid-year population: +8.6
-      in 2006, -0.5 in 2008, +3.2 in 2024. THIS IS A RESIDUAL, NOT A
-      MIGRATION FLOW: Hong Kong publishes no gross immigration or emigration
-      on a residence basis, so there is no counterpart to Eurostat's
-      migr_imm/migr_emi, and the residual also absorbs residents' movements
-      and any coverage error in the population estimate. The one-way permit
-      quota from the Mainland is an administrative instrument, not an
-      arrivals count, and is not staged (meta.pending).
+      VERIFIED 2026-10-25. Net movement over the 12 months ending 31 December,
+      per 1,000 mid-year population: +8.6 in 2006, -1.7 in 2024, +3.6 in 2025.
+      THIS IS A RESIDUAL, NOT A MIGRATION FLOW: Hong Kong publishes no gross
+      immigration or emigration on a residence basis, so there is no
+      counterpart to Eurostat's migr_imm/migr_emi, and the residual also
+      absorbs residents' movements and any coverage error in the population
+      estimate. The publisher splits it into one-way permit holders from the
+      Mainland (+40.0 thousand in 2024) and everyone else (-52.5 thousand);
+      that split is staged, because it is the publisher's own. It is a NET
+      figure for a permit category, not an arrivals count.
 
 meta:
   research_date: "2026-10-25"

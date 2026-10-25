@@ -22,10 +22,12 @@ The page's dek says this plainly rather than leaving it to the notes.
 `years: {from: 2006, to: 2026}`, `last_full_year: 2025`.
 
 2025 is complete for everything staged: C&SD published revised 2025 annual
-GDP (3,329,843 HK$mn), the 2025 labour-force average, the 2025 CPI average and
-2025 merchandise trade; the HKMA published 2025 year-end reserves and asset
-quality; the Department of Health's cause series runs to 2024 (its own file's
-last year) and 2025 is left empty there rather than inferred.
+GDP (3,329,843 HK$mn), the 2025 labour-force average, the 2025 CPI average,
+2025 merchandise trade and 2025 population components; the HKMA published
+2025 year-end reserves and asset quality; the Department of Health's cause
+series runs to 2024 (its own file's last year) and 2025 is left empty there
+rather than inferred; C&SD's services trade table has not released 2025 at
+this vintage and 2025 is empty there too.
 
 2026 exists only as quarters and half-years (GDP to 2026Q2, population to
 2026-06, CPI to 2026-09) and is drawn as the running year, dashed, never as a
@@ -48,7 +50,7 @@ here so a reader can reproduce it from the committed inputs.
 | `markets/equity.csv` | `hsi_usd_index_2006` | (HSI ÷ HKD per US$ in that year) ÷ (HSI 2006 ÷ HKD per US$ 2006) × 100 |
 | `world/gdp_usd.csv` | `gdp_usd_bn` | NY.GDP.MKTP.CD ÷ 1e9 |
 | `demography/population.csv` | `growth_pct` | year-on-year change of the mid-year series, one vintage |
-| `demography/components.csv` | every column | H1 + H2 of the publisher's half-yearly flows |
+| `demography/components.csv` | every column | the December observation — the publisher reports a 12-month change at each half-year point, so the two halves are never summed |
 | `demography/fertility.csv` | `tfr` | published per 1,000 women ÷ 1,000 |
 | `security/crime.csv` | `homicide_rate_per_100k` | murder and manslaughter cases ÷ mid-year population × 100,000 |
 | `mortality/deaths.csv` | `excess_deaths_pct_vs_2015_2019` | deaths ÷ mean(2015-2019 deaths) − 1, × 100 |
@@ -116,11 +118,14 @@ different populations, different counting places and different definitions of
 the same event, and are never compared as though one checked the other.
 
 **Net movement versus migration.** `migration/net_movement.csv` is the
-publisher's residual: population change minus births plus deaths. It absorbs
-residents' moves, one-way permit holders, foreign domestic helpers' arrivals
-and departures, and any error in the population estimate. It is the only
-migration-shaped series Hong Kong publishes and the plate calls it by its own
-name, never "net migration".
+publisher's residual: population change minus births plus deaths, over the
+twelve months to 31 December. It absorbs residents' moves, foreign domestic
+helpers' arrivals and departures, and any error in the population estimate.
+C&SD splits it into one-way permit holders from the Mainland and everyone
+else, and that split is staged because it is the publisher's own: in 2024 the
+one-way component was +40.0 thousand while the rest was -52.5 thousand. It is
+a net figure within a permit category, not an arrivals count, and the plate
+calls the whole thing by the publisher's name, never "net migration".
 
 **COVID-19 coding.** The Department of Health coded COVID-19 deaths to J98.8
 up to 2023 and to U07.1/U07.2 from 2024. The series is continuous in intent
