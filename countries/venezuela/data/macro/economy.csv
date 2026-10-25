@@ -13,6 +13,10 @@
 # unemployment_pct_imf  IMF WEO LUR, ends 2018.
 # A blank cell is a year the publisher does not cover. Nothing here is
 # interpolated, forward-filled or zero-filled.
+# WHERE THE TWO INFLATION SERIES OVERLAP (2009-2016) they agree to the
+# second decimal in every year except 2009 (IMF 26.00 against the BCV's
+# 27.08): the BCV rebased its INPC in 2008 and the Fund did not follow
+# the revision. A 1.1-point seam, recorded rather than smoothed.
 year,gdp_growth_pct_wb,gdp_growth_pct_imf,cpi_inflation_pct_imf,cpi_inflation_pct_bcv,unemployment_pct_ilo,unemployment_pct_imf
 2006,9.89,9.90,13.70,,8.606,10.00
 2007,8.81,8.80,18.70,,7.279,8.50

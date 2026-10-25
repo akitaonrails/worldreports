@@ -6,6 +6,11 @@
 # other sources. 2012 = 54.4 is the peak of the recorded series.
 # Suicide stops 2021, road deaths 2019 — the civil-registration and
 # police publishers behind them are not reachable (meta.pending).
+# LEVEL SHIFT TO ANNOTATE, NOT SMOOTH: suicide jumps 6.12 (2015) to
+# 10.49 (2016) and settles at 7-9 afterwards. A 71% one-year rise in a
+# series that then falls back is the signature of a change in the WHO
+# estimate vintage, not of behaviour; the plate carries it as a note on
+# the line.
 year,homicide_per_100k,suicide_per_100k,road_deaths_per_100k
 2006,45.02,5.93,30.80
 2007,47.58,5.81,36.80

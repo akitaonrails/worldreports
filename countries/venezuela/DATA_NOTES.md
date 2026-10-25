@@ -176,6 +176,21 @@ These are findings, not omissions. Each has its routes and exact failure in
 - **Reserves after 2017, exchange rate after 2017** — the BCV stopped being
   reachable; both lines end where the publisher stops, with the hole visible.
 
+## Annotations the plates must carry
+
+Two seams are recorded in the CSV headers and must appear on the panels:
+
+- **2009 inflation, 26.00 (IMF) against 27.08 (the BCV's INPC).** Every other
+  overlap year agrees to the second decimal. The BCV rebased its INPC in 2008
+  and the Fund did not follow the revision — a 1.1-point seam, annotated, not
+  smoothed.
+- **Suicide, 6.12 (2015) to 10.49 (2016) and back to 7–9 afterwards.** A 71%
+  one-year rise that then falls back is a change in the WHO estimate vintage,
+  not behaviour.
+- **Growth before and after the rebasing.** The IMF's Venezuelan GDP level is
+  a rebased staff estimate, so growth rates either side of a rebasing year are
+  not strictly comparable; the note goes on the economy panel.
+
 ## The Gini needs its own disclosure
 
 `people/gini.csv` is the one national series that runs the whole window, and
