@@ -23,32 +23,31 @@ Portuguese**, and every plate is drawn in each of them.
 
 | Slug | Languages | Plates | Datasets |
 |------|-----------|--------|----------|
-| `argentina` | es · en · pt | 12 | 39 |
+| `argentina` | es · en · pt | 13 | 41 |
 | `australia` | en · pt | 12 | 27 |
-| `brasil` | pt · en | 11 | 45 |
+| `brasil` | pt · en | 12 | 47 |
 | `canada` | en · fr · pt | 12 | 53 |
-| `china` | zh-Hans · en · pt | 12 | 24 |
-| `france` | fr · en · pt | 12 | 46 |
-| `israel` | he · en · pt | 8 | 17 |
-| `italy` | it · en · pt | 12 | 37 |
-| `japan` | ja · en · pt | 12 | 31 |
-| `portugal` | pt · en | 12 | 37 |
-| `spain` | es · en · pt | 12 | 46 |
-| `south-korea` | ko · en · pt | 11 | 43 |
-| `switzerland` | de · en · pt | 12 | 46 |
-| `taiwan` | zh-Hant · en · pt | 10 | 18 |
 | `chile` | es · en · pt | 12 | 17 |
+| `china` | zh-Hans · en · pt | 12 | 27 |
+| `france` | fr · en · pt | 12 | 46 |
 | `hongkong` | zh-Hant · en · pt | 12 | 32 |
+| `israel` | he · en · pt | 12 | 32 |
+| `italy` | it · en · pt | 12 | 49 |
+| `japan` | ja · en · pt | 12 | 47 |
 | `paraguay` | es · en · pt | 12 | 16 |
 | `poland` | pl · en · pt | 12 | 14 |
+| `portugal` | pt · en | 12 | 52 |
 | `russia` | ru · en · pt | 12 | 30 |
 | `singapore` | en · pt | 12 | 16 |
-| `venezuela` | es · en · pt | 11 | 15 |
-
+| `south-korea` | ko · en · pt | 12 | 45 |
+| `spain` | es · en · pt | 12 | 46 |
+| `switzerland` | de · en · pt | 12 | 67 |
+| `taiwan` | zh-Hant · en · pt | 12 | 28 |
 | `ukraine` | uk · en · pt | 11 | 19 |
 | `united-kingdom` | en · pt | 12 | 45 |
-| `usa` | en · pt | 11 | 43 |
-| `vietnam` | vi · en · pt | 12 | 36 |
+| `usa` | en · pt | 12 | 44 |
+| `venezuela` | es · en · pt | 11 | 15 |
+| `vietnam` | vi · en · pt | 12 | 46 |
 
 The inventory started from the 2026-10-22 spine vintage and records
 subsequent verified additions. Plates count published chapters; datasets
@@ -62,11 +61,11 @@ The 2026-10-25 batch is complete and published: Poland, Australia, Chile,
 Singapore, Hong Kong, Paraguay, Russia and Venezuela. Phase A (data) ran in
 parallel lanes with every official route probed and recorded; Phase B built
 each country in its own lane; the merges ran in queue order with one final
-regeneration of all twenty-four countries.
+regeneration of all twenty-five countries.
 
-None. The eight-country queue opened on 2026-10-22 is complete, and
-Ukraine — proposed in issue #1 and discovered 2026-10-24 — is published
-with eleven chapters: economy, public finances, spending, trade, markets,
+The earlier eight-country queue (2026-10-22) is also complete. Ukraine —
+proposed in issue #1 and discovered 2026-10-24 — is published with eleven
+chapters: economy, public finances, spending, trade, markets,
 people, world, demography, security, mortality and migration. The obvious
 national publishers block automated access, so the fiscal chapter is the
 IMF's general-government layer, spending and markets come from the NBU's
@@ -102,17 +101,19 @@ well and in depth; the `World` chapter is built from what Taiwan publishes
 about itself plus the bodies that do carry it (the WTO and its own customs
 administration). Unsupported comparison slots remain visibly pending.
 
-**Fiscal years that are not calendar years.** Japan's starts in April,
-as do the United Kingdom's and India's should it ever be queued. The USA
+**Fiscal years that are not calendar years.** Japan's starts in April;
+so do the United Kingdom's, Australia's (July), and Singapore's and Hong
+Kong's (April). The USA
 already has this — its debt table keys on `fiscal_year`. Japan's fiscal
 observations are labelled by starting year and plotted at the October midpoint
 (`year + 0.75`), pinned by semantic tests.
 
 **Number styles.** `AFFIX` and `CURRENCY_AFFIX` in `core/sitebuild.py`
 and the unit rules in `core/i18n.py` are keyed by *number style*
-(`core/numstyle.py`), and every Phase B style — de, it, pt-PT, ja,
-zh-Hans, zh-Hant, vi, he — and currency — GBP, CHF, JPY, VND, CNY, TWD,
-ILS — already has its forms. `tests/test_numbers.py` reads every lane's
+(`core/numstyle.py`). Every style the atlas publishes has its forms —
+de, it, pt-PT, ja, zh-Hans, zh-Hant, vi, he, uk, pl, ru — and every
+currency in use: GBP, CHF, JPY, VND, CNY, TWD, ILS, UAH, PLN, RUB, AUD,
+SGD, HKD, CLP, PYG, VES. `tests/test_numbers.py` reads every lane's
 country.yaml and fails on a locale or currency with no form, which is the
 intended behaviour. Portugal must declare `number_style: {pt: pt-PT}`.
 Hebrew now has numbers, affixes, bidi figure text and right-to-left page
