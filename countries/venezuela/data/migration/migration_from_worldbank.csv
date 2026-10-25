@@ -1,0 +1,26 @@
+# World Bank SM.POP.NETM: net migration, COUNT of people (UN WPP
+# modelled 5-year net). Not a rate: the plate divides by the same
+# vintage's mid-year population and says so. 2018 = -1,355,602.
+# SM.POP.TOTL: UN DESA migrant stock, a SNAPSHOT series (2000, 2005,
+# 2010, 2015, 2020, 2024) — never interpolated between those years.
+year,net_migration,migrant_stock
+2006,-27240,
+2007,-36060,
+2008,-43636,
+2009,-50286,
+2010,-52781,1347347
+2011,-54384,
+2012,-55131,
+2013,-57818,
+2014,-62437,
+2015,-77417,1404448
+2016,-283270,
+2017,-817376,
+2018,-1355602,
+2019,-975534,
+2020,-524649,1324193
+2021,-332936,
+2022,-141107,
+2023,-112899,
+2024,-105297,1263304
+2025,-100467,

@@ -1,0 +1,34 @@
+# Gini, 0-100 points, not inverted. THE NATIONAL SERIES IS THE INE's:
+# household-survey Gini published in the INE's own tabulado (0-1
+# scale converted by x100), 1999-2025, the only Venezuelan series that
+# runs through the collapse.
+# gini_wdi_crosscheck is the World Bank's SEDLAC-harmonised Gini, which
+# ENDS IN 2006 (44.7 against the INE's 44.2 that year): a one-point
+# agreement check, not a line.
+# DISCLOSURE: the INE series is flat at 0.38-0.39 from 2014 to 2025,
+# in a period when independent university surveys (ENCOVI, not an
+# official statistic and not used here) report far higher inequality.
+# The publisher documents neither the survey's coverage nor its
+# non-response in the emigration years. The plate carries that as a
+# note on the line.
+year,gini,gini_wdi_crosscheck
+2006,44.2,44.7
+2007,42.4,
+2008,41.0,
+2009,41.8,
+2010,39.0,
+2011,39.0,
+2012,40.4,
+2013,40.9,
+2014,38.0,
+2015,38.1,
+2016,38.0,
+2017,38.1,
+2018,37.7,
+2019,38.0,
+2020,38.6,
+2021,38.8,
+2022,38.1,
+2023,38.6,
+2024,39.3,
+2025,39.4,

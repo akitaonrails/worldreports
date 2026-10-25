@@ -1,0 +1,452 @@
+# Data provenance — every series Venezuela publishes that this atlas draws.
+#
+# Research pass 2026-10-25 (DISCOVERY.md is the record of every probe), curated
+# the same day. Each entry names a curated CSV under data/, written by
+# reviewing the sidecar a fetch/*.py pulled; re-running a fetcher writes the
+# `*_from_*` sidecar again, never a curated file.
+#
+# THE SHAPE OF THIS COUNTRY'S DATA. Venezuela is the first country in the
+# atlas where the national statistical system is largely absent:
+#   * the Central Bank (BCV), which publishes the CPI, the national accounts,
+#     the policy rate and the reserves, cannot be reached at all from this
+#     network — its TLS chain does not validate ("unable to verify the first
+#     certificate", both schemes, every path, 2026-10-25);
+#   * the INE's portal (ine.gob.ve) is a WordPress site with no API, no CPI
+#     and no national accounts, but it does publish the household-survey Gini
+#     and the labour tabulado as .xlsx;
+#   * the official open-data portal datos.gob.ve does not answer (timeout);
+#   * the finance ministry's budget portal (MPPEF) stops its machine-readable
+#     series in 2009;
+#   * the customs service (SENIAT) times out, and UN Comtrade has no Venezuelan
+#     records after 2013.
+# What survives is the harmonised layer — World Bank, IMF WEO (whose Venezuela
+# numbers are staff estimates), UNDP, UNHCR — plus the INE's own Gini. Every
+# series below says which of those it is, and meta.pending records what was
+# tried and how it failed, with the date. Nothing is filled with a proxy
+# unless it is labelled as one on the plate.
+
+macro:
+  economy.csv:
+    source: "World Bank WDI (NY.GDP.MKTP.KD.ZG, FP.CPI.TOTL.ZG, SL.UEM.TOTL.ZS) and IMF WEO October 2026 (NGDP_RPCH, PCPIPCH, LUR)"
+    url: "https://api.worldbank.org/v2/country/VEN/indicator/NY.GDP.MKTP.KD.ZG?format=json"
+    official: false
+    refreshed_by: fetch/fetch_worldbank.py, fetch/fetch_imf.py
+    notes: >-
+      VERIFIED 2026-10-25, one column per publisher and never one spliced
+      line. GROWTH: the World Bank's NY.GDP.MKTP.KD.ZG (-29.8 in 2020) and
+      the IMF's NGDP_RPCH (-33.2 in 2020) are both staff estimates of a
+      rebased series — Venezuela has submitted no national accounts for
+      years. They agree on the sign in every year of the window and differ on
+      size; both are drawn. INFLATION: IMF PCPIPCH is the only series through
+      the hyperinflation (2018 = 65,374%, 2019 = 19,906%, 2020 = 2,355%); the
+      BCV's own INPC survives only as the World Bank's FP.CPI.TOTL.ZG for
+      2009-2016 and is a separate, shorter line, never spliced into the
+      staff estimate. UNEMPLOYMENT: the ILO modelled estimate (World Bank,
+      to 2025) beside the WEO's LUR (ends 2018). The national labour-force
+      survey exists as a published tabulado whose rows carry numeric concept
+      codes with no legible legend (meta.pending), so no national
+      unemployment line is drawn.
+
+world:
+  gdp_usd.csv:
+    source: "World Bank WDI NY.GDP.MKTP.CD (canonical) and IMF WEO NGDPD (labelled second line)"
+    url: "https://api.worldbank.org/v2/country/VEN/indicator/NY.GDP.MKTP.CD?format=json"
+    official: false
+    refreshed_by: fetch/fetch_worldbank.py, fetch/fetch_imf.py
+    notes: >-
+      VERIFIED 2026-10-25, current US$ bn. DEFINITIONAL SEAM, DISCLOSED ON THE
+      PLATE: the two publishers convert the same bolívar GDP at different
+      rates because Venezuela ran several official rates at once. 2014:
+      US$214.8bn (World Bank) against US$128.8bn (IMF); 2006 the two agree
+      (183.5 vs 179.0). Both lines are drawn and neither is "the" dollar GDP
+      of a year.
+  gdp_per_person.csv:
+    source: "World Bank WDI NY.GDP.PCAP.CD"
+    url: "https://api.worldbank.org/v2/country/VEN/indicator/NY.GDP.PCAP.CD?format=json"
+    official: false
+    refreshed_by: fetch/fetch_worldbank.py
+    notes: >-
+      VERIFIED 2026-10-25. US$ current per person, mid-year UN WPP population
+      as the denominator — per resident, on a population series that counts
+      everyone the UN still places in the territory. 2006 = 6,739; 2020 =
+      1,506; 2025 = 3,495.
+  hdi.csv:
+    source: "UNDP Human Development Report 2025 — composite indices, complete time series"
+    url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
+    official: true
+    refreshed_by: fetch/fetch_undp.py
+    notes: >-
+      VERIFIED 2026-10-25, ONE VINTAGE (HDR 2025) for the whole back-series:
+      the HDR recomputes every year at each methodology change, so mixing
+      report years would put a step into a development trend. Covers
+      2006-2023. 2006 = 0.736, peak 2013 = 0.773, 2023 = 0.709.
+  reserves.csv:
+    source: "World Bank WDI FI.RES.TOTL.CD"
+    url: "https://api.worldbank.org/v2/country/VEN/indicator/FI.RES.TOTL.CD?format=json"
+    official: false
+    refreshed_by: fetch/fetch_worldbank.py
+    notes: >-
+      VERIFIED 2026-10-25, year-end, US$ bn. ENDS IN 2017 (US$9.79bn): the
+      BCV stopped reporting and its site is unreachable from this network, so
+      2018-2025 are holes, not zeros. The BCV's own reserve series is the
+      national line and is pending (meta.pending).
+
+people:
+  gini.csv:
+    source: "Instituto Nacional de Estadística (INE), 'Tabulados — Coeficiente GINI' (household survey); World Bank SI.POV.GINI as the 2006 cross-check"
+    url: "https://ine.gob.ve/wp-content/uploads/2026/09/COEFICIENTE-GINI.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      VERIFIED 2026-10-25 against the workbook's own cells, preserved verbatim
+      as fetch/reference_ine_gini_2026-10-25.csv. This is the ONLY Venezuelan
+      national series in the atlas that runs through the collapse:
+      1999-2025, unit converted from the workbook's 0-1 index to the atlas's
+      0-100 scale by x100. 2006 = 44.2; the published series sits at
+      0.38-0.39 from 2014 to 2025. DISCLOSURE: that flatness is the
+      publisher's claim, not a finding of this atlas — the independent
+      university survey (ENCOVI) reports far higher inequality, is not an
+      official statistic, and is not used or drawn. The INE documents neither
+      the survey's coverage nor its non-response in the emigration years. The
+      World Bank's SEDLAC-harmonised Gini ends in 2006 (44.7) and is kept as a
+      one-point agreement check, not a line. INE's workbook is named
+      "1997 - 2020" while its cells run 1999-2025 — the title is stale.
+
+fiscal:
+  fiscal.csv:
+    source: "IMF WEO (October 2026 vintage), general government: rev, exp, GGXCNL_NGDP, pb, ie"
+    url: "https://www.imf.org/external/datamapper/api/v1/rev"
+    official: false
+    refreshed_by: fetch/fetch_imf.py
+    notes: >-
+      VERIFIED 2026-10-25, one vintage for all five columns, % of GDP.
+      Observed/estimated to 2024 for revenue, expenditure, primary balance and
+      interest, and to 2025 for the overall balance; the October 2026 vintage
+      publishes no Venezuelan fiscal projections beyond 2025. 2018: revenue
+      6.9%, expenditure 37.9%, overall balance -31.9%. STAFF ESTIMATE: the
+      national publisher (MPPEF/ONAPRE) publishes budget execution only
+      through 2009 and in nominal bolívares that no longer convert
+      (meta.pending). NO DEBT STOCK: GGXWDG_NGDP has no Venezuela
+      observations in this vintage and no other route produced one, so the
+      debt panel is pending rather than drawn from a different concept.
+
+spending:
+  spending.csv:
+    source: "World Bank WDI NE.GDI.FTOT.ZS"
+    url: "https://api.worldbank.org/v2/country/VEN/indicator/NE.GDI.FTOT.ZS?format=json"
+    official: false
+    refreshed_by: fetch/fetch_worldbank.py
+    notes: >-
+      VERIFIED 2026-10-25: gross fixed capital formation, % of GDP, 2012-2025.
+      The gateway returns a placeholder 0.0 for 2006-2011 where the
+      national-accounts series behind the ratio does not exist; those years
+      are dropped, not drawn as a collapse. 2013 = 25.6% (the oil economy's
+      last investment rate), 2024 = 3.8%.
+
+trade:
+  trade.csv:
+    source: "World Bank WDI NE.EXP.GNFS.ZS and NE.IMP.GNFS.ZS"
+    url: "https://api.worldbank.org/v2/country/VEN/indicator/NE.EXP.GNFS.ZS?format=json"
+    official: false
+    refreshed_by: fetch/fetch_worldbank.py
+    notes: >-
+      VERIFIED 2026-10-25: exports and imports of goods and services, % of
+      GDP, national-accounts basis, 2012-2025 (2006-2011 are dropped
+      placeholder zeros). The balance is DERIVED from these two columns on the
+      plate, never from a second publisher: 2019 = +36.3 points, the oil
+      surplus of an economy that had stopped importing. Customs goods and the
+      balance-of-payments basis are different definitions and only this one is
+      staged; the customs service (SENIAT) times out (meta.pending).
+
+markets:
+  fx_official.csv:
+    source: "World Bank WDI PA.NUS.FCRF (official exchange rate, period average)"
+    url: "https://api.worldbank.org/v2/country/VEN/indicator/PA.NUS.FCRF?format=json"
+    official: false
+    refreshed_by: fetch/fetch_worldbank.py
+    notes: >-
+      VERIFIED 2026-10-25. REDENOMINATIONS ARE NAMED, NOT HIDDEN: the
+      publisher quotes 2006-2017 in bolívares fuertes (the World Bank restates
+      pre-2008 values in the post-2008 unit — 2005 = 2.08975 is the 2,089.75
+      Bs/USD peg divided by 1,000), and the curated file carries the divisor
+      to the 2021 bolívar digital: 1 VES = 1,000,000 bolívares soberanos
+      (2018) = 100,000,000,000 bolívares fuertes (2008). The index is
+      2006 = 100, rising = stronger, so it falls as the bolívar weakens:
+      2017 = 21.5. THE SERIES ENDS IN 2017 — no official rate survives any
+      route tried for 2018-2025 (BCV TLS failure; IMF exchange-rate dataset
+      returns an empty Venezuela slice; parallel and market rates are not
+      official statistics), so the collapse is a disclosed hole and not a
+      line. The BCV's own rate is pending (meta.pending).
+
+demography:
+  population.csv:
+    source: "World Bank WDI SP.POP.TOTL (UN World Population Prospects)"
+    url: "https://api.worldbank.org/v2/country/VEN/indicator/SP.POP.TOTL?format=json"
+    official: false
+    refreshed_by: fetch/fetch_worldbank.py
+    notes: >-
+      VERIFIED 2026-10-25, mid-year, whole territory. This is the denominator
+      for every per-1,000 rate on the plates. The 2016-2021 fall is emigration
+      as the UN models it, not a count: no Venezuelan census has been taken
+      since 2011, and the INE's register is not published as a series
+      (meta.pending).
+  vital.csv:
+    source: "World Bank WDI SP.DYN.TFRT.IN, SP.DYN.CBRT.IN, SP.DYN.CDRT.IN, SP.DYN.LE00.IN (UN WPP)"
+    url: "https://api.worldbank.org/v2/country/VEN/indicator/SP.DYN.CDRT.IN?format=json"
+    official: false
+    refreshed_by: fetch/fetch_worldbank.py
+    notes: >-
+      VERIFIED 2026-10-25, MODELLED (UN WPP), 2006-2024. Crude death rate
+      5.2 (2006) to 7.7 (2024) per 1,000; life expectancy 73.0 to 72.7. The
+      INE's own nacimientos/defunciones tabulados are legacy .xls files whose
+      counts are not staged (meta.pending), so no civil-registration line and
+      no excess-death calculation exists for this country.
+
+migration:
+  migration.csv:
+    source: "World Bank WDI SM.POP.NETM (net migration, count) and SM.POP.TOTL (UN DESA migrant stock)"
+    url: "https://api.worldbank.org/v2/country/VEN/indicator/SM.POP.NETM?format=json"
+    official: false
+    refreshed_by: fetch/fetch_worldbank.py
+    notes: >-
+      VERIFIED 2026-10-25. Net migration is the UN WPP model's COUNT of
+      people; net_migration_per_1000 is derived on the same vintage's
+      mid-year population (2018 = -1,355,602, about -45 per 1,000 in one
+      year). Migrant stock is the UN DESA foreign-born stock, a SNAPSHOT
+      series (2010, 2015, 2020, 2024) and never interpolated. Stock measures
+      immigration INTO Venezuela, which is the opposite of this country's
+      story: that is the lens below.
+  displacement.csv:
+    source: "UNHCR Refugee Data Finder — population API, country of origin VEN"
+    url: "https://api.unhcr.org/population/v1/population/?limit=200&yearFrom=2006&yearTo=2026&coo=VEN"
+    official: false
+    refreshed_by: fetch/fetch_unhcr.py
+    notes: >-
+      VERIFIED 2026-10-25. Refugees and asylum seekers by COUNTRY OF ORIGIN
+      (coo=VEN): 2015 = 22,542; 2018 = 485,270; 2024 = 1,730,210 (the peak);
+      2025 = 1,598,166 (refugee registrations rose while asylum-seeker
+      registrations fell — a status pattern, not a reversal of the flow).
+      OPERATIONAL ESTIMATE, NOT A CENSUS — registration coverage
+      differs by host country and the asylum backlog lags the movement of
+      people. NOT the R4V "Venezuelans abroad" figure (~7.7mn), which counts
+      all Venezuelans outside the country on host-government estimates: a
+      different publisher and definition, deliberately not staged. Origin
+      totals cannot enter a per-1,000 canonical slot; this is the lens on the
+      migration plate.
+
+security:
+  security.csv:
+    source: "UNODC and WHO via the World Bank — VC.IHR.PSRC.P5, SH.STA.SUIC.P5, SH.STA.TRAF.P5"
+    url: "https://api.worldbank.org/v2/country/VEN/indicator/VC.IHR.PSRC.P5?format=json"
+    official: false
+    refreshed_by: fetch/fetch_worldbank.py
+    notes: >-
+      VERIFIED 2026-10-25. Homicide 2012 = 54.4 per 100,000 is the peak of the
+      recorded series; the fall to 12.6 (2022) is an estimate, not a police
+      count, and the series has real holes at 2013 and 2018 that are left
+      blank. Suicide (to 2021) and road deaths (to 2019) stop where their
+      publishers stopped. The national publishers (CICPC for homicides, the
+      INE/MPPS for cause of death) are not reachable as series
+      (meta.pending), and no count is invented for the missing years.
+
+meta:
+  pending:
+    - name: Banco Central de Venezuela — CPI, national accounts, policy rate, reserves, exchange rate
+      publisher: Banco Central de Venezuela (BCV)
+      url: https://www.bcv.org.ve/
+      official: true
+      notes: >-
+        Route tried 2026-10-25 and failed at the TLS layer, not at the data
+        layer: every BCV host answers "unable to verify the first certificate"
+        (an incomplete certificate chain) on https, and http:// redirects into
+        the same failure; curl from the build network exits 000 after a
+        timeout. This is the publisher of the INPC, the quarterly national
+        accounts, the policy rate, the international reserves and the official
+        exchange rate — the four chapters this country is missing. Retry from
+        a network with a different trust store: no data is staged from it, and
+        no unofficial mirror is substituted.
+    - name: Oficina Nacional de Estadística portal — CPI and national accounts
+      publisher: Instituto Nacional de Estadística (INE)
+      url: https://ine.gob.ve/economicos/
+      official: true
+      notes: >-
+        Probed 2026-10-25. The INE's portal describes an "Sistema Integrado de
+        Estadísticas Económicas" in prose and links no CPI, no INPC and no
+        national-accounts table: the only .xlsx the site serves are the census
+        tabulados, the household survey, the Gini, the labour tabulado and the
+        trade-by-chapter workbooks of 1998-2018. Two separate findings: (1) the
+        CPI is not published by the INE at all — it is the BCV's; (2) the INE
+        host does not answer the build network (curl exit 000 after 25 s, both
+        schemes, both ine.gob.ve and www.ine.gob.ve), only an agent's egress
+        proxy, which is how the Gini workbook was retrieved.
+    - name: INE labour-force tabulado (Encuesta de Hogares por Muestreo)
+      publisher: Instituto Nacional de Estadística (INE)
+      url: https://ine.gob.ve/wp-content/uploads/2026/09/TRABAJO.xlsx
+      official: true
+      notes: >-
+        Retrieved 2026-10-25 through the egress proxy and inspected: one sheet,
+        "NACIONAL 1999-2025", 520 rows of CUADRO 01..n for the first semesters
+        of 1999-2025, with population, labour force, employed, unemployed and
+        their rates. DEFERRED, NOT ABSENT: the rows are identified by numeric
+        concept codes (1, 2, 3, 17, 30, 41, 121 …) whose legend is not in the
+        workbook, and the codes appear in more than one column block. Mapping a
+        code to "unemployment rate" by guesswork is how a wrong series gets
+        published, so no national unemployment line is drawn until the code
+        list is pinned. The harmonised ILO estimate is drawn instead and is
+        labelled as modelled.
+    - name: INE civil registration (nacimientos, defunciones, suicidios) as series
+      publisher: Instituto Nacional de Estadística (INE)
+      url: https://ine.gob.ve/wp-content/uploads/2026/04/POR-ENTIDAD-Defunciones.xls
+      official: true
+      notes: >-
+        Probed 2026-10-25: the files exist (POR-ENTIDAD-Defunciones.xls,
+        POR-ENTIDAD-nacimientos.xls, SUICIDIOS.xls, ESPERANZA-DE-VIDA.xls) but
+        they are legacy BIFF8 .xls workbooks with no publication year in the
+        filename, no metadata sheet and no coverage statement, and the host is
+        unreachable from the build network. They would give the civil-
+        registration counts behind a national death rate and an excess-death
+        calculation; neither is staged, and the World Bank/UN WPP model is
+        drawn instead and labelled as modelled.
+    - name: Fiscal — general government debt stock
+      publisher: IMF; World Bank; BCV; MPPEF
+      url: https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP
+      official: true
+      notes: >-
+        Every route tried 2026-10-25. IMF DataMapper GGXWDG_NGDP (and GGXWDG,
+        GGXWDN_NGDP) return NO Venezuela observations in the October 2026
+        vintage; the World Bank's GC.DOD.TOTL.GD.ZS returns zero rows for VEN;
+        the BCV is unreachable (TLS) and the MPPEF's debt publications are not
+        machine-readable. No debt stock is drawn and the panel says so — it is
+        not a zero and not a different concept substituted silently.
+    - name: Fiscal — national budget execution (GCP/SPR) after 2009
+      publisher: Ministerio del Poder Popular de Economía, Finanzas y Comercio Exterior (MPPEF)
+      url: https://www.mppef.gob.ve/gcp-ampliada-mensual/
+      official: true
+      notes: >-
+        Reached 2026-10-25 (HTTP 200). The "Gestión de Caja Pública" and
+        "Sistema de Presupuesto por Resultados" pages serve their files through
+        a WordPress Download Manager table with JavaScript download URLs; the
+        packages they list are "Gobierno Central Presupuestario" ANNUAL
+        workbooks for 1998-2009 only, last updated 7-8 November 2018. There is
+        no machine-readable budget execution for 2010-2026 on any MPPEF route
+        tried, and the 1998-2009 series is in nominal bolívares of three
+        different currencies, so it cannot be drawn as a share of anything. The
+        IMF general-government series is drawn instead and labelled as a staff
+        estimate.
+    - name: Customs — goods trade by partner (SENIAT)
+      publisher: Servicio Nacional Integrado de Administración Aduanera y Tributaria (SENIAT)
+      url: http://www.seniat.gob.ve/
+      official: true
+      notes: >-
+        HTTP timeout on 2026-10-25 (curl exit 000 after 25 s, both schemes,
+        and declaraciones.seniat.gob.ve too). The INE's own
+        "Exportaciones/Importaciones por Capítulo 1998-2018" workbooks are the
+        only national trade files and are by HS chapter, not by partner, and
+        are legacy .xls. The canonical destination panel therefore has no
+        annual series.
+    - name: UN Comtrade — Venezuela as reporter, and export partners
+      publisher: United Nations Statistics Division (UN Comtrade)
+      url: https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=862&period=2013&cmdCode=TOTAL&flowCode=X
+      official: false
+      notes: >-
+        Probed 2026-10-25. Reporter 862 answers for 2012 (53 partner rows,
+        world exports US$95.03bn) and 2013 (84 rows, US$87.96bn) and returns
+        count=0 for 2014 and 429/empty for later years, so Venezuela's
+        Comtrade reporting stops after 2013. WORSE, the 2013 rows cannot carry
+        a partner panel: the largest "partners" are residual buckets —
+        "North America and Central America, nes" US$29.87bn, "Other Asia, nes"
+        US$28.06bn, "LAIA, nes" US$13.53bn and "Areas, nes" US$11.01bn — about
+        US$82bn of US$88bn unallocated, against US$0.55bn attributed to the
+        United States. A destination chart built on this would be a chart of
+        Comtrade's code list, so none is drawn.
+    - name: Markets — policy rate
+      publisher: Banco Central de Venezuela (BCV)
+      url: https://www.bcv.org.ve/
+      official: true
+      notes: >-
+        No route 2026-10-25: the BCV is unreachable (TLS), the IMF's WEO
+        DataMapper has no Venezuelan policy-rate indicator, and the IMF's
+        exchange-rate/IFS successor dataset (IMF.STA:ER on api.imf.org)
+        returns an empty Venezuela slice. The markets plate's rate-versus-
+        inflation panel cannot be drawn from one side only.
+    - name: Markets — equity index
+      publisher: Bolsa de Valores de Caracas (BVC); no redistributor verified
+      url: https://www.bolsadecaracas.com/
+      official: false
+      notes: >-
+        Probed 2026-10-25 in the course of the route audit: the exchange's own
+        site publishes no machine-readable index history, and the atlas takes
+        equity indices from a redistributor marked official: false. No
+        redistributor series for the IBC was verified reachable from this
+        network, and the market is thin enough that an index level would need
+        its own definition note. Not drawn.
+    - name: Credit chapter — household debt, lending rate, non-performing loans
+      publisher: BIS; BCV; SUDEBAN
+      url: https://stats.bis.org/api/v1/data/WS_TC/Q.VE.H.A.M.770.A
+      official: false
+      notes: >-
+        Every route tried 2026-10-25. BIS total credit (WS_TC) returns HTTP 404
+        for the VE series key while the identical US key answers 200 —
+        Venezuela is not a reporting country, so there is no harmonised
+        household-credit series. The BCV (credit and rates) is unreachable
+        (TLS), and SUDEBAN's banking statistics are not reachable as a machine
+        series. The credit chapter has no panel it could fill and stays
+        unpublished rather than published as four empty frames.
+    - name: People — poverty rate
+      publisher: World Bank PIP; INE
+      url: https://api.worldbank.org/v2/country/VEN/indicator/SI.POV.DDAY?format=json
+      official: false
+      notes: >-
+        Probed 2026-10-25. The World Bank's SI.POV.DDAY (US$2.15/day) has SIX
+        Venezuelan observations, the last in 2006 (9.7%): the household survey
+        stopped feeding PIP. There is no official national poverty series: the
+        INE publishes no poverty tabulado on its portal, and the widely quoted
+        ENCOVI figures are a university survey, not an official statistic, and
+        are not used. Pending rather than filled with a non-official proxy.
+    - name: People — statutory minimum wage
+      publisher: Presidencia de la República / Gaceta Oficial; Ministerio del Poder Popular para el Proceso Social de Trabajo
+      url: http://www.imprenta.gov.ve/
+      official: true
+      notes: >-
+        Probed 2026-10-25: the Imprenta Nacional (which publishes the Gaceta
+        Oficial where the decree is printed) does not resolve in DNS
+        (getaddrinfo EAI_AGAIN), and the labour ministry publishes no
+        machine-readable wage series. Two independent reasons the slot cannot
+        be drawn even if the decrees were transcribed: the wage is set in
+        bolívares across three redenominations, and the official exchange rate
+        that would convert it to US$ per month stops in 2017 (markets/
+        fx_official.csv). Pending, with the redenomination and FX reasons
+        stated rather than a converted guess.
+    - name: Spending — COFOG functional breakdown and public investment
+      publisher: IMF GFS; MPPEF
+      url: https://www.mppef.gob.ve/spr-ampliada-trimestral/
+      official: true
+      notes: >-
+        Probed 2026-10-25. Venezuela reports no COFOG table to the IMF's
+        GFS_COFOG dataflow (api.imf.org, checked in the dataflow list and by
+        country) and the MPPEF's own functional budget presentation stops in
+        2009 (see the GCP entry above). The spending plate therefore draws the
+        whole-economy investment rate only; the functional stack and the
+        public-investment panel are pending, not proxied.
+    - name: Mortality — COVID-19 deaths and excess deaths
+      publisher: World Health Organization; INE
+      url: https://ghoapi.azureedge.net/api/Indicator
+      official: true
+      notes: >-
+        Probed 2026-10-25. The WHO GHO catalogue answers but carries no
+        general COVID-19 death indicator for any country (only in-prison
+        diagnosis and mortality codes), and covid19.who.int's global CSV now
+        serves an HTML page instead of a CSV. Excess deaths need registered
+        death counts, which are the INE's legacy .xls (see the civil-
+        registration entry). Neither is drawn; the crude death rate panel uses
+        the UN WPP model and says so.
+    - name: Corruption Perceptions Index
+      publisher: Transparency International
+      url: https://images.transparencycdn.org/images/CPI2025-Results-and-trends.xlsx
+      official: false
+      notes: >-
+        HTTP 403 from the CDN (S3 AccessDenied) and from
+        transparency.org/en/cpi/2024 on 2026-10-25, with both a browser UA and
+        a plain one — the same network block the Ukraine lane recorded on
+        2026-10-24. Not official in any case (a think-tank compilation), and
+        no redistributor is substituted.

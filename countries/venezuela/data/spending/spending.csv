@@ -1,0 +1,21 @@
+# Gross fixed capital formation, % of GDP (World Bank NE.GDI.FTOT.ZS).
+# STARTS IN 2012: the gateway returns a placeholder 0.0 for 2006-2011
+# where the national-accounts series behind the ratio is absent, and
+# those years are dropped rather than drawn as a collapse to zero.
+# 2013 = 25.6% is the last investment rate of the oil economy; 2024 =
+# 3.8%.
+year,gfcf_pct_gdp
+2012,18.21
+2013,25.57
+2014,17.03
+2015,17.45
+2016,10.86
+2017,8.07
+2018,6.21
+2019,5.59
+2020,7.02
+2021,6.70
+2022,4.73
+2023,4.12
+2024,3.80
+2025,4.58

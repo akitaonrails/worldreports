@@ -1,0 +1,27 @@
+# World Bank NY.GDP.MKTP.CD, current US$, converted at the official
+# rate of each year. DEFINITIONAL TRAP: the IMF WEO's NGDPD for the
+# same years is much lower (2014: US$128.8bn there against US$214.8bn
+# here) because the two apply different exchange-rate conventions to a
+# multi-rate economy. The World Bank is the canonical slot per
+# PLATE_SPINE; the IMF line is a separate column, never a correction.
+year,gdp_usd
+2006,183477522124
+2007,230364012576
+2008,315953388511
+2009,329787628928
+2010,393192354511
+2011,316482190800
+2012,371846610182
+2013,258512396298
+2014,214838755022
+2015,125249941854
+2016,112948035495
+2017,115892475743
+2018,101987075929
+2019,73014157108
+2020,42837965907
+2021,56615026263
+2022,89013251021
+2023,102377501186
+2024,120566112397
+2025,99661244156

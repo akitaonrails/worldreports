@@ -1,0 +1,177 @@
+# Venezuela. Phase A (data) discovery, 2026-10-25. The statistical system is
+# the story as much as the economy: the Central Bank's site cannot be reached
+# over TLS from this network, the INE publishes no CPI and no national
+# accounts at all, the official data portal times out, and the three
+# redenominations of the bolívar (2008, 2018, 2021) make any monetary level a
+# claim about which bolívar it is in. Everything drawn here is either the
+# national statistical office's own publication or a harmonised series that
+# says, on the plate, that it is a staff estimate. SOURCES.yaml and
+# DISCOVERY.md carry the route table; no number in this country is invented to
+# fill a panel.
+slug: venezuela
+flag_emoji: "🇻🇪"
+wordmark: Venezuela
+name:
+  en: "Venezuela"
+  fr: "Venezuela"
+  pt: "Venezuela"
+  es: "Venezuela"
+  ko: "베네수엘라"
+  it: "Venezuela"
+  he: "ונצואלה"
+  ja: "ベネズエラ"
+  zh-Hans: "委内瑞拉"
+  zh-Hant: "委內瑞拉"
+  vi: "Vê-nê-xu-ê-la"
+  de: "Venezuela"
+  uk: "Венесуела"
+  pl: "Wenezuela"
+  ru: "Венесуэла"
+
+locales:
+  - {code: es, html_lang: es-VE, og_locale: es_VE, endonym: Español}
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual totals
+# are complete. 2025 is the last year both harmonised publishers carry as an
+# outturn: the IMF WEO (October 2026) reports 2025 real growth and inflation
+# as estimates for a finished year, and the World Bank carries 2025 GDP. There
+# is no national accounts outturn to prefer over them — the BCV publishes one
+# and its site is unreachable (SOURCES.yaml meta.pending). Everything after
+# 2025 is a WEO projection and lives in its own `_proj` column.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+# On the plate spine (PLATE_SPINE.md): every plate declares its topic and
+# draws its panels in the shared slots, units and scales.
+spine: true
+
+# SHARED-SCALE CONFLICTS, AND HOW THEY WERE SETTLED. The atlas-wide range
+# lives in core/spine.py (AGENTS.md, PLATE_SPINE.md rule 6) and is changed
+# there, regenerating every country carrying the topic — never overridden in
+# country code. Venezuela hit five of them, because this is a hyperinflation
+# and a collapse, not a business cycle. The settlement, as drawn:
+#   economy.growth (−35..+18) — WIDENED ATLAS-WIDE for this country, so the
+#     Fund's −33.2 in 2020 fits. Drawn canonically.
+#   fiscal.balance (−35..+8) — widened with it; GGXCNL_NGDP 2018 = −31.9 and
+#     2017 = −25.6 fit. Drawn canonically.
+#   trade.balance (−30..+40) — widened with it; the +36.3 points of 2019 fit.
+#     Drawn canonically.
+#   economy.inflation (−5..225) — NOT drawn in the canonical slot: 65,374%
+#     (2018) and 19,906% (2019) cannot share a linear axis with a 2%
+#     deflation, and clipping is not an option. The slot stays visibly pending
+#     and the series is drawn in the people plate's lens on a log axis, which
+#     is the decision this country asked for.
+#   migration.net (−10..+40 per 1,000) — NOT drawn in the canonical slot:
+#     −45.5 per 1,000 in 2018 leaves the range on purpose. Pending, with the
+#     whole series in the migration plate's lens on its own axis.
+# INSIDE their ranges, recorded because it is easy to assume otherwise:
+#   markets.currency log 0.1..200 — the bolívar index falls to 21.5 by 2017,
+#     which fits; it fits only because the official rate series stops in 2017
+#     and the unmeasurable collapse after it is a documented hole, not a line.
+#   demography.population 75..150 — the index peaks at 113.0 (2016) and is
+#     104.7 in 2025.
+#   economy.unemployment 0..30, world.gdp 10..50,000, security.homicide
+#     0.1..100, spending.investment 0..50, mortality.death_rate 0..22,
+#     fiscal.revenue_expenditure 0..80, fiscal.interest 0..10 — all fit.
+# No country-local axis is set anywhere in this lane: the two panels that
+# could not register are lenses, and the lens slots were made for exactly
+# this.
+
+# Bands drawn behind the data, dated from the staged annual GDP vintage only:
+# no official quarterly national accounts survive any route tried (the BCV is
+# unreachable and the INE publishes none), so the dating is annual and coarse.
+# Both publishers agree on the sign in every year of the window:
+#   2009 and 2010 negative (IMF −4.1 / −0.7; WB −3.1 / −1.6) — banded.
+#   2014 to 2020 negative in every year, deepening to −33.2% (IMF) in 2020 —
+#     one band; 2021 is positive on both (+1.1 IMF, +0.6 WB), which ends it.
+# Explicitly NOT banded: 2013, where IMF says +0.1 and the World Bank +1.3 —
+# a stagnation, not a recession, and the two publishers disagree about the
+# sign of nothing except its size.
+bands:
+  - {from: 2009.0, to: 2010.75, label: "2009–10 recession"}
+  - {from: 2014.0, to: 2020.75, label: "2014–20 collapse"}
+
+# The bolívar digital (VES) since 1 October 2021. The plates never draw a
+# local-currency level across the redenominations: pre-2008 bolívares,
+# 2008–2018 bolívares fuertes and 2018–2021 bolívares soberanos are converted
+# with the documented divisors in DATA_NOTES.md or left out with a stated
+# reason. Nothing here is spliced across a redenomination without the
+# conversion being written down.
+currency:
+  code: VES
+
+# The flag is yellow, blue and red, which is not a chart palette. These are
+# darkened, desaturated siblings: the flag's yellow into a gold that survives
+# greyscale, its blue pulled down into a steel blue and a navy, its red into a
+# brick that can carry an alert without shouting. The plate palette is built
+# on paper; the site's own ground is a deep indigo night.
+palette:
+  GOLD:    "#C9971B"
+  GOLD_D:  "#9A7312"
+  BLUE:    "#1B4F8A"
+  BLUE_D:  "#173F6E"
+  NAVY:    "#123A63"
+  RED:     "#B23A2E"
+  RED_D:   "#8A2A21"
+  GREEN:   "#2E7D4F"
+  TEAL:    "#13807A"
+  PURPLE:  "#6E5BA6"
+  primary: "#1B4F8A"
+  alert:   "#B23A2E"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#1B4F8A", "#C9971B", "#B23A2E", "#2E7D4F", "#6E5BA6", "#13807A", "#123A63", "#1F2430"]
+  # Gold over blue over red: the flag laid flat, all three bands darkened so
+  # none of them is the paper colour (a flag band equal to the paper takes the
+  # automatic outline, which would draw a stripe that is not in the flag).
+  flag_bands: ["#C9971B", "#1B4F8A", "#B23A2E"]
+  # A deep indigo night, kept apart from Ukraine's blue-black and from the
+  # warm near-blacks of the Americas. The money accent is the flag's gold,
+  # lifted enough to sit on the ground; `people` is the flag's red lifted the
+  # same way.
+  web:
+    # V opens the wordmark: a single diagonal bearing, wider than the Latin
+    # capitals the other pages start with.
+    mark_bearing: "0.02em"
+    ground:   "#0E1119"
+    raised:   "#151A25"
+    raised_2: "#1B2130"
+    rule:     "#2A3244"
+    ink:      "#E9E6DE"
+    muted:    "#9AA0AC"
+    faint:    "#69707D"
+    money:    "#D9A93F"
+    world:    "#4C8FD1"
+    people:   "#C4553F"
+
+seo:
+  title:
+    es: "Venezuela — planchas de datos oficiales, 2006–2025"
+    en: "Venezuela — plates of official data, 2006–2025"
+    pt: "Venezuela — pranchas de dados oficiais, 2006–2025"
+  description:
+    es: "Planchas de datos sobre la economía, el Estado, la moneda y la emigración venezolanas, construidas con CSVs versionados; donde el Estado dejó de publicar, la serie termina en vez de rellenarse, y cada estimación del FMI se dibuja como estimación."
+    en: "Data plates on Venezuela's economy, state, currency and emigration, built from committed CSVs; where the state stopped publishing, the series ends rather than being filled, and every IMF staff estimate is drawn as one."
+    pt: "Pranchas de dados sobre a economia, o Estado, a moeda e a emigração venezuelanas, a partir de CSVs versionados; onde o Estado deixou de publicar, a série termina em vez de ser preenchida, e cada estimativa do FMI é desenhada como estimativa."
+  keywords: [Venezuela, INE, Banco Central de Venezuela, bolívar, hyperinflation, IMF, World Bank, UNDP, UNHCR, official statistics]
+  spatial: "Venezuela"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with. Only
+# publishers whose numbers are drawn are named: the INE (the Gini), and the
+# IMF, World Bank, UNDP and UNHCR for the harmonised layer. The publishers
+# that are blocked from this network — the BCV (TLS), datos.gob.ve (timeout),
+# the SENIAT (timeout), the Imprenta Nacional (DNS) — are recorded in
+# SOURCES.yaml meta.pending and disclosed on the page.
+sources:
+  es: "el Instituto Nacional de Estadística, junto con el FMI, el Banco Mundial, el PNUD y ACNUR para las comparaciones"
+  en: "the National Institute of Statistics, plus the IMF, the World Bank, UNDP and UNHCR for comparisons"
+  pt: "o Instituto Nacional de Estatística, além do FMI, Banco Mundial, PNUD e ACNUR para comparações"

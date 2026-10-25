@@ -1,0 +1,23 @@
+# UNODC (VC.IHR.PSRC.P5 homicide) and WHO (SH.STA.SUIC.P5 suicide,
+# SH.STA.TRAF.P5 road deaths) as the World Bank republishes them.
+# Homicide has holes at 2013 and 2018 and a sharp fall after 2019 that
+# is an estimate, not a police count: the national publisher is the
+# Cuerpo de Investigaciones Científicas (meta.pending).
+year,homicide_per_100k,suicide_per_100k,road_deaths_per_100k
+2006,45.022,5.93,30.80
+2007,47.582,5.81,36.80
+2008,52.004,5.97,37.70
+2009,49.177,5.94,36.80
+2010,45.396,6.05,31.20
+2011,48.305,6.23,30.10
+2012,54.382,6.18,34.40
+2013,,5.90,35.40
+2014,62.901,5.67,34.50
+2015,51.200,6.12,34.90
+2016,56.579,10.49,35.60
+2017,47.979,8.07,37.80
+2018,,7.45,38.20
+2019,41.032,7.17,39.00
+2020,29.475,7.33,
+2021,19.279,8.63,
+2022,12.647,,

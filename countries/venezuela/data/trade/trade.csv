@@ -1,0 +1,23 @@
+# Exports and imports of goods and services, % of GDP, national-
+# accounts basis (World Bank NE.EXP/IMP.GNFS.ZS). STARTS IN 2012:
+# 2006-2011 are placeholder zeros in the gateway and are dropped.
+# trade_balance_pct_gdp is DERIVED on the plate's own two columns
+# (exports - imports), never from a second publisher: 2019 = +36.3
+# points, the oil surplus of an economy that had stopped importing.
+# Customs goods and the balance-of-payments basis are different
+# definitions; only the national-accounts basis is staged.
+year,exports_pct_gdp,imports_pct_gdp,trade_balance_pct_gdp
+2012,29.60,21.16,8.44
+2013,30.25,32.34,-2.09
+2014,43.45,20.64,22.81
+2015,40.75,19.62,21.13
+2016,31.20,10.19,21.01
+2017,33.33,9.28,24.05
+2018,42.55,12.09,30.46
+2019,47.20,10.93,36.27
+2020,13.01,13.09,-0.08
+2021,15.35,13.88,1.47
+2022,16.35,11.55,4.80
+2023,18.07,10.03,8.04
+2024,16.74,9.50,7.24
+2025,14.90,10.11,4.79
