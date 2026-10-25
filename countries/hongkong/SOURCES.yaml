@@ -376,6 +376,22 @@ demography:
       115-01021 give the same series at every age and are kept as a sidecar.
       Infant mortality 2.0 per 1,000.
 
+people:
+  income.csv:
+    source: "C&SD — table 130-06102, statistics on domestic households"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=130-06102&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar people/household_income_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Median monthly household income, all domestic
+      households, current HK$: 17,000 in 2006, 30,000 in 2024 and 2025. The
+      real column deflates by the composite CPI and is expressed in 2024
+      prices — a display transform of two published series, not a publisher
+      figure, and the plate says so. This is a HOUSEHOLD median, not a
+      per-person income, and it moves with household size (2.6 persons on
+      average in 2024). It is the people chapter's lens panel: the Gini and
+      the poverty rate are report-only and stay pending.
+
 security:
   crime.csv:
     source: "Hong Kong Police via C&SD — table 940-92033, cases reported by type of offence"

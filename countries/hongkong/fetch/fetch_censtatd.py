@@ -107,6 +107,12 @@ TABLES: dict[str, dict] = {
                           pin("2024", "LF", 3807.4, unit="No. ('000)"),
                           pin("2024", "EM", 3693.6, unit="No. ('000)"),
                       ]),
+    "130-06102": dict(file="people/household_income",
+                      title="Statistics on domestic households",
+                      dims=[], pins=[
+                          pin("2024", "MED_DH_INC", 30000, unit="HK$"),
+                          pin("2024", "DH", 2763.1, unit="No. ('000)"),
+                      ]),
     # ---- fiscal --------------------------------------------------------
     # 340-47001 is the General Revenue Account, the government's own cash
     # accounts, keyed by the financial year in which it ends (2024/25 is

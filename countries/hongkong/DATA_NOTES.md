@@ -55,6 +55,7 @@ here so a reader can reproduce it from the committed inputs.
 | `security/crime.csv` | `homicide_rate_per_100k` | murder and manslaughter cases ÷ mid-year population × 100,000 |
 | `mortality/deaths.csv` | `excess_deaths_pct_vs_2015_2019` | deaths ÷ mean(2015-2019 deaths) − 1, × 100 |
 | `migration/net_movement.csv` | `net_movement_per_1000` | net movement (thousands) ÷ mid-year population (thousands) × 1,000 |
+| `people/income.csv` | `median_household_income_real_2024_hkd` | median monthly household income ÷ composite CPI × 100 |
 
 No column is interpolated, forward-filled or zero-filled anywhere in the
 directory. Where a publisher has not released a year the cell is empty and
@@ -155,7 +156,9 @@ unavailable-data disclosures:
 - **Gini, poverty, minimum wage.** Published in thematic reports, report
   attachments and Gazette notices; none on a machine-readable official route
   this pass could find. The `people` chapter has three canonical slots
-  pending and says where each number lives.
+  pending and says where each number lives. Its lens slot carries the median
+  household income (`people/income.csv`), which is the income series that
+  *does* exist as a table.
 - **Suicide, road deaths.** The Department of Health aggregates suicides into
   "external causes"; Hong Kong is not a WHO member state so GHO carries no
   row; WDI is empty for both. Not guessed from adjacent series.

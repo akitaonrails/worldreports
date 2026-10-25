@@ -1,0 +1,27 @@
+# Median monthly household income of all domestic households, C&SD 130-06102,
+# current HK$ per month, annual observation. Nominal: the real column deflates
+# it by the composite CPI (Oct 2019 - Sep 2020 = 100) and is expressed in 2024
+# prices, which is a display transform of the two published series, not a
+# separate publisher figure. A household median is not a per-person income and
+# moves with household size.
+year,median_household_income_hkd,median_household_income_real_2024_hkd
+2006,17000,25148
+2007,17500,25399
+2008,18400,25591
+2009,18000,24896
+2010,18000,24324
+2011,20000,25674
+2012,21000,25894
+2013,22200,26241
+2014,23200,26274
+2015,24800,27253
+2016,25200,27039
+2017,26600,28118
+2018,28500,29442
+2019,29000,29116
+2020,27500,27528
+2021,27500,27120
+2022,28300,27396
+2023,30000,28436
+2024,30000,27959
+2025,30000,27548
