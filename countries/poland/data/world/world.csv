@@ -1,0 +1,27 @@
+# Spain-style comparables: GDP at current US$ and official reserves (World
+# Bank WDI), the HDI (UNDP HDR, one vintage), and the Corruption Perceptions
+# Index score 0-100 (Transparency International, 2012+ method only).
+# gdp_usd_bn and reserves are non-official republications; the CPI is a
+# non-official index. hdi and cpi stop where their editors stop.
+year,gdp_usd_bn,hdi,cpi_score,reserves_usd_bn
+2006,345.898,0.831,,48.474
+2007,429.715,0.836,,65.725
+2008,535.612,0.841,,62.184
+2009,440.891,0.846,,79.522
+2010,478.112,0.852,,93.473
+2011,527.849,0.858,,97.712
+2012,498.149,0.863,58.0,108.902
+2013,518.18,0.873,60.0,106.221
+2014,542.134,0.873,61.0,100.452
+2015,480.054,0.879,63.0,94.903
+2016,473.26,0.884,62.0,114.329
+2017,528.357,0.882,60.0,113.267
+2018,594.617,0.884,60.0,116.957
+2019,602.684,0.887,58.0,128.392
+2020,605.914,0.88,56.0,154.219
+2021,689.17,0.884,56.0,166.03
+2022,695.607,0.902,55.0,166.664
+2023,812.451,0.906,54.0,193.783
+2024,917.767,,53.0,223.115
+2025,1035.492,,,271.805
+2026,,,,

@@ -134,7 +134,6 @@ def main() -> None:
     wide("macro/economy_from_estat.csv", {
         "gdp_meur": nominal,
         "gdp_growth_pct": growth,
-        "gdp_per_capita_eur": {y: None for y in YEARS},
         "gfcf_meur": gfcf,
         "hicp_pct": hicp,
         "unemployment_pct": unemp,
@@ -144,9 +143,9 @@ def main() -> None:
     }, dec=2, comment="""
 Eurostat nama_10_gdp (B1GQ, P51G, P6, P7, P61/P62, P71/P72), prc_hicp_aind
 (CP00, annual rate of change) and une_rt_a (15-74, LFS). PL/EUR, annual.
-gdp_per_capita_eur is left blank on purpose: the canonical slot is US$ per
-person from the World Bank, which is the same denominator every country
-uses, and a euro column here would invite a second, unlike series.
+A euro GDP-per-person column is deliberately ABSENT: the canonical slot is
+US$ per person from the World Bank, which is the same denominator every
+country uses, and a euro column here would invite a second, unlike series.
 HICP is NOT the Polish CPI (GUS publishes that separately): since 2022 the
 two differ by the weight of housing costs the HICP carries.
 """)

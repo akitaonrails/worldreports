@@ -86,12 +86,17 @@ def main() -> None:
         # canonical column, and the sidecar says the lens is empty.
         print(f"  debt-service ratio unavailable: {e}")
 
-    header = ["year", "household_debt_pct_gdp", "debt_service_ratio_pct"]
+    # A column of blanks is a promise the data does not keep, so the DSR
+    # column exists only when the DSR exists.
+    header = ["year", "household_debt_pct_gdp"]
+    if dsr:
+        header.append("debt_service_ratio_pct")
     rows = []
     for y in range(2006, 2027):
-        rows.append([y,
-                     round(household[y], 2) if y in household else None,
-                     round(dsr[y], 2) if y in dsr else None])
+        row = [y, round(household[y], 2) if y in household else None]
+        if dsr:
+            row.append(round(dsr[y], 2) if y in dsr else None)
+        rows.append(row)
     path = write_csv("credit/household_debt_from_bis.csv", header, rows,
                      comment="""
 BIS total credit statistics. household_debt_pct_gdp = WS_TC
