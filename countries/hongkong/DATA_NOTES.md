@@ -220,3 +220,91 @@ TMPDIR=.slim/tmp/hongkong python3 -m pytest -q \
 
 The fetchers assert a published value before writing, so a payload that
 answers 200 with the wrong table fails instead of committing.
+
+## 10. Three slots the shared comparison scales cannot hold
+
+The atlas draws one y-scale per canonical slot (`core/spine.py`) so a reader
+can wipe one country's plate over another's. Hong Kong has three readings
+that leave those ranges by more than a rounding, and one country may not
+carry a scale of its own. Each is visibly pending on its panel, with the
+extent and the reason, and each is drawn in a lens at its own scale so the
+data are still published:
+
+| slot | reading | shared range | drawn where |
+|---|---|---|---|
+| `trade.exports_imports` | 176.3% to 221.6% of GDP (2006–2025) | 0 … 100 | `trade.lens`, own scale, beside the customs goods ratio |
+| `migration.net` | −11.5 per 1,000 in 2020 | −10 … +40 | `migration.lens`, own scale, with the one-way/others split |
+| `demography.natural_migration` | the same −11.5 (net movement is half this panel) | −10 … +40 | the same lens; the panel names it |
+
+An entrepot's export ratio is not an error and not a units mistake: imports
+are re-exported, so goods and services each run near twice GDP. Widening the
+shared trade range to accommodate 222% would halve every other country's
+panel, which is the one thing the comparison contract exists to prevent; the
+orchestrator's choice is either to widen it deliberately for everyone or to
+keep Hong Kong's ratio in the lens, and this page does the second until told
+otherwise. The two migration panels are a milder case — 1.5 points past a
+floor — and would cost little to widen to −15; they stay pending because a
+country lane may not edit the shared range.
+
+## 11. What Phase B decided, and why
+
+**Recession bands come from the staged quarterly vintage.** Every quarter
+with a negative year-on-year reading in C&SD 310-31001's chained-volume
+series: 2008Q4–2009Q3, 2019Q3–Q4, 2020Q1–Q4 and 2022Q1–Q4. No band is
+inferred from an annual growth rate, so 2015 (a weak year, never negative)
+is not shaded. The bands are named in one line of the first economy panel
+rather than four labels on the axis: `2019 unrest`, `COVID-19` and
+`fifth wave` are only months apart, and four captions at the top of one
+panel overprint each other.
+
+**The 2025-Q4 crime figure is published as recorded, with the wording the
+police table supports.** The security panel's note reads: 194 murder and
+manslaughter cases in the year, 170 of them reported in the fourth quarter
+against 19 across the first three, the annual row reading 194 where the
+quarters sum to 189. Nothing is revised, smoothed or dropped. The quarterly
+detail itself lives in the fetcher's sidecar, and repository rules forbid a
+plate from drawing a sidecar, so the figure is stated on the panel and
+asserted in `tests/test_plates.py` from the committed files rather than
+plotted. Promoting that sidecar to a curated quarterly CSV is the one change
+that would let the spike be drawn as well as stated.
+
+**Excess deaths are drawn from 2015.** The staged column runs from 2006, but
+2006 reads −20.6% — outside the shared −20 floor — and, more to the point,
+a comparison with a baseline five years in the future is not the statistic
+the panel claims to show. The plate draws 2015 onward, the years the
+baseline is made of, and the note says so. Canada's plate makes the same
+choice for the same reason.
+
+**The markets currency panel draws the effective rate.** The bilateral
+HKD/US$ rate is fixed by statute between 7.75 and 7.85 and cannot move, so
+drawing it alone would be a flat line at 100 and would tell a reader nothing.
+The panel draws C&SD's trade-weighted effective index rebased to 2006 = 100
+(which moves, because the US dollar does) with the pegged bilateral rate as
+a labelled flat line beside it. This follows the spine's own precedent for
+the United States, whose slot carries the broad dollar index.
+
+**The Base Rate and prime are annual means; HIBOR is year-end.** The two are
+not interchangeable and are never drawn on one axis as if they were. The
+credit lens therefore uses the savings deposit rate against prime — both
+annual means from the same table — instead of overnight HIBOR against an
+annual-mean Base Rate, which would have compared a year-end fixing with a
+year's average.
+
+**One GRA line, at the financial year's midpoint.** `fiscal/govt.csv` labels
+a year by the April it starts in, so its cash balance is drawn a quarter of a
+year to the right, divided by that calendar year's GDP and labelled
+"financial year". The consolidation gap is real and is the point: in FY2024
+the cash account shows +0.6% of GDP while the IMF's consolidated general
+government shows −5.8%. The line stays solid to its end because FY2025 is a
+closed set of accounts, not a year still running.
+
+**Life expectancy is the mortality lens.** The Department of Health's cause
+table puts suicides, road deaths and falls in one "external causes" row, so
+neither security slot can be filled from it; the lens instead carries the
+period life tables published with the vital events, which show the 2022 dip
+the fifth wave caused.
+
+**The homicide panel starts in 2021 because the police table does.** The
+long UNODC comparison is staged only as a fetcher sidecar, and a plate may
+not read a sidecar; the canonical slot is therefore the national series,
+five years long, with the re-base stated on the panel.
