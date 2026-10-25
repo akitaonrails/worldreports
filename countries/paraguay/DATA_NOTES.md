@@ -133,6 +133,11 @@ the refresh rather than changing a plate:
 - Freeze on reality: the MEF's own **PIB** row is 236,681.5 (2019) and
   292,166.8 (2022) in thousands of millions of guaraníes, and the level
   sheet's revenue and expenditure imply the same GDP to within 0.5%.
+- IMF DOTS partner shares: **Argentina 10.18%** of goods exports in 2016,
+  **28.99%** in 2018 and **26.00%** in 2020 — the values the Fund's
+  payload carries. The first curation pass published 0.00 for those five
+  years, and the rest-of-world residual absorbed the difference; §10
+  records the parse bug and its correction.
 
 ## 5. The story the data carry
 
@@ -198,35 +203,110 @@ catalogues, this becomes a translation task rather than a research one.
 ## 8. Departures from the spine
 
 None in the chapter list — Paraguay draws all twelve topics the spine
-defines. The departures are within chapters, all of them `ctx.pending`
-rather than a substituted series:
+defines, in spine order. The departures are within chapters. Every
+canonical slot that is not drawn is `ctx.pending` with the failing route
+on the panel and in `ui.json` in all three locales; nothing is replaced
+by a proxy.
 
-- **markets**: slots 1, 2 and 4 pending, slot 3 (the guaraní) drawn. A
-  markets plate with one panel is what the reachable data allow.
-- **spending**: slots 1 and 2 (COFOG) pending; 3 and 4 drawn.
-- **credit**: slots 1, 2 and 4 pending; NPL and private credit drawn.
-- **mortality**: slots 2 and 3 pending; crude death rate and life
-  expectancy drawn.
-- **migration**: slot 1 (flows) pending; net and stock drawn.
+| topic | 1 | 2 | 3 | 4 (lens) |
+|---|---|---|---|---|
+| economy | growth, bars | GDP per person, World Bank/UN | CPI | ILO modelled beside INE's EPHC |
+| fiscal | GG accrual + MEF cash, four lines | overall/primary balance + MEF net lending | gross debt | interest paid |
+| spending | **pending** (COFOG) | **pending** (COFOG) | whole-economy GFCF | central-government fixed assets |
+| trade | exports/imports, national accounts | balance | customs destinations, five shares | **Itaipú–Yacyretá treaty revenue** |
+| markets | **pending** (policy rate) | **pending** (10y yield) | guaraní index 2006 = 100 | **pending** (equity index) |
+| credit | **pending** (household debt) | **pending** (household lending rate) | NPL ratio | **private-sector credit**, labelled as not household debt |
+| people | Gini, World Bank harmonised | poverty + extreme poverty, INE | minimum wage in US$ | **what the minimum is worth in guaraníes** |
+| world | GDP, US$ | HDI | **pending** (CPI) | reserves |
+| demography | population index, INE and UN | fertility + 2.1 line | crude birth and death rates | natural increase + net migration |
+| security | homicide | suicide | road deaths | **the three on one axis** |
+| mortality | crude death rate | **pending** (excess) | **pending** (COVID-19) | **life expectancy** |
+| migration | **pending** (flows) | net migration, each publisher's denominator | foreign-born share | **the outflow in persons** |
 
-Every one of those is disclosed on the page through `ui.json`'s
-`unavailable` list in each locale, which is Phase B's work and must use
-the exact wording of `SOURCES.yaml` → `meta.pending`.
+The four lenses that needed a decision, and why:
+
+- **trade** — the royalties and the energy-cession compensation are the
+  country's most distinctive economic fact and a reader looks for the
+  electricity in the trade chapter. They are drawn there as **fiscal
+  revenue under the binational treaties**, in their own panel, with the
+  footnote saying the electricity itself is inside the exports series.
+  The canonical slots still carry national-accounts trade and customs
+  shares only. `test_plates` asserts the label.
+- **people** — the statutory minimum is drawn in dollars (the spine's
+  unit) and its guaraní path is drawn beside it as an index chained
+  against the CPI of one vintage. The finding is not the nominal rise:
+  the rate rose 2.3-fold in guaraníes between 2006 and 2024, prices rose
+  2.3-fold too, and the real minimum ends at **98 on 2006 = 100** — just
+  below where it started. The panel says the index is derived and not a
+  published real wage.
+- **security** — no extra source exists, so the lens puts the plate's own
+  three staged rates on one axis. It answers the question the three
+  separate panels leave open: road deaths exceed the homicide rate in
+  every year both series cover, from 1.2 times in 2006 to 2.6 times in
+  2019.
+- **migration** — the UN's net migration in persons, as a level, so the
+  size of the outflow is visible; the stock panels cannot show it.
+
+Bands and events: the three downturn bands in `country.yaml` are drawn on
+every time-series panel and named on economy slot 1 only. 2022 (−0.03%)
+is annotated on the growth panel and deliberately not banded. The events
+drawn are in `events.py`: the 2017 EPH → EPHC redesign, fertility falling
+below replacement in 2022, the 2024 minimum-wage decree, and the 2025
+Annex C tariff revision on the hydro lens.
+
+Every pending panel is disclosed on the page through `ui.json`'s
+`unavailable` list in each locale, in the wording of `SOURCES.yaml` →
+`meta.pending`.
 
 ## 9. Verification performed in this pass
 
 ```
 make C=paraguay fetch        # six fetchers, sidecars only, anchors asserted
-pytest tests/test_sources.py tests/test_data.py -k paraguay
+make C=paraguay charts thumbs provenance
+make C=paraguay site
+pytest                       # the full suite, both phases
 ```
 
-- `test_sources` and `test_data`: **17 passed**. `provenance.json` is an
-  empty object in this phase because no plate has been drawn yet; Phase B
-  overwrites it with the recorded reads, and the two tests that read it
-  pass either way.
-- `test_numbers` fails for `PYG` in this lane because the lane's base
-  commit predates the batch's currency work; `main` (57b818e) already
-  carries the PYG forms. Not fixed here, by instruction.
+- `test_sources` and `test_data`: **17 passed** in Phase A. `provenance.json`
+  was an empty object there because no plate had been drawn; Phase B
+  overwrote it with the recorded reads, and the tests that read it now see
+  twelve plates' worth of files, none of them a sidecar.
+- `test_numbers` failed for `PYG` in the Phase A lane because that lane's
+  base commit predated the batch's currency work. This lane is rebased onto
+  the core that carries the PYG forms, and it passes.
 - Determinism: every fetcher was run twice online and the sidecars were
   byte-identical; a cold cache re-fetches the same payloads, and an
   offline cold run exits non-zero without writing.
+- Phase B: `countries/paraguay/tests/test_plates.py` holds twenty claims
+  against the committed CSVs — the two fiscal perimeters, the two
+  population denominators, the per-publisher migration denominators, the
+  wage conversion at each year's own rate, the CPI chain, the partner
+  shares summing to 100, the pending slots and the catalog's spine units.
+- Layout: zero faults in `es`, `en` and `pt` (`tests/test_layout.py` has no
+  baseline entry for this country, so any fault fails the build).
+
+## 10. Correction found in Phase B: the partner shares
+
+The first curation pass published `trade/partners.csv` with Argentina at
+**0.00%** for 2016-2020. That was not a reading of the source: the
+fetcher matched series with the regex
+`<Series ([^>]*)>(.*?)</Series>`, and the IMF's payload writes a partner
+it has no observation for as a self-closing `<Series .../>`. Such a tag
+never ends in `</Series>`, so the regex paired it with the NEXT series'
+closing tag: the empty partner was recorded with the following partner's
+value, and the partner whose observation had been swallowed was then
+missing from the parsed map, where `dict.get(code, 0.0)` turned absence
+into a zero. The rest-of-world residual absorbed the missing points, so
+the columns still summed to 100 — which is exactly why nothing looked
+wrong.
+
+The payload itself carries Argentina at 10.18% (2016), 16.49% (2017),
+28.99% (2018), 21.39% (2019) and 26.00% (2020). The fetcher now parses
+the XML by structure, writes a blank rather than a zero when a named
+partner is absent, and asserts the 2016 value at 10.18 ± 0.02. Every
+other year, and every other column, was already correct — the regenerated
+sidecar differs from the curated file only in those five rows.
+
+No other sidecar changed: re-running the fetcher against the cache
+reproduced `fiscal_from_imf`, `growth_from_imf`, `cpi_from_imf` and
+`fx_from_imf` byte for byte.

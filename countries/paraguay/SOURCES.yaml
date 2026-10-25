@@ -146,7 +146,15 @@ trade:
       47.6%) and 2024 (Argentina 33.1%, Brazil 32.3%, Chile 8.1%). Custom
       goods, FOB. The four largest 2024 destinations plus the rest: this
       is a share series, not a ranking, and no single partner is drawn as
-      "the" destination.
+      "the" destination. CORRECTED in Phase B: the first curation pass
+      published Argentina at 0.00% for 2016-2020 because the fetcher's
+      regex paired a self-closing `<Series/>` with the next series'
+      closing tag, so an empty series swallowed Argentina's observation.
+      The payload carries ARG 10.18% (2016), 16.49% (2017), 28.99%
+      (2018), 21.39% (2019) and 26.00% (2020); those values and the
+      rest-of-world residual are restored, the fetcher now parses the
+      XML by structure, and a partner the Fund does not report stays
+      blank rather than becoming a zero.
 
 markets:
   fx.csv:
@@ -202,6 +210,21 @@ demography:
       net_migration_thousands; the rate beside it is per 1,000. Years after
       the census base are projections and the plate marks where the
       observation ends.
+  population_un_wpp.csv:
+    source: "World Bank SP.POP.TOTL — the UN World Population Prospects series, mid-year"
+    url: "https://api.worldbank.org/v2/country/PRY/indicator/SP.POP.TOTL?format=json"
+    official: false
+    refreshed_by: fetch/fetch_wb.py
+    notes: >-
+      VERIFIED 2026-10-25. The harmonised comparator to INE's series above,
+      promoted from the population_from_wb.csv sidecar: 2006 = 5,505,148
+      and 2025 = 7,013,078, against INE's 5,511,383 and 6,417,076. The
+      difference is the 2022 census — INE rebased on it, the UN has not —
+      and it is drawn as a second, labelled line on the demography plate,
+      never spliced into the national one. It is also the denominator for
+      the UN net-migration rate and the migrant-stock share on the
+      migration plate, so neither of those mixes the two populations.
+      official: false because this is a redistributor's series, not INE's.
 
 security:
   security.csv:

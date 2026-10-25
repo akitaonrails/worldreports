@@ -36,6 +36,7 @@ import re
 import sys
 import time
 import urllib.request
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -254,6 +255,35 @@ def verify(weo: dict[str, dict[int, float]], cpi: dict[int, float],
         f"IMF FX 2006: {1 / fx_usd_per_pyg.get(2006)}"
 
 
+def _imts_observations(raw: bytes) -> list[tuple[str, float]]:
+    """(counterpart code, value) for every series that carries an observation.
+
+    Parsed as XML, not with a regex over `<Series ...>(.*?)</Series>`. A
+    self-closing `<Series .../>` — a partner the Fund reports as a series
+    with no observation that year — does not end in `</Series>`, so such a
+    regex pairs it with the NEXT series' closing tag and hands the empty
+    partner the following partner's value. That is not hypothetical: it
+    zeroed Argentina's share for 2016-2020 in the first curated file and
+    inflated the rest-of-world residual by the same amount, because the
+    empty series that preceded ARG in those payloads swallowed ARG's
+    observation. Every year is now parsed by structure, and the promoted
+    file pins ARG 2016 at 10.18%.
+    """
+    root = ET.fromstring(raw)
+    out: list[tuple[str, float]] = []
+    for series in root.iter():
+        if not series.tag.endswith("Series"):
+            continue
+        code = series.get("COUNTERPART_COUNTRY")
+        if code is None:
+            continue
+        for obs in series:
+            if obs.tag.endswith("Obs") and obs.get("OBS_VALUE") is not None:
+                out.append((code, float(obs.get("OBS_VALUE"))))
+                break
+    return out
+
+
 def partners() -> None:
     """Export destinations as shares of total goods exports, 2006-2025.
 
@@ -275,19 +305,14 @@ def partners() -> None:
         url = SDMX.format(flow="IMTS", key="PRY.XG_FOB_USD..A",
                           start=y).replace(f"startPeriod={y}",
                                            f"startPeriod={y}&endPeriod={y}")
-        text = cached(url, f"imf_imts_{y}.xml", _validate_sdmx).decode("utf-8")
+        raw = cached(url, f"imf_imts_{y}.xml", _validate_sdmx)
         values: dict[str, float] = {}
         total = None
-        for series in re.finditer(r"<Series ([^>]*)>(.*?)</Series>", text, re.S):
-            code = re.search(r'COUNTERPART_COUNTRY="([^"]+)"',
-                             series.group(1)).group(1)
-            obs = re.search(r'OBS_VALUE="([^"]+)"', series.group(2))
-            if not obs:
-                continue
+        for code, obs in _imts_observations(raw):
             if code == "G001":
-                total = float(obs.group(1))
+                total = obs
             elif not code.startswith("G"):
-                values[code] = float(obs.group(1))
+                values[code] = obs
         if not total:
             raise SystemExit(f"IMTS {y}: no world total (G001)")
         rows[y] = {k: 100.0 * v / total for k, v in values.items()}
@@ -298,13 +323,23 @@ def partners() -> None:
     lines = [f"# {c}" for c in COMMENTS["trade/partners_from_imf.csv"]]
     lines.append("year," + ",".join(names))
     for y in sorted(rows):
-        shares = [rows[y].get(p, 0.0) for p in top]
+        # A named partner the Fund did not report that year stays blank.
+        # `dict.get(p, 0.0)` is how Argentina came to read 0.00% for five
+        # years: a missing observation is not a trade flow of zero, and the
+        # rest-of-world residual must not absorb it either.
+        if any(p not in rows[y] for p in top):
+            lines.append(f"{y}," + ",".join([""] * len(names)))
+            continue
+        shares = [rows[y][p] for p in top]
         rest = 100.0 - sum(shares)
         lines.append(f"{y}," + ",".join(f"{v:.2f}" for v in shares + [rest]))
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"  data/trade/partners_from_imf.csv  {len(rows)} rows")
     assert abs(rows[2024]["ARG"] - 33.1) < 0.2, rows[2024].get("ARG")
     assert abs(rows[2006]["BRA"] - 47.6) < 0.2, rows[2006].get("BRA")
+    # The Argentina series is the one the self-closing-series bug ate: the
+    # 2016 payload carries US$887.8m of US$8.72bn, 10.18% of the total.
+    assert abs(rows[2016]["ARG"] - 10.18) < 0.02, rows[2016].get("ARG")
 
 
 def main() -> None:
