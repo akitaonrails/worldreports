@@ -252,6 +252,23 @@ demography:
       reads that cache offline (meta.pending records the block).
 meta:
   pending:
+    - name: credit (household debt, lending rate, non-performing loans)
+      publisher: National Bank of Ukraine; IMF; data.gov.ua
+      url: https://bank.gov.ua/NBUStatService/v1/statdirectory/loan
+      official: true
+      notes: >-
+        Routes tried 2026-10-24. IMF DataMapper HH_ALL returns no Ukraine
+        series. The NBU `loan` endpoint answers, but only as monthly
+        dimension slices: the aggregate is available (Loans_Households,
+        2010-2025) while the mortgage and consumer components exceed
+        their own publisher's total in 2010-2015 (2010: 214.4bn total vs
+        239.9bn components), so the composition is not definitionally
+        consistent and is not drawn. `banksfinrep` carries loan provisions,
+        not a non-performing ratio, and data.gov.ua has no NPL dataset
+        (searched). The lending rate has no machine series in the open
+        API. A credit chapter would therefore be one line and three empty
+        panels; it stays unpublished until the NBU publishes a consistent
+        household-credit and NPL series.
     - name: Ukrstat SDMX REST API and all stat.gov.ua publications
       publisher: State Statistics Service of Ukraine (SSSU)
       url: https://stat.gov.ua/en/development-api

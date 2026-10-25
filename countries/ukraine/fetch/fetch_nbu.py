@@ -45,7 +45,8 @@ FIRST, LAST = 2006, 2026
 KNOWN = {"2023-07-23": 25.0}
 
 
-def fetch(url: str, cache: Path, offline: bool, tries: int = 3) -> list:
+def fetch(url: str, cache: Path, offline: bool, tries: int = 3,
+          required: bool = True) -> list:
     if cache.exists():
         return json.loads(cache.read_text(encoding="utf-8"))
     if offline:
@@ -69,7 +70,9 @@ def fetch(url: str, cache: Path, offline: bool, tries: int = 3) -> list:
     except json.JSONDecodeError as exc:
         sys.exit(f"fetch_nbu: {url} did not return JSON ({exc}); nothing written")
     if not isinstance(payload, list) or not payload:
-        sys.exit(f"fetch_nbu: {url} returned no observations; nothing written")
+        if required:
+            sys.exit(f"fetch_nbu: {url} returned no observations; nothing written")
+        return []
     cache.parent.mkdir(parents=True, exist_ok=True)
     cache.write_bytes(body)
     return payload
@@ -139,6 +142,7 @@ def main(argv: list[str]) -> int:
 
     write("markets/key_rate_from_nbu.csv", key, "policy_rate_pct", 2)
     write("markets/usd_uah_from_nbu.csv", fx, "uah_per_usd", 4)
+
     print("Done. Diff the sidecars before adopting.")
     return 0
 
