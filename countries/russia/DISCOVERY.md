@@ -157,35 +157,60 @@ argument is actually about.
 
 ## What is staged, and on which definition
 
-The manifest (`SOURCES.yaml`) is the list. The definitional decisions that
-matter:
+Twenty-nine curated CSVs across eleven topic directories, each with its
+sidecar beside it. The manifest (`SOURCES.yaml`) is the list; the
+definitional decisions that matter are:
 
 1. **Territorial scope.** Rosstat's population and national accounts
    **include Crimea and Sevastopol from 2014**, which Russia annexed and
-   counts. The World Bank and the UN do not. The two lines are drawn
-   separately and neither is called "the population of Russia" without its
-   scope. This is the single largest seam in the country's data and it lands
-   on an interesting year, which is exactly the case `SOURCING_A_COUNTRY.md`
-   §4 warns about.
-2. **The 2016 census rebase.** Rosstat's post-2015 population series is
-   rebased on the 2015 census and revised again with the 2020 census
-   (`VPN-2020` files are named for it). Growth measured across the rebase is
-   not growth; the 2020-21 series is used as one vintage.
-3. **Federal versus general government.** Minfin's federal budget is cash
-   execution of one level of government. The IMF's general-government series
-   is accrual, consolidated. Two columns, two lines.
-4. **Nominal roubles are not a unit across this window.** CPI rose 15.1% in
-   2015 and 11.9% in 2008; over 2006-2025 the deflator more than triples the
-   nominal level. Every level that spans years is in constant prices, a share
-   of GDP, or dollars, and says which.
-5. **The sanctions-era stops.** Several series end or change definition in
-   2022: the detailed customs statistics (suspended), the quarterly
-   expenditure breakdown of GDP (Rosstat stopped publishing the detailed
-   breakdown), and part of the fiscal detail (classified from 2023). Each is
-   a documented hole, never filled.
+   counts; from 2022 the publisher's own footnote excludes the four
+   oblasts annexed that year, so 2022+ is a narrower perimeter again. The
+   World Bank and the UN do not reproduce the 2014 step. The two lines are
+   drawn separately and neither is called "the population of Russia"
+   without its scope. This is the single largest seam in the country's
+   data and it lands on an interesting year, which is exactly the case
+   `SOURCING_A_COUNTRY.md` §4 warns about.
+2. **Two CPI definitions.** Rosstat's headline is December-to-December
+   (2015: 12.91%); the World Bank's is the annual average (2015: 15.53%).
+   Both published, both correct, two columns.
+3. **Three fiscal perimeters.** The federal budget (Minfin, cash, one
+   level, roubles), general government (IMF WEO, accrual, % of GDP), and
+   the non-oil-and-gas deficit the Ministry leads with. Never spliced.
+4. **Nominal roubles are not a unit across this window.** The GDP
+   deflator takes 2025 prices to about 3.7× 2006. Every level that spans
+   years is in constant prices, a share of GDP, or dollars, and says
+   which.
+5. **The sanctions-era stops**, each recorded as a gap and never filled:
+   the detailed customs statistics (suspended 2022, host unreachable), the
+   federal spending breakdown (sections stop at 2021), homicide and
+   suicide (2021), road deaths (2019), bank NPL (2023), Gini (2023), the
+   IMF revenue/expenditure lines (2024).
 
 ## Verification
 
-Staged values were checked against a second authoritative route at least
-once each; the exact pairs are in `SOURCES.yaml` notes (`VERIFIED` lines) and
-summarised in `DATA_NOTES.md`.
+- **Gate** (2026-10-25, lane):
+  `pytest tests/test_sources.py tests/test_data.py -k russia` →
+  **15 passed, 2 failed**. Both failures are `provenance.json` missing,
+  which is a Phase-B artefact (`test_every_plate_cites_files_the_manifest_declares`,
+  `test_no_plate_is_drawn_from_a_sidecar`) — nothing in this lane draws a
+  plate. `tests/test_numbers.py -k russia` → **1 failed, 1 passed**: the
+  failure is `no forms for RUB` (`CURRENCY_AFFIX`), recorded in
+  `DATA_NOTES.md` §14 as a core need, not patched here.
+- **Determinism, online twice:** all five fetchers re-run against a live
+  network → every sidecar **byte-identical** (md5 diff empty).
+- **Determinism, offline-warm:** with `http_proxy`/`https_proxy` pointing
+  at a closed port and the cache present, every fetcher reproduced the
+  same bytes and its anchors still verified.
+- **Determinism, offline-cold:** cache removed and network blocked →
+  `fetch_rosstat.py` exits **1** on the first download, before any parse,
+  and writes nothing.
+- **Known observations:** every fetcher asserts its anchors before writing
+  (Rosstat nominal GDP 2006 = 26,917.2 and growth 2022 = −1.44; CPI 2015 =
+  12.91; the 2014→15 population step = +2.7m; the key rate peak 20.00% on
+  28.02.2022; federal deficit 2024 = −3,471.9; BIS household credit
+  2024 = 21.5% of GDP). A revised or truncated payload fails at fetch
+  time rather than landing in a chart.
+- Staged values were checked against a second authoritative route at least
+  once each; the exact pairs are in `SOURCES.yaml` (`VERIFIED` lines),
+  `DATA_NOTES.md` §13, and the table there.
+

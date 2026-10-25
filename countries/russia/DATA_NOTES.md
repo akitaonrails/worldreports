@@ -264,11 +264,26 @@ therefore fails at fetch time rather than landing in a published chart.
 
 ## 14. Known shared-code needs (reported, not changed here)
 
-- **The `ru` number style.** `core/numstyle.STYLES` does not yet carry
-  `ru`, so `tests/test_numbers.py` fails for this country (as it does for
-  `pl`). The orchestrator is adding it centrally; nothing in this lane
-  touches `core/`.
-- **`RUB` currency forms.** `core.sitebuild.CURRENCY_AFFIX` needs a RUB
-  entry for every style this country publishes (`ru`, `en`, `pt`) before
-  cards can format a rouble figure.
-- Neither is a Phase-A blocker: no plate or card is drawn in this phase.
+Phase A deliberately touches nothing outside `countries/russia/`. Three
+things in `core/` are needed before Phase B can draw or format a rouble,
+and all three are reported rather than patched:
+
+1. **`CURRENCY_AFFIX` has no `RUB` entry.** This is the one failure the
+   gate shows today:
+   `tests/test_numbers.py::test_every_country_can_write_its_own_money[russia]`
+   → `AssertionError: russia: no forms for RUB`. Needs a RUB block for
+   every style this country publishes — `ru`, `en`, `pt` — with the
+   rouble sign after the amount in Russian and before it in English and
+   Portuguese, the way the other currencies are written.
+2. **`core.numstyle.STYLES` has no `ru`, and `SEPARATORS` no Russian
+   marks.** A locale with no `number_style` entry uses the style of the
+   same name, so `ru` resolves to `"ru"` — which is absent, and
+   `numstyle.swap()` therefore returns English marks unchanged. Russian
+   writes `12 345,67`: a non-breaking space for the thousands and a comma
+   for the decimal (CLDR `ru`), the same shape as `uk`. `country.yaml`
+   declares no `number_style` on purpose — Russia does not depart from its
+   language's base style, and inventing a `number_style: {ru: ru}` entry
+   would fail the loader's own `numstyle.STYLES.get(style) != code` check.
+3. **`core.i18n._UNITS` may need Russian unit words** once the ru plates
+   exist (thousand/million/billion and the rouble magnitude ladder).
+
