@@ -36,7 +36,7 @@ Portuguese**, and every plate is drawn in each of them.
 | `south-korea` | ko · en · pt | 11 | 43 |
 | `switzerland` | de · en · pt | 12 | 46 |
 | `taiwan` | zh-Hant · en · pt | 10 | 18 |
-| `ukraine` | uk · en · pt | 9 | 16 |
+| `ukraine` | uk · en · pt | 9 | 17 |
 | `united-kingdom` | en · pt | 12 | 45 |
 | `usa` | en · pt | 11 | 43 |
 | `vietnam` | vi · en · pt | 12 | 36 |
@@ -56,6 +56,13 @@ general-government layer, the markets chapter is drawn from the NBU's own
 API, and security/mortality from UNODC, WHO and the World Bank. Credit is
 the one chapter not published: the NBU's credit aggregates need their own
 definition review, and no comparable household-debt series is staged.
+One further reviewed official dataset covers 2011–2025 Treasury consolidated
+cash-budget functional spending (CBU, million nominal UAH). The Ministry's
+final ANNUAL 2025 outturn independently matches the NBU; its earlier
+December edition was 6.92bn UAH lower. This national series is
+supplementary to, and never substituted for, the published IMF
+general-government fiscal plate. The inventory includes this source-only
+curated CSV, but no additional comparison plate.
 Its catalogue is the atlas's first Ukrainian one, and the shared number
 style, site chrome and comparison names were extended for it.
 
