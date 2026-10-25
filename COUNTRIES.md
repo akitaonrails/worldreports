@@ -36,7 +36,7 @@ Portuguese**, and every plate is drawn in each of them.
 | `south-korea` | ko · en · pt | 11 | 43 |
 | `switzerland` | de · en · pt | 12 | 46 |
 | `taiwan` | zh-Hant · en · pt | 10 | 18 |
-| `ukraine` | uk · en · pt | 4 | 10 |
+| `ukraine` | uk · en · pt | 9 | 16 |
 | `united-kingdom` | en · pt | 12 | 45 |
 | `usa` | en · pt | 11 | 43 |
 | `vietnam` | vi · en · pt | 12 | 36 |
@@ -48,11 +48,14 @@ cross-check files not counted.
 ## Queued
 
 None. The eight-country queue opened on 2026-10-22 is complete, and
-Ukraine — proposed in issue #1 and discovered 2026-10-24 — is published as
-a four-chapter edition rather than a full twelve: its national statistics
-API, finance ministry and customs service all block automated access, so
-the fiscal, trade, market, credit, security and mortality chapters are
-disclosed as absent instead of being assembled from another perimeter.
+Ukraine — proposed in issue #1 and discovered 2026-10-24 — is published
+with nine chapters: economy, public finances, trade, markets, people,
+world, demography, security and mortality. The obvious national
+publishers block automated access, so the fiscal chapter is the IMF's
+general-government layer, the markets chapter is drawn from the NBU's own
+API, and security/mortality from UNODC, WHO and the World Bank. Credit is
+the one chapter not published: the NBU's credit aggregates need their own
+definition review, and no comparable household-debt series is staged.
 Its catalogue is the atlas's first Ukrainian one, and the shared number
 style, site chrome and comparison names were extended for it.
 
