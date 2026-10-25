@@ -22,7 +22,7 @@
    },
    {
     "term": "Credit",
-    "detail": "The non-performing-loan and lending-rate series were not staged: the NBU's credit datasets are published as monthly distributions that need their own definition review, and no comparable household-debt series is staged."
+    "detail": "Tried and not usable: the IMF has no Ukraine household-debt series, the NBU's loan endpoint publishes monthly dimension slices whose mortgage and consumer components exceed their own total before 2016, its bank statistics carry provisions rather than a non-performing ratio, and data.gov.ua has no NPL dataset. The chapter stays unpublished rather than drawn from an inconsistent split."
    },
    {
     "term": "Births, deaths, fertility and migration",
@@ -83,7 +83,7 @@
    },
    {
     "term": "Кредит",
-    "detail": "Ряди непрацюючих кредитів і ставок за кредитами не зібрано: набори НБУ публікуються як місячні розподіли, які потребують окремої перевірки визначень, а порівнянного ряду боргу домогосподарств не зібрано."
+    "detail": "Перевірено й непридатне: у МВФ немає ряду боргу домогосподарств України, кінцева точка кредитів НБУ публікує місячні зрізи, у яких іпотечна та споживча складові перевищують власний підсумок до 2016 року, банківська звітність містить резерви, а не частку непрацюючих кредитів, і на data.gov.ua набору NPL немає. Планка лишається неопублікованою, а не намальованою з неузгодженого поділу."
    },
    {
     "term": "Народжуваність, смертність, фертильність і міграція",
@@ -144,7 +144,7 @@
    },
    {
     "term": "Crédito",
-    "detail": "As séries de inadimplência e de taxas de crédito não foram preparadas: os conjuntos do NBU são distribuições mensais que exigem revisão própria de definição, e nenhuma série comparável de dívida das famílias foi preparada."
+    "detail": "Testado e inutilizável: o FMI não tem série de dívida das famílias da Ucrânia, o endpoint de crédito do NBU publica fatias mensais cujos componentes de hipoteca e consumo excedem o próprio total antes de 2016, as estatísticas bancárias trazem provisões e não um índice de inadimplência, e o data.gov.ua não tem conjunto de NPL. O capítulo fica não publicado em vez de desenhado a partir de uma divisão inconsistente."
    },
    {
     "term": "Natalidade, mortalidade, fecundidade e migração",

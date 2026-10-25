@@ -102,11 +102,18 @@ harmonised layer and the central bank answer.
 
 ## Still not drawn
 
-Credit is the one chapter deliberately absent: the NBU publishes credit
-aggregates as monthly distributions that need their own definition
-review, and no comparable household-debt series is staged. The remaining
-pending slots are listed on the page in all three languages and in
-`ui.json`.
+Credit is the one chapter absent, and the route audit is the reason it
+is not drawn rather than a reason it was not tried: IMF `HH_ALL` has no
+Ukraine series; the NBU `loan` endpoint publishes monthly dimension
+slices, and its mortgage and consumer components exceed their own total
+before 2016 (2010: 214.4bn total against 239.9bn of components), so the
+composition is not definitionally consistent; `banksfinrep` carries loan
+provisions, not a non-performing ratio; `data.gov.ua` has no NPL dataset;
+and the lending rate has no machine series in the open API. Publishing a
+single line beside three empty panels would not be an edition, so the
+chapter waits for a consistent NBU household-credit and NPL series. The
+remaining pending slots are listed on the page in all three languages and
+in `ui.json`.
 
 The atlas-wide ranges were widened a second time for this pass —
 revenue/expenditure to 80, fiscal balance to -24, trade balance to -30
