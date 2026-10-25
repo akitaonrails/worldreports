@@ -240,18 +240,23 @@ a later pass can stage it as its own labelled line if it is wanted.
 
 ## 12. Recession bands
 
-`country.yaml`'s four bands are dated on Rosstat's own annual and quarterly
-GDP vintage, not on a narrative:
+`country.yaml`'s four bands are dated on the staged quarterly index
+(`macro/gdp_quarterly.csv`, year-on-year), so each is a run of consecutive
+quarters the publisher's own index shows negative:
 
-- **2008 Q3 – 2009 Q3** — the global crisis, oil from $147 to $40.
-- **2014 Q3 – 2016 Q4** — the oil collapse, the rouble halving in December
-  2014, the first sanctions round, and the 2015–16 contraction
-  (annual −1.97% and +0.19%).
-- **2020 Q2 – 2020 Q4** — COVID-19 and the lockdown quarter.
-- **2022 Q2 – 2023 Q1** — the sanctions regime, on annual −1.44%.
+- **2008 Q4 – 2009 Q4** — five negative quarters; Q4 2008 = −1.32 and Q2
+  2009 = −11.15. The global crisis, oil from $147 to $40.
+- **2015 Q1 – 2016 Q1** — five negative quarters; Q2 2015 = −3.09. The oil
+  collapse and the rouble's halving in December 2014.
+- **2020 Q2 – 2021 Q1** — four negative quarters; Q2 2020 = −7.32. COVID-19.
+- **2022 (calendar year)** — the ANNUAL index only, −1.44%. The quarterly
+  series **ends at 2021 Q4**, so this is the one band whose quarters are
+  not observable in the staged vintage. It is labelled accordingly.
 
-The 2014 band starts in Q3 rather than at the annexation (Q1) because the
-output index turns negative in Q3; the annexation is annotated separately.
+**Not banded:** 2014 Q1 is a single negative quarter (−0.05%) and annual
+2014 is +0.74% — a dip, not a recession. The annexation of Crimea in March
+2014 is an annotation on the population panel, not a recession band on the
+output panel, because the output index does not turn negative with it.
 
 ## 13. Verification performed
 

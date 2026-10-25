@@ -62,23 +62,27 @@ spine: true
 # No canonical slot of Russia's staged data leaves its reference range.
 # (Confirmed against the staged CSVs at curate time, not assumed.)
 
-# Bands drawn behind the data. The dating is on the staged annual and
-# quarterly GDP vintage (Rosstat VVP_god_s1995-2025 and
-# VVP_kvartal_s-1995-2026), so a band is a quarter span the publisher's
-# own index shows negative, not a remembered narrative. Rosstat stopped
-# publishing the quarterly breakdown of GDP by expenditure in 2022; the
-# quarterly physical-volume index itself continues.
-#   2008 Q3 to 2009 Q3: the global financial crisis, oil from $147 to $40.
-#   2014 Q3 to 2016 Q4: oil collapse, the ruble losing half its value in
-#     December 2014, the first sanctions round, and the 2015-16 contraction.
-#   2020 Q2 to 2020 Q4: COVID-19 and the lockdown quarter (-8.0% y/y).
-#   2022 Q2 to 2023 Q1: the sanctions regime and the collapse of the
-#     import chain, on annual 2022 = -1.2%.
+# Bands drawn behind the data. The dating is on the staged quarterly GDP
+# physical-volume index (Rosstat VVP_kvartal_s-1995-2026.xlsx, sheets 11
+# and 12, data/macro/gdp_quarterly.csv), so a band is a run of consecutive
+# quarters the publisher's own index shows negative year on year, not a
+# remembered narrative.
+#   2008 Q4 to 2009 Q4: five negative quarters, the global financial
+#     crisis (oil from $147 to $40); Q4 2008 = -1.32, Q2 2009 = -11.15.
+#   2015 Q1 to 2016 Q1: five negative quarters, the oil collapse and the
+#     rouble's halving in December 2014 (Q2 2015 = -3.09).
+#   2020 Q2 to 2021 Q1: four negative quarters, COVID-19 (Q2 2020 = -7.32).
+#   2022: the ANNUAL index only (-1.44%). The quarterly series ends at
+#     2021 Q4 — Rosstat stopped publishing the quarterly breakdown — so
+#     this band is dated on the calendar year and is the one band whose
+#     quarter is not observable in the staged vintage.
+# Explicitly NOT banded: 2014 Q1 (-0.05%) is a single negative quarter, a
+# dip rather than a recession; annual 2014 is +0.74%.
 bands:
-  - {from: 2008.5,  to: 2009.75, label: "2008–09 crisis"}
-  - {from: 2014.5,  to: 2017.0,  label: "2014–16 oil and sanctions"}
-  - {from: 2020.25, to: 2021.0,  label: "COVID-19"}
-  - {from: 2022.25, to: 2023.25, label: "sanctions regime"}
+  - {from: 2008.75, to: 2010.0,  label: "2008–09 crisis"}
+  - {from: 2015.0,  to: 2016.25, label: "2015–16 oil and sanctions"}
+  - {from: 2020.25, to: 2021.25, label: "COVID-19"}
+  - {from: 2022.0,  to: 2023.0,  label: "sanctions regime (annual)"}
 
 # The ru number style (CLDR ru: comma decimal, non-breaking-space
 # thousands, currency after the amount) is being added to core centrally

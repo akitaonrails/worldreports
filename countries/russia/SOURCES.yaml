@@ -52,6 +52,20 @@ macro:
       is the ANNUAL AVERAGE change and is higher every year (2008 = 14.11,
       2015 = 15.53). Both are correct and both are published; they are two
       columns on the economy plate, never one line.
+  gdp_quarterly.csv:
+    source: "Rosstat — VVP_kvartal_s-1995-2026.xlsx, sheets 11 and 12 (quarterly physical-volume index of GDP)"
+    url: "https://rosstat.gov.ru/storage/mediabank/VVP_kvartal_s-1995-2026.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_rosstat.py
+    notes: >-
+      VERIFIED 2026-10-25. The quarterly physical-volume index, previous
+      year's quarter = 100, minus 100: a YEAR-ON-YEAR rate, not
+      quarter-on-quarter. Anchors: 2008 Q4 = -1.32, 2009 Q2 = -11.15 (the
+      crisis trough), 2020 Q2 = -7.32. 64 quarters, 2006 Q1 to 2021 Q4 —
+      THE SERIES ENDS THERE because Rosstat stopped publishing the
+      quarterly breakdown. 2022+ quarters are absent, which is why the 2022
+      recession band is dated on the annual index instead. This file is
+      what dates the bands in country.yaml.
   economy.csv:
     source: "World Bank WDI — NY.GDP.MKTP.KD.ZG, FP.CPI.TOTL.ZG, SL.UEM.TOTL.ZS, NE.GDI.FTOT.ZS, NY.GDP.DEFL.KD.ZG"
     url: "https://api.worldbank.org/v2/country/RUS/indicator/NY.GDP.MKTP.KD.ZG?format=json"

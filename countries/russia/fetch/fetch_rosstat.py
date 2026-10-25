@@ -70,6 +70,7 @@ FILES = {
     "cpi": "ipc_s_1992-2025.xlsx",
     "population": "popul_1897+.xlsx",
     "components": "Popul components_1990+.xlsx",
+    "quarterly": "VVP_kvartal_s-1995-2026.xlsx",
 }
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) Chrome/126.0"}
@@ -304,6 +305,41 @@ def components_series(path: Path) -> dict[int, dict[str, float]]:
     return out
 
 
+def quarterly_series(path: Path) -> dict[tuple[int, int], float]:
+    """The quarterly physical-volume index, year on year, {(year, quarter): %}.
+
+    Sheets '11' (1996-2011) and '12' (2012-2021) carry the same layout: a
+    year row with the year written once per four quarter cells, a quarter
+    row, and one value row. The index is previous year's quarter = 100.
+
+    IT ENDS AT 2021 Q4. Rosstat stopped publishing the quarterly breakdown
+    after that, so 2022+ quarters are absent rather than estimated — which
+    is why the 2022 recession band in country.yaml is dated on the ANNUAL
+    index and says so.
+    """
+    months = {"I квартал": 1, "II квартал": 2, "III квартал": 3,
+              "IV квартал": 4}
+    out: dict[tuple[int, int], float] = {}
+    for sheet in ("11", "12"):
+        rows = read_rows(path, sheet, 3, 5)
+        if len(rows) < 3:
+            sys.exit(f"quarterly: sheet {sheet} has no value row")
+        years, quarters, values = rows[0], rows[1], rows[2]
+        current = None
+        for y, q, v in zip(years, quarters, values):
+            if isinstance(y, int) and 1990 < y < 2200:
+                current = y
+            quarter = months.get(str(q or "").strip())
+            if current is None or quarter is None:
+                continue
+            n = _num(v)
+            if n is not None:
+                out[(current, quarter)] = n - 100.0
+    if not out:
+        sys.exit("quarterly: nothing parsed")
+    return out
+
+
 def write(rel: str, header: list[str], rows: list[list[str]],
           comments: list[str]) -> None:
     path = ROOT / "data" / rel
@@ -333,6 +369,7 @@ def main() -> None:
     cpi = cpi_series(paths["cpi"])
     pop = population_series(paths["population"])
     comp = components_series(paths["components"])
+    quarterly = quarterly_series(paths["quarterly"])
 
     # ---- known-observation checks, before any sidecar is written --------
     # Rosstat's own published figures; two independent anchors per file.
@@ -350,6 +387,11 @@ def main() -> None:
         f"population 2014->2015 step: {pop[2014]} -> {pop[2015]}"
     assert abs(comp[2020]["natural_change_thousand"] - -702.1) < 0.1, comp[2020]
     assert abs(comp[2021]["natural_change_thousand"] - -1043.3) < 0.1, comp[2021]
+    # The quarterly index, pinned on two known quarters: 2009 Q2 = -11.15
+    # year on year (the trough of the crisis) and 2020 Q2 = -7.32.
+    assert abs(quarterly[(2009, 2)] - -11.15) < 0.05, quarterly.get((2009, 2))
+    assert abs(quarterly[(2020, 2)] - -7.32) < 0.05, quarterly.get((2020, 2))
+    assert max(quarterly) == (2021, 4), max(quarterly)
 
     write("macro/rosstat_gdp_from_rosstat.csv",
           ["year", "nominal_bn_rub", "real_growth_pct", "deflator_pct"],
@@ -385,6 +427,20 @@ def main() -> None:
            "step). The World Bank/UN series does not reproduce that step,",
            "so the two lines differ by 2.3-2.7m from 2015 and are never",
            f"spliced. Fetched 2026-10-25, TLS mode: {mode}."])
+
+    # The quarterly series, as its own file: it is what dates the recession
+    # bands, and it stops at 2021 Q1.
+    write("macro/gdp_quarterly_from_rosstat.csv",
+          ["year", "quarter", "volume_yoy_pct"],
+          [[str(y), f"Q{q}", f"{v:.2f}"]
+           for (y, q), v in sorted(quarterly.items())
+           if YEAR_FROM <= y <= YEAR_TO],
+          [f"Rosstat, {FILES['quarterly']}, sheets 11 and 12: the quarterly",
+           "physical-volume index of GDP, previous year's quarter = 100,",
+           "minus 100. Year-on-year, NOT quarter-on-quarter.",
+           "THE SERIES ENDS AT 2021 Q4: the publisher stopped releasing the",
+           "quarterly breakdown after that. 2022+ quarters are absent.",
+           f"Fetched 2026-10-25, TLS mode: {mode}."])
 
     write("demography/components_from_rosstat.csv",
           ["year", "population_jan1_thousand", "population_dec31_thousand",
