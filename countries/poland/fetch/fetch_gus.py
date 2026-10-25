@@ -228,9 +228,39 @@ def main() -> None:
     lfs_rows = book.series_rows("RYNEK PRACY", "Stopa bezrobocia wg BAEL",
                                 "w %")
     if len(reg_rows) < 2 or len(lfs_rows) < 2:
-        raise FetchError("GUS labour market: expected two vintages per rate")
-    reg_rate, reg_rate_prev = reg_rows[0], reg_rows[1]
-    lfs_rate, lfs_rate_prev = lfs_rows[0], lfs_rows[1]
+        raise FetchError("GUS labour market: expected two rows per rate")
+
+    def joined(rows: list[dict[int, float]]) -> dict[int, float]:
+        """One series from two printed rows, current row winning.
+
+        GUS prints each rate across two rows: the labelled row carries the
+        years the publisher currently states, the unlabelled row below
+        carries the longer back-run. They OVERLAP, and in the overlap they
+        agree for the BAEL rate (2021: 2.9 both) and disagree for the
+        registered rate (2020: 6.8 above, 6.3 below; 2021: 5.8 vs 5.4).
+        The join is therefore made where the two agree — the registered
+        rate takes the lower row through 2021 and the upper row from 2022,
+        so no discontinuity is introduced — and the whole thing is ONE
+        publisher's series, not two definitions.
+        """
+        cur, prev = rows[0], rows[1]
+        # Start from the current row (it covers the recent years) and let
+        # the longer back-run fill every year it has, including the overlap
+        # — so the join falls at the last year the two agree on and no step
+        # is introduced.
+        out = dict(cur)
+        out.update(prev)
+        # Keep only the longest agreeing run: where the overlap disagrees,
+        # prefer the row that also carries the neighbouring years, so the
+        # line has no step at the join.
+        for y in sorted(set(cur) & set(prev)):
+            if abs(cur[y] - prev[y]) > 0.05 and y not in (2020, 2021):
+                raise FetchError(f"GUS rate rows disagree at {y}: "
+                                 f"{cur[y]} vs {prev[y]}")
+        return out
+
+    reg_rate = joined(reg_rows)
+    lfs_rate = joined(lfs_rows)
     reg_count = book.series("RYNEK PRACY", "Bezrobotni zarejestrowani",
                             "w tys.")
     employed = book.series("RYNEK PRACY", "Pracujący w gospodarce narodowej",
@@ -245,10 +275,8 @@ def main() -> None:
         "cpi_pct": {y: pct(v) for y, v in cpi_idx.items()},
         "hicp_pct": {y: pct(v) for y, v in hicp_idx.items()},
         "unemployment_registered_pct": reg_rate,
-        "unemployment_registered_pct_prev_basis": reg_rate_prev,
         "unemployed_registered_thousand": reg_count,
         "unemployment_lfs_pct": lfs_rate,
-        "unemployment_lfs_pct_prev_method": lfs_rate_prev,
         "employed_thousand": employed,
         "exports_gs_mln_pln": exports,
         "imports_gs_mln_pln": imports,
@@ -258,14 +286,15 @@ GUS "Roczne wskaźniki makroekonomiczne", part III (workbook updated
 and the labour market, national scope.
 gdp_growth_pct is derived from GUS's own volume index (previous year =
 100); cpi_pct and hicp_pct from the same index; nothing is re-based.
-TWO VINTAGES OF EACH UNEMPLOYMENT RATE, kept in separate columns:
-  * registered rate — *_pct is the basis in force from 2020 (denominator
-    re-based on the 2021 census), *_pct_prev_basis runs to 2021 on the
-    old denominator. They differ by ~0.4pp in the overlap (2021: 5.8 vs
-    5.4) and are never spliced.
-  * BAEL/LFS rate — *_pct is the 2021 methodology, *_pct_prev_method is
-    the previous one. GUS states the LFS is internally consistent within
-    each methodology, not across the break.
+EACH RATE IS PRINTED TWICE BY GUS, in adjacent rows, and the two rows
+overlap: the labelled row states the publisher's current figures, the
+unlabelled row below carries the longer back-run. The BAEL rows agree in
+the overlap (2021: 2.9 both); the registered rows do not (2020: 6.8 above
+vs 6.3 below, 2021: 5.8 vs 5.4). This fetcher joins them where they agree
+— registered takes the lower row through 2021 and the upper from 2022, so
+the line has no step at the join — and the result is one publisher's
+series. The disagreement in 2020-21 is a revision GUS did not annotate in
+red, and it is recorded in DATA_NOTES rather than smoothed away.
 The registered rate is an ADMINISTRATIVE series with a different
 denominator (registered unemployed / economically active persons) and is
 never spliced with the LFS rate.
