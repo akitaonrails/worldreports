@@ -608,12 +608,22 @@ def plate_demography(ctx, ig) -> None:
 
     ax = ig.slot("demography.natural_migration",
                  "Natural increase and net migration (per 1,000 people)")
-    ctx.pending(ax)
-    _pending(ig, ax, "Poland's net migration is −20.3 per 1,000 in 2020\n"
-             "(the register's collapse) and −16.7 on the population\n"
-             "balance — outside the shared −10…+40 scale.")
-    _foot(p, ax, "Both series are drawn on their own scale in the migration "
-          "chapter's lens")
+    ny, nv = _yr(ctx, "demography/demography.csv",
+                 "natural_change_rate_per_1000")
+    ry, rv = _yr(ctx, "demography/demography.csv",
+                 "net_migration_registered_per_1000")
+    by, bv = _yr(ctx, "demography/demography.csv",
+                 "net_migration_residual_per_1000")
+    ctx.line(ax, ny, nv, p.NAVY, label="Natural change")
+    ctx.line(ax, ry, rv, p.BLUE, label="Net migration (register)")
+    ctx.line(ax, by, bv, p.GOLD, label="Net migration (balance)")
+    ig.add_recessions(ax, label=False)
+    ax.legend(loc="lower left", fontsize=7.2, frameon=False)
+    _note(p, ax, 0.02, 0.96, f"the register's 2020 collapse ({_at(ry, rv, 2020):.1f} "
+          f"per 1,000)\nand the balance's {_at(by, bv, 2020):.1f}: two definitions, "
+          "never one line")
+    _foot(p, ax, "Eurostat demo_gind (GUS vital statistics and population "
+          "balance), per 1,000 residents")
     _finish(ctx, ig)
 
 
@@ -766,11 +776,16 @@ def plate_migration(ctx, ig) -> None:
           "registrations, divided by the revised population")
 
     ax = ig.slot("migration.net", "Net migration (per 1,000 people)")
-    ctx.pending(ax)
-    _pending(ig, ax, "Both official series leave the shared −10…+40 scale\n"
-             "in 2020: the register prints −20.3 and the population\n"
-             "balance −16.7. Drawn on their own scale in the panel below.")
-    _foot(p, ax, "Not a gap in the data — a scale the atlas has not widened")
+    ry, rv = _yr(ctx, M, "net_migration_registered_per_1000")
+    by, bv = _yr(ctx, M, "net_migration_residual_per_1000")
+    ctx.line(ax, ry, rv, p.BLUE, label="Register (meldunek)")
+    ctx.line(ax, by, bv, p.GOLD, label="Population balance")
+    ig.add_recessions(ax, label=False)
+    ax.legend(loc="lower left", fontsize=7.2, frameon=False)
+    _note(p, ax, 0.02, 0.96, "two official definitions: the register counts "
+          "meldunek\nregistrations, the balance is the population residual")
+    _foot(p, ax, "Eurostat migr_imm1ctz / migr_emi1ctz and demo_gind, per "
+          "1,000 residents")
 
     ax = ig.slot("migration.foreign_born", "Foreign-born share of the "
                  "population (%)")
