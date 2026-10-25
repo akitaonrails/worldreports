@@ -43,7 +43,7 @@ macro:
     refreshed_by: fetch/fetch_comparables.py
     notes: >-
       VERIFIED 2026-10-25. The independent agreement line for the ABS
-      national accounts, in calendar years. 2020 -2.07, 2022 +4.27
+      national accounts, in calendar years. 2020 -2.05, 2022 +4.20
       against the ABS -2.10 and +4.21: the two agree to a tenth of a
       point. The WEO projections beyond 2025 stay in the sidecar and are
       not committed here, so observed and projected years never share a
@@ -63,7 +63,7 @@ world:
       GDP per person (US$, current) and total reserves including gold
       (year-end, US$ billion). 2006-2025. Nominal dollars only: the real
       story is the growth panel and the two are never mixed. 2025 GDP
-      US$1,842bn and reserves US$65bn.
+      US$1,798bn and reserves US$72.6bn.
   hdi.csv:
     source: "UNDP Human Development Report 2025 — composite indices, complete time series"
     url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
@@ -272,7 +272,7 @@ people:
       the gap is visible. Gini points 0-100 (the ABS publishes the
       coefficient; it is multiplied by 100 here). 2019-20 = 32.4. The
       World Bank column is the harmonised series for the years it exists
-      (2006-2020, 33.7-34.3) and is drawn beside the national line, never
+      (2008-2020, 33.7-35.4) and is drawn beside the national line, never
       spliced: it is a different income concept and a different vintage.
   poverty.csv:
     source: "World Bank WDI — SI.POV.UMIC (poverty headcount at $4.20 a day, 2021 PPP)"
@@ -322,7 +322,7 @@ demography:
     refreshed_by: fetch/fetch_comparables.py
     notes: >-
       VERIFIED 2026-10-25. Children per woman, 2006-2024 (2025 not yet
-      published). 2006 1.88, 2024 1.48. The ABS publishes its own TFR in
+      published). 2006 1.91, 2024 1.48. The ABS publishes its own TFR in
       Births, Australia (cat. 3301.0) on a calendar-year basis; the two
       agree to about 0.02 and the World Bank is used because its SDMX-free
       JSON endpoint is the one that returned a full back-series from this
