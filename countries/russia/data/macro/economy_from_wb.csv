@@ -1,0 +1,26 @@
+# World Bank WDI, harmonised comparable layer for Russia. Growth, CPI
+# and unemployment are the World Bank's republication of Rosstat's own
+# indices (NY.GDP.MKTP.KD.ZG 2025 = 1.00, identical to Rosstat's own
+# 101.0 index); they ride beside the national line, never instead of it.
+# SL.UEM.TOTL.ZS is the ILO modelled estimate, not the LFS headline.
+year,gdp_growth_pct,cpi_inflation_pct,unemployment_pct,gfcf_pct_gdp,deflator_pct
+2006,8.20,9.67,7.055,18.50,15.12
+2007,8.50,9.01,6.002,21.00,13.84
+2008,5.20,14.11,6.205,22.29,18.01
+2009,-7.80,11.65,8.301,22.00,1.97
+2010,4.50,6.85,7.407,21.63,14.19
+2011,4.30,8.44,6.571,21.32,24.46
+2012,4.02,5.07,5.484,21.56,8.91
+2013,1.76,6.75,5.513,21.94,5.32
+2014,0.74,7.82,5.212,21.42,7.49
+2015,-1.97,15.53,5.615,20.61,7.25
+2016,0.19,7.04,5.591,21.88,2.84
+2017,1.83,3.68,5.238,21.98,5.35
+2018,2.81,2.88,4.871,20.65,10.00
+2019,2.20,4.47,4.513,20.90,3.26
+2020,-2.65,3.38,5.620,21.56,0.90
+2021,5.87,6.69,4.749,19.32,18.21
+2022,-1.44,13.74,3.867,20.12,18.23
+2023,4.07,5.87,3.076,22.10,6.66
+2024,4.92,8.43,2.430,22.43,10.65
+2025,1.00,8.72,2.133,23.09,4.85

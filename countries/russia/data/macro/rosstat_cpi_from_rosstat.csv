@@ -1,0 +1,27 @@
+# Rosstat, ipc_s_1992-2025.xlsx: consumer price index, all goods and
+# services, Russian Federation, previous year = 100, minus 100.
+# This is the December-to-December headline. The World Bank's
+# FP.CPI.TOTL.ZG is the ANNUAL AVERAGE change and differs every
+# year (2008: 13.28 here vs 14.11 there; 2015: 12.91 vs 15.53).
+# Fetched 2026-10-25, TLS mode: insecure.
+year,cpi_dec_pct
+2006,9.00
+2007,11.87
+2008,13.28
+2009,8.80
+2010,8.78
+2011,6.10
+2012,6.57
+2013,6.47
+2014,11.35
+2015,12.91
+2016,5.39
+2017,2.51
+2018,4.26
+2019,3.04
+2020,4.91
+2021,8.39
+2022,11.94
+2023,7.42
+2024,9.52
+2025,5.59

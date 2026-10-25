@@ -1,0 +1,22 @@
+# World Bank WDI as the UNODC/WHO carrier. Homicide (VC.IHR.PSRC.P5)
+# stops in 2021 and road deaths (SH.STA.TRAF.P5) in 2019: neither the
+# UNODC nor the WHO rows extend past those years for Russia, and the
+# national publishers are not machine-reachable (fedstat 403). The
+# holes are holes.
+year,homicide_per_100k,suicide_per_100k,road_deaths_per_100k
+2006,20.016,41.44,27.50
+2007,17.640,39.63,28.20
+2008,12.647,38.39,25.50
+2009,12.274,36.84,21.70
+2010,11.596,35.78,20.50
+2011,11.229,34.61,21.10
+2012,11.260,33.60,21.40
+2013,11.088,32.83,20.70
+2014,11.396,32.61,20.30
+2015,11.456,31.12,17.50
+2016,10.882,30.20,14.40
+2017,9.093,27.30,13.50
+2018,8.170,25.90,12.90
+2019,7.645,24.47,12.00
+2020,7.308,21.01,
+2021,6.765,21.37,

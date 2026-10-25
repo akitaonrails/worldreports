@@ -1,0 +1,27 @@
+# Rosstat, VVP_god_s1995-2025.xlsx: GDP at current prices (billion roubles), physical-volume index and GDP deflator, previous year = 100.
+# Growth and the deflator are the published index minus 100.
+# TERRITORY: from 2014 Rosstat includes Crimea and Sevastopol;
+# from 2022 the publisher's own footnote excludes the Donetsk and
+# Luhansk People's Republics and Zaporizhzhia and Kherson oblasts.
+# Fetched 2026-10-25, TLS mode: insecure.
+year,nominal_bn_rub,real_growth_pct,deflator_pct
+2006,26917.2,8.15,15.17
+2007,33247.5,8.54,13.80
+2008,41276.8,5.25,17.96
+2009,38807.2,-7.82,1.99
+2010,46308.5,4.50,14.19
+2011,55967.2,4.26,15.91
+2012,68103.4,4.02,8.91
+2013,72985.7,1.76,5.32
+2014,79030.0,0.74,7.49
+2015,83087.4,-1.97,7.25
+2016,85616.1,0.19,2.84
+2017,91843.2,1.83,5.35
+2018,103861.7,2.81,10.00
+2019,109608.3,2.20,3.26
+2020,107658.1,-2.65,0.90
+2021,134727.5,5.87,18.21
+2022,157001.4,-1.44,18.23
+2023,174265.7,4.07,6.66
+2024,202320.5,4.92,10.65
+2025,214261.0,1.00,4.85
