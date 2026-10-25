@@ -25,8 +25,8 @@
     "detail": "Tried and not usable: the IMF has no Ukraine household-debt series, the NBU's loan endpoint publishes monthly dimension slices whose mortgage and consumer components exceed their own total before 2016, its bank statistics carry provisions rather than a non-performing ratio, and data.gov.ua has no NPL dataset. The chapter stays unpublished rather than drawn from an inconsistent split."
    },
    {
-    "term": "Births, deaths, fertility and migration",
-    "detail": "Ukrstat publishes them to 2022, but the cached dataflow's dimension code list does not identify the total series unambiguously — incomplete definition research, not a missing publisher. The panels stay pending and say so."
+    "term": "Migration register flows",
+    "detail": "Gross immigration and emigration per 1,000 need the residence-register flow; Ukrstat's dataflow is cached but its dimension code list is not pinned, and UNHCR displacement is not a register flow. The chapter draws the UN net estimate to 2021, the foreign-born stock, and the wartime displacement in a labelled lens instead."
    },
    {
     "term": "Excess deaths and COVID-19 deaths",
@@ -86,8 +86,8 @@
     "detail": "Перевірено й непридатне: у МВФ немає ряду боргу домогосподарств України, кінцева точка кредитів НБУ публікує місячні зрізи, у яких іпотечна та споживча складові перевищують власний підсумок до 2016 року, банківська звітність містить резерви, а не частку непрацюючих кредитів, і на data.gov.ua набору NPL немає. Планка лишається неопублікованою, а не намальованою з неузгодженого поділу."
    },
    {
-    "term": "Народжуваність, смертність, фертильність і міграція",
-    "detail": "Укрстат публікує їх до 2022 року, але перелік кодів вимірів у кешованому наборі не визначає підсумковий ряд однозначно — це незавершене дослідження визначень, а не відсутній видавець."
+    "term": "Потоки міграційного реєстру",
+    "detail": "Валова імміграція та еміграція на 1 000 потребують потоку реєстру проживання; набір Укрстату є в кеші, але перелік кодів вимірів не закріплено, а переміщення УВКБ ООН не є потоком реєстру. Планка натомість малює оцінку сальдо ООН до 2021 року, запас народжених за кордоном і воєнне переміщення в підписаному лінзі."
    },
    {
     "term": "Надлишкова смертність і смерті від COVID-19",
@@ -147,8 +147,8 @@
     "detail": "Testado e inutilizável: o FMI não tem série de dívida das famílias da Ucrânia, o endpoint de crédito do NBU publica fatias mensais cujos componentes de hipoteca e consumo excedem o próprio total antes de 2016, as estatísticas bancárias trazem provisões e não um índice de inadimplência, e o data.gov.ua não tem conjunto de NPL. O capítulo fica não publicado em vez de desenhado a partir de uma divisão inconsistente."
    },
    {
-    "term": "Natalidade, mortalidade, fecundidade e migração",
-    "detail": "O Ukrstat publica esses dados até 2022, mas a lista de códigos de dimensão do conjunto em cache não identifica a série total de forma inequívoca — pesquisa de definição incompleta, não editor ausente."
+    "term": "Fluxos do registro de migração",
+    "detail": "Imigração e emigração brutas por 1.000 exigem o fluxo do registro de residência; o conjunto do Ukrstat está em cache, mas a lista de códigos de dimensão não está fixada, e o deslocamento do ACNUR não é um fluxo de registro. A prancha desenha a estimativa líquida da ONU até 2021, o estoque de nascidos no exterior e o deslocamento de guerra numa lente rotulada."
    },
    {
     "term": "Excesso de mortes e mortes por COVID-19",

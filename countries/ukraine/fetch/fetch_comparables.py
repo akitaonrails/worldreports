@@ -129,6 +129,10 @@ WANTED = [
      "suicide_per_100k", 2),
     ("security/security_from_wb.csv", "SH.STA.TRAF.P5",
      "road_deaths_per_100k", 2),
+    ("migration/net_migration_from_wb.csv", "SM.POP.NETM",
+     "net_migration", 0),
+    ("migration/migrant_stock_from_wb.csv", "SM.POP.TOTL",
+     "migrant_stock", 0),
 ]
 
 # The IMF fiscal block: one vintage (WEO October 2026) for every column,

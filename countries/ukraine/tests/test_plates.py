@@ -223,12 +223,63 @@ def test_the_death_rate_and_life_expectancy():
     assert num(m[2024], "life_expectancy") == pytest.approx(74.69, abs=0.01)
 
 
+# ---------------------------------------------------------------- spending
+def test_the_war_budget_by_function():
+    sp = by_year("spending/spending.csv")
+    gdp = by_year("macro/gdp_uah.csv")
+    total = num(sp[2023], "total") * 1e6 / num(gdp[2023], "gdp_uah") * 100
+    defence = num(sp[2023], "defence") * 1e6 / num(gdp[2023], "gdp_uah") * 100
+    assert total == pytest.approx(57.0, abs=0.3)
+    assert defence == pytest.approx(26.9, abs=0.2)
+    # The published total is the sum of the functions, and 0180 (the
+    # inter-budget transfer inside 0100) is not in the stack.
+    parts = sum(num(sp[2023], c) for c in (
+        "state_administration", "defence", "public_order", "economic_activity",
+        "environment", "housing", "health", "recreation", "education",
+        "social_protection"))
+    assert parts == pytest.approx(num(sp[2023], "total"), abs=2)
+
+
+def test_the_spending_scale_holds_the_war_budget():
+    from core import spine
+    slot = spine.SLOTS["spending.by_function"]
+    lo, hi = spine.fit(slot, (0, 55.4))[0]
+    assert (lo, hi) == slot.ref
+
+
+# --------------------------------------------------------------- migration
+def test_migration_keeps_the_war_out_of_the_comparable_slot():
+    m = by_year("migration/migration.csv")
+    pop = by_year("demography/population.csv")
+    per = {y: num(m[y], "net_migration") / num(pop[y], "population") * 1000
+           for y in m if m[y].get("population")}
+    # 2022 is the displacement shock and must stay well outside the
+    # canonical range; the plate draws it in the lens.
+    assert per[2022] == pytest.approx(-139, abs=2)
+    from core import spine
+    slot = spine.SLOTS["migration.net"]
+    assert per[2022] < slot.ref[0]
+    # The comparable line stops in 2021 by construction.
+    assert max(y for y in per if y <= 2021) == 2021
+
+
+def test_the_foreign_born_share_is_a_snapshot():
+    m = by_year("migration/migration.csv")
+    pop = by_year("demography/population.csv")
+    share = {y: num(m[y], "migrant_stock") / num(pop[y], "population") * 100
+             for y in m if m[y].get("migrant_stock")}
+    assert sorted(share) == [2010, 2015, 2020, 2024]
+    assert share[2010] == pytest.approx(10.4, abs=0.1)
+    assert share[2024] == pytest.approx(13.4, abs=0.1)
+
+
 # ------------------------------------------------------------- the cards
 def test_the_cards_read_the_committed_csvs():
     cards = {ch["id"]: ch for ch in sitebuild.chapters_for(Country.load(SLUG))}
     assert set(cards) == {
-        "01-economy", "02-fiscal", "03-trade", "04-markets", "05-people",
-        "06-world", "07-demography", "08-security", "09-mortality"}
+        "01-economy", "02-fiscal", "03-spending", "04-trade", "05-markets",
+        "06-people", "07-world", "08-demography", "09-security",
+        "10-mortality", "11-migration"}
     cpi = cards["01-economy"]["stats"][0]
     assert cpi["year"] == 2025
     e = by_year("macro/economy.csv")
