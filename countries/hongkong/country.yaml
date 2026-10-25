@@ -63,6 +63,7 @@ currency:
 palette:
   RED:     "#B02A26"
   RED_D:   "#8A1F1C"
+  NAVY:    "#1E3550"
   BLUE:    "#2F4B6E"
   BLUE_D:  "#22384F"
   GREEN:   "#2E6F51"
@@ -70,6 +71,7 @@ palette:
   GOLD:    "#B0801F"
   PURPLE:  "#655A93"
   TEAL:    "#13736F"
+  YELLOW:  "#C9A227"
   primary: "#B02A26"
   alert:   "#B02A26"
   ink:     "#1F2430"
@@ -80,6 +82,7 @@ palette:
   grid:    "#E7E4DD"
   spine:   "#C9C6BE"
   band:    "#EFECE5"
+  band_dark: "#E2DED5"
   series:  ["#B02A26", "#2F4B6E", "#2E6F51", "#B0801F", "#655A93", "#13736F", "#1F2430"]
   # Red field, the white flower, and the darker red of the petals' shadow.
   flag_bands: ["#B02A26", "#FBFAF7", "#8A1F1C"]
