@@ -186,6 +186,26 @@ definitional decisions that matter are:
    suicide (2021), road deaths (2019), bank NPL (2023), Gini (2023), the
    IMF revenue/expenditure lines (2024).
 
+## Correction made during the pass
+
+The first cut of `country.yaml`'s recession bands was written from memory of
+the crisis years and said "2008 Q3 – 2009 Q3", "2014 Q3 – 2016 Q4",
+"2020 Q2 – 2020 Q4" and "2022 Q2 – 2023 Q1". Staging the quarterly index
+(`macro/gdp_quarterly.csv`) showed three of the four were wrong:
+
+- the 2008 crisis run is **Q4 2008 – Q4 2009**, five quarters, not four;
+- there is **no negative quarter in 2014 after Q1**, so a band starting in
+  Q3 2014 would have drawn a recession during a year of +0.74% growth; the
+  run is **Q1 2015 – Q1 2016**;
+- COVID is **Q2 2020 – Q1 2021**, four quarters;
+- and the quarterly series **ends at 2021 Q4**, so the 2022 band cannot be
+  dated by quarter at all and is dated on the calendar year instead.
+
+The bands were re-dated on the staged vintage and the mistake is recorded
+here rather than quietly fixed, because it is exactly the failure
+`SOURCING_A_COUNTRY.md` describes: a plausible-looking band on a chart is
+a claim, and this one was not yet a claim about the country's data.
+
 ## Verification
 
 - **Gate** (2026-10-25, lane):
