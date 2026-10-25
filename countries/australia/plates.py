@@ -690,7 +690,7 @@ def plate_demography(ctx, ig) -> None:
     ax.annotate(f"{pk[1]:.1f} in {pk[0]}", pk, textcoords="offset points",
                 xytext=(0, 8), ha="center", fontsize=8.4, fontweight="bold",
                 color=p.BLUE)
-    _mark(ig, ax, "borders", dy=0.72)
+    _mark(ig, ax, "borders", dy=0.30)
     _foot(p, ax, "ABS births − deaths, and NOM net, each ÷ the 30 June "
           "population; NOM stops at its last final year")
     _finish(ctx, ig)
@@ -848,7 +848,7 @@ def plate_migration(ctx, ig) -> None:
     ax.annotate(f"{pk[1]:.1f} in {pk[0]}", pk, textcoords="offset points",
                 xytext=(0, 7), ha="center", fontsize=8.4, fontweight="bold",
                 color=p.GREEN)
-    _mark(ig, ax, "borders", dy=0.80)
+    _mark(ig, ax, "borders", dy=0.30)
     _foot(p, ax, "ABS NOM net ÷ 30 June population; the last final year is "
           "2024")
 
