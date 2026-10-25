@@ -1,0 +1,35 @@
+# Ministry of Finance, Приложение 3.1, sheet 'год': federal budget
+# EXPENDITURE by the national functional classification, BILLION
+# ROUBLES, cash basis, federal level only.
+# This is the Russian budget classification, NOT COFOG. The
+# workbook's own footnote states the classification applied in the
+# corresponding year; the sections changed in 2005 and again with
+# the 2013 programme-based reform, so a section's level is not
+# strictly comparable across the whole window.
+# health is section 2.9 'Здравоохранение и спорт', which bundles
+# sport until 2011 when sport became its own section 2.11;
+# physical_culture and media are separate sections from then on.
+# THE FUNCTIONAL BREAKDOWN STOPS IN 2021. Columns 2022-2025 are
+# empty in the publisher's annual workbook while the totals in
+# fiscal/federal_budget_from_minfin.csv continue to 2025: federal
+# budget spending by section has not been published since the
+# 2022 classification of budget data. The hole is the finding and
+# is not filled from any other source.
+# Fetched 2026-10-25.
+year,general_government,national_defence,security_law_order,national_economy,housing_utilities,environment,education,culture_media,media,health,social_policy,physical_culture,debt_service,interbudgetary
+2006,533.2,681.8,550.2,345.0,52.7,6.6,212.4,55.2,,147.5,201.2,,,1498.9
+2007,815.7,831.9,667.0,692.6,294.9,8.2,294.6,71.0,,196.5,214.0,,,1900.1
+2008,839.4,1040.9,835.6,1025.0,129.5,10.2,355.0,88.9,,278.2,293.6,,,2674.6
+2009,853.1,1188.2,1004.5,1650.7,151.6,13.0,418.0,111.7,,352.3,323.5,,,3593.4
+2010,887.9,1276.5,1085.4,1222.7,234.9,13.5,442.8,125.6,,347.4,344.9,,,4135.9
+2011,777.8,1516.0,1259.8,1790.2,279.8,17.6,553.4,83.8,61.1,499.6,3128.5,44.2,262.7,651.3
+2012,809.9,1812.4,1843.0,1968.5,228.8,22.5,603.8,89.9,77.5,613.8,3859.7,45.7,320.0,599.4
+2013,850.7,2103.6,2061.6,1849.3,177.5,24.3,672.3,94.8,77.3,502.0,3833.1,68.0,360.3,668.1
+2014,935.7,2479.1,2086.2,3062.9,119.6,46.4,638.3,97.8,74.8,535.5,3452.4,71.2,415.6,816.1
+2015,1117.6,3181.4,1965.6,2324.2,144.1,49.7,610.6,89.9,82.1,516.0,4265.3,73.0,518.7,682.0
+2016,1095.6,3775.3,1898.7,2302.1,72.2,63.1,597.8,87.3,76.6,506.3,4588.5,59.6,621.3,672.0
+2017,1162.4,2852.3,1918.0,2460.1,119.5,92.4,615.0,89.7,83.2,439.8,4992.0,96.1,709.2,790.7
+2018,1257.1,2827.0,1971.6,2402.1,148.8,116.0,722.6,94.9,88.4,537.3,4581.8,64.0,806.0,1095.4
+2019,1363.5,2997.4,2083.2,2827.1,282.2,197.6,826.5,122.4,103.5,713.0,4882.8,81.4,730.8,1003.1
+2020,1507.7,3168.8,2226.6,3483.9,371.5,260.6,956.9,144.5,121.1,1334.4,6990.3,75.3,784.2,1395.9
+2021,1759.5,3573.6,2335.9,4356.6,593.7,405.1,1064.4,146.7,114.0,1473.9,6675.8,70.9,1084.2,1107.7

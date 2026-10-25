@@ -1,0 +1,534 @@
+# Data provenance — every series Russia publishes here.
+#
+# Research pass 2026-10-25 (DISCOVERY.md is the record), curated 2026-10-25.
+# Each entry below names a curated CSV under data/, written by reviewing the
+# sidecar a fetch/*.py pulled; re-running a fetcher writes the
+# `*_from_*` sidecar again, never a curated file. Every endpoint was probed
+# live from the discovery network and its failure mode is recorded under
+# meta.pending when it did not answer.
+#
+# Two layers are kept apart throughout and never spliced:
+#   · the NATIONAL layer — Rosstat, the Bank of Russia and the Ministry of
+#     Finance, in roubles, on the territorial and accounting definitions
+#     those institutions use;
+#   · the HARMONISED layer — World Bank, IMF, BIS, UNDP — which is what
+#     makes Russia legible beside the other countries, and which is a
+#     republication or a different computation, not the national number.
+#
+# TERRITORIAL SCOPE, the largest seam in this country's data. Rosstat
+# includes Crimea and Sevastopol from 2014 (their population is about
+# 2.3m); from 2022 the publisher's own footnote excludes the Donetsk and
+# Luhansk People's Republics and Zaporizhzhia and Kherson oblasts. The
+# World Bank and the UN do not reproduce the 2014 step. Every series below
+# says which perimeter it is on, and no line crosses the seam.
+
+macro:
+  gdp.csv:
+    source: "Rosstat — VVP_god_s1995-2025.xlsx (GDP at current prices, physical-volume index, GDP deflator)"
+    url: "https://rosstat.gov.ru/storage/mediabank/VVP_god_s1995-2025.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_rosstat.py
+    notes: >-
+      VERIFIED 2026-10-25. Nominal GDP billion roubles, real growth % and
+      the GDP deflator %, all from the computing institution's own annual
+      workbook. Growth and deflator are the published index (previous year
+      = 100) minus 100. Anchors: 2006 nominal 26,917.2; 2009 growth -7.82;
+      2015 -1.97; 2022 -1.44; 2025 +1.00 on a nominal 214,261.0bn.
+      TERRITORY: includes Crimea and Sevastopol from 2014; from 2022 the
+      publisher's footnote 2) excludes the four annexed oblasts, so 2022+
+      is a narrower perimeter than 2015-2021 and the level is comparable
+      as a growth rate only within that split. The World Bank's growth
+      series in macro/economy.csv agrees to two decimals because it is
+      this series, republished.
+  cpi.csv:
+    source: "Rosstat — ipc_s_1992-2025.xlsx (CPI, all goods and services, Russian Federation)"
+    url: "https://rosstat.gov.ru/storage/mediabank/ipc_s_1992-2025.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_rosstat.py
+    notes: >-
+      VERIFIED 2026-10-25. The HEADLINE December-to-December change:
+      2008 = 13.28%, 2015 = 12.91%, 2022 = 11.94%, 2025 = 5.59%.
+      DEFINITION TRAP: the World Bank's FP.CPI.TOTL.ZG in macro/economy.csv
+      is the ANNUAL AVERAGE change and is higher every year (2008 = 14.11,
+      2015 = 15.53). Both are correct and both are published; they are two
+      columns on the economy plate, never one line.
+  gdp_quarterly.csv:
+    source: "Rosstat — VVP_kvartal_s-1995-2026.xlsx, sheets 11 and 12 (quarterly physical-volume index of GDP)"
+    url: "https://rosstat.gov.ru/storage/mediabank/VVP_kvartal_s-1995-2026.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_rosstat.py
+    notes: >-
+      VERIFIED 2026-10-25. The quarterly physical-volume index, previous
+      year's quarter = 100, minus 100: a YEAR-ON-YEAR rate, not
+      quarter-on-quarter. Anchors: 2008 Q4 = -1.32, 2009 Q2 = -11.15 (the
+      crisis trough), 2020 Q2 = -7.32. 64 quarters, 2006 Q1 to 2021 Q4 —
+      THE SERIES ENDS THERE because Rosstat stopped publishing the
+      quarterly breakdown. 2022+ quarters are absent, which is why the 2022
+      recession band is dated on the annual index instead. This file is
+      what dates the bands in country.yaml.
+  economy.csv:
+    source: "World Bank WDI — NY.GDP.MKTP.KD.ZG, FP.CPI.TOTL.ZG, SL.UEM.TOTL.ZS, NE.GDI.FTOT.ZS, NY.GDP.DEFL.KD.ZG"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/NY.GDP.MKTP.KD.ZG?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25, the harmonised comparison layer. Growth is
+      Rosstat republished (2022 -1.44 on both, 2025 +1.00 on both). CPI is
+      the annual average — see cpi.csv. Unemployment is the ILO MODELLED
+      estimate (2009 8.30, 2025 2.13), not the Russian LFS headline, and is
+      labelled as modelled on the plate. GFCF 2022 = 20.12% of GDP.
+world:
+  gdp_usd.csv:
+    source: "World Bank WDI — NY.GDP.MKTP.CD"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/NY.GDP.MKTP.CD?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25, current US$. 2013 = US$2,292.5bn (the pre-2014
+      peak), 2015 = US$1,363.5bn (the rouble's halving), 2022 = US$2,292.5bn
+      and 2025 = US$2,561.3bn. The rouble value moves with the exchange
+      rate: the 2015 collapse is nominal, and the real story is on the
+      growth panel. The two are never mixed.
+  gdp_per_person.csv:
+    source: "World Bank WDI — NY.GDP.PCAP.CD"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/NY.GDP.PCAP.CD?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25, current US$, 2025 = US$17,546.6. The
+      denominator is the UN population in demography/population_wb.csv,
+      which does not carry the 2014 territorial step — so this is GDP per
+      resident on the UN perimeter, not per person on Rosstat's.
+  reserves.csv:
+    source: "World Bank WDI — FI.RES.TOTL.CD"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/FI.RES.TOTL.CD?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25, year-end, current US$ including gold.
+      2024 = US$608.4bn. About half the stock was immobilised by sanctions
+      in 2022 — the level is the Bank of Russia's reported reserves, and
+      the usable part is not published. The BoR's own monthly series
+      answers and is a fetch away; this is the comparable line the spine
+      names.
+  hdi.csv:
+    source: "UNDP Human Development Report 2025 — HDI time series"
+    url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
+    official: true
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25, one vintage (HDR 2025) throughout — the HDR
+      recomputes the whole back-series at each methodology change, so a
+      mixed vintage would be a splice. 2006 = 0.791, 2019 = 0.847,
+      2020 = 0.818, 2023 = 0.832. Covers 2006-2023; 2024-25 are not yet
+      published.
+
+fiscal:
+  fiscal.csv:
+    source: "IMF WEO (October 2026 vintage), general government — rev, exp, GGXCNL_NGDP, pb, ie, GGXWDG_NGDP"
+    url: "https://www.imf.org/external/datamapper/api/v1/rev/RUS"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25. One vintage for all six columns. Observed:
+      revenue 2024 = 35.27% of GDP, expenditure 2024 = 36.87%, overall
+      balance 2023 = -2.20%, interest 2024 = 1.19%, gross debt 2020 =
+      19.20% (the COVID peak) and 2024 = 14.80%. Revenue and expenditure
+      stop at 2024 in this vintage; 2025 carries only the balance (-3.90)
+      and debt (16.60), and 2026 is a WEO projection in `_proj` columns.
+      DEFINITION: accrual, consolidated GENERAL GOVERNMENT. Not the federal
+      budget — see federal_budget.csv; the two are drawn as two lines.
+  federal_budget.csv:
+    source: "Ministry of Finance of the Russian Federation — Приложение 3.1, federal budget execution"
+    url: "https://minfin.gov.ru/common/upload/library/2026/05/main/Prilozhenie_3_dannye_109-111_%E2%80%94_god.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_minfin.py
+    notes: >-
+      VERIFIED 2026-10-25. Federal budget, CASH basis, FEDERAL level only,
+      billion roubles. Anchors: 2006 revenue 6,278.9; 2023 revenue
+      29,124.0, expenditure 32,353.8, deficit -3,229.8; 2024 revenue
+      36,708.6, expenditure 40,180.5, deficit -3,471.9; 2025 revenue
+      37,283.8, expenditure 42,910.3, deficit -5,626.5. Oil and gas revenue
+      is its own column, and the non-oil-and-gas deficit (2025: -14,103.4)
+      is the number the Ministry leads with. No regional budgets, no state
+      social funds, no accrual: this is NOT the general-government line in
+      fiscal.csv and is never spliced into it.
+
+spending:
+  budget_function.csv:
+    source: "Ministry of Finance — federal budget expenditure by the national functional classification"
+    url: "https://minfin.gov.ru/common/upload/library/2026/05/main/Prilozhenie_3_dannye_109-111_%E2%80%94_god.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_minfin.py
+    notes: >-
+      VERIFIED 2026-10-25. Fourteen sections of the Russian budget
+      classification, billion roubles, cash basis, federal level, 2006-2021.
+      THE BREAKDOWN STOPS IN 2021: the publisher's annual workbook has no
+      section detail for 2022-2025 while the totals continue to 2025 —
+      federal spending by section has not been published since the 2022
+      classification of budget data. The hole is the finding.
+      NOT COFOG. The mapping onto the spine's seven groups is in
+      DATA_NOTES.md and is approximate.
+      THE 2013 SPLIT: the classification was reorganised with the 2013
+      programme-based reform, so before 2013 three combined sections carry
+      the money ('Культура, кинематография и СМИ', 'Здравоохранение и
+      спорт', 'Межбюджетные трансферты') and after it their sub-rows do.
+      Each column is built from the label the publisher filled in that
+      year, which keeps 2006 and 2021 measuring the same thing. Health
+      therefore bundles sport before 2013, and culture_media excludes media
+      from 2013 (media is its own column). RECONCILED: the fourteen
+      sections sum to the published expenditure total within 0.2bn in every
+      year 2006-2021, asserted on every fetch.
+
+trade:
+  trade.csv:
+    source: "World Bank WDI — NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS (goods and services, national accounts)"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/NE.EXP.GNFS.ZS?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: 2022 exports 27.5% of GDP on the goods-and-
+      services national-accounts basis. This is NOT the customs series.
+      Russia suspended its detailed customs statistics in 2022, and the
+      Federal Customs Service host does not connect from this network
+      (meta.pending), so the goods-only cut and the partner breakdown are
+      not on the canonical slot. UN Comtrade returns no Russian rows for
+      2022-2023 either (meta.pending). The balance is derived from the same
+      two series on the plate, never from a second publisher.
+
+markets:
+  key_rate.csv:
+    source: "Bank of Russia — key rate history (daily)"
+    url: "https://www.cbr.ru/hd_base/KeyRate/"
+    official: true
+    refreshed_by: fetch/fetch_cbr.py
+    notes: >-
+      VERIFIED 2026-10-25 against the daily rows. The key rate begins on
+      13.09.2013, so the series starts in 2013 and 2006-2012 are a hole
+      rather than an extension backwards onto the refinancing rate.
+      key_rate_pct is the MEAN of the daily values (2013 5.50, 2022 10.55,
+      2024 17.54, 2025 19.13); key_rate_pct_peak is the highest single day
+      and is the number the story is about: 20.00% on 28.02.2022, from
+      9.50% the day before, three weeks long.
+  usd_rub.csv:
+    source: "Bank of Russia — XML_dynamic, VAL_NM_RQ=R01235 (USD)"
+    url: "https://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=01.01.2006&date_req2=31.12.2026&VAL_NM_RQ=R01235"
+    official: true
+    refreshed_by: fetch/fetch_cbr.py
+    notes: >-
+      VERIFIED 2026-10-25: 2006 mean 27.14, 2014 38.60 (the December 2014
+      collapse), 2015 61.32, 2022 68.35, 2025 83.21. Per ONE dollar; the
+      feed's Nominal multiplier is applied. From 28.02.2022 capital
+      controls made this a fixed official rate rather than a market price
+      for part of the year — said on the plate.
+  ofz_10y.csv:
+    source: "Bank of Russia — OFZ zero-coupon yield curve, 10-year tenor"
+    url: "https://www.cbr.ru/hd_base/zcyc_params/"
+    official: true
+    refreshed_by: fetch/fetch_cbr.py
+    notes: >-
+      VERIFIED 2026-10-25. The Bank of Russia's own model estimate of the
+      zero-coupon curve from OFZ market prices, daily, annual mean; the
+      10-year tenor. 2023 = 11.27, 2024 = 14.55, 2025 = 14.92. The
+      publisher answers a multi-year query with an empty page, so the
+      fetcher asks one year at a time (recorded in the fetcher).
+  imoex.csv:
+    source: "Moscow Exchange ISS API — IMOEX (MOEX Russia Index)"
+    url: "https://iss.moex.com/iss/history/engines/stock/markets/index/securities/IMOEX.json"
+    official: false
+    refreshed_by: fetch/fetch_moex.py
+    notes: >-
+      VERIFIED 2026-10-25. A STOCK INDEX IS A MARKET SERIES: it is flagged
+      official: false even though the exchange that computes it serves it
+      (SOURCING_A_COUNTRY.md §5). Annual mean of daily closes, 2021 =
+      3,762.9, 2022 = 2,452.2, 2025 = 2,837.6. imoex_usd_avg divides by the
+      same annual mean rate as usd_rub.csv, so the two panels agree.
+      Equities were suspended 25.02.2022-24.03.2022: 235 sessions in 2022
+      against ~250 in a normal year, and the panel draws the gap.
+
+credit:
+  household_debt.csv:
+    source: "BIS total credit statistics — WS_TC, Q.RU.H.A.M.770.A (credit to households and NPISHs, % of GDP)"
+    url: "https://stats.bis.org/api/v1/data/WS_TC/Q.RU.H.A.M.770.A?format=csv"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25, year-end (Q4) reading of a quarterly series:
+      2006 = 8.2% of GDP, 2020 = 22.0% (the COVID peak), 2024 = 21.5%,
+      2025 = 21.1%. Break-adjusted by the BIS. The underlying national
+      aggregate is the Bank of Russia's, which publishes it monthly; the
+      BIS series is the one comparable across countries, which is what the
+      spine's slot 1 asks for.
+  household_lending_rate.csv:
+    source: "Bank of Russia — weighted-average rate on new rouble loans to individuals"
+    url: "https://www.cbr.ru/vfs/statistics/pdko/int_rat/loans_ind_new.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_cbr.py
+    notes: >-
+      VERIFIED 2026-10-25. Monthly weighted-average rate on NEW rouble
+      loans to individuals, all maturities, annual mean: 2014 = 18.27,
+      2015 = 20.23 (the post-crisis peak), 2024 = 17.54. The workbook
+      starts in January 2014, so 2006-2013 are a hole. Mortgage-only and
+      consumer-only cuts are in the same file and are not this column.
+  npl.csv:
+    source: "World Bank WDI — FB.AST.NPER.ZS (bank non-performing loans to total gross loans)"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/FB.AST.NPER.ZS?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: 2009 = 9.58% (the crisis peak), 2017 = 9.66%
+      (the retail-lending clean-up), 2023 = 4.51%. The series stops in 2023
+      — the World Bank/IMF Financial Soundness indicator has no 2024-25
+      Russian row. The Bank of Russia publishes an overdue-loan ratio only
+      as per-month workbooks (thousands of files) and in its annual
+      bulletin, which is not staged; the hole is recorded, not filled.
+
+people:
+  gini.csv:
+    source: "World Bank WDI — SI.POV.GINI"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/SI.POV.GINI?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: household-survey Gini, 0-100, 2006 = 41.5,
+      2023 = 33.0. The series stops in 2023. Rosstat's own Gini is
+      published in its 'Уровень жизни' release, not in a machine-readable
+      workbook reachable from this network.
+  poverty.csv:
+    source: "World Bank WDI — SI.POV.NAHC (national poverty line) and SI.POV.UMIC"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/SI.POV.NAHC?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25. poverty_national_pct is the share of people
+      below Russia's own poverty line: 2006 = 15.2%, 2015 = 13.5%,
+      2024 = 7.2%. poverty_umic_pct is the upper-middle-income line:
+      2023 = 0.9%. Two definitions, two columns, never one line; the
+      national definition is the one Russian policy targets.
+
+demography:
+  population.csv:
+    source: "Rosstat — popul_1897+.xlsx (population, million people, annual)"
+    url: "https://rosstat.gov.ru/storage/mediabank/popul_1897+.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_rosstat.py
+    notes: >-
+      VERIFIED 2026-10-25, million people, one decimal as published:
+      2014 = 144.0, 2015 = 146.7, 2025 = 146.1. TERRITORY: the +2.7m step
+      between 2014 and 2015 is the annexation of Crimea and Sevastopol
+      (about 2.3m) plus natural and migration change — a perimeter change,
+      not a demographic event, and annotated on the plate. The one-decimal
+      precision limits a per-1,000 rate to about 0.07%, which is stated.
+  population_wb.csv:
+    source: "World Bank WDI — SP.POP.TOTL (UN World Population Prospects)"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/SP.POP.TOTL?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25, mid-year de-facto total on the UN perimeter:
+      2014 = 144,237,223 and 2015 = 144,640,716 — a 0.4m step where Rosstat
+      has 2.7m. From 2015 the two lines differ by 2.3-2.7m; the gap is
+      territory plus the 2020-census rebase and is never spliced.
+  components.csv:
+    source: "Rosstat — Popul components_1990+.xlsx (population change and its components)"
+    url: "https://rosstat.gov.ru/storage/mediabank/Popul%20components_1990+.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_rosstat.py
+    notes: >-
+      VERIFIED 2026-10-25. Thousand people: the 1 January stock, the year's
+      total, natural and migration change, and the 31 December stock. This
+      is the publisher's denominator for its own per-1,000 rates, and it is
+      NOT the same vintage as population.csv: at the 2020-census rebase the
+      closing stock goes from 145,557.5 (2021) to 146,980.1 (2022), +1.4m
+      of revision in one step. Rates are computed inside this file, never
+      across it and population.csv. 2014 is blank in the component columns
+      because the publisher suppressed them in the year the territory
+      changed — a hole, not a zero.
+  fertility.csv:
+    source: "World Bank WDI — SP.DYN.TFRT.IN (UN WPP)"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/SP.DYN.TFRT.IN?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: 2006 = 1.31, 2015 = 1.78 (the pro-natalist peak),
+      2024 = 1.42. Covers 2006-2024.
+  vitals.csv:
+    source: "World Bank WDI — SP.DYN.CBRT.IN, SP.DYN.CDRT.IN (UN WPP)"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/SP.DYN.CBRT.IN?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: crude birth rate per 1,000 2024 = 8.4, crude
+      death rate 2024 = 12.4. The national births-and-deaths counts are
+      published by Rosstat in per-year releases (RSm-edn.xlsx is a single
+      year, not a series) and in EMISS, which is blocked; these are the
+      harmonised rates on the UN perimeter.
+
+mortality:
+  mortality.csv:
+    source: "World Bank WDI — SP.DYN.CDRT.IN, SP.DYN.LE00.IN (UN WPP)"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/SP.DYN.CDRT.IN?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: crude death rate per 1,000 and life expectancy
+      at birth. 2006 = 15.2 deaths and 66.7 years; 2021 = 16.7 and 69.4
+      (the COVID years, on the UN's modelling); 2024 = 12.4 and 73.4.
+      Excess deaths need the registered-death COUNTS, which are not in the
+      machine-readable layer reachable here (meta.pending).
+
+security:
+  security.csv:
+    source: "UNODC and WHO via the World Bank — VC.IHR.PSRC.P5, SH.STA.SUIC.P5, SH.STA.TRAF.P5"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/VC.IHR.PSRC.P5?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: homicide 20.0 per 100,000 in 2006 to 6.8 in
+      2021; suicide 41.4 to 21.4; road deaths 27.5 in 2006 to 12.0 in 2019.
+      Every series STOPS before the war: homicide and suicide in 2021, road
+      deaths in 2019. The national publishers (MVD, Rosstat's cause-of-
+      death tables) are not machine-reachable from here, and no post-2021
+      count is invented.
+
+migration:
+  net_migration.csv:
+    source: "World Bank WDI — SM.POP.NETM (UN WPP, modelled)"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/SM.POP.NETM?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: modelled net migration, persons. 2022 = +202,383
+      and 2025 = -251,822 — a MODELLED series, not a register. Rosstat's own
+      migration totals (Itog_migr_1990-2023.xlsx) run to 2023 and are a
+      different object: arrivals and departures counted by the interior
+      ministry's registration system, whose coverage of emigration is known
+      to be weak. They are not staged as a second column because their
+      definitional gap from the modelled series is larger than the signal.
+  migrant_stock.csv:
+    source: "World Bank WDI — SM.POP.TOTL (UN DESA migrant stock)"
+    url: "https://api.worldbank.org/v2/country/RUS/indicator/SM.POP.TOTL?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25. A SNAPSHOT series — 2010, 2015, 2020, 2024 only,
+      2024 = 7,605,774 — never interpolated between its points. Foreign-born
+      stock, not foreign citizens: the two cuts differ by naturalisation and
+      Rosstat publishes neither as a machine-readable series here.
+
+meta:
+  pending:
+    - name: EMISS / fedstat — the whole machine-readable indicator registry
+      publisher: Unified Interdepartmental Statistical Information System (Rosstat)
+      url: https://fedstat.ru/
+      official: true
+      notes: >-
+        Routes tried 2026-10-25: https://fedstat.ru/, https://www.fedstat.ru/
+        and https://fedstat.ru/indicator/31572 all answered HTTP 403 with an
+        80-byte body. This is the SDMX-like layer over Rosstat's indicator
+        registry and the one route that would give a tidy series per
+        indicator instead of a workbook per topic. The underlying numbers
+        are not lost — Rosstat's own workbooks carry them and are staged —
+        but the per-indicator metadata and the clean series shape are.
+        Unblocks: the labour-force unemployment line, births and deaths
+        counts, causes of death, and the regional cuts.
+    - name: data.gov.ru — the open-data portal
+      publisher: Ministry of Digital Development (data.gov.ru)
+      url: https://data.gov.ru/
+      official: true
+      notes: >-
+        HTTP 000 on 2026-10-25 over both http and https: no TCP connection,
+        no TLS error, no bytes — no route from this network, not a 403.
+        Would carry Rosstat and ministry datasets in CSV/JSON.
+    - name: Federal Customs Service — foreign trade statistics
+      publisher: Federal Customs Service of the Russian Federation
+      url: https://customs.gov.ru/statistic
+      official: true
+      notes: >-
+        HTTP 000 on 2026-10-25 (root and /statistic): no connection. This
+        compounds a PUBLISHED gap: Russia suspended detailed foreign-trade
+        statistics in 2022 and has not resumed them, so even an unblocked
+        host would carry a truncated series. The customs-basis goods cut and
+        the partner breakdown are therefore not on the canonical trade slot;
+        the national-accounts goods-and-services series is.
+    - name: UN Comtrade — Russian reporter rows 2022-2023
+      publisher: United Nations Statistics Division
+      url: https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=643&period=2023&cmdCode=TOTAL&flowCode=X
+      official: false
+      notes: >-
+        Probed 2026-10-25: HTTP 200 but {"count": 0, "data": []} for
+        reporter 643 in 2022 and 2023. Russia is not reporting to Comtrade
+        in the sanctions window. That is an absence in the source, not an
+        access failure, and the trade-by-partner panel stays pending with
+        this note.
+    - name: Trade by partner (canonical trade slot 3)
+      publisher: Federal Customs Service; UN Comtrade
+      url: https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=643
+      official: true
+      notes: >-
+        Both official routes probed and both empty: the customs host does not
+        connect (000) and its data were suspended in 2022; Comtrade returns
+        no Russian rows for 2022-2023. Rosstat's own foreign-trade page
+        answers and publishes an annual aggregate workbook, but its
+        per-partner table is the FCS's data republished and is not staged
+        pending a definition check against the FCS's suspension. The slot is
+        visibly pending rather than filled from a redistributor.
+    - name: Transparency International — Corruption Perceptions Index
+      publisher: Transparency International
+      url: https://images.transparencycdn.org/images/CPI2025-Results-and-trends.xlsx
+      official: false
+      notes: >-
+        HTTP 403 (251 bytes) from images.transparencycdn.org and HTTP 403
+        from www.transparency.org/en/cpi/2025 on 2026-10-25 — the same block
+        the Ukraine lane recorded on 2026-10-24, so it is a network
+        condition rather than a dead endpoint. Russia is scored in the index
+        (it is not excluded), so the world plate's slot 3 is a fillable gap
+        once the file is reachable; it is not filled from a republication.
+    - name: WHO / national COVID-19 deaths and excess-death counts
+      publisher: World Health Organization; Rosstat
+      url: https://ghoapi.azureedge.net/api/Indicator
+      official: true
+      notes: >-
+        The GHO indicator catalogue answers but carries no general COVID-19
+        death indicator for Russia (only in-prison diagnosis and mortality),
+        verified by the Ukraine lane on 2026-10-25 and re-checked here. Rosstat
+        publishes COVID-19 deaths as a monthly operational figure and in its
+        annual cause-of-death tables, neither of which is in a workbook this
+        network can reach (EMISS 403). Excess deaths need the registered-death
+        COUNTS; the crude rate in mortality.csv is a rate, not a count, and
+        subtracting rates would mix two denominators.
+    - name: Statutory minimum wage (МРОТ)
+      publisher: Ministry of Labour and Social Protection; federal law
+      url: https://mintrud.gov.ru/opendata
+      official: true
+      notes: >-
+        INCOMPLETE RESEARCH, not absence. The МРОТ exists and is set annually
+        by federal law (the figure for 2026 is published in the law, not in a
+        statistical API). mintrud.gov.ru/opendata answered 200 on 2026-10-25
+        and no machine-readable МРОТ time series was located there in this
+        pass; Rosstat publishes the AVERAGE wage, which is a different thing
+        and is not staged. The people plate's slot 3 stays pending until the
+        statutory series is built from the laws and converted with the staged
+        annual FX.
+    - name: Federal spending by function, 2022-2025
+      publisher: Ministry of Finance
+      url: https://minfin.gov.ru/common/upload/library/2026/05/main/Prilozhenie_3_dannye_109-111_%E2%80%94_god.xlsx
+      official: true
+      notes: >-
+        Not an access failure: the publisher's own annual workbook answered
+        200 and is staged, but its functional section detail stops at 2021
+        and the 2022-2025 columns are empty while the budget totals continue.
+        Federal spending by section has not been published since the 2022
+        classification of budget data. The spending plate's sections
+        therefore end in 2021; the holes are drawn as holes.
+    - name: Unemployment on the Russian labour-force survey
+      publisher: Rosstat
+      url: https://rosstat.gov.ru/labour_force
+      official: true
+      notes: >-
+        The national LFS line is NOT the series staged. rosstat.gov.ru/
+        labour_force answered 200 on 2026-10-25 and carries the survey
+        results in its own workbooks; the canonical economy slot uses the
+        ILO MODELLED estimate from the World Bank (labelled as modelled), and
+        the national line is a Phase-B follow-up from that page. Recorded so
+        that nobody reads the modelled series as the LFS headline.

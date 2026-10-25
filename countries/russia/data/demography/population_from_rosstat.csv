@@ -1,0 +1,27 @@
+# Rosstat, popul_1897+.xlsx: population, million people,
+# annual, as published to one decimal.
+# INCLUDES Crimea and Sevastopol from 2014 (the 144.0 -> 146.7
+# step). The World Bank/UN series does not reproduce that step,
+# so the two lines differ by 2.3-2.7m from 2015 and are never
+# spliced. Fetched 2026-10-25, TLS mode: insecure.
+year,population_mn
+2006,143.2
+2007,142.8
+2008,142.8
+2009,142.7
+2010,142.9
+2011,142.9
+2012,143.2
+2013,143.6
+2014,144.0
+2015,146.7
+2016,147.2
+2017,147.6
+2018,147.8
+2019,147.8
+2020,147.9
+2021,147.4
+2022,147.0
+2023,146.4
+2024,146.1
+2025,146.1

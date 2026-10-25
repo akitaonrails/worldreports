@@ -1,0 +1,32 @@
+# CURATED 2026-10-25 by reviewing the sidecar markets/imoex_from_moex.csv (re-run the fetcher named in SOURCES.yaml to refresh it).
+# Moscow Exchange ISS, IMOEX (MOEX Russia Index, rouble), daily
+# closes, annual MEAN. NOT an official statistic: a stock index is a
+# market series (SOURCING_A_COUNTRY.md §5), flagged official: false
+# in SOURCES.yaml.
+# imoex_usd_avg divides the rouble mean by the Bank of Russia's
+# annual mean official rate in markets/usd_rub_from_cbr.csv, one
+# rate for both panels.
+# Equities were suspended 25.02.2022 - 24.03.2022: no observations,
+# drawn as a gap.
+year,imoex_rub_avg,imoex_usd_avg
+2006,1375.1,50.7
+2007,1720.4,67.3
+2008,1355.4,54.5
+2009,1028.3,32.4
+2010,1436.2,47.3
+2011,1602.6,54.5
+2012,1452.8,46.8
+2013,1440.6,45.2
+2014,1428.9,37.0
+2015,1685.2,27.5
+2016,1934.6,28.9
+2017,2039.6,35.0
+2018,2314.4,36.8
+2019,2690.1,41.6
+2020,2875.1,39.8
+2021,3762.9,51.1
+2022,2452.2,35.9
+2023,2791.4,32.5
+2024,3012.6,32.5
+2025,2837.6,34.1
+2026,2515.0,31.9

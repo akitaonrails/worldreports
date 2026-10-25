@@ -1,0 +1,26 @@
+# World Bank WDI NE.EXP.GNFS.ZS / NE.IMP.GNFS.ZS: goods AND services,
+# national-accounts basis, % of GDP. This is not the customs series.
+# Russia stopped publishing detailed customs statistics in 2022, so the
+# goods-only cut is not on the canonical slot; the BoP/national-accounts
+# basis is, and it is the one the spine names.
+year,exports_pct_gdp,imports_pct_gdp
+2006,33.73,21.00
+2007,30.16,21.54
+2008,31.31,22.07
+2009,27.94,20.50
+2010,29.22,21.14
+2011,28.06,19.98
+2012,26.91,20.24
+2013,25.85,20.44
+2014,27.11,20.69
+2015,28.70,20.66
+2016,25.85,20.66
+2017,26.09,20.79
+2018,30.79,20.79
+2019,28.43,20.80
+2020,25.52,20.44
+2021,30.00,20.58
+2022,27.71,15.06
+2023,22.77,18.57
+2024,21.86,17.56
+2025,18.20,15.51

@@ -1,0 +1,172 @@
+# Russia. Queued as #7 of the 2026-10-25 batch. The case the queue
+# predicted and did not quite get: Rosstat is NOT geo-blocked from this
+# network (its TLS chain is signed by a Russian root, so verification
+# fails and plain `https` reports nothing), while fedstat.ru answers 403
+# and data.gov.ru and customs.gov.ru do not connect at all. The national
+# statistical layer is therefore staged from Rosstat's own workbooks, and
+# the rest of the atlas is the harmonised layer: World Bank, IMF, BIS,
+# UN Comtrade, UNDP. Since 2022 several series stop or are restricted —
+# every stop is recorded as a gap in SOURCES.yaml and never filled.
+slug: russia
+flag_emoji: "🇷🇺"
+wordmark: Russia
+name:
+  en: "Russia"
+  fr: "Russie"
+  pt: "Rússia"
+  es: "Rusia"
+  ko: "러시아"
+  it: "Russia"
+  he: "רוסיה"
+  ja: "ロシア"
+  zh-Hans: "俄罗斯"
+  zh-Hant: "俄羅斯"
+  vi: "Nga"
+  de: "Russland"
+  uk: "Росія"
+  pl: "Rosja"
+  ru: "Россия"
+
+locales:
+  - {code: ru, html_lang: ru,    og_locale: ru_RU, endonym: Русский}
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete. Rosstat's annual national accounts run to 2025
+# (VVP_god_s1995-2025.xlsx, published 2026), the federal budget execution
+# to 2025, and the harmonised layer (World Bank WDI, IMF WEO October 2026
+# vintage) carries observed values to 2024-2025. 2025 is the last complete
+# calendar year; 2026 is partial everywhere and is drawn as a partial.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+# On the plate spine (PLATE_SPINE.md): every plate declares its topic and
+# draws its panels in the shared slots, units and scales.
+spine: true
+
+# SHARED-SCALE CONFLICTS (AGENTS.md: the atlas-wide range lives in
+# core/spine.py and is changed there, regenerating every country carrying
+# the topic — never overridden in country code). Checked against the staged
+# CSVs when the plates were drawn, not assumed:
+#   economy.inflation  ref −5..+225: fits. Rosstat's headline peaks at
+#     15.5% on the World Bank's annual average (2015) and 13.3% on its own
+#     December-to-December line (2008); the 1990s are outside this window.
+#   markets.policy_rate ref −5..+225: the 2022 emergency rate of 20.0%
+#     (28 February 2022) and the 21.0% of 2024-25 fit; the annual mean for
+#     2022 is 10.6% because the peak lasted three weeks.
+#   people.poverty ref 0..80: fits.
+#   demography.population ref 75..150 as index 2006 = 100: Rosstat's 2025
+#     population is 102 of 2006 (Crimea counted from 2014) and the UN
+#     series is 100 — inside the range either way.
+# TWO SLOTS DO NOT FIT, and neither is widened here:
+#   fiscal.balance ref −35..+8: the IMF general-government primary balance
+#     is +8.49% of GDP in 2006. The plate draws the bars and the labelled
+#     federal line, and states the primary balance in the foot.
+#   security.suicide ref 0..40: the suicide rate is 41.44 per 100,000 in
+#     2006. The canonical line starts in 2007 and the 2006 reading is drawn
+#     in the chapter's lens, which has its own scale, and named on the
+#     panel.
+# Both are core needs reported from the lane: one edit in core/spine.py
+# (to +10 and 45) plus a regeneration of every country carrying the two
+# topics. See DATA_NOTES.md §15.
+
+# Bands drawn behind the data. The dating is on the staged quarterly GDP
+# physical-volume index (Rosstat VVP_kvartal_s-1995-2026.xlsx, sheets 11
+# and 12, data/macro/gdp_quarterly.csv), so a band is a run of consecutive
+# quarters the publisher's own index shows negative year on year, not a
+# remembered narrative.
+#   2008 Q4 to 2009 Q4: five negative quarters, the global financial
+#     crisis (oil from $147 to $40); Q4 2008 = -1.32, Q2 2009 = -11.15.
+#   2015 Q1 to 2016 Q1: five negative quarters, the oil collapse and the
+#     rouble's halving in December 2014 (Q2 2015 = -3.09).
+#   2020 Q2 to 2021 Q1: four negative quarters, COVID-19 (Q2 2020 = -7.32).
+#   2022: the ANNUAL index only (-1.44%). The quarterly series ends at
+#     2021 Q4 — Rosstat stopped publishing the quarterly breakdown — so
+#     this band is dated on the calendar year and is the one band whose
+#     quarter is not observable in the staged vintage.
+# Explicitly NOT banded: 2014 Q1 (-0.05%) is a single negative quarter, a
+# dip rather than a recession; annual 2014 is +0.74%.
+bands:
+  - {from: 2008.75, to: 2010.0,  label: "2008–09 crisis"}
+  - {from: 2015.0,  to: 2016.25, label: "2015–16 oil and sanctions"}
+  - {from: 2020.25, to: 2021.25, label: "COVID-19"}
+  - {from: 2022.0,  to: 2023.0,  label: "sanctions regime (annual)"}
+
+# The ru number style (CLDR ru: comma decimal, non-breaking-space
+# thousands, currency after the amount) is being added to core centrally
+# with this batch; it is not declared here, because a style must be one of
+# the language's own and `number_style` is only for a country that
+# departs from its language's base style. Russia does not.
+currency:
+  code: RUB
+
+# The flag is white over blue over red — and the white band is the paper,
+# which is exactly why the masthead rule outlines it. The chart palette is
+# the flag's blue and red pulled down into inks that hold a thin line and
+# survive greyscale, plus the greens, gold, purple and teal every country
+# needs beside its own hues.
+palette:
+  BLUE:    "#2C5C8F"
+  BLUE_D:  "#1E4368"
+  NAVY:    "#16324F"
+  RED:     "#A83A31"
+  RED_D:   "#7E2A24"
+  GREEN:   "#2E7D4F"
+  GREEN_D: "#1F5F3A"
+  GOLD:    "#B08320"
+  GOLD_D:  "#8A6615"
+  PURPLE:  "#6E5BA6"
+  TEAL:    "#13807A"
+  primary: "#A83A31"
+  alert:   "#C05621"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#1E4368", "#A83A31", "#2C5C8F", "#2E7D4F", "#B08320", "#6E5BA6", "#13807A", "#1F2430"]
+  # White, blue, red, the tricolour laid flat. The white band is the
+  # paper's colour and takes the automatic outline (`_is_paperish` in
+  # core/style.py), which is what makes it read as one three-band rule
+  # rather than as two detached blocks.
+  flag_bands: ["#FFFFFF", "#1E4368", "#A83A31"]
+  # A cold near-black with a blue cast, deliberately apart from Ukraine's
+  # azure night (#071521): this one is slate, with the flag's red as the
+  # money accent and a pale green for the people family.
+  web:
+    # R opens the wordmark with a stem and a bowl; the bearing is the
+    # Latin R's, as the Cyrillic Р shares its width.
+    mark_bearing: "0.02em"
+    ground:   "#0E1116"
+    raised:   "#161B22"
+    raised_2: "#1D242D"
+    rule:     "#2A333F"
+    ink:      "#EDF0F3"
+    muted:    "#A3AEB9"
+    faint:    "#6B7883"
+    money:    "#E4736A"
+    world:    "#7FB2E5"
+    people:   "#8FC7A6"
+
+seo:
+  title:
+    ru: "Россия — планшеты официальных данных, 2006–2025"
+    en: "Russia — plates of official data, 2006–2025"
+    pt: "Rússia — pranchas de dados oficiais, 2006–2025"
+  description:
+    ru: "Планшеты данных об экономике, населении, неравенстве и месте России в мире, собранные из зафиксированных в репозитории CSV; санкционный разрыв 2022 года показан как разрыв, а национальная статистика Росстата — отдельной линией рядом с международной."
+    en: "Data plates on Russia's economy, population, inequality and place in the world, built from committed CSVs, with the 2022 sanctions break shown as a break and Rosstat's national series drawn as its own line beside the international one."
+    pt: "Pranchas de dados sobre a economia, a população, a desigualdade e a posição da Rússia no mundo, a partir de CSVs versionados, com a ruptura das sanções de 2022 mostrada como ruptura e a série nacional do Rosstat desenhada em linha própria ao lado da internacional."
+  keywords: [Russia, Россия, Rosstat, Bank of Russia, World Bank, IMF, UN Comtrade, official statistics]
+  spatial: "Russian Federation"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+sources:
+  ru: "Росстат и Банк России, а также Всемирный банк, МВФ, БМР и ЮНКТАД для сравнений"
+  en: "Rosstat and the Bank of Russia, plus the World Bank, IMF, BIS and UN Comtrade for comparisons"
+  pt: "o Rosstat e o Banco da Rússia, além de Banco Mundial, FMI, BIS e UN Comtrade para comparações"

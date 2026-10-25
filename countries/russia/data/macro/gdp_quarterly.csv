@@ -1,0 +1,72 @@
+# CURATED 2026-10-25 by reviewing the sidecar macro/gdp_quarterly_from_rosstat.csv (re-run fetch/fetch_rosstat.py to refresh it).
+# Rosstat, VVP_kvartal_s-1995-2026.xlsx, sheets 11 and 12: the quarterly
+# physical-volume index of GDP, previous year's quarter = 100,
+# minus 100. Year-on-year, NOT quarter-on-quarter.
+# THE SERIES ENDS AT 2021 Q4: the publisher stopped releasing the
+# quarterly breakdown after that. 2022+ quarters are absent.
+# Fetched 2026-10-25, TLS mode: insecure.
+year,quarter,volume_yoy_pct
+2006,Q1,7.30
+2006,Q2,8.08
+2006,Q3,8.19
+2006,Q4,8.88
+2007,Q1,8.07
+2007,Q2,8.62
+2007,Q3,8.17
+2007,Q4,9.19
+2008,Q1,9.18
+2008,Q2,7.90
+2008,Q3,6.41
+2008,Q4,-1.32
+2009,Q1,-9.20
+2009,Q2,-11.15
+2009,Q3,-8.62
+2009,Q4,-2.59
+2010,Q1,4.07
+2010,Q2,5.00
+2010,Q3,3.83
+2010,Q4,5.08
+2011,Q1,3.27
+2011,Q2,3.29
+2011,Q3,5.05
+2011,Q4,5.17
+2012,Q1,5.70
+2012,Q2,4.85
+2012,Q3,3.49
+2012,Q4,2.41
+2013,Q1,1.13
+2013,Q2,1.72
+2013,Q3,1.51
+2013,Q4,2.55
+2014,Q1,-0.05
+2014,Q2,0.56
+2014,Q3,1.41
+2014,Q4,0.93
+2015,Q1,-1.53
+2015,Q2,-3.09
+2015,Q3,-1.70
+2015,Q4,-1.60
+2016,Q1,-0.21
+2016,Q2,0.32
+2016,Q3,0.06
+2016,Q4,0.54
+2017,Q1,1.31
+2017,Q2,2.34
+2017,Q3,2.64
+2017,Q4,1.04
+2018,Q1,2.56
+2018,Q2,2.73
+2018,Q3,2.63
+2018,Q4,3.24
+2019,Q1,1.39
+2019,Q2,1.36
+2019,Q3,2.77
+2019,Q4,3.07
+2020,Q1,1.51
+2020,Q2,-7.32
+2020,Q3,-3.33
+2020,Q4,-1.30
+2021,Q1,-0.15
+2021,Q2,1.31
+2021,Q3,0.75
+2021,Q4,0.95

@@ -1,0 +1,239 @@
+{
+ "en": {
+  "line": "{n} plates of official data, {window}",
+  "dek": "Every figure on this page comes from a publisher that names its definition, and every plate is regenerated from committed CSVs, so the charts and the numbers here cannot drift apart. Russia publishes almost everything in two versions and the plates keep them apart: Rosstat counts Crimea and Sevastopol from 2014 and excludes the four oblasts it claimed in 2022, while the UN series carries neither step; the headline CPI is December-to-December, while the World Bank's is an annual average; the fiscal panels are general government on the IMF's accrual accounts, with the federal cash budget beside them and never added to it. Since 2022 several official routes have closed — detailed customs statistics are suspended and the customs host does not answer, EMISS answers 403, and the federal spending breakdown has not been published since 2021 — and every one of those stops is a stated gap on the page rather than a chart drawn from somewhere else.",
+  "notes": [
+   "2026 is a partial year. Annual totals and annual means on this page stop at 2025; the Human Development Index stops in 2023, non-performing loans in 2023, Gini in 2023, road deaths in 2019 and the federal spending breakdown in 2021.",
+   "Territorial scope is a data definition, not a footnote. Rosstat's population series steps from 144.0m in 2014 to 146.7m in 2015 because Russia annexed Crimea and Sevastopol and began counting them; from 2022 the publisher's own footnote excludes the Donetsk and Luhansk People's Republics and Zaporizhzhia and Kherson oblasts, so 2022+ is a narrower perimeter again. The World Bank and UN series reproduce neither step. The demography plate draws both lines, labelled, and never splices them.",
+   "The grey bands on every time-series panel are the contractions dated on Rosstat's quarterly physical-volume index: 2008 Q4 – 2009 Q4, 2015 Q1 – 2016 Q1, 2020 Q2 – 2021 Q1, and 2022 on the annual index alone, because the quarterly series ends at 2021 Q4. 2014 Q1 is a single negative quarter inside a year of +0.74% growth and is deliberately not banded.",
+   "Prices are shown on two definitions and never merged: Rosstat's headline is December-to-December, the World Bank's is the annual average, and the economy plate draws the national line as the line with the annual average beside it. The people plate chains the national definition into a price level, about 4.5 times the 2006 level by 2025, and says it is derived.",
+   "Three fiscal perimeters stay three: general government (IMF WEO, accrual, % of GDP) is canonical; the federal budget (Ministry of Finance, cash, one level, roubles) rides beside it as a labelled line; and the federal non-oil-and-gas deficit — 14,103bn roubles, 6.6% of GDP in 2025 — is the number the Ministry leads with and the fiscal plate draws. Nothing is added to anything.",
+   "Spending is drawn on the federal perimeter from the Russian functional classification mapped onto the seven COFOG groups, because Russia does not publish COFOG. Pensions are paid through the Social Fund, outside that perimeter, so these shares are not comparable with another country's COFOG shares; the publisher has not released the functional breakdown since 2021.",
+   "Unemployment is the ILO modelled estimate, not Rosstat's labour-force survey, and every panel that draws it says so. Net migration is the UN World Population Prospects model over the same series' population; Rosstat's registration totals measure something else and are deliberately not drawn beside it.",
+   "Nominal roubles are not a unit across this window: the economy is eight times its 2006 size in nominal roubles and 1.6 times in real terms, so every level that spans years is in constant prices, a share of GDP or dollars, and each panel says which. The rouble's official rate was fixed by capital controls for part of 2022 and is annotated as an administered price.",
+   "The plates are drawn in the three languages this country publishes — Russian, English and Portuguese — and so is this page. The rouble is written after the amount in Russian and before it in the other two, with Russian decimal commas and non-breaking-space thousands throughout."
+  ],
+  "unavailable": [
+   {
+    "term": "Detailed customs statistics and export destinations",
+    "detail": "The Federal Customs Service suspended its detailed public release after February 2022 and its host does not complete a connection from this network (checked 2026-10-25); UN Comtrade returns no Russian rows for 2022 or 2023. The canonical destination slot is therefore pending and the trade plate draws the national-accounts aggregate instead. No unofficial mirror is substituted."
+   },
+   {
+    "term": "EMISS / fedstat",
+    "detail": "The Unified Interdepartmental Statistical Information System, the machine-readable layer over Rosstat's indicator registry, answers 403 to this network on every route tried, including indicator pages and the export path. The underlying numbers are not lost — Rosstat's own workbooks carry them and are staged — but the per-indicator series and metadata are not reachable. Recorded in SOURCES.yaml meta.pending."
+   },
+   {
+    "term": "data.gov.ru",
+    "detail": "The Russian open-data portal does not complete a TCP connection from this network (no bytes, no TLS error), so no dataset on it could be checked. It is recorded as an access failure with the date, not as an absent dataset."
+   },
+   {
+    "term": "Corruption Perceptions Index",
+    "detail": "Transparency International's workbook answers 403 to this network, the same block the Ukraine lane hit. The canonical world slot stays pending and no proxy is substituted."
+   },
+   {
+    "term": "COVID-19 deaths and excess deaths",
+    "detail": "Excess deaths need the registered-death count, not the rate, and no official count series is reachable: Rosstat's operational COVID-19 release is not published as a machine-readable file, and WHO's general underlying-cause indicator was withdrawn. Both mortality panels stay pending; the crude death rate and life expectancy are drawn."
+   },
+   {
+    "term": "Minimum wage",
+    "detail": "The МРОТ is statutory and set by federal law, so it exists; no machine-readable official time series was located in this pass. This is incomplete research, recorded as such, not an absent statistic."
+   },
+   {
+    "term": "Public investment",
+    "detail": "Government fixed capital formation is published by Rosstat only in the annual national-accounts tables by ownership, which this pass did not stage. No budget line is relabelled as it. Whole-economy investment is drawn instead, from the World Bank's national accounts."
+   },
+   {
+    "term": "Federal spending by function after 2021",
+    "detail": "The Ministry of Finance's annual workbook continues to 2025 for the totals but its section columns are empty from 2022, because federal spending by section has not been published since the 2022 classification of budget data. The breakdown stops at 2021 and the plate says so; the hole is not filled from any other source."
+   },
+   {
+    "term": "National labour-force unemployment",
+    "detail": "Rosstat's labour-force survey page answers, but its workbooks are not staged in this pass. The plates draw the ILO modelled estimate and label it as modelled; the survey headline is not presented as if it were the same series."
+   },
+   {
+    "term": "Migration flows from the registration system",
+    "detail": "Rosstat's arrivals and departures totals 1990–2023 were downloaded and inspected and are deliberately not staged beside the modelled net-migration series: the registration system's coverage of emigration is weak, and subtracting one from the other would invent a flow neither publisher measures. The plate says the proxy was rejected."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "National accounts, prices, population, vital statistics",
+    "detail": "Rosstat (Federal State Statistics Service) — VVP_god, VVP_kvartal, VVP_na_dushu, ipc_s, popul_1897+ and the population-components workbook. rosstat.gov.ru is reachable from here only with its TLS chain unverified: the chain terminates in the Russian Trusted Root CA, which this host does not carry. The fetcher records which transport mode produced each sidecar; no number depends on it."
+   },
+   {
+    "term": "Policy rate, exchange rate, yield curve, lending rates",
+    "detail": "Bank of Russia (cbr.ru) — the key-rate history table, the daily FX series, the OFZ zero-coupon curve and the new-loan rate workbook. Annual means of daily observations throughout."
+   },
+   {
+    "term": "Federal budget and its functional breakdown",
+    "detail": "Ministry of Finance of the Russian Federation — Приложение 3.1, cash execution of the federal budget, billion roubles, federal level only. Not general government and not accrual."
+   },
+   {
+    "term": "Harmonised comparison layer",
+    "detail": "World Bank WDI (national accounts, CPI, population, poverty, Gini, reserves, migrant stock), IMF World Economic Outlook October 2026 (general government, accrual), BIS total credit, UNDP Human Development Report, UN Comtrade for the trade check that returned no Russian rows."
+   },
+   {
+    "term": "Market series",
+    "detail": "Moscow Exchange ISS (IMOEX), a market series and not an official statistic: it is flagged official: false in SOURCES.yaml and the plate says so. Its dollar conversion uses the Bank of Russia's own annual mean rate, the same number the currency panel draws."
+   }
+  ]
+ },
+ "ru": {
+  "line": "{n} планшетов официальных данных, {window}",
+  "dek": "Каждое число на этой странице происходит от публикатора, который называет своё определение, и каждый планшет заново собирается из опубликованных CSV, поэтому графики и числа здесь не могут разойтись. Россия публикует почти всё в двух версиях, и планшеты держат их раздельно: Росстат считает Крым и Севастополь с 2014 года и с 2022 года исключает четыре заявленные области, а ряд ООН не воспроизводит ни того, ни другого; головной ИПЦ считается «декабрь к декабрю», а у Всемирного банка — в среднем за год; финансовые планшеты — это общее государственное управление по методу начисления МВФ, рядом с которым стоит федеральный кассовый бюджет, но никогда не в сумме с ним. С 2022 года закрылся ряд официальных маршрутов: подробная таможенная статистика приостановлена и сервер таможни не отвечает, ЕМИСС отвечает 403, а функциональная разбивка федеральных расходов не публикуется с 2021 года, — и каждый такой обрыв это названный пробел на странице, а не график, нарисованный по чему-то другому.",
+  "notes": [
+   "2026 год неполный. Годовые итоги и среднегодовые значения на этой странице заканчиваются 2025 годом; индекс человеческого развития — 2023-м, проблемные кредиты — 2023-м, Джини — 2023-м, дорожные смерти — 2019-м, а функциональная разбивка федеральных расходов — 2021-м.",
+   "Территориальный охват — это определение данных, а не примечание. Ряд населения Росстата поднимается с 144,0 млн в 2014 году до 146,7 млн в 2015-м, потому что Россия присоединила Крым и Севастополь и начала их учитывать; с 2022 года сноска самого публикатора исключает Донецкую и Луганскую народные республики, Запорожскую и Херсонскую области, так что периметр 2022+ снова уже. Ряды Всемирного банка и ООН не воспроизводят ни одного из этих шагов. Планшет демографии рисует обе линии с подписями и никогда их не сшивает.",
+   "Серые полосы на каждом временном планшете — спады, датированные квартальным индексом физического объёма Росстата: IV квартал 2008 — IV квартал 2009, I квартал 2015 — I квартал 2016, II квартал 2020 — I квартал 2021, и 2022 год только по годовому индексу, потому что квартальный ряд обрывается на IV квартале 2021. I квартал 2014 года — единственный отрицательный квартал внутри года с ростом +0,74%, и полосой он намеренно не отмечен.",
+   "Цены показаны в двух определениях и никогда не сливаются: головной ИПЦ Росстата считается «декабрь к декабрю», у Всемирного банка — среднегодовой, и планшет экономики рисует национальную линию линией, а среднегодовую рядом. Планшет людей сцепляет национальное определение в уровень цен — примерно в 4,5 раза выше уровня 2006 года к 2025-му — и говорит, что это производная величина.",
+   "Три финансовых периметра остаются тремя: общее государственное управление (МВФ WEO, метод начисления, % ВВП) — канонический; федеральный бюджет (Минфин, касса, один уровень, рубли) идёт рядом подписанной линией; а дефицит федерального бюджета без нефти и газа — 14 103 млрд рублей, 6,6% ВВП в 2025 году — то число, с которого начинает Минфин и которое рисует планшет. Ничего ни к чему не прибавляется.",
+   "Расходы нарисованы по федеральному периметру из российской функциональной классификации, наложенной на семь групп COFOG, потому что COFOG Россия не публикует. Пенсии платятся через Социальный фонд вне этого периметра, поэтому эти доли несравнимы с долями COFOG другой страны; функциональную разбивку публикатор не выпускает с 2021 года.",
+   "Безработица — модельная оценка МОТ, а не обследование рабочей силы Росстата, и каждый планшет, где она нарисована, это говорит. Миграционный прирост — модель ООН WPP на населении того же ряда; регистрационные итоги Росстата измеряют другое и намеренно не нарисованы рядом.",
+   "Номинальные рубли не являются единицей на этом окне: в номинальных рублях экономика 2025 года в восемь раз больше, чем в 2006-м, а в реальном выражении — в 1,6 раза, поэтому каждая величина, охватывающая годы, дана в постоянных ценах, в долях ВВП или в долларах, и каждый планшет говорит, в чём именно. Официальный курс рубля часть 2022 года был фиксирован валютными ограничениями и подписан как административная цена.",
+   "Планшеты нарисованы на трёх языках, на которых публикуется эта страна — русском, английском и португальском, — как и сама страница. Рубль пишется после суммы по-русски и перед суммой в двух других языках, с запятой в десятичных и неразрывным пробелом в тысячах."
+  ],
+  "unavailable": [
+   {
+    "term": "Подробная таможенная статистика и направления экспорта",
+    "detail": "Федеральная таможенная служба приостановила подробный публичный выпуск после февраля 2022 года, а её сервер не устанавливает соединение из этой сети (проверено 2026-10-25); UN Comtrade не возвращает российских строк за 2022 и 2023 годы. Поэтому канонический слот направлений пуст, а планшет торговли рисует агрегат национальных счетов. Неофициальное зеркало не подставляется."
+   },
+   {
+    "term": "ЕМИСС / fedstat",
+    "detail": "Единая межведомственная информационно-статистическая система — машиночитаемый слой над реестром показателей Росстата — отвечает 403 на этой сети по всем испробованным маршрутам, включая страницы показателей и путь выгрузки. Сами числа не потеряны: их несут собственные книги Росстата, и они собраны, — но ряды по показателям и метаданные недоступны. Записано в SOURCES.yaml, meta.pending."
+   },
+   {
+    "term": "data.gov.ru",
+    "detail": "Портал открытых данных России не устанавливает TCP-соединение с этой сети (ни байта, ни ошибки TLS), поэтому ни один набор на нём проверить не удалось. Это записано как отказ доступа с датой, а не как отсутствие данных."
+   },
+   {
+    "term": "Индекс восприятия коррупции",
+    "detail": "Книга Transparency International отвечает 403 на этой сети — та же блокировка, на которую наткнулся украинский поток. Канонический слот мира остаётся пустым, прокси не подставляется."
+   },
+   {
+    "term": "Смерти от COVID-19 и избыточная смертность",
+    "detail": "Избыточной смертности нужен счёт умерших, а не коэффициент, и официального ряда счёта отсюда не достать: оперативный релиз Росстата по COVID-19 не публикуется машиночитаемым файлом, а общий показатель ВОЗ по основной причине отозван. Оба планшета смертности остаются пустыми; нарисованы общий коэффициент смертности и ожидаемая продолжительность жизни."
+   },
+   {
+    "term": "Минимальная оплата труда",
+    "detail": "МРОТ установлен федеральным законом, то есть существует; машиночитаемого официального ряда в этот проход найти не удалось. Это незавершённое исследование, записанное как таковое, а не отсутствующая статистика."
+   },
+   {
+    "term": "Государственные инвестиции",
+    "detail": "Валовое накопление основного капитала сектора государственного управления Росстат публикует только в годовых таблицах СНС по формам собственности, а их этот проход не собрал. Ни одна бюджетная строка под него не переименована. Вместо этого нарисованы инвестиции всей экономики по национальным счетам Всемирного банка."
+   },
+   {
+    "term": "Федеральные расходы по функциям после 2021 года",
+    "detail": "Годовая книга Минфина продолжает итоги до 2025 года, но столбцы по разделам с 2022 года пусты: федеральные расходы по разделам не публикуются с момента классификации бюджетных данных 2022 года. Разбивка обрывается на 2021-м, и планшет это говорит; пробел не заполняется ни из какого другого источника."
+   },
+   {
+    "term": "Национальная безработица по обследованию рабочей силы",
+    "detail": "Страница обследования рабочей силы Росстата отвечает, но его книги в этот проход не собраны. Планшеты рисуют модельную оценку МОТ и подписывают её как модель; головной ряд обследования не выдаётся за тот же самый."
+   },
+   {
+    "term": "Миграционные потоки по регистрационному учёту",
+    "detail": "Итоги прибытий и выбытий Росстата за 1990–2023 годы были скачаны и просмотрены и намеренно не собраны рядом с модельным рядом миграционного прироста: охват эмиграции в регистрационной системе слаб, и вычитание одного из другого изобрело бы поток, которого не измеряет ни один публикатор. Планшет говорит, что прокси отвергнут."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Национальные счета, цены, население, естественное движение",
+    "detail": "Росстат (Федеральная служба государственной статистики) — VVP_god, VVP_kvartal, VVP_na_dushu, ipc_s, popul_1897+ и книга компонентов населения. rosstat.gov.ru доступен отсюда только с непроверенной цепочкой TLS: цепочка заканчивается Российским доверенным корневым центром, которого на этом хосте нет. Сборщик записывает, в каком режиме транспорта получен каждый сайдкар; ни одно число от этого не зависит."
+   },
+   {
+    "term": "Ключевая ставка, курс, кривая доходности, ставки по кредитам",
+    "detail": "Банк России (cbr.ru) — таблица истории ключевой ставки, дневные ряды курса, кривая нулевого купона ОФЗ и книга ставок по новым кредитам. Везде среднегодовые значения дневных наблюдений."
+   },
+   {
+    "term": "Федеральный бюджет и его функциональная разбивка",
+    "detail": "Министерство финансов Российской Федерации — Приложение 3.1, кассовое исполнение федерального бюджета, млрд рублей, только федеральный уровень. Не общее государственное управление и не метод начисления."
+   },
+   {
+    "term": "Гармонизированный слой сравнения",
+    "detail": "Всемирный банк WDI (национальные счета, ИПЦ, население, бедность, Джини, резервы, запас мигрантов), МВФ World Economic Outlook, октябрь 2026 (общее государственное управление, метод начисления), совокупный кредит БМР, Доклад ПРООН о человеческом развитии, UN Comtrade для проверки торговли, не вернувшей российских строк."
+   },
+   {
+    "term": "Рыночные ряды",
+    "detail": "Московская биржа, ISS (IMOEX) — рыночный ряд, а не официальная статистика: в SOURCES.yaml он помечен official: false, и планшет это говорит. Для пересчёта в доллары используется собственный среднегодовой курс Банка России — то же число, что на планшете курса."
+   }
+  ]
+ },
+ "pt": {
+  "line": "{n} pranchas de dados oficiais, {window}",
+  "dek": "Cada número desta página vem de um publicador que nomeia a sua definição, e cada prancha é regerada a partir de CSVs versionados, então os gráficos e os números daqui não podem divergir. A Rússia publica quase tudo em duas versões, e as pranchas as mantêm separadas: o Rosstat conta a Crimeia e Sebastopol desde 2014 e exclui as quatro províncias que reivindicou em 2022, enquanto a série da ONU não reproduz nenhum dos dois passos; o IPC chefe é de dezembro a dezembro, e o do Banco Mundial é a média anual; as pranchas fiscais são a administração pública geral nas contas de competência do FMI, com o orçamento federal de caixa ao lado, nunca somado a ela. Desde 2022 várias rotas oficiais fecharam — a estatística aduaneira detalhada está suspensa e o servidor da aduana não responde, o EMISS responde 403, e a abertura funcional da despesa federal não é publicada desde 2021 — e cada uma dessas paradas é uma lacuna declarada na página, não um gráfico desenhado a partir de outra fonte.",
+  "notes": [
+   "2026 é um ano parcial. Os totais e as médias anuais desta página param em 2025; o Índice de Desenvolvimento Humano para em 2023, os empréstimos inadimplentes em 2023, o Gini em 2023, as mortes no trânsito em 2019 e a abertura funcional da despesa federal em 2021.",
+   "O escopo territorial é uma definição de dados, não uma nota de rodapé. A série populacional do Rosstat sobe de 144,0 milhões em 2014 para 146,7 milhões em 2015 porque a Rússia anexou a Crimeia e Sebastopol e passou a contá-las; desde 2022 a própria nota do publicador exclui as Repúblicas Populares de Donetsk e Lugansk e as províncias de Zaporíjia e Kherson, então 2022 em diante é um perímetro novamente mais estreito. As séries do Banco Mundial e da ONU não reproduzem nenhum dos passos. A prancha de demografia desenha as duas linhas, rotuladas, e nunca as emenda.",
+   "As faixas cinzas de cada painel temporal são as contrações datadas pelo índice trimestral de volume físico do Rosstat: 4º tri de 2008 a 4º tri de 2009, 1º tri de 2015 a 1º tri de 2016, 2º tri de 2020 a 1º tri de 2021, e 2022 apenas pelo índice anual, porque a série trimestral termina no 4º trimestre de 2021. O 1º trimestre de 2014 é um único trimestre negativo dentro de um ano de +0,74% de crescimento e deliberadamente não é faixado.",
+   "Os preços aparecem em duas definições e nunca se fundem: o IPC chefe do Rosstat é de dezembro a dezembro, o do Banco Mundial é a média anual, e a prancha de economia desenha a linha nacional como linha e a média anual ao lado. A prancha de pessoas encadeia a definição nacional num nível de preços, cerca de 4,5 vezes o nível de 2006 em 2025, e diz que é derivado.",
+   "Três perímetros fiscais continuam três: a administração pública geral (FMI WEO, competência, % do PIB) é canônica; o orçamento federal (Ministério das Finanças, caixa, um nível, rublos) vem ao lado como linha rotulada; e o déficit federal sem petróleo e gás — 14.103 bilhões de rublos, 6,6% do PIB em 2025 — é o número que o Ministério destaca e que a prancha desenha. Nada é somado a nada.",
+   "A despesa é desenhada no perímetro federal a partir da classificação funcional russa mapeada nos sete grupos da COFOG, porque a Rússia não publica COFOG. As pensões são pagas pelo Fundo Social, fora desse perímetro, então estas frações não são comparáveis com as frações COFOG de outro país; o publicador não divulga a abertura funcional desde 2021.",
+   "O desemprego é a estimativa modelada da OIT, não a pesquisa de força de trabalho do Rosstat, e todo painel que o desenha diz isso. A migração líquida é o modelo das World Population Prospects da ONU sobre a população da mesma série; os totais de registro do Rosstat medem outra coisa e deliberadamente não são desenhados ao lado.",
+   "Rublos nominais não são uma unidade nesta janela: a economia é oito vezes maior que em 2006 em rublos nominais e 1,6 vez em termos reais, então todo nível que atravessa anos está em preços constantes, em fração do PIB ou em dólares, e cada painel diz qual. A taxa oficial do rublo foi fixada por controles de capital em parte de 2022 e está anotada como preço administrado.",
+   "As pranchas são desenhadas nas três línguas em que este país publica — russo, inglês e português — e esta página também. O rublo é escrito depois do valor em russo e antes dele nas outras duas, com vírgula decimal e espaço não separável nos milhares."
+  ],
+  "unavailable": [
+   {
+    "term": "Estatística aduaneira detalhada e destinos das exportações",
+    "detail": "O Serviço Aduaneiro Federal suspendeu a divulgação pública detalhada depois de fevereiro de 2022 e o seu servidor não completa uma conexão a partir desta rede (verificado em 2026-10-25); a UN Comtrade não devolve linhas russas para 2022 ou 2023. O slot canônico de destinos fica pendente e a prancha de comércio desenha o agregado das contas nacionais. Nenhum espelho não oficial é substituído."
+   },
+   {
+    "term": "EMISS / fedstat",
+    "detail": "O Sistema Unificado de Informação Estatística Interdepartamental, a camada legível por máquina sobre o registro de indicadores do Rosstat, responde 403 a esta rede em todas as rotas tentadas, incluindo páginas de indicadores e o caminho de exportação. Os números não se perdem — as planilhas do próprio Rosstat os carregam e estão coletadas —, mas as séries por indicador e os metadados não são alcançáveis. Registrado em SOURCES.yaml, meta.pending."
+   },
+   {
+    "term": "data.gov.ru",
+    "detail": "O portal de dados abertos russo não completa uma conexão TCP a partir desta rede (nenhum byte, nenhum erro de TLS), então nenhum conjunto nele pôde ser verificado. Fica registrado como falha de acesso com data, não como ausência de dados."
+   },
+   {
+    "term": "Índice de Percepção da Corrupção",
+    "detail": "A planilha da Transparency International responde 403 a esta rede, o mesmo bloqueio que a faixa da Ucrânia encontrou. O slot canônico de mundo fica pendente e nenhum proxy é substituído."
+   },
+   {
+    "term": "Mortes por COVID-19 e excesso de mortes",
+    "detail": "O excesso de mortes precisa da contagem de óbitos, não da taxa, e nenhuma série oficial de contagem é alcançável daqui: a divulgação operacional de COVID-19 do Rosstat não é publicada como arquivo legível por máquina, e o indicador geral da OMS por causa básica foi retirado. Os dois painéis de mortalidade ficam pendentes; a taxa bruta de mortalidade e a expectativa de vida são desenhadas."
+   },
+   {
+    "term": "Salário mínimo",
+    "detail": "O МРОТ é legal e fixado por lei federal, portanto existe; nenhuma série oficial legível por máquina foi localizada nesta passagem. É pesquisa incompleta, registrada como tal, não estatística ausente."
+   },
+   {
+    "term": "Investimento público",
+    "detail": "A formação bruta de capital fixo do governo é publicada pelo Rosstat apenas nas tabelas anuais das contas nacionais por propriedade, que esta passagem não coletou. Nenhuma linha orçamentária é renomeada como ela. Em vez disso, desenha-se o investimento da economia inteira, das contas nacionais do Banco Mundial."
+   },
+   {
+    "term": "Despesa federal por função depois de 2021",
+    "detail": "A planilha anual do Ministério das Finanças continua os totais até 2025, mas as colunas por seção estão vazias desde 2022, porque a despesa federal por seção não é publicada desde a classificação de 2022 dos dados orçamentários. A abertura para em 2021 e a prancha diz isso; a lacuna não é preenchida a partir de outra fonte."
+   },
+   {
+    "term": "Desemprego nacional da pesquisa de força de trabalho",
+    "detail": "A página da pesquisa de força de trabalho do Rosstat responde, mas as suas planilhas não foram coletadas nesta passagem. As pranchas desenham a estimativa modelada da OIT e a rotulam como modelada; a série chefe da pesquisa não é apresentada como se fosse a mesma."
+   },
+   {
+    "term": "Fluxos migratórios do sistema de registro",
+    "detail": "Os totais de entradas e saídas do Rosstat de 1990 a 2023 foram baixados e inspecionados e deliberadamente não são coletados ao lado da série modelada de migração líquida: a cobertura da emigração no sistema de registro é fraca, e subtrair uma da outra inventaria um fluxo que nenhum publicador mede. A prancha diz que o proxy foi rejeitado."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Contas nacionais, preços, população, estatísticas vitais",
+    "detail": "Rosstat (Serviço Federal de Estatística do Estado) — VVP_god, VVP_kvartal, VVP_na_dushu, ipc_s, popul_1897+ e a planilha de componentes da população. O rosstat.gov.ru é alcançável daqui apenas com a cadeia TLS não verificada: a cadeia termina na Raiz Confiável Russa, que este host não possui. O coletor registra em que modo de transporte cada sidecar foi produzido; nenhum número depende disso."
+   },
+   {
+    "term": "Taxa básica, câmbio, curva de juros, taxas de empréstimo",
+    "detail": "Banco da Rússia (cbr.ru) — a tabela histórica da taxa básica, as séries diárias de câmbio, a curva de cupom zero das OFZ e a planilha de taxas de novos empréstimos. Médias anuais de observações diárias em toda parte."
+   },
+   {
+    "term": "Orçamento federal e a sua abertura funcional",
+    "detail": "Ministério das Finanças da Federação Russa — Anexo 3.1, execução de caixa do orçamento federal, bilhões de rublos, apenas o nível federal. Não é administração pública geral nem competência."
+   },
+   {
+    "term": "Camada harmonizada de comparação",
+    "detail": "Banco Mundial WDI (contas nacionais, IPC, população, pobreza, Gini, reservas, estoque de migrantes), FMI World Economic Outlook de outubro de 2026 (administração pública geral, competência), crédito total do BIS, Relatório de Desenvolvimento Humano do PNUD, UN Comtrade para a checagem de comércio que não devolveu linhas russas."
+   },
+   {
+    "term": "Séries de mercado",
+    "detail": "Moscow Exchange ISS (IMOEX), uma série de mercado e não estatística oficial: está marcada official: false em SOURCES.yaml e a prancha diz isso. A conversão para dólares usa a taxa média anual do próprio Banco da Rússia, o mesmo número que o painel de câmbio desenha."
+   }
+  ]
+ }
+}

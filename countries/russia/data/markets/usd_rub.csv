@@ -1,0 +1,29 @@
+# CURATED 2026-10-25 by reviewing the sidecar markets/usd_rub_from_cbr.csv (re-run the fetcher named in SOURCES.yaml to refresh it).
+# Bank of Russia, XML_dynamic VAL_NM_RQ=R01235 (USD): the official
+# daily rate, annual MEAN. Value is per ONE dollar; the feed quotes
+# a Nominal multiplier which is applied here.
+# Capital controls from 28.02.2022 made this a fixed official rate
+# rather than a market price for part of 2022 — said on the plate.
+# Fetched 2026-10-25.
+year,rub_per_usd
+2006,27.1355
+2007,25.5516
+2008,24.8740
+2009,31.7669
+2010,30.3765
+2011,29.3948
+2012,31.0742
+2013,31.9063
+2014,38.6025
+2015,61.3194
+2016,66.8335
+2017,58.2982
+2018,62.9264
+2019,64.6184
+2020,72.3230
+2021,73.6685
+2022,68.3522
+2023,85.8116
+2024,92.6567
+2025,83.2108
+2026,78.8249
