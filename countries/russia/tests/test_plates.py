@@ -402,19 +402,17 @@ def test_security_rates_stop_where_the_carriers_stop():
                num(s[y], "homicide_per_100k")) == 2021
 
 
-def test_the_suicide_panel_starts_in_2007_and_the_lens_carries_2006():
-    """41.4 per 100,000 is above the shared 0–40 scale and is not clipped."""
+def test_the_suicide_panel_draws_the_whole_series_inside_the_scale():
+    """41.4 per 100,000 now sits under the shared 45 ceiling."""
     from core import spine
     slot = spine.SLOTS["security.suicide"]
-    assert slot.ref == (0, 40)
+    assert slot.ref == (0, 45)
     s = by_year("security/security.csv")
-    assert num(s[2006], "suicide_per_100k") > slot.ref[1]
+    assert num(s[2006], "suicide_per_100k") <= slot.ref[1]
     p = plate(SLUG, "plate_security").panel("Suicide rate")
     years = [float(x) for ln in p.data_lines()
              for x in ln.get_xdata() if float(x) == float(x)]
-    assert min(years) == 2007
-    # The reading is stated on the panel rather than clipped or dropped.
-    assert "41.4" in " ".join(p.texts())
+    assert min(years) == 2006
     # And the lens draws 2006 for all three causes: six bars, the tallest
     # of which is suicide's 41.4.
     lens = plate(SLUG, "plate_security").panel("Violent and road deaths")

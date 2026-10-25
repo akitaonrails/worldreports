@@ -304,22 +304,23 @@ def test_vital_rates_are_per_resident_and_crime_rates_are_per_everyone():
         * 100000 == pytest.approx(num(S[2025], "suicide_per_100k"), abs=0.01)
 
 
-def test_natural_increase_is_resident_and_net_migration_is_not_drawn_here():
+def test_natural_increase_is_resident_and_net_migration_is_drawn():
     ni = num(D[2025], "natural_increase_residents") / \
         num(D[2025], "population_resident") * 1000
     assert ni == pytest.approx(0.50, abs=0.01)
-    # The canonical pair's second series cannot share the −10…+40 scale.
+    # Both series of the canonical pair now sit inside the shared range,
+    # so the pair is drawn; the resident rate is the first series.
     from core import spine
     pop = {y: num(r, "population_total") for y, r in D.items()}
     per = [num(r, "net_migration_wb") / pop[y] * 1000
            for y, r in MI.items() if y in pop
            and num(r, "net_migration_wb") == num(r, "net_migration_wb")]
     slot = spine.SLOTS["demography.natural_migration"]
-    assert max(per) > slot.ref[1] and min(per) < slot.ref[0]
+    assert min(per) >= slot.ref[0] and max(per) <= slot.ref[1]
 
 
 # ----------------------------------------------------------------- security
-def test_the_homicide_series_starts_in_2011_and_is_below_the_log_floor():
+def test_the_homicide_series_starts_in_2011_and_is_drawn_on_the_log_floor():
     from core import spine
     hom = {y: num(r, "murder_per_100k") for y, r in S.items()
            if num(r, "murder_per_100k") == num(r, "murder_per_100k")}
@@ -327,9 +328,10 @@ def test_the_homicide_series_starts_in_2011_and_is_below_the_log_floor():
     assert hom[2023] == pytest.approx(0.068, abs=0.0005)
     slot = spine.SLOTS["security.homicide"]
     assert slot.scale == "log"
-    assert hom[2023] < slot.ref[0], (
-        "if the shared log floor has moved below 0.068, draw the panel")
-    is_pending("plate_security", "Homicide rate")
+    assert hom[2023] >= slot.ref[0], (
+        "the shared log floor must admit 0.068 or the panel goes back to pending")
+    panel = plate(SLUG, "plate_security").panel("Homicide rate")
+    assert panel.data_lines(), "the homicide panel is drawn, not pending"
 
 
 def test_the_murder_rate_reproduces_the_unodc_series_exactly():
@@ -374,10 +376,10 @@ def test_excess_deaths_are_computed_from_the_death_count():
               for y in M}
     assert excess[2022] == pytest.approx(29.9, abs=0.05)
     assert excess[2006] == pytest.approx(-20.8, abs=0.05)
-    # It is drawn from the baseline period because 2006 sits under the
-    # shared floor; if that floor moves, this assertion is the reminder.
+    # The 2006 reading now sits inside the widened floor, so the panel is
+    # drawn from the first staged year, not from the baseline period.
     from core import spine
-    assert excess[2006] < spine.SLOTS["mortality.excess_deaths"].ref[0]
+    assert excess[2006] >= spine.SLOTS["mortality.excess_deaths"].ref[0]
 
 
 def test_the_2012_coding_break_is_two_segments_and_not_one_line():
@@ -409,17 +411,17 @@ def test_covid_deaths_have_no_line_and_stay_pending():
 
 
 # --------------------------------------------------------------- migration
-def test_net_migration_is_outside_the_shared_scale_and_drawn_in_the_lens():
+def test_net_migration_is_drawn_on_the_shared_scale():
     from core import spine
     pop = {y: num(r, "population_total") for y, r in D.items()}
     per = {y: num(r, "net_migration_wb") / pop[y] * 1000
            for y, r in MI.items() if y in pop}
     slot = spine.SLOTS["migration.net"]
-    assert per[2007] > slot.ref[1]
-    assert per[2020] < slot.ref[0]
+    assert slot.ref[0] <= per[2020] and per[2007] <= slot.ref[1]
     assert per[2007] == pytest.approx(41.9, abs=0.1)
     assert per[2020] == pytest.approx(-25.6, abs=0.1)
-    is_pending("plate_migration", "Net migration")
+    panel = plate(SLUG, "plate_migration").panel("Net migration")
+    assert panel.data_lines(), "the net-migration panel is drawn, not pending"
 
 
 def test_the_foreign_citizen_share_is_derived_not_foreign_born():
@@ -455,10 +457,8 @@ def test_parked_slots_stay_parked():
         ("plate_people", "Poverty rate"),
         ("plate_people", "Minimum wage"),
         ("plate_world", "Corruption Perceptions Index"),
-        ("plate_security", "Homicide rate"),
         ("plate_mortality", "COVID-19 deaths"),
         ("plate_migration", "Immigration and emigration"),
-        ("plate_migration", "Net migration"),
     ]:
         is_pending(name, panel)
 

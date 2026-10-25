@@ -713,12 +713,11 @@ def plate_security(ctx, ig) -> None:
 
     ax = ig.slot("security.suicide", "Suicide rate (per 100,000)")
     sy_all, sv_all = _yr(ctx, S, "suicide_per_100k")
-    # 2006 is 41.4 per 100,000, above the atlas-wide 0–40 ceiling. It is
-    # not clipped and the shared scale is not overridden here: the line
-    # starts at 2007 and the 2006 reading is named on the panel and drawn
-    # in the lens, which has its own scale.
-    sy = [y for y in sy_all if y >= 2007]
-    sv = [v for y, v in zip(sy_all, sv_all) if y >= 2007]
+    # 2006 is 41.4 per 100,000; the shared ceiling is 45, so the whole
+    # series is drawn canonically (it was 40 when this chapter was first
+    # written, and the point lived in the lens).
+    sy = sy_all
+    sv = sv_all
     ctx.line(ax, sy, sv, p.PURPLE)
     ig.add_recessions(ax, label=False)
     ctx.endlabel(ax, sy, sv, p.PURPLE, lambda v: f"{v:.1f}", dy=-14)

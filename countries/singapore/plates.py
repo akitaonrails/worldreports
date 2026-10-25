@@ -596,14 +596,14 @@ def plate_security(ctx, ig) -> None:
     S = "security/security.csv"
 
     ax = ig.slot("security.homicide", "Homicide rate (per 100,000)")
-    ctx.pending(ax)
-    _pending(ig, ax, "Staged and verified, but below the shared floor:\n"
-             "4 murders in 2023 is 0.068 per 100,000, under the\n"
-             "atlas-wide log floor of 0.1. Moving that floor to 0.05 is\n"
-             "a shared-scale decision, not one country's. 7 in 2025\n"
-             "is 0.115 per 100,000.")
-    _foot(p, ax, "SOURCES.yaml meta.pending — denominator: everyone "
-          "present, verified against UNODC to three decimals")
+    hy, hv = _yr(ctx, S, "murder_per_100k")
+    ctx.line(ax, hy, hv, p.ALERT)
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, hy, hv, p.ALERT, lambda v: f"{v:.2f}", dy=-14)
+    _note(p, ax, 0.02, 0.96, f"{hv[-1]:.2f} per 100,000 in {hy[-1]}: four "
+          "murders\non a denominator of everyone present")
+    _foot(p, ax, "C&SD recorded offences ÷ total population; verified "
+          "against UNODC to three decimals")
 
     ax = ig.slot("security.suicide", "Suicide rate (per 100,000)")
     sy, sv = _yr(ctx, S, "suicide_per_100k")
@@ -674,7 +674,7 @@ def plate_mortality(ctx, ig) -> None:
                  "(% above 2015–2019 average)")
     dvals = dict(zip(*_yr(ctx, M, "deaths_total_by_cause")))
     base = sum(dvals[y] for y in range(2015, 2020)) / 5
-    ey = [y for y in sorted(dvals) if y >= 2015]
+    ey = [y for y in sorted(dvals) if y >= W0]
     ev = [(dvals[y] / base - 1) * 100 for y in ey]
     ctx.line(ax, ey, ev, p.ALERT)
     ig.add_recessions(ax, label=False)
@@ -746,14 +746,12 @@ def plate_migration(ctx, ig) -> None:
     _foot(p, ax, "A finding, not a fetch failure — SOURCES.yaml meta.pending")
 
     ax = ig.slot("migration.net", "Net migration (per 1,000 people)")
-    ctx.pending(ax)
-    _pending(ig, ax, f"Staged, but outside the shared scale: the UN/WPP\n"
-             f"estimate runs {min(_net(ctx)):+.1f} to {max(_net(ctx)):+.1f} "
-             f"per 1,000\n"
-             "against an atlas-wide −10…+40 range. It is drawn in the\n"
-             "lens below, on its own axis.")
-    _foot(p, ax, "SOURCES.yaml records the scale request; the series is "
-          "modelled by the UN, and labelled as an estimate")
+    mn, mv = _net(ctx)
+    ctx.line(ax, mn, mv, p.BLUE)
+    ig.add_recessions(ax, label=False)
+    _foot(p, ax, "World Bank SM.POP.NETM (UN WPP) ÷ mid-year population — "
+          "a modelled estimate, not a register count; 2020 is the border "
+          "closure")
 
     ax = ig.slot("migration.foreign_born",
                  "Foreign citizens (% of the population)")
@@ -793,7 +791,8 @@ def plate_migration(ctx, ig) -> None:
 def _net(ctx):
     ny, nv = _yr(ctx, "migration/migration.csv", "net_migration_wb")
     pop = dict(zip(*_yr(ctx, "demography/demography.csv", "population_total")))
-    return [v / pop[y] * 1000 for y, v in zip(ny, nv) if y in pop]
+    years = [y for y, v in zip(ny, nv) if y in pop]
+    return years, [v / pop[y] * 1000 for y, v in zip(ny, nv) if y in pop]
 
 
 PLATES = (

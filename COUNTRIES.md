@@ -24,6 +24,7 @@ Portuguese**, and every plate is drawn in each of them.
 | Slug | Languages | Plates | Datasets |
 |------|-----------|--------|----------|
 | `argentina` | es · en · pt | 12 | 39 |
+| `australia` | en · pt | 12 | 27 |
 | `brasil` | pt · en | 11 | 45 |
 | `canada` | en · fr · pt | 12 | 53 |
 | `china` | zh-Hans · en · pt | 12 | 24 |
@@ -36,6 +37,14 @@ Portuguese**, and every plate is drawn in each of them.
 | `south-korea` | ko · en · pt | 11 | 43 |
 | `switzerland` | de · en · pt | 12 | 46 |
 | `taiwan` | zh-Hant · en · pt | 10 | 18 |
+| `chile` | es · en · pt | 12 | 17 |
+| `hongkong` | zh-Hant · en · pt | 12 | 32 |
+| `paraguay` | es · en · pt | 12 | 16 |
+| `poland` | pl · en · pt | 12 | 14 |
+| `russia` | ru · en · pt | 12 | 30 |
+| `singapore` | en · pt | 12 | 16 |
+| `venezuela` | es · en · pt | 11 | 15 |
+
 | `ukraine` | uk · en · pt | 11 | 19 |
 | `united-kingdom` | en · pt | 12 | 45 |
 | `usa` | en · pt | 11 | 43 |
@@ -49,20 +58,11 @@ cross-check files are not counted.
 
 ## Queued
 
-The 2026-10-25 batch, eight countries in queue order. Phase A (data) runs in
-parallel lanes; Phase B (plates) starts only when a country's data gates
-green; merges stay sequential in this order.
-
-| # | Country | Slug | Languages | What it needs that we do not have |
-|---|---------|------|-----------|------------------------------------|
-| 1 | Poland | `poland` | pl · en · pt | A Polish number style and page chrome; GUS/BDL national layer. |
-| 2 | Australia | `australia` | en · pt | ABS SDMX; quarterly national accounts to annualise on a documented rule. |
-| 3 | Chile | `chile` | es · en · pt | Banco Central de Chile API (may need a token); CLP forms. |
-| 4 | Singapore | `singapore` | en · pt | SingStat Table Builder API; SGD forms; a city-state, so population and land are not the usual denominators. |
-| 5 | Hong Kong | `hongkong` | zh-Hant · en · pt | C&SD API; HKD forms; "country" framing needs care (a SAR, compared as an economy). |
-| 6 | Paraguay | `paraguay` | es · en · pt | INE/BCP; PYG forms; a large informal economy and a binational hydro story. |
-| 7 | Russia | `russia` | ru · en · pt | A Russian number style and chrome; Rosstat/EMISS access is likely blocked, so the harmonised layer plus documented blocks. |
-| 8 | Venezuela | `venezuela` | es · en · pt | INE/BCV publication has largely stopped; hyperinflation and migration; expect the harmonised layer and explicit gaps. |
+The 2026-10-25 batch is complete and published: Poland, Australia, Chile,
+Singapore, Hong Kong, Paraguay, Russia and Venezuela. Phase A (data) ran in
+parallel lanes with every official route probed and recorded; Phase B built
+each country in its own lane; the merges ran in queue order with one final
+regeneration of all twenty-four countries.
 
 None. The eight-country queue opened on 2026-10-22 is complete, and
 Ukraine — proposed in issue #1 and discovered 2026-10-24 — is published

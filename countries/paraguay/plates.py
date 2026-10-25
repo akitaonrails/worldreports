@@ -809,10 +809,10 @@ def plate_migration(ctx, ig) -> None:
              label="UN WPP, per 1,000 of the UN population")
     ig.add_recessions(ax, label=False)
     ax.legend(loc="upper right", fontsize=6.8, frameon=False)
-    _note(p, ax, 0.02, 0.30, f"{iv[0]:.1f} per 1,000 in {iy[0]}: "
+    _note(p, ax, 0.02, 0.96, f"{iv[0]:.1f} per 1,000 in {iy[0]}: "
           "the outflow's peak.\n"
           "Each line divides by its own publisher's population,\n"
-          "so the two denominators are never mixed.", va="bottom", size=7.6)
+          "so the two denominators are never mixed.", va="top", size=7.6)
     _foot(p, ax, "INE revision 2024 and World Bank SM.POP.NETM (UN WPP)")
 
     ax = ig.slot("migration.foreign_born",
