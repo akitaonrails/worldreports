@@ -169,8 +169,11 @@ layout baseline.
 1. **`economy.inflation` needs a log axis** (or a deliberately widened shared
    range). 65,374% cannot sit on −5…225. This is the one blocking shared-scale
    decision: the panel cannot be drawn honestly without it.
-2. Shared-range decisions for `economy.growth` (−33.2), `fiscal.balance`
-   (−31.9), `trade.balance` (+36.3), `migration.net` (−45.5 per 1,000) and the
-   `markets.currency` floor. All values are staged at full size and never
-   clipped; none of these ranges is set in country code.
+2. Shared-range decisions for the four slots this country exceeds:
+   `economy.growth` (IMF −33.2 against a −32 floor), `fiscal.balance`
+   (−31.9 against −24), `trade.balance` (+36.3 against +15) and
+   `migration.net` (−45.5 per 1,000 against −10). All values are staged at
+   full size and never clipped; none of these ranges is set in country code.
+   `markets.currency` was checked and **fits** (the index bottoms at 21.5,
+   inside log 0.1…200) only because the official rate series stops in 2017.
 3. No core code change is otherwise required by this country's data.

@@ -112,16 +112,25 @@ population to make a rate: they are the lens, on their own axis.
 Per `PLATE_SPINE.md` the atlas-wide range lives in `core/spine.py`; a country
 never sets its own. Venezuela exceeds several of them, and the values are
 staged at full size and never clipped. These are recorded in `country.yaml`
-and **need a shared-code decision by the orchestrator**:
+and **need a shared-code decision by the orchestrator**. The ranges quoted are
+the ones in `core/spine.py` on 2026-10-25 (after the Ukraine widening; the
+table in `PLATE_SPINE.md` predates it):
 
 | slot | shared range | Venezuela |
 |---|---|---|
-| economy.inflation | −5 … 225 % | 65,374% (2018), 19,906% (2019), 2,355% (2020) — needs a log axis atlas-wide, or the panel cannot exist |
-| economy.growth | −18 … +18 % | −33.2 (2020), −29.0 (2019) |
-| fiscal.balance | −16 … +8 % of GDP | −31.9 (2018), −25.6 (2017) |
-| trade.balance | −15 … +15 % of GDP | +36.3 (2019) |
-| markets.currency | log 0.1 … 200 | 21.5 by 2017, the last year a rate exists |
+| economy.inflation | −5 … 225 % | 65,374% (2018), 19,906% (2019), 2,355% (2020) — needs a log axis atlas-wide; this is the blocking decision |
+| economy.growth | −32 … +18 % | −33.2 (2020, IMF); the World Bank's −29.8 fits |
+| fiscal.balance | −24 … +8 % of GDP | −31.9 (2018), −25.6 (2017) |
+| trade.balance | −30 … +15 % of GDP | +36.3 (2019) |
 | migration.net | −10 … +40 per 1,000 | −45.5 (2018) |
+
+Inside their ranges, and worth saying because it is easy to assume otherwise:
+`markets.currency` (log 0.1…200) — the index falls to 21.5, which fits, but
+only because the official rate series stops in 2017; `demography.population`
+(75…150) — the index peaks at 113.0 in 2016 and is 103.7 in 2021;
+`security.homicide`, `world.gdp`, `economy.unemployment`,
+`spending.investment`, `mortality.death_rate`, `fiscal.revenue_expenditure`
+and `fiscal.interest` all fit.
 
 No country-local axis is set anywhere in this lane.
 
