@@ -198,21 +198,6 @@ markets:
       1 after); the fetcher uses `rate_per_unit`, always per one dollar.
       The plate indexes it 2006 = 100, up = stronger.
 
-spending:
-  spending.csv:
-    source: "NBU/Treasury monthly budget execution (statdirectory/budget), consolidated budget (mcr200p=CBU), functional classification gf_budgtef_*"
-    url: "https://bank.gov.ua/NBUStatService/v1/statdirectory/budget"
-    official: true
-    refreshed_by: fetch/fetch_budget.py
-    notes: >-
-      VERIFIED 2026-10-24: December is the year-to-date total. The published
-      Total_1 (less inter-budget transfers) equals the sum of the ten
-      functions to within 2 mn UAH, asserted at fetch time; 0180 (the
-      inter-budget transfer inside 0100) is excluded or the stack would
-      double-count it. 2023: total 3,776,857 mn, defence 1,784,473 mn.
-      Cash basis, consolidated budget — NOT the IMF accrual layer the
-      fiscal chapter draws, and the plate says so.
-
 migration:
   migration.csv:
     source: "World Bank WDI — SM.POP.NETM (net migration, UN WPP) and SM.POP.TOTL (UN DESA migrant stock)"

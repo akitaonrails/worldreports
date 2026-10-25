@@ -472,33 +472,50 @@ def plate_mortality(ctx, ig) -> None:
 
 # ---------------------------------------------------------------- spending
 SPEND_FUNCS = [
-    ("state_administration", "AZURE"), ("defence", "ALERT"),
-    ("public_order", "NAVY"), ("economic_activity", "TEAL"),
-    ("environment", "GREEN"), ("housing", "GOLD"),
-    ("health", "PURPLE"), ("recreation", "BLUE_D"),
-    ("education", "BLUE"), ("social_protection", "GREEN_D"),
+    ("general_public_services_million_uah", "AZURE"),
+    ("defence_million_uah", "ALERT"),
+    ("public_order_safety_judiciary_million_uah", "NAVY"),
+    ("economic_affairs_million_uah", "TEAL"),
+    ("environment_million_uah", "GREEN"),
+    ("housing_community_million_uah", "GOLD"),
+    ("health_million_uah", "PURPLE"),
+    ("culture_recreation_religion_million_uah", "BLUE_D"),
+    ("education_million_uah", "BLUE"),
+    ("social_protection_million_uah", "GREEN_D"),
 ]
+SPEND_FILE = "fiscal/treasury_functional.csv"
+
+
+def _gdp(ctx):
+    t = ctx.table("macro/gdp_uah.csv")
+    return dict(zip(*ctx.series(t, "gdp_uah"))) if t else {}
 
 
 def _spend_share(ctx):
-    """The consolidated-budget functions as % of GDP, year by year."""
-    t = ctx.table("spending/spending.csv")
-    g = ctx.table("macro/gdp_uah.csv")
-    if not t or not g:
-        return {}, []
-    gdp = dict(zip(*ctx.series(g, "gdp_uah")))
+    """The Treasury's functional outturn as % of GDP, year by year.
+
+    The dataset's `year` is the execution year: the NBU's January-1 stamp
+    (20240101) carries 2023 (PR #6's finding, checked against the MoF
+    annual workbook). The column names are the publisher's.
+    """
+    t = ctx.table(SPEND_FILE)
+    gdp = _gdp(ctx)
     out = {name: {} for name, _ in SPEND_FUNCS}
     out["total"] = {}
-    for name, _ in SPEND_FUNCS + [("total", None)]:
+    out["capital"] = {}
+    if not t:
+        return out, []
+    for name in [n for n, _ in SPEND_FUNCS] + ["total_million_uah",
+                                               "capital_million_uah"]:
         if name not in t:
             continue
         ys, vs = ctx.series(t, name)
+        key = {"total_million_uah": "total",
+               "capital_million_uah": "capital"}.get(name, name)
         for y, v in zip(ys, vs):
             if y in gdp and gdp[y] and v:
-                # UAH million over UAH units.
-                out[name][y] = v * 1e6 / gdp[y] * 100
-    years = sorted(out["total"])
-    return out, years
+                out[key][y] = v * 1e6 / gdp[y] * 100
+    return out, sorted(out["total"])
 
 
 def plate_spending(ctx, ig) -> None:
@@ -509,8 +526,10 @@ def plate_spending(ctx, ig) -> None:
                  "Spending by function, stacked (% of GDP)")
     layers = [([shares[name][y] for y in years], getattr(p, color))
               for name, color in SPEND_FUNCS]
-    ax.stackplot(years, *[v for v, _ in layers],
-                 labels=[name.replace("_", " ") for name, _ in SPEND_FUNCS],
+    labels = ["state administration", "defence", "public order",
+              "economic activity", "environment", "housing", "health",
+              "culture and sport", "education", "social protection"]
+    ax.stackplot(years, *[v for v, _ in layers], labels=labels,
                  colors=[c for _, c in layers], alpha=0.9, lw=0)
     ig.add_recessions(ax, label=False)
     ax.legend(loc="upper left", fontsize=6.4, ncol=3, frameon=False)
@@ -518,20 +537,20 @@ def plate_spending(ctx, ig) -> None:
     ax.annotate(f"{tot[-1]:.1f}% of GDP ({years[-1]})", (years[-1], tot[-1]),
                 textcoords="offset points", xytext=(-4, 8), ha="right",
                 fontsize=8.2, fontweight="bold", color=p.INK)
-    _note(p, ax, 0.98, 0.55, f"defence took {shares['defence'][2023]:.0f}% of "
-          f"GDP in 2023,\nup from {shares['defence'][2021]:.1f}% in 2021",
-          ha="right")
-    _foot(p, ax, "NBU/Treasury, consolidated budget, cash basis. Not the "
+    _note(p, ax, 0.98, 0.55, f"defence took {shares['defence_million_uah'][2023]:.0f}% "
+          f"of GDP in 2023,\nup from {shares['defence_million_uah'][2021]:.1f}% "
+          "in 2021", ha="right")
+    _foot(p, ax, "Treasury consolidated budget, cash basis (NBU). Not the "
           "IMF accrual layer")
 
     ax = ig.slot("spending.social_protection",
                  "Social protection vs everything else (% of GDP)")
-    soc = [shares["social_protection"][y] for y in years]
+    soc = [shares["social_protection_million_uah"][y] for y in years]
     rest = [t - s for t, s in zip(tot, soc)]
     ctx.line(ax, years, rest, p.NAVY, label="Everything else")
     ctx.line(ax, years, soc, p.ALERT, label="Social protection")
     ig.add_recessions(ax, label=False)
-    ax.legend(loc="upper right", fontsize=7.6, frameon=False)
+    ax.legend(loc="center right", fontsize=7.6, frameon=False)
     _note(p, ax, 0.02, 0.55, f"social protection {soc[0]:.1f}% of GDP in "
           f"{years[0]},\n{soc[-1]:.1f}% in {years[-1]} — the war squeezed "
           "everything else")
@@ -548,24 +567,17 @@ def plate_spending(ctx, ig) -> None:
     _foot(p, ax, "World Bank national accounts (GFCF)")
 
     ax = ig.slot("spending.public_investment", "Public investment (% of GDP)")
-    cy, cv = _yr(ctx, "spending/spending.csv", "capital")
-    g = ctx.table("macro/gdp_uah.csv")
-    gdp = dict(zip(*ctx.series(g, "gdp_uah")))
-    py, pv = [], []
-    for y, v in zip(cy, cv):
-        if y in gdp and gdp[y]:
-            py.append(y)
-            pv.append(v * 1e6 / gdp[y] * 100)
-    ctx.line(ax, py, pv, p.GOLD)
+    capital = [shares["capital"][y] for y in years if y in shares["capital"]]
+    cy = [y for y in years if y in shares["capital"]]
+    ctx.line(ax, cy, capital, p.GOLD)
     ig.add_recessions(ax, label=False)
-    ctx.endlabel(ax, py, pv, p.GOLD, lambda v: f"{v:.1f}%", dy=8)
+    ctx.endlabel(ax, cy, capital, p.GOLD, lambda v: f"{v:.1f}%", dy=-14)
     _note(p, ax, 0.98, 0.96, "capital expenditure of the consolidated\n"
           "budget — the closest official public-investment line", ha="right")
-    _foot(p, ax, "NBU/Treasury capital expenditure ÷ GDP")
+    _foot(p, ax, "Treasury capital expenditure ÷ GDP")
     _finish(ctx, ig)
 
 
-# --------------------------------------------------------------- migration
 def plate_migration(ctx, ig) -> None:
     p = ctx.p
     M = "migration/migration.csv"

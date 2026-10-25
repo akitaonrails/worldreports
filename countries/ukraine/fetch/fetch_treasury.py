@@ -33,7 +33,12 @@ CATEGORIES = (
     ("gf_budgtef_1000", "social_protection_million_uah"),
 )
 TOTAL = "gf_budgtef_Total_1"
-FIELDS = ("year", "source_dt", *(field for _, field in CATEGORIES), "total_million_uah")
+# Maintainer extension: capital expenditure is an economic, not a
+# functional, line, so it is carried in its own column and kept out
+# of the functional total (the identity below would otherwise break).
+CAPITAL = "gf_budgtee_3000"
+FIELDS = ("year", "source_dt", *(field for _, field in CATEGORIES),
+          "capital_million_uah", "total_million_uah")
 REQUIRED = frozenset(("dt", "txt", "txten", "id_api", "leveli",
                       "parent", "freq", "mcr200p", "tzep", "value"))
 # Ministry of Finance, Budget of Ukraine 2024, §2.3 pp. 34–37:
@@ -76,7 +81,7 @@ def parse(raw: bytes) -> list[dict[str, str]]:
         raise ValueError("NBU budget cube missing or incomplete")
 
     codes = dict(CATEGORIES)
-    wanted = set(codes) | {TOTAL}
+    wanted = set(codes) | {TOTAL, CAPITAL}
     by_key: dict[tuple[int, str], Decimal] = {}
     for item in payload:
         if not isinstance(item, dict):
@@ -95,11 +100,22 @@ def parse(raw: bytes) -> list[dict[str, str]]:
             continue
         if dt != f"{year + 1}0101":
             raise ValueError(f"Unexpected Treasury annual date convention: {dt}")
-        if item["tzep"] != UNIT:
+        # Functional annual rows carry F_M_VC. The annual capital line
+        # carries F_Y_V up to 2016 and F_M_VC from 2017; the monthly twin
+        # is filtered out by FREQ above, so one row per year remains.
+        allowed = {"F_Y_V", "F_M_VC"} if code == CAPITAL else {UNIT}
+        if item["tzep"] not in allowed:
             raise ValueError(f"Wrong NBU fiscal unit: {year}, {code}")
-        level, parent = (1, "budgtef_Total_2") if code == TOTAL else (2, "budgtef_Total_1")
-        if item["leveli"] != level or item["parent"] != parent:
-            raise ValueError(f"Changed functional hierarchy: {year}, {code}")
+        if code == CAPITAL:
+            # An economic line: no functional parent, so only its own
+            # level and the cube's unit are checked.
+            if item["leveli"] not in (1, 2, "1", "2"):
+                raise ValueError(f"Changed capital hierarchy: {year}")
+        else:
+            level, parent = ((1, "budgtef_Total_2") if code == TOTAL
+                             else (2, "budgtef_Total_1"))
+            if item["leveli"] != level or item["parent"] != parent:
+                raise ValueError(f"Changed functional hierarchy: {year}, {code}")
         if not isinstance(item["txten"], str) or not item["txten"].strip():
             raise ValueError(f"Missing functional classification label: {year}, {code}")
         key = (year, code)
@@ -117,7 +133,7 @@ def parse(raw: bytes) -> list[dict[str, str]]:
 
     rows = []
     for year in range(START, END + 1):
-        missing = wanted - {code for (y, code) in by_key if y == year}
+        missing = (wanted - {CAPITAL}) - {code for (y, code) in by_key if y == year}
         if missing:
             raise ValueError(f"Incomplete functional year {year}: {sorted(missing)}")
         total = by_key[(year, TOTAL)]
@@ -127,6 +143,8 @@ def parse(raw: bytes) -> list[dict[str, str]]:
         row = {"year": str(year), "source_dt": f"{year + 1}0101"}
         row.update({field: format(by_key[(year, code)], ".1f")
                     for code, field in CATEGORIES})
+        row["capital_million_uah"] = format(by_key.get((year, CAPITAL),
+                                                      Decimal("0")), ".1f")
         row["total_million_uah"] = format(total, ".1f")
         rows.append(row)
     return rows

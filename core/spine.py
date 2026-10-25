@@ -116,9 +116,9 @@ SPINE: dict[str, tuple[Slot, ...]] = {
     ),
     "spending": (
         _c("spending.by_function", "Spending by function, stacked",
-           "% of GDP", (0, 65)),
+           "% of GDP", (0, 75)),
         _c("spending.social_protection",
-           "Social protection vs everything else", "% of GDP", (0, 60)),
+           "Social protection vs everything else", "% of GDP", (0, 70)),
         _c("spending.investment", "Investment rate, whole economy",
            "% of GDP", (0, 50)),
         _c("spending.public_investment", "Public investment", "% of GDP",

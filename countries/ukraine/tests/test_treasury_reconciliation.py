@@ -123,12 +123,19 @@ def test_treasury_dataset_is_not_misrepresented_as_comparable_gg():
     spec = importlib.util.spec_from_file_location("ukraine_fiscal_country_plates", module_path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    # The chapter set the edition publishes now. The Treasury dataset is
+    # drawn only inside `spending`, always labelled as cash-basis Treasury
+    # execution and never as general-government accrual — the check below
+    # names the plate that reads it.
     assert {entry["topic"] for entry in module.PLATES} == {
-        "economy", "fiscal", "trade", "markets", "people",
-        "world", "demography", "security", "mortality"
+        "economy", "fiscal", "spending", "trade", "markets", "people",
+        "world", "demography", "security", "mortality", "migration"
     }
-    # A Treasury cash outturn must not appear on a general-government axis.
-    assert "fiscal/treasury_functional.csv" not in module_path.read_text(encoding="utf-8")
+    spending = [e for e in module.PLATES if e["topic"] == "spending"]
+    assert len(spending) == 1
+    source = module_path.read_text(encoding="utf-8")
+    assert "fiscal/treasury_functional.csv" in source
+    assert "IMF accrual layer" in source
 
 
 

@@ -107,7 +107,10 @@ class TreasuryTests(unittest.TestCase):
 
     def test_no_curated_overwrite_and_source_identity(self):
         self.assertEqual(treasury.SIDECAR.name, "treasury_functional_from_nbu.csv")
-        self.assertNotIn("/data/", treasury.SIDECAR.as_posix())
+        # Relative to the country directory, so a checkout under a path that
+        # itself contains "/data/" (as this machine's does) is not a failure.
+        rel = treasury.SIDECAR.relative_to(treasury.HERE.parent.parent).as_posix()
+        self.assertNotIn("/data/", rel)
         self.assertEqual(treasury.PERIMETER, "CBU")
         self.assertEqual(treasury.UNIT, "F_M_VC")
         self.assertEqual(treasury.FREQ, "Y")

@@ -225,25 +225,30 @@ def test_the_death_rate_and_life_expectancy():
 
 # ---------------------------------------------------------------- spending
 def test_the_war_budget_by_function():
-    sp = by_year("spending/spending.csv")
+    sp = by_year("fiscal/treasury_functional.csv")
     gdp = by_year("macro/gdp_uah.csv")
-    total = num(sp[2023], "total") * 1e6 / num(gdp[2023], "gdp_uah") * 100
-    defence = num(sp[2023], "defence") * 1e6 / num(gdp[2023], "gdp_uah") * 100
-    assert total == pytest.approx(57.0, abs=0.3)
-    assert defence == pytest.approx(26.9, abs=0.2)
-    # The published total is the sum of the functions, and 0180 (the
-    # inter-budget transfer inside 0100) is not in the stack.
+    # The dataset's year is the execution year: the NBU's 20240101 stamp
+    # carries 2023 (PR #6's finding, anchored to the MoF annual workbook).
+    assert int(sp[2023]["source_dt"]) == 20240101
+    total = num(sp[2023], "total_million_uah") * 1e6 / num(gdp[2023], "gdp_uah") * 100
+    defence = num(sp[2023], "defence_million_uah") * 1e6 / num(gdp[2023], "gdp_uah") * 100
+    assert total == pytest.approx(67.0, abs=0.3)
+    assert defence == pytest.approx(31.6, abs=0.2)
+    # The published total is the sum of the ten functions.
     parts = sum(num(sp[2023], c) for c in (
-        "state_administration", "defence", "public_order", "economic_activity",
-        "environment", "housing", "health", "recreation", "education",
-        "social_protection"))
-    assert parts == pytest.approx(num(sp[2023], "total"), abs=2)
+        "general_public_services_million_uah", "defence_million_uah",
+        "public_order_safety_judiciary_million_uah",
+        "economic_affairs_million_uah", "environment_million_uah",
+        "housing_community_million_uah", "health_million_uah",
+        "culture_recreation_religion_million_uah", "education_million_uah",
+        "social_protection_million_uah"))
+    assert parts == pytest.approx(num(sp[2023], "total_million_uah"), abs=2)
 
 
 def test_the_spending_scale_holds_the_war_budget():
     from core import spine
     slot = spine.SLOTS["spending.by_function"]
-    lo, hi = spine.fit(slot, (0, 55.4))[0]
+    lo, hi = spine.fit(slot, (0, 67.3))[0]
     assert (lo, hi) == slot.ref
 
 
