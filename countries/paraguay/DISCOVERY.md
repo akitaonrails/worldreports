@@ -30,8 +30,9 @@ Adjacent and official mirrors probed:
 |---|---|
 | `datos.gov.py` (national open-data portal) | **200 but a "Sitio en Mantenimiento" page** — the whole CKAN portal is down, `/api/3/action/package_search` answers 404 HTML. A route result, not a dead dataset: BCP and MEF datasets are mirrored there when it is up. |
 | `ine.gov.py/microdatos/` (ANDA catalogue) | 200; microdata files, not aggregate series |
-| `anda.ine.gov.py` | 200; DDI/metadata catalogue |
-| `ods.ine.gov.py` (SDG portal) | 200 |
+| `anda.ine.gov.py` | 200; DDI/metadata catalogue, `/api/catalog/search` 200 with no series |
+| `ods.ine.gov.py` (SDG portal) | 200; `/api/` serves an HTML "404 - INE" page **under HTTP 200** |
+| `ine.gov.py/api/` | 403; `/api/v1/` and `/sdmx/` 404; `api.ine.gov.py` no DNS |
 | `ioe.ine.gov.py` | 200; inventory of statistical operations, not data |
 | `estadisticas.bcp.gov.py` | **403** Cloudflare |
 | `siec.bcp.gov.py`, `open.bcp.gov.py`, `api.bcp.gov.py`, `datos.bcp.gov.py` | no DNS / no connection |
@@ -60,10 +61,15 @@ reported, never as the BCP's own release.
 | Gini and income | `publicacion/5/ingresos` | annual EPHC |
 | Registered births and deaths | `publicacion/21/nacimientos-matrimonios-y-defunciones` | annual, administrative record |
 
-INE publishes **no machine API**. The "Gráficos Dinámicos" (`/vt/*.php`)
-pages embed Flourish charts whose data are not exposed; the underlying
-XLSX files on the publication pages are the series and are what the
-fetcher reads.
+INE publishes **no machine API**. Probed on 2026-10-25:
+`/api/` answers 403, `/api/v1/` 404, `/sdmx/` 404, `api.ine.gov.py` does
+not resolve, `anda.ine.gov.py`'s catalogue API answers 200 with metadata
+(DDI records, no series), and `ods.ine.gov.py/api/` answers **HTTP 200
+with an HTML "404 - INE" page** — the endpoint that lies, which is why
+every fetcher here checks the payload shape before caching anything. The
+"Gráficos Dinámicos" (`/vt/*.php`) pages embed Flourish charts whose data
+are not exposed; the underlying XLSX files on the publication pages are
+the series and are what the fetchers read.
 
 ### MEF — `mef.gov.py` (200)
 
