@@ -1,0 +1,31 @@
+# UNHCR Refugee Data Finder, population API, country of origin VEN
+# (coo=VEN), years 2006-2025, pulled 2026-10-25.
+# refugees + asylum_seekers = people with a UNHCR-visible protection
+# status in the countries they are in, attributed to Venezuela as origin.
+# OPERATIONAL ESTIMATE, NOT A CENSUS: registration coverage differs by
+# host country and the asylum backlog lags the movement of people.
+# NOT the R4V 'Venezuelans abroad' figure (~7.7mn), which counts all
+# Venezuelans outside the country including irregular migrants on host-
+# government estimates: different publisher, different definition.
+# Origin totals, so this is a lens, never a canonical per-1,000 slot.
+year,refugees,asylum_seekers,refugees_and_asylum_seekers
+2006,3821,2367,6188
+2007,5089,1751,6840
+2008,5801,1518,7319
+2009,6216,1571,7787
+2010,6697,626,7323
+2011,7575,570,8145
+2012,8204,496,8700
+2013,8396,1154,9550
+2014,8009,4822,12831
+2015,7455,15087,22542
+2016,7543,45074,52617
+2017,9272,148096,157368
+2018,21047,464223,485270
+2019,93239,794491,887730
+2020,171112,851265,1022377
+2021,199202,971106,1170308
+2022,230393,1137162,1367555
+2023,347695,1200130,1547825
+2024,370169,1360041,1730210
+2025,417010,1181156,1598166

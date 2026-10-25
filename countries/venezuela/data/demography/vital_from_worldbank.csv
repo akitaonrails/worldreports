@@ -1,0 +1,25 @@
+# World Bank SP.DYN.* — fertility (children per woman), crude birth and
+# death rates per 1,000, life expectancy at birth (UN WPP). These are
+# modelled: the INE's civil-registration counts stop being published as
+# a machine-readable series and the .xls it does publish are legacy
+# BIFF files (meta.pending).
+year,fertility_rate,birth_rate_per_1000,death_rate_per_1000,life_expectancy
+2006,2.595,22.104,5.202,72.972
+2007,2.524,21.512,5.147,73.348
+2008,2.475,21.058,5.521,72.578
+2009,2.422,20.555,5.531,72.785
+2010,2.396,20.276,5.512,73.092
+2011,2.398,20.197,5.602,73.090
+2012,2.379,19.940,5.703,73.086
+2013,2.334,19.475,5.804,73.076
+2014,2.296,19.055,5.996,72.837
+2015,2.253,18.604,6.026,73.004
+2016,2.217,18.262,6.572,72.002
+2017,2.183,17.931,6.800,71.903
+2018,2.151,17.330,6.685,72.641
+2019,2.131,16.299,6.802,72.766
+2020,2.116,15.542,7.202,72.369
+2021,2.105,15.219,7.862,71.536
+2022,2.088,15.025,7.347,72.566
+2023,2.079,15.087,7.560,72.514
+2024,2.077,15.231,7.678,72.673

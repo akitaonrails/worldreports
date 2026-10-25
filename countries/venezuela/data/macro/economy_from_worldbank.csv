@@ -1,0 +1,35 @@
+# World Bank WDI for Venezuela (VEN), current vintage, pulled 2026-10-25.
+# gdp_growth_pct NY.GDP.MKTP.KD.ZG: the World Bank's own estimate of
+#   real growth — Venezuela has submitted no national accounts to it
+#   since the 2000s, so these are staff estimates of a rebased series,
+#   not BCV outturns. IMF WEO NGDP_RPCH agrees on sign every year and
+#   differs on size (2020: -29.8 here, -33.2 there).
+# cpi_inflation_pct FP.CPI.TOTL.ZG: the BCV's INPC as the World Bank
+#   records it, 2009-2016 ONLY. It stops when the BCV stopped
+#   submitting; the hyperinflation years are IMF staff estimates and
+#   live in macro/inflation_from_imf.csv. The two are never spliced.
+# unemployment_pct SL.UEM.TOTL.ZS: ILO modelled estimate, not a
+#   labour-force survey. The INE's own Encuesta de Hogares tabulado is
+#   published (fetch_ine.py, meta.pending) but its concept codes carry
+#   no inline labels.
+year,gdp_growth_pct,cpi_inflation_pct,unemployment_pct
+2006,9.89,,8.606
+2007,8.81,,7.279
+2008,5.22,,6.245
+2009,-3.08,27.08,6.097
+2010,-1.59,28.19,7.112
+2011,4.12,26.09,6.902
+2012,5.68,21.07,6.601
+2013,1.30,40.64,7.540
+2014,-3.86,62.17,6.821
+2015,-6.19,121.74,6.139
+2016,-17.11,254.95,5.319
+2017,-15.70,,5.045
+2018,-19.64,,5.468
+2019,-27.62,,5.890
+2020,-29.82,,7.530
+2021,0.63,,7.027
+2022,8.07,,5.646
+2023,4.02,,5.407
+2024,5.52,,5.321
+2025,1.57,,5.307

@@ -1,0 +1,19 @@
+# World Bank NE.GDI.FTOT.ZS: gross fixed capital formation, % of GDP.
+# 2006-2011 are NOT zero: the API returns a placeholder 0.0 for years
+# where the national-accounts series behind the ratio is absent, and
+# this fetcher drops them. The line starts in 2012.
+year,gfcf_pct_gdp
+2012,18.21
+2013,25.57
+2014,17.03
+2015,17.45
+2016,10.86
+2017,8.07
+2018,6.21
+2019,5.59
+2020,7.02
+2021,6.70
+2022,4.73
+2023,4.12
+2024,3.80
+2025,4.58

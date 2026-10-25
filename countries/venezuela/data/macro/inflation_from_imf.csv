@@ -1,0 +1,30 @@
+# IMF WEO (October 2026 vintage) PCPIPCH, average consumer prices, %.
+# STAFF ESTIMATE. This is the only series that covers the
+# hyperinflation: 2018 = 65,374%, 2019 = 19,906%, 2020 = 2,355%.
+# The national CPI (BCV's INPC, as the World Bank republishes it) stops
+# in 2016 and is a SEPARATE column in macro/economy_from_worldbank.csv
+# — the two are drawn as two lines and never spliced into one.
+# This is also the series that leaves the economy slot's shared
+# -5..225 scale by three orders of magnitude (see country.yaml).
+year,cpi_inflation_pct,cpi_inflation_pct_proj
+2006,13.70,
+2007,18.70,
+2008,31.40,
+2009,26.00,
+2010,28.20,
+2011,26.10,
+2012,21.10,
+2013,40.60,
+2014,62.20,
+2015,121.70,
+2016,254.90,
+2017,438.10,
+2018,65374.10,
+2019,19906.00,
+2020,2355.10,
+2021,1588.50,
+2022,186.50,
+2023,337.50,
+2024,49.40,
+2025,252.00,
+2026,,467.90

@@ -1,0 +1,28 @@
+# IMF WEO NGDPD, GDP at current prices, US$ bn converted at the WEO's
+# own rate convention. NOT the canonical world-slot series (that is the
+# World Bank's NY.GDP.MKTP.CD); it is the second, labelled line that
+# shows how much of Venezuela's dollar GDP is an artefact of which
+# exchange rate a compiler chose (2014: 128.8 here against 214.8 at the
+# World Bank).
+year,gdp_usd,gdp_usd_proj
+2006,179,
+2007,235,
+2008,303,
+2009,262,
+2010,304,
+2011,305,
+2012,339,
+2013,226,
+2014,129,
+2015,84,
+2016,79,
+2017,60,
+2018,48,
+2019,22,
+2020,20,
+2021,39,
+2022,80,
+2023,77,
+2024,104,
+2025,101,
+2026,,124

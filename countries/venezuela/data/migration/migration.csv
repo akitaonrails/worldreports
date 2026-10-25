@@ -1,0 +1,31 @@
+# Net migration: World Bank SM.POP.NETM, a COUNT of people from the UN
+# WPP model; net_migration_per_1000 is derived as net_migration /
+# population x 1,000 using the same vintage's mid-year population.
+# 2018 = -1,355,602, about -45 per 1,000 in one year — outside the
+# canonical slot's -10..+40 range, which is a shared-scale decision
+# (country.yaml), never a country-local axis.
+# migrant_stock is the UN DESA stock of foreign-born residents, a
+# SNAPSHOT series (2010, 2015, 2020, 2024) and never interpolated —
+# and it measures immigration INTO Venezuela, not the emigration that
+# dominates this country's story. That is the lens, below.
+year,net_migration,net_migration_per_1000,migrant_stock
+2006,-27240,-1.00,
+2007,-36060,-1.30,
+2008,-43636,-1.56,
+2009,-50286,-1.77,
+2010,-52781,-1.83,1347347
+2011,-54384,-1.86,
+2012,-55131,-1.87,
+2013,-57818,-1.93,
+2014,-62437,-2.06,
+2015,-77417,-2.53,1404448
+2016,-283270,-9.21,
+2017,-817376,-26.74,
+2018,-1355602,-45.48,
+2019,-975534,-33.71,
+2020,-524649,-18.44,1324193
+2021,-332936,-11.79,
+2022,-141107,-5.00,
+2023,-112899,-3.99,
+2024,-105297,-3.71,1263304
+2025,-100467,-3.52,

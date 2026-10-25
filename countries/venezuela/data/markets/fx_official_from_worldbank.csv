@@ -1,0 +1,20 @@
+# World Bank PA.NUS.FCRF: official exchange rate, local currency units
+# per US$, period average. STOPS IN 2017. The values are quoted in the
+# unit of the day: 2006-2007 in bolívares fuertes (the 2008
+# redenomination applied retroactively), 2008-2017 in bolívares
+# fuertes. Converting to the 2021 bolívar (VES) needs the divisors in
+# DATA_NOTES.md; the collapse after 2017 is not measurable here at all
+# because no official rate survives any route tried.
+year,lcu_per_usd
+2006,2.1470
+2007,2.1470
+2008,2.1470
+2009,2.1470
+2010,2.5821
+2011,4.2893
+2012,4.2893
+2013,6.0480
+2014,6.2842
+2015,6.2842
+2016,9.2573
+2017,9.9750

@@ -1,0 +1,44 @@
+# Dated reference: INE "Tabulados — Coeficiente GINI", retrieved 2026-10-25.
+# Publisher: Instituto Nacional de Estadística (Venezuela).
+# URL: https://ine.gob.ve/wp-content/uploads/2026/09/COEFICIENTE-GINI.xlsx
+# Sheet: "Coeficiente Gini, 1997 - 2020" (the sheet title is stale: the values
+# run to 2025 and start in 1999).
+# Publisher's own unit: an index on a 0-1 scale, as printed in the workbook.
+#
+# Retrieval route: the publisher is NOT reachable from the build network
+# (curl: exit 000 after a 25s timeout, both schemes, both hosts — recorded in
+# SOURCES.yaml meta.pending). The workbook was pulled once through the agent's
+# egress proxy and the cell values transcribed here verbatim, so the reviewer
+# can check the curated CSV against what the publisher served without a
+# network route that does not exist. fetch/fetch_ine.py regenerates this table
+# from the workbook itself and writes a review sidecar when it can reach it.
+#
+# Not a scrape of prose: every value below is cell B4:C30 of sheet 1.
+year,gini_0_1
+1999,0.469
+2000,0.477
+2001,0.457
+2002,0.494
+2003,0.481
+2004,0.456
+2005,0.475
+2006,0.442
+2007,0.424
+2008,0.410
+2009,0.418
+2010,0.390
+2011,0.390
+2012,0.404
+2013,0.409
+2014,0.380
+2015,0.381
+2016,0.380
+2017,0.381
+2018,0.377
+2019,0.380
+2020,0.386
+2021,0.388
+2022,0.38103
+2023,0.38555
+2024,0.39297
+2025,0.394

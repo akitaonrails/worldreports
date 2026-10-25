@@ -1,0 +1,31 @@
+# Official exchange rate, period average, and the currency index.
+# lcu_per_usd is the publisher's own figure, in the unit of the day:
+# 2006-2017 are BOLÍVARES FUERTES — the World Bank restates pre-2008
+# values in the post-2008 unit (2005 = 2.08975 is the 2,089.75 Bs/USD
+# peg divided by 1,000).
+# ves_per_usd = lcu_per_usd / 1e11: one bolívar digital (VES, from
+# 1 Oct 2021) = 1,000,000 bolívares soberanos (2018) = 100,000,000,000
+# bolívares fuertes (2008). The divisor is documented, not implied.
+# fx_index_2006_100 = 2.147 / lcu_per_usd * 100: index 2006 = 100,
+# rising = stronger against the US$, so the line falls as the bolívar
+# weakens.
+# THE SERIES ENDS IN 2017. No official rate survives any route tried
+# for 2018-2025 (the BCV is unreachable over TLS, the IMF's exchange-
+# rate dataset returns an empty Venezuela slice, and the parallel and
+# market rates are not official statistics). The collapse after 2017 is
+# therefore NOT drawn, and the plate says the line stops where the
+# official rate stopped being published — not that the bolívar
+# stabilised.
+year,lcu_per_usd,ves_per_usd,fx_index_2006_100
+2006,2.1470,2.147000e-11,100.0000
+2007,2.1470,2.147000e-11,100.0000
+2008,2.1470,2.147000e-11,100.0000
+2009,2.1470,2.147000e-11,100.0000
+2010,2.5821,2.582100e-11,83.1494
+2011,4.2893,4.289300e-11,50.0548
+2012,4.2893,4.289300e-11,50.0548
+2013,6.0480,6.048000e-11,35.4993
+2014,6.2842,6.284200e-11,34.1650
+2015,6.2842,6.284200e-11,34.1650
+2016,9.2573,9.257300e-11,23.1925
+2017,9.9750,9.975000e-11,21.5238
