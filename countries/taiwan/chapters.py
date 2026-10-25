@@ -56,6 +56,9 @@ def _goods_balance_usd_bn(ctx):
 def headline(ctx) -> list[dict]:
     """The figures the page leads with, above the plates."""
     return [
+        ctx.stat({ZH: "GDP", EN: "GDP", PT: "PIB"},
+                 [(y, v / 1e3) for y, v in
+                  ctx.col("economy/gdp.csv", "gdp_nominal_usd_mn")], "usd_bn"),
         ctx.stat({ZH: "每人GDP", EN: "GDP per person", PT: "PIB por pessoa"},
                  ctx.col("economy/gdp.csv", "gdp_per_capita_usd"),
                  "count", kind="level"),

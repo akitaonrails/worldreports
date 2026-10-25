@@ -6,6 +6,7 @@ MONEY, WORLD, PEOPLE = "money", "world", "people"
 
 def headline(ctx):
     return [
+        ctx.stat({"vi":"GDP","en":"GDP","pt":"PIB"}, [(y,v/1e9) for y,v in ctx.col("international/gdp_usd_wb.csv","gdp_usd")], "usd_bn"),
         ctx.stat({"vi":"GDP bình quân đầu người","en":"GDP per person","pt":"PIB por pessoa"}, ctx.col("international/gdp_usd_wb.csv","gdp_per_person_usd"), "count", kind="level"),
         ctx.stat({"vi":"Dân số","en":"Population","pt":"População"}, [(y,v/1000) for y,v in ctx.col("demography/population.csv","population_total_thousand")], "pop_mn", kind="level"),
         ctx.stat({"vi":"Tăng trưởng thực","en":"Real growth","pt":"Crescimento real"}, ctx.col("macro/gdp.csv","real_growth_pct"), "pct_s"),

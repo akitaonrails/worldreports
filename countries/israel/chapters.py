@@ -11,6 +11,9 @@ def _scaled(ctx, path, column, divisor):
 def headline(ctx):
     T = ctx.text
     return [
+        ctx.stat(T(he="תמ״ג, דולר", en="GDP", pt="PIB"),
+                 _scaled(ctx, "international/world.csv", "gdp_usd", 1e9),
+                 "usd_bn"),
         ctx.stat(T(he="תמ״ג לנפש, דולר", en="GDP per person, US$", pt="PIB por pessoa, US$"),
                  ctx.col("international/world.csv", "gdp_per_person_usd"), "count"),
         ctx.stat(T(he="אוכלוסייה", en="Population", pt="População"),

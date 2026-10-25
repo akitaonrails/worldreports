@@ -9,6 +9,8 @@ def _c(ctx, name, col):
 def headline(ctx):
     return [
         ctx.stat({"en": "GDP", "pt": "PIB"}, _c(ctx, "gdp_estat", "nominal_eurbn"), "money_bn"),
+        ctx.stat({"en": "GDP per person, US$", "pt": "PIB por pessoa, US$"},
+                 _c(ctx, "gdp_pc_wb", "gdp_per_person_usd"), "count"),
         ctx.stat({"en": "Population", "pt": "População"},
                  [(y, v / 1e6) for y, v in _c(ctx, "demography_ine", "population")], "pop_mn", kind="level"),
         ctx.stat({"en": "Unemployment", "pt": "Desemprego"}, _c(ctx, "unemployment_ine", "rate_serie2021"), "pct"),

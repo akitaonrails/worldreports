@@ -23,6 +23,14 @@ def headline(ctx) -> list[dict]:
             {"es": 'PIB, {year}', "en": 'GDP, {year}', "pt": 'PIB, {year}'},
             ctx.col("macro/gdp.csv", "usd_bn"), "usd_bn1", kind="level"),
         ctx.stat(
+            {"es": 'PIB por persona, US$', "en": 'GDP per person, US$',
+             "pt": 'PIB por pessoa, US$'},
+            ctx.col("macro/world.csv", "gdp_per_person_usd"), "count"),
+        ctx.stat(
+            {"es": 'Población', "en": 'Population', "pt": 'População'},
+            ctx.col("macro/gdp.csv", "population_mn"), "pop_mn",
+            kind="level"),
+        ctx.stat(
             {"es": 'Inflación, {year}', "en": 'Inflation, {year}',
              "pt": 'Inflação, {year}'},
             ctx.col('macro/ipc.csv', 'official'), 'pct'),

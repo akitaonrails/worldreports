@@ -10,6 +10,9 @@ def _bn(series, divisor=1_000):
 
 def headline(ctx):
     return [
+        ctx.stat({"de": "BIP", "en": "GDP", "pt": "PIB"},
+                 _bn(ctx.col("international/gdp_usd_wb.csv", "gdp_usd"),
+                     1_000_000_000), "usd_bn"),
         ctx.stat({"de": "BIP pro Person, US$", "en": "GDP per person, US$", "pt": "PIB por pessoa, US$"},
                  ctx.col("international/gdp_pc_wb.csv", "gdp_per_person_usd"), "count"),
         ctx.stat({"de": "Bevölkerung", "en": "Population", "pt": "População"},

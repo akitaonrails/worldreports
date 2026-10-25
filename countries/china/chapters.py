@@ -12,10 +12,13 @@ def _text(ctx, zh, en, pt):
 
 def headline(ctx):
     return [
+        ctx.stat(_text(ctx, "GDP（美元）", "GDP", "PIB"),
+                 _bn(ctx.col("economy/gdp_usd.csv", "gdp_usd"), 1_000_000_000),
+                 "usd_bn"),
         ctx.stat(_text(ctx, "人均GDP（美元）", "GDP per person, US$", "PIB por pessoa, US$"),
                  ctx.col("economy/gdp_pc_usd.csv", "gdp_per_person_usd"), "count"),
         ctx.stat(_text(ctx, "人口", "Population", "População"),
-                 _bn(ctx.col("demography/population_intl.csv", "population"), 1_000_000_000), "dec2", kind="level"),
+                 _bn(ctx.col("demography/population_intl.csv", "population"), 1_000_000), "pop_mn", kind="level"),
         ctx.stat(_text(ctx, "实际增长", "Real growth", "Crescimento real"),
                  ctx.col("economy/gdp_growth_intl.csv", "wb_real_growth_pct"), "pct_s"),
         ctx.stat(_text(ctx, "通胀", "Inflation", "Inflação"),

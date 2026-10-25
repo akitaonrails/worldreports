@@ -132,6 +132,27 @@ def test_every_country_homepage_has_a_summary_strip(site, country):
             f"{country.slug}/{loc.code}: homepage summary is incomplete"
 
 
+def test_every_headline_strip_leads_with_gdp_then_population(country):
+    """The same three readings, in the same order, on every country page.
+
+    GDP, then GDP per person, then population: a reader moving between
+    countries must not have to re-learn where the size of the economy sits.
+    Country-specific readings follow, in whatever order that country needs.
+    """
+    headline = sitebuild.headline_for(country)
+    labels = [h["label"]["en"] for h in headline]
+    assert labels[0].startswith("GDP"), \
+        f"{country.slug}: first reading is {labels[0]!r}, not GDP"
+    assert not labels[0].startswith("GDP per person"), \
+        f"{country.slug}: the strip leads with GDP per person"
+    assert labels[1].startswith("GDP per person"), \
+        f"{country.slug}: second reading is {labels[1]!r}"
+    assert labels[2].startswith("Population"), \
+        f"{country.slug}: third reading is {labels[2]!r}, not population"
+    # Population is a level, read at a moment, not a flow that stops early.
+    assert headline[2]["value"], f"{country.slug}: population has no value"
+
+
 def test_the_front_page_links_to_every_country(site, countries):
     doc = parse(site / "index.html")
     for c in countries:

@@ -17,6 +17,9 @@ def headline(ctx):
     return [
         ctx.stat(T(ja="GDP", en="GDP", pt="PIB"),
                  _c(ctx, "gdp_esri", "gdp_nominal_cy_bn"), "money_bn"),
+        ctx.stat(T(ja="1人当たりGDP", en="GDP per person, US$",
+                   pt="PIB por pessoa, US$"),
+                 _c(ctx, "gdp_pc_wb", "gdp_per_person_usd"), "count"),
         ctx.stat(T(ja="人口", en="Population", pt="População"),
                  _scaled(ctx, "population_stat", "population_k", 1_000),
                  "pop_mn", kind="level"),

@@ -18,6 +18,9 @@ def headline(ctx) -> list[dict]:
     return [
         ctx.stat({"en": "GDP", "es": "PIB", "pt": "PIB"},
                  ctx.col("macro/gdp.csv", "nominal_eurbn"), "money_bn"),
+        ctx.stat({"en": "GDP per person, US$", "es": "PIB por persona, US$",
+                  "pt": "PIB por pessoa, US$"},
+                 ctx.col("macro/gdp.csv", "gdp_per_capita_usd"), "count"),
         ctx.stat({"en": "Population", "es": "Población", "pt": "População"},
                  [(y, v / 1e6) for y, v in
                   ctx.col("social/population.csv", "population")],

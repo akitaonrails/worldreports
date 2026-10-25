@@ -20,6 +20,9 @@ MONEY, WORLD, PEOPLE = "money", "world", "people"
 def headline(ctx) -> list[dict]:
     """The figures the page leads with, above the plates."""
     return [
+        ctx.stat({"en": "GDP", "fr": "PIB", "pt": "PIB"},
+                 [(y, v / 1e9) for y, v in
+                  ctx.col("international/gdp_usd.csv", "gdp_usd")], "usd_bn"),
         ctx.stat({"en": "GDP per person, US$", "fr": "PIB par habitant, $US",
                   "pt": "PIB por pessoa, US$"},
                  ctx.col("international/gdp_pc.csv", "gdp_per_person_usd"),
