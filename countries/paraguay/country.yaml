@@ -67,9 +67,10 @@ spine: true
 #   fiscal.revenue_expenditure 0..70: fits (18.9 / 21.0).
 #   fiscal.debt 0..300: fits (44.6% in 2024).
 #   trade.exports/imports 0..100: fits (46.3% in 2006).
-#   markets.fx log 0.1..200 (index 2006 = 100): fits — the guaraní
-#     appreciated to about 140 by 2025, the strongest in the atlas's
-#     recent set, still far inside the range.
+#   markets.fx log 0.1..200 (index 2006 = 100): fits — the guaraní ran
+#     from 5,635/US$ in 2006 to its strongest year, 4,194 in 2011
+#     (index 134), then down to 7,545 in 2025 (index 75). A depreciation
+#     of a quarter against the dollar over twenty years, not a collapse.
 #   demography.fertility 0..3.5: the INE series runs 2.84 (2006) down to
 #     1.93 (2025) and 1.86 by 2050 — it crosses the 2.1 replacement line
 #     in 2021, which is the panel's finding.

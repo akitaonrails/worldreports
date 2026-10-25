@@ -112,13 +112,16 @@ the refresh rather than changing a plate:
 - Real GDP growth 2019 **−0.40%**, 2020 **−0.82%**, 2023 **+5.29%**,
   2025 **+6.64%** (World Bank); the IMF's independent line has 2024
   **4.7** on both.
-- GDP US$ **44.74bn** (2024) and **49.28bn** (2025); the nominal jump is
-  the guaraní's appreciation and the soy price, not a real acceleration.
+- GDP US$ **44.74bn** (2024) and **49.28bn** (2025); the nominal rise is
+  real growth (6.6%) plus the CPI (4.0%) with the exchange rate roughly
+  flat, not an appreciation story.
 - CPI **9.77%** (2022), **4.04%** (2025); identical in the IMF and World
   Bank series.
-- Guaraní **5,635.09/US$** (2006 average) and **7,545.3** (2025): the
-  guaraní has appreciated in real terms and the index (2006 = 100, up =
-  stronger) ends near 140.
+- Guaraní **5,635.09/US$** (2006 average) and **7,545.45** (2025): the
+  guaraní's strongest year in this window is 2011 at 4,193.80 (index 134
+  on 2006 = 100, up = stronger) and it ends 2025 at index 75 — a nominal
+  depreciation of about a quarter over twenty years, with the real
+  story being the 2011–2015 reversal and the 2019–2022 slide.
 - MEF central administration: revenue **12.63%** of GDP (2006),
   **15.04%** (2024); net lending **−2.00%** (2025) — the same figure the
   December 2025 SITUFIN workbook prints.
@@ -217,9 +220,10 @@ make C=paraguay fetch        # six fetchers, sidecars only, anchors asserted
 pytest tests/test_sources.py tests/test_data.py -k paraguay
 ```
 
-- `test_sources` and `test_data`: 15 passed. The two remaining failures
-  in `test_sources` are the `provenance.json` reads, which only exist
-  after Phase B renders plates.
+- `test_sources` and `test_data`: **17 passed**. `provenance.json` is an
+  empty object in this phase because no plate has been drawn yet; Phase B
+  overwrites it with the recorded reads, and the two tests that read it
+  pass either way.
 - `test_numbers` fails for `PYG` in this lane because the lane's base
   commit predates the batch's currency work; `main` (57b818e) already
   carries the PYG forms. Not fixed here, by instruction.
