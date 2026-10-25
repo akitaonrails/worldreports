@@ -107,7 +107,11 @@ seo:
   keywords: [Chile, Banco Central de Chile, INE, copper, inflation, public accounts, official statistics]
   spatial: "Chile — all 16 regions, including Easter Island and the Juan Fernández archipelago; the Antarctic claim is not covered by any series here"
 
+# The institutions whose numbers are drawn. The Banco Central and the INE
+# are named because their series are, even where a harmoniser republishes
+# them; Dipres, the CMF, Aduanas and the SII are not, because nothing of
+# theirs is staged (SOURCES.yaml meta.pending records why).
 sources:
-  es: "el Banco Central de Chile, el INE, la Dipres, el DEIS/MINSAL, datos.gob.cl y la capa armonizada de la OCDE, el FMI, el Banco Mundial y el PNUD"
-  en: "the Banco Central de Chile, the INE, Dipres, DEIS/MINSAL, datos.gob.cl and the harmonised OECD, IMF, World Bank and UNDP layer"
-  pt: "o Banco Central de Chile, o INE, a Dipres, o DEIS/MINSAL, o datos.gob.cl e a camada harmonizada da OCDE, do FMI, do Banco Mundial e do PNUD"
+  es: "el Banco Central de Chile, el INE, el DEIS/MINSAL, datos.gob.cl y la capa armonizada de la OCDE, el FMI, el Banco Mundial, el PNUD y Transparencia Internacional"
+  en: "the Banco Central de Chile, the INE, DEIS/MINSAL, datos.gob.cl and the harmonised OECD, IMF, World Bank, UNDP and Transparency International layer"
+  pt: "o Banco Central de Chile, o INE, o DEIS/MINSAL, o datos.gob.cl e a camada harmonizada da OCDE, do FMI, do Banco Mundial, do PNUD e da Transparência Internacional"
