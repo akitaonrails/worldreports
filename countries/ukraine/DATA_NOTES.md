@@ -68,13 +68,14 @@ this network). Both write `*_from_*` review sidecars only — the curated
 CSVs are a separate reviewed step — and both are re-runnable: two offline
 runs produce byte-identical sidecars.
 
-## Not drawn, on purpose
+## Historical first-pass omissions (superseded by nine-plate edition)
 
-Fiscal, trade, markets, credit, security and mortality chapters are not
-published at all this pass rather than assembled from a different perimeter
-or a partner's mirror data. The blocked publishers and their exact failure
-modes are in `SOURCES.yaml` `meta.pending`, and the page discloses the
-absence in each locale.
+The initial four-chapter release had no fiscal, trade, markets, credit,
+security or mortality plates. The later upstream update filled fiscal,
+trade, markets, security and mortality from compatible verified sources,
+as described below. **Only credit remains an unpublished chapter.**
+The Treasury cash series introduced here complements — it does not
+replace — the current IMF general-government fiscal plate.
 
 ## Fiscal, trade, markets, security and mortality
 
@@ -129,3 +130,89 @@ in `ui.json`.
 The atlas-wide ranges were widened a second time for this pass —
 revenue/expenditure to 80, fiscal balance to -24, trade balance to -30
 and the crude death rate to 22 — with every country regenerated.
+
+## Treasury fiscal data — annual reference dates and scope (2026-10-24)
+
+The **NBU republishes State Treasury cash-budget execution**, not harmonised
+IMF general-government accrual statistics. The reviewed data in
+`fiscal/treasury_functional.csv` are **2011–2025 consolidated budget (CBU)**
+functional outturns, measured in **million nominal UAH**, split into the ten
+original top-level Ukrainian budget classification codes `0100`–`1000`.
+The reported `gf_budgtef_Total_1` is **expenditure excluding interbudget
+transfers**, not an additional category. National functional classes must
+not be treated as a checked mapping to the atlas's seven COFOG-like groups.
+
+**Critical date mapping:** in the NBU `budget` cube, an annual record
+`dt=20240101` reports the **2023** calendar-year execution.
+`dt=20250101` reports **2024**. The previous research probe mistakenly
+treated the NBU January date as the same calendar year. It was corrected
+rather than imported wholesale. The source date is kept as a separate
+column, so this rule can be audited without inferring it from a chart.
+
+The independent cross-check is the **Ministry of Finance** statistical book
+[Budget of Ukraine 2024](https://mof.gov.ua/storage/files/Badgef%20of%20Ukraine2024.pdf),
+especially section **2.3, pages 34–37**, with:
+- **2023:** defence 2,097,621.9 million UAH; consolidated spending
+  4,441,364.6 million UAH.
+- **2024:** defence 2,305,242.7 million UAH; consolidated spending
+  4,945,680.7 million UAH.
+
+All 15 annual ten-category sums reconcile with the same-year functional
+total within **0.3 million UAH** (source presentation rounding).
+A **stronger independent cross-check** is now available: the
+[Ministry of Finance's 2025 ANNUAL consolidated-budget workbook](https://www.mof.gov.ua/storage/files/4_%D0%97%D0%91_%D1%80%D1%96%D0%BA_%D1%81%D0%B0%D0%B9%D1%82_25.xlsx),
+sheet **`2025 рік`**, publishes **6,006,387.27484437 million UAH**
+for 2025 functional spending, **3,069,857.41825598 million UAH**
+for defence and **264,998.32655720 million UAH** for economic affairs.
+All ten functional categories match the NBU's 2025 annual observations
+within **0.05 million UAH**, the NBU's one-decimal reporting precision.
+The Ministry's category `0100` is split into *general public services
+excluding debt servicing* (**149,697.44444124 million**) and *debt
+servicing/derivative payments* (**362,494.81121092 million**). Adding only
+those two subcomponents recovers the NBU's `0100` rounded amount
+(**512,192.3 million UAH**). This is a within-classification
+reconciliation, not an unverified COFOG conversion.
+
+The [Open Budget consolidated portal's DECEMBER 2025 edition](https://openbudget.gov.ua/?budgetType=CONSOLIDATED&month=12&year=2025)
+instead lists **5,999,467.11164619 million UAH** for spending and
+**258,106.094607 million** for economic affairs. The later annual
+publication is **6,920.18835381 million UAH higher** overall, of which
+**6,892.23195020 million UAH** relates to economic affairs. The earlier
+edition is preserved in `fetch/reference_openbudget_2025.csv`; the annual
+edition is preserved in `fetch/reference_mof_2025_annual.csv`.
+**The apparent NBU-versus-Open-Budget disagreement was a comparison
+between two publisher editions**: the annual MoF figures independently
+confirm the NBU values. This does NOT establish which administrative
+bookings or revisions caused the change from December to annual.
+
+The non-governmental index.minfin.com.ua site carries the earlier
+December edition for 2025 and has some differences in earlier years.
+Those differences are not used to revise the curator's independently
+verified annual series. Neither cash-budget vintage is mixed with the
+IMF's general-government accrual accounts.
+
+The economic-classification total `gf_budgtee_Total` does not agree
+exactly (for example, the 2023 fiscal-year observation is 4,433,206.4
+million UAH); its variance is not discarded or blended into the
+functional time series. Revenue / balance / financing classifications
+must receive their own identity verification before use. The signed
+`gf_budgtfd_total` is financing with deficit-positive sign — **not** a
+general-government primary balance. We stage none of those as fiscal
+accounts yet.
+
+**Discontinuities and limits:** the wartime fiscal envelope and territory
+of execution may change around 2014 and 2022. This is not a constant-
+territory panel; nominal expenditures may change because of prices,
+administrative scope or budget priorities. Values are not inflation
+adjusted, expressed as GDP shares, reconstructed, interpolated or
+converted to USD. Do not infer constant-definition expenditure growth.
+The national functional categories remain supplementary **source material**
+until a defensible national-only plate is implemented and visually reviewed.
+
+`fetch/fetch_treasury.py` re-fetches the full JSON cube and writes
+`fetch/cache/treasury_functional_from_nbu.csv` **only** (a review sidecar).
+It validates JSON and field names, annual dates, unit, parent/category
+hierarchy, duplicated codes, annual gaps, numeric sanity, Ministry of
+Finance anchors and within-year reconciliation. It never overwrites
+the committed source-of-truth CSV. Compare the entire historical sidecar
+to the curated CSV before accepting revisions.

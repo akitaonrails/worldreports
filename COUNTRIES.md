@@ -41,9 +41,11 @@ Portuguese**, and every plate is drawn in each of them.
 | `usa` | en · pt | 11 | 43 |
 | `vietnam` | vi · en · pt | 12 | 36 |
 
-The counts are the spine-vintage numbers (2026-10-22): plates are the drawn
-chapters per country, datasets the curated CSVs the plates read, sidecars and
-cross-check files not counted.
+The inventory started from the 2026-10-22 spine vintage and records
+subsequent verified additions. Plates count published chapters; datasets
+count curated CSVs declared in SOURCES.yaml, including source-only
+national datasets where documented. Review sidecars and independent
+cross-check files are not counted.
 
 ## Queued
 
