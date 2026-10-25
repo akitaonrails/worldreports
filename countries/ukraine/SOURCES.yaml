@@ -373,6 +373,16 @@ meta:
         2026-10-24 with both plain and browser UAs; Canada's lane
         fetched the identical URL successfully on 2026-10-22, so this
         is a network block, not a dead endpoint. Retry at fetch time.
+    - name: WHO COVID-19 deaths (mortality slot 3)
+      publisher: World Health Organization
+      url: https://ghoapi.azureedge.net/api/Indicator
+      official: true
+      notes: >-
+        Probed again 2026-10-25: the GHO indicator catalogue answers, but
+        it carries no general COVID-19 death indicator (only in-prison
+        diagnosis and mortality), and covid19.who.int/WHO-COVID-19-global-data.csv
+        now follows to an HTML page rather than a CSV. No official series
+        exists for this slot on the routes available; it stays pending.
     - name: UNHCR / IOM wartime displacement data APIs
       publisher: UNHCR; IOM Displacement Tracking Matrix
       url: https://data.unhcr.org/en/situations/ukraine

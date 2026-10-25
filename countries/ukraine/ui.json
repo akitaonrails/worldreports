@@ -31,7 +31,7 @@
    },
    {
     "term": "Excess deaths and COVID-19 deaths",
-    "detail": "Excess deaths need the registered-death count; Ukrstat's deaths dataflow is cached but its code list is not yet pinned. WHO's COVID-19 series answers from a redirect that does not resolve here."
+    "detail": "Excess deaths need the registered-death count; Ukrstat's deaths dataflow is cached but its code list is not yet pinned. WHO's own API (checked 2026-10-25) carries no general COVID-19 death indicator — only in-prison statistics — and the covid19.who.int CSV endpoint now serves an HTML page, so no official series is drawn."
    },
    {
     "term": "Poverty and the minimum wage",
@@ -97,7 +97,7 @@
    },
    {
     "term": "Надлишкова смертність і смерті від COVID-19",
-    "detail": "Надлишкова смертність потребує кількості зареєстрованих смертей; набір смертей Укрстату є в кеші, але його перелік кодів ще не закріплено. Ряд COVID-19 ВООЗ відповідає через переадресацію, яка тут не розв’язується."
+    "detail": "Надлишкова смертність потребує кількості зареєстрованих смертей; набір смертей Укрстату є в кеші, але його перелік кодів ще не закріплено. Власний API ВООЗ (перевірено 2026-10-25) не має загального показника смертей від COVID-19 — лише тюремну статистику, — а кінцева точка covid19.who.int тепер віддає HTML-сторінку, тож офіційного ряду не малюємо."
    },
    {
     "term": "Бідність і мінімальна зарплата",
@@ -163,7 +163,7 @@
    },
    {
     "term": "Excesso de mortes e mortes por COVID-19",
-    "detail": "O excesso de mortes exige a contagem de óbitos registrados; o conjunto de óbitos do Ukrstat está em cache, mas a sua lista de códigos ainda não está fixada. A série de COVID-19 da OMS responde por um redirecionamento que não resolve aqui."
+    "detail": "O excesso de mortes exige a contagem de óbitos registrados; o conjunto de óbitos do Ukrstat está em cache, mas a sua lista de códigos ainda não está fixada. A própria API da OMS (verificada em 2026-10-25) não traz indicador geral de mortes por COVID-19 — apenas estatísticas prisionais — e o endpoint CSV covid19.who.int agora serve uma página HTML, então nenhuma série oficial é desenhada."
    },
    {
     "term": "Pobreza e salário mínimo",
