@@ -1,0 +1,27 @@
+# Population growth by component, C&SD table 110-01003, thousands.
+# Each published observation is the change over the 12 months ending at
+# that time point (the table's own note), so the December row is the
+# calendar year. The two halves are NOT summed: that would double every
+# figure. net_movement is the publisher's residual after births and
+# deaths, split into one-way permit holders and everyone else.
+year,births_k,deaths_k,natural_change_k,net_movement_k,net_movement_one_way_k,net_movement_others_k
+2006,65.6,37.5,28.1,38.4,54.2,-15.8
+2007,70.9,39.5,31.5,2.6,33.9,-31.2
+2008,78.8,41.8,37.0,-11.5,41.6,-53.2
+2009,82.1,41.2,40.9,-8.4,48.6,-56.9
+2010,88.6,42.2,46.5,9.2,42.6,-33.4
+2011,95.5,42.3,53.1,4.3,43.4,-39.0
+2012,91.6,43.9,47.6,13.8,54.6,-40.8
+2013,57.1,43.4,13.7,26.2,45.0,-18.8
+2014,62.3,45.1,17.2,24.8,40.5,-15.6
+2015,59.9,46.1,13.8,43.0,38.3,4.6
+2016,60.9,46.9,14.0,54.4,57.4,-3.0
+2017,56.5,46.8,9.7,27.0,47.0,-19.9
+2018,53.7,47.4,6.3,66.5,42.3,24.2
+2019,52.9,49.0,3.9,29.0,39.1,-10.1
+2020,43.0,50.7,-7.6,-86.2,10.1,-96.4
+2021,37.0,51.2,-14.2,-11.0,17.9,-28.9
+2022,32.5,62.1,-29.5,100.6,21.2,79.4
+2023,33.2,54.4,-21.2,76.4,40.8,35.6
+2024,36.7,51.4,-14.7,-12.6,40.0,-52.5
+2025,31.1,50.0,-18.9,27.1,25.0,2.1

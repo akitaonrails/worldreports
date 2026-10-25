@@ -1,0 +1,64 @@
+{
+ "01-economy": [
+  "macro/cpi.csv",
+  "macro/gdp.csv",
+  "macro/labour.csv",
+  "world/gdp_usd.csv"
+ ],
+ "02-fiscal": [
+  "fiscal/gg_imf.csv",
+  "fiscal/govt.csv",
+  "macro/gdp.csv"
+ ],
+ "03-spending": [
+  "macro/gdp.csv",
+  "spending/gce_function.csv",
+  "spending/investment.csv"
+ ],
+ "04-trade": [
+  "macro/gdp.csv",
+  "trade/destinations.csv",
+  "trade/merchandise.csv",
+  "trade/trade_gdp.csv"
+ ],
+ "05-markets": [
+  "macro/cpi.csv",
+  "markets/base_rate.csv",
+  "markets/equity.csv",
+  "markets/fx.csv"
+ ],
+ "06-credit": [
+  "credit/classified_loans.csv",
+  "credit/household_debt.csv",
+  "markets/base_rate.csv",
+  "markets/lending_rate.csv"
+ ],
+ "07-people": [
+  "people/income.csv"
+ ],
+ "08-world": [
+  "world/corruption.csv",
+  "world/gdp_usd.csv",
+  "world/hdi.csv",
+  "world/reserves.csv"
+ ],
+ "09-demography": [
+  "demography/components.csv",
+  "demography/fertility.csv",
+  "demography/population.csv",
+  "demography/vital.csv",
+  "migration/net_movement.csv"
+ ],
+ "10-security": [
+  "demography/population.csv",
+  "security/crime.csv"
+ ],
+ "11-mortality": [
+  "demography/population.csv",
+  "demography/vital.csv",
+  "mortality/deaths.csv"
+ ],
+ "12-migration": [
+  "migration/net_movement.csv"
+ ]
+}

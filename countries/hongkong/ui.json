@@ -1,0 +1,107 @@
+{
+ "en": {
+  "line": "{n} plates, {window}",
+  "dek": "Hong Kong is a Special Administrative Region of China, and this page compares it as an economy — the way every international dataset reports it, as HKG, never inside CHN. Every series is the SAR's own: the Census and Statistics Department's national accounts, the Monetary Authority's rates and reserves, the Department of Health's registered deaths, the police's reported offences. Each plate is regenerated from committed CSVs, so a chart and its number cannot drift apart. Where a canonical panel has no data it says so and why; nothing here is a Chinese national statistic and no Chinese series is drawn.",
+  "notes": [
+   "2026 is a partial year. Annual totals and averages stop at 2025; readings that are genuinely current — the Base Rate, the exchange rate, a year-end stock — are marked <em>latest</em>.",
+   "The financial year runs 1 April to 31 March and is labelled by the year it starts in: 2024 means 2024/25. The canonical fiscal panels are the IMF's consolidated general government on calendar years; the government's own General Revenue Account is cash, on a narrower perimeter, and rides as a dotted line at the financial year's midpoint, converted at that calendar year's GDP.",
+   "The Base Rate is not a local policy decision: under the currency board it is the US Federal Reserve's target upper bound plus 50 basis points, and the spot rate is held between 7.75 and 7.85 to the dollar. The markets plate draws the effective exchange rate, which moves, beside the pegged bilateral rate, which cannot.",
+   "Spending is government <em>consumption</em>, not the budget. C&SD's functional table excludes cash transfers, so social protection reads under 4% of it — the pensions, the elderly allowance and social security payments are transfers and are outside the classification altogether.",
+   "Reported crime restarts in 2021, when the police re-based the offence classification; no earlier year is spliced onto it. 2025's annual murder and manslaughter row carries 194 cases, of which 170 were reported in the fourth quarter against 19 across the first three. It is published exactly as recorded, and the quarters sum to 189, not 194 — the publisher's own table, unrevised.",
+   "Three populations appear in Hong Kong statistics and are not interchangeable: mid-year population (the denominator for homicide and movement rates), the land-based non-institutional population the labour survey covers, and the population excluding foreign domestic helpers that the headline fertility rate uses. The panel notes name which one is drawn.",
+   "Three panels wait on the atlas's shared comparison scales rather than on missing data: exports and imports of goods and services run 176-222% of GDP against a shared 0-100% scale, and net movement reaches -11.5 per 1,000 against a shared -10 floor. The series are drawn in the lens panels at their own scale and the canonical slots fill when the one shared scale is widened for every country."
+  ],
+  "colophon": [
+   {"term": "National accounts, prices, labour, population, trade, government accounts, money and crime counts", "detail": "Census and Statistics Department — the JSON web-table API, tables 110-010xx, 115-010xx, 130-06102, 210-06101, 310-30001, 310-310xx, 310-320xx, 340-450xx, 340-460xx, 340-47001, 410-500xx, 510-600xx and 940-92033"},
+   {"term": "Rates, reserves and bank asset quality", "detail": "Hong Kong Monetary Authority — Monthly Statistical Bulletin tables 3.6.1 and 8.4; the Base Rate itself comes from the BIS compilation of the HKMA's official base rate, because the HKMA's own API refused this network"},
+   {"term": "Registered deaths", "detail": "Department of Health — registered deaths by leading cause of death, 2001-2024, published on data.gov.hk"},
+   {"term": "Reported offences", "detail": "Hong Kong Police, through C&SD table 940-92033. The series begins in 2021, the year of the re-based classification"},
+   {"term": "General government", "detail": "IMF World Economic Outlook, October 2026 vintage — calendar years, the only consolidated general-government perimeter published for Hong Kong"},
+   {"term": "International comparables", "detail": "World Bank World Development Indicators · UNDP Human Development Report 2025 · Transparency International CPI 2025 · BIS total credit statistics"},
+   {"term": "Index and exchange rates", "detail": "Hang Seng Indexes Company via Yahoo Finance — a redistributor, not an official statistic; C&SD tables 340-46001 and 340-46002 for the rates themselves"}
+  ],
+  "unavailable": [
+   {"term": "Ten-year government bond yield", "detail": "Hong Kong has no continuous ten-year sovereign benchmark. At every year-end from 2015 to 2023 the only 10Y-coded notes still outstanding had under two years to maturity, and since 2024 the HKMA issues only 2- and 15-year paper. The probe is committed as markets/efn_tenor_probe_from_hkma.csv, and a 15-year or 1-year tenor is not relabelled as ten."},
+   {"term": "Income inequality (Gini)", "detail": "Published in the 2021 population census thematic report and the Household Expenditure Survey reports, as PDF tables. It is not one of C&SD's 590 web tables, data.gov.hk returns nothing for it, the World Bank's series is empty and the UNDP report carries none."},
+   {"term": "Poverty rate", "detail": "The relative poverty rate — 50% of median household income — is published annually in the Hong Kong Poverty Situation Report as PDF and XLSX attachments. Hong Kong is not a World Bank PIP country, so no harmonised line exists either."},
+   {"term": "Statutory minimum wage", "detail": "The rate exists and is statutory, but it is set hourly by the Minimum Wage Commission and published in the Gazette. The Labour Department's pages answer 404, data.gov.hk has nothing and no C&SD table carries it; a monthly US$ figure would be an assumption, not a statistic."},
+   {"term": "Suicide rate", "detail": "The Department of Health publishes one 'external causes (V01-Y89)' row holding suicides, road deaths and falls together. Hong Kong is not a WHO member state, so the Global Health Observatory has no row, and the World Bank's indicator is empty. Publishing that row as a suicide rate would be wrong by construction."},
+   {"term": "Road traffic deaths", "detail": "The Transport Department publishes road accident statistics in reports and a one-off feature article; no annual series is staged, and neither the World Bank nor the WHO has an HKG row. The panel stays pending rather than borrowing another cause of death."},
+   {"term": "Gross immigration and emigration", "detail": "Hong Kong publishes no gross flows on a residence basis, so there is no counterpart to Eurostat's immigration and emigration series. The Immigration Department counts passenger movements, which are journeys, not migrants. What is published is the net residual, and that is what the plate draws."},
+   {"term": "Foreign-born share of the population", "detail": "The 2021 census gives a single foreign-born share; C&SD's web tables carry no annual birthplace series. One census point is not a time series, and the atlas does not interpolate between census points."},
+   {"term": "COFOG", "detail": "Hong Kong is not an OECD member and publishes no COFOG table. C&SD's national functional classification of government consumption is staged and mapped onto the spine's seven groups; the plate calls it by its own name."},
+   {"term": "Exports and imports as a share of GDP", "detail": "The data exist and are drawn — 176-222% of GDP — but they run past the atlas's shared 0-100% comparison scale, and one country may not carry a scale of its own. The canonical panel is pending with that reason and the ratio is drawn in the lens at its own scale until the shared scale is widened for every country."},
+   {"term": "Net migration and the components of population change", "detail": "C&SD's net movement reaches -11.5 per 1,000 in 2020, past the shared -10 floor. Both canonical panels that carry it are pending with that reason; the series is drawn in the migration chapter's lens at its own scale."}
+  ]
+ },
+ "pt": {
+  "line": "{n} pranchas, {window}",
+  "dek": "Hong Kong é uma Região Administrativa Especial da China, e esta página compara-a enquanto economia — como todos os conjuntos internacionais a reportam, como HKG, nunca dentro de CHN. Todas as séries são da própria RAE: as contas nacionais do Departamento de Censos e Estatística, as taxas e reservas da Autoridade Monetária, os óbitos registados do Departamento de Saúde e os crimes registados pela polícia. Cada prancha é regerada a partir de CSV submetidos, por isso um gráfico e o seu número não se podem separar. Onde um painel canónico não tem dados, di-lo e diz porquê; nada aqui é uma estatística nacional chinesa e nenhuma série chinesa é desenhada.",
+  "notes": [
+   "2026 é um ano parcial. Os totais e as médias anuais param em 2025; as leituras genuinamente correntes — a taxa básica, o câmbio, um stock de fim de ano — estão marcadas como <em>mais recente</em>.",
+   "O ano fiscal vai de 1 de abril a 31 de março e é etiquetado pelo ano em que começa: 2024 significa 2024/25. Os painéis fiscais canónicos são o governo geral consolidado do FMI, em anos civis; a Conta Geral de Receitas do próprio governo é de caixa, num perímetro mais estreito, e aparece como linha pontilhada no ponto médio do ano fiscal, convertida pelo PIB desse ano civil.",
+   "A taxa básica não é uma decisão local: sob o conselho de moeda é o limite superior da meta da Reserva Federal mais 50 pontos base, e a taxa à vista é mantida entre 7,75 e 7,85 por dólar. A prancha de mercados desenha a taxa de câmbio efetiva, que se move, ao lado da taxa bilateral fixa, que não pode mover-se.",
+   "A despesa é o <em>consumo</em> do governo, não o orçamento. A tabela funcional do C&SD exclui as transferências de caixa, por isso a proteção social lê abaixo de 4% dela — as pensões, o subsídio para idosos e a segurança social são transferências e ficam fora da classificação.",
+   "Os crimes registados recomeçam em 2021, quando a polícia refez a classificação; nenhum ano anterior é colado a ela. A linha anual de homicídio e homicídio involuntário de 2025 tem 194 casos, dos quais 170 foram registados no quarto trimestre contra 19 nos três primeiros. É publicado exactamente como registado, e os trimestres somam 189, não 194 — a tabela do próprio editor, sem revisão.",
+   "Três populações aparecem nas estatísticas de Hong Kong e não são intermutáveis: a população a meio do ano (o denominador das taxas de homicídio e de movimento), a população não institucional residente que o inquérito ao emprego cobre, e a população excluindo as empregadas domésticas estrangeiras que a taxa de fecundidade principal usa. As notas dos painéis dizem qual é desenhada.",
+   "Três painéis esperam pelas escalas comuns do atlas, não por dados em falta: as exportações e importações de bens e serviços andam nos 176-222% do PIB contra uma escala comum de 0-100%, e o movimento líquido chega a -11,5 por 1.000 contra um piso comum de -10. As séries são desenhadas nas lentes, na sua própria escala, e as ranhuras canónicas enchem-se quando a escala comum for alargada para todos os países."
+  ],
+  "colophon": [
+   {"term": "Contas nacionais, preços, trabalho, população, comércio, contas públicas, moeda e crimes", "detail": "Departamento de Censos e Estatística — a API JSON de tabelas, 110-010xx, 115-010xx, 130-06102, 210-06101, 310-30001, 310-310xx, 310-320xx, 340-450xx, 340-460xx, 340-47001, 410-500xx, 510-600xx e 940-92033"},
+   {"term": "Taxas, reservas e qualidade dos activos bancários", "detail": "Autoridade Monetária de Hong Kong — Boletim Estatístico Mensal, tabelas 3.6.1 e 8.4; a taxa básica vem da compilação do BIS da taxa oficial da HKMA, porque a API da própria HKMA recusou esta rede"},
+   {"term": "Óbitos registados", "detail": "Departamento de Saúde — óbitos registados por causa de morte principal, 2001-2024, publicado no data.gov.hk"},
+   {"term": "Crimes registados", "detail": "Polícia de Hong Kong, via tabela 940-92033 do C&SD. A série começa em 2021, o ano da nova classificação"},
+   {"term": "Governo geral", "detail": "FMI World Economic Outlook, vintage de outubro de 2026 — anos civis, o único perímetro consolidado de governo geral publicado para Hong Kong"},
+   {"term": "Comparações internacionais", "detail": "World Bank World Development Indicators · PNUD Human Development Report 2025 · Transparency International CPI 2025 · BIS estatísticas de crédito total"},
+   {"term": "Índice e câmbios", "detail": "Hang Seng Indexes Company via Yahoo Finance — um redistribuidor, não uma estatística oficial; as taxas em si vêm das tabelas 340-46001 e 340-46002 do C&SD"}
+  ],
+  "unavailable": [
+   {"term": "Rendimento do título público a dez anos", "detail": "Hong Kong não tem um benchmark soberano contínuo a dez anos. Em cada fim de ano de 2015 a 2023 os únicos títulos de 10 anos em circulação tinham menos de dois anos até ao vencimento, e desde 2024 a HKMA só emite papel de 2 e 15 anos. A sondagem está submetida como markets/efn_tenor_probe_from_hkma.csv, e um prazo de 15 ou de 1 ano não é relabelado como dez."},
+   {"term": "Desigualdade de rendimento (Gini)", "detail": "Publicado no relatório temático do censo de 2021 e nos relatórios do Inquérito às Despesas das Famílias, em tabelas PDF. Não é uma das 590 tabelas do C&SD, o data.gov.hk não devolve nada, a série do Banco Mundial está vazia e o relatório do PNUD não a traz."},
+   {"term": "Taxa de pobreza", "detail": "A taxa de pobreza relativa — 50% do rendimento mediano do agregado — é publicada anualmente no Relatório da Situação de Pobreza de Hong Kong, em anexos PDF e XLSX. Hong Kong não é um país do PIP do Banco Mundial, pelo que também não há linha harmonizada."},
+   {"term": "Salário mínimo legal", "detail": "A taxa existe e é legal, mas é fixada à hora pela Comissão do Salário Mínimo e publicada na Gazette. As páginas do Departamento do Trabalho respondem 404, o data.gov.hk não tem nada e nenhuma tabela do C&SD a traz; um valor mensal em dólares seria uma suposição, não uma estatística."},
+   {"term": "Taxa de suicídio", "detail": "O Departamento de Saúde publica uma única linha «causas externas (V01-Y89)» que junta suicídios, mortes na estrada e quedas. Hong Kong não é Estado membro da OMS, pelo que o Observatório Global de Saúde não tem linha, e o indicador do Banco Mundial está vazio. Publicar essa linha como taxa de suicídio seria errado à partida."},
+   {"term": "Mortes na estrada", "detail": "O Departamento de Transportes publica estatísticas de acidentes em relatórios e num artigo único; não há série anual incluída, e nem o Banco Mundial nem a OMS têm linha para HKG. O painel fica pendente em vez de pedir outra causa de morte emprestada."},
+   {"term": "Imigração e emigração brutas", "detail": "Hong Kong não publica fluxos brutos numa base de residência, pelo que não há contrapartida às séries de imigração e emigração do Eurostat. O Departamento de Imigração conta movimentos de passageiros, que são viagens, não migrantes. O que se publica é o resíduo líquido, e é isso que a prancha desenha."},
+   {"term": "Proporção de nascidos no estrangeiro", "detail": "O censo de 2021 dá uma única proporção; as tabelas do C&SD não têm série anual de naturalidade. Um ponto censitário não é uma série temporal, e o atlas não interpola entre pontos censitários."},
+   {"term": "COFOG", "detail": "Hong Kong não é membro da OCDE e não publica tabela COFOG. A classificação funcional nacional do consumo do governo do C&SD está incluída e mapeada nos sete grupos da espinha; a prancha chama-lhe pelo seu próprio nome."},
+   {"term": "Exportações e importações em percentagem do PIB", "detail": "Os dados existem e são desenhados — 176-222% do PIB — mas passam a escala comum de comparação do atlas, que termina nos 100%, e um país não pode ter uma escala só sua. O painel canónico fica pendente com essa razão e o rácio é desenhado na lente, na sua própria escala, até a escala comum ser alargada para todos os países."},
+   {"term": "Migração líquida e as componentes da variação populacional", "detail": "O movimento líquido do C&SD chega a -11,5 por 1.000 em 2020, abaixo do piso comum de -10. Os dois painéis canónicos que o comportam ficam pendentes com essa razão; a série é desenhada na lente do capítulo da migração, na sua própria escala."}
+  ]
+ },
+ "zh-Hant": {
+  "line": "{n} 塊圖板，{window}",
+  "dek": "香港是中國的特別行政區，本頁把它當作一個經濟體來比較——正如所有國際數據集的做法：以 HKG 單獨列報，從不歸入 CHN。這裡每一條系列都是特區自己的：政府統計處的國民經濟核算、金管局的利率與儲備、衞生署的登記死亡、警方記錄的舉報罪案。每塊圖板都由已提交的 CSV 重新產生，圖與數字無法走散。標準格位沒有數據時會說明並交代原因；這裡沒有中國全國統計，也沒有畫出任何中國系列。",
+  "notes": [
+   "2026 年是部分年度。年度總額與平均數止於 2025 年；真正屬於當下的讀數——基準利率、匯率、年底存量——標為<em>最新</em>。",
+   "財政年度由 4 月 1 日至翌年 3 月 31 日，以開始的年份標示：2024 即 2024/25。標準財政面板採用國際貨幣基金組織合併後的一般政府、曆年；政府自己的一般收入帳目是現金制、範圍較窄，以虛線畫在財年的中間點，並以該曆年的本地生產總值折算。",
+   "基準利率不是本地政策決定：在貨幣發行局制度下，它是美國聯儲局目標上限加 50 基點，現貨匯率守在 7.75 至 7.85 兌一美元。市場圖板把會移動的有效匯率，畫在不能移動的雙邊固定匯率旁邊。",
+   "這裡的開支是政府<em>消費</em>，不是整份預算。政府統計處的功能分類表不包括現金轉移，所以社會保障讀來不足 4%——退休金、長者津貼與社會保障付款都是轉移，完全在分類之外。",
+   "舉報罪案自 2021 年重新開始，那年警方重訂罪類分類，之前沒有年份併接上去。2025 年謀殺及誤殺的全年一列為 194 宗，其中 170 宗在第四季舉報，首三季合共 19 宗。完全按記錄發表，而四季合計為 189 宗而非 194 宗——這是發布機構自己的表，未經修訂。",
+   "香港統計中有三個人口，不能互換：年中人口（兇殺率與遷移率的分母）、勞動人口調查涵蓋的陸上非住院人口，以及主要生育率所用的不包括外籍家庭傭工的人口。各面板的註腳說明畫的是哪一個。",
+   "有三格在等地圖集的共用比較尺度，而不是等數據：貨物與服務的出口和進口達本地生產總值 176-222%，而共用尺度只到 100%；淨遷移 2020 年達每千人 -11.5，而共用下限是 -10。這些系列畫在透鏡面板、用本國尺度，共用尺度一旦為所有國家放寬，標準格位就會填入。"
+  ],
+  "colophon": [
+   {"term": "國民經濟核算、物價、勞工、人口、貿易、政府帳目、貨幣與罪案數字", "detail": "政府統計處——JSON 網頁報表 API，表 110-010xx、115-010xx、130-06102、210-06101、310-30001、310-310xx、310-320xx、340-450xx、340-460xx、340-47001、410-500xx、510-600xx 及 940-92033"},
+   {"term": "利率、儲備與銀行資產質素", "detail": "香港金融管理局——《金融數據月報》表 3.6.1 與 8.4；基準利率本身取自國際結算銀行對金管局官方基準利率的匯編，因為金管局自家 API 拒絕了本網絡"},
+   {"term": "登記死亡", "detail": "衞生署——2001 至 2024 年主要死因的登記死亡，於 data.gov.hk 發布"},
+   {"term": "舉報罪案", "detail": "香港警務處，經政府統計處表 940-92033。系列由 2021 年、即重新分類那年開始"},
+   {"term": "一般政府", "detail": "國際貨幣基金組織《世界經濟展望》2026 年 10 月版——曆年，是香港唯一公布的一般政府合併範圍"},
+   {"term": "國際比較", "detail": "世界銀行世界發展指標 · 聯合國開發計劃署《人類發展報告 2025》· 透明國際清廉指數 2025 · 國際結算銀行總信貸統計"},
+   {"term": "指數與匯率", "detail": "恒生指數公司經 Yahoo Finance——是轉載者，不是官方統計；匯率本身取自政府統計處表 340-46001 與 340-46002"}
+  ],
+  "unavailable": [
+   {"term": "十年期政府債券孳息", "detail": "香港沒有連續的十年期主權基準。2015 至 2023 年每年年底，仍在市場的 10 年期債券距到期不足兩年；2024 年起金管局只發 2 年期與 15 年期債券。探查結果已提交為 markets/efn_tenor_probe_from_hkma.csv，而 15 年期或 1 年期不會被改標為十年期。"},
+   {"term": "收入不均（堅尼系數）", "detail": "載於 2021 年人口普查專題報告與住戶開支統計調查報告的 PDF 表。它不是政府統計處 590 張網頁報表之一，data.gov.hk 沒有結果，世界銀行的系列是空的，聯合國開發計劃署的報告也沒有。"},
+   {"term": "貧窮率", "detail": "相對貧窮率——住戶收入中位數的 50%——每年發表於《香港貧窮情況報告》，以 PDF 與 XLSX 附件形式。香港不是世界銀行 PIP 國家，所以也沒有協調系列。"},
+   {"term": "法定最低工資", "detail": "費率存在而且是法定的，但由最低工資委員會按小時設定，並刊登於憲報。勞工處的頁面回覆 404，data.gov.hk 沒有，政府統計處也沒有任何表載有它；折算成每月美元會是假設，不是統計數字。"},
+   {"term": "自殺率", "detail": "衞生署只公布一列「外部原因（V01-Y89）」，自殺、道路死亡與跌倒同在其中。香港不是世界衞生組織成員，全球衞生觀察站因此沒有這一列，世界銀行的指標也是空的。把那一列當自殺率發表，在定義上就是錯的。"},
+   {"term": "道路交通事故死亡", "detail": "運輸署把道路交通事故統計發表在報告與一篇一次性的專題文章中；沒有年度系列收錄，世界銀行與世界衞生組織都沒有 HKG 一列。此格維持待補，而不是借用另一個死因。"},
+   {"term": "總流入與總流出", "detail": "香港沒有以居留地為基礎的總流量，所以沒有對應於歐盟統計局移入／移出系列的數字。入境事務處統計的是客運量，那是旅程，不是移民。公布的是淨額餘數，圖板畫的就是它。"},
+   {"term": "非本地出生人口佔比", "detail": "2021 年人口普查只給出一個非本地出生比例；政府統計處的網頁報表沒有年度出生地系列。一個普查時點不是時間序列，而地圖集不會在普查時點之間插補。"},
+   {"term": "COFOG", "detail": "香港不是經合組織成員，也沒有公布 COFOG 表。政府統計處的政府消費本地功能分類已收錄，並對應到骨幹的七個分組；圖板以它自己的名稱稱之。"},
+   {"term": "出口與進口佔本地生產總值", "detail": "數據存在而且畫了出來——176-222% 的本地生產總值——但超出地圖集共用的 0-100% 比較尺度，而一個地方不能自訂尺度。標準格位因此待補並註明原因，比率畫在透鏡面板、用本國尺度，直至共用尺度為所有國家放寬。"},
+   {"term": "淨遷移與人口變動的成分", "detail": "政府統計處的淨遷移在 2020 年達每千人 -11.5，低於共用的 -10 下限。兩個承載它的標準格位因此待補並註明原因；系列畫在遷移章的透鏡面板、用本國尺度。"}
+  ]
+ }
+}

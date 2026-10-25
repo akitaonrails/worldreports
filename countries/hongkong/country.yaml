@@ -1,0 +1,121 @@
+# Hong Kong — a Special Administrative Region of China, compared as an
+# economy. The atlas carries it because its statistics are its own: its own
+# statistical office, its own currency board, its own customs territory and
+# its own legal system. Nothing here is a Chinese national statistic, and no
+# Chinese national series is drawn on a Hong Kong plate. The dek says so.
+slug: hongkong
+flag_emoji: "🇭🇰"
+wordmark: 香港
+name:
+  en: "Hong Kong"
+  fr: "Hong Kong"
+  pt: "Hong Kong"
+  es: "Hong Kong"
+  ko: "홍콩"
+  it: "Hong Kong"
+  he: "הונג קונג"
+  ja: "香港"
+  zh-Hans: "香港"
+  zh-Hant: "香港"
+  vi: "Hồng Kông"
+  de: "Hongkong"
+  uk: "Гонконг"
+  pl: "Hongkong"
+  ru: "Гонконг"
+
+# Traditional Chinese is the SAR's Chinese, and zh-Hant is the style
+# core/numstyle.py already carries (萬 1e4 / 億 1e8 / 兆 1e12). English is
+# the other official language; Portuguese is the atlas's third locale.
+locales:
+  - {code: zh-Hant, html_lang: zh-HK, og_locale: zh_HK, endonym: 繁體中文}
+  - {code: en, html_lang: en, og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+years: {from: 2006, to: 2026}
+# 2025 annual totals are complete in every series staged here: C&SD has
+# published 2025 annual GDP (revised), the 2025 labour-force average, the
+# 2025 CPI average and 2025 merchandise trade. 2026 exists only as quarters
+# and half-years and is drawn as the running year.
+last_full_year: 2025
+tick_every: 2
+spine: true
+
+# Dated from the staged C&SD quarterly GDP vintage (310-31001, chained
+# volume, year-on-year): every quarter with a negative y/y reading in the
+# window. 2008Q4-2009Q3 the financial crisis; 2019Q3-2019Q4 the unrest;
+# 2020Q1-2020Q4 the pandemic; 2022Q1-2022Q4 the fifth wave. No band is
+# inferred from annual growth.
+bands:
+  - {from: 2008.75, to: 2009.75, label: "financial crisis"}
+  - {from: 2019.5, to: 2019.99, label: "2019 unrest"}
+  - {from: 2020.0, to: 2020.99, label: "COVID-19"}
+  - {from: 2022.0, to: 2022.99, label: "fifth wave"}
+
+currency:
+  code: HKD
+
+# FLAG-DERIVED: the bauhinia flag is a red field with a white flower, so the
+# chart red is a vermilion darkened until it survives greyscale, and the
+# white is the paper. Checked against China's palette (#9C1F2E burgundy,
+# gold accent): this red is warmer and lighter, and there is no gold here by
+# design — the two pages must not read as the same identity.
+palette:
+  RED:     "#B02A26"
+  RED_D:   "#8A1F1C"
+  NAVY:    "#1E3550"
+  BLUE:    "#2F4B6E"
+  BLUE_D:  "#22384F"
+  GREEN:   "#2E6F51"
+  GREEN_D: "#1F5039"
+  GOLD:    "#B0801F"
+  PURPLE:  "#655A93"
+  TEAL:    "#13736F"
+  YELLOW:  "#C9A227"
+  primary: "#B02A26"
+  alert:   "#B02A26"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  band_dark: "#E2DED5"
+  series:  ["#B02A26", "#2F4B6E", "#2E6F51", "#B0801F", "#655A93", "#13736F", "#1F2430"]
+  # Red field, the white flower, and the darker red of the petals' shadow.
+  flag_bands: ["#B02A26", "#FBFAF7", "#8A1F1C"]
+  web:
+    mark_bearing: "0.03em"
+    ground:   "#1A1113"
+    raised:   "#241619"
+    raised_2: "#2E1D21"
+    rule:     "#40282C"
+    ink:      "#F2E9E8"
+    muted:    "#B79C9E"
+    faint:    "#826A6E"
+    money:    "#E3736C"
+    world:    "#4FA3A1"
+    people:   "#D3A24A"
+
+seo:
+  title:
+    zh-Hant: "香港 — 註明來源的數據圖板，2006–2026"
+    en: "Hong Kong — sourced data plates, 2006–2026"
+    pt: "Hong Kong — pranchas de dados com fontes identificadas, 2006–2026"
+  description:
+    zh-Hant: "香港特別行政區作為經濟體的數據圖板：經濟、公共財政、貿易、市場、就業、人口、移民、死亡、信用與治安；政府統計處與金管局的全國統計與具名國際比較來源分別標示，並從已提交的 CSV 重新產生。"
+    en: "Data plates on the Hong Kong Special Administrative Region as an economy — growth, public finances, trade, markets, work, demography, migration, mortality, credit and crime — with the Census and Statistics Department and the Monetary Authority's own statistics labelled apart from named international comparisons."
+    pt: "Pranchas sobre a Região Administrativa Especial de Hong Kong enquanto economia — crescimento, contas públicas, comércio, mercados, trabalho, demografia, migração, mortalidade, crédito e criminalidade — com as estatísticas do Departamento de Censos e Estatística e da Autoridade Monetária separadas das comparações internacionais identificadas."
+  keywords:
+    zh-Hant: [香港, 政府統計處, 香港金融管理局, 官方統計, 特別行政區]
+    en: [Hong Kong, Census and Statistics Department, Hong Kong Monetary Authority, official statistics, SAR]
+    pt: [Hong Kong, Departamento de Censos e Estatística, Autoridade Monetária de Hong Kong, estatísticas oficiais, RAE]
+  spatial: "Hong Kong Special Administrative Region (Hong Kong Island, Kowloon, the New Territories and the outlying islands)"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+sources:
+  zh-Hant: "政府統計處、香港金融管理局、財政司司長辦公室與庫務署、衞生署、入境事務處"
+  en: "the Census and Statistics Department, the Hong Kong Monetary Authority, the Financial Secretary's Office and the Treasury, the Department of Health and the Immigration Department"
+  pt: "o Departamento de Censos e Estatística, a Autoridade Monetária de Hong Kong, o Gabinete do Secretário das Finanças e o Tesouro, o Departamento de Saúde e o Departamento de Imigração"

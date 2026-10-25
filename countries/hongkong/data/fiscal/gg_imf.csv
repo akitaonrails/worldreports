@@ -1,0 +1,26 @@
+# General government, IMF WEO vintage read 2026-10-25 (DataMapper). CALENDAR year.
+# A different perimeter and basis from fiscal/govt.csv (GRA, cash, Apr-Mar):
+# the IMF consolidates the funds and excludes intra-government transfers.
+# Projections beyond the observed years are not staged. HK's gross debt is small
+# because the government is a large net creditor; the bond programme is the reason
+# the series rises from 2022.
+year,revenue_pct_gdp,expenditure_pct_gdp,primary_balance_pct_gdp,gross_debt_pct_gdp,interest_pct_gdp
+2006,18.84,14.84,4.05,1.4,0.054
+2007,21.27,13.93,7.38,1.2,0.048
+2008,18.88,18.63,0.29,1.0,0.045
+2009,18.82,17.29,1.57,0.7,0.038
+2010,20.73,16.59,4.17,0.6,0.032
+2011,22.40,18.63,3.80,0.6,0.029
+2012,21.44,18.29,3.17,0.5,0.028
+2013,21.04,20.04,1.03,0.5,0.026
+2014,20.84,17.25,3.61,0.1,0.014
+2015,18.63,18.03,0.60,0.1,0.003
+2016,22.64,18.25,4.39,0.1,0.003
+2017,22.85,17.36,5.50,0.1,0.003
+2018,20.74,18.39,2.35,0.1,0.003
+2019,20.37,20.95,-0.58,0.3,0.005
+2020,20.68,29.91,-9.22,1.0,0.007
+2021,25.42,25.41,0.02,1.9,0.016
+2022,21.72,28.29,-6.54,4.3,0.038
+2023,18.06,23.71,-5.52,6.3,0.125
+2024,17.45,23.26,-5.62,9.2,0.194

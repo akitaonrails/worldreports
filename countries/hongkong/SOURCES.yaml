@@ -1,0 +1,534 @@
+# Data provenance — every series Hong Kong publishes.
+#
+# Research pass 2026-10-25 (DISCOVERY.md is the route record), curated the
+# same day. Each entry names a curated CSV under data/, written by reviewing
+# the sidecar that a fetch/*.py pulled; re-running a fetcher rewrites the
+# sidecar and never a curated file.
+#
+# SCOPE, ONCE, FOR THE WHOLE FILE: Hong Kong is a Special Administrative
+# Region of the People's Republic of China. Every series here describes the
+# SAR as an economy. None of them is a Chinese national statistic, and no
+# Chinese national series is used anywhere in this country. Where an
+# international publisher reports both, the Hong Kong row is `HKG` and the
+# Chinese row is `CHN`; they are different economies in every dataset below.
+#
+# FISCAL YEAR: Hong Kong's financial year runs 1 April - 31 March. The
+# national fiscal files label a year by its START (2024 = 2024/25). The IMF
+# general-government and the World Bank series are calendar-year. They are
+# never spliced.
+
+macro:
+  gdp.csv:
+    source: "Census and Statistics Department (C&SD) — tables 310-31001 and 310-30001"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=310-31001&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecars macro/gdp_from_censtatd.csv + macro/gdp_growth_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Current market prices, HK$ million: 2024 =
+      3,186,526 (revised), 2025 = 3,329,843 (revised, flag r), 2020 =
+      2,675,793. Real growth (chain volume, y/y): 2020 = -6.5, 2025 = 3.6.
+      The chain-linked series is referenced to 2024 prices ("chained (2024)
+      dollars") — one vintage throughout, so no rebasing step sits inside the
+      line. Deflator column is 2024 = 100.
+  gdp_expenditure.csv:
+    source: "C&SD — table 310-31002, GDP by major expenditure component at current market prices"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=310-31002&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar macro/gdp_expenditure_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25: the components sum exactly to GDP in every year
+      (2025: 2,205,779 PCE + 418,768 GCE + 563,949 GDFCF + 44,403
+      inventories + 6,657,192 exports - 6,560,248 imports = 3,329,843).
+      Exports and imports are goods AND services. The customs series in
+      trade/merchandise.csv is a different measurement of a different thing.
+  cpi.csv:
+    source: "C&SD — tables 510-60001 (composite CPI) and 510-60002 (underlying CPI)"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=510-60001&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecars macro/cpi_from_censtatd.csv + macro/cpi_underlying_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Composite CPI (headline), Oct 2019 - Sep 2020 =
+      100: 2024 index 107.3, +1.7% y/y. The underlying index removes the
+      one-off government relief measures (rates concessions, rent waivers)
+      and starts in 2007 in this table; 2006 is left empty rather than
+      back-filled. Hong Kong has no inflation target and the plate carries
+      no target line — that absence is a finding, not a gap.
+  labour.csv:
+    source: "C&SD — table 210-06101, labour force statistics (General Household Survey)"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=210-06101&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar macro/labour_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Annual averages, total (both sexes): labour force
+      3,807.4 thousand in 2024, unemployment rate 3.0%, underemployment 1.2%.
+      The table also carries the male and female rows — the total is selected
+      by the empty SEX code, never by row position. The LFS covers the
+      land-based non-institutional population, so foreign domestic helpers
+      living in households are outside it; the "excluding FDH" variant is a
+      separate published series and is not this one.
+
+fiscal:
+  govt.csv:
+    source: "C&SD — table 340-47001, Government revenue and expenditure under the General Revenue Account"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=340-47001&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar fiscal/govt_gra_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. CASH accounts on the government's own perimeter,
+      financial year 1 April - 31 March labelled by its starting year. FY2024
+      revenue 622,693 HK$mn, expenditure 604,999, balance +17,694. The
+      revenue total includes "transfers from Funds" (117,000 in FY2024),
+      which are internal transfers inside government: revenue_excl_ removes
+      them (505,693) and the plate must say which line it draws. The broader
+      "General Revenue Account and the funds" tables (340-47011/47012)
+      stopped in 2018 and are kept only as sidecars.
+  gg_imf.csv:
+    source: "IMF World Economic Outlook via DataMapper — rev, exp, pb, GGXWDG_NGDP, ie"
+    url: "https://www.imf.org/external/datamapper/api/v1/rev/HKG"
+    official: false
+    refreshed_by: "fetch/fetch_comparables.py → sidecars fiscal/imf_*_from_imf.csv"
+    notes: >-
+      VERIFIED 2026-10-25. The only general-government perimeter published
+      for Hong Kong; the IMF reports the SAR as its own economy (`HKG`).
+      Calendar year. Revenue 17.45% of GDP in 2024 against expenditure
+      23.26% and a primary balance of -5.62%; gross debt 9.2% in 2024,
+      rising to 12.1% in 2025 and 14.1% in 2026 as the bond programme
+      issues. Unlike fiscal/govt.csv this consolidates the funds and nets
+      out intra-government transfers, so the two series differ by more than
+      a rounding: they are drawn as two labelled lines, never spliced.
+      Projection years are not staged.
+
+spending:
+  gce_function.csv:
+    source: "C&SD — table 310-32023, government consumption expenditure by social and economic function"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=310-32023&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar spending/gce_function_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Percentage distribution and HK$ million, 2000-2025;
+      the shares sum to 100 in every year (2025: health 30.5, public order
+      and safety 21.8, economic affairs 14.5, general public services 10.9,
+      recreation 6.6, environment 5.6, education 5.1, social protection 3.7,
+      housing 1.3). THIS IS GOVERNMENT CONSUMPTION, NOT TOTAL EXPENDITURE:
+      cash transfers (pensions, social security, the elderly allowance) are
+      not in it, which is why social protection reads under 4%. C&SD's
+      classification is close to COFOG but is not COFOG — the plate says
+      "national functional classification, not COFOG" and the seven COFOG
+      groups are mapped onto it rather than claimed as COFOG.
+  investment.csv:
+    source: "C&SD — table 310-32031, gross domestic fixed capital formation by component"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=310-32031&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar spending/gfcf_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. GDFCF 2025 = 563,949 HK$mn = 16.9% of GDP. The
+      public/private split is the publisher's own (public sector = government
+      plus public corporations), not the SNA institutional-sector split; the
+      World Bank's NE.GDI.FTOT.ZS (16.94% in 2024) agrees with the total and
+      is the cross-check, in spending/gfcf_pct_gdp_wb sidecar.
+
+trade:
+  merchandise.csv:
+    source: "C&SD — table 410-50001, external merchandise trade aggregate figures"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=410-50001&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar trade/merchandise_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. CUSTOMS basis, goods only, HK$ million. 2024:
+      exports 4,542,371, imports 4,922,101, balance -379,731. 2025: exports
+      5,240,251 (total exports, i.e. domestic exports plus re-exports; the
+      re-export share is the bulk of it). Months in the publisher's table
+      run to 2026-08; only complete calendar years are staged.
+  services.csv:
+    source: "C&SD — table 420-57001, exports and imports of services by component"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=420-57001&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar trade/services_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Total services (the empty EBOPS component), HK$
+      million: 2023 exports 759,991 / imports 618,375; 2024 exports 835,458 /
+      imports 698,059. This table is released later than merchandise trade,
+      so 2025 is still empty at this vintage — a hole, not a zero, and the
+      plate must not join 2024 to 2026 across it.
+  trade_gdp.csv:
+    source: "Computed from C&SD national accounts (tables 310-31002)"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=310-31002&lang=en&full_series=1"
+    official: true
+    refreshed_by: "derived from sidecar macro/gdp_expenditure_from_censtatd.csv; no separate fetch"
+    notes: >-
+      Exports/imports/balance of goods AND services as % of GDP, computed
+      here on the same-year national-accounts values. A ratio near 200% is
+      normal for an entrepot and is not an error: imports are re-exported.
+      The World Bank's NE.EXP.GNFS.ZS agrees to a tenth of a point in 2025
+      (199.76 vs 199.93 computed) — a different GDP vintage, not a different
+      measurement.
+  destinations.csv:
+    source: "C&SD — table 410-50013, total exports to the ten main destinations"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=410-50013&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar trade/destinations_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Annual, HK$ million, long shape. The ten are the
+      ten largest in the LATEST year and the list is revised as rankings
+      move, so a partner can enter or leave the series; shares are computed
+      against that year's own total row. Chinese Mainland 2024 = 2,681,658
+      HK$mn, the largest by a wide margin.
+  products.csv:
+    source: "C&SD — table 410-50032, total exports by ten principal commodity divisions"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=410-50032&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar trade/products_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. SITC divisions, same "latest ten" caveat as the
+      destinations table. Electrical machinery (division 77) 2024 =
+      2,182,692 HK$mn, about 48% of total exports.
+
+markets:
+  base_rate.csv:
+    source: "HKMA Base Rate, as compiled by the BIS in WS_CBPOL (D.HK)"
+    url: "https://stats.bis.org/api/v1/data/WS_CBPOL/D.HK?format=csv"
+    official: false
+    refreshed_by: "fetch/fetch_hkma.py → sidecars markets/base_rate_from_hkma.csv (annual mean) + markets/base_rate_daily_from_hkma.csv"
+    notes: >-
+      VERIFIED 2026-10-25. The HKMA's own api.hkma.gov.hk answered its first
+      request and then refused every path with an Aliyun WAF 405 page, so the
+      official rate is taken from the BIS compilation, whose SOURCE_REF is
+      "Hong Kong Monetary Authority" and whose title is "Official base rate".
+      official: false because the BIS is a compilation, not the publisher.
+      THE RATE IS NOT A LOCAL POLICY CHOICE: under the currency board the
+      Base Rate is set at the US Fed funds target upper bound + 50bp, so it
+      follows the Fed with a fixed wedge. 2024 mean 5.62%; 4.25% from
+      2026-10-14 (the last daily observation, matching the 4.25 the HKMA's
+      daily page showed on 2026-10-23).
+  hibor.csv:
+    source: "C&SD — table 340-45022, Hong Kong dollar interest settlement rates"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=340-45022&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar markets/hibor_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. HIBOR fixings at END of period (not annual
+      averages; the plate says "year-end"). 2024: overnight 5.65, 1-week
+      5.09, 1-month 4.58, 3-month 4.37, 6-month 4.20. The spread between the
+      overnight rate and the Base Rate is the peg's pressure gauge: when
+      HKD is weak the overnight rate spikes toward the weak-side convertibility
+      undertaking (7.85).
+  fx.csv:
+    source: "C&SD — tables 340-46001 (exchange rates) and 340-46002 (effective exchange rate indices)"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=340-46001&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecars markets/fx_from_censtatd.csv + markets/twi_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. HKD per US$ (annual average): 7.803 in 2024,
+      7.798 in 2025 — inside the 7.75-7.85 band by construction. The trade-
+      weighted, nominal and real effective indices are Jan 2020 = 100 and do
+      move, because the US dollar does. Rebased to 2006 = 100 on the plate
+      (the spine's unit) from these published indices; the rebasing is a
+      display transform, said in the caption.
+  equity.csv:
+    source: "Hang Seng Index and S&P 500 year-end closes via Yahoo Finance"
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/%5EHSI"
+    official: false
+    refreshed_by: "fetch/fetch_market.py → sidecars markets/hsi_yearend_from_yahoo.csv + markets/sp500_yearend_from_yahoo.csv"
+    notes: >-
+      VERIFIED 2026-10-25. NOBODY PUBLISHES AN INDEX CLOSE AS A STATISTIC: the
+      HSI is compiled by Hang Seng Indexes Company Limited, a private
+      company, so this is official: false by SOURCING §5. Year-END point
+      readings, not annual means. 2006 close 19,964.72, 2024 close 20,059.95.
+      The HSI is rebased into US$ at that year's average HKD/US$ rate before
+      indexing to 2006 = 100, so the line measures the market and not the
+      peg; S&P 500 (already US$) is the dashed comparison. 2026 is a live
+      reading and is not staged as a year's result.
+  lending_rate.csv:
+    source: "C&SD — table 340-45021, Hong Kong dollar interest rates"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=340-45021&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar markets/interest_rates_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Best lending rate (the HKD prime rate, annual
+      average 5.77% in 2024) and the savings deposit rate (0.69%). Mortgages
+      are priced at prime minus a spread and are capped by the HKMA's
+      countercyclical loan-to-value rules; the effective new-mortgage rate is
+      published in the HKMA's monthly residential mortgage survey press
+      release, whose table file is 16,375 columns wide and was not parsed
+      (DISCOVERY.md records the shape). Prime is what the plate draws.
+
+credit:
+  household_debt.csv:
+    source: "BIS total credit statistics — WS_TC, key Q.HK.H.A.M.770.A"
+    url: "https://stats.bis.org/api/v1/data/WS_TC/Q.HK.H.A.M.770.A?format=csv"
+    official: false
+    refreshed_by: "fetch/fetch_bis.py → sidecar credit/household_debt_from_bis.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Credit to households and NPISHs from all sectors,
+      market value, % of GDP, end-Q4: 57.4% in 2005-Q1, 81.6% in 2019-Q4, a
+      pandemic peak of 91.6% in 2020-Q4, 87.8% at end-2025. The HKMA
+      publishes the same idea in prose and charts in its Half-yearly Monetary
+      and Financial Stability Report with no machine-readable series, so the
+      harmonised BIS series is the reproducible one and is marked official:
+      false.
+  classified_loans.csv:
+    source: "HKMA — Monthly Statistical Bulletin table 3.6.1, asset quality of authorised institutions"
+    url: "https://www.hkma.gov.hk/media/eng/doc/market-data-and-statistics/monthly-statistical-bulletin/T030601.xls"
+    official: true
+    refreshed_by: "fetch/fetch_hkma.py → sidecar credit/classified_loans_from_hkma.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Classified loans (substandard + doubtful + loss)
+      as % of total loans, quarterly from 2015: 1.57% at end-2023, 1.965% at
+      end-2024. The HKMA's own asset-quality measure — NOT an IFRS 9 stage-3
+      ratio, and the legend says "classified". The bulletin's per-bank and
+      per-sector cuts exist but are not needed for the spine.
+
+world:
+  gdp_usd.csv:
+    source: "World Bank WDI — NY.GDP.MKTP.CD and NY.GDP.PCAP.CD (ISO3 = HKG)"
+    url: "https://api.worldbank.org/v2/country/HKG/indicator/NY.GDP.MKTP.CD?format=json"
+    official: false
+    refreshed_by: "fetch/fetch_comparables.py → sidecars world/gdp_usd_from_wb.csv + world/gdp_per_person_usd_from_wb.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Current US$: 2024 US$406.9bn, 2025 US$427.3bn;
+      per person US$56,983 in 2025. The World Bank carries Hong Kong as its
+      own economy (HKG × 7.80 ≈ the HK$ national figure, which is the
+      cross-check). Values from 1960 in the payload; only 2006-2025 staged.
+  hdi.csv:
+    source: "UNDP — Human Development Report 2025 composite indices, complete time series"
+    url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
+    official: false
+    refreshed_by: "fetch/fetch_comparables.py → sidecar world/hdi_from_undp.csv"
+    notes: >-
+      VERIFIED 2026-10-25. One vintage (HDR 2025) for the whole back-series,
+      so the recomputation step that each new report introduces is not inside
+      the line. The file runs to 2023; 2024 and 2025 are empty until the next
+      report, and are left empty. Hong Kong appears as "Hong Kong, China
+      (SAR)" in the report's own naming; the ISO3 key is HKG.
+  corruption.csv:
+    source: "Transparency International — Corruption Perceptions Index 2025 workbook, 'CPI Historical' sheet"
+    url: "https://images.transparencycdn.org/images/CPI2025_Results.xlsx"
+    official: false
+    refreshed_by: "fetch/fetch_market.py → sidecar world/cpi_ti_from_ti.csv"
+    notes: >-
+      VERIFIED 2026-10-25. 0-100 scale, 2012 method onward (2012-2025). The
+      earlier 0-10 scores are a different method and are not staged; where
+      they are drawn at all they are drawn as a seam, x10, labelled. Hong
+      Kong's score sits in the high 70s.
+  reserves.csv:
+    source: "HKMA — Monthly Statistical Bulletin table 8.4, foreign currency reserve assets"
+    url: "https://www.hkma.gov.hk/media/eng/doc/market-data-and-statistics/monthly-statistical-bulletin/T0804.xlsx"
+    official: true
+    refreshed_by: "fetch/fetch_hkma.py → sidecar world/reserves_national_from_hkma.csv"
+    notes: >-
+      VERIFIED 2026-10-25. US$ million at end of year, Exchange Fund: 2023 =
+      425,554, 2024 = 421,503, 2025 = 427,934. The 2023 figure is exactly the
+      number the World Bank's FI.RES.TOTL.CD carries (425,554,111,033), which
+      is the cross-check for the whole series — and the World Bank stops in
+      2023, which is why the national series is used. These are the Exchange
+      Fund's foreign currency assets, not the SAR government's fiscal
+      reserves (a separate HK$ balance) and not the monetary base.
+
+demography:
+  population.csv:
+    source: "C&SD — table 110-01001, population by sex and age group (mid-year)"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=110-01001&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar demography/population_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Mid-year (June) population, persons: 7,524,100 in
+      mid-2024, 7,508,700 at end-2025. growth_pct is computed from this
+      series within one vintage, not taken from the publisher's half-yearly
+      rate. Hong Kong's population includes foreign domestic helpers
+      (~340,000) and the "excluding FDH" variant is a separate published
+      series; this is the total resident population.
+  components.csv:
+    source: "C&SD — table 110-01003, population growth by component"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=110-01003&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar demography/components_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Thousand persons. Each published observation is
+      the change over the 12 MONTHS ENDING at that time point (the table's own
+      note), so the December row is the calendar year and the two halves are
+      never summed — summing would double every figure. 2024: births 36.7,
+      deaths 51.4, natural change -14.7, net movement -12.6 (of which one-way
+      permit holders +40.0 and everyone else -52.5). The deaths figure here
+      and the Department of Health's registered deaths for 2024 (52,366) are
+      two publishers' counts of nearly the same event, one year apart in
+      vintage; they are not spliced.
+  fertility.csv:
+    source: "C&SD — table 115-01011, total fertility rate excluding foreign domestic helpers"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=115-01011&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar demography/vital_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Published per 1,000 women (2024 = 841) and divided
+      by 1,000 here to children per woman (0.841), which agrees with the
+      World Bank's SP.DYN.TFRT.IN 0.84 for 2024. The rate INCLUDING foreign
+      domestic helpers is a different published series and is not this one.
+      2024's 0.841 is a small rebound from 0.751 in 2023, not a trend.
+  vital.csv:
+    source: "C&SD — table 115-01011, vital events"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=115-01011&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar demography/vital_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Crude birth rate 4.9 and crude death rate 7.0 per
+      1,000 in 2024 — deaths have exceeded births since 2020. Life expectancy
+      at birth 82.7 (male) / 88.2 (female) in 2024, the period life-table
+      value published with the vital events; the abridged life tables in
+      115-01021 give the same series at every age and are kept as a sidecar.
+      Infant mortality 2.0 per 1,000.
+
+people:
+  income.csv:
+    source: "C&SD — table 130-06102, statistics on domestic households"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=130-06102&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar people/household_income_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Median monthly household income, all domestic
+      households, current HK$: 17,000 in 2006, 30,000 in 2024 and 2025. The
+      real column deflates by the composite CPI and is expressed in 2024
+      prices — a display transform of two published series, not a publisher
+      figure, and the plate says so. This is a HOUSEHOLD median, not a
+      per-person income, and it moves with household size (2.6 persons on
+      average in 2024). It is the people chapter's lens panel: the Gini and
+      the poverty rate are report-only and stay pending.
+
+security:
+  crime.csv:
+    source: "Hong Kong Police via C&SD — table 940-92033, cases reported by type of offence"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=940-92033&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar security/cases_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Reported offences, not convictions and not death
+      certificates. THE TABLE STARTS IN 2021: the police re-based the offence
+      classification then, so no earlier year is spliced onto it. 2024:
+      94,747 cases in total, 10,485 violent, 19 murder and manslaughter
+      (0.253 per 100,000). 2025 carries a single-quarter anomaly —
+      2025-Q4 murder and manslaughter = 170 against 19 in the first three
+      quarters — which the plate must annotate rather than read as a trend;
+      DATA_NOTES.md records it. The long comparison homicide series is the
+      UNODC/World Bank one (sidecar security/homicide_wb_from_wb.csv, from
+      1990, 0.38 per 100,000 in 2023).
+
+mortality:
+  deaths.csv:
+    source: "Department of Health — registered deaths by leading cause of death (data.gov.hk, Death Statistics)"
+    url: "https://www.dh.gov.hk/datagovhk/ncdd/Number%20of%20Registered%20Deaths%20by%20Leading%20Cause%20of%20Death,%202001%20to%202024%20(EN).csv"
+    official: true
+    refreshed_by: "fetch/fetch_dh.py → sidecar mortality/causes_from_dh.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Registered deaths, ICD-10 from 2001 (the table's
+      own note: the previous ranking used ICD-9 and is not comparable).
+      2022 = 61,557 deaths, 9,291 of them COVID-19 as the underlying cause;
+      2024 = 52,366 with 720. excess_deaths_pct is computed here against the
+      2015-2019 mean — a different quantity from a weekly P-score series and
+      never spliced with one. The publisher codes COVID-19 to J98.8 up to
+      2023 and U07.1/U07.2 from 2024; the note travels with the file.
+      "External causes (V01-Y89)" is one row containing suicides, road deaths
+      and falls together, which is why no suicide rate is staged.
+
+migration:
+  net_movement.csv:
+    source: "C&SD — table 110-01003, population growth by component"
+    url: "https://www.censtatd.gov.hk/api/get.php?id=110-01003&lang=en&full_series=1"
+    official: true
+    refreshed_by: "fetch/fetch_censtatd.py → sidecar demography/components_from_censtatd.csv"
+    notes: >-
+      VERIFIED 2026-10-25. Net movement over the 12 months ending 31 December,
+      per 1,000 mid-year population: +8.6 in 2006, -1.7 in 2024, +3.6 in 2025.
+      THIS IS A RESIDUAL, NOT A MIGRATION FLOW: Hong Kong publishes no gross
+      immigration or emigration on a residence basis, so there is no
+      counterpart to Eurostat's migr_imm/migr_emi, and the residual also
+      absorbs residents' movements and any coverage error in the population
+      estimate. The publisher splits it into one-way permit holders from the
+      Mainland (+40.0 thousand in 2024) and everyone else (-52.5 thousand);
+      that split is staged, because it is the publisher's own. It is a NET
+      figure for a permit category, not an arrivals count.
+
+meta:
+  research_date: "2026-10-25"
+  # Every route attempted and refused, with the exact endpoint and failure.
+  routes_refused:
+    - publisher: "HKMA open API"
+      endpoint: "https://api.hkma.gov.hk/public/market-data-and-statistics/daily-monetary-statistics/daily-figures-interbank-liquidity"
+      result: "HTTP 200 on the first request of the pass (100 records), then HTTP 405 with an Aliyun WAF error page on that path and every other, including with a browser User-Agent, Referer, Accept-Language, X-Requested-With and HTTP/1.0. Not reproducible; the payload was not kept."
+    - publisher: "C&SD API without param"
+      endpoint: "https://www.censtatd.gov.hk/api/get.php?id=310-31001&lang=en&param=<lz-string>"
+      result: "The documented `param` is an LZ-string of the reader's UI selection; a fabricated value returns HTTP 200 with an empty dataSet. `full_series=1` is the reproducible form and is what the fetcher uses."
+    - publisher: "C&SD API with Python's default User-Agent"
+      endpoint: "https://www.censtatd.gov.hk/api/get.php?id=310-31001&lang=en&full_series=1"
+      result: "HTTP 403. A curl User-Agent returns 200; the fetcher sets one."
+    - publisher: "IMF DataMapper with a browser User-Agent"
+      endpoint: "https://www.imf.org/external/datamapper/api/v1/rev/HKG"
+      result: "HTTP 403 for Mozilla strings; HTTP 200 with a curl User-Agent."
+    - publisher: "HKMA Exchange Fund Note closing archive"
+      endpoint: "https://www.hkma.gov.hk/media/eng/market-data-and-statistics/monetary-statistics/efbn/attach/YYYYMMDD_CLOSINGS.xlsx"
+      result: "200 from 2015 onward, 404 before; used for the tenor probe only (see pending)."
+    - publisher: "data.gov.hk CKAN"
+      endpoint: "https://data.gov.hk/en-data/api/3/action/package_search?q=..."
+      result: "200 and useful: it mirrors the C&SD web tables and hosts the Department of Health death statistics. It carries NOTHING for 'poverty', 'minimum wage', 'gini' or 'one-way permit' (count 0)."
+  # Series the spine wants that this pass could not stage, and why.
+  pending:
+    - slot: "markets.slot2 — 10-year government bond yield"
+      status: "does not exist on a comparable definition"
+      routes:
+        - "HKMA api.hkma.gov.hk — 405 WAF (above)."
+        - "HKMA EFBN closing archive 2015-2023: the only 10Y-coded notes still outstanding at each year-end had 0.4-1.5 years to maturity, so their closing yield is a short rate on an old issue, not a ten-year benchmark. From 2024 the HKMA issues 2- and 15-year paper only: no 10Y note exists at all."
+        - "hkgb.gov.hk table 9.5 lists 10-year Government Bond issues by tenor with issue and maturity dates and no yields."
+        - "BIS: no long-term-yield dataflow was found for HK in this pass."
+      conclusion: "Hong Kong has no continuous ten-year sovereign benchmark: the government is a net creditor and its bond programme is small and curve-building. The slot stays pending rather than showing a 15-year or a 1-year tenor mislabelled."
+    - slot: "people.slot1 — income inequality (Gini)"
+      status: "published only inside a thematic report"
+      routes:
+        - "C&SD web tables (590 tables, WebTableList.json): no table carries a Gini coefficient."
+        - "data.gov.hk CKAN: 'gini' count 0."
+        - "World Bank SI.POV.GINI: empty data array for HKG."
+        - "UNDP HDR: no Gini in the composite-indices file."
+      conclusion: "The Gini is published in the 2021 Population Census thematic report and in the Household Expenditure Survey reports, as PDF tables. Not staged; the slot stays pending and the page says where the number lives."
+    - slot: "people.slot2 — poverty rate"
+      status: "published, but only as a report table"
+      routes:
+        - "data.gov.hk CKAN: 'poverty' count 0."
+        - "C&SD web tables: no poverty table."
+        - "World Bank PIP: Hong Kong is not a PIP country; SI.POV.NAHC is empty."
+      conclusion: "The relative poverty rate (50% of median household income) is published annually in the Hong Kong Poverty Situation Report as PDF/XLSX attachments. Not staged in this pass."
+    - slot: "people.slot3 — statutory minimum wage"
+      status: "exists; no machine-readable official series found"
+      routes:
+        - "labour.gov.hk SMW pages probed: /eng/news/smw.htm, /eng/news/smw_content.htm, /eng/news/smw_rate.htm all HTTP 404."
+        - "data.gov.hk CKAN: 'minimum wage' count 0."
+        - "C&SD web tables: no table carries the statutory rate."
+      conclusion: "The rate is set by the Minimum Wage Commission and published in the Gazette and on the Labour Department site, which is HTML without a stable machine-readable endpoint. Not staged; the slot is pending and says the rate is statutory and hourly."
+    - slot: "security.slot2 — suicide rate"
+      status: "no separate national series on an official machine-readable route"
+      routes:
+        - "Department of Health leading-cause table: suicides sit inside one 'external causes (V01-Y89)' row with road deaths and falls."
+        - "WHO GHO: Hong Kong is not a WHO member state, so it is not in the API."
+        - "World Bank SH.STA.SUIC.P5: empty data array for HKG."
+        - "Coroner's Court annual reports: PDF only."
+      conclusion: "Not staged. Publishing the external-causes row as a suicide rate would be wrong by construction."
+    - slot: "security.slot3 — road traffic deaths"
+      status: "published by the Transport Department; no machine-readable series found"
+      routes:
+        - "data.gov.hk: one C&SD feature article on road traffic accident statistics (a one-off publication, not a series)."
+        - "World Bank SH.STA.TRAF.P5: empty data array for HKG."
+        - "WHO GHO: not a member state."
+      conclusion: "Not staged; the slot stays pending."
+    - slot: "migration.slot1 — gross immigration and emigration"
+      status: "not published on a residence basis"
+      routes:
+        - "C&SD: only the net-movement residual (110-01003); no gross flows table among the 590 web tables."
+        - "Immigration Department: passenger arrival/departure counts (movements of people, not migrants) and the one-way permit quota, which is an administrative instrument."
+        - "data.gov.hk: 'one-way permit' count 0."
+      conclusion: "There is no Hong Kong counterpart to Eurostat migr_imm/migr_emi. The plate draws net movement and says so; gross flows are not invented from passenger counts."
+    - slot: "migration.slot3 — foreign-born share"
+      status: "census points only"
+      routes:
+        - "C&SD web tables: population by sex and age (110-01001) has no birthplace dimension; the census/by-census theme holds 2021 results as report tables."
+      conclusion: "A single census point (2021) exists; an annual series does not. Not staged, and not interpolated."
+    - slot: "spending.slot1 — COFOG"
+      status: "no COFOG; national functional classification staged instead"
+      routes:
+        - "C&SD 310-32023: government consumption by function, close to COFOG but covering consumption only."
+        - "IMF/OECD: Hong Kong is not an OECD member and the IMF does not publish COFOG for it."
+      conclusion: "The national classification is published and mapped onto the spine's seven groups, labelled as a national classification rather than COFOG (see spending/gce_function.csv)."
