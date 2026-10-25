@@ -198,6 +198,10 @@ columns, two denominators, both labelled on the panel.
   unemployment, 2022 inflation, 2021 debt, 2019 homicide, 2023 HDI, 2020
   policy rate, 2019 household credit, 2022 COFOG health, and others) read
   off the publishers on 2026-10-25.
+- **Second source for the headline level**: the World Bank's GDP for 2019
+  (US$ 278.3bn) and 2024 (US$ 329.3bn) agrees with the IMF's NGDPD
+  (278.06 and 329.20) to within 0.1%, so the staged dollar level is not a
+  unit error.
 - **Determinism**: all twenty sidecars re-fetched warm are byte-identical;
   a cold cache with the network refused exits non-zero and writes
   nothing.
