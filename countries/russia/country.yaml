@@ -46,21 +46,31 @@ tick_every: 2
 # draws its panels in the shared slots, units and scales.
 spine: true
 
-# SHARED-SCALE CONFLICTS, RECORDED NOT FIXED (AGENTS.md: the atlas-wide
-# range lives in core/spine.py and is changed there, regenerating every
-# country carrying the topic — never overridden in country code):
-#   economy.inflation  ref −5..+225: fits. Rosstat CPI peaks at 15.1%
-#     (2015) and 11.9% (2008) on the post-1998 rouble; the 1990s are
-#     outside this window and are not staged.
+# SHARED-SCALE CONFLICTS (AGENTS.md: the atlas-wide range lives in
+# core/spine.py and is changed there, regenerating every country carrying
+# the topic — never overridden in country code). Checked against the staged
+# CSVs when the plates were drawn, not assumed:
+#   economy.inflation  ref −5..+225: fits. Rosstat's headline peaks at
+#     15.5% on the World Bank's annual average (2015) and 13.3% on its own
+#     December-to-December line (2008); the 1990s are outside this window.
 #   markets.policy_rate ref −5..+225: the 2022 emergency rate of 20.0%
-#     (28 February 2022) and the 17.0% of 2014-12 fit; the daily mean for
-#     2022 is ~10.6% because the peak lasted three weeks.
-#   macro/poverty and people.poverty ref 0..80: fits.
-#   demography.population ref 80..150 as index 2006 = 100: Russia's 2023
-#     population is ~99 of 2006 including Crimea from 2014 (Rosstat) and
-#     ~100 excluding it (World Bank) — inside the range either way.
-# No canonical slot of Russia's staged data leaves its reference range.
-# (Confirmed against the staged CSVs at curate time, not assumed.)
+#     (28 February 2022) and the 21.0% of 2024-25 fit; the annual mean for
+#     2022 is 10.6% because the peak lasted three weeks.
+#   people.poverty ref 0..80: fits.
+#   demography.population ref 75..150 as index 2006 = 100: Rosstat's 2025
+#     population is 102 of 2006 (Crimea counted from 2014) and the UN
+#     series is 100 — inside the range either way.
+# TWO SLOTS DO NOT FIT, and neither is widened here:
+#   fiscal.balance ref −35..+8: the IMF general-government primary balance
+#     is +8.49% of GDP in 2006. The plate draws the bars and the labelled
+#     federal line, and states the primary balance in the foot.
+#   security.suicide ref 0..40: the suicide rate is 41.44 per 100,000 in
+#     2006. The canonical line starts in 2007 and the 2006 reading is drawn
+#     in the chapter's lens, which has its own scale, and named on the
+#     panel.
+# Both are core needs reported from the lane: one edit in core/spine.py
+# (to +10 and 45) plus a regeneration of every country carrying the two
+# topics. See DATA_NOTES.md §15.
 
 # Bands drawn behind the data. The dating is on the staged quarterly GDP
 # physical-volume index (Rosstat VVP_kvartal_s-1995-2026.xlsx, sheets 11

@@ -176,10 +176,13 @@ definitional decisions that matter are:
 3. **Three fiscal perimeters.** The federal budget (Minfin, cash, one
    level, roubles), general government (IMF WEO, accrual, % of GDP), and
    the non-oil-and-gas deficit the Ministry leads with. Never spliced.
-4. **Nominal roubles are not a unit across this window.** The GDP
-   deflator takes 2025 prices to about 3.7× 2006. Every level that spans
-   years is in constant prices, a share of GDP, or dollars, and says
-   which.
+4. **Nominal roubles are not a unit across this window.** On the staged
+   vintage, 2025 nominal GDP is 8.0× its 2006 level while the
+   physical-volume index is 1.56×. Nominal over real implies 5.1× and
+   chaining the published deflator gives 5.9×; both are the price level, and
+   neither makes a rouble a unit a level can be drawn in across twenty
+   years. Every level that spans years is in constant prices, a share of GDP,
+   or dollars, and says which.
 5. **The sanctions-era stops**, each recorded as a gap and never filled:
    the detailed customs statistics (suspended 2022, host unreachable), the
    federal spending breakdown (sections stop at 2021), homicide and
@@ -215,7 +218,10 @@ a claim, and this one was not yet a claim about the country's data.
   `test_no_plate_is_drawn_from_a_sidecar`) — nothing in this lane draws a
   plate. `tests/test_numbers.py -k russia` → **1 failed, 1 passed**: the
   failure is `no forms for RUB` (`CURRENCY_AFFIX`), recorded in
-  `DATA_NOTES.md` §15 as a core need, not patched here.
+  `DATA_NOTES.md` §15 as a core need, not patched here. **Phase B closed
+  both:** `provenance.json` is written (12 plates, 29 curated files), and
+  the RUB and `ru` blocks landed on `main` with the batch, so the whole
+  suite is green — see `DATA_NOTES.md` §16 for the phase's own gate.
 - **Determinism, online twice:** all five fetchers re-run against a live
   network → every sidecar **byte-identical** (md5 diff empty).
 - **Determinism, offline-warm:** with `http_proxy`/`https_proxy` pointing
