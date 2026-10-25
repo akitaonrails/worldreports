@@ -90,6 +90,8 @@ def grab(url: str, name: str, offline: bool, headers: dict,
     if cache_file.exists():
         return cache_file.read_bytes()
     if offline:
+        if soft:
+            return None            # a day with no file, offline: nothing to read
         fail(f"offline and no cached file {cache_file}")
     last = None
     for attempt in range(4):
