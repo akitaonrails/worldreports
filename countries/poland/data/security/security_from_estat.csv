@@ -1,0 +1,27 @@
+# Eurostat hlth_cd_aro (vital statistics, residents, underlying cause):
+# X85-Y09 assault, X60-X84 intentional self-harm, ACC accidents, V_Y85
+# transport accidents. These are DEATH-CERTIFICATE counts of homicide and
+# suicide; the police's recorded-offence count of the same homicides is a
+# different series (homicide_from_police.csv) and neither is wrong.
+year,assault_deaths_count,self_harm_deaths_count,accidents_deaths_count,transport_deaths_count
+2006,,,,
+2007,,,,
+2008,,,,
+2009,,,,
+2010,,,,
+2011,414,6120,14557,4901
+2012,380,6375,14407,4324
+2013,429,6223,13449,4069
+2014,338,5952,12952,3893
+2015,293,5437,12159,3590
+2016,287,4689,12177,3726
+2017,264,4503,12518,3540
+2018,210,4462,13066,3767
+2019,254,4597,12991,3864
+2020,224,4590,13130,3703
+2021,229,4607,14509,2828
+2022,190,4452,13743,2519
+2023,197,4580,12911,2507
+2024,189,4397,11902,2532
+2025,,,,
+2026,,,,

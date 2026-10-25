@@ -1,0 +1,31 @@
+# Eurostat Comext DS-045409, reporter PL, flow 1 (exports), product TOTAL,
+# indicator VALUE_IN_EUROS, annual. Share = partner value / WORLD value of
+# the same year, in per cent; the WORLD total in EUR bn is carried beside it
+# because a share without its base hides a shrinking pie.
+# GOODS on a customs basis (INTRASTAT + EXTRASTAT), not goods and services
+# and not the balance-of-payments presentation. Partner labels in this
+# edition: DE=Germany (incl. German Democratic Republic 'DD' from 1991), CZ=Czechia, UA=Ukraine, RU=Russian Federation (Russia).
+# The cube's aggregates (INT_EU, EXT_EU, INT_EA, EXT_EA and their vintages)
+# are excluded: they restate the same exports and would double-count.
+year,goods_exports_world_eur_bn,share_germany_pct,share_czechia_pct,share_slovakia_pct,share_hungary_pct,share_united_kingdom_pct,share_france_pct,share_italy_pct,share_netherlands_pct,share_sweden_pct,share_ukraine_pct,share_russia_pct,share_china_pct,share_united_states_pct
+2006,101.138,29.02,3.8,1.78,2.2,2.99,5.42,6.41,5.69,2.57,1.03,9.55,3.53,1.31
+2007,120.912,29.03,3.86,1.95,2.16,3.0,5.12,6.57,5.69,2.66,1.02,8.64,4.18,1.28
+2008,141.966,28.56,4.05,2.05,1.84,2.79,4.77,6.29,5.56,2.31,1.1,9.66,4.42,1.43
+2009,107.155,28.1,4.03,2.46,1.87,3.14,4.63,6.61,5.67,2.19,0.75,8.48,5.19,1.42
+2010,134.306,28.1,4.14,2.57,1.77,2.98,4.37,5.56,5.84,2.25,1.01,10.14,5.16,1.67
+2011,151.291,27.73,4.1,2.55,1.9,2.76,4.24,5.27,5.69,2.32,1.29,11.95,4.91,1.46
+2012,154.934,26.15,4.14,2.84,1.79,2.57,4.0,5.12,5.67,2.33,1.28,13.91,5.14,1.75
+2013,156.319,26.3,4.13,2.92,1.82,2.77,4.09,5.19,5.74,2.41,1.07,11.93,5.42,1.82
+2014,168.366,26.99,4.06,2.65,1.7,2.71,4.05,5.48,5.63,2.4,0.99,10.13,6.27,1.63
+2015,177.182,27.67,3.91,2.6,1.66,2.91,4.15,5.28,5.91,2.47,0.86,7.12,7.39,1.81
+2016,180.285,28.16,4.07,2.74,1.89,2.86,4.27,5.49,5.99,2.47,1.01,5.7,7.81,1.94
+2017,206.821,28.02,4.04,2.42,1.91,2.75,4.15,5.39,5.96,2.36,1.03,6.24,7.89,1.96
+2018,227.796,27.57,4.01,2.36,1.85,2.61,3.97,5.15,5.54,2.29,1.1,7.0,7.89,1.98
+2019,236.991,26.97,3.98,2.34,1.88,2.53,4.03,5.05,5.64,2.15,1.12,6.0,8.67,2.3
+2020,228.652,27.57,3.84,2.39,1.78,2.36,3.8,5.13,6.16,2.06,1.11,4.36,10.18,1.79
+2021,289.624,26.43,3.73,2.39,1.7,1.1,3.87,5.08,6.48,2.11,1.44,5.77,10.74,1.81
+2022,362.541,25.41,3.74,2.09,1.58,1.34,3.41,4.69,6.31,2.08,1.65,4.17,10.37,3.24
+2023,342.302,25.39,4.14,2.1,1.8,1.24,3.84,4.88,6.66,2.26,1.27,0.67,9.26,3.04
+2024,353.253,25.2,4.33,2.06,2.05,1.14,4.03,4.69,6.51,2.06,1.32,0.44,9.71,3.44
+2025,372.653,25.51,4.34,2.03,1.83,1.1,4.06,4.55,6.82,2.1,1.21,0.34,10.04,3.38
+2026,,,,,,,,,,,,,,

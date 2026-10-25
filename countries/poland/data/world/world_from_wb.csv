@@ -1,0 +1,27 @@
+# World Bank WDI: NY.GDP.MKTP.CD (GDP, current US$), FI.RES.TOTL.CD (total
+# reserves including gold, current US$, year-end) and SP.POP.TOTL (UN World
+# Population Prospects). The reserves figure is the World Bank's record of
+# NBP's official reserve assets; NBP's own monthly series is the national
+# publisher and is not machine-readable from this network (DISCOVERY.md).
+year,gdp_usd_bn,reserves_usd_bn,population_wb_million
+2006,345.898,48.474,38.141
+2007,429.715,65.725,38.121
+2008,535.612,62.184,38.126
+2009,440.891,79.522,38.152
+2010,478.112,93.473,38.043
+2011,527.849,97.712,38.063
+2012,498.149,108.902,38.063
+2013,518.18,106.221,38.04
+2014,542.134,100.452,38.012
+2015,480.054,94.903,37.986
+2016,473.26,114.329,37.97
+2017,528.357,113.267,37.975
+2018,594.617,116.957,37.975
+2019,602.684,128.392,37.965
+2020,605.914,154.219,37.516
+2021,689.17,166.03,36.982
+2022,695.607,166.664,36.822
+2023,812.451,193.783,36.687
+2024,917.767,223.115,36.559
+2025,1035.492,271.805,36.436
+2026,,,

@@ -1,0 +1,37 @@
+# Polish Police, "Zabójstwo" (homicide) annual statistics, whole country.
+# homicides_confirmed = przestępstwa stwierdzone (confirmed offences —
+# INCLUDES ATTEMPTS, which is why it is far above the death count);
+# proceedings_initiated = postępowania wszczęte.
+# National police series, 1999 to the last published year. The
+# vital-statistics assault-death count is in security_from_estat.csv; the
+# two are different questions and are two lines.
+# Source: statystyka.policja.pl, attachments reached from the offence page.
+year,homicides_confirmed,proceedings_initiated
+1999,1048,1121
+2000,1269,1158
+2001,1325,1169
+2002,1188,1007
+2003,1039,928
+2004,980,790
+2005,837,720
+2006,816,816
+2007,848,789
+2008,759,748
+2009,763,729
+2010,680,702
+2011,662,684
+2012,582,566
+2013,574,603
+2014,526,551
+2015,495,503
+2016,456,514
+2017,513,557
+2018,531,542
+2019,524,600
+2020,641,657
+2021,625,605
+2022,499,578
+2023,559,574
+2024,,
+2025,,
+2026,,

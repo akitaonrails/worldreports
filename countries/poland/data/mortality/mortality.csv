@@ -1,0 +1,35 @@
+# deaths_all and the crude rate: Eurostat demo_gind (DEATH, GDEATHRT),
+# which runs from 2006. Causes: Eurostat hlth_cd_aro, which starts in 2011
+# (its own TOTAL for 2024 is 409,194 against demo_gind's 408,504 — a 0.2%
+# difference between the cause table's coverage and the vital-statistics
+# total, kept as published rather than reconciled). Deaths
+# from diseases of the circulatory system (I) and cancers (C). Rates use the
+# same-year revised population from demography.csv (1 January population,
+# the atlas's per-1000 base for annual totals).
+# covid_deaths = U071 + U072, underlying cause; eurostat's table starts in
+# 2011, so 2006-2010 are blank (GUS's own cause-of-death series is not
+# staged in absolute counts).
+# excess_deaths is computed from deaths_all against the 2015-2019 mean of
+# this same series, one formula and one vintage.
+year,deaths_all,deaths_circulatory,deaths_cancer,death_rate_per_1000,covid_deaths,covid_deaths_per_100k,excess_deaths_pct_vs_2015_2019
+2006,369686.0,,,9.7,,,-8.02
+2007,377226.0,,,9.9,,,-6.15
+2008,379399.0,,,10.0,,,-5.61
+2009,384940.0,,,10.1,,,-4.23
+2010,378478.0,,,9.9,,,-5.84
+2011,375501.0,170184.0,92270.0,9.9,,,-6.58
+2012,384788.0,177903.0,94810.0,10.1,,,-4.27
+2013,387312.0,177759.0,94184.0,10.2,,,-3.64
+2014,376467.0,170089.0,95629.0,9.9,,,-6.34
+2015,394921.0,180643.0,100664.0,10.4,,,-1.75
+2016,388009.0,168278.0,100001.0,10.2,,,-3.47
+2017,402852.0,167367.0,99691.0,10.6,,,0.23
+2018,414200.0,168240.0,101415.0,10.9,,,3.05
+2019,409709.0,161905.0,100374.0,10.8,,,1.93
+2020,477355.0,174604.0,99893.0,12.7,41486.0,109.29408602708595,18.76
+2021,519517.0,181017.0,93678.0,14.0,90228.0,243.37693508575444,29.25
+2022,448448.0,161512.0,96162.0,12.2,29072.0,78.8077754149722,11.57
+2023,409036.0,151251.0,99778.0,11.1,4337.0,11.800160941461842,1.77
+2024,408504.0,150505.0,99761.0,11.2,1741.0,4.754106731744135,1.63
+2025,405747.0,,,11.1,,,0.95
+2026,,,,,,,

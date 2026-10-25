@@ -1,0 +1,40 @@
+# GUS "Roczne wskaźniki makroekonomiczne", part III (workbook updated
+# 2026-10-06 for the national accounts). ESA 2010 national accounts, prices
+# and the labour market, national scope.
+# gdp_growth_pct is derived from GUS's own volume index (previous year =
+# 100); cpi_pct and hicp_pct from the same index; nothing is re-based.
+# EACH RATE IS PRINTED TWICE BY GUS, in adjacent rows, and the two rows
+# overlap: the labelled row states the publisher's current figures, the
+# unlabelled row below carries the longer back-run. The BAEL rows agree in
+# the overlap (2021: 2.9 both); the registered rows do not (2020: 6.8 above
+# vs 6.3 below, 2021: 5.8 vs 5.4). This fetcher joins them where they agree
+# — registered takes the lower row through 2021 and the upper from 2022, so
+# the line has no step at the join — and the result is one publisher's
+# series. The disagreement in 2020-21 is a revision GUS did not annotate in
+# red, and it is recorded in DATA_NOTES rather than smoothed away.
+# The registered rate is an ADMINISTRATIVE series with a different
+# denominator (registered unemployed / economically active persons) and is
+# never spliced with the LFS rate.
+# 2025 values are GUS preliminaries ('a' suffix in the workbook).
+year,gdp_nominal_mln_pln,gdp_per_capita_pln,gdp_growth_pct,cpi_pct,hicp_pct,unemployment_registered_pct,unemployed_registered_thousand,unemployment_lfs_pct,employed_thousand,exports_gs_mln_pln,imports_gs_mln_pln
+2006,1073375.0,28149.0,6.2,1.0,1.3,14.8,2309.4,,13220.0,404212.0,429809.0
+2007,1189430.0,31206.0,6.8,2.5,2.6,11.2,1746.6,,13771.1,457587.0,502823.0
+2008,1290419.0,33855.0,4.4,4.2,4.2,9.5,1473.8,,14037.2,486085.0,553666.0
+2009,1375644.0,35747.0,2.6,3.5,4.0,12.1,1892.7,,13782.3,509044.0,522257.0
+2010,1441650.0,37896.0,3.2,2.6,2.6,12.4,1954.7,9.6,14106.9,575106.0,610303.0
+2011,1563935.0,41101.0,5.3,4.3,3.9,12.5,1982.7,10.0,14232.6,661829.0,697601.0
+2012,1622242.0,42624.0,1.5,3.7,3.7,13.4,2136.8,10.4,14172.0,714158.0,726878.0
+2013,1637768.0,43063.0,0.7,0.9,0.8,13.4,2157.9,10.0,14244.3,749562.0,731267.0
+2014,1710185.0,44998.0,3.9,0.0,0.1,11.4,1825.2,8.3,14563.4,790459.0,783493.0
+2015,1809564.0,47643.0,4.4,-0.9,-0.7,9.7,1563.3,7.0,14829.8,853420.0,816001.0
+2016,1865960.0,49160.0,3.0,-0.6,-0.2,8.2,1335.2,5.6,15293.3,931234.0,876245.0
+2017,1996836.0,52601.0,5.2,2.0,1.6,6.6,1081.7,4.5,15710.8,1032215.0,975921.0
+2018,2147587.0,56581.0,6.2,1.6,1.2,5.8,968.9,3.9,15949.7,1121740.0,1078301.0
+2019,2313929.0,60976.0,4.6,2.3,2.1,5.2,866.4,2.9,16120.6,1217425.0,1133088.0
+2020,2362909.0,63577.0,-2.0,3.4,3.7,6.3,1046.4,3.2,14789.1,1238965.0,1106437.0
+2021,2661518.0,71985.0,6.9,5.1,5.2,5.4,895.2,2.9,15002.6,1518076.0,1432863.0
+2022,3100850.0,82079.0,5.3,14.4,13.2,5.2,812.3,2.9,15209.7,1933458.0,1881249.0
+2023,3415274.0,90759.0,0.2,11.4,10.9,5.1,788.2,3.1,15178.1,1976804.0,1780849.0
+2024,3669531.0,97786.0,3.2,3.6,3.7,5.1,786.2,2.8,15169.7,1906945.0,1761942.0
+2025,3915394.0,104782.0,3.8,3.6,3.3,5.7,887.9,3.2,15125.0,1957563.0,1850674.0
+2026,,,,,,,,,,,

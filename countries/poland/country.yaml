@@ -1,0 +1,192 @@
+# Poland. Discovered in this lane on 2026-10-25. A country whose data story
+# is convergence and a register that cannot see its own biggest demographic
+# event: EU accession in 2004, the fastest catch-up in the Union, the only
+# member economy that did not recess in 2009, a 2022-23 inflation spike to
+# 14.4%, and roughly a million Ukrainian refugees in 2022 whom the
+# residence register did not count (the population balance did). Every
+# series carries its definition in SOURCES.yaml and DATA_NOTES.md; holes
+# stay holes.
+slug: poland
+flag_emoji: "🇵🇱"
+wordmark: Poland
+name:
+  en: "Poland"
+  pl: "Polska"
+  pt: "Polônia"
+  es: "Polonia"
+  fr: "Pologne"
+  ko: "폴란드"
+  it: "Polonia"
+  he: "פולין"
+  ja: "ポーランド"
+  zh-Hans: "波兰"
+  zh-Hant: "波蘭"
+  vi: "Ba Lan"
+  de: "Polen"
+  uk: "Польща"
+  ru: "Польша"
+
+locales:
+  - {code: pl, html_lang: pl,    og_locale: pl_PL, endonym: Polski}
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: pl
+
+# The x-axis span every plate shares, and the last year whose annual totals
+# are complete. 2025 is GUS's PRELIMINARY estimate ('a' in its own workbook)
+# for the national accounts, the EDP aggregates and external trade, so the
+# last complete year is 2024. 2025 and 2026 stay in the CSVs and are drawn
+# as the running years. Per-series coverage is shorter and stays visible:
+# GUS's BAEL rates start in 2010 on their old method and 2021 on the current
+# one, Eurostat's cause-of-death table starts in 2011, the police series
+# ends in 2023, the CPI runs to 2024, and the HDI to 2023.
+years: {from: 2006, to: 2026}
+last_full_year: 2024
+tick_every: 2
+# On the plate spine (PLATE_SPINE.md): every plate declares its topic and
+# draws its panels in the shared slots, units and scales.
+spine: true
+
+# SHARED-SCALE CONFLICTS, CHECKED against core/spine.py on 2026-10-25.
+# The atlas-wide range lives in core/spine.py and is changed there,
+# regenerating every country carrying the topic — never here. Every slot
+# Poland claims fits, except the two that the same 2020 event breaks:
+#
+#   economy.growth            −35..+18      −2.0% (2020) is the only fall
+#   economy.gdp_per_person    log 500..200,000  US$9,069..28,420
+#   economy.inflation         −5..225       14.4% (2022), −0.9% (2015)
+#   economy.unemployment      0..30         14.8% registered (2006)
+#   fiscal.revenue_expenditure 0..80        50.9% (2025)
+#   fiscal.balance            −35..+8       −7.3% (2025)
+#   fiscal.debt               0..300        59.6% (2025)
+#   fiscal.interest           0..10         2.7% (2006)
+#   spending.by_function      0..75         49.3% (2024)
+#   spending.social_protection 0..70        18.3% + 31.1% (2024)
+#   spending.investment       0..50         23.2% (2008)
+#   spending.public_investment 0..12        6.0% (2011)
+#   trade.exports_imports     0..100        62.4% (2022)
+#   trade.balance             −30..+40      −2.4% .. +5.7%
+#   trade.destinations        0..90         28.6..29.0% (Germany)
+#   markets.policy_rate       −5..225       6.75% at the end of 2022
+#   markets.bond_10y          −2..30        6.12% (2009)
+#   markets.currency          log 0.1..200  index 69.6..129.0
+#   credit.household_debt     0..140        36.6% (2016)
+#   credit.npl                0..20         7.25% (2014)
+#   people.gini               20..60        24.9..34.7
+#   people.poverty            0..80         49.1% before transfers
+#   people.minimum_wage       0..3,000      US$1,300 (2026)
+#   world.gdp                 log 10..50,000  US$1,035bn (2025)
+#   world.hdi                 0.5..1.0      0.831..0.906
+#   world.cpi                 0..100        53..63
+#   world.reserves            log 1..5,000   US$272bn (2025)
+#   demography.population     75..150       index 95.2..100
+#   demography.fertility      0..3.5        1.07..1.48
+#   demography.birth_death    0..25         6.5..14.0
+#   security.homicide         log 0.1..100  0.52..2.22
+#   security.suicide          0..40         12.0..16.7
+#   security.road_deaths      0..40         6.8..16.6
+#   mortality.death_rate      0..22         14.0 (2021)
+#   mortality.excess_deaths   −20..+40      +29.2% (2021)
+#   mortality.covid           0..300        243.4 per 100,000 (2021)
+#   migration.flows           0..50         0.3..8.3 per 1,000
+#   migration.foreign_born    0..50         0.1..2.6%
+#
+# TWO SLOTS DO NOT FIT, and both break on the same 2020 event:
+#   demography.natural_migration and migration.net, ref −10..+40 per 1,000.
+# Eurostat's registered net-migration rate is −20.3 per 1,000 in 2020 (the
+# register lost roughly 770,000 people it had been counting) and the
+# population-balance residual is −16.7; 2021 and 2022 then run +11.0 and
+# +12.6. Nothing between −10 and +40 can hold that. Both panels therefore
+# stay visibly pending, and both series are drawn on their own scale in the
+# migration chapter's lens — the same treatment Ukraine's wartime
+# displacement and Venezuela's −45.5 get. If the orchestrator widens the
+# two ranges (to, say, −25..+40) both slots can be claimed with no other
+# change: the data are already committed and the pending notes are the only
+# thing to flip.
+# No other shared range needed widening for Poland.
+
+# Bands drawn behind the data, dated from the staged GDP vintage only
+# (macro/economy.csv gdp_growth_pct). Poland has exactly ONE year of
+# negative annual growth in the window — 2020, −2.0% — and that is the
+# only band. The 2008-09 crisis is deliberately NOT banded: Poland grew
+# 4.4% in 2008 and 2.6% in 2009, the only EU economy to avoid the
+# recession, and banding it would draw a recession that did not happen.
+# 2023's 0.2% is a stagnation, not a contraction.
+bands:
+  - {from: 2020.0, to: 2021.0, label: "COVID-19"}
+
+# The pl number style and the PLN forms it needs live in core (shared by
+# every page and plate like the other locales): Polish writes 12 345,67 and
+# puts the percent sign after a space. If `tests/test_numbers.py` does not
+# yet list `pl`, that is the shared-core work the orchestrator is landing.
+currency:
+  code: PLN
+
+# The flag is white over crimson, which is not a chart palette: white is
+# the paper (a white band takes the automatic outline) and the flag crimson
+# is too bright to hold thin lines. These are darkened, desaturated
+# siblings — the crimson pulled toward oxblood, the white to a warm bone —
+# plus the cooler hues every country needs beside its own.
+palette:
+  RED:     "#B02034"
+  RED_D:   "#8A1728"
+  CRIMSON: "#C7203A"
+  BLUE:    "#2C5F8E"
+  BLUE_D:  "#1E4767"
+  NAVY:    "#16324C"
+  GREEN:   "#2F7A57"
+  GREEN_D: "#215C41"
+  GOLD:    "#B08A2E"
+  TEAL:    "#1C7C7A"
+  PURPLE:  "#6B5AA0"
+  primary: "#8A1728"
+  alert:   "#B0442C"
+  ink:     "#1E2129"
+  muted:   "#5B6068"
+  faint:   "#9AA0A8"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#8A1728", "#16324C", "#B08A2E", "#2F7A57", "#6B5AA0", "#1C7C7A", "#B0442C", "#1E2129"]
+  # White over crimson, the flag laid flat in three stripes. The white band
+  # is the paper's own colour, so the masthead outlines it automatically
+  # rather than letting it vanish; the oxblood closes the rule.
+  flag_bands: ["#F4F1EB", "#B02034", "#8A1728"]
+  # A cold, ink-blue night keyed to the flag's crimson as the money accent
+  # and the bone-white of the flag as the ink. Kept apart from Ukraine's
+  # azure night and the UK's navy-black: this one is slate.
+  web:
+    # P opens the wordmark with a full stem and a bowl: a small bearing.
+    mark_bearing: "0.03em"
+    ground:   "#0E1420"
+    raised:   "#151C2A"
+    raised_2: "#1D2637"
+    rule:     "#2A3548"
+    ink:      "#ECEFF4"
+    muted:    "#A2ADC0"
+    faint:    "#6B7688"
+    money:    "#E8A0A8"
+    world:    "#7FB3C8"
+    people:   "#D9B45E"
+
+seo:
+  title:
+    pl: "Polska — tablice danych oficjalnych, 2006–2024"
+    en: "Poland — plates of official data, 2006–2024"
+    pt: "Polônia — pranchas de dados oficiais, 2006–2024"
+  description:
+    pl: "Tablice o gospodarce, finansach, ludności i miejscu Polski w świecie zbudowane z wersjonowanych CSV; rejestr, który nie widzi uchodźców, pokazano osobną linią obok bilansu ludności, a różne definicje nigdy nie są łączone."
+    en: "Data plates on Poland's economy, public finances, population and place in the world, built from committed CSVs, with a residence register that cannot see the 2022 refugees drawn as its own line beside the population balance, and unlike definitions never spliced."
+    pt: "Pranchas de dados sobre a economia, as finanças públicas, a população e a posição da Polônia no mundo, a partir de CSVs versionados, com o registro de residência que não enxerga os refugiados de 2022 desenhado em linha própria ao lado do balanço populacional, e definições distintas nunca emendadas."
+  keywords: [Poland, Polska, GUS, Narodowy Bank Polski, Eurostat, convergence, Ukrainian refugees, official statistics]
+  spatial: "Poland"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with. Only
+# publishers whose numbers are drawn are named: GUS, the National Bank of
+# Poland, and Eurostat and the World Bank for the harmonised layer.
+sources:
+  pl: "Główny Urząd Statystyczny, Narodowy Bank Polski, a dla porównań Eurostat i Bank Światowy"
+  en: "the Central Statistical Office (GUS), the National Bank of Poland, and Eurostat and the World Bank for comparisons"
+  pt: "o Escritório Central de Estatística (GUS), o Banco Nacional da Polônia e, para comparações, o Eurostat e o Banco Mundial"

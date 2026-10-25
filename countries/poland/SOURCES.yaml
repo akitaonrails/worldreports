@@ -1,0 +1,370 @@
+# Data provenance — every series Poland publishes.
+#
+# Research pass and route audit 2026-10-25 (DISCOVERY.md is the record).
+# Each entry below names a curated CSV under data/, written by reviewing
+# the sidecar a fetch/*.py pulled; re-running a fetcher writes the
+# `*_from_*` sidecar again, never a curated file.
+#
+# Scopes: GUS = national statistics, national territory, calendar years.
+# Eurostat = the same national reports harmonised under EU statistical
+# obligations (Poland is a member state since 2004). The two are kept in
+# separate CSV columns, never spliced. "Resident population" means the
+# REVISED post-2021-census residence definition, which is ~1.0 million
+# below the unrevised register balance the GUS workbook still prints.
+#
+# Official flags: a statistical office, a central bank and a supranational
+# statistical authority publishing under a legal obligation are official.
+# A redistributor (World Bank, BIS), a market data vendor and an advocacy
+# index are not, and the flag — not the prose — is what the page reads.
+
+macro:
+  economy.csv:
+    source: "GUS — Roczne wskaźniki makroekonomiczne (ESA 2010 national accounts, prices, labour market); Eurostat — nama_10_gdp, prc_hicp_aind, une_rt_a"
+    url: "https://stat.gov.pl/wskazniki-makroekonomiczne/"
+    official: true
+    refreshed_by: fetch/fetch_gus.py, fetch/fetch_eurostat.py
+    notes: >-
+      VERIFIED 2026-10-25 against GUS's own known values: 2024 nominal GDP
+      3,669,531 mn zł, volume growth 3.2%, CPI 103.6 (2024), registered
+      unemployment 5.1%, and Eurostat's 2025 nominal GDP 923,507 mln EUR.
+      Growth 2006-2025 (only 2020 negative, −2.0%; Poland was the only EU
+      economy to grow through 2009). CPI peaks at 14.4% in 2022 and turns
+      negative in 2015 (−0.9%). HICP is staged separately and differs from
+      the CPI from 2022. UNEMPLOYMENT HAS THREE COLUMNS: GUS's BAEL rate
+      (survey, consistent from 2010 by GUS's own note), the administrative
+      registered rate (different denominator: registered unemployed over
+      the economically active), and Eurostat's LFS annual average. GUS
+      prints each rate in two overlapping rows; the fetcher joins them
+      where they agree, so each column is one continuous publisher series.
+      The registered rows disagree in 2020-21 only (6.8 vs 6.3, 5.8 vs
+      5.4) and the published national figures are the lower row — recorded
+      in DATA_NOTES rather than smoothed. GUS's BAEL value is "the last
+      survey of the year", Eurostat's is the annual average.
+  gdp_per_person.csv:
+    source: "World Bank WDI — NY.GDP.PCAP.CD and NY.GDP.MKTP.CD"
+    url: "https://api.worldbank.org/v2/country/POL/indicator/NY.GDP.PCAP.CD?format=json"
+    official: false
+    refreshed_by: fetch/fetch_worldbank.py
+    notes: >-
+      VERIFIED 2026-10-25, current US$: 2024 GDP US$917.8bn, US$25,103 per
+      person, 2025 US$1,035.5bn. The World Bank is a redistributor here,
+      not the computing body. GDP per RESIDENT: the denominator is the
+      revised population, ~1.0 million below the unrevised register, so
+      this is not comparable with a per-person figure divided by the old
+      balance.
+
+fiscal:
+  fiscal.csv:
+    source: "Eurostat EDP notification (gov_10dd_edpt1: B9, GD) and gov_10a_main (TR, TE, D41PAY, P51G); GUS general-government deficit and debt as the national cross-check"
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10a_main?format=JSON&geo=PL&sector=S13&unit=PC_GDP"
+    official: true
+    refreshed_by: fetch/fetch_eurostat.py, fetch/fetch_gus.py
+    notes: >-
+      VERIFIED 2026-10-25: 2024 revenue 42.8% of GDP, expenditure 49.2%,
+      deficit −6.4%, interest 2.2%, gross debt 54.8%; 2025 deficit −7.2%
+      and debt 59.6% (GUS preliminary). GUS's own EDP figures agree with
+      Eurostat's to the decimal, which is the cross-check. ESA 2010,
+      general government (S13), accrual, calendar year. The Ministry of
+      Finance's cash-basis state-budget deficit and its narrower "dług
+      publiczny" (public debt excluding some agency liabilities) are
+      DIFFERENT series and are deliberately absent. Primary balance =
+      B9 + D41PAY from the published components.
+
+spending:
+  spending.csv:
+    source: "Eurostat COFOG gov_10a_exp (na_item TE, sector S13) and nama_10_gdp P51G / B1GQ; gov_10a_main P51G"
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10a_exp?format=JSON&geo=PL&sector=S13&na_item=TE&cofog99=GF10"
+    official: true
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      VERIFIED 2026-10-25, % of GDP. Seven spine functions: social
+      protection GF10, health GF07, general public services GF01 (which
+      carries debt interest), education GF09, economic affairs GF04,
+      defence + public order GF02+GF03, other GF05+GF06+GF08, plus the
+      published TOTAL. A summed group exists only in years where every
+      part is published, so a suppressed sub-function cannot silently turn
+      "defence + public order" into defence alone. gfcf_pct_gdp is
+      whole-economy investment; public_investment_pct_gdp is general-
+      government GFCF.
+
+trade:
+  trade.csv:
+    source: "Eurostat nama_10_gdp P6/P7 (goods and services, national accounts); GUS external trade (customs goods, INTRASTAT/EXTRASTAT)"
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_gdp?format=JSON&geo=PL&na_item=P6&unit=CP_MEUR"
+    official: true
+    refreshed_by: fetch/fetch_eurostat.py, fetch/fetch_gus.py
+    notes: >-
+      VERIFIED 2026-10-25. TWO PERIMETERS IN ONE FILE, IN SEPARATE COLUMNS:
+      the national-accounts exports/imports (% of GDP, goods AND services,
+      ownership-change basis) and the customs goods series (EUR million,
+      INTRASTAT+EXTRASTAT, no services). They are never the same number and
+      are never spliced. 2024 customs goods exports EUR 353.0bn against
+      national-accounts exports of goods and services EUR 442.9bn — the
+      difference is services and conventions, not a revision. Balance is
+      derived inside each perimeter.
+  partners.csv:
+    source: "Eurostat Comext DS-045409 — Poland's goods exports by partner, all products, EUR"
+    url: "https://ec.europa.eu/eurostat/api/comext/dissemination/statistics/1.0/data/DS-045409?format=JSON&reporter=PL&flow=1&product=TOTAL&indicators=VALUE_IN_EUROS&freq=A"
+    official: true
+    refreshed_by: fetch/fetch_comext.py
+    notes: >-
+      VERIFIED 2026-10-25: 2024 world goods exports EUR 353.25bn, of which
+      Germany 25.2% (cross-checked against the published share), Czechia
+      4.3%, France 2.1%. Shares are computed against the WORLD total of the
+      same cube and year; the cube's aggregates (INT_EU, EXT_EU, INT_EA,
+      EXT_EA and vintages) are excluded because they restate the same
+      exports and would double-count. 2023-25 show Russia at the bottom of
+      the list and Ukraine rising: the war re-routing, on a customs basis.
+
+markets:
+  markets.csv:
+    source: "GUS money table (NBP reference rate at 31 December, official mid-rates); Eurostat irt_lt_mcby_a; NBP Web API Table A (daily mid-rates, annual mean)"
+    url: "https://api.nbp.pl/api/exchangerates/rates/a/usd/2024-01-01/2024-12-31/?format=json"
+    official: true
+    refreshed_by: fetch/fetch_gus.py, fetch/fetch_eurostat.py, fetch/fetch_nbp.py
+    notes: >-
+      VERIFIED 2026-10-25: USD/PLN annual means (2008 2.37, 2022 4.69,
+      2024 3.98) recomputed from 250+ daily NBP quotations a year;
+      10-year yield 5.23% (2006) to 5.52% (2025) from the EMU convergence
+      criterion. THE POLICY RATE IS A YEAR-END READING (NBP reference rate
+      on 31 December), not the annual mean the atlas uses elsewhere: NBP's
+      daily policy-rate series is not machine-readable from this network
+      (meta.pending), so the caption must say which convention is drawn.
+      2022's 6.75% at year-end against a 14.4% CPI is the real-rate trough.
+      pln_index_usd_2006 = 2006 mean / year mean × 100, up = stronger.
+      chf_pln_year_end is the franc rate, which Poland's mortgage holders
+      read after 2008 and 2015.
+
+people:
+  people.csv:
+    source: "Eurostat ilc_di12 (Gini) and ilc_li02 (AROP 60%); GUS EU-SILC relative poverty at 50% of median; Eurostat earn_mw_cur (statutory minimum wage, national currency)"
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ilc_di12?format=JSON&geo=PL&age=TOTAL&statinfo=GINI_HND"
+    official: true
+    refreshed_by: fetch/fetch_eurostat.py, fetch/fetch_gus.py
+    notes: >-
+      VERIFIED 2026-10-25: EU-SILC Gini 24.9 (2025), down from 32.1 in
+      2014; AROP60 13.2% (2025) from 19.1% (2006). Poland's NATIONAL
+      headline is the 50%-of-median relative poverty rate (GUS, 13.8% in
+      2024 after transfers, 45.4% before them): a different threshold from
+      Eurostat's 60%, drawn as its own labelled line. Minimum wage: the
+      statutory monthly gross rate in PLN, mean of the 1 January and 1 July
+      rates in years with a mid-year rise (2023, 2024), converted to US$ at
+      the NBP annual mean — 899 zł in 2006, 4,666 zł in 2025, 4,806 zł from
+      2026. Both the PLN and US$ columns are staged because the conversion
+      is a published derivation, not a source.
+
+world:
+  world.csv:
+    source: "World Bank WDI (NY.GDP.MKTP.CD, FI.RES.TOTL.CD); UNDP HDR 2025 (HDI); Transparency International CPI 2024 edition (score)"
+    url: "https://api.worldbank.org/v2/country/POL/indicator/NY.GDP.MKTP.CD?format=json"
+    official: false
+    refreshed_by: fetch/fetch_worldbank.py, fetch/fetch_undp.py, fetch/fetch_ti.py
+    notes: >-
+      VERIFIED 2026-10-25: GDP US$345.9bn (2006) to US$1,035.5bn (2025);
+      reserves US$48.5bn to US$271.8bn; HDI 0.831 (2006) to 0.906 (2023,
+      one HDR vintage); CPI score 53 (2024) after 62 in 2016 — a decline
+      that is the panel's story. Every series here is a redistributor or an
+      advocacy index, hence official: false for the file. The CPI changed
+      method in 2012 and the pre-2012 0-10 scores are NOT staged: the
+      column starts in 2012 and the plate draws the seam.
+  # (no separate hdi/cpi files: world.csv carries them, staged from the
+  #  UNDP and TI sidecars; see meta.pending for the CPIs before 2012)
+
+demography:
+  demography.csv:
+    source: "Eurostat demo_gind (population 1 January, birth/death/natural-change/migration rates on the revised residence definition) and demo_find (TFR); GUS births, TFR and life expectancy"
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?format=JSON&geo=PL"
+    official: true
+    refreshed_by: fetch/fetch_eurostat.py, fetch/fetch_gus.py
+    notes: >-
+      VERIFIED 2026-10-25. POPULATION IS THE REVISED SERIES: 38,157,055 on
+      1 January 2006, 36,332,765 on 1 January 2026. THE TRAP: GUS's own
+      macro workbook still prints the UNREVISED 31 December balance
+      (2022: 37,766.3 thousand), ~1.0 million higher, because it counts the
+      people the 2021 census found absent for 12+ months. That column is
+      recorded in the sidecar and is NOT staged. TWO NET-MIGRATION RATES
+      ARE STAGED SIDE BY SIDE: the registered (meldunek) rate — 0.2 per
+      1,000 in 2022 — and the residual implied by the population balance,
+      12.6 per 1,000 in the same year. TFR 1.27 (2006) to 1.07 (2025);
+      deaths exceed births every year from 2013.
+
+mortality:
+  mortality.csv:
+    source: "Eurostat demo_gind (deaths, crude rate) and hlth_cd_aro (deaths by underlying cause, ICD-10)"
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/hlth_cd_aro?format=JSON&geo=PL&sex=T&age=TOTAL&resid=TOT_IN&unit=NR"
+    official: true
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      VERIFIED 2026-10-25: 369,686 deaths in 2006 and 408,504 in 2024;
+      crude rate 9.7 to 11.2 per 1,000 with a 14.0 peak in 2021. COVID-19
+      deaths (U071+U072, underlying cause) 41,486 in 2020, 90,228 in 2021
+      (243 per 100,000), 29,072 in 2022, then single thousands. EXCESS
+      DEATHS IS DERIVED, not published: deaths_all against the 2015-2019
+      mean of the same series (+18.8% in 2020, +29.2% in 2021). The cause
+      table starts in 2011 and its own TOTAL for 2024 (409,194) differs
+      from the vital-statistics total (408,504) by 0.2%: both are published
+      as they are, not reconciled. Circulatory (I) and cancer (C) counts
+      are the lens.
+
+security:
+  security.csv:
+    source: "Polish Police (homicide, confirmed offences); Eurostat hlth_cd_aro (assault, self-harm and transport deaths); World Bank/WHO-UNODC estimates for the comparable rates"
+    url: "https://statystyka.policja.pl/st/przestepstwa-ogolem/przestepstwa-kryminalne/zabojstwo"
+    official: true
+    refreshed_by: fetch/fetch_police.py, fetch/fetch_eurostat.py, fetch/fetch_worldbank.py
+    notes: >-
+      VERIFIED 2026-10-25. TWO OFFICIAL HOMICIDE COUNTS, DRAWN SEPARATELY:
+      the police's confirmed offences (559 in 2023, 1.52 per 100,000) which
+      INCLUDE ATTEMPTS, and the vital-statistics assault deaths
+      (X85-Y09: 197 in 2023, 0.54 per 100,000). Neither is wrong; a reader
+      who takes one for the other is off by a factor of three. Suicides
+      (X60-X84) 4,580 in 2023 (12.5 per 100,000) against a 2006 peak of
+      17.2 per 100,000 by the WHO estimate. transport_deaths (V-Y85) is
+      broad transport, not road-only: road_deaths_who is the WHO estimate
+      and stops in 2019, the last year it published. Police coverage ends
+      in 2023; the rest runs to 2024.
+
+migration:
+  migration.csv:
+    source: "Eurostat migr_imm1ctz / migr_emi1ctz (registered flows), migr_pop1ctz / migr_pop3ctb (citizenship and country-of-birth stocks), migr_asytpsm (temporary protection), migr_asyappctza, migr_resfirst, migr_acq"
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_imm1ctz?format=JSON&geo=PL&citizen=TOTAL&agedef=COMPLET&age=TOTAL&unit=NR&sex=T"
+    official: true
+    refreshed_by: fetch/fetch_eurostat.py
+    notes: >-
+      VERIFIED 2026-10-25. THE CHAPTER IS ABOUT FOUR DIFFERENT NUMBERS AND
+      THE FILE KEEPS THEM APART. Registered immigration 275,515 in 2022 and
+      emigration 228,006 — the meldunek register, which did NOT see the war
+      inflow because refugees did not register permanent residence.
+      Temporary-protection beneficiaries: 954,800 at end-2023 (the
+      harmonised count of the Ukrainian inflow). Residual net migration
+      12.6 per 1,000 in 2022 against 0.2 registered. Foreign citizens
+      435,964 and foreign-born 933,118 at 1 January 2023: the birthplace
+      cut is twice the citizenship cut because naturalisation and
+      repatriation move people across it without anyone moving. Poland
+      reports citizenship as GROUPS, never by single country, so no
+      "Ukrainian" column exists in the stock table. Asylum applications,
+      first permits ISSUED (not in force) and acquisitions of citizenship
+      are three further questions and are never one line.
+
+credit:
+  credit.csv:
+    source: "BIS total credit WS_TC (household debt, % of GDP); EBA Risk Dashboard AQT_3.2 (NPL ratio); World Bank GFDD.SI.02 (cross-check, ends 2020)"
+    url: "https://stats.bis.org/api/v1/data/WS_TC/Q.PL.H.A.M.770.A?format=jsondata"
+    official: false
+    refreshed_by: fetch/fetch_bis.py, fetch/fetch_eba.py, fetch/fetch_worldbank.py
+    notes: >-
+      VERIFIED 2026-10-25: household debt 18.3% of GDP (2006) rising to a
+      2011 peak near 34% and falling to 22.6% (2024) — the convergence
+      story in one line, and low by EU standards. NPL ratio of the EBA's
+      reporting banks: 7.25% (2014 Q4) to 3.81% (2024 Q4), 3.57% at 2026
+      Q2. SCOPE: the EBA sample is large banks, not the whole Polish
+      sector (cooperative banks are outside it), so this sits below the
+      NBP's sector-wide ratio. The file is official: false because the BIS
+      is a compiler rather than Poland's computing body and the EBA figure
+      is a supervisory sample; both are named in the page's source table.
+      THE HOUSEHOLD LENDING RATE SLOT IS PENDING — see meta.pending — and
+      the debt-service ratio is empty for the same reason.
+
+meta:
+  pending:
+    - name: Household lending rate vs policy rate (credit slot 2)
+      publisher: Narodowy Bank Polski; Eurostat; World Bank; KNF
+      url: https://nbp.pl/statystyka-i-sprawozdawczosc/
+      official: true
+      notes: >-
+        Routes tried 2026-10-25. (1) NBP publishes the interest rate on new
+        household loans in its "Podaż pieniądza" and banking-sector
+        releases, but every nbp.pl page answers an Incapsula/JS challenge
+        to this network (HTTP 403 with a challenge body, both schemes,
+        browser UA) while api.nbp.pl answers — and api.nbp.pl exposes only
+        exchange rates and the gold price, no interest rates. (2) Eurostat's
+        MFI statistics for PL (ei_mfir_m) carry only deposit and
+        money-market codes (MF-DDI-RT, MF-3MI-RT, MF-EY1YM-RT, MF-EY5YM-RT,
+        MF-EY10YM-RT, MF-LTGBY-RT): no new-business household lending rate
+        exists for Poland in that table (verified against the live cube).
+        The older MIR dataflows (irt_mr, irt_mr_a, mir) answer HTTP 404 —
+        they are not available on the dissemination API. (3) World Bank
+        FR.INR.LEND returns 66 rows for POL and not one populated value
+        (verified 2026-10-25). (4) KNF (knf.gov.pl) did not resolve from
+        this network (curl exit 6/000). The slot stays pending with this
+        note rather than showing a proxy as if it were the national rate.
+    - name: Main equity index in US$ (markets slot 4, WIG20)
+      publisher: Warsaw Stock Exchange (GPW); redistributors
+      url: https://www.gpw.pl/archiwum-notowan
+      official: false
+      notes: >-
+        Routes tried 2026-10-25. (1) GPW maintains the official archive but
+        serves it one trading session at a time through a JS application;
+        the documented XLSX fetch URL returns the HTML page for every date
+        tried (2024-12-30), and no bulk index-history file is published.
+        (2) Yahoo Finance serves WIG20.WA but returns a SINGLE monthly
+        point for a 20-year range (verified), and query2 answers an empty
+        body — not a series. (3) stooq.com answers a JavaScript challenge
+        instead of CSV. (4) OECD's share-price dataflow
+        (DSD_STES@DF_FINMARK) is flagged NonProductionDataflow and every
+        data query answers HTTP 404; FRED's mirror answers a Cloudflare
+        challenge. Assembling the index from 21 year-end GPW session files
+        is possible but was not done in this pass; the slot is pending,
+        not proxied.
+    - name: GUS Bank Danych Lokalnych API (BDL) metadata endpoints
+      publisher: Główny Urząd Statystyczny
+      url: https://bdl.stat.gov.pl/api/v1/subjects
+      official: true
+      notes: >-
+        Probing 2026-10-25: /api/v1/data/by-variable/{id} and
+        /api/v1/data/by-unit/{id} answer HTTP 200, but /subjects,
+        /variables and /units answer HTTP 429 "API calls quota exceeded!
+        Maximum admitted 1000 per 12 h" — a per-network anonymous quota,
+        already exhausted. A registered X-ClientId raises the cap but was
+        not obtained in this pass. The consequence is that variable IDs
+        cannot be DISCOVERED through the API, so the national series come
+        from GUS's published annual workbook (stat.gov.pl) instead, which
+        answers completely and is the same publisher. BDL remains a valid
+        second route for a future refresh.
+    - name: NBP public site (policy rate, reserves, CHF mortgage share, sector NPL)
+      publisher: Narodowy Bank Polski
+      url: https://nbp.pl/
+      official: true
+      notes: >-
+        nbp.pl answers HTTP 403 with a JavaScript challenge (Incapsula) to
+        every route tried on 2026-10-25, including /podstawowe-stopy-
+        procentowe-archiwum/ and /oficjalne-aktywa-rezerwowe/; static.nbp.pl
+        answers a challenge too. api.nbp.pl does answer and is used for the
+        exchange rates. Consequences: the policy rate is staged as the
+        31 December value GUS republishes, not the daily mean; the monthly
+        official-reserve-assets series is replaced by the World Bank's
+        year-end figure; the CHF-mortgage share of household debt (the
+        country's most-cited credit fact) and the sector-wide NPL ratio are
+        not staged at all.
+    - name: IMF DataMapper and the IMF SDMX API (fallback layer)
+      publisher: International Monetary Fund
+      url: https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/POL
+      official: true
+      notes: >-
+        DataMapper answers HTTP 403 "Access Denied" (HTML body) on
+        2026-10-25. api.imf.org serves the dataflow catalogue but its data
+        and structure endpoints answer HTTP 500 / 204, and
+        dataservices.imf.org no longer resolves in DNS (curl exit 6). The
+        IMF therefore contributed nothing to this country; Eurostat's EDP
+        layer covers the fiscal slots the IMF would have cross-checked.
+    - name: Debt-service ratio (credit lens)
+      publisher: BIS
+      url: https://stats.bis.org/api/v1/data/WS_DSR
+      official: false
+      notes: >-
+        The WS_DSR query with the household key used for WS_TC answers
+        HTTP 404 on 2026-10-25; the DSR's own dimension key was not
+        resolved in this pass. The canonical household-debt column is
+        unaffected (WS_TC answers). Empty until the key is established.
+    - name: Corruption Perceptions Index before 2012
+      publisher: Transparency International
+      url: https://www.transparency.org/en/cpi
+      official: false
+      notes: >-
+        The 2012+ scores are staged from the 2024 edition's historical
+        sheet. The pre-2012 CPI used a 0-10 scale and a different source
+        mix; it is a different index, and the spine's rule is to draw the
+        seam rather than multiply it by ten and splice. TI's current pages
+        answer a Cloudflare challenge and the 2025 workbook answers S3
+        AccessDenied from this network; the 2024 edition's file (the newest
+        that returns an XLSX here) is used and named in SOURCES notes.

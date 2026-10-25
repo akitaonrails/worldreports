@@ -1,0 +1,28 @@
+# NBP Web API, Table A (official mid-rates), annual mean of the daily
+# quotations. Probed 2026-10-24. usd_pln_mean is PLN per 1 US$; a higher number
+# is a weaker zloty, so the markets plate indexes it 2006 = 100 with up =
+# stronger (ctx.fx_index) and the line falls as the currency weakens.
+# NOT the year-end rate: markets_from_gus.csv carries NBP's 31 December
+# mid-rate from GUS's money table, and the two differ.
+year,usd_pln_mean,eur_pln_mean
+2006,3.1047,3.896
+2007,2.7686,3.7843
+2008,2.4061,3.5129
+2009,3.1181,4.3282
+2010,3.0179,3.9939
+2011,2.9636,4.1196
+2012,3.2581,4.1852
+2013,3.1615,4.1976
+2014,3.1537,4.1845
+2015,3.773,4.1843
+2016,3.9435,4.3637
+2017,3.7782,4.2583
+2018,3.6117,4.2617
+2019,3.8399,4.2988
+2020,3.8978,4.4449
+2021,3.8647,4.567
+2022,4.4615,4.6876
+2023,4.203,4.5437
+2024,3.9799,4.3065
+2025,3.7588,4.2402
+2026,3.6981,4.28

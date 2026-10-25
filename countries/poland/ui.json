@@ -1,0 +1,191 @@
+{
+ "pl": {
+  "line": "{n} tablic danych oficjalnych, {window}",
+  "dek": "Każda liczba na tej stronie pochodzi od wydawcy, który nazywa swoją definicję — Głównego Urzędu Statystycznego dla rachunków narodowych, cen, handlu i ludności, Narodowego Banku Polskiego dla stopy referencyjnej i kursów, a Eurostatu, Banku Światowego i BIS dla warstwy porównawczej — i każda tablica jest odtwarzana z plików CSV w repozytorium, więc wykresy i liczby nie mogą się rozjechać. Polska to historia dogonienia: najszybszy wzrost w Unii, jedyna gospodarka, która nie wpadła w recesję w 2009 roku, szczyt inflacji 14,4% w 2022 roku — i rejestr meldunkowy, który nie zobaczył miliona uchodźców w 2022 roku, bo uchodźcy nie zameldowali pobytu na stałe. Bilans ludności i stan ochrony czasowej pokazują ten napływ; rejestr nie. Dwie ludności, dwa obwody handlowe i dwie miary bezrobocia są rysowane osobnymi liniami i nigdy nie są łączone.",
+  "notes": [
+   "Rok 2026 jest niepełny. Roczne sumy kończą się na 2024 roku, który jest ostatnim pełnym rokiem; 2025 to wstępny szacunek GUS w rachunkach narodowych, agregatach EDP i handlu zagranicznym i jest rysowany linią przerywaną, podobnie jak 2026.",
+   "Ludność to skorygowana seria zamieszkania (GUS po spisie 2021, ta sama, którą publikuje Eurostat): 38,2 mln 1 stycznia 2006 i 36,3 mln 1 stycznia 2026. Zeszyt GUS nadal drukuje niekorygowany bilans na 31 grudnia, o około 1,0 mln wyższy; nie jest używany. Każda liczba na osobę i każda stopa w tym kraju dzieli przez serię skorygowaną.",
+   "Krok na panelu ludności w 2021 roku to korekta po spisie, a nie zdarzenie demograficzne: 37,96 mln na 1 stycznia 2021 i 37,07 mln rok później. Jest oznaczony na panelu, żeby nie dało się go odczytać jako spadku urodzeń.",
+   "Bezrobocie jest pokazane na dwóch definicjach: badanie BAEL (od 2010 roku) i rejestr administracyjny (całe okno). Różnica około dwóch punktów w każdym roku to nie błąd, to dwie różne miary. GUS drukuje każdą stopę w dwóch nachodzących na siebie wierszach; w latach 2020–2021 wiersze rejestrowe się nie zgadzają (6,8 wobec 6,3 oraz 5,8 wobec 5,4), a seria jest zszyta tam, gdzie się zgadzają — bez wygładzania.",
+   "Inflacja jest pokazana dwa razy: krajowy CPI GUS i zharmonizowany HICP Eurostatu, na jednej skali i z nazwanymi liniami. Od 2022 roku HICP ma inne wagi mieszkaniowe, więc linie się rozchodzą. Indeks CPI sprzed 2012 roku liczony był inną metodą i nie jest mnożony przez dziesięć ani doklejany.",
+   "Stopa referencyjna NBP to odczyt z 31 grudnia, a nie średnia roczna, którą rysują inne kraje atlasu. Dzienny szereg NBP jest za zabezpieczeniem strony, a api.nbp.pl udostępnia tylko kursy walut — rok 2022 różniłby się o prawie dwa punkty, gdyby tę wartość podać jako średnią.",
+   "Saldo migracji jest jedynym panelem porównawczym, którego Polska nie może narysować na wspólnej skali: w 2020 roku rejestr pokazuje −20,3 na 1000, a bilans ludności −16,7, poza skalą −10…+40. Obie serie są narysowane we własnej skali w soczewce rozdziału migracji, zamiast spłaszczać piętnaście innych krajów. Panel porównawczy czeka na poszerzenie skali w rdzeniu atlasu.",
+   "Płaca minimalna to ustawowa kwota miesięczna brutto. Polska wprowadziła drugą podwyżkę 1 lipca w 2023 i 2024 roku, więc te lata mają dwie stawki; w pliku jest ich średnia, a obie połowy są w pliku pobocznym. Kolumna dolarowa przelicza po średnim kursie rocznym NBP.",
+   "Tablica jest rysowana w trzech językach, w których ten kraj publikuje — polskim, angielskim i portugalskim — i tak samo jest napisana ta strona."
+  ],
+  "unavailable": [
+   {
+    "term": "WIG20",
+    "detail": "Archiwum GPW jest sesyjne i oparte na JavaScripcie, Yahoo zwraca pojedynczy punkt, stooq blokuje dostęp, przepływ OECD nie jest produkcyjny, a FRED jest za Cloudflarem. Panel akcji pozostaje pusty z podanym powodem; żaden nieoficjalny pośrednik nie jest podstawiony."
+   },
+   {
+    "term": "Stopa kredytów dla gospodarstw domowych",
+    "detail": "Pięć tras sprawdzonych i zapisanych: stopy NBP są za zabezpieczeniem strony, tabela MIR Eurostatu nie ma kodu dla nowych kredytów w Polsce, seria kredytowa Banku Światowego jest dla Polski pusta, KNF jest nieosiągalna, a klucz wskaźnika obsługi długu BIS nie został rozwiązany."
+   },
+   {
+    "term": "Saldo migracji na 1000 osób",
+    "detail": "To nie luka w danych, a konflikt skali: obie oficjalne serie wychodzą w 2020 roku poza wspólną skalę −10…+40 (rejestr −20,3; bilans ludności −16,7). Obie są narysowane we własnej skali w soczewce rozdziału migracji, a panel porównawczy czeka na decyzję o poszerzeniu skali dla wszystkich krajów."
+   },
+   {
+    "term": "Wskaźnik obsługi długu",
+    "detail": "Klucz BIS dla wskaźnika obsługi długu gospodarstw domowych nie został rozwiązany, a publikacja NBP jest nieosiągalna. Kolumny z samymi pustymi polami nie ma w pliku, a panel nie udaje, że istnieje."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Rachunki narodowe, ceny, rynek pracy, handel, ludność",
+    "detail": "Główny Urząd Statystyczny — roczne wskaźniki makroekonomiczne, statystyka handlu zagranicznego i bilans ludności po spisie 2021"
+   },
+   {
+    "term": "Stopa referencyjna i kursy",
+    "detail": "Narodowy Bank Polski — stopa referencyjna na 31 grudnia i tabela A (średnie kursy dzienne USD i CHF)"
+   },
+   {
+    "term": "Warstwa zharmonizowana",
+    "detail": "Eurostat — EDP i gov_10a_main, COFOG gov_10a_exp, HICP, LFS, EU-SILC, statystyka przyczyn zgonów, migracje i Comext"
+   },
+   {
+    "term": "Porównania międzynarodowe",
+    "detail": "Bank Światowy (WDI, rezerwy, wskaźniki stabilności finansowej), BIS (total credit), EBA (Risk Dashboard), UNDP (raport o rozwoju społecznym)"
+   },
+   {
+    "term": "Przestępczość i wypadki",
+    "detail": "Policja (postępowania potwierdzone) oraz UNODC i WHO przez Bank Światowy"
+   },
+   {
+    "term": "Korupcja",
+    "detail": "Transparency International, wskaźnik percepcji korupcji; tylko metoda obowiązująca od 2012 roku"
+   },
+   {
+    "term": "Odtwarzalność",
+    "detail": "Wszystkie tablice powstają w trybie offline z plików CSV w repozytorium; plik provenance.json zapisuje, które pliki przeczytała każda tablica"
+   }
+  ]
+ },
+ "en": {
+  "line": "{n} plates of official data, {window}",
+  "dek": "Every figure on this page comes from a publisher that names its definition — the Central Statistical Office (GUS) for the national accounts, prices, trade and population, the National Bank of Poland for the reference rate and the exchange rates, and Eurostat, the World Bank and the BIS for the comparison layer — and every plate is regenerated from committed CSVs, so the charts and the numbers here cannot drift apart. Poland is a story of catch-up: the fastest growth in the Union, the only economy that did not fall into recession in 2009, a 14.4% inflation peak in 2022, and a residence register that did not see the million refugees of 2022 because refugees did not register a permanent address. The population balance and the temporary-protection stock show that inflow; the register does not. Two populations, two trade perimeters and two unemployment measures are drawn as separate lines and never joined.",
+  "notes": [
+   "2026 is a partial year. Annual totals stop at 2024, the last complete year; 2025 is GUS's preliminary estimate in the national accounts, the EDP aggregates and external trade, and it is drawn dashed, as is 2026.",
+   "The population is the revised residence series (GUS post-2021-census, the one Eurostat carries): 38.2m on 1 January 2006 and 36.3m on 1 January 2026. GUS's workbook still prints the unrevised 31 December balance, about 1.0 million higher; it is not used. Every per-person figure and every rate in this country divides by the revised series.",
+   "The step on the population panel in 2021 is the census revision, not a demographic event: 37.96m on 1 January 2021 and 37.07m a year later. It is annotated on the panel so it cannot be misread as a collapse in births.",
+   "Unemployment is drawn on two definitions: the BAEL labour-force survey (from 2010) and the administrative register (the whole window). The gap of about two points in every year is not an error, it is two measures. GUS prints each rate in two overlapping rows; the register rows disagree in 2020–21 (6.8 against 6.3, and 5.8 against 5.4), and the series is joined where they agree — without smoothing.",
+   "Inflation is drawn twice: GUS's national CPI and Eurostat's harmonised HICP, on one scale and with both named. From 2022 the HICP has different housing weights, so the lines part. The pre-2012 CPI is a 0–10 index on another method; it is not multiplied by ten and spliced in.",
+   "The NBP reference rate is the 31 December reading, not the annual mean the atlas's other countries draw. NBP's daily series sits behind a site challenge and api.nbp.pl exposes only exchange rates — reporting the year-end value as an average would misstate 2022 by nearly two points.",
+   "Net migration is the one comparison panel Poland cannot draw on the shared scale: in 2020 the register prints −20.3 per 1,000 and the population balance −16.7, outside −10…+40. Both series are drawn on their own scale in the migration chapter's lens rather than flattening fifteen other countries. The comparison panel waits for the atlas core to widen the scale.",
+   "The minimum wage is the statutory monthly gross rate. Poland legislated a second increase on 1 July in 2023 and 2024, so those years have two rates; the file carries their mean and the sidecar carries both halves. The dollar column converts at NBP's annual mean.",
+   "The plates are drawn in the three languages this country publishes — Polish, English and Portuguese — and so is this page."
+  ],
+  "unavailable": [
+   {
+    "term": "WIG20",
+    "detail": "GPW's archive is per-session and JavaScript-driven, Yahoo returns a single point, stooq is walled, the OECD flow is not production data and FRED sits behind Cloudflare. The equity panel stays empty with its reason stated; no unofficial redistributor is substituted."
+   },
+   {
+    "term": "Household lending rate",
+    "detail": "Five routes tried and recorded: NBP's rates sit behind a site challenge, Eurostat's MIR table has no new-business code for Poland, the World Bank's lending series is empty for Poland, KNF is unreachable, and the BIS debt-service key did not resolve."
+   },
+   {
+    "term": "Net migration per 1,000",
+    "detail": "Not a gap in the data but a scale conflict: both official series leave the shared −10…+40 range in 2020 (the register at −20.3, the population balance at −16.7). Both are drawn on their own scale in the migration chapter's lens, and the comparison panel waits for a decision to widen the scale for every country."
+   },
+   {
+    "term": "Debt-service ratio",
+    "detail": "The BIS key for the household debt-service ratio did not resolve and NBP's own publication is unreachable. No column of blanks was staged, and no panel pretends the series exists."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "National accounts, prices, labour, trade, population",
+    "detail": "Central Statistical Office (GUS) — annual macro indicators, external-trade statistics and the post-2021-census population balance"
+   },
+   {
+    "term": "Reference rate and exchange rates",
+    "detail": "National Bank of Poland — the reference rate at 31 December and Table A (mean daily USD and CHF mid-rates)"
+   },
+   {
+    "term": "Harmonised layer",
+    "detail": "Eurostat — EDP and gov_10a_main, COFOG gov_10a_exp, HICP, LFS, EU-SILC, cause-of-death statistics, migration statistics and Comext"
+   },
+   {
+    "term": "International comparisons",
+    "detail": "World Bank (WDI, reserves, Financial Soundness Indicators), BIS (total credit), EBA (Risk Dashboard), UNDP (Human Development Report)"
+   },
+   {
+    "term": "Crime and accidents",
+    "detail": "Polish Police (confirmed offences) and UNODC and WHO via the World Bank"
+   },
+   {
+    "term": "Corruption",
+    "detail": "Transparency International's Corruption Perceptions Index; the 2012+ method only"
+   },
+   {
+    "term": "Reproducibility",
+    "detail": "Every plate is built offline from the CSVs committed here; provenance.json records which files each plate read"
+   }
+  ]
+ },
+ "pt": {
+  "line": "{n} pranchas de dados oficiais, {window}",
+  "dek": "Cada número desta página vem de um produtor que nomeia a sua definição — o Escritório Central de Estatística (GUS) para as contas nacionais, os preços, o comércio e a população, o Banco Nacional da Polônia para a taxa de referência e os câmbios, e o Eurostat, o Banco Mundial e o BIS para a camada de comparação — e cada prancha é regerada a partir dos CSVs versionados, pelo que os gráficos e os números aqui não podem divergir. A Polônia é uma história de alcance: o crescimento mais rápido da União, a única economia que não entrou em recessão em 2009, um pico de inflação de 14,4% em 2022 e um registo de residência que não viu o milhão de refugiados de 2022, porque os refugiados não registaram residência permanente. O balanço populacional e o stock de proteção temporária mostram esse afluxo; o registo não. Duas populações, dois perímetros de comércio e duas medidas de desemprego são desenhados em linhas separadas e nunca emendados.",
+  "notes": [
+   "2026 é um ano parcial. Os totais anuais terminam em 2024, o último ano completo; 2025 é a estimativa preliminar do GUS nas contas nacionais, nos agregados EDP e no comércio externo, e é desenhado tracejado, tal como 2026.",
+   "A população é a série revista de residência (GUS após o censo de 2021, a mesma que o Eurostat publica): 38,2 milhões em 1 de janeiro de 2006 e 36,3 milhões em 1 de janeiro de 2026. O caderno do GUS ainda imprime o balanço não revisto de 31 de dezembro, cerca de 1,0 milhão acima; não é usado. Cada valor por pessoa e cada taxa neste país dividem pela série revista.",
+   "O degrau no painel da população em 2021 é a revisão do censo, não um evento demográfico: 37,96 milhões em 1 de janeiro de 2021 e 37,07 milhões um ano depois. Está anotado no painel para não ser lido como um colapso da natalidade.",
+   "O desemprego é desenhado em duas definições: o inquérito à força de trabalho BAEL (desde 2010) e o registo administrativo (toda a janela). A diferença de cerca de dois pontos em todos os anos não é um erro, são duas medidas. O GUS imprime cada taxa em duas linhas sobrepostas; as linhas do registo discordam em 2020–21 (6,8 contra 6,3, e 5,8 contra 5,4), e a série é unida onde concordam — sem suavização.",
+   "A inflação é desenhada duas vezes: o IPC nacional do GUS e o IHPC harmonizado do Eurostat, na mesma escala e com ambos nomeados. Desde 2022 o IHPC tem outras ponderações de habitação, pelo que as linhas se separam. O IPC anterior a 2012 é um índice de 0 a 10 noutro método; não é multiplicado por dez nem emendado.",
+   "A taxa de referência do NBP é a leitura de 31 de dezembro, não a média anual que os outros países do atlas desenham. A série diária do NBP está atrás de um desafio de site e a api.nbp.pl expõe apenas câmbios — apresentar o valor de fim de ano como média erraria 2022 em quase dois pontos.",
+   "A migração líquida é o único painel de comparação que a Polônia não pode desenhar na escala partilhada: em 2020 o registo marca −20,3 por 1.000 e o balanço populacional −16,7, fora de −10…+40. Ambas as séries são desenhadas em escala própria na lente do capítulo de migração, em vez de achatarem quinze outros países. O painel de comparação aguarda que o núcleo do atlas alargue a escala.",
+   "O salário mínimo é o valor mensal bruto legal. A Polônia legislou um segundo aumento em 1 de julho em 2023 e 2024, pelo que esses anos têm duas taxas; o ficheiro traz a sua média e o ficheiro auxiliar traz as duas metades. A coluna em dólares converte pela média cambial anual do NBP.",
+   "As pranchas são desenhadas nas três línguas em que este país publica — polonês, inglês e português — e esta página também."
+  ],
+  "unavailable": [
+   {
+    "term": "WIG20",
+    "detail": "O arquivo da GPW é por sessão e em JavaScript, o Yahoo devolve um único ponto, a stooq está bloqueada, o fluxo da OCDE não é dado de produção e o FRED está atrás da Cloudflare. O painel de ações fica vazio com o motivo declarado; nenhum redistribuidor não oficial é substituído."
+   },
+   {
+    "term": "Taxa de crédito às famílias",
+    "detail": "Cinco vias tentadas e registadas: as taxas do NBP estão atrás de um desafio de site, a tabela MIR do Eurostat não tem código de novos créditos para a Polônia, a série de crédito do Banco Mundial está vazia para a Polônia, a KNF é inalcançável e a chave do rácio de serviço da dívida do BIS não resolveu."
+   },
+   {
+    "term": "Migração líquida por 1.000",
+    "detail": "Não é uma lacuna nos dados, mas um conflito de escala: ambas as séries oficiais saem da faixa comum −10…+40 em 2020 (o registo em −20,3, o balanço populacional em −16,7). Ambas são desenhadas em escala própria na lente do capítulo de migração, e o painel de comparação aguarda uma decisão de alargar a escala para todos os países."
+   },
+   {
+    "term": "Rácio de serviço da dívida",
+    "detail": "A chave do BIS para o rácio de serviço da dívida das famílias não resolveu e a publicação do NBP é inalcançável. Não foi preparada nenhuma coluna de células vazias e nenhum painel finge que a série existe."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Contas nacionais, preços, trabalho, comércio, população",
+    "detail": "Escritório Central de Estatística (GUS) — indicadores macroeconômicos anuais, estatísticas de comércio externo e o balanço populacional pós-censo de 2021"
+   },
+   {
+    "term": "Taxa de referência e câmbios",
+    "detail": "Banco Nacional da Polônia — a taxa de referência em 31 de dezembro e a tabela A (médias diárias das taxas USD e CHF)"
+   },
+   {
+    "term": "Camada harmonizada",
+    "detail": "Eurostat — EDP e gov_10a_main, COFOG gov_10a_exp, IHPC, LFS, EU-SILC, estatísticas de causas de morte, estatísticas de migração e Comext"
+   },
+   {
+    "term": "Comparações internacionais",
+    "detail": "Banco Mundial (WDI, reservas, indicadores de solidez financeira), BIS (total credit), EBA (Risk Dashboard), PNUD (Relatório de Desenvolvimento Humano)"
+   },
+   {
+    "term": "Crime e acidentes",
+    "detail": "Polícia polonesa (crimes confirmados) e UNODC e OMS via Banco Mundial"
+   },
+   {
+    "term": "Corrupção",
+    "detail": "Índice de Percepção da Corrupção da Transparency International; apenas o método posterior a 2012"
+   },
+   {
+    "term": "Reprodutibilidade",
+    "detail": "Cada prancha é construída offline a partir dos CSVs aqui versionados; o provenance.json registra que ficheiros cada prancha leu"
+   }
+  ]
+ }
+}

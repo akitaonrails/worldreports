@@ -1,0 +1,29 @@
+# BIS total credit statistics. household_debt_pct_gdp = WS_TC
+# Q.PL.H.A.M.770.A (credit to households and NPISHs from all sectors,
+# break-adjusted, % of GDP), read at Q4 of each year. Quarterly, so the year
+# is the Q4 stock, never a sum of quarters. The debt-service-ratio lens is
+# absent because its WS_DSR key did not resolve on 2026-10-25 (recorded in
+# SOURCES.yaml meta.pending): a column of blanks would promise data that do
+# not exist.
+year,household_debt_pct_gdp
+2006,18.3
+2007,22.7
+2008,30.0
+2009,31.6
+2010,34.3
+2011,35.2
+2012,34.2
+2013,35.5
+2014,35.8
+2015,35.9
+2016,36.6
+2017,34.8
+2018,34.6
+2019,34.1
+2020,34.3
+2021,31.9
+2022,26.3
+2023,23.6
+2024,22.6
+2025,22.1
+2026,

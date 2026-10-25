@@ -1,0 +1,33 @@
+# Poland's economy. gdp_nominal_pln_bn / gdp_growth_pct / cpi_pct: GUS
+# national accounts and prices (ESA 2010, national scope). gdp_growth_pct_estat
+# and hicp_pct: the same quantities as Eurostat harmonises them. Both pairs
+# are staged because the atlas draws the national line with the harmonised
+# one beside it, never spliced.
+# unemployment_lfs_pct is GUS's BAEL rate (the publisher prints it in two
+# overlapping rows; the fetcher joins them where they agree, so the line is
+# continuous — see DATA_NOTES). unemployment_registered_pct is the
+# administrative registered rate on the same principle.
+# unemployment_estat_pct is the Eurostat LFS annual average, which differs
+# from GUS's "last survey of the year" convention.
+year,gdp_nominal_pln_bn,gdp_growth_pct,gdp_growth_pct_estat,cpi_pct,hicp_pct,unemployment_lfs_pct,unemployment_registered_pct,unemployment_estat_pct
+2006,1073.375,6.2,6.2,1.0,1.3,,14.8,
+2007,1189.43,6.8,6.8,2.5,2.6,,11.2,
+2008,1290.419,4.4,4.4,4.2,4.2,,9.5,
+2009,1375.644,2.6,2.6,3.5,4.0,,12.1,8.5
+2010,1441.65,3.2,3.2,2.6,2.6,9.6,12.4,10.0
+2011,1563.935,5.3,5.3,4.3,3.9,10.0,12.5,10.0
+2012,1622.242,1.5,1.5,3.7,3.7,10.4,13.4,10.4
+2013,1637.768,0.7,0.7,0.9,0.8,10.0,13.4,10.6
+2014,1710.185,3.9,3.9,0.0,0.1,8.3,11.4,9.2
+2015,1809.564,4.4,4.4,-0.9,-0.7,7.0,9.7,7.7
+2016,1865.96,3.0,3.0,-0.6,-0.2,5.6,8.2,6.3
+2017,1996.836,5.2,5.2,2.0,1.6,4.5,6.6,5.0
+2018,2147.587,6.2,6.2,1.6,1.2,3.9,5.8,3.9
+2019,2313.929,4.6,4.6,2.3,2.1,2.9,5.2,3.3
+2020,2362.909,-2.0,-2.0,3.4,3.7,3.2,6.3,3.2
+2021,2661.518,6.9,6.9,5.1,5.2,2.9,5.4,3.4
+2022,3100.85,5.3,5.3,14.4,13.2,2.9,5.2,2.9
+2023,3415.274,0.2,0.2,11.4,10.9,3.1,5.1,2.8
+2024,3669.531,3.2,3.2,3.6,3.7,2.8,5.1,2.9
+2025,3915.394,3.8,3.8,3.6,3.3,3.2,5.7,3.1
+2026,,,,,,,,

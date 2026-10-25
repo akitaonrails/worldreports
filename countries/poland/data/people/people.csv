@@ -1,0 +1,34 @@
+# gini_eurostat: EU-SILC Gini (Eurostat ilc_di12), 0-100, from 2014.
+# gini_wb: the World Bank's harmonised Gini, a DIFFERENT compilation that
+# covers 2006-2022; staged as the comparison line beside the EU-SILC one,
+# never spliced into it.
+# arop60_pct: at-risk-of-poverty after social transfers at 60% of median
+# equivalised income (Eurostat ilc_li02) — the EU headline.
+# relative_poverty_*_pct: GUS's national EU-SILC series at 50% of median,
+# before and after transfers — a different threshold, drawn as its own line.
+# minimum_wage_pln_month: the statutory monthly gross minimum, mean of the
+# 1 January and 1 July rates where Poland legislated a mid-year rise
+# (2023-2024), otherwise the single annual rate. minimum_wage_usd_month
+# converts it at the NBP annual mean USD/PLN, the atlas convention.
+year,gini_eurostat,gini_wb,arop60_pct,relative_poverty_after_transfers_pct,relative_poverty_before_transfers_pct,minimum_wage_pln_month,minimum_wage_usd_month
+2006,,34.7,19.1,19.1,49.1,899.0,289.56
+2007,,34.0,17.3,17.3,47.1,936.0,338.08
+2008,,33.5,16.9,16.9,44.1,1126.0,467.98
+2009,,33.4,17.1,17.1,42.6,1276.0,409.22
+2010,,33.2,17.6,17.6,43.3,1317.0,436.4
+2011,,33.2,17.7,17.7,43.4,1386.0,467.67
+2012,,33.0,17.1,17.1,42.7,1500.0,460.39
+2013,,33.1,17.3,17.3,43.0,1600.0,506.09
+2014,30.8,32.8,17.0,17.0,43.7,1680.0,532.71
+2015,30.6,31.8,17.6,17.6,43.6,1750.0,463.82
+2016,29.8,31.2,17.3,17.3,43.1,1850.0,469.13
+2017,29.2,29.7,15.0,15.0,43.6,2000.0,529.35
+2018,27.8,30.2,14.8,14.8,44.4,2100.0,581.44
+2019,28.5,28.8,15.4,15.4,43.9,2250.0,585.95
+2020,27.2,28.5,14.8,14.8,43.9,2600.0,667.04
+2021,26.8,28.5,14.8,14.8,43.7,2800.0,724.51
+2022,26.3,28.9,13.7,13.7,43.4,3010.0,674.66
+2023,27.0,28.5,14.0,14.0,42.7,3545.0,843.45
+2024,26.0,,13.8,13.8,45.4,4271.0,1073.14
+2025,24.9,,13.2,13.2,43.9,4666.0,1241.35
+2026,,,,,,4806.0,1299.59

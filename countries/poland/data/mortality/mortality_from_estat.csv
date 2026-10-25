@@ -1,0 +1,27 @@
+# Eurostat hlth_cd_aro, residents, total population, underlining cause of
+# death (ICD-10), counts. U071 = COVID-19 virus identified, U072 = COVID-19
+# virus not identified; the combined column is the sum of the two published
+# codes and exists only in years where at least one is published. The table
+# starts in 2011; earlier years are GUS's own cause-of-death series.
+year,deaths_all,covid_deaths_u071,covid_deaths_u072,covid_deaths_both,deaths_circulatory,deaths_cancer
+2006,,,,,,
+2007,,,,,,
+2008,,,,,,
+2009,,,,,,
+2010,,,,,,
+2011,376150,,,,170184,92270
+2012,385456,,,,177903,94810
+2013,387988,,,,177759,94184
+2014,377182,,,,170089,95629
+2015,395578,,,,180643,100664
+2016,388677,,,,168278,100001
+2017,403559,,,,167367,99691
+2018,414941,,,,168240,101415
+2019,410564,,,,161905,100374
+2020,478008,40058,1428,41486,174604,99893
+2021,520320,88805,1423,90228,181017,93678
+2022,449419,28752,320,29072,161512,96162
+2023,409901,4237,100,4337,151251,99778
+2024,409194,1685,56,1741,150505,99761
+2025,,,,,,
+2026,,,,,,

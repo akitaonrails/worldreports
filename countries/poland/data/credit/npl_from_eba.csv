@@ -1,0 +1,22 @@
+# EBA Risk Dashboard, KRIs by country and EU, code AQT_3.2: share of non-performing loans
+# and advances in gross loans, % of the country aggregate of the EBA's
+# reporting banks. Q4 = the year-end stock; npl_ratio_pct_latest is the last
+# quarter available for that year (2026-Q2 in this edition), kept
+# separately so a partial year is never read as a year-end figure.
+# SCOPE: EBA reporting sample (large banks), NOT the whole Polish banking
+# sector — cooperative banks are outside it, so this sits below the national
+# sector-wide ratio.
+year,npl_ratio_pct_q4,npl_ratio_pct_latest,latest_quarter
+2014,7.25,7.25,2014-Q4
+2015,6.75,6.75,2015-Q4
+2016,6.1,6.1,2016-Q4
+2017,5.76,5.76,2017-Q4
+2018,4.93,4.93,2018-Q4
+2019,4.76,4.76,2019-Q4
+2020,5.05,5.05,2020-Q4
+2021,4.48,4.48,2021-Q4
+2022,4.43,4.43,2022-Q4
+2023,4.28,4.28,2023-Q4
+2024,3.81,3.81,2024-Q4
+2025,3.59,3.59,2025-Q4
+2026,,3.57,2026-Q2

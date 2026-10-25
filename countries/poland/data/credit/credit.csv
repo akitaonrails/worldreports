@@ -1,0 +1,33 @@
+# household_debt_pct_gdp: BIS WS_TC, credit to households and NPISHs from
+# all lenders, break-adjusted, % of GDP, Q4 of each year.
+# npl_ratio_pct_q4: EBA Risk Dashboard AQT_3.2, the NPL ratio of the EBA's
+# reporting banks in Poland at the year end; npl_ratio_pct_latest is the
+# last available quarter of that year, kept apart so a half year is never
+# read as a year-end. SCOPE: large banks, not the whole sector.
+# npl_pct_wb_crosscheck: the World Bank/IMF FSI figure, which stops in 2020.
+# The BIS debt-service-ratio key did not resolve and NBP's own
+# service-ratio publication is not reachable, so no DSR column exists here
+# rather than a column of blanks.
+# The household LENDING RATE slot is pending: see SOURCES.yaml meta.pending.
+year,household_debt_pct_gdp,npl_ratio_pct_q4,npl_ratio_pct_latest,npl_pct_wb_crosscheck
+2006,18.3,,,7.4
+2007,22.7,,,5.2
+2008,30.0,,,2.8
+2009,31.6,,,4.3
+2010,34.3,,,4.91
+2011,35.2,,,4.66
+2012,34.2,,,5.2
+2013,35.5,,,4.98
+2014,35.8,7.25,7.25,4.82
+2015,35.9,6.75,6.75,4.34
+2016,36.6,6.1,6.1,4.05
+2017,34.8,5.76,5.76,3.94
+2018,34.6,4.93,4.93,3.85
+2019,34.1,4.76,4.76,3.8
+2020,34.3,5.05,5.05,3.7
+2021,31.9,4.48,4.48,
+2022,26.3,4.43,4.43,
+2023,23.6,4.28,4.28,
+2024,22.6,3.81,3.81,
+2025,22.1,3.59,3.59,
+2026,,,3.57,
