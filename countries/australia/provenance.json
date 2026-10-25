@@ -1,0 +1,56 @@
+{
+ "01-economy": [
+  "macro/economy.csv",
+  "macro/gdp_growth_imf.csv",
+  "world/gdp_and_reserves.csv"
+ ],
+ "02-fiscal": [
+  "fiscal/fiscal.csv"
+ ],
+ "03-spending": [
+  "spending/cofog.csv",
+  "spending/investment.csv"
+ ],
+ "04-trade": [
+  "trade/destinations.csv",
+  "trade/destinations_2025.csv",
+  "trade/trade.csv"
+ ],
+ "05-markets": [
+  "macro/economy.csv",
+  "markets/bond_10y.csv",
+  "markets/currency.csv",
+  "markets/equities.csv",
+  "markets/policy_rate.csv"
+ ],
+ "06-credit": [
+  "credit/household_debt.csv",
+  "credit/npl.csv"
+ ],
+ "07-people": [
+  "people/gini.csv",
+  "people/minimum_wage.csv",
+  "people/poverty.csv"
+ ],
+ "08-world": [
+  "world/cpi.csv",
+  "world/gdp_and_reserves.csv",
+  "world/hdi.csv"
+ ],
+ "09-demography": [
+  "demography/births_deaths.csv",
+  "demography/fertility.csv",
+  "demography/natural_increase.csv",
+  "demography/population.csv"
+ ],
+ "10-security": [
+  "security/security.csv"
+ ],
+ "11-mortality": [
+  "mortality/mortality.csv"
+ ],
+ "12-migration": [
+  "demography/population.csv",
+  "migration/migration.csv"
+ ]
+}

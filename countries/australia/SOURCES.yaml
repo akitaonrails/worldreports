@@ -1,0 +1,530 @@
+# Data provenance — every series Australia publishes in this atlas.
+#
+# Research pass and curation 2026-10-25. DISCOVERY.md is the record of what
+# each publisher answered; this file names, for every curated CSV under
+# data/, the publisher, the exact endpoint or dataflow key, the unit, the
+# definition, the territorial scope and what a refresh must check.
+#
+# Every numeric series here is Australia, all states and territories
+# (the ABS "Australia" region, including the external territories where
+# the ABS includes them). Nothing is drawn for a state or a capital city.
+#
+# The years are CALENDAR years unless the entry says FY. Australia's fiscal
+# year is July-June: costs/benefits, GFS and the IMF's rows are on it, and
+# that is stated in each such entry rather than left to the reader.
+#
+# A fetcher writes sidecars (`*_from_<source>.csv`) only. The curated file
+# is what a person promoted after reading the sidecar; re-running a fetcher
+# rewrites the sidecar and never touches these files.
+
+macro:
+  economy.csv:
+    source: "Australian Bureau of Statistics — Australian National Accounts (ANA_EXP via ABS SDMX): C/VCH.GPM.SSS, CPI, Labour Force"
+    url: "https://data.api.abs.gov.au/rest/data/ABS,ANA_EXP/VCH.GPM.SSS.10.AUS.Q?startPeriod=2004-Q1&dimensionAtObservation=AllDimensions&format=csv"
+    official: true
+    refreshed_by: fetch/fetch_abs.py
+    notes: >-
+      VERIFIED 2026-10-25, one vintage (ABS SDMX, prepared that day).
+      CALENDAR years built from the quarterly series: GDP and its
+      components are the sum of the four quarters (original terms, so
+      seasonality cancels), the CPI index and the unemployment rate are
+      the mean of the four quarters / twelve months. Real growth is the
+      year-on-year change of the calendar-year chain-volume sum.
+      Columns: gdp_current_aud_mn and gdp_volume_aud_mn (AUD million,
+      current prices and chain volume), real_growth_pct, cpi_inflation_pct
+      (all groups, Australia, annual mean index against the previous
+      year's mean), unemployment_pct (persons, seasonally adjusted,
+      monthly mean), gfcf_pct_gdp. 2006-2025. 2025 calendar growth
+      1.98%, 2020 -2.10%, 2022 +4.21%.
+  gdp_growth_imf.csv:
+    source: "IMF World Economic Outlook (SDMX IMF.RES, dataflow WEO 9.0.0) — NGDP_RPCH"
+    url: "https://api.imf.org/external/sdmx/2.1/data/IMF.RES,WEO,9.0.0/AUS.NGDP_RPCH"
+    official: true
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25. The independent agreement line for the ABS
+      national accounts, in calendar years. 2020 -2.05, 2022 +4.20
+      against the ABS -2.10 and +4.21: the two agree to a tenth of a
+      point. The WEO projections beyond 2025 stay in the sidecar and are
+      not committed here, so observed and projected years never share a
+      column. Audit warning: the World Bank's AUS growth series is on a
+      FISCAL-year basis labelled by the year the year ends (2020 reads
+      -0.13, which is FY2019/20), so it is not used and never spliced with
+      this one.
+
+world:
+  gdp_and_reserves.csv:
+    source: "World Bank WDI — NY.GDP.MKTP.CD, NY.GDP.PCAP.CD, FI.RES.TOTL.CD"
+    url: "https://api.worldbank.org/v2/country/AUS/indicator/NY.GDP.MKTP.CD?format=json&per_page=200&date=2000:2026"
+    official: true
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25, current US$. GDP in US$ billion (nominal),
+      GDP per person (US$, current) and total reserves including gold
+      (year-end, US$ billion). 2006-2025. Nominal dollars only: the real
+      story is the growth panel and the two are never mixed. 2025 GDP
+      US$1,798bn and reserves US$72.6bn.
+  hdi.csv:
+    source: "UNDP Human Development Report 2025 — composite indices, complete time series"
+    url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
+    official: true
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25, ONE vintage (HDR 2025) for the whole
+      back-series: UNDP recomputes history at each methodology change, so
+      a trend stitched from successive reports is part artefact.
+      Covers 2006-2023; 2024-25 are not yet published. 2023 = 0.9679.
+  cpi.csv:
+    source: "Transparency International — Corruption Perceptions Index 2025 workbook (CPI Historical sheet)"
+    url: "https://images.transparencycdn.org/images/CPI2025_Results.xlsx"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25. The CPI is a think-tank index of expert and
+      business perceptions, not a statistic compiled by a statistical
+      office, so `official: false` and the plate says so. The 2025
+      workbook is Strict-OOXML and openpyxl refuses it, so the fetcher
+      reads the sheet directly. 2012-2025 on the 0-100 scale (76 in 2025,
+      85 in 2012); TI's pre-2012 0-10 scores are a different methodology
+      and are NOT in this workbook — see meta.pending.
+
+fiscal:
+  fiscal.csv:
+    source: "IMF Fiscal Monitor (SDMX IMF.FAD, dataflow FM 5.0.0) general government; interest derived from World Bank GC.XPN.INTP.RV.ZS; national line from ABS GFS 5512.0"
+    url: "https://api.imf.org/external/sdmx/2.1/data/IMF.FAD,FM,5.0.0/AUS?startPeriod=2000"
+    official: true
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25. FISCAL YEARS ending in the `year` column: the
+      Fund labels Australia's July-June year by the year it ENDS, so
+      "2025" is FY2024/25. Confirmed against the ABS: IMF revenue 36.67%
+      of GDP and ABS GFS revenue 36.81% for the same year, so the label
+      convention is right. Columns: revenue, expenditure, overall balance,
+      primary balance, gross debt (all % of GDP, general government).
+      expenditure includes net acquisition of non-fixed assets, which is
+      why it sits about 2.4 points above the ABS "expenses" row for
+      FY2024/25 — a definition, not an error. Interest_pct_gdp is a
+      DERIVATION: (interest / revenue) from the World Bank times
+      (revenue / GDP) from the Fund, 2006-2022, because neither publisher
+      gives interest/GDP directly and the Fund's key-indicator set has no
+      interest line. From 2015-16 the ABS GFS interest row
+      (gfs_interest_pct_gdp) is drawn beside it, on its own basis; the two
+      are never spliced. The national GFS columns are blank before
+      FY2015/16 because the ABS annual publication's current vintage
+      starts there.
+
+spending:
+  cofog.csv:
+    source: "OECD Annual National Accounts — government expenditure by function (COFOG), SDMX DSD_NASEC10@DF_TABLE11, Australia S13"
+    url: "https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NASEC10@DF_TABLE11/A.AUS.S13...........?startPeriod=2006&format=csvfilewithlabels"
+    official: true
+    refreshed_by: fetch/fetch_oecd.py
+    notes: >-
+      VERIFIED 2026-10-25, calendar years 2006-2024, general government,
+      accrual, total expenditure per function (TRANSACTION OTE). The
+      seven spine groups are built from the ten COFOG divisions:
+      social protection, health, education, general public services,
+      economic affairs, defence + public order, and "other" (environment,
+      housing, recreation). In AUD million and as % of GDP; the
+      denominator is the ABS calendar-year GDP at current prices (same
+      SNA concept), because the OECD slice carries national currency only
+      for Australia. 2024: social protection 11.49%, health 8.07%, total
+      41.95% of GDP. The ABS's own COFOG table (spending/cofog.csv's
+      cross-check, fiscal years, 2015-16+) agrees within about a point on
+      every group; it is staged as a sidecar
+      (cofog_national_from_abs.csv).
+  investment.csv:
+    source: "Australian Bureau of Statistics — ANA_EXP C.GFC.SSS and C.GFC.GGS (calendar years from the quarters)"
+    url: "https://data.api.abs.gov.au/rest/data/ABS,ANA_EXP/VCH.GFC.SSS.10.AUS.Q?startPeriod=2004-Q1&format=csv"
+    official: true
+    refreshed_by: fetch/fetch_abs.py
+    notes: >-
+      VERIFIED 2026-10-25. Gross fixed capital formation, current prices,
+      as % of the same year's GDP: whole economy (all sectors) and
+      general government only (sector GGS). 2006-2025. 2025: 24.4% and
+      3.9%. Australia's public investment share is low because most
+      infrastructure sits in state-owned corporations outside the general
+      government sector — the national line would include them and is not
+      drawn.
+
+trade:
+  trade.csv:
+    source: "Australian Bureau of Statistics — ANA_EXP C.XGS.SSS and C.MGS.SSS (calendar years from the quarters)"
+    url: "https://data.api.abs.gov.au/rest/data/ABS,ANA_EXP/C.XGS.SSS.10.AUS.Q?startPeriod=2004-Q1&format=csv"
+    official: true
+    refreshed_by: fetch/fetch_abs.py
+    notes: >-
+      VERIFIED 2026-10-25. Exports and imports of goods AND services,
+      national-accounts basis, current prices, as % of the same year's
+      GDP; balance = exports − imports. This is the national-accounts
+      basis, not the customs goods basis and not the balance of payments
+      services split: the three are separate series here and only this one
+      is drawn on the trade plate. 2025: exports 23.3%, imports 23.1%,
+      balance +0.25% of GDP.
+  destinations.csv:
+    source: "Australian Bureau of Statistics — MERCH_EXP (merchandise exports by SITC and country of destination), TOT commodity, state TOT, monthly summed to calendar years"
+    url: "https://data.api.abs.gov.au/rest/data/ABS,MERCH_EXP/TOT..TOT.M?startPeriod=2005-01&format=csv"
+    official: true
+    refreshed_by: fetch/fetch_abs.py
+    notes: >-
+      VERIFIED 2026-10-25. The canonical destinations panel: the four
+      largest destinations of 2025 (China, Japan, Korea, the United
+      States) as a share of total MERCHANDISE exports, 2006-2025. The
+      denominator is the ABS's own "Total" row of the same table
+      (A$523.6bn in 2025); the four partners are ranked once, on 2025, and
+      held fixed through the back-series, so a line moves for what
+      Australia shipped and not because the ranking changed. Customs basis:
+      services are not in this table and the shares do not add to the
+      national-accounts exports ratio. Promoted by the Phase B agent from
+      `destinations_all_from_abs.csv`, checked row by row against the
+      published table; China 2025 33.59% and the United States 7.67% match
+      `destinations_2025.csv` exactly.
+  destinations_2025.csv:
+    source: "Australian Bureau of Statistics — MERCH_EXP (merchandise exports by SITC and country of destination), TOT commodity, state TOT, monthly summed to calendar 2025"
+    url: "https://data.api.abs.gov.au/rest/data/ABS,MERCH_EXP/TOT..TOT.M?startPeriod=2025-01&format=csv"
+    official: true
+    refreshed_by: fetch/fetch_abs.py
+    notes: >-
+      VERIFIED 2026-10-25. One-year snapshot for the trade lens: top ten
+      destination countries, AUD billion and % of total goods exports
+      (total A$523.6bn in 2025, the ABS's own "Total" row, used as the
+      denominator and excluded from the ranking). Customs/merchandise
+      basis: services are not in this table and the shares do not add to
+      the national-accounts exports ratio above. China 33.6%, Japan 11.6%,
+      Korea 7.9%, United States 7.7%. The ABS emits "Korea, Republic of
+      (South)" and a long United Kingdom label; both are kept as
+      published.
+
+markets:
+  policy_rate.csv:
+    source: "BIS central bank policy rates (WS_CBPOL) — Australia, monthly end of period, sourced by the BIS from the Reserve Bank of Australia"
+    url: "https://stats.bis.org/api/v1/data/WS_CBPOL/M.AU?format=csv"
+    official: true
+    refreshed_by: fetch/fetch_markets.py
+    notes: >-
+      VERIFIED 2026-10-25. The RBA cash rate target, annual mean of the
+      twelve monthly end-of-period values (the rule for every rate here).
+      2025: 3.85% average, 3.60% at December; 2023 and 2024: 3.89% and
+      4.35%. The RBA's own host answers HTTP 403 to this network on every
+      path including robots.txt, so the BIS harmonised republication of
+      the RBA's own series is the route — the same numbers, a different
+      door (DISCOVERY.md has the probes).
+  bond_10y.csv:
+    source: "OECD Financial market statistics (DSD_STES@DF_FINMARK) — long-term interest rate, Australia, monthly"
+    url: "https://sdmx.oecd.org/public/rest/data/OECD.SDD.STES,DSD_STES@DF_FINMARK/AUS........?startPeriod=2005-01&format=csvfilewithlabels"
+    official: true
+    refreshed_by: fetch/fetch_oecd.py
+    notes: >-
+      VERIFIED 2026-10-25. Ten-year government benchmark bond yield,
+      monthly, annual mean of the twelve months (a year with fewer than
+      twelve is dropped, so 2026 is not in the file). 2025: 4.37%. The
+      RBA's F2 table is the national publisher and is blocked; the OECD
+      series is the harmonised layer on the same instrument.
+  currency.csv:
+    source: "World Bank WDI — PA.NUS.FCRF (official exchange rate, annual average, AUD per US$)"
+    url: "https://api.worldbank.org/v2/country/AUS/indicator/PA.NUS.FCRF?format=json&per_page=200&date=2000:2026"
+    official: true
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25. AUD per US$, annual average, and the index
+      2006 = 100 built as 2006 rate ÷ year rate, so a RISING index means
+      a stronger Australian dollar. 2006 1.328, 2011 0.9695 (the peak),
+      2025 1.552. The same column is the exchange rate used to put the
+      minimum wage into US$; one FX vintage throughout.
+  equities.csv:
+    source: "Yahoo Finance chart API — ASX 200 (^AXJO), S&P 500 (^GSPC), monthly closes"
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/%5EAXJO?period1=1133395200&period2=1790000000&interval=1mo"
+    official: false
+    refreshed_by: fetch/fetch_markets.py
+    notes: >-
+      VERIFIED 2026-10-25. A market series from a redistributor, so
+      `official: false` and the plate labels it. Annual mean of the
+      monthly closes; the ASX 200 is converted with the World Bank's
+      annual-average AUD/USD (currency.csv) because Yahoo's monthly FX
+      history is incomplete before 2008; both indices are rebased on
+      their own 2006 mean, so 2006 = 100 by construction. 2025: ASX 200
+      139.7, S&P 500 476.1 in US$ terms. The dashed S&P line is the
+      spine's comparison, not a claim about the Australian market.
+
+credit:
+  household_debt.csv:
+    source: "BIS total credit statistics — WS_TC Q.AU.H.A.M.770.A and WS_DSR household series"
+    url: "https://stats.bis.org/api/v1/data/WS_TC/Q.AU.H.A.M.770.A?format=csv"
+    official: true
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25. Credit to households and NPISHs from all
+      sectors, market value, as % of GDP, adjusted for breaks; year-end
+      (Q4) reading, the spine's stock rule. 2025 Q4: 114.0%. The
+      debt-service ratio is the BIS's own household DSR, same Q4 rule,
+      drawn in the lens. Both are the BIS's harmonised compilation, not
+      the RBA's national credit aggregates (blocked).
+  npl.csv:
+    source: "APRA — Quarterly authorised deposit-taking institution performance, Table 1g (all ADIs)"
+    url: "https://www.apra.gov.au/system/files/2026-09/Quarterly%20authorised%20deposit-taking%20institution%20performance-September%202004%20to%20June%202026%20%281%29.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_financial.py
+    notes: >-
+      VERIFIED 2026-10-25. TWO definitions, two columns, never spliced:
+      npl_impaired_pct is "impaired facilities to loans and advances"
+      (September 2004 to December 2021, 0.3-0.5%); npl_nonperforming_pct
+      is "non-performing to loans and advances" (2022 onwards, about
+      1.1% at December 2025), which is the wider definition APRA adopted
+      in 2022 — it adds facilities 90+ days past due that the old measure
+      did not count. The step between the two is a definition, not a
+      deterioration, and the plate draws it as a break. December quarter,
+      all ADIs, consolidated group.
+
+people:
+  gini.csv:
+    source: "ABS Household Income and Wealth, Australia (cat. 6523.0), 2019-20 — Table 1.1 Gini of equivalised disposable household income; World Bank SI.POV.GINI beside it"
+    url: "https://www.abs.gov.au/statistics/economy/finance/household-income-and-wealth-australia/2019-20/1.%20Household%20income%20and%20income%20distribution%2C%20Australia.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_abs_tables.py
+    notes: >-
+      VERIFIED 2026-10-25. The national Gini is a biennial SURVEY
+      (HIES), 2007-08 to 2019-20, and the file carries both the
+      financial-year label and the calendar year the year ENDS in
+      (2008, 2010 ... 2020), because the plate's axis is calendar years.
+      The survey has not run since 2019-20, so the line stops there and
+      the gap is visible. Gini points 0-100 (the ABS publishes the
+      coefficient; it is multiplied by 100 here). 2019-20 = 32.4. The
+      World Bank column is the harmonised series for the years it exists
+      (2008-2020, 33.7-35.4) and is drawn beside the national line, never
+      spliced: it is a different income concept and a different vintage.
+  poverty.csv:
+    source: "World Bank WDI — SI.POV.UMIC (poverty headcount at $4.20 a day, 2021 PPP)"
+    url: "https://api.worldbank.org/v2/country/AUS/indicator/SI.POV.UMIC?format=json&per_page=200&date=2000:2026"
+    official: true
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25. A PROXY, and labelled as one. Australia has no
+      official poverty line and the ABS publishes no poverty rate: the
+      public debate uses 50% of median equivalised income (ACOSS/UNSW
+      estimates, not a statistical-office series). The World Bank's
+      $8.30 line (SI.POV.HIC) is empty for Australia; the $4.20 line
+      exists for 2008-2020 and reads 0.9-1.5% of people. Six observations
+      only. The plate says which line it is and that no national rate
+      exists; meta.pending records the routes.
+  minimum_wage.csv:
+    source: "OECD — Minimum wages at current prices in national currency (DSD_EARNINGS@MW_CURP), statutory national minimum wage, AUD per week"
+    url: "https://sdmx.oecd.org/public/rest/data/OECD.ELS.SAE,DSD_EARNINGS@MW_CURP/AUS......?startPeriod=2005&format=csvfilewithlabels"
+    official: true
+    refreshed_by: fetch/fetch_oecd.py
+    notes: >-
+      VERIFIED 2026-10-25. The federal minimum wage the Fair Work
+      Commission sets each 1 July, AUD per week as the OECD records it
+      (2025: A$931.95), converted to AUD per month (×52/12) and to US$
+      per month at the annual-average exchange rate (currency.csv), the
+      spine's unit. 2025: A$4,038 a month = US$2,602. Australia has no
+      state-level variation in the federal minimum, but award rates by
+      industry differ and are not this series.
+
+demography:
+  population.csv:
+    source: "ABS Estimated Resident Population, quarterly (ERP_Q), persons, 30 June"
+    url: "https://data.api.abs.gov.au/rest/data/ABS,ERP_Q/1.3.TOT.AUS.Q?startPeriod=2005-Q1&format=csv"
+    official: true
+    refreshed_by: fetch/fetch_abs.py
+    notes: >-
+      VERIFIED 2026-10-25. ERP at 30 June each year (the Q2 quarter), the
+      population the ABS publishes its own rates against; the index is
+      2006 = 100 for the demography slot and the level is in the note.
+      2006: 20,450,966; 2025: 27,601,739 (index 135.0). ERP is revised
+      after each census; the June 2021 quarter carries the 2021 Census
+      rebase, which is a revision, not a year of extraordinary growth.
+  fertility.csv:
+    source: "World Bank WDI — SP.DYN.TFRT.IN (total fertility rate)"
+    url: "https://api.worldbank.org/v2/country/AUS/indicator/SP.DYN.TFRT.IN?format=json&per_page=200&date=2000:2026"
+    official: true
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25. Children per woman, 2006-2024 (2025 not yet
+      published). 2006 1.91, 2024 1.48. The ABS publishes its own TFR in
+      Births, Australia (cat. 3301.0) on a calendar-year basis; the two
+      agree to about 0.02 and the World Bank is used because its SDMX-free
+      JSON endpoint is the one that returned a full back-series from this
+      network.
+  births_deaths.csv:
+    source: "ABS Births, Australia (BIRTHS_SUMMARY) and Deaths, Australia (DEATHS_SUMMARY) via ABS SDMX"
+    url: "https://data.api.abs.gov.au/rest/data/ABS,DEATHS_SUMMARY/5.3.AUS.A?startPeriod=2005&format=csv"
+    official: true
+    refreshed_by: fetch/fetch_abs.py
+    notes: >-
+      VERIFIED 2026-10-25. Registered births and the crude birth rate
+      (births per 1,000 population) for 2006-2024; deaths and the crude
+      death rate for 2006-2025. Deaths are by year of REGISTRATION, which
+      is the ABS summary series' basis and differs slightly from year of
+      occurrence (2024: 187,268 registered). The rates are the ABS's own,
+      computed against the same ERP this atlas draws.
+  natural_increase.csv:
+    source: "Derived from the two files above and ABS Net Overseas Migration (NOM_CY)"
+    url: "https://data.api.abs.gov.au/rest/data/ABS,NOM_CY/3.TOT.3.AUS.A?startPeriod=2004&format=csv"
+    official: true
+    refreshed_by: fetch/fetch_abs.py
+    notes: >-
+      VERIFIED 2026-10-25. Natural increase = (births − deaths) ÷ ERP ×
+      1,000; net migration = NOM net ÷ ERP × 1,000. Both are derived, and
+      the formula is stated on the plate. Net overseas migration is the
+      ABS's own NOM definition (12-of-16-month rule), calendar years, and
+      its last final year is 2024, so the migration half of this panel
+      stops there while the natural-increase half continues to 2025.
+
+security:
+  security.csv:
+    source: "ABS Recorded Crime — Victims (cat. 4510.0); WHO Global Health Observatory MH_12; BITRE Australian Road Deaths Database"
+    url: "https://www.abs.gov.au/statistics/people/crime-and-justice/recorded-crime-victims/2025/1.%20Victims%20of%20crime%2C%20Australia%20%28Tables%201%20to%208%29.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_abs_tables.py
+    notes: >-
+      VERIFIED 2026-10-25. Three publishers, three columns, each on its
+      own definition. homicide_per_100k is the ABS's published
+      victimisation rate (homicide includes murder, attempted murder and
+      manslaughter; police-recorded, place of occurrence, 2025: 1.6 per
+      100,000, 448 victims in 2024 and 435 in 2025). The ABS recorded
+      crime series is a police count and is NOT the same object as the
+      death-certificate count in the mortality chapter; the two are never
+      joined. suicide_per_100k is the WHO's age-standardised rate
+      (2006-2023; 2023: 12.6) — the ABS's own suicide series in the
+      Causes of Death tables starts only in 2015 and is a different,
+      unstandardised cut. road_deaths_per_100k is BITRE's fatality count
+      over the ABS ERP (2006-2022; 2022: 1,180 deaths, 4.54 per 100,000),
+      both from the ARDD; 2023-25 are pending (meta.pending).
+      homicide_victims and road_deaths are those publishers' COUNTS, the
+      numerators the rates were computed from (562 victims in 2006, 435 in
+      2025; 1,598 road deaths in 2006, 1,180 in 2022). The security lens
+      draws them because a count and a rate answer different questions;
+      the canonical panels keep the rates.
+mortality:
+  mortality.csv:
+    source: "Derived from ABS Deaths, Australia (DEATHS_SUMMARY) and Causes of Death, Australia 2024 (cat. 3303.0, Table 1.2)"
+    url: "https://www.abs.gov.au/statistics/health/causes-death/causes-death-australia/2024/2024_01%20Underlying%20causes%20of%20death%20%28Australia%29.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_abs_tables.py
+    notes: >-
+      VERIFIED 2026-10-25. crude_death_rate is the ABS's own rate per
+      1,000 (year of registration). excess_deaths_pct is DERIVED: the
+      crude death rate against its own 2015-2019 mean (6.56 per 1,000),
+      so the pandemic years are outside the baseline; 2022 = +11.9%,
+      2024 = +4.9%, 2025 = +4.0%. The baseline choice is the whole measurement and is
+      stated on the plate. covid_deaths_per_100k is COVID-19 (U07.1-U07.2)
+      as the UNDERLYING cause of death over the same year's ERP: 900
+      deaths in 2020 (3.5 per 100,000) to 9,856 in 2022 (37.9), 4,025 in
+      2024. One vintage — the 2024 release — so the whole 2015-2024 run
+      is on one revision, and 2025 is not yet published.
+
+migration:
+  migration.csv:
+    source: "ABS Net Overseas Migration (NOM_CY, calendar years) and Estimated Resident Population by country of birth (ERP_COB)"
+    url: "https://data.api.abs.gov.au/rest/data/ABS,NOM_CY/1.TOT.3.AUS.A?startPeriod=2004&format=csv"
+    official: true
+    refreshed_by: fetch/fetch_abs.py
+    notes: >-
+      VERIFIED 2026-10-25. Immigration (NOM arrivals) and emigration (NOM
+      departures) per 1,000 ERP, net per 1,000 ERP, and the overseas-born
+      share of the resident population from ERP_COB (total minus
+      Australia-born, 30 June). Flows: 2006-2024 (2024 net +329,940).
+      Stock: 2006-2025 (2025: 32.0% overseas-born). Flow and stock are
+      different questions and are separate panels. NOM is a DEFINITION,
+      not a count of visas: a person is a migrant if present 12 of the
+      next 16 months, so the series can fall while arrivals rise. The
+      permanent Migration Program (Home Affairs) is a different object and
+      is not drawn — meta.pending.
+
+meta:
+  pending:
+    - name: Reserve Bank of Australia — all statistical tables (F1 cash rate, F2 bond yields, F5 lending rates, F11 exchange rates, credit aggregates)
+      publisher: Reserve Bank of Australia
+      url: https://www.rba.gov.au/statistics/tables/
+      official: true
+      notes: >-
+        Routes tried 2026-10-25: https://www.rba.gov.au/statistics/tables/
+        (403), /statistics/tables/csv/f1.1-data.csv (403),
+        /statistics/tables/xls/f01d.xls (403), /robots.txt (403) and the
+        same paths over http (403). The 403 is an Akamai "Access Denied"
+        page of 364-431 bytes, served to this network on every path
+        including robots.txt, so it is a network-level block and not a
+        missing file. data.gov.au's RBA organisation holds only
+        "Monetary Policy Changes", last updated 2013-05-12
+        (tmpEMhiwQa02hist.xls), and it stops in 2013 — a stale mirror, not
+        a route. Consequence: the cash rate comes from the BIS
+        republication (markets/policy_rate.csv), the 10-year yield from
+        the OECD, and the household lending-rate panel is a gap. One fetch
+        from an unblocked network fills F5 and the RBA's own credit
+        aggregates and should replace the BIS/OECD routes where the RBA is
+        the computing body.
+    - name: Household lending rate (credit slot 2)
+      publisher: Reserve Bank of Australia; IMF IFS; APRA
+      url: https://www.rba.gov.au/statistics/tables/csv/f5-data.csv
+      official: true
+      notes: >-
+        Routes tried 2026-10-25. RBA F5 indicator lending rates: 403 (see
+        above). IMF IFS MFS162 (bank lending rate) answers but ENDS IN
+        2019 for Australia, and MFS166 (policy rate) ends in 2024, so a
+        lending-rate line from IFS would stop seven years before the plate
+        window ends. APRA's QADI workbook publishes loan stocks, impaired
+        and non-performing exposures, and performance ratios, but no
+        interest rate. The ABS publishes new loan COMMITMENTS (cat. 5601.0)
+        and no rate. The panel is therefore not drawn: a lending rate would
+        have to be a different concept (the IFS average bank rate) spliced
+        onto nothing, and the credit plate is better with three panels than
+        with a mislabelled one.
+    - name: Road deaths 2023-2025
+      publisher: Bureau of Infrastructure and Transport Research Economics (BITRE)
+      url: https://www.bitre.gov.au/statistics/safety
+      official: true
+      notes: >-
+        Routes tried 2026-10-25. www.bitre.gov.au answers "HTTP/2 stream
+        reset" and times out on http/1.1 (40 s, zero bytes);
+        infrastructure.gov.au resets the same way. data.gov.au's
+        "Australian Road Deaths Database" mirrors BITRE's fatality record
+        but its newest resource is "ARDD Fatalities October 2023", so the
+        mirror carries complete calendar years to 2022 and a partial 2023
+        (1,042 records to October), which is dropped. The monthly bulletin
+        PDFs are not machine-readable series. Consequence: the panel ends
+        in 2022 with a precise caption, rather than a WHO modelled estimate
+        spliced onto a national count.
+    - name: National poverty rate
+      publisher: Australian Bureau of Statistics; World Bank; ACOSS/UNSW
+      url: https://www.abs.gov.au/statistics/economy/finance/household-income-and-wealth-australia
+      official: true
+      notes: >-
+        Routes tried 2026-10-25. The ABS publishes NO poverty rate and no
+        official poverty line: HIES gives the income distribution and the
+        Gini only, and its last run is 2019-20. The World Bank's $8.30/day
+        line (SI.POV.HIC) is empty for Australia; the $4.20/day line
+        exists for 2008-2020 and is what the panel draws, labelled as the
+        international line. The domestic debate uses 50% of median
+        equivalised income, estimated by ACOSS/UNSW (13.4% of people in
+        2022 in their latest estimate) — a research compilation, not an
+        official statistic, and their site offers the figure in a report
+        rather than a machine series, so it is cited in the notes and not
+        drawn. If the ABS ever publishes a national poverty line this slot
+        takes it and the World Bank line becomes the second line.
+    - name: Corruption Perceptions Index before 2012
+      publisher: Transparency International
+      url: https://images.transparencycdn.org/images/CPI2025_Results.xlsx
+      official: false
+      notes: >-
+        The 2025 workbook's historical sheet starts in 2012, the year TI
+        changed to the 0-100 scale and declared earlier editions
+        incomparable. The 2006-2011 scores exist only on TI's retired 0-10
+        scale, in the editions of those years, and TI states they are not
+        comparable with 2012+. Not drawn: the panel starts in 2012 and the
+        plate says so. (France's page carries the pre-2012 values times ten
+        as a labelled seam; this lane did not stage a second TI vintage to
+        do the same, which is a gap of evidence, not of data.)
+    - name: Permanent Migration Program additions (migration lens)
+      publisher: Department of Home Affairs
+      url: https://www.homeaffairs.gov.au/research-and-statistics/statistics
+      official: true
+      notes: >-
+        The Home Affairs statistics portal answers 200 from this network,
+        but its Migration Program reports are published as PDF and HTML
+        with the annual outcome tables inside the report, not as an
+        open CSV; no machine-readable endpoint was found on the portal for
+        the 2006-2025 run in this pass. It is a LENS slot (the spine's
+        fourth panel), so the chapter is complete without it: the NOM flow
+        and the overseas-born stock fill slots 1-3. A Phase B agent that
+        wants the lens should read the annual "Migration Program Report"
+        tables by hand and say they are program outcomes, not arrivals.
