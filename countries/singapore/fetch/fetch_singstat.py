@@ -269,7 +269,21 @@ def annual(points, how: str) -> dict[int, float]:
     if how == "value":
         return {y: v[0] for y, v in per.items()}
     if how == "mean":
-        return {y: sum(v) / len(v) for y, v in per.items()}
+        # An annual MEAN is only an annual mean over a complete year: the
+        # mean of nine months of 2026 is a year-to-date figure, and putting
+        # it in a column of calendar-year means would compare it with twelve
+        # months of every other year. Same rule as the sums; the running year
+        # therefore ends at last_full_year for prices and rates, while a
+        # point reading (end-June unemployment, a Q4 stock) still shows it.
+        need = 12 if monthly else (4 if quarterly else 1)
+        out = {}
+        for y, v in per.items():
+            if len(v) < need:
+                print(f"    {y}: {len(v)} of {need} periods — partial year "
+                      "kept out of an annual mean", file=sys.stderr)
+                continue
+            out[y] = sum(v) / len(v)
+        return out
     if how == "sum":
         need = 12 if monthly else (4 if quarterly else 1)
         out = {}
@@ -714,9 +728,10 @@ def main(argv: list[str]) -> int:
     }
     vs = {k: annual(row(*v), "value") for k, v in vital.items()}
     write("demography/vital_from_singstat.csv", ["year"] + list(vs),
-          [[str(y)] + [f(vs[c].get(y), 2 if ("rate" in c or c == "tfr"
-                                             or c == "life_expectancy_total")
-                         else 0) for c in vs]
+          [[str(y)] + [f(vs[c].get(y),
+                         2 if ("rate" in c or c in ("tfr", "life_expectancy_total"))
+                         else (1 if c == "land_area_km2" else 0))
+                       for c in vs]
            for y in window(vs["crude_death_rate_per_1000"])],
           ["Singapore Department of Statistics, Table Builder M810481 "
            "(deaths and death rates), M810091 (births and fertility), M810501 "
