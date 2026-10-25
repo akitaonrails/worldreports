@@ -22,13 +22,13 @@ repeated on the plates.
   `tick_every: 2`, `spine: true`, SGD, a palette with three flag bands, two
   recession bands dated on the quarterly chained GDP series, SEO in en/pt,
   and the five shared-scale conflicts recorded in a comment block.
-- `SOURCES.yaml` — 15 curated datasets across 10 topic directories plus 13
+- `SOURCES.yaml` — 16 curated datasets across 10 topic directories plus 14
   `meta.pending` entries, each with the endpoint tried and its failure.
 - `fetch/fetch_singstat.py` — one fetcher for the national publisher, 28
   tables, every table title asserted, 16 anchors pinned.
 - `fetch/fetch_comparables.py` — World Bank, IMF, UNDP and BIS in one script
   with its own anchors.
-- `data/**/*.csv` — 15 curated files; fetchers write only `*_from_*.csv`
+- `data/**/*.csv` — 16 curated files; fetchers write only `*_from_*.csv`
   sidecars beside them.
 - `DATA_NOTES.md` — the judgement calls, the derived columns and their
   formulas, and what is not drawn.

@@ -92,19 +92,6 @@ fiscal:
       computed here and stated. CALENDAR year-end, unlike the fiscal-year
       ratios above. Gross only: no net-debt series is published on this route
       and none is derived.
-  cashflow_from_singstat.csv:
-    source: "SingStat Table Builder M130601 — General Government Finance, cash basis"
-    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M130601"
-    official: true
-    refreshed_by: fetch/fetch_singstat.py
-    notes: >-
-      SIDECAR ONLY, not curated and not drawn: the table splits receipts and
-      payments by operating/investment/financing activity and its row labels
-      repeat across blocks ("Domestic", "Foreign"), so a label-keyed read is
-      ambiguous. Kept as evidence that the national cash presentations exist
-      and differ from M130661's ratios; the curated fiscal file uses M130661,
-      which states its own perimeter.
-
 spending:
   operating_by_head.csv:
     source: "SingStat Table Builder M130581 — Government Operating Expenditure By Sector"
@@ -489,6 +476,19 @@ meta:
         work-pass quotas. Neither is a national minimum wage and neither is
         converted into one here; the panel says exactly this, as the spine
         requires for countries without the instrument.
+    - name: General Government Finance, cash-basis receipts/payments (M130601)
+      publisher: Singapore Department of Statistics
+      url: https://tablebuilder.singstat.gov.sg/api/table/tabledata/M130601
+      official: true
+      notes: >-
+        Probed 2026-10-25 and NOT curated. The table splits receipts and
+        payments by operating, investment and financing activity, and its row
+        labels repeat across those blocks ("Domestic" and "Foreign" each
+        appear twice), so a label-keyed read is ambiguous and a positional
+        read would silently pick the wrong block. It is kept only as a
+        fetcher sidecar (data/fiscal/cashflow_from_singstat.csv) as evidence
+        that the cash presentations exist; the curated fiscal ratios come from
+        M130661, which states its own perimeter.
     - name: data.gov.sg "Adapted from" links into the Table Builder
       publisher: Government Technology Agency (data.gov.sg)
       url: https://api-production.data.gov.sg/v2/public/api/datasets?page=1
