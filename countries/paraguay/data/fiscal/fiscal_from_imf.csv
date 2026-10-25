@@ -1,0 +1,30 @@
+# IMF WEO (October 2026 vintage), general government: rev, exp,
+# GGXCNL_NGDP, pb, ie, GGXWDG_NGDP, all in % of GDP. One vintage for
+# every column. WEO revenue and expenditure stop at 2024 (Paraguay
+# does not report them further in this vintage), so 2025 is blank in
+# those two columns; the balance and debt carry 2025 and projections
+# to 2031 only in the _proj columns. This is the general-government
+# accrual perimeter, NOT the MEF's central-administration cash
+# presentation in fiscal/fiscal_national.csv.
+year,revenue_pct_gdp,expenditure_pct_gdp,balance_pct_gdp,primary_balance_pct_gdp,interest_pct_gdp,debt_pct_gdp,balance_pct_gdp_proj,debt_pct_gdp_proj
+2006,14.99,14.08,0.90,1.59,0.68,21.00,,
+2007,14.36,13.09,1.30,1.85,0.57,16.80,,
+2008,14.12,11.83,2.30,2.71,0.41,16.00,,
+2009,14.85,14.26,0.60,0.98,0.39,14.90,,
+2010,14.87,13.33,1.50,1.81,0.27,13.00,,
+2011,15.99,14.71,1.30,1.49,0.20,11.10,,
+2012,17.00,17.58,-0.60,-0.41,0.18,12.30,,
+2013,15.92,17.08,-1.20,-0.91,0.25,13.50,,
+2014,16.86,17.14,-0.30,0.02,0.29,15.60,,
+2015,17.54,17.98,-0.40,0.04,0.47,18.60,,
+2016,17.33,17.70,-0.40,0.19,0.56,19.40,,
+2017,17.62,18.06,-0.40,0.14,0.58,19.80,,
+2018,17.47,18.49,-1.00,-0.34,0.67,22.30,,
+2019,17.68,20.12,-2.40,-1.61,0.83,25.80,,
+2020,16.91,22.63,-5.70,-4.65,1.07,36.90,,
+2021,17.06,20.45,-3.40,-2.30,1.09,37.50,,
+2022,17.52,20.16,-2.60,-1.40,1.23,40.60,,
+2023,17.67,21.48,-3.80,-2.15,1.66,41.00,,
+2024,18.88,20.99,-2.10,-0.14,1.98,44.60,,
+2025,,,-1.70,,,38.20,,
+2026,,,,,,,-3.10,36.60

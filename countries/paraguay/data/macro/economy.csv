@@ -1,0 +1,26 @@
+# Paraguay. Growth, GDP per person and unemployment: World Bank WDI
+# (the ILO modelled unemployment, not the INE's EPHC — the national
+# line is the next column). Inflation: the BCP's CPI through the IMF
+# IFS, identical to the World Bank's FP.CPI.TOTL.ZG to two decimals.
+# unemployment_ine_pct is the INE EPHC annual mean, 2017-2025 only.
+year,gdp_growth_pct,gdp_per_person_usd,cpi_inflation_pct,unemployment_pct,unemployment_ine_pct
+2006,4.81,2439.00,9.59,5.28,
+2007,5.42,3212.00,8.13,4.71,
+2008,6.50,4385.00,10.15,4.42,
+2009,-0.26,3942.00,2.59,5.46,
+2010,11.10,4751.00,4.65,4.57,
+2011,4.29,5805.00,8.25,4.67,
+2012,-0.71,5642.00,3.68,4.08,
+2013,8.29,6436.00,2.68,4.38,
+2014,5.30,6652.00,5.03,5.03,
+2015,2.96,5879.00,3.13,4.56,
+2016,4.27,5775.00,4.09,5.25,
+2017,4.81,6152.00,3.60,6.14,6.16
+2018,3.20,6258.00,3.98,6.22,6.12
+2019,-0.40,5821.00,2.76,6.59,6.45
+2020,-0.82,5365.00,1.77,7.55,7.52
+2021,3.99,5975.00,4.79,7.31,7.44
+2022,-0.03,6189.00,9.77,6.75,6.83
+2023,5.29,6303.00,4.63,5.79,5.90
+2024,4.67,6457.00,3.84,5.69,5.75
+2025,6.64,7027.00,4.04,4.80,4.75

@@ -1,0 +1,452 @@
+# Data provenance — every series Paraguay publishes here.
+#
+# Research pass 2026-10-25 (DISCOVERY.md is the record), curated 2026-10-25.
+# Each entry names a curated CSV under data/, written by reviewing the
+# `*_from_*` sidecar a fetch/*.py pulled. Re-running a fetcher writes the
+# sidecar again, never the curated file.
+#
+# THE CENTRAL FACT ABOUT THIS COUNTRY'S DATA: the Banco Central del
+# Paraguay (bcp.gov.py) answers a Cloudflare challenge — HTTP 403, "Just a
+# moment…" — on every path, both schemes, with a browser User-Agent, from
+# this network, on 2026-10-25. The BCP publishes national accounts, the
+# CPI, the policy rate, the guaraní's reference rate, reserves and
+# household credit. Those quantities are therefore staged from the IMF and
+# the World Bank, which is what those institutions record the BCP as having
+# reported, and are marked official: false for exactly that reason. The
+# national layer of the fiscal accounts (MEF) and of demography (INE) is
+# official and national, and the two are never spliced.
+#
+# UNITS: the guaraní (PYG) has no minor unit in practice. No
+# redenomination has taken place; the proposal to divide by 1,000 was
+# abandoned in 2023. The MEF's 2003-2025 workbook is in *miles de millones*
+# de guaraníes (thousands of millions) and its older 1980-2022 sibling is
+# in *millones* — a factor of 1,000 between two files from one publisher.
+# Every PYG level here says its unit in the column name.
+
+macro:
+  economy.csv:
+    source: "World Bank WDI (NY.GDP.MKTP.KD.ZG, NY.GDP.PCAP.CD, SL.UEM.TOTL.ZS); IMF IFS (CPI, PRY.CPI._T.YOY_PCH_PA_PT); INE (EPHC unemployment)"
+    url: "https://api.worldbank.org/v2/country/PRY/indicator/NY.GDP.MKTP.KD.ZG?format=json"
+    official: false
+    refreshed_by: fetch/fetch_wb.py, fetch/fetch_imf.py, fetch/fetch_ine.py
+    notes: >-
+      VERIFIED 2026-10-25. Growth 2006-2025 from the World Bank's
+      national-accounts record (2019 -0.4%, 2020 -0.8%: the two-year
+      recession; 2022 -0.03%, the IMF's 0.0). GDP per person is the World
+      Bank's NY.GDP.PCAP.CD, which divides by the UN WPP population —
+      2025 US$7,027. Dividing the same GDP by INE's revision-2024
+      population instead gives about 9% more, because the UN series sits
+      ~0.6m above the census-anchored one; the canonical slot uses the
+      World Bank's so that the comparison viewer compares like with like,
+      and DATA_NOTES records the alternative. Inflation is the BCP's CPI
+      as the IMF IFS carries it (identical to the World Bank's
+      FP.CPI.TOTL.ZG to two decimals: 2022 = 9.77 on both).
+      unemployment_pct is the ILO modelled estimate; unemployment_ine_pct
+      is the INE's own EPHC annual mean from 2017 (the survey redesign)
+      and is blank before that.
+
+world:
+  gdp_usd.csv:
+    source: "World Bank WDI — NY.GDP.MKTP.CD (GDP, current US$), FI.RES.TOTL.CD (total reserves incl. gold)"
+    url: "https://api.worldbank.org/v2/country/PRY/indicator/NY.GDP.MKTP.CD?format=json"
+    official: false
+    refreshed_by: fetch/fetch_wb.py
+    notes: >-
+      VERIFIED 2026-10-25. GDP 2024 US$44.74bn, 2025 US$49.28bn (current
+      dollars; the nominal rise is real growth plus the CPI with a roughly
+      flat exchange rate — the real story is economy slot 1).
+      Reserves are year-end and this vintage stops at 2024 (US$9.57bn).
+  hdi.csv:
+    source: "UNDP Human Development Report 2025 — composite indices, one vintage"
+    url: "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
+    official: true
+    refreshed_by: fetch/fetch_undp.py
+    notes: >-
+      VERIFIED 2026-10-25, one vintage throughout (the HDR recomputes the
+      whole back-series each year, so a mixed vintage would be a splice).
+      2006 = 0.684, 2023 = 0.756, rank 99 of 193. Covers 1990-2023; 2024
+      and 2025 are not yet published.
+
+fiscal:
+  fiscal.csv:
+    source: "IMF WEO (October 2026 vintage), general government — rev, exp, GGXCNL_NGDP, pb, ie, GGXWDG_NGDP"
+    url: "https://www.imf.org/external/datamapper/api/v1/rev/PRY"
+    official: false
+    refreshed_by: fetch/fetch_imf.py
+    notes: >-
+      VERIFIED 2026-10-25. One vintage for every column. General
+      government, accrual. Revenue 2024 18.9% of GDP, expenditure 21.0%,
+      overall balance -2.1%, interest 2.0%, gross debt 44.6%. Revenue and
+      expenditure stop at 2024 in this vintage (Paraguay does not report
+      them further), so the two-line panel ends there; the balance and
+      debt carry 2025 and the WEO projection to 2031, which the sidecar
+      keeps in `_proj` columns and the plate does not draw. The identity
+      balance = revenue - expenditure holds to 0.11 points in 2019, 2022
+      and 2024, and the fetcher asserts it.
+  fiscal_national.csv:
+    source: "Ministerio de Economía y Finanzas (Paraguay) — 'MEFP 2001 Administración Central 2003-2025 serie anual'"
+    url: "https://www.mef.gov.py/sites/default/files/2026-05/MEFP%202001%20ADMINISTRACIÓN%20CENTRAL%202003-2025%20serie%20anual.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_mef.py
+    notes: >-
+      VERIFIED 2026-10-25 against the same workbook's level sheet: revenue
+      and expenditure in thousands of millions of guaraníes imply the same
+      GDP as the percent sheet in 2019, 2022 and 2023, and 2019 and 2022
+      match the published PIB row (236,681.5 and 292,166.8). Central
+      government, CASH basis, calendar year — NOT general government: the
+      revenue line runs 13-15% of GDP against the IMF's 15-19%, a permanent
+      perimeter gap of about four points, drawn as a second labelled line
+      and never spliced. Itaipú and Yacyretá royalties (2006 2.07% of GDP,
+      2025 0.88%) and the energy-cession compensation (2006 0.42%, 2025
+      0.04%) are separate revenue lines: fiscal revenue under the
+      binational treaties, not a share of GDP produced by hydro. The 2025
+      cession collapse follows the Annex C revision of Itaipú's tariff —
+      the plate annotates the fact, the data do not assume the cause.
+      gdp_pyg_bn is in thousands of millions of current guaraníes.
+
+spending:
+  spending.csv:
+    source: "World Bank NE.GDI.FTOT.ZS (whole-economy GFCF); MEF 'Activos fijos' (central-government fixed investment)"
+    url: "https://api.worldbank.org/v2/country/PRY/indicator/NE.GDI.FTOT.ZS?format=json"
+    official: false
+    refreshed_by: fetch/fetch_wb.py, fetch/fetch_mef.py
+    notes: >-
+      VERIFIED 2026-10-25. Two perimeters, two columns, both labelled:
+      gross fixed capital formation for the whole economy (19.3% of GDP in
+      2006, 21.7% in 2025) and the central government's own net acquisition
+      of fixed assets (2.05% in 2006, 1.53% in 2025). The second is a
+      subset of the first, not a peer, and the plate says so in the legend.
+      The functional (COFOG) panels are pending: see meta.pending.
+
+trade:
+  trade.csv:
+    source: "World Bank WDI — NE.EXP.GNFS.ZS, NE.IMP.GNFS.ZS (goods and services, national accounts)"
+    url: "https://api.worldbank.org/v2/country/PRY/indicator/NE.EXP.GNFS.ZS?format=json"
+    official: false
+    refreshed_by: fetch/fetch_wb.py
+    notes: >-
+      VERIFIED 2026-10-25. 2006 exports 46.3% of GDP and imports 38.4%;
+      2025 exports 37.2% and imports 39.3%. The balance column is derived
+      from the same two series, never from a second publisher. These are
+      national-accounts goods AND services: Paraguay's electricity exports
+      to Brazil and Argentina are inside them, which is why the export
+      share is high for a country whose goods exports are US$10.9bn.
+      Customs goods by partner is trade/partners.csv, a different
+      definition and never spliced with this one.
+  partners.csv:
+    source: "IMF DOTS, IMTS dataflow — exports of goods FOB, US$, by partner"
+    url: "https://api.imf.org/external/sdmx/2.1/data/IMF.STA,IMTS/PRY.XG_FOB_USD..A"
+    official: false
+    refreshed_by: fetch/fetch_imf.py
+    notes: >-
+      VERIFIED 2026-10-25 against UN Comtrade: the 2024 world total is
+      US$10.914bn there and US$10.916bn here. Shares are of the world
+      total the same payload carries (G001), never of the partners shown,
+      so the five columns sum to 100 in every year including 2006 (Brazil
+      47.6%) and 2024 (Argentina 33.1%, Brazil 32.3%, Chile 8.1%). Custom
+      goods, FOB. The four largest 2024 destinations plus the rest: this
+      is a share series, not a ranking, and no single partner is drawn as
+      "the" destination. CORRECTED in Phase B: the first curation pass
+      published Argentina at 0.00% for 2016-2020 because the fetcher's
+      regex paired a self-closing `<Series/>` with the next series'
+      closing tag, so an empty series swallowed Argentina's observation.
+      The payload carries ARG 10.18% (2016), 16.49% (2017), 28.99%
+      (2018), 21.39% (2019) and 26.00% (2020); those values and the
+      rest-of-world residual are restored, the fetcher now parses the
+      XML by structure, and a partner the Fund does not report stays
+      blank rather than becoming a zero.
+
+markets:
+  fx.csv:
+    source: "IMF IFS — ER dataflow, PRY.USD_XDC.PA_RT (US$ per guaraní, period average), reciprocated"
+    url: "https://api.imf.org/external/sdmx/2.1/data/IMF.STA,ER/PRY.USD_XDC.PA_RT.A"
+    official: false
+    refreshed_by: fetch/fetch_imf.py
+    notes: >-
+      VERIFIED 2026-10-25: 2006 average 5,635.09 guaraníes per US$,
+      2025 7,545.3 — the same convention as the World Bank's PA.NUS.FCRF
+      (also staged, as a sidecar cross-check). The guaraní has no minor
+      unit in practice and was never redenominated. The plate indexes
+      2006 = 100 with up = stronger, so the index is built from the
+      reciprocal of this column, never from it directly.
+
+people:
+  income.csv:
+    source: "World Bank SI.POV.GINI; INE EPHC poverty incidence; ILOSTAT DF_EAR_INEE_CUR_NB minimum wage; IMF FX for the US$ conversion"
+    url: "https://api.worldbank.org/v2/country/PRY/indicator/SI.POV.GINI?format=json"
+    official: false
+    refreshed_by: fetch/fetch_wb.py, fetch/fetch_ine.py, fetch/fetch_ilo.py
+    notes: >-
+      VERIFIED 2026-10-25. Gini 2006 53.0, 2024 44.2 (World Bank, the EPHC
+      harmonised; INE's own 2022-2025 Ginis are published only as a legacy
+      .xls, see meta.pending). Poverty is the INE's national incidence:
+      2006 47.3%, 2025 16.0%, with the EPH -> EPHC survey redesign at 2017
+      left as a break and not smoothed. The 2022-2025 national figures are
+      the sum of the departmental release's 15 departments plus Asunción,
+      which reproduces the published national absolute counts exactly
+      (2024: 1,198,290 poor of 6,112,370) — the fetcher asserts that
+      against the national release before writing. Minimum wage is the
+      statutory monthly rate in guaraníes (ILOSTAT, as the country reports
+      it; MTESS has no machine series) and converted to US$ at the same
+      year's average rate from markets/fx.csv; it ends in 2024 because the
+      2025 decree is not in the ILOSTAT vintage, and the column is left
+      blank rather than carried forward.
+
+demography:
+  population.csv:
+    source: "INE Paraguay — Estimaciones y Proyecciones Nacional por año 1950-2050, Revisión 2024"
+    url: "https://www.ine.gov.py/Publicaciones/Biblioteca/documento/266/Estimaciones%20y%20Proyecciones%20Nacional%20por%20a%C3%B1o%201950-2050.%20Revisi%C3%B3n%202024.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      VERIFIED 2026-10-25: 1950 = 1,517,601 and 2022 = 6,284,020, both
+      pinned in the fetcher. One vintage with the 2022 census inside, so
+      this denominator sits ~9% below the UN WPP series the World Bank
+      republishes (2025: 6,417,076 here, 7,013,000 there) — two labelled
+      lines, never a splice. Births, deaths, crude rates, fertility and
+      life expectancy are the projection's own estimates (2020-2022 carry
+      the pandemic's effect), NOT administrative counts. Net migration is
+      in thousands of persons in the source and staged as
+      net_migration_thousands; the rate beside it is per 1,000. Years after
+      the census base are projections and the plate marks where the
+      observation ends.
+  population_un_wpp.csv:
+    source: "World Bank SP.POP.TOTL — the UN World Population Prospects series, mid-year"
+    url: "https://api.worldbank.org/v2/country/PRY/indicator/SP.POP.TOTL?format=json"
+    official: false
+    refreshed_by: fetch/fetch_wb.py
+    notes: >-
+      VERIFIED 2026-10-25. The harmonised comparator to INE's series above,
+      promoted from the population_from_wb.csv sidecar: 2006 = 5,505,148
+      and 2025 = 7,013,078, against INE's 5,511,383 and 6,417,076. The
+      difference is the 2022 census — INE rebased on it, the UN has not —
+      and it is drawn as a second, labelled line on the demography plate,
+      never spliced into the national one. It is also the denominator for
+      the UN net-migration rate and the migrant-stock share on the
+      migration plate, so neither of those mixes the two populations.
+      official: false because this is a redistributor's series, not INE's.
+
+security:
+  security.csv:
+    source: "UNODC (VC.IHR.PSRC.P5) and WHO (SH.STA.SUIC.P5, SH.STA.TRAF.P5) via the World Bank"
+    url: "https://api.worldbank.org/v2/country/PRY/indicator/VC.IHR.PSRC.P5?format=json"
+    official: false
+    refreshed_by: fetch/fetch_wb.py
+    notes: >-
+      VERIFIED 2026-10-25: homicide 13.48 per 100,000 in 2006, 6.78 in
+      2023; suicide 4.0 in 2006; road deaths 16.8 in 2006, last published
+      22.0 in 2019. The Ministerio Público publishes its own homicide
+      count as PDF tables with no machine series (meta.pending), and the
+      two definitions differ in both directions; only the harmonised
+      series is drawn and the panel says so.
+
+mortality:
+  mortality.csv:
+    source: "INE Paraguay — revision-2024 estimates and projections (deaths, crude death rate, life expectancy)"
+    url: "https://www.ine.gov.py/Publicaciones/Biblioteca/documento/266/Estimaciones%20y%20Proyecciones%20Nacional%20por%20a%C3%B1o%201950-2050.%20Revisi%C3%B3n%202024.xlsx"
+    official: true
+    refreshed_by: fetch/fetch_ine.py
+    notes: >-
+      VERIFIED 2026-10-25. Crude death rate 5.68 per 1,000 in 2006, 6.22
+      in 2025; life expectancy 72.26 years in 2006, 75.65 in 2025. These
+      are the projection's estimates, not registered deaths: INE's
+      vital-statistics workbooks stop at 2017 as machine-readable
+      releases. Excess deaths against a 2015-2019 baseline and COVID-19
+      deaths are NOT computable from what is reachable — see meta.pending;
+      the panels stay pending rather than being drawn from a smoothed
+      model that already contains the pandemic.
+
+credit:
+  credit.csv:
+    source: "World Bank FB.AST.NPER.ZS (NPL to gross loans) and FS.AST.PRVT.GD.ZS (private credit by banks, % of GDP)"
+    url: "https://api.worldbank.org/v2/country/PRY/indicator/FB.AST.NPER.ZS?format=json"
+    official: false
+    refreshed_by: fetch/fetch_wb.py
+    notes: >-
+      VERIFIED 2026-10-25: NPL ratio 3.62% in 2006 and 2.4% in 2025;
+      private credit 24.2% of GDP in 2001 and about 40% in 2025. Both are
+      the BCP's supervisory data as the World Bank records them. The
+      second is PRIVATE-SECTOR credit, not household debt: BIS total
+      credit has no Paraguay series and the BCP's household split is
+      behind the block, so the household-debt and lending-rate panels are
+      pending.
+
+migration:
+  migration.csv:
+    source: "INE revision-2024 net migration rate; World Bank SM.POP.NETM (UN WPP) and SM.POP.TOTL (UN DESA migrant stock)"
+    url: "https://api.worldbank.org/v2/country/PRY/indicator/SM.POP.NETM?format=json"
+    official: false
+    refreshed_by: fetch/fetch_ine.py, fetch/fetch_wb.py
+    notes: >-
+      VERIFIED 2026-10-25. The INE's national net migration rate is
+      negative throughout: -8.5 per 1,000 in 2006, -2.3 in 2025 — Paraguay
+      is a country of emigration, and the early-2000s outflow is the peak.
+      Beside it the UN WPP modelled net migration in persons (-44,568 in
+      2006, -12,420 in 2025) and the UN DESA migrant stock, which exists
+      only for 2010, 2015, 2020 and 2024 and is never interpolated.
+      Immigration and emigration FLOWS are not published as a machine
+      series by any reachable publisher — see meta.pending — so the
+      canonical flow panel stays pending and the net is drawn alone,
+      labelled as a net.
+
+meta:
+  pending:
+    - name: Banco Central del Paraguay — national accounts, CPI, policy rate, reference exchange rate, reserves, household credit
+      publisher: Banco Central del Paraguay
+      url: https://www.bcp.gov.py/webapps/web/cuadroestadistico
+      official: true
+      notes: >-
+        Probed 2026-10-25. Every path answers HTTP 403 with Cloudflare's
+        "Just a moment…" challenge page: www.bcp.gov.py/, the
+        cuadroestadistico and sie webapps, estadisticas.bcp.gov.py,
+        /anexo/1, both https and http, with a Chrome User-Agent.
+        api./datos./siec./open.bcp.gov.py do not resolve. This is a
+        network-level block, not a dead dataset — the BCP publishes all of
+        it. Unblocks: the national GDP and CPI levels, the monetary policy
+        rate (tasa de política monetaria), the BCP reference rate, the
+        reserves level, and the household-credit and lending-rate series.
+        fetch/fetch_bcp.py re-probes and prints REACHABLE when this
+        changes. The harmonised substitutes drawn today are labelled as
+        the IMF's and World Bank's record, not as the BCP's release.
+    - name: Monetary policy rate (markets slot 1)
+      publisher: Banco Central del Paraguay
+      url: https://api.imf.org/external/sdmx/2.1/availableconstraint/IMF.STA,MFS_IR/PRY
+      official: false
+      notes: >-
+        The BCP's TPM is behind the Cloudflare block. The IMF's MFS_IR
+        dataflow carries Paraguay's interest rates but only to 2022 and
+        carries no policy-rate indicator (the codes are discount,
+        money-market and lending/deposit rates: DISR_RT_PT_A_PT,
+        MMRT_RT_PT_A_PT, MFS135/162/166/174). A panel that stopped in
+        2022 would sit beside 2025 inflation and imply a policy stance
+        nobody holds, so it stays pending until the BCP answers.
+    - name: Ten-year government bond yield (markets slot 2)
+      publisher: Banco Central del Paraguay; Ministerio de Economía y Finanzas
+      url: https://www.bcp.gov.py/
+      official: true
+      notes: >-
+        No continuous official annual series found on any reachable route
+        on 2026-10-25: the BCP is blocked, the MEF publishes Treasury bond
+        auction results and international bond terms but no secondary-
+        market yield curve, and Paraguay's domestic bond market is thin
+        and short-dated. IFI does not report a PRY yield to the IMF's IFS.
+        Classified as possibly nonexistent rather than merely blocked.
+    - name: Equity index (markets slot 4)
+      publisher: Bolsa de Valores de Asociación (BVA)
+      url: https://www.bva.com.py/
+      official: false
+      notes: >-
+        The BVA publishes trades and a market summary, not a continuous
+        capitalisation-weighted index series; no redistributor carries a
+        Paraguayan index (Yahoo/stooq have no PRY symbol). Nothing to
+        stage, and an index invented from a handful of trades would not be
+        an index.
+    - name: COFOG functional spending (spending slots 1 and 2)
+      publisher: IMF GFS; Ministerio de Economía y Finanzas
+      url: https://api.imf.org/external/sdmx/2.1/data/IMF.STA,GFS_COFOG/PRY
+      official: false
+      notes: >-
+        Routes tried 2026-10-25. The IMF's GFS_COFOG dataflow answers for
+        Paraguay only for sector S1311B (central government budgetary) and
+        only for 2023-2024 — two observations of a stacked-function panel,
+        not a series. The MEF publishes the functional classification
+        inside its annual budget documents and the PGN, not as a
+        machine-readable execution series; the DGPP page links one PDF and
+        no workbook; pyenresultados.rindiendocuentas.gov.py is a
+        JavaScript application with no data endpoint; datos.gov.py, the
+        national open-data portal, has been on a "Sitio en Mantenimiento"
+        page throughout. A two-year IMF slice is not drawn as a COFOG
+        panel.
+    - name: Household debt and the household lending rate (credit slots 1, 2 and 4)
+      publisher: Banco Central del Paraguay; BIS
+      url: https://www.bcp.gov.py/
+      official: true
+      notes: >-
+        BIS total credit (WS_TC) has no Paraguay series at all; the BCP's
+        household split is behind the block; the IMF's MFS_IR carries
+        lending and deposit rates only to 2022 and does not separate
+        households from firms. Private-sector credit as a share of GDP IS
+        staged (credit/credit.csv) and is labelled as what it is, not as
+        household debt.
+    - name: Excess deaths and COVID-19 deaths (mortality slots 2 and 3)
+      publisher: INE; WHO; PAHO
+      url: https://ghoapi.azureedge.net/api/Indicator
+      official: true
+      notes: >-
+        Excess deaths need a registered annual death count. INE's
+        vital-statistics workbooks stop at 2017 as machine-readable
+        releases; the revision-2024 series is a smoothed estimate that
+        already contains the pandemic, so subtracting a baseline from it
+        would measure the model, not the deaths. WHO's GHO catalogue
+        carries no general COVID-19 death indicator (only in-prison
+        diagnoses, as the Ukraine lane also found) and
+        covid19.who.int/WHO-COVID-19-global-data.csv now serves an HTML
+        page. Both panels stay pending with this note rather than showing
+        a model's pandemic.
+    - name: Corruption Perceptions Index (world slot 3)
+      publisher: Transparency International
+      url: https://images.transparencycdn.org/images/CPI2025-Results-and-trends.xlsx
+      official: false
+      notes: >-
+        HTTP 403 from the discovery network's CDN on 2026-10-25 with a
+        browser User-Agent (the same block the Ukraine lane recorded on
+        2026-10-24 while Canada's lane fetched it successfully — a network
+        condition, not a dead endpoint). The 2024 landing page answers
+        200 but carries one year, and a single year is not a 2006-2025
+        panel. Retry at fetch time.
+    - name: INE Gini workbook (people slot 1, national line)
+      publisher: Instituto Nacional de Estadística
+      url: https://www.ine.gov.py/assets/documento/27/Ingresos_Indicadores%20de%20desigualdad%20de%20ingresos%20por%20%C3%A1rea%20de%20residencia_py_EPHC_2022-2025.xls
+      official: true
+      notes: >-
+        The 2022-2025 EPHC inequality workbook is a legacy BIFF .xls and
+        the only reader in the fetcher stack is openpyxl, which reads
+        .xlsx only; requirements-fetch.txt does not carry xlrd. The values
+        were read by hand during discovery (2022 44.49, 2023 43.80, 2024
+        43.87, 2025 43.12) and agree with the World Bank's harmonised
+        series within 0.4 points, which is why the harmonised Gini is the
+        staged one. Adding `xlrd` to requirements-fetch.txt, or INE
+        publishing the workbook as .xlsx, closes this.
+    - name: Registered births and deaths, and immigration/emigration flows (migration slots 1 and 4)
+      publisher: Instituto Nacional de Estadística; Dirección General de Migraciones
+      url: https://www.ine.gov.py/publicacion/21/nacimientos-matrimonios-y-defunciones
+      official: true
+      notes: >-
+        INE's vital-statistics page publishes one workbook per year per
+        cross-tabulation, running 2013-2017 only; there is no annual
+        national totals file, and the 2018-2025 releases are PDFs. The
+        Dirección General de Migraciones publishes entries and exits as
+        PDFs and has no machine series. No reachable publisher gives an
+        annual immigration and emigration flow count, so the canonical
+        flow panel stays pending and only the net is drawn, labelled as
+        such.
+    - name: "datos.gov.py — the national open-data portal"
+      publisher: Gobierno del Paraguay
+      url: https://www.datos.gov.py/
+      official: true
+      notes: >-
+        HTTP 200 but the body is a "Sitio en Mantenimiento" page, and
+        /api/3/action/package_search answers 404 HTML. This matters
+        because the portal is the official mirror for BCP and MEF
+        datasets that are otherwise behind the BCP block; when it returns,
+        it is the first place to look for the CPI, the policy rate and the
+        functional budget execution.
+    - name: DNIT / Aduana — customs trade flows
+      publisher: Dirección Nacional de Ingresos Tributarios
+      url: https://www.dnit.gov.py/web/portal-institucional/estadisticas
+      official: true
+      notes: >-
+        The statistics page (200) publishes tax collection, taxpayer
+        counts and the largest-contributor lists; aduana.gov.py now serves
+        the same Liferay portal. No export/import flow table is published
+        as a file. Trade is therefore staged from the IMF DOTS and the
+        World Bank national accounts, with this recorded.
+    - name: Minimum wage 2025
+      publisher: Ministerio de Trabajo, Empleo y Seguridad Social
+      url: https://www.mtess.gov.py/
+      official: true
+      notes: >-
+        ILOSTAT's minimum-wage series ends at 2024 in the vintage pulled
+        on 2026-10-25, and MTESS publishes the annual decree as a press
+        release, not a series. The 2025 value is not carried forward from
+        2024: the column is blank until either source publishes it.

@@ -1,0 +1,260 @@
+{
+ "es": {
+  "line": "{n} planchas de datos oficiales, {window}",
+  "dek": "Cada cifra de esta página sale de un editor que nombra su definición — el INE para la población, la pobreza y el empleo, el Ministerio de Economía y Finanzas para las cuentas fiscales, el PNUD para el desarrollo humano — y del Banco Mundial y el FMI para la capa armonizada. El banco central, que publica el PIB, el IPC, la tasa de política y el tipo de referencia del guaraní, responde un desafío de Cloudflare a esta red: esas series se dibujan tal como las registran el Fondo y el Banco Mundial, y así están rotuladas. Las planchas se regeneran de CSV versionados, de modo que los gráficos y los números de aquí no pueden separarse.",
+  "notes": [
+   "2026 es un año incompleto. Los totales anuales se detienen en 2025; la deuda y el resultado del FMI llegan a 2025 en la edición de octubre de 2026 y los ingresos y gastos del gobierno general solo a 2024.",
+   "Dos perímetros fiscales, nunca empalmados: el gobierno general del FMI sobre base devengada (ingresos del 15 al 19% del PIB) y la administración central del MEF sobre base de caja (13 al 15%). La brecha de unos cuatro puntos de PIB es perímetro, no error, y el capítulo dibuja los dos.",
+   "Dos denominadores de población, 9% aparte: la revisión 2024 del INE está anclada en el censo de 2022 (6.417.076 habitantes en 2025) y la serie de la ONU que publica el Banco Mundial no (7.013.000). El PIB por persona de la tira superior usa el denominador de la ONU, para que el visor compare países con el mismo criterio; la lectura de población es la del INE.",
+   "El guaraní no tiene unidad fraccionaria en la práctica y nunca fue redenominado: la propuesta de dividir por 1.000 se abandonó en 2023. Toda cifra en guaraníes es de guaraníes corrientes de su propio año, en la unidad que dice el nombre de la columna.",
+   "2019 y 2020 son los dos únicos años negativos consecutivos (-0,4% y -0,8%) y se marcan como una sola recesión. 2022, con -0,03%, es un estancamiento y no se marca.",
+   "Itaipú y Yacyretá son ingresos fiscales de los tratados binacionales, no una porción hidroeléctrica del PIB: las regalías y la compensación por cesión de energía se dibujan en la lente de comercio, rotuladas como lo que son. La caída de la cesión en 2025 sigue a la revisión del Anexo C de la tarifa de Itaipú; el dato anota el hecho, no la causa.",
+   "Las planchas se dibujan en las tres lenguas en que este país publica — español, inglés y portugués — y esta página también. El guaraní es cooficial (Ley 4251/2011), pero ningún editor de este directorio publica tablas estadísticas en guaraní, así que no hay vocabulario oficial con el que anclar una traducción; queda registrado como trabajo futuro en DATA_NOTES.md.",
+   "Las participaciones de Argentina en el destino de las exportaciones de 2016 a 2020 se publicaron en cero en la primera pasada por un error de lectura del XML del FMI; el capítulo dibuja los valores que la carga del Fondo realmente trae y DATA_NOTES.md documenta la corrección."
+  ],
+  "unavailable": [
+   {
+    "term": "Tasa de política monetaria",
+    "detail": "La tasa de política del BCP está detrás del bloqueo de Cloudflare. El MFS_IR del FMI trae tasas de Paraguay solo hasta 2022 y no tiene indicador de tasa de política. Una serie que termina en 2022 junto a la inflación de 2025 implicaría una postura que nadie sostiene, así que el panel queda pendiente hasta que el banco central responda."
+   },
+   {
+    "term": "Rendimiento del bono a diez años",
+    "detail": "Ninguna ruta alcanzable publica un rendimiento oficial anual continuo: el BCP está bloqueado, el MEF publica resultados de subastas y condiciones de bonos internacionales pero no una curva de mercado secundario, y el mercado interno es delgado y de corto plazo. Se clasifica como posiblemente inexistente, no solo bloqueado."
+   },
+   {
+    "term": "Índice bursátil",
+    "detail": "La Bolsa de Valores de Asociación publica operaciones y un resumen de mercado, no un índice continuo ponderado por capitalización, y ningún redistribuidor ofrece un índice paraguayo. Un índice armado con un puñado de operaciones no sería un índice."
+   },
+   {
+    "term": "Gasto por función (COFOG)",
+    "detail": "Rutas probadas el 2026-10-25: el GFS_COFOG del FMI responde para Paraguay solo en el sector S1311B y solo para 2023-2024, dos observaciones y no una serie; el MEF publica la clasificación funcional dentro de los documentos presupuestarios, no como ejecución; la página de la DGPP enlaza un PDF; el portal de datos datos.gov.py está en mantenimiento y su API responde 404. Dos años no son un panel."
+   },
+   {
+    "term": "Deuda de los hogares y tasa de préstamo a hogares",
+    "detail": "El crédito total del BIS no tiene ninguna serie de Paraguay, la apertura de hogares del BCP está detrás del bloqueo y el MFS_IR del FMI trae tasas de préstamo y depósito solo hasta 2022, sin separar hogares de empresas. El crédito al sector privado que sí está preparado se dibuja en la lente, rotulado como lo que es."
+   },
+   {
+    "term": "Muertes en exceso y muertes por COVID-19",
+    "detail": "Las muertes en exceso requieren un conteo anual de defunciones registradas: los libros de estadísticas vitales del INE terminan en 2017 como archivos legibles por máquina, y la serie de la revisión 2024 es una estimación suavizada que ya contiene la pandemia, de modo que restarle una línea base mediría el modelo y no las muertes. El catálogo GHO de la OMS no trae un indicador general de muertes por COVID-19 para Paraguay (solo diagnósticos en prisión) y covid19.who.int ahora sirve una página HTML."
+   },
+   {
+    "term": "Flujos de inmigración y emigración",
+    "detail": "Ningún editor alcanzable ofrece un conteo anual de flujos: las estadísticas vitales del INE terminan en 2017 como archivos legibles por máquina y la Dirección General de Migraciones publica entradas y salidas como PDF. Solo se dibuja el saldo neto, rotulado como neto."
+   },
+   {
+    "term": "Índice de Percepción de la Corrupción",
+    "detail": "El CDN de Transparency International responde 403 a esta red (2026-10-25, el mismo bloqueo que registró el carril de Ucrania). La página de inicio trae un solo año, y un año no es un panel. No se sustituye ningún proxy."
+   },
+   {
+    "term": "Gini propio del INE",
+    "detail": "El libro de desigualdad de ingresos 2022-2025 del INE es un .xls antiguo y el único lector del stack de fetchers es openpyxl, que lee .xlsx. Los valores se leyeron a mano en el descubrimiento (2022 44,49; 2023 43,80; 2024 43,87; 2025 43,12) y coinciden con el Gini armonizado del Banco Mundial dentro de 0,4 puntos, que es la serie preparada. Añadir xlrd al stack cierra la brecha."
+   },
+   {
+    "term": "Salario mínimo 2025",
+    "detail": "La serie de ILOSTAT termina en 2024 en la edición consultada y el MTESS publica el decreto anual como comunicado, no como serie. El valor de 2025 no se arrastra desde 2024: la columna queda en blanco hasta que alguna de las dos fuentes lo publique."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Población, nacimientos, defunciones, fecundidad",
+    "detail": "Instituto Nacional de Estadística (INE), Estimaciones y Proyecciones Nacional por año 1950-2050, Revisión 2024 — una sola edición con el censo de 2022 dentro. Los años posteriores al censo son proyección."
+   },
+   {
+    "term": "Cuentas fiscales nacionales",
+    "detail": "Ministerio de Economía y Finanzas, MEFP 2001 Administración Central 2003-2025: ingresos, gastos, resultado, regalías de Itaipú y Yacyretá y compensación por cesión de energía, en miles de millones de guaraníes corrientes. Base de caja, año calendario, administración central — no gobierno general."
+   },
+   {
+    "term": "Cuentas nacionales, precios, empleo, crédito y reservas",
+    "detail": "Banco Mundial (WDI) y FMI (WEO de octubre de 2026 e IFS). Son el registro que esas instituciones hacen de lo que reportó el Banco Central del Paraguay, no una publicación del BCP, y por eso figuran como no oficiales en SOURCES.yaml."
+   },
+   {
+    "term": "Comercio por destino",
+    "detail": "FMI DOTS (IMTS), exportaciones de bienes FOB de aduana por socio. Verificado una vez contra UN Comtrade: el total mundial de 2024 es US$10,914 mil millones allí y US$10,916 mil millones aquí. La DNIT no publica la tabla de flujos como archivo."
+   },
+   {
+    "term": "Pobreza y desigualdad",
+    "detail": "Pobreza: incidencia nacional del INE, EPH hasta 2016 y EPHC desde 2017, con la ruptura de diseño anotada y no suavizada. Gini: armonización del Banco Mundial sobre la misma encuesta."
+   },
+   {
+    "term": "Patrones de comparación",
+    "detail": "PNUD (HDR 2025) para el IDH; UNODC y OMS vía el Banco Mundial para homicidios, suicidios y muertes en el tránsito; ILOSTAT para el salario mínimo legal, convertido con el tipo de cambio promedio del mismo año; UN WPP y UN DESA para la población, la migración neta y el stock de migrantes."
+   },
+   {
+    "term": "La moneda",
+    "detail": "El guaraní (PYG) no tiene unidad fraccionaria en la práctica y no hubo redenominación: la propuesta de dividir por 1.000 se abandonó en 2023. Ninguna serie de este directorio fue reescalada por esa razón."
+   }
+  ]
+ },
+ "en": {
+  "line": "{n} plates of official data, {window}",
+  "dek": "Every figure on this page comes from a publisher that names its definition — the INE for population, poverty and employment, the Ministry of Economy and Finance for the fiscal accounts, UNDP for human development — and from the World Bank and IMF for the harmonised layer. The central bank, which publishes GDP, the CPI, the policy rate and the guaraní's reference rate, answers a Cloudflare challenge to this network: those series are drawn as the Fund and the World Bank record them, and labelled that way. The plates regenerate from committed CSVs, so the charts and the numbers here cannot drift apart.",
+  "notes": [
+   "2026 is a partial year. Annual totals stop at 2025; the IMF's debt and balance reach 2025 in the October 2026 vintage, while general-government revenue and expenditure stop at 2024.",
+   "Two fiscal perimeters, never spliced: the IMF's general government on an accrual basis (revenue 15-19% of GDP) and the MEF's central administration on cash (13-15%). The gap of about four points of GDP is perimeter, not error, and the chapter draws both.",
+   "Two population denominators, 9% apart: INE's revision 2024 is anchored on the 2022 census (6,417,076 in 2025) and the UN series the World Bank carries is not (7,013,000). The GDP-per-person reading in the strip uses the UN denominator, so the comparison viewer compares every country on the same basis; the population reading is INE's.",
+   "The guaraní has no minor unit in practice and was never redenominated: the proposal to divide by 1,000 was abandoned in 2023. Every guaraní figure is current guaraníes of its own year, in the unit its column name states.",
+   "2019 and 2020 are the only consecutive negative years (-0.4% and -0.8%) and are banded as one recession. 2022, at -0.03%, is a stagnation and is not banded.",
+   "Itaipú and Yacyretá are fiscal revenue under the binational treaties, not a hydro share of GDP: the royalties and the energy-cession compensation are drawn in the trade lens, labelled as what they are. The 2025 collapse in the cession follows the Annex C revision of Itaipú's tariff; the data annotate the fact, not the cause.",
+   "The plates are drawn in the three languages this country publishes — Spanish, English and Portuguese — and so is this page. Guaraní is co-official (Law 4251/2011), but no publisher in this directory issues statistical tables in Guaraní, so there is no official vocabulary to anchor a translation; it is recorded as future work in DATA_NOTES.md.",
+   "Argentina's share of export destinations for 2016-2020 was published as zero in the first pass by an XML reading bug; the plate draws the values the Fund's payload carries, and DATA_NOTES.md documents the correction."
+  ],
+  "unavailable": [
+   {
+    "term": "Policy rate",
+    "detail": "The BCP's policy rate is behind the Cloudflare block. The IMF's MFS_IR carries Paraguay's rates only to 2022 and has no policy-rate indicator. A series stopping in 2022 beside 2025 inflation would imply a stance nobody holds, so the panel stays pending until the central bank answers."
+   },
+   {
+    "term": "Ten-year bond yield",
+    "detail": "No reachable route publishes a continuous official annual yield: the BCP is blocked, the MEF publishes auction results and international bond terms but no secondary-market curve, and the domestic market is thin and short-dated. Classified as possibly nonexistent rather than merely blocked."
+   },
+   {
+    "term": "Equity index",
+    "detail": "The Bolsa de Valores de Asociación publishes trades and a market summary, not a continuous capitalisation-weighted index, and no redistributor carries a Paraguayan index. An index built from a handful of trades would not be an index."
+   },
+   {
+    "term": "Spending by function (COFOG)",
+    "detail": "Routes tried on 2026-10-25: the IMF's GFS_COFOG answers for Paraguay only in sector S1311B and only for 2023-2024, two observations rather than a series; the MEF publishes the functional classification inside budget documents, not as execution; the DGPP page links one PDF; the national open-data portal datos.gov.py is on a maintenance page and its API answers 404. Two years is not a panel."
+   },
+   {
+    "term": "Household debt and the household lending rate",
+    "detail": "BIS total credit has no Paraguay series at all, the BCP's household split is behind the block, and the IMF's MFS_IR carries lending and deposit rates only to 2022 without separating households from firms. The private-sector credit that is staged is drawn in the lens, labelled as what it is."
+   },
+   {
+    "term": "Excess deaths and COVID-19 deaths",
+    "detail": "Excess deaths need a registered annual death count: INE's vital-statistics workbooks stop at 2017 as machine-readable files, and the revision-2024 series is a smoothed estimate that already contains the pandemic, so a baseline subtracted from it would measure the model, not the deaths. WHO's GHO catalogue carries no general COVID-19 death indicator for Paraguay (only in-prison diagnoses) and covid19.who.int now serves an HTML page."
+   },
+   {
+    "term": "Immigration and emigration flows",
+    "detail": "No reachable publisher gives an annual flow count: INE's vital statistics stop at 2017 as machine-readable files and the Dirección General de Migraciones publishes entries and exits as PDFs. Only the net is drawn, labelled as a net."
+   },
+   {
+    "term": "Corruption Perceptions Index",
+    "detail": "Transparency International's CDN answers 403 to this network (2026-10-25, the same block Ukraine's lane recorded). The landing page carries one year, and one year is not a panel. No proxy is substituted."
+   },
+   {
+    "term": "INE's own Gini",
+    "detail": "INE's 2022-2025 income-inequality workbook is a legacy .xls and the fetcher stack's only reader is openpyxl, which reads .xlsx. The values were read by hand at discovery (2022 44.49, 2023 43.80, 2024 43.87, 2025 43.12) and agree with the World Bank's harmonised Gini within 0.4 points, which is the staged series. Adding xlrd to the stack closes the gap."
+   },
+   {
+    "term": "Minimum wage 2025",
+    "detail": "ILOSTAT's series ends at 2024 in the vintage consulted, and the MTESS publishes the annual decree as a press release, not as a series. The 2025 value is not carried forward from 2024: the column stays blank until one of the two sources publishes it."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Population, births, deaths, fertility",
+    "detail": "Instituto Nacional de Estadística (INE), Estimaciones y Proyecciones Nacional por año 1950-2050, Revisión 2024 — one vintage with the 2022 census inside. Years after the census base are projections."
+   },
+   {
+    "term": "National fiscal accounts",
+    "detail": "Ministerio de Economía y Finanzas, MEFP 2001 Administración Central 2003-2025: revenue, spending, balance, Itaipú and Yacyretá royalties and the energy-cession compensation, in thousands of millions of current guaraníes. Cash basis, calendar year, central administration — not general government."
+   },
+   {
+    "term": "National accounts, prices, employment, credit, reserves",
+    "detail": "World Bank (WDI) and IMF (WEO October 2026 vintage and IFS). These are those institutions' record of what the Banco Central del Paraguay reported, not a BCP release, which is why SOURCES.yaml marks them not official."
+   },
+   {
+    "term": "Trade by destination",
+    "detail": "IMF DOTS (IMTS), customs exports of goods FOB by partner. Checked once against UN Comtrade: the 2024 world total is US$10.914bn there and US$10.916bn here. The DNIT publishes no flow table as a file."
+   },
+   {
+    "term": "Poverty and inequality",
+    "detail": "Poverty: INE's national incidence, EPH to 2016 and EPHC from 2017, with the design break annotated and not smoothed. Gini: the World Bank's harmonisation of the same survey."
+   },
+   {
+    "term": "Comparison standards",
+    "detail": "UNDP (HDR 2025) for the HDI; UNODC and WHO via the World Bank for homicide, suicide and road deaths; ILOSTAT for the statutory minimum wage, converted at the same year's average exchange rate; UN WPP and UN DESA for population, net migration and the migrant stock."
+   },
+   {
+    "term": "The currency",
+    "detail": "The guaraní (PYG) has no minor unit in practice and no redenomination has taken place: the proposal to divide by 1,000 was abandoned in 2023. No series in this directory was rescaled for it."
+   }
+  ]
+ },
+ "pt": {
+  "line": "{n} pranchas de dados oficiais, {window}",
+  "dek": "Todo número desta página vem de um editor que nomeia a sua definição — o INE para população, pobreza e emprego, o Ministério da Economia e Finanças para as contas fiscais, o PNUD para desenvolvimento humano — e do Banco Mundial e do FMI para a camada harmonizada. O banco central, que publica o PIB, o IPC, a taxa de política e a taxa de referência do guaraní, responde um desafio da Cloudflare a esta rede: essas séries são desenhadas como o Fundo e o Banco Mundial as registram, e rotuladas assim. As pranchas são regeneradas de CSVs versionados, então os gráficos e os números daqui não podem divergir.",
+  "notes": [
+   "2026 é um ano incompleto. Os totais anuais param em 2025; a dívida e o resultado do FMI chegam a 2025 na edição de outubro de 2026, enquanto receitas e despesas do governo geral param em 2024.",
+   "Dois perímetros fiscais, nunca emendados: o governo geral do FMI por competência (receitas de 15 a 19% do PIB) e a administração central do MEF por caixa (13 a 15%). A diferença de cerca de quatro pontos do PIB é perímetro, não erro, e o capítulo desenha os dois.",
+   "Dois denominadores de população, 9% de distância: a revisão 2024 do INE está ancorada no censo de 2022 (6.417.076 habitantes em 2025) e a série da ONU que o Banco Mundial publica não (7.013.000). O PIB por pessoa da faixa superior usa o denominador da ONU, para que o visualizador compare países com o mesmo critério; a leitura de população é a do INE.",
+   "O guaraní não tem unidade fracionária na prática e nunca foi redenominado: a proposta de dividir por 1.000 foi abandonada em 2023. Toda cifra em guaranis é de guaranis correntes do seu próprio ano, na unidade que o nome da coluna declara.",
+   "2019 e 2020 são os dois únicos anos negativos consecutivos (-0,4% e -0,8%) e são marcados como uma só recessão. 2022, com -0,03%, é estagnação e não é marcado.",
+   "Itaipú e Yacyretá são receitas fiscais dos tratados binacionais, não uma fatia hidrelétrica do PIB: os royalties e a compensação por cessão de energia aparecem na lente do comércio, rotulados como o que são. A queda da cessão em 2025 segue a revisão do Anexo C da tarifa de Itaipú; o dado anota o fato, não a causa.",
+   "As pranchas são desenhadas nas três línguas em que este país publica — espanhol, inglês e português — e esta página também. O guaraní é cooficial (Lei 4251/2011), mas nenhum editor deste diretório publica tabelas estatísticas em guaraní, então não há vocabulário oficial para ancorar uma tradução; fica registrado como trabalho futuro em DATA_NOTES.md.",
+   "As participações da Argentina no destino das exportações de 2016 a 2020 saíram como zero na primeira passagem por um erro de leitura do XML do FMI; a prancha desenha os valores que a carga do Fundo realmente traz, e DATA_NOTES.md documenta a correção."
+  ],
+  "unavailable": [
+   {
+    "term": "Taxa de política monetária",
+    "detail": "A taxa de política do BCP está atrás do bloqueio da Cloudflare. O MFS_IR do FMI traz taxas do Paraguai apenas até 2022 e não tem indicador de taxa de política. Uma série que termina em 2022 ao lado da inflação de 2025 implicaria uma postura que ninguém sustenta, então o painel fica pendente até o banco central responder."
+   },
+   {
+    "term": "Rendimento do título de dez anos",
+    "detail": "Nenhuma rota alcançável publica um rendimento oficial anual contínuo: o BCP está bloqueado, o MEF publica resultados de leilões e condições de títulos internacionais mas não uma curva de mercado secundário, e o mercado interno é fino e de curto prazo. Classificado como possivelmente inexistente, não apenas bloqueado."
+   },
+   {
+    "term": "Índice acionário",
+    "detail": "A Bolsa de Valores de Asociación publica negócios e um resumo de mercado, não um índice contínuo ponderado por capitalização, e nenhum redistribuidor oferece um índice paraguaio. Um índice montado com um punhado de negócios não seria um índice."
+   },
+   {
+    "term": "Gasto por função (COFOG)",
+    "detail": "Rotas testadas em 2026-10-25: o GFS_COFOG do FMI responde para o Paraguai apenas no setor S1311B e apenas para 2023-2024, duas observações e não uma série; o MEF publica a classificação funcional dentro dos documentos orçamentários, não como execução; a página da DGPP linka um PDF; o portal de dados datos.gov.py está em manutenção e sua API responde 404. Dois anos não são um painel."
+   },
+   {
+    "term": "Dívida das famílias e taxa de empréstimo às famílias",
+    "detail": "O crédito total do BIS não tem nenhuma série do Paraguai, a abertura de famílias do BCP está atrás do bloqueio, e o MFS_IR do FMI traz taxas de empréstimo e depósito apenas até 2022, sem separar famílias de empresas. O crédito ao setor privado que está preparado é desenhado na lente, rotulado como o que é."
+   },
+   {
+    "term": "Excesso de mortes e mortes por COVID-19",
+    "detail": "O excesso de mortes exige uma contagem anual de óbitos registrados: as planilhas de estatísticas vitais do INE terminam em 2017 como arquivos legíveis por máquina, e a série da revisão 2024 é uma estimativa suavizada que já contém a pandemia, então subtrair dela uma linha de base mediria o modelo e não as mortes. O catálogo GHO da OMS não traz indicador geral de mortes por COVID-19 para o Paraguai (apenas diagnósticos na prisão) e covid19.who.int agora serve uma página HTML."
+   },
+   {
+    "term": "Fluxos de imigração e emigração",
+    "detail": "Nenhum editor alcançável oferece uma contagem anual de fluxos: as estatísticas vitais do INE terminam em 2017 como arquivos legíveis por máquina e a Direção Geral de Migrações publica entradas e saídas como PDF. Apenas o líquido é desenhado, rotulado como líquido."
+   },
+   {
+    "term": "Índice de Percepção da Corrupção",
+    "detail": "O CDN da Transparency International responde 403 a esta rede (2026-10-25, o mesmo bloqueio que a faixa da Ucrânia registrou). A página inicial traz um único ano, e um ano não é um painel. Nenhum proxy é substituído."
+   },
+   {
+    "term": "Gini do próprio INE",
+    "detail": "A planilha de desigualdade de renda 2022-2025 do INE é um .xls antigo e o único leitor do stack de fetchers é o openpyxl, que lê .xlsx. Os valores foram lidos à mão no descobrimento (2022 44,49; 2023 43,80; 2024 43,87; 2025 43,12) e concordam com o Gini harmonizado do Banco Mundial dentro de 0,4 ponto, que é a série preparada. Adicionar xlrd ao stack fecha a lacuna."
+   },
+   {
+    "term": "Salário mínimo de 2025",
+    "detail": "A série da ILOSTAT termina em 2024 na edição consultada, e o MTESS publica o decreto anual como release, não como série. O valor de 2025 não é arrastado de 2024: a coluna fica em branco até uma das duas fontes publicá-lo."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "População, nascimentos, óbitos, fecundidade",
+    "detail": "Instituto Nacional de Estadística (INE), Estimaciones y Proyecciones Nacional por año 1950-2050, Revisión 2024 — uma única edição com o censo de 2022 dentro. Os anos posteriores ao censo são projeção."
+   },
+   {
+    "term": "Contas fiscais nacionais",
+    "detail": "Ministerio de Economía y Finanzas, MEFP 2001 Administración Central 2003-2025: receitas, despesas, resultado, royalties de Itaipú e Yacyretá e compensação por cessão de energia, em milhares de milhões de guaranis correntes. Base de caixa, ano-calendário, administração central — não governo geral."
+   },
+   {
+    "term": "Contas nacionais, preços, emprego, crédito e reservas",
+    "detail": "Banco Mundial (WDI) e FMI (WEO de outubro de 2026 e IFS). São o registro que essas instituições fazem do que o Banco Central del Paraguay reportou, não uma publicação do BCP, e por isso constam como não oficiais em SOURCES.yaml."
+   },
+   {
+    "term": "Comércio por destino",
+    "detail": "FMI DOTS (IMTS), exportações de bens FOB de alfândega por parceiro. Verificado uma vez contra a UN Comtrade: o total mundial de 2024 é US$10,914 bilhões lá e US$10,916 bilhões aqui. A DNIT não publica a tabela de fluxos como arquivo."
+   },
+   {
+    "term": "Pobreza e desigualdade",
+    "detail": "Pobreza: incidência nacional do INE, EPH até 2016 e EPHC desde 2017, com a ruptura de desenho anotada e não suavizada. Gini: a harmonização do Banco Mundial sobre a mesma pesquisa."
+   },
+   {
+    "term": "Padrões de comparação",
+    "detail": "PNUD (HDR 2025) para o IDH; UNODC e OMS via Banco Mundial para homicídios, suicídios e mortes no trânsito; ILOSTAT para o salário mínimo legal, convertido pela taxa média do mesmo ano; UN WPP e UN DESA para população, migração líquida e estoque de migrantes."
+   },
+   {
+    "term": "A moeda",
+    "detail": "O guaraní (PYG) não tem unidade fracionária na prática e não houve redenominação: a proposta de dividir por 1.000 foi abandonada em 2023. Nenhuma série deste diretório foi reescalada por isso."
+   }
+  ]
+ }
+}

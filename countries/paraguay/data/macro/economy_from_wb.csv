@@ -1,0 +1,28 @@
+# World Bank WDI for Paraguay: NY.GDP.MKTP.KD.ZG real GDP growth,
+# FP.CPI.TOTL.ZG consumer prices, SL.UEM.TOTL.ZS unemployment,
+# NY.GDP.PCAP.CD GDP per person (current US$), NE.GDI.FTOT.ZS gross
+# fixed capital formation. The CPI is the BCP's index as the World
+# Bank records it; the BCP computes Paraguay's CPI, not the INE.
+# Unemployment is the ILO modelled estimate, not the INE's EPHC:
+# the two are separate columns and separate lines.
+year,gdp_growth_pct,cpi_inflation_pct,unemployment_pct,gdp_per_person_usd,gfcf_pct_gdp
+2006,4.81,9.59,5.28,2439,19.28
+2007,5.42,8.13,4.71,3212,17.88
+2008,6.50,10.15,4.42,4385,18.93
+2009,-0.26,2.59,5.46,3942,18.53
+2010,11.10,4.65,4.57,4751,21.29
+2011,4.29,8.25,4.67,5805,20.95
+2012,-0.71,3.68,4.08,5642,19.54
+2013,8.29,2.68,4.38,6436,19.06
+2014,5.30,5.03,5.03,6652,19.78
+2015,2.96,3.13,4.56,5879,19.40
+2016,4.27,4.09,5.25,5775,19.08
+2017,4.81,3.60,6.14,6152,19.19
+2018,3.20,3.98,6.22,6258,19.95
+2019,-0.40,2.76,6.59,5821,18.71
+2020,-0.82,1.77,7.55,5365,19.88
+2021,3.99,4.79,7.31,5975,22.94
+2022,-0.03,9.77,6.75,6189,22.18
+2023,5.29,4.63,5.79,6303,20.63
+2024,4.67,3.84,5.69,6457,20.84
+2025,6.64,4.04,4.80,7027,21.74

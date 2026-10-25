@@ -1,0 +1,178 @@
+# Paraguay. Queued sixth in the 2026-10-25 batch and discovered in this
+# lane on 2026-10-25. A small open economy whose exports are soy, beef
+# and hydroelectricity, whose 2019-2020 recession is two consecutive
+# negative years, and whose central bank — the publisher of GDP, the CPI,
+# the policy rate and the guaraní's reference rate — answers a Cloudflare
+# challenge from this network. The national layer that does answer is
+# INE (demography, poverty, labour) and MEF (the fiscal accounts), and
+# those are official; the rest is the harmonised layer, marked as such.
+# SOURCES.yaml and DISCOVERY.md carry every route tried.
+slug: paraguay
+flag_emoji: "🇵🇾"
+wordmark: Paraguay
+name:
+  en: "Paraguay"
+  pt: "Paraguai"
+  es: "Paraguay"
+  fr: "Paraguay"
+  ko: "파라과이"
+  it: "Paraguay"
+  he: "פרגוואי"
+  ja: "パラグアイ"
+  zh-Hans: "巴拉圭"
+  zh-Hant: "巴拉圭"
+  vi: "Paraguay"
+  de: "Paraguay"
+  uk: "Парагвай"
+  pl: "Paragwaj"
+  ru: "Парагвай"
+
+# Spanish is the official language and the one the publishers write in;
+# Guaraní is co-official (Ley 4251/2011) and is spoken by most of the
+# population, but it is NOT a plate locale in this pass: no publisher
+# here issues machine-readable statistical tables in Guaraní, so a Guaraní
+# edition would be a translation of Spanish copy with no Guaraní source
+# vocabulary to anchor it — the atlas's rule is that the plate speaks the
+# language its data are published in. English and Portuguese follow the
+# repository's language policy. Guaraní is recorded as a future locale in
+# DATA_NOTES.md rather than silently dropped.
+locales:
+  - {code: es, html_lang: es,    og_locale: es_PY, endonym: Español}
+  - {code: en, html_lang: en,    og_locale: en_US, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: es
+
+# The x-axis span every plate shares, and the last year whose annual
+# totals are complete: 2025 for the World Bank's national accounts, the
+# CPI, the INE population series and the MEF fiscal execution. The IMF
+# WEO general-government revenue and expenditure stop at 2024 in the
+# October 2026 vintage, the ILOSTAT minimum wage at 2024 and INE's
+# registered deaths at 2017; each panel carries its own end and the holes
+# stay visible rather than being filled.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+# On the plate spine (PLATE_SPINE.md): every plate declares its topic and
+# draws its panels in the shared slots, units and scales.
+spine: true
+
+# SHARED-SCALE CONFLICTS, RECORDED NOT FIXED (AGENTS.md: the atlas-wide
+# range lives in core/spine.py and is changed there, regenerating every
+# country carrying the topic — never overridden in country code):
+#   economy.growth ref −18..+18: fits (worst -0.8% in 2020, best +11.1%
+#     in 2010 — the soy and hydro rebound).
+#   economy.inflation ref −5..225: fits comfortably (peak 10.2% in 2008).
+#   economy.unemployment 0..30: fits (peak 7.6% in 2020).
+#   fiscal.balance ref −16..+8: fits (-2.1% in 2024).
+#   fiscal.revenue_expenditure 0..70: fits (18.9 / 21.0).
+#   fiscal.debt 0..300: fits (44.6% in 2024).
+#   trade.exports/imports 0..100: fits (46.3% in 2006).
+#   markets.fx log 0.1..200 (index 2006 = 100): fits — the guaraní ran
+#     from 5,635/US$ in 2006 to its strongest year, 4,194 in 2011
+#     (index 134), then down to 7,545 in 2025 (index 75). A depreciation
+#     of a quarter against the dollar over twenty years, not a collapse.
+#   demography.fertility 0..3.5: the INE series runs 2.84 (2006) down to
+#     1.93 (2025) and 1.72 by 2050 — it is 2.10 in 2021 and 2.00 in 2022,
+#     the first year below the 2.1 replacement line, which is the panel's
+#     finding.
+# No canonical range is extended by this country.
+
+# Recession bands, dated from the staged annual GDP vintage only (World
+# Bank NY.GDP.MKTP.KD.ZG, the series in data/macro/economy.csv):
+#   2009: -0.26% — the drought and the global financial crisis.
+#   2012: -0.71% — the drought and the Argentine recession next door.
+#   2019: -0.40% and 2020: -0.82% — two consecutive negative years, the
+#     country's 2019-2020 recession. The 2019 fall is commonly attributed
+#     to the drought and to Argentina's recession next door and the 2020
+#     one to the pandemic; the data here establish the two negative years
+#     and the plates annotate the rest as context, not as measured effect.
+#     Bands cover both calendar years.
+# Explicitly NOT banded: 2022 at -0.03% (the IMF has 0.0) is a
+# stagnation, not a recession, and a band on one hundredth of a point
+# would be an artefact of rounding.
+bands:
+  - {from: 2009.0, to: 2010.0, label: "2009 drought and crisis"}
+  - {from: 2012.0, to: 2013.0, label: "2012 drought"}
+  - {from: 2019.0, to: 2021.0, label: "2019–20 recession"}
+
+# The guaraní has no minor unit in practice: prices are quoted in whole
+# guaraníes and the smallest coin in use is the 50-guaraní piece. No
+# redenomination has taken place — the 2023 proposal to divide by 1,000
+# was abandoned — so every PYG figure here is current guaraníes of its
+# own year, in the units its column name states.
+currency:
+  code: PYG
+
+# The flag is red #D52B1E over white over blue #0038A8, which is not a
+# chart palette: the flag red is too hot to hold a thin line on paper and
+# the pure blue vibrates beside it. These are darkened, desaturated
+# siblings that survive greyscale — the red pulled down into a brick and
+# a deep maroon, the blue into a honduran indigo — plus the greens of the
+# soy belt and the golds every country needs beside its own hues.
+palette:
+  RED:     "#B23A2E"
+  RED_D:   "#8C2A22"
+  MAROON:  "#6E1F1A"
+  BLUE:    "#24528F"
+  BLUE_D:  "#1A3D6B"
+  INDIGO:  "#12294A"
+  GREEN:   "#2F7A4C"
+  GREEN_D: "#1F5C38"
+  GOLD:    "#B8860B"
+  GOLD_D:  "#8A6408"
+  TEAL:    "#12807A"
+  PURPLE:  "#6C5AA0"
+  primary: "#12294A"
+  alert:   "#B23A2E"
+  ink:     "#201E1C"
+  muted:   "#5C5852"
+  faint:   "#9C978F"
+  paper:   "#FBFAF6"
+  card:    "#FFFFFF"
+  grid:    "#E8E4DC"
+  spine:   "#CAC5BB"
+  band:    "#F0ECE4"
+  series:  ["#12294A", "#B23A2E", "#24528F", "#2F7A4C", "#B8860B", "#12807A", "#6C5AA0", "#201E1C"]
+  # Red, paper-white, blue — the flag laid flat. The white band IS the
+  # paper, so it takes the automatic outline; the other two are the flag's
+  # own hues pulled down far enough to sit behind a line.
+  flag_bands: ["#B23A2E", "#FBFAF6", "#24528F"]
+  # A deep indigo night with the flag's red as the alert and the soy
+  # green for the people family: colder than the warm near-blacks of the
+  # Americas already in the atlas and clearly not Ukraine's azure.
+  web:
+    # P opens the wordmark: a bowl with a straight left stem, which sits
+    # slightly high in the em box.
+    mark_bearing: "0.04em"
+    ground:   "#0B1424"
+    raised:   "#101C31"
+    raised_2: "#15243D"
+    rule:     "#243A5C"
+    ink:      "#E9EDF5"
+    muted:    "#9AA8BF"
+    faint:    "#64748C"
+    money:    "#7FA8DA"
+    world:    "#46B3A9"
+    people:   "#D9A03C"
+
+seo:
+  title:
+    es: "Paraguay — planchas de datos oficiales, 2006–2025"
+    en: "Paraguay — plates of official data, 2006–2025"
+    pt: "Paraguai — pranchas de dados oficiais, 2006–2025"
+  description:
+    es: "Planchas sobre la economía, la población, la pobreza y el lugar del Paraguay en el mundo, hechas con CSV versionados: la soja y la energía de Itaipú y Yacyretá, la informalidad y la recesión de 2019-2020, con las series del BCP sustituidas por las del FMI y el Banco Mundial cuando el banco central no responde, y dicho así."
+    en: "Data plates on Paraguay's economy, population, poverty and place in the world, built from committed CSVs: soy and Itaipú-Yacyretá power, informality and the 2019-20 recession, with the central bank's series carried by the IMF and World Bank where bcp.gov.py does not answer — and labelled that way."
+    pt: "Pranchas sobre a economia, a população, a pobreza e a posição do Paraguai no mundo, a partir de CSVs versionados: soja e energia de Itaipú e Yacyretá, informalidade e a recessão de 2019-20, com as séries do banco central substituídas pelas do FMI e do Banco Mundial quando o bcp.gov.py não responde — e dito assim."
+  keywords: [Paraguay, Paraguai, INE Paraguay, Banco Central del Paraguay, Ministerio de Economía y Finanzas, World Bank, IMF, soy, Itaipú, Yacyretá, official statistics]
+  spatial: "Paraguay"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+# Only publishers whose numbers are drawn are named: INE for the
+# population, poverty and labour series, MEF for the fiscal accounts,
+# UNDP for the HDI, and the World Bank and IMF for the harmonised layer
+# that stands in for the blocked central bank.
+sources:
+  es: "el INE, el Ministerio de Economía y Finanzas y el PNUD, además del Banco Mundial y el FMI para las comparaciones"
+  en: "the INE, the Ministry of Economy and Finance and UNDP, plus the World Bank and IMF for comparisons"
+  pt: "o INE, o Ministério da Economia e Finanças e o PNUD, além do Banco Mundial e do FMI para comparações"

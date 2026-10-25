@@ -1,0 +1,31 @@
+# Paraguay. Population, mid-year, UN World Population Prospects as the
+# World Bank republishes it (SP.POP.TOTL). This is the HARMONISED
+# comparator to INE's revision-2024 series in population.csv — two
+# perimeters, about 9% apart in 2025 (7,013,078 here against 6,417,076
+# there), because the UN series has not been rebased on the 2022 census.
+# Drawn as a second labelled line on the demography plate and used as the
+# denominator for the UN net-migration rate and the migrant-stock share,
+# never mixed with INE's. Reviewed from the fetch sidecar
+# population_from_wb.csv on 2026-10-25; nothing else in that file is
+# promoted here.
+year,population
+2006,5505148
+2007,5559386
+2008,5613574
+2009,5671236
+2010,5737971
+2011,5814626
+2012,5897008
+2013,5982445
+2014,6069811
+2015,6159103
+2016,6249126
+2017,6338660
+2018,6427382
+2019,6515058
+2020,6603739
+2021,6684182
+2022,6760464
+2023,6844146
+2024,6929153
+2025,7013078

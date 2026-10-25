@@ -1,0 +1,28 @@
+# World Bank FB.AST.NPER.ZS bank non-performing loans to total gross
+# loans (%) and FS.AST.PRVT.GD.ZS domestic credit to the private
+# sector by banks (% of GDP). Both are the Banco Central del
+# Paraguay's supervisory data as the World Bank records them:
+# bcp.gov.py itself answers a Cloudflare challenge. The second is
+# PRIVATE-sector credit, not household debt — BIS total credit has
+# no Paraguay series, so the household-debt slot stays pending.
+year,npl_ratio,private_credit_pct_gdp
+2006,3.62,11.67
+2007,1.72,13.72
+2008,1.45,18.76
+2009,1.78,21.58
+2010,1.40,25.42
+2011,1.84,28.95
+2012,2.20,31.55
+2013,2.12,34.38
+2014,1.97,38.14
+2015,2.59,43.35
+2016,2.94,41.36
+2017,2.81,41.08
+2018,2.51,44.51
+2019,2.56,47.65
+2020,2.41,50.64
+2021,2.27,49.43
+2022,2.94,51.09
+2023,3.01,52.21
+2024,2.27,57.03
+2025,2.22,55.70
