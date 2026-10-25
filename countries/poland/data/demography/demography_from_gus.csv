@@ -1,0 +1,33 @@
+# GUS population and vital statistics, national scope.
+# population_unrevised_balance_thousand is the 31 December balance the
+# workbook still prints (2022: 37,766.3 thousand). It is ~1.0 million ABOVE
+# GUS's own revised residency-based series and Eurostat's (2022: ~36.7
+# million) because it counts people absent for 12+ months, whom the 2021
+# census found and the revision removed. It is recorded here for the diff
+# and is NOT used as a denominator; population and rates come from the
+# revised reformed series in demography_from_estat.csv.
+# Births, deaths, TFR and life expectancy are event/cohort measures and are
+# not affected by that revision: GUS 2024 births 251.8 thousand and deaths
+# 408.5 thousand match Eurostat's 251,782 and 408,504 exactly.
+year,population_unrevised_balance_thousand,births_thousand,deaths_thousand,tfr,life_expectancy_male,life_expectancy_female
+2006,38125.5,374.2,369.7,1.27,70.9,79.6
+2007,38115.6,387.9,377.2,1.31,71.0,79.7
+2008,38135.9,414.5,379.4,1.39,71.3,80.0
+2009,38167.3,417.6,384.9,1.4,71.5,80.1
+2010,38529.9,413.3,378.5,1.38,72.1,80.6
+2011,38538.4,388.4,375.5,1.3,72.4,80.9
+2012,38533.3,386.3,384.8,1.3,72.7,81.0
+2013,38495.7,369.6,387.3,1.26,73.1,81.1
+2014,38478.6,375.2,376.5,1.29,73.8,81.6
+2015,38437.2,369.3,394.9,1.29,73.6,81.6
+2016,38433.0,382.3,388.0,1.36,73.9,81.9
+2017,38433.6,402.0,402.9,1.45,74.0,81.8
+2018,38411.1,388.2,414.2,1.43,73.8,81.7
+2019,38382.6,375.0,409.7,1.42,74.1,81.8
+2020,38088.6,355.3,477.4,1.39,72.6,80.6
+2021,37907.7,331.5,519.5,1.33,71.8,79.7
+2022,37766.3,305.1,448.4,1.26,73.4,81.1
+2023,37636.5,272.5,409.0,1.16,74.7,82.0
+2024,37489.1,251.8,408.5,1.1,74.9,82.3
+2025,37332.5,238.3,405.7,1.07,75.4,82.5
+2026,,,,,,

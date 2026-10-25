@@ -1,0 +1,29 @@
+# World Bank GFDD.SI.02 (bank non-performing loans to total gross loans,
+# %), the Bank's compilation of the IMF financial-soundness series. STAGED
+# FOR CROSS-CHECK, NOT FOR THE PLATE: the Polish series stops in 2020. The
+# credit chapter's NPL line is the EBA Risk Dashboard
+# (credit/npl_from_eba.csv), which runs to the current quarter, and the
+# national sector-wide ratio NBP publishes is not reachable from this
+# network (DISCOVERY.md).
+year,npl_pct_wb
+2006,7.4
+2007,5.2
+2008,2.8
+2009,4.3
+2010,4.91
+2011,4.66
+2012,5.2
+2013,4.98
+2014,4.82
+2015,4.34
+2016,4.05
+2017,3.94
+2018,3.85
+2019,3.8
+2020,3.7
+2021,
+2022,
+2023,
+2024,
+2025,
+2026,
