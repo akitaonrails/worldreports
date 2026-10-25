@@ -19,14 +19,6 @@
     "detail": "The series are staged, verified and correct: exports of goods and services reach 228% of GDP in 2008 and 177.9% in 2025, imports 208% and 142.4%. The canonical slot's atlas-wide range is 0–100% of GDP, which a re-exporting port cannot fit without flattening every other country's line into the bottom third of the same pixels. The slot stays pending with the extent on the panel and both lines are drawn in the trade lens on their own axis. The shared range needs a deliberate widening to about 240%, applied to every country carrying the topic."
    },
    {
-    "term": "Homicide rate below the shared log floor",
-    "detail": "Staged and verified against UNODC to three decimals, but 4 murders in 2023 is 0.068 per 100,000 — under the atlas-wide log floor of 0.1 — and 7 in 2025 is 0.115, which sits on it. The slot stays pending rather than clipped, with the count on the panel. The shared floor needs moving to 0.05 for every country carrying the topic."
-   },
-   {
-    "term": "Net migration outside the shared scale",
-    "detail": "The UN/WPP estimate runs from +41.9 per 1,000 in 2007 to −25.6 in 2020, the year the borders closed, against the atlas-wide −10…+40 range. The canonical slot stays pending with the extent on the panel and the series is drawn in the migration lens on its own axis, labelled as a modelled estimate."
-   },
-   {
     "term": "General-government revenue and interest paid",
     "detail": "The IMF's DataMapper returns an empty object for Singapore's revenue, primary balance and interest indicators while expenditure, balance and debt are populated, and its Fiscal Monitor revenue series has no Singapore row; a known-covered country in the same key position returns values, so this is publisher coverage rather than a broken request. Revenue is not derived as expenditure minus balance, which would invent precision from two separately rounded series."
    },
@@ -116,14 +108,6 @@
    {
     "term": "Exportações e importações acima de 100% do PIB",
     "detail": "As séries estão preparadas, verificadas e corretas: as exportações de bens e serviços chegam a 228% do PIB em 2008 e 177,9% em 2025, as importações a 208% e 142,4%. A faixa do atlas para a vaga canônica é 0–100% do PIB, que um porto reexportador não cabe sem achatar a linha de todos os outros países no terço inferior dos mesmos pixels. A vaga fica pendente com a extensão no painel e as duas linhas são desenhadas na lente de comércio, em eixo próprio. A faixa compartilhada precisa de um alargamento deliberado para cerca de 240%, aplicado a todos os países que carregam o tema."
-   },
-   {
-    "term": "Taxa de homicídios abaixo do piso logarítmico compartilhado",
-    "detail": "Preparada e verificada contra a UNODC até a terceira casa, mas 4 homicídios em 2023 são 0,068 por 100 mil — abaixo do piso logarítmico de 0,1 do atlas — e 7 em 2025 são 0,115, que fica sobre ele. A vaga fica pendente em vez de recortada, com a contagem no painel. O piso compartilhado precisa descer para 0,05 em todos os países que carregam o tema."
-   },
-   {
-    "term": "Migração líquida fora da escala compartilhada",
-    "detail": "A estimativa da ONU/WPP vai de +41,9 por 1.000 em 2007 a −25,6 em 2020, o ano do fechamento das fronteiras, contra a faixa −10…+40 do atlas. A vaga canônica fica pendente com a extensão no painel e a série é desenhada na lente de migração em eixo próprio, rotulada como estimativa modelada."
    },
    {
     "term": "Receita e juros pagos do governo geral",

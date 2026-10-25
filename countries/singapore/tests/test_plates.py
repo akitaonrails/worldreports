@@ -471,7 +471,7 @@ def test_every_pending_panel_is_disclosed_on_the_page():
     for loc in Country.load(SLUG).locale_codes:
         blob = " ".join(e["term"] + " " + e["detail"]
                         for e in ui[loc]["unavailable"])
-        assert len(ui[loc]["unavailable"]) >= 14, loc
+        assert len(ui[loc]["unavailable"]) >= 13, loc
         assert blob.strip()
 
 

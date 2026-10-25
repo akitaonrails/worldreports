@@ -1,88 +1,108 @@
 {
-  "en": {
-    "line": "{n} plates of official data, {window}",
-    "dek": "Every number here comes from the source that publishes it — the Office for National Statistics, the Bank of England, HM Treasury, the Home Office, HMRC and DWP — and every plate is regenerated from committed CSVs, so the charts and the numbers on this page cannot drift apart. Brexit closed most of Eurostat's UK slices: the fiscal, labour-market and inequality cubes now answer empty, the migration suite is frozen at 2019, and only demography and one bond yield still run. The harmonised comparisons on these plates therefore come from the IMF, the World Bank and the UNDP, and each plate says which of the two readings it is drawing.",
-    "notes": [
-      "2026 is a partial year. Annual totals and averages on this page stop at 2025; readings that are genuinely current — a policy rate, an exchange rate — are marked <em>latest</em>.",
-      "British public money is quoted on two clocks. The ONS publishes calendar years and April–March financial years; PESA, the household surveys and the Homicide Index are financial-year series, labelled by the year the financial year starts in — 2024 means 2024-25 — and drawn at the year's midpoint. Every line says which basis it is on.",
-      "The UK has two debt numbers quoted as one: the ONS's public sector net debt, which nets financial assets off, and the IMF's general-government gross debt, which does not. The fiscal plate draws both, labelled, and never joins them to a single story.",
-      "Crime and cause-of-death series exist for England & Wales, not for the whole UK. Those panels declare the England & Wales scope and rate it on the England & Wales population; Scotland and Northern Ireland publish their own, and v1 does not draw them.",
-      "Migration was measured three ways in this window — Eurostat's IPS-based international tables end in 2019, the ONS rebuilt its estimate from administrative records with a break at June 2021, and the Home Office publishes its own casework counts. The plates draw the systems as separate labelled segments with the overlap visible, and never splice one into another.",
-      "The Labour Force Survey's response rate collapsed in 2023-24 and the ONS reweighted it: the 2023-onwards line is a different survey. The FTSE 100 is a price index, dividends left out, and a falling sterling line on these plates means a weaker pound.",
-      "The plates are drawn in both languages this country publishes, and so is this page."
-    ],
-    "colophon": [
-      {
-        "term": "National accounts, prices, labour, population",
-        "detail": "Office for National Statistics — generation API and bulletin tables, one vintage per dataset"
-      },
-      {
-        "term": "Public expenditure by function",
-        "detail": "HM Treasury — Public Expenditure Statistical Analyses (PESA) 2026, Table 4.2"
-      },
-      {
-        "term": "Rates, gilts, sterling, mortgage quotes",
-        "detail": "Bank of England — IADB and Tables A–K"
-      },
-      {
-        "term": "Asylum, visas, settlement, citizenship, homicide index",
-        "detail": "Home Office — Immigration System Statistics and the Homicide Index, via the gov.uk content API"
-      },
-      {
-        "term": "Goods trade by partner",
-        "detail": "HMRC UK Trade Info — customs-value goods, OData API"
-      },
-      {
-        "term": "Poverty and household income",
-        "detail": "DWP Households Below Average Income; ONS effects of taxes and benefits"
-      },
-      {
-        "term": "The frozen layer and the comparables",
-        "detail": "Eurostat (UK slices to 2019) · IMF WEO, GFS and Fiscal Monitor · World Bank WDI · UNDP HDR 2025 · Transparency International CPI · BIS total credit"
-      }
-    ]
-  },
-  "pt": {
-    "line": "{n} pranchas de dados oficiais, {window}",
-    "dek": "Todo número aqui vem da fonte que o publica — o Office for National Statistics, o Banco da Inglaterra, o HM Treasury, o Home Office, a HMRC e o DWP — e cada prancha é regenerada a partir de CSVs versionados: os gráficos e os números desta página não podem divergir. O Brexit fechou a maior parte das fatias do Eurostat para o Reino Unido: os cubos fiscal, de mercado de trabalho e de desigualdade agora respondem vazios, o conjunto de migração está congelado em 2019, e só demografia e um juro de dívida ainda correm. As comparações harmonizadas destas pranchas vêm do FMI, do Banco Mundial e do PNUD, e cada prancha diz qual das duas leituras está desenhando.",
-    "notes": [
-      "2026 é um ano incompleto. Os totais e médias anuais desta página param em 2025; leituras genuinamente correntes — um juro básico, um câmbio — trazem a marca <em>mais recente</em>.",
-      "O dinheiro público britânico é citado em dois relógios. O ONS publica anos civis e anos fiscais de abril a março; PESA, as pesquisas de domicílios e o Homicide Index são séries de ano fiscal, nomeadas pelo ano em que o ano fiscal começa — 2024 significa 2024-25 — e desenhadas no ponto médio do ano. Cada linha diz em qual base está.",
-      "O Reino Unido tem dois números de dívida citados como um só: a dívida líquida do setor público do ONS, que desconta ativos financeiros, e a dívida bruta do governo geral do FMI, que não desconta. A prancha fiscal desenha as duas, rotuladas, e nunca as emenda numa única narrativa.",
-      "As séries de crime e de causas de morte existem para a Inglaterra e o País de Gales, não para todo o Reino Unido. Esses painéis declaram o escopo Inglaterra & País de Gales e o calculam sobre a população da Inglaterra e do País de Gales; Escócia e Irlanda do Norte publicam as suas, e a v1 não as desenha.",
-      "A migração foi medida de três maneiras nesta janela — as tabelas internacionais do Eurostat baseadas no IPS terminam em 2019, o ONS reconstruiu sua estimativa a partir de registros administrativos com uma ruptura em junho de 2021, e o Home Office publica suas próprias contagens de processos. As pranchas desenham os sistemas como segmentos separados e rotulados, com a sobreposição visível, e nunca emendem um no outro.",
-      "A taxa de resposta da Labour Force Survey desabou em 2023-24 e o ONS a repesou: a linha de 2023 em diante é outra pesquisa. O FTSE 100 é um índice de preços, sem dividendos, e uma linha de libra em queda nestas pranchas significa uma libra mais fraca.",
-      "As pranchas são desenhadas nos dois idiomas que este país publica, como esta página."
-    ],
-    "colophon": [
-      {
-        "term": "Contas nacionais, preços, trabalho, população",
-        "detail": "Office for National Statistics — API de geração e tabelas de boletim, uma edição por conjunto de dados"
-      },
-      {
-        "term": "Despesa pública por função",
-        "detail": "HM Treasury — Public Expenditure Statistical Analyses (PESA) 2026, Tabela 4.2"
-      },
-      {
-        "term": "Juros, gilts, libra, cotações de financiamento",
-        "detail": "Banco da Inglaterra — IADB e Tabelas A–K"
-      },
-      {
-        "term": "Asilo, vistos, assentamento, cidadania, índice de homicídios",
-        "detail": "Home Office — Immigration System Statistics e o Homicide Index, pela API de conteúdo do gov.uk"
-      },
-      {
-        "term": "Comércio de bens por parceiro",
-        "detail": "HMRC UK Trade Info — bens em valor aduaneiro, API OData"
-      },
-      {
-        "term": "Pobreza e renda domiciliar",
-        "detail": "DWP Households Below Average Income; efeitos de impostos e benefícios do ONS"
-      },
-      {
-        "term": "A camada congelada e as comparáveis",
-        "detail": "Eurostat (fatias do Reino Unido até 2019) · FMI WEO, GFS e Fiscal Monitor · Banco Mundial WDI · PNUD RHD 2025 · Transparência Internacional IPC · BIS crédito total"
-      }
-    ]
-  }
+ "en": {
+  "line": "{n} plates of official data, {window}",
+  "dek": "Every number here comes from the source that publishes it — the Office for National Statistics, the Bank of England, HM Treasury, the Home Office, HMRC and DWP — and every plate is regenerated from committed CSVs, so the charts and the numbers on this page cannot drift apart. Brexit closed most of Eurostat's UK slices: the fiscal, labour-market and inequality cubes now answer empty, the migration suite is frozen at 2019, and only demography and one bond yield still run. The harmonised comparisons on these plates therefore come from the IMF, the World Bank and the UNDP, and each plate says which of the two readings it is drawing.",
+  "notes": [
+   "2026 is a partial year. Annual totals and averages on this page stop at 2025; readings that are genuinely current — a policy rate, an exchange rate — are marked <em>latest</em>.",
+   "British public money is quoted on two clocks. The ONS publishes calendar years and April–March financial years; PESA, the household surveys and the Homicide Index are financial-year series, labelled by the year the financial year starts in — 2024 means 2024-25 — and drawn at the year's midpoint. Every line says which basis it is on.",
+   "The UK has two debt numbers quoted as one: the ONS's public sector net debt, which nets financial assets off, and the IMF's general-government gross debt, which does not. The fiscal plate draws both, labelled, and never joins them to a single story.",
+   "Crime and cause-of-death series exist for England & Wales, not for the whole UK. Those panels declare the England & Wales scope and rate it on the England & Wales population; Scotland and Northern Ireland publish their own, and v1 does not draw them.",
+   "Migration was measured three ways in this window — Eurostat's IPS-based international tables end in 2019, the ONS rebuilt its estimate from administrative records with a break at June 2021, and the Home Office publishes its own casework counts. The plates draw the systems as separate labelled segments with the overlap visible, and never splice one into another.",
+   "The Labour Force Survey's response rate collapsed in 2023-24 and the ONS reweighted it: the 2023-onwards line is a different survey. The FTSE 100 is a price index, dividends left out, and a falling sterling line on these plates means a weaker pound.",
+   "The plates are drawn in both languages this country publishes, and so is this page."
+  ],
+  "colophon": [
+   {
+    "term": "National accounts, prices, labour, population",
+    "detail": "Office for National Statistics — generation API and bulletin tables, one vintage per dataset"
+   },
+   {
+    "term": "Public expenditure by function",
+    "detail": "HM Treasury — Public Expenditure Statistical Analyses (PESA) 2026, Table 4.2"
+   },
+   {
+    "term": "Rates, gilts, sterling, mortgage quotes",
+    "detail": "Bank of England — IADB and Tables A–K"
+   },
+   {
+    "term": "Asylum, visas, settlement, citizenship, homicide index",
+    "detail": "Home Office — Immigration System Statistics and the Homicide Index, via the gov.uk content API"
+   },
+   {
+    "term": "Goods trade by partner",
+    "detail": "HMRC UK Trade Info — customs-value goods, OData API"
+   },
+   {
+    "term": "Poverty and household income",
+    "detail": "DWP Households Below Average Income; ONS effects of taxes and benefits"
+   },
+   {
+    "term": "The frozen layer and the comparables",
+    "detail": "Eurostat (UK slices to 2019) · IMF WEO, GFS and Fiscal Monitor · World Bank WDI · UNDP HDR 2025 · Transparency International CPI · BIS total credit"
+   }
+  ],
+  "unavailable": [
+   {
+    "term": "Public investment (general-government GFCF)",
+    "detail": "PESA publishes functional spending, not a general-government GFCF, and Eurostat's P51G slice for the UK closed with Brexit."
+   },
+   {
+    "term": "COVID-19 deaths as the underlying cause",
+    "detail": "Exact U07.1/U07.2 deaths are not staged; ICD-10 chapter 22 contains other special-purpose codes and is deliberately never used as a proxy."
+   }
+  ]
+ },
+ "pt": {
+  "line": "{n} pranchas de dados oficiais, {window}",
+  "dek": "Todo número aqui vem da fonte que o publica — o Office for National Statistics, o Banco da Inglaterra, o HM Treasury, o Home Office, a HMRC e o DWP — e cada prancha é regenerada a partir de CSVs versionados: os gráficos e os números desta página não podem divergir. O Brexit fechou a maior parte das fatias do Eurostat para o Reino Unido: os cubos fiscal, de mercado de trabalho e de desigualdade agora respondem vazios, o conjunto de migração está congelado em 2019, e só demografia e um juro de dívida ainda correm. As comparações harmonizadas destas pranchas vêm do FMI, do Banco Mundial e do PNUD, e cada prancha diz qual das duas leituras está desenhando.",
+  "notes": [
+   "2026 é um ano incompleto. Os totais e médias anuais desta página param em 2025; leituras genuinamente correntes — um juro básico, um câmbio — trazem a marca <em>mais recente</em>.",
+   "O dinheiro público britânico é citado em dois relógios. O ONS publica anos civis e anos fiscais de abril a março; PESA, as pesquisas de domicílios e o Homicide Index são séries de ano fiscal, nomeadas pelo ano em que o ano fiscal começa — 2024 significa 2024-25 — e desenhadas no ponto médio do ano. Cada linha diz em qual base está.",
+   "O Reino Unido tem dois números de dívida citados como um só: a dívida líquida do setor público do ONS, que desconta ativos financeiros, e a dívida bruta do governo geral do FMI, que não desconta. A prancha fiscal desenha as duas, rotuladas, e nunca as emenda numa única narrativa.",
+   "As séries de crime e de causas de morte existem para a Inglaterra e o País de Gales, não para todo o Reino Unido. Esses painéis declaram o escopo Inglaterra & País de Gales e o calculam sobre a população da Inglaterra e do País de Gales; Escócia e Irlanda do Norte publicam as suas, e a v1 não as desenha.",
+   "A migração foi medida de três maneiras nesta janela — as tabelas internacionais do Eurostat baseadas no IPS terminam em 2019, o ONS reconstruiu sua estimativa a partir de registros administrativos com uma ruptura em junho de 2021, e o Home Office publica suas próprias contagens de processos. As pranchas desenham os sistemas como segmentos separados e rotulados, com a sobreposição visível, e nunca emendem um no outro.",
+   "A taxa de resposta da Labour Force Survey desabou em 2023-24 e o ONS a repesou: a linha de 2023 em diante é outra pesquisa. O FTSE 100 é um índice de preços, sem dividendos, e uma linha de libra em queda nestas pranchas significa uma libra mais fraca.",
+   "As pranchas são desenhadas nos dois idiomas que este país publica, como esta página."
+  ],
+  "colophon": [
+   {
+    "term": "Contas nacionais, preços, trabalho, população",
+    "detail": "Office for National Statistics — API de geração e tabelas de boletim, uma edição por conjunto de dados"
+   },
+   {
+    "term": "Despesa pública por função",
+    "detail": "HM Treasury — Public Expenditure Statistical Analyses (PESA) 2026, Tabela 4.2"
+   },
+   {
+    "term": "Juros, gilts, libra, cotações de financiamento",
+    "detail": "Banco da Inglaterra — IADB e Tabelas A–K"
+   },
+   {
+    "term": "Asilo, vistos, assentamento, cidadania, índice de homicídios",
+    "detail": "Home Office — Immigration System Statistics e o Homicide Index, pela API de conteúdo do gov.uk"
+   },
+   {
+    "term": "Comércio de bens por parceiro",
+    "detail": "HMRC UK Trade Info — bens em valor aduaneiro, API OData"
+   },
+   {
+    "term": "Pobreza e renda domiciliar",
+    "detail": "DWP Households Below Average Income; efeitos de impostos e benefícios do ONS"
+   },
+   {
+    "term": "A camada congelada e as comparáveis",
+    "detail": "Eurostat (fatias do Reino Unido até 2019) · FMI WEO, GFS e Fiscal Monitor · Banco Mundial WDI · PNUD RHD 2025 · Transparência Internacional IPC · BIS crédito total"
+   }
+  ],
+  "unavailable": [
+   {
+    "term": "Investimento público (FBCF do governo geral)",
+    "detail": "A PESA publica despesa funcional, não FBCF do governo geral, e a fatia P51G do Eurostat para o Reino Unido fechou com o Brexit."
+   },
+   {
+    "term": "Mortes por COVID-19 como causa básica",
+    "detail": "As mortes exatas por U07.1/U07.2 não foram preparadas; o capítulo 22 da CID-10 contém outros códigos especiais e nunca é usado como substituto."
+   }
+  ]
+ }
 }
