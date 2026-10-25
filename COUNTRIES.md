@@ -41,17 +41,20 @@ Portuguese**, and every plate is drawn in each of them.
 | `usa` | en · pt | 11 | 43 |
 | `vietnam` | vi · en · pt | 12 | 36 |
 
-The counts are the spine-vintage numbers (2026-10-22): plates are the drawn
-chapters per country, datasets the curated CSVs the plates read, sidecars and
-cross-check files not counted.
+The inventory started from the 2026-10-22 spine vintage and records
+subsequent verified additions. Plates count published chapters; datasets
+count curated CSVs declared in SOURCES.yaml, including source-only
+national datasets where documented. Review sidecars and independent
+cross-check files are not counted.
 
 ## Queued
 
 None. The eight-country queue opened on 2026-10-22 is complete, and
 Ukraine — proposed in issue #1 and discovered 2026-10-24 — is published
 with nine chapters: economy, public finances, trade, markets, people,
-world, demography, security and mortality. The obvious national
-publishers block automated access, so the fiscal chapter is the IMF's
+world, demography, security and mortality. Several national publication
+routes blocked the initial automated audit, so the canonical fiscal
+chapter uses the IMF's
 general-government layer, the markets chapter is drawn from the NBU's own
 API, and security/mortality from UNODC, WHO and the World Bank. Credit is
 the one chapter not published: the NBU's credit aggregates need their own
@@ -62,8 +65,7 @@ final ANNUAL 2025 outturn independently matches the NBU; its earlier
 December edition was 6.92bn UAH lower. This national series is
 supplementary to, and never substituted for, the published IMF
 general-government fiscal plate. The inventory includes this source-only
-curated CSV, but no additional comparison plate.
-Its catalogue is the atlas's first Ukrainian one, and the shared number
+curated CSV, but no additional comparison plate. Its catalogue is the atlas's first Ukrainian one, and the shared number
 style, site chrome and comparison names were extended for it.
 
 ## Known problems, written down before they are hit
