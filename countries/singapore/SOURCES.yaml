@@ -25,7 +25,7 @@
 
 macro:
   economy.csv:
-    source: "Singapore Department of Statistics (SingStat) Table Builder — M015021 (GDP at current prices), M015951 (GDP in chained 2015 dollars), M015121 (per-capita GDP), M213751 (CPI, 2024 = 100), M182332 (unemployment, end-June, seasonally adjusted); comparators from IMF WEO (NGDP_RPCH) and World Bank (FP.CPI.TOTL.ZG, SL.UEM.TOTL.ZS)"
+    source: "Singapore Department of Statistics (SingStat) Table Builder — M015021 (GDP at current prices), M015951 (GDP in chained 2015 dollars), M015121 (per-capita GDP), M213751 (CPI, 2024 = 100), M182332 (unemployment, end-June, seasonally adjusted); comparators from IMF WEO (NGDP_RPCH) and World Bank (FP.CPI.TOTL.ZG, SL.UEM.TOTL.ZS, NE.GDI.FTOT.ZS)"
     url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M015021"
     official: true
     refreshed_by: fetch/fetch_singstat.py and fetch/fetch_comparables.py
@@ -44,7 +44,13 @@ macro:
       rate for ages 15+; the resident rate in its own column is a SUBSET
       population, not a second estimate. 2026 carries nine months of price
       data and the end-June labour reading: a running year, dashed on the
-      plate, never an annual result.
+      plate, never an annual result. PHASE B: gfcf_pct_gdp_wb was promoted
+      into this curated file from the reviewed fetch sidecar
+      (macro/gfcf_from_wb.csv) on 2026-10-25, so the spending plate reads a
+      curated column instead of a sidecar. It is the World Bank's
+      NE.GDI.FTOT.ZS, a harmonised comparator over the whole economy, and
+      the national accounts carry the same aggregate in S$ in their own
+      file.
 
 fiscal:
   fiscal_national.csv:

@@ -366,3 +366,124 @@ an anchor moves — which is how a re-pointed id was caught in discovery
    second quarter fell 12.1% quarter-on-quarter: the recession was two
    quarters inside a year that began and ended with growth. The bar and the
    band tell different halves of the same story and both are drawn.
+
+---
+
+## 12. Phase B: what the twelve plates actually draw
+
+Written with the plates, 2026-10-25. Every panel below reads a committed
+CSV; `provenance.json` records which file each plate opened, and
+`tests/test_plates.py` recomputes each quoted figure from those files.
+
+### The three slots that do not fit the shared scales
+
+`PLATE_SPINE.md` rule 6 puts one atlas-wide range per canonical slot in
+`core/spine.py`, and a country may not extend it. Three staged series
+leave it. Each is reported here rather than clipped, rescaled or silently
+dropped, and each stays visibly pending with the extent on the panel and
+the reason in `ui.json`:
+
+| slot | shared range | Singapore extent | what the plate does |
+|---|---|---|---|
+| `trade.exports_imports` | 0–100% of GDP | exports 228.99%, imports 208.33% (2008) | pending; both lines in the trade lens, own axis |
+| `security.homicide` | log 0.1–100 | 0.068 per 100,000 (2023) | pending; count annotated, floor request noted |
+| `migration.net` | −10 … +40 per 1,000 | +41.9 (2007), −25.6 (2020) | pending; drawn in the migration lens, own axis |
+
+`mortality.excess_deaths` is a fourth, smaller case: the derived series
+starts at −20.8% in 2006 against a floor of −20. The slot is drawn, but
+only from the baseline period (2015–2025), where the statistic is
+meaningful anyway; the panel's foot states the 2006 value and the shared
+floor, and `ui.json` carries the same sentence. Widen that floor to −25
+and the whole series can be drawn.
+
+### Denominators, one per claim
+
+| what | divided by | why | check |
+|---|---|---|---|
+| GDP per person | total population | what is produced, by everyone present | national 98,878 vs World Bank 98,813.98 in 2025 |
+| crude birth/death rates, TFR | resident population | the publisher's own vital rates | resident deaths 25,300 ÷ 4,204,515 × 1,000 = 6.0 ✓ |
+| natural increase | resident population | births minus deaths of residents | 2,093 ÷ 4,204,515 × 1,000 = 0.50 ✓ |
+| murder, suicide, road deaths, recorded offences | total population | the counts cover everyone present | 2025 suicides 256 ÷ 6,111,175 × 100,000 = 4.19 ✓ |
+| foreign citizens | total population | total − citizens, both from one table | 2,450,492 ÷ 6,111,175 = 40.1% ✓ |
+| household debt (national) | same-year GDP | a year-end stock over that year's GDP | S$1,292,369.5mn ÷ S$789,529.2mn = 163.7% ✓ |
+| net migration (lens) | total population | the UN estimate is of everyone present | +16,892 ÷ 6,111,175 × 1,000 = 2.76 ✓ |
+
+The same count read over the other population is drawn nowhere: a reader
+who wants deaths per 1,000 of everyone present gets it as a footnote
+(4.3), never as a second unlabelled line.
+
+### One value promoted from a sidecar into a curated file
+
+Phase A staged whole-economy investment as a World Bank comparator only in
+the fetch sidecar `macro/gfcf_from_wb.csv`, which a plate may not read
+(`tests/test_sources.py`). The series was reviewed against the sidecar,
+whose values it reproduces exactly, and promoted on 2026-10-25 into
+`macro/economy.csv` as `gfcf_pct_gdp_wb` — beside the file's other
+harmonised `_imf`/`_wb` columns, which are kept apart from the national
+series in the same way. `SOURCES.yaml` records the promotion. Nothing
+national was re-derived: the column is the World Bank's NE.GDI.FTOT.ZS,
+and the spending plate's foot says it is a comparator rather than a
+national-accounts series.
+
+### Derived columns in the plates (not in the files)
+
+- `excess_deaths_pct` = deaths ÷ mean(2015–2019 deaths) − 1, ×100. One
+  vintage, one table; the baseline is unadjusted for age and the panel
+  says so, because Singapore's death count rises every year with its age
+  structure.
+- Gini is published 0–1 and drawn at 0–100 because the spine's slot is
+  `Gini, 0–100`. Multiply by 100; nothing else changes.
+- natural increase per 1,000 = `natural_increase_residents` ÷ mid-year
+  resident population × 1,000.
+- national gross debt ratio = `total_debt_sgd_mn` ÷ that year's
+  `gdp_current_sgd_mn` × 100, both from SingStat, both end-year/calendar.
+  It is drawn beside the IMF's calendar general-government line, labelled.
+- foreign citizens = (`population_total` − `population_citizen`) ÷
+  `population_total` × 100. This is a **legal-status** share, not a
+  foreign-born share, and the panel title says "Foreign citizens".
+- recorded offences per 100,000 = police count ÷ mid-year total
+  population × 100,000.
+
+### Seams, and how each is drawn
+
+1. **2012, ICD-9 → ICD-10** (section 11.2). Three causes, each as two
+   segments with a gap and a dotted rule between them (`events.MARKS["icd"]`),
+   plus the footnote: dotted is the ICD-9 coding, solid the ICD-10 one.
+   Never one joined line.
+2. **2025, preliminary causes** (11.3). The suicide line is split at 2024 so
+   2025 is dashed and labelled "preliminary"; the mortality lens carries the
+   same note. The words "decline" and "fell" do not appear next to either
+   2025 external-cause number, and `test_plates.py` asserts the wording.
+3. **Fiscal years** (11.5). The national cash series (1 April–31 March,
+   labelled by its starting year) is *not* drawn on any calendar-year panel
+   and no calendar-year series is drawn on it. The fiscal card's
+   gross-debt/balance panels are IMF calendar years; the national budget
+   appears only as the labelled second line of the debt panel, where the
+   ratio is the lane's own derivation (above).
+4. **2011** (11.4). The homicide and police series start in 2011 and the
+   panels are blank before it — no zero, no extrapolation. Homicide is
+   pending for the scale reason, not for the hole.
+5. **2020** (11.6). The growth bar reads −3.61% and the band spans
+   2020.0–2020.5; both are drawn and a note explains that the year began
+   and ended with growth.
+
+### What is deliberately not drawn, and where the reason lives
+
+Seventeen of the forty-eight panels are pending. Each carries its route on
+the panel (two locales), an entry in `ui.json` `unavailable`, and the
+manifest's `meta.pending` note with the endpoint and the failure mode:
+
+fiscal 1 and 4 (IMF revenue and interest coverage), spending 1, 2 and 4
+(no COFOG; no clean two-way social split; no government GFCF), trade 1
+(scale), markets 1 and 4 (no policy rate; STI not staged), credit 2 and 3
+(MAS HTML-200), people 2 and 3 (no official poverty line; no statutory
+minimum wage), world 3 (TI 403), security 1 (log floor), mortality 3 (no
+COVID line), migration 1 and 2 (no flow series; scale).
+
+### Currency and number forms
+
+The pages and plates use the SGD forms core provides for this lane —
+en `S$3,297bn`, pt `S$ 3.297 bi` — and the price/income series stay in
+S$ with the unit in the panel title. No S$ figure is converted to US$
+anywhere in the plates except the reserves, where the World Bank's own
+US$ series is drawn (one publisher, no cross-rate invented here).

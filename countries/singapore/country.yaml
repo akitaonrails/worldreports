@@ -78,7 +78,10 @@ spine: true
 #     taxes in 2025 (0-1 scale, published by SingStat with six variants of
 #     which two are drawn).
 #   security.homicide ref log 0.1..100: 0.115 per 100,000 in 2025 sits on the
-#     floor of the scale; the panel will look empty and that is the finding.
+#     floor of the scale and 2023 is BELOW it at 0.068. Phase B therefore
+#     leaves the slot pending (with the count on the panel) and reports one
+#     shared request: move the log floor to 0.05 and regenerate every country
+#     carrying the topic. Do not clip the 2023 point.
 #   demography.fertility ref 0..3.5 fits: TFR 0.87 in 2025 is the lowest in
 #     the atlas and among the lowest ever recorded anywhere.
 #   trade.exports/imports ref 0..100 is EXCEEDED: Singapore's exports of
