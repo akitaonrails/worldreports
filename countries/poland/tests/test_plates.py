@@ -84,8 +84,6 @@ SLOTS = {
 PENDING = {
     "markets.equities": "WIG20",
     "credit.lending_rate": "lending rate",
-    "migration.net": "own scale",
-    "demography.natural_migration": "scale",
 }
 
 BUILDERS = {topic: f"plate_{topic}" for topic in SLOTS}
@@ -110,7 +108,7 @@ def test_every_canonical_slot_is_claimed_in_spine_order():
         assert claimed == keys, f"{topic}: {claimed}"
 
 
-def test_the_pending_slots_are_exactly_the_documented_four():
+def test_the_pending_slots_are_exactly_the_documented_two():
     axes = _axes_by_key()
     pending = {k for k, ax in axes.items() if getattr(ax, "spine_pending",
                                                       False)}
@@ -125,6 +123,15 @@ def test_every_pending_slot_states_its_reason_on_the_panel():
 
 
 # ------------------------------------------------------- the shape of it
+def test_the_two_net_migration_panels_are_drawn_not_parked():
+    """Both official net series are staged, so both are drawn."""
+    axes = _axes_by_key()
+    for key in ("migration.net", "demography.natural_migration"):
+        ax = axes[key]
+        assert not getattr(ax, "spine_pending", False), key
+        assert len(ax.lines) >= 2, f"{key}: expected two labelled series"
+
+
 def test_the_headline_strip_leads_with_gdp_then_people_then_population():
     from core import sitebuild
 
