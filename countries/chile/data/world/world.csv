@@ -1,0 +1,27 @@
+# The country among the others. gdp_usd_bn: World Bank NY.GDP.MKTP.CD,
+# current US$. gdp_per_person_usd: NY.GDP.PCAP.CD. reserves_usd_bn:
+# FI.RES.TOTL.CD, total reserves including gold, year end. hdi: UNDP HDR
+# 2025 composite series (1990-2023 recomputed each report; one vintage
+# only). cpi_score: Transparency International CPI, 0-100, 2012 method —
+# NOT an official statistic (SOURCES.yaml official: false).
+year,gdp_usd_bn,gdp_per_person_usd,reserves_usd_bn,hdi,cpi_score
+2006,153.8,9318.66,19.4,0.804,
+2007,172.5,10346.41,16.8,0.812,
+2008,179.9,10683.22,23.1,0.820,
+2009,171.8,10098.80,25.3,0.819,
+2010,217.1,12632.87,27.8,0.823,
+2011,251.4,14487.39,41.9,0.823,
+2012,267.0,15241.91,41.6,0.832,72
+2013,277.4,15683.55,41.1,0.845,71
+2014,259.6,14529.68,40.4,0.849,73
+2015,242.5,13433.92,38.6,0.855,70
+2016,249.3,13649.85,40.5,0.859,66
+2017,276.2,14879.91,39.0,0.862,67
+2018,295.9,15659.48,39.9,0.866,67
+2019,278.3,14496.93,40.7,0.867,67
+2020,254.1,13117.99,39.2,0.856,67
+2021,315.5,16216.18,51.3,0.865,67
+2022,301.1,15399.10,39.1,0.869,67
+2023,335.8,17081.52,46.4,0.878,66
+2024,329.3,16658.97,44.4,,63
+2025,357.4,17994.59,49.4,,63

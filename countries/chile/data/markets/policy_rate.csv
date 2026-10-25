@@ -1,0 +1,26 @@
+# Monetary policy rate, annual mean of the daily target (BIS WS_CBPOL
+# D.CL, the Banco Central de Chile's own series). A mean of daily values is
+# not the year-end rate: the plate draws it against annual CPI, which is
+# also an annual mean.
+year,policy_rate_pct,days_observed
+2006,5.01,249
+2007,5.30,247
+2008,7.09,250
+2009,2.00,250
+2010,1.42,250
+2011,4.67,252
+2012,5.01,247
+2013,4.92,248
+2014,3.76,249
+2015,3.06,250
+2016,3.50,252
+2017,2.74,247
+2018,2.55,246
+2019,2.49,249
+2020,0.79,251
+2021,1.20,250
+2022,8.51,250
+2023,10.50,247
+2024,6.22,248
+2025,4.89,248
+2026,4.50,201

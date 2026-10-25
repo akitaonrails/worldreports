@@ -1,0 +1,24 @@
+# deaths: registered deaths by year of occurrence, MINSAL/DEIS weekly
+# file summed to the year (2010-2025; 2026 is incomplete and absent).
+# population: the sum of DEIS's own age-sex-region cells, which is INE's
+# projection. crude_death_rate_national = deaths / population x 1000.
+# crude_death_rate_wb is the World Bank series on its UN denominator: two
+# denominators, two columns, never one line. excess_deaths_pct_vs_2015_2019
+# compares each year from 2020 with the mean of 2015-2019 (105681).
+year,deaths,population,crude_death_rate_national,crude_death_rate_wb,excess_deaths_pct_vs_2015_2019
+2010,97654,17063927,5.72,5.760,
+2011,94693,17254159,5.49,5.888,
+2012,98211,17443491,5.63,6.092,
+2013,99522,17611902,5.65,6.058,
+2014,103431,17787617,5.81,6.119,
+2015,103086,17971423,5.74,6.106,
+2016,103417,18167147,5.69,6.086,
+2017,106120,18419192,5.76,6.037,
+2018,106457,18751405,5.68,6.196,
+2019,109324,19107216,5.72,6.460,
+2020,127734,19458310,6.56,7.393,20.9
+2021,137267,19678363,6.98,7.655,29.9
+2022,136581,19828563,6.89,7.573,29.2
+2023,121875,19960889,6.11,6.495,15.3
+2024,126322,20086377,6.29,6.580,19.5
+2025,128430,20206953,6.36,,21.5

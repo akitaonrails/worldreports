@@ -1,0 +1,27 @@
+# net_migration: UN WPP net migration, a count of people per year (via
+# World Bank SM.POP.NETM), and the same divided by population. It is a
+# difference of two badly measured numbers: arrivals are recorded, departures
+# are not. migrant_stock: UN international migrant stock (SM.POP.TOTL) on a
+# five-year grid — foreign-born, not foreign-citizen, which is why the share
+# is about the stock and not about nationality.
+year,net_migration,net_migration_per_1000,migrant_stock,foreign_born_share_pct
+2006,17285,1.05,,
+2007,20170,1.21,,
+2008,22488,1.34,,
+2009,24324,1.43,,
+2010,26048,1.52,361531,2.10
+2011,28086,1.62,,
+2012,30870,1.76,,
+2013,36529,2.07,,
+2014,52702,2.95,,
+2015,55689,3.09,598039,3.31
+2016,135864,7.44,,
+2017,220621,11.89,,
+2018,237807,12.59,,
+2019,181339,9.45,,
+2020,26042,1.34,1476240,7.62
+2021,65480,3.37,,
+2022,59374,3.04,,
+2023,62679,3.19,,
+2024,58316,2.95,1538324,7.78
+2025,51712,2.60,,
