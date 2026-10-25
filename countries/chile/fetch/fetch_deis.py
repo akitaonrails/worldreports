@@ -4,9 +4,8 @@
 Usage:  python3 -I countries/chile/fetch/fetch_deis.py
 
 Writes two review sidecars:
-  data/mortality/deaths_from_deis.csv        year, deaths, population,
-                                             crude_death_rate_per_1000
-  data/mortality/deaths_weekly_from_deis.csv year, week, deaths
+  data/mortality/deaths_from_deis.csv  year, deaths, population,
+                                       crude_death_rate_per_1000
 
 Publisher: Ministerio de Salud, Departamento de Estadísticas e
 Información de Salud (DEIS), published on the state open-data portal
@@ -145,23 +144,11 @@ def main() -> int:
             rate = deaths[year] / population[year] * 1000
             w.writerow([year, deaths[year], population[year], f"{rate:.2f}"])
 
-    weekly = DATA / "mortality" / "deaths_weekly_from_deis.csv"
-    by_week: dict[tuple[int, int], int] = defaultdict(int)
-    for r in rows:
-        year = int(r["ANO_ESTADISTICO"])
-        if year in complete:
-            by_week[(year, int(r["SEMANA_ESTADISTICA"]))] += int(r["MUERTES_OBS"])
-    with weekly.open("w", encoding="utf-8", newline="") as fh:
-        w = csv.writer(fh)
-        w.writerow(["year", "week", "deaths"])
-        for (year, week) in sorted(by_week):
-            w.writerow([year, week, by_week[(year, week)]])
-
     print(f"  DEIS deaths: {len(complete)} complete years "
           f"{min(complete)}-{max(complete)}, {len(rows)} rows")
     print(f"  latest complete year {max(complete)}: {deaths[max(complete)]} "
           f"deaths over {population[max(complete)]} people")
-    print("  -> mortality/deaths_from_deis.csv, deaths_weekly_from_deis.csv")
+    print("  -> mortality/deaths_from_deis.csv")
     return 0
 
 
