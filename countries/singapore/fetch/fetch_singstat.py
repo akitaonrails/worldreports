@@ -308,13 +308,23 @@ def row(rows: dict, tid: str, match: str) -> list:
 
 def write(rel: str, header: list[str], body: list[list],
           comments: list[str] | None = None) -> None:
+    """A sidecar: `#` comments, a header, then rows.
+
+    Cells are quoted by the csv module rather than joined with commas
+    because one publisher series carries a comma in its own label
+    ("Accidents, Poisonings And Violence"); a naive join turns that into
+    two columns and every value after it shifts one place left, which is
+    the classic silent mis-parse of this repository.
+    """
     path = ROOT / "data" / rel
     path.parent.mkdir(parents=True, exist_ok=True)
-    lines = [f"# {c}" for c in (comments or [])]
-    lines.append(",".join(header))
-    for cells in body:
-        lines.append(",".join("" if c is None else c for c in cells))
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    with path.open("w", newline="", encoding="utf-8") as fh:
+        for comment in comments or []:
+            fh.write(f"# {comment}\n")
+        writer = csv.writer(fh, lineterminator="\n")
+        writer.writerow(header)
+        for cells in body:
+            writer.writerow(["" if c is None else c for c in cells])
     print(f"  data/{rel}  {len(body)} rows")
 
 
@@ -542,11 +552,13 @@ def main(argv: list[str]) -> int:
     part = rows["M451521"]
     tot = annual(row(part, "M451521", "Total All Markets"), "sum")
     by_market = {m: annual(row(part, "M451521", m), "sum") for m in TRADE_MARKETS}
+    # Year-major: a long-format file whose year column has to ascend, or
+    # core.plotting and tests/test_data read a re-ordered series.
     body = []
-    for m in TRADE_MARKETS:
-        if m == "Total All Markets":
-            continue
-        for y in window(tot):
+    for y in window(tot):
+        for m in TRADE_MARKETS:
+            if m == "Total All Markets":
+                continue
             value = by_market[m].get(y)
             if value is None or not tot.get(y):
                 continue
@@ -756,6 +768,7 @@ def main(argv: list[str]) -> int:
             "Pneumonia", "Diabetes", "Accidents, Poisonings And Violence",
             "Suicides", "Transport Accidents"]
     cols = {k: annual(row(causes, "M810131", k), "value") for k in keep}
+    cols = {k.replace(",", ""): v for k, v in cols.items()}
     write("mortality/deaths_by_cause_from_singstat.csv", ["year"] + list(cols),
           [[str(y)] + [f(cols[c].get(y), 0) for c in cols]
            for y in window(cols["Total Deaths By Causes"])],

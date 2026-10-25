@@ -1,0 +1,22 @@
+# Singapore Department of Statistics, Table Builder M890891 (selected major offences: cases recorded), M810131 (suicides) and M651421 (road-traffic death rate, the publisher's own per 100,000).
+# BOTH rates use the TOTAL population of the same year, because both counts cover everyone present: murder is a recorded offence, and the suicide count sits in M810131 whose total reconciles with all deaths in Singapore, not the resident subset. This is also the basis SingStat's own crime rate uses (verified: its 2025 physical-crime rate of 341 is that year's cases over mid-2025 total population).
+# 'Murder' is a Penal Code category, not the UNODC intentional-homicide definition; homicide_per_100k_unodc is that separate series, drawn beside it and never substituted for it.
+# Road deaths are the publisher's own rate; the WHO series uses a different model and is drawn as its own line.
+# M890891 starts in 2011, so the national homicide line starts there; the years before are blank, not zero.
+# 2025 IS PRELIMINARY. The publisher's own footnote on M810131 reads 'Figures for 2025 are preliminary', and the two external-cause groups fall by about 40% in that year while every natural-cause group holds steady — coroner's cases still being assigned, not a decline. Do not describe the 2025 suicide or accident count as a fall.
+year,murder_count,murder_per_100k,suicide_per_100k,suicide_count,road_death_per_100k,serious_hurt_count,robbery_count,housebreaking_count,homicide_per_100k_unodc,suicide_per_100k_who,road_death_per_100k_who
+2011,16,0.309,6.96,361,3.76,406,394,637,0.309,8.78,4.60
+2012,11,0.207,8.79,467,3.16,452,290,545,0.208,10.57,3.50
+2013,16,0.296,7.82,422,2.96,476,254,507,0.316,9.83,3.20
+2014,14,0.256,7.59,415,2.83,513,230,311,0.257,9.43,3.10
+2015,14,0.253,7.39,409,2.73,473,123,250,0.253,8.72,3.00
+2016,18,0.321,7.65,429,2.51,492,96,212,0.323,8.44,2.70
+2017,8,0.143,6.43,361,2.16,420,69,160,0.196,8.42,2.50
+2018,9,0.160,7.04,397,2.20,429,72,204,0.160,8.90,2.30
+2019,11,0.193,7.01,400,2.07,373,55,186,0.212,8.42,2.10
+2020,8,0.141,7.95,452,1.46,444,34,163,0.178,8.94,
+2021,7,0.128,6.93,378,1.96,446,28,110,0.108,8.10,
+2022,7,0.124,8.44,476,1.92,458,27,111,0.124,,
+2023,4,0.068,7.33,434,2.30,389,17,135,0.069,,
+2024,10,0.166,7.31,441,2.35,401,21,118,,,
+2025,7,0.115,4.19,256,,375,26,108,,,

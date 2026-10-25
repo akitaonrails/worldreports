@@ -1,0 +1,24 @@
+# Exports and imports of goods AND services at current prices over GDP at current market prices, all three from SingStat M015021 (one table, one vintage, so the ratio has no splice).
+# The two _wb columns are the World Bank's national-accounts series: the harmonised comparison, not a second estimate of the same thing.
+# NOT customs goods trade; the merchandise series is in trade/partners.csv and the two are never mixed in one line.
+year,exports_pct_gdp,imports_pct_gdp,balance_pct_gdp,exports_pct_gdp_wb,imports_pct_gdp_wb
+2006,228.04,197.33,30.71,228.04,197.33
+2007,212.78,181.51,31.27,212.78,181.51
+2008,228.99,208.33,20.66,228.99,208.33
+2009,190.84,167.35,23.50,190.84,167.35
+2010,198.00,171.69,26.31,198.00,171.69
+2011,203.33,175.77,27.56,203.33,175.77
+2012,196.72,172.49,24.23,196.72,172.49
+2013,195.08,171.96,23.11,195.08,171.96
+2014,191.95,168.51,23.44,191.95,168.51
+2015,178.38,151.09,27.30,178.38,151.09
+2016,163.80,137.54,26.25,163.80,137.54
+2017,170.97,144.43,26.55,170.97,144.43
+2018,177.71,148.01,29.70,177.71,148.01
+2019,176.82,147.45,29.37,176.82,147.45
+2020,181.18,149.90,31.28,181.18,149.90
+2021,181.16,145.37,35.79,181.16,145.37
+2022,185.01,145.24,39.77,185.01,145.24
+2023,180.43,143.27,37.16,180.43,143.27
+2024,174.66,138.64,36.01,174.66,138.64
+2025,177.85,142.45,35.40,177.85,142.45

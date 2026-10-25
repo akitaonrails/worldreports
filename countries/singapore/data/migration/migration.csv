@@ -1,0 +1,26 @@
+# Singapore Department of Statistics M810001 (non-resident population, mid-year) and M810791 (share of the non-resident population by pass type); UN WPP net migration as the World Bank carries it.
+# Singapore publishes NO immigration or emigration FLOW series on any route probed (see SOURCES.yaml meta.pending). What it publishes is a STOCK by legal status, which is what this file carries: the resident population by citizenship/residence and the non-resident population by pass type. Stock is not flow and is never drawn as one.
+# The pass shares are of the NON-RESIDENT population only and sum to 100; they say nothing about what share of the whole population non-residents are.
+# net_migration_wb is the UN's modelled net migration, an estimate, not a count of arrivals or departures: Singapore's borders record entries, not migration events.
+year,nonresident_population,pass_employment_pct,pass_s_pct,pass_work_permit_pct,pass_migrant_domestic_pct,pass_ltvp_dp_pct,pass_student_pct,net_migration_wb
+2006,875471,8.0,3.0,48.0,18.0,14.0,8.0,135625
+2007,1005517,9.0,3.0,49.0,17.0,14.0,8.0,192292
+2008,1196737,9.0,5.0,51.0,15.0,13.0,7.0,176182
+2009,1253697,9.0,6.0,50.0,15.0,13.0,7.0,95841
+2010,1305011,10.0,7.0,48.0,15.0,13.0,7.0,72571
+2011,1394437,12.0,8.0,46.0,14.0,14.0,6.0,89856
+2012,1494232,12.0,9.0,46.0,13.0,15.0,6.0,78501
+2013,1554411,11.0,10.0,46.0,13.0,15.0,5.0,52176
+2014,1598985,11.0,10.0,46.0,13.0,15.0,5.0,40154
+2015,1632312,11.0,11.0,45.0,13.0,16.0,4.0,41852
+2016,1673724,11.0,11.0,44.0,14.0,16.0,4.0,13737
+2017,1646457,12.0,11.0,42.0,14.0,17.0,4.0,-8880
+2018,1644393,11.0,12.0,42.0,15.0,17.0,4.0,21820
+2019,1677360,11.0,12.0,41.0,15.0,17.0,4.0,870
+2020,1641597,12.0,12.0,41.0,15.0,17.0,4.0,-145556
+2021,1466724,11.0,11.0,39.0,16.0,18.0,4.0,-44030
+2022,1563783,11.0,11.0,42.0,16.0,16.0,4.0,214842
+2023,1768395,11.0,10.0,44.0,15.0,16.0,4.0,26996
+2024,1855992,11.0,10.0,44.0,15.0,16.0,5.0,20011
+2025,1906660,11.0,9.0,44.0,16.0,15.0,5.0,16892
+2026,1976999,10.0,9.0,45.0,16.0,15.0,5.0,

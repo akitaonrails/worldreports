@@ -1,7 +1,7 @@
 # Singapore Department of Statistics, Table Builder M810131: deaths by broad groups of causes, count of deaths.
 # Broad ICD groups as the publisher labels them; 'Malignant Neoplasms' is contained in 'Neoplasms' and is the one published separately here.
 # There is no COVID-19 row in this table: the publisher's broad groups predate the code and the pandemic deaths appear inside 'Diseases Of The Respiratory System' and 'Infective And Parasitic Diseases'. The cause-of-death chapter's COVID slot therefore needs a different publisher (recorded in meta.pending).
-year,Total Deaths By Causes,Malignant Neoplasms,Diseases Of The Circulatory System,Heart And Hypertensive Diseases,Cerebrovascular Disease,Diseases Of The Respiratory System,Pneumonia,Diabetes,Accidents, Poisonings And Violence,Suicides,Transport Accidents
+year,Total Deaths By Causes,Malignant Neoplasms,Diseases Of The Circulatory System,Heart And Hypertensive Diseases,Cerebrovascular Disease,Diseases Of The Respiratory System,Pneumonia,Diabetes,Accidents Poisonings And Violence,Suicides,Transport Accidents
 2006,16393,4677,5441,3833,1462,2913,2244,536,1027,419,199
 2007,17140,4745,5835,4197,1490,2948,2375,609,1036,374,232
 2008,17222,5038,5794,4201,1435,2989,2387,463,1006,364,226
