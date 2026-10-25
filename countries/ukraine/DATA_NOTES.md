@@ -99,6 +99,17 @@ harmonised layer and the central bank answer.
   suicide stop in 2021 and road deaths in 2019; the holes are real.
 - **Mortality** — crude death rate and life expectancy from the World
   Bank. The 2021 death-rate peak (17.1 per 1,000) is drawn at its size.
+- **Spending** — the NBU/Treasury monthly budget execution, consolidated
+  budget, cash basis, functional classification. December is the
+  year-to-date total; `Total_1` is asserted to equal the sum of the ten
+  functions, and the inter-budget transfer (0180) is excluded or the
+  stack would double-count it. It is NOT the IMF accrual layer the
+  fiscal chapter draws, and both plates say which is which.
+- **Migration** — the UN/WB net-migration estimate to 2021 on the
+  canonical scale; the 2022 wartime displacement (−139 per 1,000) is
+  drawn in the lens on its own scale, labelled, because widening the
+  comparison range to fit a war would flatten every other country.
+  Migrant stock is a snapshot series (2010, 2015, 2020, 2024).
 
 ## Still not drawn
 

@@ -7,31 +7,39 @@
  "02-fiscal": [
   "fiscal/fiscal.csv"
  ],
- "03-trade": [
+ "03-spending": [
+  "macro/economy.csv",
+  "macro/gdp_uah.csv",
+  "spending/spending.csv"
+ ],
+ "04-trade": [
   "trade/trade.csv"
  ],
- "04-markets": [
+ "05-markets": [
   "macro/economy.csv",
   "markets/key_rate.csv",
   "markets/usd_uah.csv"
  ],
- "05-people": [
+ "06-people": [
   "macro/economy.csv",
   "people/gini.csv"
  ],
- "06-world": [
+ "07-world": [
   "world/gdp_usd.csv",
   "world/hdi.csv",
   "world/reserves.csv"
  ],
- "07-demography": [
+ "08-demography": [
   "demography/population.csv",
   "demography/population_ukrstat.csv"
  ],
- "08-security": [
+ "09-security": [
   "security/security.csv"
  ],
- "09-mortality": [
+ "10-mortality": [
   "mortality/mortality.csv"
+ ],
+ "11-migration": [
+  "migration/migration.csv"
  ]
 }

@@ -470,6 +470,160 @@ def plate_mortality(ctx, ig) -> None:
     _finish(ctx, ig)
 
 
+# ---------------------------------------------------------------- spending
+SPEND_FUNCS = [
+    ("state_administration", "AZURE"), ("defence", "ALERT"),
+    ("public_order", "NAVY"), ("economic_activity", "TEAL"),
+    ("environment", "GREEN"), ("housing", "GOLD"),
+    ("health", "PURPLE"), ("recreation", "BLUE_D"),
+    ("education", "BLUE"), ("social_protection", "GREEN_D"),
+]
+
+
+def _spend_share(ctx):
+    """The consolidated-budget functions as % of GDP, year by year."""
+    t = ctx.table("spending/spending.csv")
+    g = ctx.table("macro/gdp_uah.csv")
+    if not t or not g:
+        return {}, []
+    gdp = dict(zip(*ctx.series(g, "gdp_uah")))
+    out = {name: {} for name, _ in SPEND_FUNCS}
+    out["total"] = {}
+    for name, _ in SPEND_FUNCS + [("total", None)]:
+        if name not in t:
+            continue
+        ys, vs = ctx.series(t, name)
+        for y, v in zip(ys, vs):
+            if y in gdp and gdp[y] and v:
+                # UAH million over UAH units.
+                out[name][y] = v * 1e6 / gdp[y] * 100
+    years = sorted(out["total"])
+    return out, years
+
+
+def plate_spending(ctx, ig) -> None:
+    p = ctx.p
+    shares, years = _spend_share(ctx)
+
+    ax = ig.slot("spending.by_function",
+                 "Spending by function, stacked (% of GDP)")
+    layers = [([shares[name][y] for y in years], getattr(p, color))
+              for name, color in SPEND_FUNCS]
+    ax.stackplot(years, *[v for v, _ in layers],
+                 labels=[name.replace("_", " ") for name, _ in SPEND_FUNCS],
+                 colors=[c for _, c in layers], alpha=0.9, lw=0)
+    ig.add_recessions(ax, label=False)
+    ax.legend(loc="upper left", fontsize=6.4, ncol=3, frameon=False)
+    tot = [shares["total"][y] for y in years]
+    ax.annotate(f"{tot[-1]:.1f}% of GDP ({years[-1]})", (years[-1], tot[-1]),
+                textcoords="offset points", xytext=(-4, 8), ha="right",
+                fontsize=8.2, fontweight="bold", color=p.INK)
+    _note(p, ax, 0.98, 0.55, f"defence took {shares['defence'][2023]:.0f}% of "
+          f"GDP in 2023,\nup from {shares['defence'][2021]:.1f}% in 2021",
+          ha="right")
+    _foot(p, ax, "NBU/Treasury, consolidated budget, cash basis. Not the "
+          "IMF accrual layer")
+
+    ax = ig.slot("spending.social_protection",
+                 "Social protection vs everything else (% of GDP)")
+    soc = [shares["social_protection"][y] for y in years]
+    rest = [t - s for t, s in zip(tot, soc)]
+    ctx.line(ax, years, rest, p.NAVY, label="Everything else")
+    ctx.line(ax, years, soc, p.ALERT, label="Social protection")
+    ig.add_recessions(ax, label=False)
+    ax.legend(loc="upper right", fontsize=7.6, frameon=False)
+    _note(p, ax, 0.02, 0.55, f"social protection {soc[0]:.1f}% of GDP in "
+          f"{years[0]},\n{soc[-1]:.1f}% in {years[-1]} — the war squeezed "
+          "everything else")
+    _foot(p, ax, "Same series, two groups: the function and the remainder")
+
+    ax = ig.slot("spending.investment", "Investment rate, whole economy "
+                 "(% of GDP)")
+    iy, iv = _yr(ctx, "macro/economy.csv", "gfcf_pct_gdp")
+    ctx.line(ax, iy, iv, p.TEAL)
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, iy, iv, p.TEAL, lambda v: f"{v:.1f}%", dy=8)
+    _note(p, ax, 0.02, 0.96, f"{iv[-1]:.1f}% in {iy[-1]} —\nwhole-economy "
+          "fixed investment, not the budget")
+    _foot(p, ax, "World Bank national accounts (GFCF)")
+
+    ax = ig.slot("spending.public_investment", "Public investment (% of GDP)")
+    cy, cv = _yr(ctx, "spending/spending.csv", "capital")
+    g = ctx.table("macro/gdp_uah.csv")
+    gdp = dict(zip(*ctx.series(g, "gdp_uah")))
+    py, pv = [], []
+    for y, v in zip(cy, cv):
+        if y in gdp and gdp[y]:
+            py.append(y)
+            pv.append(v * 1e6 / gdp[y] * 100)
+    ctx.line(ax, py, pv, p.GOLD)
+    ig.add_recessions(ax, label=False)
+    ctx.endlabel(ax, py, pv, p.GOLD, lambda v: f"{v:.1f}%", dy=8)
+    _note(p, ax, 0.98, 0.96, "capital expenditure of the consolidated\n"
+          "budget — the closest official public-investment line", ha="right")
+    _foot(p, ax, "NBU/Treasury capital expenditure ÷ GDP")
+    _finish(ctx, ig)
+
+
+# --------------------------------------------------------------- migration
+def plate_migration(ctx, ig) -> None:
+    p = ctx.p
+    M = "migration/migration.csv"
+
+    ax = ig.slot("migration.flows", "Immigration and emigration "
+                 "(per 1,000 people)")
+    ctx.pending(ax)
+    _pending(ig, ax, "Ukrstat's migration dataflow is cached but its\n"
+             "dimension code list is not pinned; UNHCR displacement is\n"
+             "not a residence-register flow and is not substituted.")
+    _foot(p, ax, "SOURCES.yaml meta.pending")
+
+    ax = ig.slot("migration.net", "Net migration (per 1,000 people)")
+    t = ctx.table(M)
+    yrs, vals = ctx.series(t, "net_migration")
+    pop = dict(zip(*ctx.series(t, "population")))
+    per = [(y, v / pop[y] * 1000) for y, v in zip(yrs, vals)
+           if y in pop and y <= 2021]
+    ctx.line(ax, [y for y, _ in per], [v for _, v in per], p.BLUE)
+    ig.add_recessions(ax, label=False)
+    ax.annotate(f"{per[-1][1]:+.1f}", per[-1], textcoords="offset points",
+                xytext=(-4, 8), ha="right", fontsize=8.6,
+                fontweight="bold", color=p.BLUE)
+    _note(p, ax, 0.02, 0.96, "the UN/WB estimate to 2021: the wartime\n"
+          "displacement is in the lens, on its own scale")
+    _foot(p, ax, "World Bank (UN WPP) net migration ÷ mid-year population")
+
+    ax = ig.slot("migration.foreign_born", "Foreign-born share of the "
+                 "population (%)")
+    fy, fv = [], []
+    stock = dict(zip(*ctx.series(t, "migrant_stock"))) if "migrant_stock" in t else {}
+    for y in sorted(stock):
+        if stock[y] and y in pop:
+            fy.append(y)
+            fv.append(stock[y] / pop[y] * 100)
+    ctx.line(ax, fy, fv, p.PURPLE)
+    ctx.endlabel(ax, fy, fv, p.PURPLE, lambda v: f"{v:.1f}%", dy=8)
+    _note(p, ax, 0.02, 0.96, f"{fv[0]:.1f}% in {fy[0]}, {fv[-1]:.1f}% in "
+          f"{fy[-1]};\nsnapshot years only — the stock is a UN estimate")
+    _foot(p, ax, "World Bank (UN DESA migrant stock) ÷ population")
+
+    ax = ig.slot("migration.lens", "Wartime displacement — net migration, "
+                 "persons per 1,000 (own scale)")
+    wy, wv = [], []
+    for y, v in zip(yrs, vals):
+        if y >= 2022 and y in pop:
+            wy.append(y)
+            wv.append(v / pop[y] * 1000)
+    ctx.bars(ax, wy, wv, lambda v: p.ALERT if v < 0 else p.GREEN)
+    worst = min(zip(wy, wv), key=lambda t: t[1])
+    best = max(zip(wy, wv), key=lambda t: t[1])
+    _note(p, ax, 0.02, 0.96, f"{worst[1]:+.0f} per 1,000 in {worst[0]} — "
+          f"outside the comparable\nslot's range on purpose: a war is not a "
+          f"migration rate; {best[1]:+.0f} in {best[0]}")
+    _foot(p, ax, "World Bank (UN WPP) — modelled, includes refugees abroad")
+    _finish(ctx, ig)
+
+
 PLATES = (
     dict(id="01", slug="economy", topic="economy", builder=plate_economy,
          title="The Economy — a War-Shrunk Output and a Long Inflation",
@@ -477,27 +631,34 @@ PLATES = (
     dict(id="02", slug="fiscal", topic="fiscal", builder=plate_fiscal,
          title="Public Finances — The War Budget and the Debt It Leaves",
          filename="02-fiscal"),
-    dict(id="03", slug="trade", topic="trade", builder=plate_trade,
+    dict(id="03", slug="spending", topic="spending", builder=plate_spending,
+         title="Spending — The War Budget, Function by Function",
+         filename="03-spending"),
+    dict(id="04", slug="trade", topic="trade", builder=plate_trade,
          title="Trade — A Widening Gap Where the Surplus Used to Be",
-         filename="03-trade"),
-    dict(id="04", slug="markets", topic="markets", builder=plate_markets,
+         filename="04-trade"),
+    dict(id="05", slug="markets", topic="markets", builder=plate_markets,
          title="Markets — The Key Rate, Inflation and the Hryvnia",
-         filename="04-markets"),
-    dict(id="05", slug="people", topic="people", builder=plate_people,
+         filename="05-markets"),
+    dict(id="06", slug="people", topic="people", builder=plate_people,
          title="People — Inequality Before the War, and What the Hryvnia Buys",
-         filename="05-people"),
-    dict(id="06", slug="world", topic="world", builder=plate_world,
+         filename="06-people"),
+    dict(id="07", slug="world", topic="world", builder=plate_world,
          title="Ukraine in the World — Size, Development and Reserves",
-         filename="06-world"),
-    dict(id="07", slug="demography", topic="demography",
+         filename="07-world"),
+    dict(id="08", slug="demography", topic="demography",
          builder=plate_demography,
          title="Demography — Two Perimeters, and the Line Between Them",
-         filename="07-demography"),
-    dict(id="08", slug="security", topic="security", builder=plate_security,
+         filename="08-demography"),
+    dict(id="09", slug="security", topic="security", builder=plate_security,
          title="Security — Homicide, Suicide and the Road",
-         filename="08-security"),
-    dict(id="09", slug="mortality", topic="mortality",
+         filename="09-security"),
+    dict(id="10", slug="mortality", topic="mortality",
          builder=plate_mortality,
          title="Mortality — The Death Rate and the Years Lost in 2021",
-         filename="09-mortality"),
+         filename="10-mortality"),
+    dict(id="11", slug="migration", topic="migration",
+         builder=plate_migration,
+         title="Migration — The Register's Hole and the Wartime Displacement",
+         filename="11-migration"),
 )
