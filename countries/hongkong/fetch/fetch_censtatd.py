@@ -158,6 +158,18 @@ TABLES: dict[str, dict] = {
                           pin("2024", "BL_RATE", 5.77, unit="Percent"),
                           pin("2020", "BL_RATE", 5.0, unit="Percent"),
                       ]),
+    "340-45022": dict(file="markets/hibor", title="Interest Settlement Rates",
+                      dims=["MATURITY"], pins=[
+                          pin("2024", "SET_RATE", 5.65, unit="Rates at end",
+                              d1="0N"),
+                          pin("2024", "SET_RATE", 4.58, unit="Rates at end",
+                              d1="1M"),
+                      ]),
+    "340-46002": dict(file="markets/twi", title="Effective exchange rate",
+                      dims=[], pins=[
+                          pin("2024", "EERI_T", 105.4, unit="Index"),
+                          pin("2020", "EERI_T", 100.0, unit="Index"),
+                      ]),
     # ---- demography ----------------------------------------------------
     "110-01001": dict(file="demography/population", title="Population by sex and age",
                       dims=["SEX", "AGE"], pins=[
