@@ -203,8 +203,8 @@ holds steady:
 |---|---|---|---|
 | accidents, poisonings and violence | 873 | 917 | **536** |
 | suicides | 434 | 441 | **256** |
-| malignant neoplasms | 6,969 | 7,000 | 7,046 |
-| circulatory | 8,509 | 8,457 | 8,621 |
+| malignant neoplasms | 6,623 | 7,000 | 7,046 |
+| circulatory | 8,705 | 8,457 | 8,621 |
 
 A 42% fall in suicides in one year is not a public-health event; it is
 coroner's cases still being assigned at the time of publication. **Do not
