@@ -1,0 +1,26 @@
+# Registered deaths, Department of Health (data.gov.hk, Death Statistics).
+# excess_deaths_pct = deaths / mean(2015-2019) - 1, computed here from the
+# publisher's all-cause counts (a different quantity from a weekly P-scores
+# series and not comparable with one).
+# covid_deaths: deaths with COVID-19 as the UNDERLYING cause. Coded J98.8 to
+# 2023 and U07.1/U07.2 from 2024 - the publisher's own note.
+year,deaths,crude_death_rate_per_1000,covid_deaths,excess_deaths_pct_vs_2015_2019
+2006,37415,5.5,,-20.6
+2007,39963,5.7,,-15.1
+2008,41530,6.0,,-11.8
+2009,41047,5.9,,-12.8
+2010,42699,6.0,,-9.3
+2011,42188,6.0,,-10.4
+2012,43672,6.1,,-7.3
+2013,43399,6.0,,-7.9
+2014,45710,6.2,,-2.9
+2015,46757,6.3,,-0.7
+2016,46662,6.4,,-0.9
+2017,45883,6.3,,-2.6
+2018,47478,6.4,,0.8
+2019,48706,6.5,,3.4
+2020,50653,6.8,125,7.5
+2021,51536,6.9,70,9.4
+2022,61557,8.7,9291,30.7
+2023,56776,7.3,2594,20.6
+2024,52366,7.0,720,11.2

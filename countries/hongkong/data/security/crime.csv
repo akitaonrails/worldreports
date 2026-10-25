@@ -1,0 +1,12 @@
+# Reported crime cases and selected offences, Hong Kong Police via C&SD 940-92033.
+# The table starts in 2021: the police re-based their offence classification
+# then, so no earlier year is spliced onto it. The long homicide series used for
+# the comparison is the UNODC/World Bank one (security/homicide_wb sidecar).
+# homicide_rate_per_100k = murder and manslaughter cases / mid-year population.
+# Cases are reported offences, not convictions and not death certificates.
+year,total_cases,violent_crime_cases,murder_and_manslaughter,homicide_rate_per_100k
+2021,64428,9587,23,0.310
+2022,70048,8830,30,0.408
+2023,90276,10122,28,0.372
+2024,94747,10485,19,0.253
+2025,89137,8823,194,2.587

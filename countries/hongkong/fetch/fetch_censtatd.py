@@ -69,7 +69,7 @@ TABLES: dict[str, dict] = {
                           pin("2020", "CUR", 2675793, unit="HK$ million"),
                       ]),
     "310-30001": dict(file="macro/gdp_growth", title="Percentage change",
-                      dims=[], pins=[
+                      dims=["GDP_COMPONENT"], pins=[
                           pin("2020", "CON", -6.5, unit="Year-on-year"),
                           pin("2025", "CON", 3.6, unit="Year-on-year"),
                       ]),
@@ -102,7 +102,7 @@ TABLES: dict[str, dict] = {
                           pin("2024", "UCC_CM_1920", 108.1, unit="Index"),
                       ]),
     "210-06101": dict(file="macro/labour", title="labour force",
-                      dims=[], pins=[
+                      dims=["SEX"], pins=[
                           pin("2024", "UR", 3.0, unit="%"),
                           pin("2024", "LF", 3807.4, unit="No. ('000)"),
                           pin("2024", "EM", 3693.6, unit="No. ('000)"),
@@ -143,7 +143,7 @@ TABLES: dict[str, dict] = {
                           pin("2024", "VAL_TX", 2182692, unit="HK$ million", d1="77"),
                       ]),
     "420-57001": dict(file="trade/services", title="Exports and imports of services",
-                      dims=[], pins=[
+                      dims=["EBOPS"], pins=[
                           pin("2023", "XS", 759991, unit="HK$ million"),
                           pin("2023", "MS", 618375, unit="HK$ million"),
                       ]),
@@ -154,7 +154,7 @@ TABLES: dict[str, dict] = {
                           pin("2020", "FC_USD", 7.757, unit="HK dollar per unit"),
                       ]),
     "340-45021": dict(file="markets/interest_rates", title="interest rates",
-                      dims=[], pins=[
+                      dims=["DEP_P_T"], pins=[
                           pin("2024", "BL_RATE", 5.77, unit="Percent"),
                           pin("2020", "BL_RATE", 5.0, unit="Percent"),
                       ]),
@@ -177,12 +177,12 @@ TABLES: dict[str, dict] = {
                           pin("202406", "POP", 7524.1, unit="Number ('000)", d1="", d2="", freq="H"),
                       ]),
     "110-01004": dict(file="demography/dependency", title="Dependency ratio",
-                      dims=[], pins=[
+                      dims=["SEX"], pins=[
                           pin("2025", "TDEPR", 499, unit="Ratio"),
                           pin("2025", "MED_AGE_POPN", 48.4, unit="(years)"),
                       ]),
     "110-01003": dict(file="demography/components", title="Population growth by component",
-                      dims=[], pins=[
+                      dims=["TYPE_INFLOW"], pins=[
                           pin("202512", "PG", 8.1, unit="('000)", freq="H"),
                           pin("202512", "NM", 27.1, unit="('000)", d1="", freq="H"),
                           pin("202512", "NC", -18.9, unit="('000)", freq="H"),
@@ -211,7 +211,7 @@ TABLES: dict[str, dict] = {
                           pin("2024", "PP_CASE_RPT", 19, unit="Number", d1=103),
                       ]),
     "940-92031": dict(file="security/arrests", title="Persons arrested",
-                      dims=["OFF"], pins=[
+                      dims=["OFF", "AGE", "HKPF_REGION", "SEX"], pins=[
                           pin("2024", "PP_CRIME", 36269, unit="Number"),
                       ]),
 }
@@ -322,17 +322,22 @@ def main(argv: list[str]) -> None:
 
         out = DATA / f"{spec['file']}_from_censtatd.csv"
         out.parent.mkdir(parents=True, exist_ok=True)
+        # The footnote flag is a column only when the table actually uses it:
+        # an all-empty column is a column of nothing, and the data tests say so.
+        has_flag = any(str(r.get("sd_value", "")).strip() for r in rows)
         header = (["freq", "period", "series", "unit"]
                   + [f"dim{i + 1}_{k}" for i in range(len(dims))
                      for k in ("code", "desc")]
-                  + ["value", "flag"])
+                  + ["value"] + (["flag"] if has_flag else []))
         lines = []
         for r in rows:
             rec = [str(r.get("freq", "")), str(r.get("period", "")),
                    str(r.get("sv", "")), str(r.get("svDesc", ""))]
             for d in dims:
                 rec += [str(r.get(d, "")), str(r.get(f"{d}Desc", ""))]
-            rec += [cell(r.get("figure")), str(r.get("sd_value", "")).strip()]
+            rec.append(cell(r.get("figure")))
+            if has_flag:
+                rec.append(str(r.get("sd_value", "")).strip())
             lines.append(rec)
         lines.sort(key=lambda x: (x[2], x[0], x[1])
                    + tuple(x[4 + 2 * i] for i in range(len(dims))))

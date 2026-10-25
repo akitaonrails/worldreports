@@ -222,7 +222,8 @@ def asset_quality(offline: bool) -> None:
         w = csv.writer(fh, lineterminator="\n")
         w.writerow(["year", "quarter", "classified_loans_pct"])
         for (y, m) in sorted(obs):
-            w.writerow([y, {"Mar": 1, "Jun": 2, "Sep": 3, "Dec": 4}[m],
+            w.writerow([y, {"Mar": "Q1", "Jun": "Q2", "Sep": "Q3",
+                            "Dec": "Q4"}[m],
                         f"{obs[(y, m)]:.4f}"])
     print(f"  {out.relative_to(ROOT)}  ({len(obs)} quarters, "
           f"{min(obs)[0]}..{max(obs)[0]})")
