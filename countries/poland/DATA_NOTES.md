@@ -25,29 +25,41 @@ this country divides by the revised series. Using the unrevised balance
 would understate every rate by about 3% from 2020 onward — a systematic
 error that looks like a trend.
 
-## The labour market has two breaks and four columns
+## The labour market: two definitions, and one printing quirk that matters
 
-GUS's workbook prints each unemployment rate twice, in adjacent rows: the
-current basis under the label, and the previous basis immediately below,
-unlabelled. They are not a continuation.
+GUS prints each unemployment rate **twice, in adjacent rows**: the
+labelled row states the years the publisher currently reports, and the
+unlabelled row immediately below carries the longer back-run. The two
+overlap, and in the overlap they behave differently:
+
+- **BAEL (LFS)**: the rows agree (2021: 2.9% both). GUS's note says the
+  LFS is methodologically consistent from 2010, so this is one series
+  printed twice.
+- **Registered rate**: the rows disagree — 2020 reads **6.8%** in the
+  upper row and **6.3%** in the lower, 2021 **5.8%** against **5.4%**. The
+  published national figures are 6.2% and 5.4% (the lower row).
+
+The fetcher therefore joins them where they agree: the long row through
+2021, the current row from 2022, no step at the join. The result is one
+publisher's series, and `macro/economy.csv` carries exactly three
+jobless columns:
 
 | Column | What it is | Covers |
 |---|---|---|
-| `unemployment_registered_pct` | registered unemployment rate, 2020+ denominator | 2020–2025 |
-| `unemployment_registered_prev_basis_pct` | the same on the pre-2020 denominator | 2006–2021 |
-| `unemployment_lfs_pct` | BAEL (LFS) rate, 2021 methodology | 2021–2025 |
-| `unemployment_lfs_prev_method_pct` | BAEL on the previous methodology | 2010–2020 |
-| `unemployment_estat_pct` | Eurostat's LFS annual average | 2009–2025 |
+| `unemployment_registered_pct` | administrative registered rate (registered unemployed / economically active persons) | 2006–2025 |
+| `unemployment_lfs_pct` | BAEL survey rate | 2010–2025 |
+| `unemployment_estat_pct` | Eurostat's LFS **annual average** | 2009–2025 |
 
-In the 2021 overlap the two registered bases read 5.8% and 5.4%: a revision,
-not an event. The registered rate is *administrative* (registered
-unemployed / economically active persons) and the BAEL rate is a *survey*;
-the gap between them — around 2 points for two decades — is itself the
-finding, and neither is spliced into the other.
+The registered rate is *administrative* and the BAEL rate is a *survey*;
+the gap between them — about 2 points for two decades — is itself the
+finding, and neither is spliced into the other. GUS's BAEL value is **the
+last survey of the year** while Eurostat's is the **annual average**, which
+is why both columns exist.
 
-One more asymmetry: GUS's BAEL value is **the last survey of the year**,
-Eurostat's is the **annual average**. They differ by a tenth here and
-there and are labelled by publisher.
+The residual 2020–21 disagreement between GUS's own two rows is a revision
+the publisher did not mark in red (its legend reserves red for that). It is
+recorded here rather than smoothed away; a plate that draws the registered
+rate should note that its 2020 value is the long-row figure.
 
 ## Prices
 

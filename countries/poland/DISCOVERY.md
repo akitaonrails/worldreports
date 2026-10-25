@@ -166,14 +166,18 @@ never spliced. Where they agree to the decimal — the EDP deficit and debt;
 2024 births 251.8 thousand against 251,782 — that agreement is itself the
 check.
 
-**Three labour-market definitions exist and all three are staged.**
-GUS prints each unemployment rate twice, in adjacent rows: the current
-basis (registered rate from 2020, BAEL from 2021) and the previous one,
-unlabelled and easy to mistake for a continuation. 2021 registered
-unemployment reads 5.8% on the new denominator and 5.4% on the old one in
-the same table. On top of that, GUS's BAEL figure is "the last survey of
-the year" while Eurostat's is the annual average. Four columns,
-documented, no splice.
+**Three labour-market definitions exist and all three are staged, but the
+printing quirk is what costs.** GUS prints each unemployment rate twice, in
+adjacent rows, with an overlap: the labelled row holds the publisher's
+current figures and the unlabelled row the longer back-run. For BAEL the
+rows agree (2021: 2.9% both). For the registered rate they do not — 2020
+reads 6.8% in one row and 6.3% in the other, 2021 5.8% against 5.4%, and
+the published national figures are the lower row. A reader who takes "the
+row under the label" concatenates the two and gets a step that never
+happened; the fetcher joins them where they agree (long row to 2021,
+current row from 2022) and the result is continuous. On top of that, GUS's
+BAEL figure is "the last survey of the year" while Eurostat's is the annual
+average, so both are staged under their publisher's name.
 
 **Trade has two perimeters.** Customs goods (GUS, EUR/USD/PLN) and
 national-accounts goods and services (Eurostat P6/P7). In 2024 they are

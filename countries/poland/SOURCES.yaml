@@ -30,14 +30,16 @@ macro:
       Growth 2006-2025 (only 2020 negative, −2.0%; Poland was the only EU
       economy to grow through 2009). CPI peaks at 14.4% in 2022 and turns
       negative in 2015 (−0.9%). HICP is staged separately and differs from
-      the CPI from 2022. UNEMPLOYMENT HAS THREE COLUMNS AND TWO VINTAGES:
-      GUS's BAEL rate on the 2021 methodology (2021+), the previous BAEL
-      methodology (2010-2020), and the administrative registered rate with
-      the 2020+ denominator and its own pre-2020 basis — GUS prints the two
-      bases in adjacent rows of the same table and a reader who takes one
-      publishes a revision as a level change. Eurostat's LFS annual average
-      is a fourth column; GUS's is "the last survey of the year", which is
-      not the same number.
+      the CPI from 2022. UNEMPLOYMENT HAS THREE COLUMNS: GUS's BAEL rate
+      (survey, consistent from 2010 by GUS's own note), the administrative
+      registered rate (different denominator: registered unemployed over
+      the economically active), and Eurostat's LFS annual average. GUS
+      prints each rate in two overlapping rows; the fetcher joins them
+      where they agree, so each column is one continuous publisher series.
+      The registered rows disagree in 2020-21 only (6.8 vs 6.3, 5.8 vs
+      5.4) and the published national figures are the lower row — recorded
+      in DATA_NOTES rather than smoothed. GUS's BAEL value is "the last
+      survey of the year", Eurostat's is the annual average.
   gdp_per_person.csv:
     source: "World Bank WDI — NY.GDP.PCAP.CD and NY.GDP.MKTP.CD"
     url: "https://api.worldbank.org/v2/country/POL/indicator/NY.GDP.PCAP.CD?format=json"
