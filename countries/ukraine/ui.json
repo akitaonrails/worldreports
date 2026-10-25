@@ -1,200 +1,200 @@
 {
-  "en": {
-    "line": "{n} plates of official data, {window}",
-    "dek": "Every figure on this page comes from a publisher that names its definition — the State Statistics Service of Ukraine for the population register, and the World Bank, IMF and UNDP for the harmonised layer — and every plate is regenerated from committed CSVs, so the charts and the numbers here cannot drift apart. Ukraine is a wartime country: some national statistics, finance-ministry and customs routes initially returned 403 to automated access, some national series stop in 2021 because the survey behind them was suspended, and the 2022 collapse is drawn at its real size rather than squeezed into the atlas's usual range. The register and the international estimate of the population are two different territories and are drawn as two lines, never joined.",
-    "notes": [
-      "2026 is a partial year. Annual totals on this page stop at 2025; the population register stops at 1 January 2022 and the household survey at 2021.",
-      "Territorial scope is a data definition, not a footnote. Ukrstat's register excludes the temporarily occupied territories from 2015 (Crimea and Sevastopol, and the occupied parts of Donetsk, Luhansk, Kherson and Zaporizhzhia oblasts); the World Bank and UN population figures include Crimea throughout. The demography plate draws both, labelled, and never splices them.",
-      "The 2015 step in the register is that perimeter change, not a demographic event: 45.4m in 2014, 42.9m in 2015. It is annotated on the panel so it cannot be misread.",
-      "Real GDP fell 28.8% in 2022, which is beyond the range the atlas used before this country joined; the shared comparison scale was widened for every country rather than overridden here.",
-      "The unemployment line is an ILO-modelled estimate and stops in 2021: no labour-force survey was run in the war years. Its last value is labelled as modelled, not measured.",
-      "Prices are shown twice: the annual inflation rate on the economy plate, and the chained price level since 2006 on the people plate. The index is derived from the annual rates in one vintage and says so.",
-      "The plates are drawn in the three languages this country publishes — Ukrainian, English and Portuguese — and so is this page.",
-      "The public-finances plate shows IMF WEO general-government accrual statistics. Separately, official consolidated Treasury cash-budget functional expenditures cover 2011–2025 in million UAH. The Ministry's final annual 2025 workbook confirms the NBU figures; its earlier December edition was UAH 6.92bn lower. The two fiscal definitions are never spliced."
-    ],
-    "unavailable": [
-      {
-        "term": "Trade partner destinations",
-        "detail": "The customs service answers 403 to this network and the 2023 UN Comtrade snapshot is a single year, not the slot's time series. The plate keeps the destination panel pending rather than drawing one year as a trend."
-      },
-      {
-        "term": "Government bond yield and equity index",
-        "detail": "No continuous official hryvnia 10-year yield exists, and trading on the exchange was suspended from 24 February 2022; no unofficial redistributor is substituted. The markets plate keeps both panels pending."
-      },
-      {
-        "term": "Credit",
-        "detail": "Tried and not usable: the IMF has no Ukraine household-debt series, the NBU's loan endpoint publishes monthly dimension slices whose mortgage and consumer components exceed their own total before 2016, its bank statistics carry provisions rather than a non-performing ratio, and data.gov.ua has no NPL dataset. The chapter stays unpublished rather than drawn from an inconsistent split."
-      },
-      {
-        "term": "Births, deaths, fertility and migration",
-        "detail": "Ukrstat publishes them to 2022, but the cached dataflow's dimension code list does not identify the total series unambiguously — incomplete definition research, not a missing publisher. The panels stay pending and say so."
-      },
-      {
-        "term": "Excess deaths and COVID-19 deaths",
-        "detail": "Excess deaths need the registered-death count; Ukrstat's deaths dataflow is cached but its code list is not yet pinned. WHO's COVID-19 series answers from a redirect that does not resolve here."
-      },
-      {
-        "term": "Poverty and the minimum wage",
-        "detail": "The household survey that measures poverty has not published since 2021, and the statutory minimum wage is set in hryvnia with no official monthly US$ series staged."
-      },
-      {
-        "term": "Corruption Perceptions Index",
-        "detail": "Transparency International's workbook answers 403 to this network. No proxy is substituted."
-      }
-    ],
-    "colophon": [
-      {
-        "term": "Population register",
-        "detail": "State Statistics Service of Ukraine (SSSU) — SDMX dataflow DF_POPULATION_STRUCTURE, indicator PNMI_01"
-      },
-      {
-        "term": "National accounts, prices, labour",
-        "detail": "World Bank WDI, which republishes the Ukrstat indices; IMF WEO as the independent growth check"
-      },
-      {
-        "term": "Human development",
-        "detail": "UNDP Human Development Report 2025, one vintage throughout"
-      },
-      {
-        "term": "Reserves",
-        "detail": "World Bank WDI (the National Bank's year-end reserves)"
-      },
-      {
-        "term": "National Treasury cash execution",
-        "detail": "State Treasury Service via the NBU budget API, 2011–2025, consolidated cash budget (CBU), ten Ukrainian functional classifications, million nominal UAH. Independently confirmed by MoF annual 2025; December 2025 was UAH 6.92bn lower. Not IMF general-government accrual."
-      }
-    ]
-  },
-  "uk": {
-    "line": "{n} планок офіційних даних, {window}",
-    "dek": "Кожне число на цій сторінці походить від джерела, яке називає своє визначення — Державна служба статистики України для реєстру населення, Світовий банк, МВФ і ПРООН для порівняного шару — і кожна планка відтворюється з опублікованих CSV, тож графіки й числа тут не можуть розійтися. Україна — воєнна країна: деякі маршрути національної статистики, Мінфіну та митниці спочатку відповідали 403 на автоматичні запити, частина національних рядів обривається у 2021 році, бо обстеження припинилися, а падіння 2022 року намальовано в його справжньому розмірі. Реєстр і міжнародна оцінка населення — це дві різні території, і вони намальовані двома лініями, які ніколи не з'єднуються.",
-    "notes": [
-      "2026 рік неповний. Річні підсумки на цій сторінці закінчуються 2025 роком; реєстр населення — 1 січня 2022 року, обстеження домогосподарств — 2021 роком.",
-      "Територіальний обсяг — це визначення даних, а не примітка. Реєстр Укрстату з 2015 року не включає тимчасово окуповані території (Крим і Севастополь, а також окуповані частини Донецької, Луганської, Херсонської та Запорізької областей); оцінки Світового банку й ООН включають Крим увесь час. Планка демографії малює обидві лінії з підписами і ніколи їх не з'єднує.",
-      "Стрибок 2015 року в реєстрі — це зміна території, а не демографічна подія: 45,4 млн у 2014 році, 42,9 млн у 2015-му. Він підписаний на панелі, щоб його не прочитали інакше.",
-      "Реальний ВВП упав на 28,8% у 2022 році, що виходить за межі шкали, яку атлас мав до приєднання цієї країни; спільну шкалу порівняння розширили для всіх країн, а не перекрили тут.",
-      "Лінія безробіття — це модельована оцінка МОП, і вона обривається у 2021 році: у воєнні роки обстеження робочої сили не проводилося. Останнє значення підписане як модельоване, не виміряне.",
-      "Ціни показано двічі: річна інфляція на планці економіки і нанизаний рівень цін від 2006 року на планці людей. Індекс похідний від річних темпів однієї редакції, і це сказано.",
-      "Планки намальовані трьома мовами, якими ця країна публікується — українською, англійською та португальською — як і ця сторінка.",
-      "Планка державних фінансів використовує гармонізовані дані МВФ за методом нарахування. Окремо наведено офіційний ряд касового виконання зведеного бюджету Казначейства за 2011–2025 роки (млн грн). Річний звіт Мінфіну за 2025 рік підтверджує дані НБУ; попередня груднева редакція була на 6,92 млрд грн меншою. Різні визначення не змішуються."
-    ],
-    "unavailable": [
-      {
-        "term": "Напрямки експорту",
-        "detail": "Митна служба відповідає 403 для цієї мережі, а знімок UN Comtrade за 2023 рік — це один рік, а не часовий ряд позиції. Панель лишається відсутньою, а не малює один рік як тренд."
-      },
-      {
-        "term": "Дохідність облігацій і фондовий індекс",
-        "detail": "Безперервного офіційного ряду 10-річних гривневих облігацій немає, а торги на біржі зупинили 24 лютого 2022 року; жодного неофіційного посередника не підставляємо. Обидві панелі лишаються відсутніми."
-      },
-      {
-        "term": "Кредит",
-        "detail": "Перевірено й непридатне: у МВФ немає ряду боргу домогосподарств України, кінцева точка кредитів НБУ публікує місячні зрізи, у яких іпотечна та споживча складові перевищують власний підсумок до 2016 року, банківська звітність містить резерви, а не частку непрацюючих кредитів, і на data.gov.ua набору NPL немає. Планка лишається неопублікованою, а не намальованою з неузгодженого поділу."
-      },
-      {
-        "term": "Народжуваність, смертність, фертильність і міграція",
-        "detail": "Укрстат публікує їх до 2022 року, але перелік кодів вимірів у кешованому наборі не визначає підсумковий ряд однозначно — це незавершене дослідження визначень, а не відсутній видавець."
-      },
-      {
-        "term": "Надлишкова смертність і смерті від COVID-19",
-        "detail": "Надлишкова смертність потребує кількості зареєстрованих смертей; набір смертей Укрстату є в кеші, але його перелік кодів ще не закріплено. Ряд COVID-19 ВООЗ відповідає через переадресацію, яка тут не розв’язується."
-      },
-      {
-        "term": "Бідність і мінімальна зарплата",
-        "detail": "Обстеження домогосподарств, яке вимірює бідність, не публікувалося з 2021 року, а мінімальна зарплата встановлюється в гривні без офіційного місячного ряду в доларах."
-      },
-      {
-        "term": "Індекс сприйняття корупції",
-        "detail": "Робоча книга Transparency International відповідає 403 для цієї мережі. Замінника не підставляємо."
-      }
-    ],
-    "colophon": [
-      {
-        "term": "Реєстр населення",
-        "detail": "Державна служба статистики України — SDMX dataflow DF_POPULATION_STRUCTURE, показник PNMI_01"
-      },
-      {
-        "term": "Національні рахунки, ціни, праця",
-        "detail": "Світовий банк (WDI), що перепубліковує індекси Укрстату; МВФ WEO як незалежна перевірка зростання"
-      },
-      {
-        "term": "Людський розвиток",
-        "detail": "ПРООН, Звіт про людський розвиток 2025, одна редакція для всього ряду"
-      },
-      {
-        "term": "Резерви",
-        "detail": "Світовий банк (WDI), резерви Національного банку на кінець року"
-      },
-      {
-        "term": "Касове виконання Казначейства",
-        "detail": "Державна казначейська служба через бюджетний API НБУ, зведений бюджет 2011–2025 років, десять національних функціональних груп, млн грн у поточних цінах. Річний звіт Мінфіну 2025 року підтверджує дані, попередня груднева редакція була меншою на 6,92 млрд грн. Це не рахунки МВФ за методом нарахування."
-      }
-    ]
-  },
-  "pt": {
-    "line": "{n} pranchas de dados oficiais, {window}",
-    "dek": "Todo número desta página vem de um editor que nomeia a sua definição — o Serviço Estatal de Estatística da Ucrânia para o registro populacional, e o Banco Mundial, o FMI e o PNUD para a camada harmonizada — e cada prancha é regenerada a partir de CSVs versionados, de modo que os gráficos e os números daqui não podem divergir. A Ucrânia é um país em guerra: algumas rotas da estatística nacional, do Ministério das Finanças e da alfândega inicialmente responderam 403 ao acesso automatizado, algumas séries nacionais terminam em 2021 porque o inquérito por trás delas foi suspenso, e o colapso de 2022 é desenhado no seu tamanho real, e não espremido na faixa habitual do atlas. O registro e a estimativa internacional da população são dois territórios diferentes e são desenhados como duas linhas, nunca unidas.",
-    "notes": [
-      "2026 é um ano incompleto. Os totais anuais desta página param em 2025; o registro populacional para em 1 de janeiro de 2022 e o inquérito domiciliar em 2021.",
-      "O escopo territorial é uma definição de dados, não uma nota de pé de página. O registro do Ukrstat exclui os territórios temporariamente ocupados desde 2015 (Crimeia e Sebastopol, e as partes ocupadas das regiões de Donetsk, Luhansk, Kherson e Zaporizhzhia); as cifras de população do Banco Mundial e da ONU incluem a Crimeia o tempo todo. A prancha de demografia desenha as duas, rotuladas, e nunca as emenda.",
-      "O degrau de 2015 no registro é essa mudança de perímetro, não um evento demográfico: 45,4 milhões em 2014, 42,9 milhões em 2015. Ele aparece anotado no painel para não ser lido de outra forma.",
-      "O PIB real caiu 28,8% em 2022, o que ultrapassa a faixa que o atlas usava antes de o país entrar; a escala compartilhada de comparação foi alargada para todos os países em vez de ser sobreposta aqui.",
-      "A linha do desemprego é uma estimativa modelada pela OIT e termina em 2021: não houve inquérito de força de trabalho nos anos de guerra. O último valor é rotulado como modelado, não medido.",
-      "Os preços aparecem duas vezes: a inflação anual na prancha da economia e o nível de preços encadeado desde 2006 na prancha das pessoas. O índice é derivado das taxas anuais de uma única edição, e isso está dito.",
-      "As pranchas são desenhadas nas três línguas em que este país publica — ucraniano, inglês e português — como esta página.",
-      "A prancha de finanças públicas apresenta as contas harmonizadas do FMI por competência. Em separado, há uma série oficial de execução de caixa do orçamento consolidado do Tesouro para 2011–2025, em milhões de UAH. A edição anual de 2025 do Ministério das Finanças confirma o NBU; a edição anterior de dezembro era UAH 6,92 bilhões inferior. As definições não são combinadas."
-    ],
-    "unavailable": [
-      {
-        "term": "Destinos das exportações",
-        "detail": "O serviço aduaneiro responde 403 a esta rede e o retrato do UN Comtrade de 2023 é um único ano, não a série temporal da vaga. O painel fica pendente em vez de desenhar um ano como tendência."
-      },
-      {
-        "term": "Rendimento de títulos e índice de ações",
-        "detail": "Não existe série oficial contínua de títulos de 10 anos em hryvnia, e a negociação foi suspensa em 24 de fevereiro de 2022; nenhum redistribuidor não oficial é usado. Ambos os painéis ficam pendentes."
-      },
-      {
-        "term": "Crédito",
-        "detail": "Testado e inutilizável: o FMI não tem série de dívida das famílias da Ucrânia, o endpoint de crédito do NBU publica fatias mensais cujos componentes de hipoteca e consumo excedem o próprio total antes de 2016, as estatísticas bancárias trazem provisões e não um índice de inadimplência, e o data.gov.ua não tem conjunto de NPL. O capítulo fica não publicado em vez de desenhado a partir de uma divisão inconsistente."
-      },
-      {
-        "term": "Natalidade, mortalidade, fecundidade e migração",
-        "detail": "O Ukrstat publica esses dados até 2022, mas a lista de códigos de dimensão do conjunto em cache não identifica a série total de forma inequívoca — pesquisa de definição incompleta, não editor ausente."
-      },
-      {
-        "term": "Excesso de mortes e mortes por COVID-19",
-        "detail": "O excesso de mortes exige a contagem de óbitos registrados; o conjunto de óbitos do Ukrstat está em cache, mas a sua lista de códigos ainda não está fixada. A série de COVID-19 da OMS responde por um redirecionamento que não resolve aqui."
-      },
-      {
-        "term": "Pobreza e salário mínimo",
-        "detail": "O inquérito domiciliar que mede a pobreza não publica desde 2021, e o salário mínimo legal é fixado em hryvnia sem série mensal oficial em dólares."
-      },
-      {
-        "term": "Índice de Percepção da Corrupção",
-        "detail": "A planilha da Transparency International responde 403 a esta rede. Nenhum substituto é usado."
-      }
-    ],
-    "colophon": [
-      {
-        "term": "Registro populacional",
-        "detail": "Serviço Estatal de Estatística da Ucrânia — SDMX dataflow DF_POPULATION_STRUCTURE, indicador PNMI_01"
-      },
-      {
-        "term": "Contas nacionais, preços, trabalho",
-        "detail": "Banco Mundial (WDI), que republica os índices do Ukrstat; FMI WEO como verificação independente do crescimento"
-      },
-      {
-        "term": "Desenvolvimento humano",
-        "detail": "PNUD, Relatório de Desenvolvimento Humano 2025, uma edição para toda a série"
-      },
-      {
-        "term": "Reservas",
-        "detail": "Banco Mundial (WDI), reservas de fim de ano do Banco Nacional"
-      },
-      {
-        "term": "Execução de caixa do Tesouro",
-        "detail": "Serviço Estatal do Tesouro via API orçamentária do NBU, orçamento consolidado 2011–2025, dez funções nacionais, milhões de UAH nominais. Confirmado pelo relatório anual de 2025 do Ministério das Finanças; a edição anterior de dezembro tinha UAH 6,92 bilhões a menos. Não equivale às contas por competência do FMI."
-      }
-    ]
-  }
+ "en": {
+  "line": "{n} plates of official data, {window}",
+  "dek": "Every figure on this page comes from a publisher that names its definition — the State Statistics Service of Ukraine for the population register, and the World Bank, IMF and UNDP for the harmonised layer — and every plate is regenerated from committed CSVs, so the charts and the numbers here cannot drift apart. Ukraine is a wartime country: some national statistics, finance-ministry and customs routes initially returned 403 to automated access, some national series stop in 2021 because the survey behind them was suspended, and the 2022 collapse is drawn at its real size rather than squeezed into the atlas's usual range. The register and the international estimate of the population are two different territories and are drawn as two lines, never joined.",
+  "notes": [
+   "2026 is a partial year. Annual totals on this page stop at 2025; the population register stops at 1 January 2022 and the household survey at 2021.",
+   "Territorial scope is a data definition, not a footnote. Ukrstat's register excludes the temporarily occupied territories from 2015 (Crimea and Sevastopol, and the occupied parts of Donetsk, Luhansk, Kherson and Zaporizhzhia oblasts); the World Bank and UN population figures include Crimea throughout. The demography plate draws both, labelled, and never splices them.",
+   "The 2015 step in the register is that perimeter change, not a demographic event: 45.4m in 2014, 42.9m in 2015. It is annotated on the panel so it cannot be misread.",
+   "Real GDP fell 28.8% in 2022, which is beyond the range the atlas used before this country joined; the shared comparison scale was widened for every country rather than overridden here.",
+   "The unemployment line is an ILO-modelled estimate and stops in 2021: no labour-force survey was run in the war years. Its last value is labelled as modelled, not measured.",
+   "Prices are shown twice: the annual inflation rate on the economy plate, and the chained price level since 2006 on the people plate. The index is derived from the annual rates in one vintage and says so.",
+   "The plates are drawn in the three languages this country publishes — Ukrainian, English and Portuguese — and so is this page.",
+   "The public-finances plate shows IMF WEO general-government accrual statistics. Separately, official consolidated Treasury cash-budget functional expenditures cover 2011–2025 in million UAH. The Ministry's final annual 2025 workbook confirms the NBU figures; its earlier December edition was UAH 6.92bn lower. The two fiscal definitions are never spliced."
+  ],
+  "unavailable": [
+   {
+    "term": "Trade partner destinations",
+    "detail": "The customs service answers 403 to this network and the 2023 UN Comtrade snapshot is a single year, not the slot's time series. The plate keeps the destination panel pending rather than drawing one year as a trend."
+   },
+   {
+    "term": "Government bond yield and equity index",
+    "detail": "No continuous official hryvnia 10-year yield exists, and trading on the exchange was suspended from 24 February 2022; no unofficial redistributor is substituted. The markets plate keeps both panels pending."
+   },
+   {
+    "term": "Credit",
+    "detail": "Tried and not usable: the IMF has no Ukraine household-debt series, the NBU's loan endpoint publishes monthly dimension slices whose mortgage and consumer components exceed their own total before 2016, its bank statistics carry provisions rather than a non-performing ratio, and data.gov.ua has no NPL dataset. The chapter stays unpublished rather than drawn from an inconsistent split."
+   },
+   {
+    "term": "Births, deaths, fertility and migration",
+    "detail": "Ukrstat publishes them to 2022, but the cached dataflow's dimension code list does not identify the total series unambiguously — incomplete definition research, not a missing publisher. The panels stay pending and say so."
+   },
+   {
+    "term": "Excess deaths and COVID-19 deaths",
+    "detail": "Excess deaths need the registered-death count; Ukrstat's deaths dataflow is cached but its code list is not yet pinned. WHO's COVID-19 series answers from a redirect that does not resolve here."
+   },
+   {
+    "term": "Poverty and the minimum wage",
+    "detail": "The household survey that measures poverty has not published since 2021, and the statutory minimum wage is set in hryvnia with no official monthly US$ series staged."
+   },
+   {
+    "term": "Corruption Perceptions Index",
+    "detail": "Transparency International's workbook answers 403 to this network. No proxy is substituted."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Population register",
+    "detail": "State Statistics Service of Ukraine (SSSU) — SDMX dataflow DF_POPULATION_STRUCTURE, indicator PNMI_01"
+   },
+   {
+    "term": "National accounts, prices, labour",
+    "detail": "World Bank WDI, which republishes the Ukrstat indices; IMF WEO as the independent growth check"
+   },
+   {
+    "term": "Human development",
+    "detail": "UNDP Human Development Report 2025, one vintage throughout"
+   },
+   {
+    "term": "Reserves",
+    "detail": "World Bank WDI (the National Bank's year-end reserves)"
+   },
+   {
+    "term": "National Treasury cash execution",
+    "detail": "State Treasury Service via the NBU budget API, 2011–2025, consolidated cash budget (CBU), ten Ukrainian functional classifications, million nominal UAH. Independently confirmed by MoF annual 2025; December 2025 was UAH 6.92bn lower. Not IMF general-government accrual."
+   }
+  ]
+ },
+ "uk": {
+  "line": "{n} планок офіційних даних, {window}",
+  "dek": "Кожне число на цій сторінці походить від джерела, яке називає своє визначення — Державна служба статистики України для реєстру населення, Світовий банк, МВФ і ПРООН для порівняного шару — і кожна планка відтворюється з опублікованих CSV, тож графіки й числа тут не можуть розійтися. Україна — воєнна країна: деякі маршрути національної статистики, Мінфіну та митниці спочатку відповідали 403 на автоматичні запити, частина національних рядів обривається у 2021 році, бо обстеження припинилися, а падіння 2022 року намальовано в його справжньому розмірі. Реєстр і міжнародна оцінка населення — це дві різні території, і вони намальовані двома лініями, які ніколи не з'єднуються.",
+  "notes": [
+   "2026 рік неповний. Річні підсумки на цій сторінці закінчуються 2025 роком; реєстр населення — 1 січня 2022 року, обстеження домогосподарств — 2021 роком.",
+   "Територіальний обсяг — це визначення даних, а не примітка. Реєстр Укрстату з 2015 року не включає тимчасово окуповані території (Крим і Севастополь, а також окуповані частини Донецької, Луганської, Херсонської та Запорізької областей); оцінки Світового банку й ООН включають Крим увесь час. Планка демографії малює обидві лінії з підписами і ніколи їх не з'єднує.",
+   "Стрибок 2015 року в реєстрі — це зміна території, а не демографічна подія: 45,4 млн у 2014 році, 42,9 млн у 2015-му. Він підписаний на панелі, щоб його не прочитали інакше.",
+   "Реальний ВВП упав на 28,8% у 2022 році, що виходить за межі шкали, яку атлас мав до приєднання цієї країни; спільну шкалу порівняння розширили для всіх країн, а не перекрили тут.",
+   "Лінія безробіття — це модельована оцінка МОП, і вона обривається у 2021 році: у воєнні роки обстеження робочої сили не проводилося. Останнє значення підписане як модельоване, не виміряне.",
+   "Ціни показано двічі: річна інфляція на планці економіки і нанизаний рівень цін від 2006 року на планці людей. Індекс похідний від річних темпів однієї редакції, і це сказано.",
+   "Планки намальовані трьома мовами, якими ця країна публікується — українською, англійською та португальською — як і ця сторінка.",
+   "Планка державних фінансів використовує гармонізовані дані МВФ за методом нарахування. Окремо наведено офіційний ряд касового виконання зведеного бюджету Казначейства за 2011–2025 роки (млн грн). Річний звіт Мінфіну за 2025 рік підтверджує дані НБУ; попередня груднева редакція була на 6,92 млрд грн меншою. Різні визначення не змішуються."
+  ],
+  "unavailable": [
+   {
+    "term": "Напрямки експорту",
+    "detail": "Митна служба відповідає 403 для цієї мережі, а знімок UN Comtrade за 2023 рік — це один рік, а не часовий ряд позиції. Панель лишається відсутньою, а не малює один рік як тренд."
+   },
+   {
+    "term": "Дохідність облігацій і фондовий індекс",
+    "detail": "Безперервного офіційного ряду 10-річних гривневих облігацій немає, а торги на біржі зупинили 24 лютого 2022 року; жодного неофіційного посередника не підставляємо. Обидві панелі лишаються відсутніми."
+   },
+   {
+    "term": "Кредит",
+    "detail": "Перевірено й непридатне: у МВФ немає ряду боргу домогосподарств України, кінцева точка кредитів НБУ публікує місячні зрізи, у яких іпотечна та споживча складові перевищують власний підсумок до 2016 року, банківська звітність містить резерви, а не частку непрацюючих кредитів, і на data.gov.ua набору NPL немає. Планка лишається неопублікованою, а не намальованою з неузгодженого поділу."
+   },
+   {
+    "term": "Народжуваність, смертність, фертильність і міграція",
+    "detail": "Укрстат публікує їх до 2022 року, але перелік кодів вимірів у кешованому наборі не визначає підсумковий ряд однозначно — це незавершене дослідження визначень, а не відсутній видавець."
+   },
+   {
+    "term": "Надлишкова смертність і смерті від COVID-19",
+    "detail": "Надлишкова смертність потребує кількості зареєстрованих смертей; набір смертей Укрстату є в кеші, але його перелік кодів ще не закріплено. Ряд COVID-19 ВООЗ відповідає через переадресацію, яка тут не розв’язується."
+   },
+   {
+    "term": "Бідність і мінімальна зарплата",
+    "detail": "Обстеження домогосподарств, яке вимірює бідність, не публікувалося з 2021 року, а мінімальна зарплата встановлюється в гривні без офіційного місячного ряду в доларах."
+   },
+   {
+    "term": "Індекс сприйняття корупції",
+    "detail": "Робоча книга Transparency International відповідає 403 для цієї мережі. Замінника не підставляємо."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Реєстр населення",
+    "detail": "Державна служба статистики України — SDMX dataflow DF_POPULATION_STRUCTURE, показник PNMI_01"
+   },
+   {
+    "term": "Національні рахунки, ціни, праця",
+    "detail": "Світовий банк (WDI), що перепубліковує індекси Укрстату; МВФ WEO як незалежна перевірка зростання"
+   },
+   {
+    "term": "Людський розвиток",
+    "detail": "ПРООН, Звіт про людський розвиток 2025, одна редакція для всього ряду"
+   },
+   {
+    "term": "Резерви",
+    "detail": "Світовий банк (WDI), резерви Національного банку на кінець року"
+   },
+   {
+    "term": "Касове виконання Казначейства",
+    "detail": "Державна казначейська служба через бюджетний API НБУ, зведений бюджет 2011–2025 років, десять національних функціональних груп, млн грн у поточних цінах. Річний звіт Мінфіну 2025 року підтверджує дані, попередня груднева редакція була меншою на 6,92 млрд грн. Це не рахунки МВФ за методом нарахування."
+   }
+  ]
+ },
+ "pt": {
+  "line": "{n} pranchas de dados oficiais, {window}",
+  "dek": "Todo número desta página vem de um editor que nomeia a sua definição — o Serviço Estatal de Estatística da Ucrânia para o registro populacional, e o Banco Mundial, o FMI e o PNUD para a camada harmonizada — e cada prancha é regenerada a partir de CSVs versionados, de modo que os gráficos e os números daqui não podem divergir. A Ucrânia é um país em guerra: algumas rotas da estatística nacional, do Ministério das Finanças e da alfândega inicialmente responderam 403 ao acesso automatizado, algumas séries nacionais terminam em 2021 porque o inquérito por trás delas foi suspenso, e o colapso de 2022 é desenhado no seu tamanho real, e não espremido na faixa habitual do atlas. O registro e a estimativa internacional da população são dois territórios diferentes e são desenhados como duas linhas, nunca unidas.",
+  "notes": [
+   "2026 é um ano incompleto. Os totais anuais desta página param em 2025; o registro populacional para em 1 de janeiro de 2022 e o inquérito domiciliar em 2021.",
+   "O escopo territorial é uma definição de dados, não uma nota de pé de página. O registro do Ukrstat exclui os territórios temporariamente ocupados desde 2015 (Crimeia e Sebastopol, e as partes ocupadas das regiões de Donetsk, Luhansk, Kherson e Zaporizhzhia); as cifras de população do Banco Mundial e da ONU incluem a Crimeia o tempo todo. A prancha de demografia desenha as duas, rotuladas, e nunca as emenda.",
+   "O degrau de 2015 no registro é essa mudança de perímetro, não um evento demográfico: 45,4 milhões em 2014, 42,9 milhões em 2015. Ele aparece anotado no painel para não ser lido de outra forma.",
+   "O PIB real caiu 28,8% em 2022, o que ultrapassa a faixa que o atlas usava antes de o país entrar; a escala compartilhada de comparação foi alargada para todos os países em vez de ser sobreposta aqui.",
+   "A linha do desemprego é uma estimativa modelada pela OIT e termina em 2021: não houve inquérito de força de trabalho nos anos de guerra. O último valor é rotulado como modelado, não medido.",
+   "Os preços aparecem duas vezes: a inflação anual na prancha da economia e o nível de preços encadeado desde 2006 na prancha das pessoas. O índice é derivado das taxas anuais de uma única edição, e isso está dito.",
+   "As pranchas são desenhadas nas três línguas em que este país publica — ucraniano, inglês e português — como esta página.",
+   "A prancha de finanças públicas apresenta as contas harmonizadas do FMI por competência. Em separado, há uma série oficial de execução de caixa do orçamento consolidado do Tesouro para 2011–2025, em milhões de UAH. A edição anual de 2025 do Ministério das Finanças confirma o NBU; a edição anterior de dezembro era UAH 6,92 bilhões inferior. As definições não são combinadas."
+  ],
+  "unavailable": [
+   {
+    "term": "Destinos das exportações",
+    "detail": "O serviço aduaneiro responde 403 a esta rede e o retrato do UN Comtrade de 2023 é um único ano, não a série temporal da vaga. O painel fica pendente em vez de desenhar um ano como tendência."
+   },
+   {
+    "term": "Rendimento de títulos e índice de ações",
+    "detail": "Não existe série oficial contínua de títulos de 10 anos em hryvnia, e a negociação foi suspensa em 24 de fevereiro de 2022; nenhum redistribuidor não oficial é usado. Ambos os painéis ficam pendentes."
+   },
+   {
+    "term": "Crédito",
+    "detail": "Testado e inutilizável: o FMI não tem série de dívida das famílias da Ucrânia, o endpoint de crédito do NBU publica fatias mensais cujos componentes de hipoteca e consumo excedem o próprio total antes de 2016, as estatísticas bancárias trazem provisões e não um índice de inadimplência, e o data.gov.ua não tem conjunto de NPL. O capítulo fica não publicado em vez de desenhado a partir de uma divisão inconsistente."
+   },
+   {
+    "term": "Natalidade, mortalidade, fecundidade e migração",
+    "detail": "O Ukrstat publica esses dados até 2022, mas a lista de códigos de dimensão do conjunto em cache não identifica a série total de forma inequívoca — pesquisa de definição incompleta, não editor ausente."
+   },
+   {
+    "term": "Excesso de mortes e mortes por COVID-19",
+    "detail": "O excesso de mortes exige a contagem de óbitos registrados; o conjunto de óbitos do Ukrstat está em cache, mas a sua lista de códigos ainda não está fixada. A série de COVID-19 da OMS responde por um redirecionamento que não resolve aqui."
+   },
+   {
+    "term": "Pobreza e salário mínimo",
+    "detail": "O inquérito domiciliar que mede a pobreza não publica desde 2021, e o salário mínimo legal é fixado em hryvnia sem série mensal oficial em dólares."
+   },
+   {
+    "term": "Índice de Percepção da Corrupção",
+    "detail": "A planilha da Transparency International responde 403 a esta rede. Nenhum substituto é usado."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Registro populacional",
+    "detail": "Serviço Estatal de Estatística da Ucrânia — SDMX dataflow DF_POPULATION_STRUCTURE, indicador PNMI_01"
+   },
+   {
+    "term": "Contas nacionais, preços, trabalho",
+    "detail": "Banco Mundial (WDI), que republica os índices do Ukrstat; FMI WEO como verificação independente do crescimento"
+   },
+   {
+    "term": "Desenvolvimento humano",
+    "detail": "PNUD, Relatório de Desenvolvimento Humano 2025, uma edição para toda a série"
+   },
+   {
+    "term": "Reservas",
+    "detail": "Banco Mundial (WDI), reservas de fim de ano do Banco Nacional"
+   },
+   {
+    "term": "Execução de caixa do Tesouro",
+    "detail": "Serviço Estatal do Tesouro via API orçamentária do NBU, orçamento consolidado 2011–2025, dez funções nacionais, milhões de UAH nominais. Confirmado pelo relatório anual de 2025 do Ministério das Finanças; a edição anterior de dezembro tinha UAH 6,92 bilhões a menos. Não equivale às contas por competência do FMI."
+   }
+  ]
+ }
 }
