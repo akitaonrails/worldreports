@@ -45,6 +45,11 @@ it parses as something.
 | SII | `sii.cl/sobre_el_sii/estadisticas_de_empresas.html` | 200 | per-year HTML pages | no series |
 | SII | `sii.cl/estadisticas/inicio.htm` | 404 | — | — |
 | MINSAL / DEIS (via datos.gob.cl) | `DEF_SEMANA_EPIDEMIOLOGICA.csv` | 200 | 141,920 rows, pipe-delimited, 6.3 MB | **staged** |
+| Mintrab | `mintrab.gob.cl/` and `?s=ingreso+minimo+mensual` | 200 | WordPress HTML, news posts | no data |
+| ChileAtiende | `chileatiende.gob.cl/fichas/18028-ingreso-minimo-mensual` | 404 | — | no table |
+| BCN | `bcn.cl/leychile/` | 200 | HTML law database (statutes, not a series) | next route for the minimum wage |
+| INE | `ine.gob.cl/.../estadisticas-vitales` | 404 | — | cause-of-death tables are annual PDFs |
+| datos.gob.cl | `package_search?q=covid` | 200 | 165 datasets, all procurement and mining; no death counts | no data |
 | Bolsa de Santiago | `bolsadesantiago.com/api/...` | 200 | Radware captcha page | no data |
 | World Bank API | `api.worldbank.org/v2/country/CHL/indicator/...` | 200 | JSON, vintage 2026-10-08 | **staged** |
 | IMF DataMapper | `imf.org/external/datamapper/api/v1/{code}` | 200 | JSON (403 to `urllib`'s default UA; needs a browser-shaped one) | **staged** |

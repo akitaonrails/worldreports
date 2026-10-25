@@ -354,8 +354,9 @@ meta:
       failure: >-
         The WHO global CSV now serves the dashboard's HTML page instead
         of the file. DEIS's week/sex/age/region file carries no cause
-        column, and no cause-of-death resource exists on datos.gob.cl for
-        Chile (searched 2026-10-25). INE's vital statistics by cause are
+        column; a datos.gob.cl search for covid returns 165 datasets, all
+        procurement and mining, with no death counts; INE's vital-
+        statistics path answers 404 and its cause-of-death tables are
         annual PDFs. Pending rather than proxied by all-cause excess
         deaths.
     - series: "Statutory minimum wage (Ingreso Mínimo Mensual), CLP per month"
@@ -365,11 +366,13 @@ meta:
         Chile has a statutory minimum wage — this is not a case of
         absence. It is set by law and reajustado annually, and no
         machine-readable official series was found on 2026-10-25: the
-        Dirección del Trabajo's site is HTML, the OECD's
-        minimum-wage-at-current-prices flow returns NoRecordsFound for
-        CHL, the OECD real-minimum-wage flow likewise, and ILOSTAT's bulk
-        download answers 403. Left pending rather than transcribed from
-        memory.
+        Dirección del Trabajo's site is HTML, mintrab.gob.cl is a
+        WordPress site of news posts, chileatiende's ficha answers 404,
+        the OECD's minimum-wage-at-current-prices flow returns
+        NoRecordsFound for CHL, the OECD real-minimum-wage flow likewise,
+        and ILOSTAT's bulk download answers 403. Left pending rather than
+        transcribed from memory; the next route is the statutes on
+        bcn.cl/leychile, one law per reajuste, cited by law number.
     - series: "Immigration and emigration flows (people per year)"
       slot: "migration.slot1"
       endpoint: "https://serviciomigraciones.cl/ ; INE migration estimates"
