@@ -179,7 +179,7 @@ SPINE: dict[str, tuple[Slot, ...]] = {
            "per 1,000 people", (0, 25)),
         _c("demography.natural_migration",
            "Natural increase and net migration", "per 1,000 people",
-           (-10, 40), BOTH, zero=True),
+           (-30, 40), BOTH, zero=True),
     ),
     "security": (
         _c("security.homicide", "Homicide rate", "per 100,000", (0.1, 100),
@@ -201,7 +201,7 @@ SPINE: dict[str, tuple[Slot, ...]] = {
     "migration": (
         _c("migration.flows", "Immigration and emigration",
            "per 1,000 people", (0, 50), UP),
-        _c("migration.net", "Net migration", "per 1,000 people", (-10, 40),
+        _c("migration.net", "Net migration", "per 1,000 people", (-30, 40),
            BOTH, zero=True),
         _c("migration.foreign_born", "Foreign-born share of the population",
            "% of population", (0, 50), UP),
