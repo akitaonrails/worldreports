@@ -313,7 +313,7 @@ def test_migration_plate_uses_rates_and_the_fixed_comparison_scales(ctx):
     assert flows.ylim() == pytest.approx((0, 50))
 
     net = plate(SLUG, "plate_migration").panel("Net migration")
-    assert net.ylim() == pytest.approx((-10, 40))
+    assert net.ylim() == pytest.approx((-30, 40))
     stock = plate(SLUG, "plate_migration").panel("Foreign-citizen share")
     assert stock.points("Resident foreigners at 1 November")[2024] == 3.9
     assert stock.ylim() == pytest.approx((0, 50))

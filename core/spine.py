@@ -110,7 +110,7 @@ SPINE: dict[str, tuple[Slot, ...]] = {
         _c("fiscal.revenue_expenditure", "Revenue and expenditure",
            "% of GDP", (0, 80)),
         _c("fiscal.balance", "Overall and primary balance", "% of GDP",
-           (-35, 8), BOTH, zero=True),
+           (-35, 10), BOTH, zero=True),
         _c("fiscal.debt", "Gross debt", "% of GDP", (0, 300), UP),
         _c("fiscal.interest", "Interest paid", "% of GDP", (0, 10), UP),
     ),
@@ -184,7 +184,7 @@ SPINE: dict[str, tuple[Slot, ...]] = {
     "security": (
         _c("security.homicide", "Homicide rate", "per 100,000", (0.1, 100),
            NONE, LOG, _LADDER_HOMICIDE),
-        _c("security.suicide", "Suicide rate", "per 100,000", (0, 40)),
+        _c("security.suicide", "Suicide rate", "per 100,000", (0, 45)),
         _c("security.road_deaths", "Road traffic deaths", "per 100,000",
            (0, 40)),
         _lens("security.lens"),
