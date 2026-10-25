@@ -1,0 +1,33 @@
+# CURATED 2026-10-25 by reviewing the sidecar fiscal/federal_budget_from_minfin.csv (re-run the fetcher named in SOURCES.yaml to refresh it).
+# Ministry of Finance of the Russian Federation, Приложение 3.1
+# 'Краткая информация об исполнении федерального бюджета', sheet
+# 'год': federal budget execution, BILLION ROUBLES, cash basis,
+# FEDERAL level only.
+# NOT general government: no regional budgets, no state social
+# funds, no accrual. The spine's fiscal slots use the IMF WEO
+# general-government series; this is the national line beside it.
+# balance is the publisher's 'Дефицит (-)/Профицит (+)';
+# non_oil_gas_balance is the non-oil-and-gas deficit the Ministry
+# leads with. interest is section 2.13, debt service.
+# Fetched 2026-10-25.
+year,revenue_bn_rub,oil_gas_revenue_bn_rub,non_oil_gas_revenue_bn_rub,expenditure_bn_rub,balance_bn_rub,non_oil_gas_balance_bn_rub,debt_service_bn_rub
+2006,6278.9,2943.5,3335.3,4284.8,1994.1,-949.5,
+2007,7781.1,2897.4,4883.7,5986.6,1794.6,-1102.8,
+2008,9275.9,4389.4,4886.5,7570.9,1705.1,-2684.4,
+2009,7337.8,2984.0,4353.8,9660.1,-2322.3,-5306.3,
+2010,8305.4,3830.7,4474.7,10117.5,-1812.0,-5642.7,
+2011,11367.7,5641.8,5725.9,10925.6,442.0,-5199.7,262.7
+2012,12855.5,6453.2,6402.4,12895.0,-39.4,-6492.6,320.0
+2013,13019.9,6534.0,6485.9,13342.9,-323.0,-6857.0,360.3
+2014,14496.9,7433.8,7063.1,14831.6,-334.7,-7768.5,415.6
+2015,13659.2,5862.7,7796.6,15620.3,-1961.0,-7823.7,518.7
+2016,13460.0,4844.0,8616.0,16416.4,-2956.4,-7800.4,621.3
+2017,15088.9,5971.9,9117.0,16420.3,-1331.4,-7303.3,709.2
+2018,19454.4,9017.8,10436.6,16713.0,2741.4,-6276.4,806.0
+2019,20188.8,7924.3,12264.5,18214.5,1974.3,-5950.0,730.8
+2020,18719.1,5235.2,13483.8,22821.6,-4102.5,-9337.7,784.2
+2021,25286.4,9056.5,16229.9,24762.1,524.3,-8532.2,1084.2
+2022,27824.4,11586.2,16238.2,31119.0,-3295.0,-14881.2,
+2023,29124.0,8822.3,20301.8,32353.8,-3229.8,-12052.0,
+2024,36708.6,11131.1,25577.5,40180.5,-3471.9,-14603.0,
+2025,37283.8,8476.8,28806.9,42910.3,-5626.5,-14103.4,

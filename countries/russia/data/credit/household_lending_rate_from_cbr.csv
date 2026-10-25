@@ -1,0 +1,22 @@
+# Bank of Russia, pdko/int_rat/loans_ind_new.xlsx, sheet
+# 'ставки_руб', column 'все виды кредитов' under 'по всем срокам':
+# weighted-average rate on NEW rouble loans to individuals, all
+# maturities, monthly, annual MEAN.
+# The file starts in January 2014; years before that are absent
+# rather than estimated. Mortgage-only and consumer-only cuts are
+# in the same workbook and are not what this column is.
+# Fetched 2026-10-25.
+year,household_lending_rate_pct
+2014,18.27
+2015,20.23
+2016,17.46
+2017,15.07
+2018,13.13
+2019,13.08
+2020,11.19
+2021,10.60
+2022,12.81
+2023,12.94
+2024,18.47
+2025,18.59
+2026,18.81

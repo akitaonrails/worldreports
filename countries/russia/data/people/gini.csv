@@ -1,0 +1,23 @@
+# CURATED 2026-10-25 by reviewing the sidecar people/gini_from_wb.csv (re-run the fetcher named in SOURCES.yaml to refresh it).
+# World Bank WDI SI.POV.GINI, 0-100, household survey based. The series
+# stops in 2023: Rosstat's own Gini is published in the 'Уровень жизни'
+# release, not in a machine-readable file reachable from here.
+year,gini
+2006,41.0
+2007,42.3
+2008,41.6
+2009,39.8
+2010,39.5
+2011,39.7
+2012,40.7
+2013,40.9
+2014,36.9
+2015,36.5
+2016,36.7
+2017,35.5
+2018,35.3
+2019,35.7
+2020,33.7
+2021,35.1
+2022,33.9
+2023,33.0

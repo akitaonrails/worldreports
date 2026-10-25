@@ -1,0 +1,28 @@
+# CURATED 2026-10-25 by reviewing the sidecar markets/ofz_10y_from_cbr.csv (re-run the fetcher named in SOURCES.yaml to refresh it).
+# Bank of Russia, hd_base/zcyc_params: zero-coupon yield curve of
+# OFZ, the 10-year tenor, daily, annual MEAN.
+# The curve is the Bank of Russia's own model estimate from
+# market prices, not a single bond's yield.
+# Fetched 2026-10-25.
+year,ofz_10y_pct
+2006,6.75
+2007,6.53
+2008,7.62
+2009,11.27
+2010,7.71
+2011,8.25
+2012,8.07
+2013,7.42
+2014,9.44
+2015,11.15
+2016,8.87
+2017,7.84
+2018,8.02
+2019,7.59
+2020,6.27
+2021,7.34
+2022,9.87
+2023,11.27
+2024,14.55
+2025,14.92
+2026,15.32

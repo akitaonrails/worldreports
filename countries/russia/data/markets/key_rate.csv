@@ -1,0 +1,24 @@
+# CURATED 2026-10-25 by reviewing the sidecar markets/key_rate_from_cbr.csv (re-run the fetcher named in SOURCES.yaml to refresh it).
+# Bank of Russia, hd_base/KeyRate: the key rate, daily.
+# key_rate_pct is the MEAN of the daily values in the year;
+# key_rate_pct_peak is the highest single-day value, which is the
+# number the story is about: 20.00% on 28.02.2022 against a 2022
+# mean of about 10.6%. The rate was 9.50% the day before.
+# The Bank of Russia's key rate began on 13.09.2013; the previous
+# refinancing rate is continuous with it and the table carries it.
+# Fetched 2026-10-25.
+year,key_rate_pct,key_rate_pct_peak
+2013,5.50,5.50
+2014,7.97,17.00
+2015,12.48,17.00
+2016,10.56,11.00
+2017,9.10,10.00
+2018,7.41,7.75
+2019,7.31,7.75
+2020,5.03,6.25
+2021,5.77,8.50
+2022,10.55,20.00
+2023,10.01,16.00
+2024,17.54,21.00
+2025,19.13,21.00
+2026,14.70,16.00

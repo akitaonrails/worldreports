@@ -1,0 +1,30 @@
+# CURATED 2026-10-25 by reviewing the sidecar demography/population_from_wb.csv (re-run the fetcher named in SOURCES.yaml to refresh it).
+# World Bank SP.POP.TOTL (UN World Population Prospects), mid-year de-facto
+# total. THE SEAM: Rosstat's own series (popul_1897+.xlsx) rises by 2.7m
+# between its 2014 and 2015 rows (144.0m -> 146.7m) because Russia annexed
+# Crimea and Sevastopol in March 2014 and began counting them; Crimea plus
+# Sevastopol is about 2.3m people. This UN series rises by only 0.4m across
+# the same step, so from 2015 the two lines differ by ~2.3-2.7m and the gap
+# is territory plus the 2020-census rebase, not births. The lines are drawn
+# separately and never spliced.
+year,population
+2006,143049637
+2007,142805114
+2008,142742366
+2009,142785348
+2010,142849468
+2011,143018195
+2012,143378447
+2013,143805638
+2014,144237223
+2015,144640716
+2016,145015460
+2017,145293260
+2018,145398106
+2019,145453291
+2020,145245148
+2021,144746762
+2022,144236933
+2023,143826130
+2024,143669648
+2025,143513328

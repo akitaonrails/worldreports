@@ -1,0 +1,31 @@
+# CURATED 2026-10-25 by reviewing the sidecar fiscal/fiscal_from_imf.csv (re-run the fetcher named in SOURCES.yaml to refresh it).
+# IMF WEO (October 2026 vintage), general government: rev, exp,
+# GGXCNL_NGDP, pb, ie, GGXWDG_NGDP. Observed years in the plain
+# columns; WEO forecasts only in the _proj columns, never mixed.
+# Definitions: accrual, consolidated general government — NOT the
+# Russian federal budget, which is cash execution of one level of
+# government and is staged separately in fiscal/federal_budget.csv.
+# Revenue and expenditure stop at 2024; the 2025 rows are absent rather
+# than forecast, and stay absent.
+year,revenue_pct_gdp,expenditure_pct_gdp,balance_pct_gdp,primary_balance_pct_gdp,interest_pct_gdp,debt_pct_gdp,balance_pct_gdp_proj,debt_pct_gdp_proj
+2006,36.84,29.04,7.80,8.49,0.69,9.80,,
+2007,37.53,31.94,5.60,6.12,0.54,8.00,,
+2008,36.56,32.01,4.50,4.98,0.43,7.40,,
+2009,32.71,38.60,-5.90,-5.32,0.57,9.90,,
+2010,32.31,35.50,-3.20,-2.67,0.53,10.10,,
+2011,34.69,33.26,1.40,1.98,0.55,10.30,,
+2012,34.41,34.03,0.40,0.95,0.57,11.20,,
+2013,33.49,34.65,-1.20,-0.56,0.60,12.30,,
+2014,33.87,34.94,-1.10,-0.41,0.66,15.10,,
+2015,31.89,35.27,-3.40,-2.59,0.80,15.30,,
+2016,32.92,36.59,-3.70,-2.76,0.91,14.80,,
+2017,33.36,34.83,-1.50,-0.59,0.88,14.30,,
+2018,35.54,32.62,2.90,3.78,0.86,13.60,,
+2019,35.68,33.75,1.90,2.69,0.76,13.70,,
+2020,35.16,39.15,-4.00,-3.07,0.92,19.20,,
+2021,35.72,34.94,0.80,1.66,0.89,16.50,,
+2022,33.82,35.16,-1.30,-0.56,0.79,15.10,,
+2023,33.49,35.70,-2.20,-1.45,0.76,15.20,,
+2024,35.27,36.87,-1.60,-0.41,1.19,14.80,,
+2025,,,-3.90,,,16.60,,
+2026,,,,,,,-3.20,19.30
