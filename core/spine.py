@@ -98,7 +98,7 @@ _LADDER_HOMICIDE = (0.1, 0.3, 1, 3, 10, 30, 100)
 SPINE: dict[str, tuple[Slot, ...]] = {
     "economy": (
         _c("economy.growth", "Real GDP growth", "% per year",
-           (-32, 18), BOTH, zero=True),
+           (-35, 18), BOTH, zero=True),
         _c("economy.gdp_per_person", "GDP per person", "US$, current",
            (500, 200_000), NONE, LOG, _LADDER_GDP_PC),
         _c("economy.inflation", "Consumer price inflation", "% per year",
@@ -110,7 +110,7 @@ SPINE: dict[str, tuple[Slot, ...]] = {
         _c("fiscal.revenue_expenditure", "Revenue and expenditure",
            "% of GDP", (0, 80)),
         _c("fiscal.balance", "Overall and primary balance", "% of GDP",
-           (-24, 8), BOTH, zero=True),
+           (-35, 8), BOTH, zero=True),
         _c("fiscal.debt", "Gross debt", "% of GDP", (0, 300), UP),
         _c("fiscal.interest", "Interest paid", "% of GDP", (0, 10), UP),
     ),
@@ -127,7 +127,7 @@ SPINE: dict[str, tuple[Slot, ...]] = {
     "trade": (
         _c("trade.exports_imports", "Exports and imports", "% of GDP",
            (0, 100), UP),
-        _c("trade.balance", "Trade balance", "% of GDP", (-30, 15), BOTH,
+        _c("trade.balance", "Trade balance", "% of GDP", (-30, 40), BOTH,
            zero=True),
         _c("trade.destinations", "Top export destinations",
            "% of goods exports", (0, 90), UP),
