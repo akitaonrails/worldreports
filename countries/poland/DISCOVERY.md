@@ -216,8 +216,8 @@ assault deaths 197 in the same year. Both are published, both are drawn,
 neither is called "the" homicide count.
 
 **Mortality: excess deaths are derived.** Deaths from `demo_gind` against
-their own 2015–2019 mean, one vintage, one formula: +18.6% in 2020 and
-+29.0% in 2021. COVID deaths are U071 + U072 from Eurostat's cause table
+their own 2015–2019 mean, one vintage, one formula: +18.8% in 2020 and
++29.2% in 2021. COVID deaths are U071 + U072 from Eurostat's cause table
 (which starts in 2011): a sum of two published ICD-10 codes, not a splice
 of two publishers. Circulatory and cancer counts carry the lens.
 

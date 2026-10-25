@@ -193,8 +193,8 @@ are staged as three columns and are never one line.
 cause columns, not zero.
 
 **Excess deaths** is derived: `deaths_all` against the mean of 2015–2019
-of the same series, one formula, one vintage — +18.6% in 2020, +29.0% in
-2021, +1.5% in 2024. The cause table's own total for 2024 (409,194)
+of the same series, one formula, one vintage — +18.8% in 2020, +29.2% in
+2021, +1.6% in 2024. The cause table's own total for 2024 (409,194)
 differs from the vital-statistics total (408,504) by 0.2%; both are
 published as they are.
 
@@ -291,12 +291,75 @@ network exits non-zero and writes nothing. `fetch_ti.py` reads the CPI
 workbook straight out of the zip because its edition is strict OOXML,
 which openpyxl refuses.
 
-## Open questions for the plate phase
+## What the plates draw, and how
 
-- The policy-rate caption must name the year-end convention (`markets.csv`,
-  documented above) — it is the one canonical panel where Poland's
-  statistic is not its peers'.
-- The population revision should be annotated once, on the demography
-  panel, not repeated on every rate.
-- `last_full_year: 2024` means 2025 is drawn as the running year even
-  though most 2025 values are published: they are preliminary.
+Twelve chapters on the spine: economy, fiscal, spending, trade, markets,
+credit, people, world, demography, security, mortality, migration. Every
+panel claims its slot key in spine order, so the comparison viewer wipes a
+Polish panel over the same panel of every other country.
+
+**Conversions, and the population they divide by.** One denominator
+throughout: `demography.csv` → `population_jan`, the revised residence
+series, on 1 January of the year named. Where the publisher already
+publishes the rate, that rate is drawn rather than recomputed (the police
+homicide rate, the LFS, the crude birth, death and natural-change rates,
+the BIS debt ratio, the Eurostat shares). The four derived panels:
+
+| Panel | Formula | Base |
+|---|---|---|
+| mortality, excess deaths | `deaths_all` against its own 2015–2019 mean | one vintage |
+| mortality lens, circulatory and cancer | cause counts ÷ `population_jan` × 100,000 | same year |
+| migration slot 3, protection stock | beneficiaries ÷ `population_jan` × 100 | same year |
+| demography slot 1 | the staged `population_index_2006` column | 1 Jan 2006 = 100 |
+
+`tests/test_plates.py` recomputes each of them from the CSVs and pins the
+result, including the 2023 police-homicide rate at 2.84× the assault-death
+count and the currency index at 129.0 (2008) and 69.6 (2022).
+
+One derived column was recomputed in this phase. `excess_deaths_pct_vs_2015_2019`
+did not reproduce from its own documented formula (2021 read +29.02% where
+`deaths_all` against the 2015–2019 mean gives +29.25%), so the column was
+recomputed from the committed counts at one vintage: +18.8% in 2020,
++29.2% in 2021, +1.6% in 2024. The plates, the notes and the manifest all
+read the new values; the formula is unchanged.
+
+**Drawn as seams, never joined.** CPI against HICP (two lines, both
+named); the BAEL survey against the administrative register (two lines,
+about two points apart, and the 2020 register point is the long-row 6.3%,
+not the upper row's 6.8% — GUS's own unmarked revision, recorded above);
+goods and services in the national accounts against customs goods (two
+panels: a share of GDP and EUR billion, which disagree in sign in 2013,
+2018 and 2022); police-confirmed offences against assault deaths (2.84×
+in 2023 — an offence count is not a death count); the EBA's large-bank NPL
+ratio against the World Bank's system-wide one (2014+ against 2006–2020);
+circulatory against cancer deaths; the register's net-migration rate
+against the population-balance residual.
+
+**Two scales the atlas has not widened.** `migration.net` and
+`demography.natural_migration` are visibly pending, with the reason on
+the panel and in `ui.json`: in 2020 Eurostat's registered net-migration
+rate is −20.3 per 1,000 and the population-balance residual −16.7, both
+outside the shared −10…+40. Both series are drawn on their own scale in
+the migration chapter's lens rather than flattening the peers, exactly as
+Ukraine's wartime displacement is. `country.yaml` records the two slots
+and the values; if the orchestrator widens those ranges, both slots can
+be claimed with no other change.
+
+**The lens choices**, one per topic, are the country's own story and not
+expected to register with a peer: the customs goods balance in EUR
+(trade), the two NPL compilations (credit), the statutory wage in zloty
+beside the dollar one (people), police offences against assault deaths
+(security), circulatory and cancer deaths (mortality), and the two
+net-migration series (migration).
+
+**Running years.** `last_full_year` is 2024, so 2025 and 2026 are drawn
+dashed or hatched on every time-series panel, even where the publisher
+has printed a value: GUS marks the 2025 national accounts, EDP aggregates
+and trade as preliminary. The cards read the last full year for flows and
+the latest point for levels, and say which year they mean.
+
+**One rounding seam, recorded.** The COFOG stack's top for 2024 is the sum
+of the seven published layers, 49.3% of GDP, against the publisher's own
+`total_pct_gdp` of 49.4% — each layer is published to one decimal and the
+sum drifts. The annotation prints the stack (49.3), because that is what
+the reader sees; the difference is not reconciled.

@@ -47,28 +47,63 @@ tick_every: 2
 # draws its panels in the shared slots, units and scales.
 spine: true
 
-# SHARED-SCALE CONFLICTS, RECORDED NOT FIXED (AGENTS.md: the atlas-wide
-# range lives in core/spine.py and is changed there, regenerating every
-# country carrying the topic — never overridden in country code):
-#   economy.inflation  ref −5..225: fits (14.4% in 2022, −0.9% in 2015).
-#   economy.unemployment ref 0..30: fits (20.0% registered in 2006 is on
-#     the previous basis, 19.9% in 2004; LFS 9.6% in 2010).
-#   fiscal.revenue_expenditure ref 0..80: fits (49.2% in 2024).
-#   fiscal.balance ref −24..+8: fits (−7.3% in 2025).
-#   fiscal.debt ref 0..300: fits (59.6% in 2025).
-#   markets.policy_rate ref −5..225: fits (year-end 6.75% in 2022).
-#   demography.natural_migration / migration.net ref −10..+40 per 1,000:
-#     the RESIDUAL net-migration rate is 12.6 (2022) and fits; the
-#     registered one is 0.2. No scale change needed.
-#   mortality.excess_deaths ref −20..+40: fits (+29.0% in 2021).
-#   mortality.covid ref 0..300 per 100k: fits (243.4 in 2021).
-#   world.gdp ref 10..50,000 US$bn: fits (1,035 in 2025).
-#   world.hdi, world.cpi, world.reserves: all inside their ranges.
-#   credit.household_debt ref 0..140: fits (22.6 in 2024).
-#   credit.npl ref 0..20: fits (3.8 in 2024).
-#   security.*: all inside their ranges (police homicide 2.14/100k in 2006
-#     on the log slot; suicide 17.2; WHO road deaths 16.6).
-# No shared range needed widening for Poland.
+# SHARED-SCALE CONFLICTS, CHECKED against core/spine.py on 2026-10-25.
+# The atlas-wide range lives in core/spine.py and is changed there,
+# regenerating every country carrying the topic — never here. Every slot
+# Poland claims fits, except the two that the same 2020 event breaks:
+#
+#   economy.growth            −35..+18      −2.0% (2020) is the only fall
+#   economy.gdp_per_person    log 500..200,000  US$9,069..28,420
+#   economy.inflation         −5..225       14.4% (2022), −0.9% (2015)
+#   economy.unemployment      0..30         14.8% registered (2006)
+#   fiscal.revenue_expenditure 0..80        50.9% (2025)
+#   fiscal.balance            −35..+8       −7.3% (2025)
+#   fiscal.debt               0..300        59.6% (2025)
+#   fiscal.interest           0..10         2.7% (2006)
+#   spending.by_function      0..75         49.3% (2024)
+#   spending.social_protection 0..70        18.3% + 31.1% (2024)
+#   spending.investment       0..50         23.2% (2008)
+#   spending.public_investment 0..12        6.0% (2011)
+#   trade.exports_imports     0..100        62.4% (2022)
+#   trade.balance             −30..+40      −2.4% .. +5.7%
+#   trade.destinations        0..90         28.6..29.0% (Germany)
+#   markets.policy_rate       −5..225       6.75% at the end of 2022
+#   markets.bond_10y          −2..30        6.12% (2009)
+#   markets.currency          log 0.1..200  index 69.6..129.0
+#   credit.household_debt     0..140        36.6% (2016)
+#   credit.npl                0..20         7.25% (2014)
+#   people.gini               20..60        24.9..34.7
+#   people.poverty            0..80         49.1% before transfers
+#   people.minimum_wage       0..3,000      US$1,300 (2026)
+#   world.gdp                 log 10..50,000  US$1,035bn (2025)
+#   world.hdi                 0.5..1.0      0.831..0.906
+#   world.cpi                 0..100        53..63
+#   world.reserves            log 1..5,000   US$272bn (2025)
+#   demography.population     75..150       index 95.2..100
+#   demography.fertility      0..3.5        1.07..1.48
+#   demography.birth_death    0..25         6.5..14.0
+#   security.homicide         log 0.1..100  0.52..2.22
+#   security.suicide          0..40         12.0..16.7
+#   security.road_deaths      0..40         6.8..16.6
+#   mortality.death_rate      0..22         14.0 (2021)
+#   mortality.excess_deaths   −20..+40      +29.2% (2021)
+#   mortality.covid           0..300        243.4 per 100,000 (2021)
+#   migration.flows           0..50         0.3..8.3 per 1,000
+#   migration.foreign_born    0..50         0.1..2.6%
+#
+# TWO SLOTS DO NOT FIT, and both break on the same 2020 event:
+#   demography.natural_migration and migration.net, ref −10..+40 per 1,000.
+# Eurostat's registered net-migration rate is −20.3 per 1,000 in 2020 (the
+# register lost roughly 770,000 people it had been counting) and the
+# population-balance residual is −16.7; 2021 and 2022 then run +11.0 and
+# +12.6. Nothing between −10 and +40 can hold that. Both panels therefore
+# stay visibly pending, and both series are drawn on their own scale in the
+# migration chapter's lens — the same treatment Ukraine's wartime
+# displacement and Venezuela's −45.5 get. If the orchestrator widens the
+# two ranges (to, say, −25..+40) both slots can be claimed with no other
+# change: the data are already committed and the pending notes are the only
+# thing to flip.
+# No other shared range needed widening for Poland.
 
 # Bands drawn behind the data, dated from the staged GDP vintage only
 # (macro/economy.csv gdp_growth_pct). Poland has exactly ONE year of
