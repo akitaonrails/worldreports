@@ -49,6 +49,21 @@ cross-check files are not counted.
 
 ## Queued
 
+The 2026-10-25 batch, eight countries in queue order. Phase A (data) runs in
+parallel lanes; Phase B (plates) starts only when a country's data gates
+green; merges stay sequential in this order.
+
+| # | Country | Slug | Languages | What it needs that we do not have |
+|---|---------|------|-----------|------------------------------------|
+| 1 | Poland | `poland` | pl · en · pt | A Polish number style and page chrome; GUS/BDL national layer. |
+| 2 | Australia | `australia` | en · pt | ABS SDMX; quarterly national accounts to annualise on a documented rule. |
+| 3 | Chile | `chile` | es · en · pt | Banco Central de Chile API (may need a token); CLP forms. |
+| 4 | Singapore | `singapore` | en · pt | SingStat Table Builder API; SGD forms; a city-state, so population and land are not the usual denominators. |
+| 5 | Hong Kong | `hongkong` | zh-Hant · en · pt | C&SD API; HKD forms; "country" framing needs care (a SAR, compared as an economy). |
+| 6 | Paraguay | `paraguay` | es · en · pt | INE/BCP; PYG forms; a large informal economy and a binational hydro story. |
+| 7 | Russia | `russia` | ru · en · pt | A Russian number style and chrome; Rosstat/EMISS access is likely blocked, so the harmonised layer plus documented blocks. |
+| 8 | Venezuela | `venezuela` | es · en · pt | INE/BCV publication has largely stopped; hyperinflation and migration; expect the harmonised layer and explicit gaps. |
+
 None. The eight-country queue opened on 2026-10-22 is complete, and
 Ukraine — proposed in issue #1 and discovered 2026-10-24 — is published
 with eleven chapters: economy, public finances, spending, trade, markets,

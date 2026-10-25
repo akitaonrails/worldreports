@@ -244,6 +244,17 @@ _UNITS.update({
         [("₴", "грн"), (r"US\$", "дол."), ("€", "євро")],
         {"tn": "трлн", "bn": "млрд", "mn": "млн"},
         "/100 тис. осіб", f"{NBSP}в.п.", pct_space=True),
+    # Polish: the amount first ("30,9 mld USD"), "zł" after it, no space
+    # before the percent sign (Polish typography).
+    "pl": _one_for_one(
+        [("zł", "zł"), (r"US\$", "USD"), ("€", "euro")],
+        {"tn": "bln", "bn": "mld", "mn": "mln"},
+        "/100 tys.", f"{NBSP}p.p."),
+    # Russian: a space before %, "млрд долл.", the rouble after the amount.
+    "ru": _one_for_one(
+        [("₽", "₽"), (r"US\$", "долл."), ("€", "евро")],
+        {"tn": "трлн", "bn": "млрд", "mn": "млн"},
+        "/100 тыс.", f"{NBSP}п.п.", pct_space=True),
 })
 
 # Korean writes the currency after the number. These run last, on a string

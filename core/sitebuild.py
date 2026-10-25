@@ -238,6 +238,31 @@ _STYLE_AFFIX = {
     # Ukrainian: a space before the percent sign (Ukrainian orthography),
     # the amount before the unit, "№" for a rank, "млн"/"млрд"/"трлн" one
     # for one. The hryvnia follows the amount: "2 991 млрд грн".
+    # Polish: the amount before the unit, "zł" after it, no space before
+    # %, "mld"/"bln" (miliard/bilion) and "24. miejsce".
+    "pl": {
+        "pct": ("", "%"), "pct_s": ("", "%"), "pct2": ("", "%"),
+        "pct_gdp": ("", "% PKB"), "pct_gdp_s": ("", "% PKB"),
+        "rank": ("", ". miejsce"), "score100": ("", "/100"),
+        "pop_mn": ("", f"{_N}mln"),
+        "per100k": ("", "/100 tys."), "per100k2": ("", "/100 tys."),
+        "years": ("", " lat"),
+        "usd_bn": ("", f"{_N}mld{_N}USD"),
+        "usd_bn_s": ("", f"{_N}mld{_N}USD"),
+        "usd_bn1": ("", f"{_N}mld{_N}USD"),
+    },
+    # Russian: a space before %, "млрд долл.", the rouble after the amount.
+    "ru": {
+        "pct": ("", f"{_N}%"), "pct_s": ("", f"{_N}%"), "pct2": ("", f"{_N}%"),
+        "pct_gdp": ("", f"{_N}% ВВП"), "pct_gdp_s": ("", f"{_N}% ВВП"),
+        "rank": ("", "-е место"), "score100": ("", "/100"),
+        "pop_mn": ("", f"{_N}млн"),
+        "per100k": ("", "/100 тыс."), "per100k2": ("", "/100 тыс."),
+        "years": ("", " лет"),
+        "usd_bn": ("", f"{_N}млрд{_N}долл."),
+        "usd_bn_s": ("", f"{_N}млрд{_N}долл."),
+        "usd_bn1": ("", f"{_N}млрд{_N}долл."),
+    },
     "uk": {
         "pct": ("", f"{_N}%"), "pct_s": ("", f"{_N}%"), "pct2": ("", f"{_N}%"),
         "pct_gdp": ("", f"{_N}% ВВП"),
@@ -290,6 +315,53 @@ _STYLE_CURRENCY = {
                      "pt": ("₴ ", "")},
         "money2":   {"en": ("₴", ""), "uk": ("", f"{_N}грн"),
                      "pt": ("₴ ", "")},
+    },
+    "PLN": {
+        "money_bn": {"pl": ("", f"{_N}mld{_N}zł"), "en": ("PLN ", "bn"),
+                     "pt": ("PLN ", " bi")},
+        "money":    {"pl": ("", f"{_N}zł"), "en": ("PLN ", ""),
+                     "pt": ("PLN ", "")},
+    },
+    "RUB": {
+        "money_bn": {"ru": ("", f"{_N}млрд{_N}₽"), "en": ("RUB ", "bn"),
+                     "pt": ("RUB ", " bi")},
+        "money_tn": {"ru": ("", f"{_N}трлн{_N}₽"), "en": ("RUB ", "tn"),
+                     "pt": ("RUB ", " tri")},
+        "money":    {"ru": ("", f"{_N}₽"), "en": ("RUB ", ""),
+                     "pt": ("RUB ", "")},
+    },
+    "AUD": {
+        "money_bn": {"en": ("A$", "bn"), "pt": ("A$ ", " bi")},
+        "money":    {"en": ("A$", ""), "pt": ("A$ ", "")},
+    },
+    "SGD": {
+        "money_bn": {"en": ("S$", "bn"), "pt": ("S$ ", " bi")},
+        "money_tn": {"en": ("S$", "tn"), "pt": ("S$ ", " tri")},
+        "money":    {"en": ("S$", ""), "pt": ("S$ ", "")},
+    },
+    "HKD": {
+        "money_bn": {"en": ("HK$", "bn"), "zh-Hant": ("", "{mag}港元"),
+                     "pt": ("HK$ ", " bi")},
+        "money":    {"en": ("HK$", ""), "zh-Hant": ("", "港元"),
+                     "pt": ("HK$ ", "")},
+    },
+    "CLP": {
+        "money_bn": {"es": ("$ ", " mm"), "en": ("CLP ", "bn"),
+                     "pt": ("CLP$ ", " bi")},
+        "money":    {"es": ("$ ", ""), "en": ("CLP ", ""),
+                     "pt": ("CLP$ ", "")},
+    },
+    "PYG": {
+        "money_bn": {"es": ("₲ ", " mm"), "en": ("PYG ", "bn"),
+                     "pt": ("₲ ", " bi")},
+        "money":    {"es": ("₲ ", ""), "en": ("PYG ", ""),
+                     "pt": ("₲ ", "")},
+    },
+    "VES": {
+        "money_bn": {"es": ("Bs. ", " mm"), "en": ("VES ", "bn"),
+                     "pt": ("Bs. ", " bi")},
+        "money":    {"es": ("Bs. ", ""), "en": ("VES ", ""),
+                     "pt": ("Bs. ", "")},
     },
     "JPY": {
         "money_bn": {"en": ("¥", "bn"), "pt": ("¥ ", " bi"),
@@ -383,6 +455,8 @@ STEP_UP = {
     "de": (("Mrd.", "Bio."),),
     "ko": (("십억", "조"),),
     "uk": (("млрд", "трлн"), ("млн", "млрд")),
+    "pl": (("mld", "bln"), ("mln", "mld")),
+    "ru": (("млрд", "трлн"), ("млн", "млрд")),
 }
 _STEP_SIG = 3
 
