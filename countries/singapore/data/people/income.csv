@@ -1,0 +1,26 @@
+# Singapore Department of Statistics, Table Builder M810361: resident employed households.
+# TWO Gini coefficients, both published, on household employment income per household member: BEFORE and AFTER government transfers and taxes. They are not interchangeable and are drawn as two lines. The after-transfers figure is the one Singapore quotes as its headline.
+# Income includes employer CPF contributions and is employment income only: investment income and transfers are outside it.
+# The World Bank's harmonised Gini has NO Singapore row (SI.POV.GINI is empty), so there is no international comparison line for this panel; that absence is recorded, not filled.
+# Singapore publishes no official poverty line and has no statutory minimum wage; both are findings about the country, not gaps in this lane.
+year,gini_before_taxes_transfers,gini_after_taxes_transfers,median_household_income_sgd,median_income_per_member_sgd
+2006,0.470,0.418,4957,1448
+2007,0.482,0.439,5370,1549
+2008,0.474,0.424,6102,1756
+2009,0.471,0.422,6012,1736
+2010,0.472,0.425,6350,1850
+2011,0.473,0.423,7040,1997
+2012,0.478,0.432,7570,2129
+2013,0.463,0.409,7882,2250
+2014,0.464,0.411,8297,2383
+2015,0.463,0.409,8673,2503
+2016,0.458,0.401,8867,2591
+2017,0.459,0.402,9044,2706
+2018,0.458,0.403,9315,2799
+2019,0.452,0.398,9442,2930
+2020,0.452,0.375,9208,2891
+2021,0.444,0.385,9544,3033
+2022,0.437,0.378,10120,3291
+2023,0.433,0.371,10882,3507
+2024,0.435,0.364,11314,3621
+2025,0.426,0.359,12027,3909

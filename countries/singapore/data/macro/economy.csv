@@ -1,0 +1,29 @@
+# Singapore Department of Statistics (M015021, M015951, M015121, M213751, M182332); comparables from IMF WEO and the World Bank.
+# real_growth_pct is computed inside the 2015-chained series: year-on-year change of gdp_real_2015_chained_sgd_mn.
+# inflation_pct is the year-on-year change of the calendar-year mean CPI (2024 = 100); the CALENDAR-year mean, not December-on-December.
+# unemployment is the end-June seasonally adjusted rate for ages 15+; the resident rate is a subset population (citizens + PRs).
+# The four _imf/_wb columns are the harmonised comparison lines, kept in their own columns and never spliced into the national series.
+# 2026 carries nine months of the CPI mean and the end-June unemployment reading: a running year, not a completed one.
+# gfcf_pct_gdp_wb is the World Bank's NE.GDI.FTOT.ZS (whole-economy gross fixed capital formation, % of GDP): a harmonised comparator, promoted from the fetch sidecar on 2026-10-25 after review, never spliced into a national series.
+year,gdp_current_sgd_mn,gdp_real_2015_chained_sgd_mn,real_growth_pct,gdp_per_person_sgd,gdp_per_person_usd,cpi_index_2024,inflation_pct,unemployment_total_sa_pct,unemployment_resident_sa_pct,real_growth_pct_imf,cpi_inflation_pct_wb,unemployment_ilo_pct_wb,gfcf_pct_gdp_wb
+2006,236158.8,267213.3,9.01,53655,33769,66.681,0.97,2.7,3.5,9.00,0.97,4.48,23.09
+2007,272697.6,291320.0,9.02,59429,39433,68.088,2.11,2.3,3.1,9.00,2.11,3.90,24.38
+2008,273941.6,296748.7,1.86,56607,40011,72.606,6.64,2.2,3.0,1.90,6.64,3.96,27.98
+2009,282394.5,297128.4,0.13,56619,38927,73.033,0.59,3.2,4.5,0.10,0.59,5.86,28.84
+2010,326980.1,340270.7,14.52,64408,47237,75.099,2.83,2.2,3.1,14.50,2.83,4.12,25.57
+2011,351367.9,361418.3,6.21,67783,53886,79.043,5.25,2.0,2.9,6.20,5.25,3.89,25.26
+2012,368770.5,377449.0,4.44,69417,55547,82.664,4.58,1.9,2.8,4.40,4.58,3.72,26.43
+2013,384870.3,395633.1,4.82,71283,56967,84.618,2.36,2.0,2.9,4.80,2.36,3.86,27.55
+2014,398947.9,411203.4,3.94,72938,57563,85.493,1.03,1.9,2.8,3.90,1.03,3.74,28.13
+2015,423444.1,423444.1,2.98,76503,55647,85.046,-0.52,2.0,2.8,3.00,-0.52,3.79,27.22
+2016,443143.6,440004.8,3.91,79030,57206,84.596,-0.53,2.1,3.0,3.90,-0.53,4.08,25.88
+2017,476136.2,459042.9,4.33,84838,61446,85.084,0.58,2.2,3.1,4.30,0.58,4.20,25.12
+2018,509830.4,473670.8,3.19,90416,67019,85.457,0.44,2.1,2.9,3.20,0.44,3.61,22.35
+2019,514052.1,479159.6,1.16,90128,66067,85.942,0.57,2.3,3.2,1.20,0.57,3.10,22.80
+2020,484602.0,461857.9,-3.61,85230,61797,85.794,-0.17,3.0,4.1,-3.60,-0.17,4.10,21.00
+2021,592625.0,508695.3,10.14,108667,80853,87.781,2.32,2.7,3.6,10.10,2.32,4.64,22.08
+2022,708983.0,529095.4,4.01,125773,91213,93.163,6.13,2.1,2.8,4.00,6.13,3.59,20.34
+2023,686398.0,536768.7,1.45,115993,86362,97.666,4.83,2.0,2.8,1.50,4.83,3.44,21.87
+2024,765497.5,565451.0,5.34,126803,94912,100.000,2.39,2.0,2.7,5.30,2.39,2.74,21.04
+2025,789529.2,593869.9,5.03,129194,98878,100.903,0.90,2.0,2.7,5.00,0.90,2.82,22.08
+2026,,,,,,,,1.9,2.9,,,,

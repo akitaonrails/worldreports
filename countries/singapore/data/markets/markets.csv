@@ -1,0 +1,24 @@
+# Singapore Department of Statistics, Table Builder M700071 (interest rates, end of period, monthly, calendar-year mean) and M700851 (exchange rate, average for the year).
+# SORA and its 3-month compounded average are MONEY-MARKET benchmarks, not a policy rate: Singapore's monetary policy instrument is a trade-weighted exchange-rate band (S$NEER), and MAS publishes no policy interest rate. No other country's policy rate is substituted here.
+# sgd_per_usd is Singapore dollars per US dollar: a rise is a WEAKER Singapore dollar. The plate indexes it so up means stronger.
+year,govt_bond_10y_pct,sora_pct,sora_3m_compounded_pct,sgd_per_usd
+2006,3.36,3.317,3.186,1.5889
+2007,2.88,2.251,2.430,1.5071
+2008,2.78,0.795,0.751,1.4148
+2009,2.37,0.271,0.208,1.4545
+2010,2.40,0.137,0.118,1.3635
+2011,2.09,0.090,0.057,1.2579
+2012,1.46,0.091,0.059,1.2497
+2013,2.06,0.055,0.051,1.2513
+2014,2.36,0.142,0.075,1.2671
+2015,2.44,0.497,0.240,1.3748
+2016,2.05,0.282,0.214,1.3815
+2017,2.15,0.686,0.518,1.3807
+2018,2.40,1.269,1.006,1.3491
+2019,1.95,1.787,1.544,1.3642
+2020,1.01,0.448,0.404,1.3792
+2021,1.52,0.200,0.165,1.3440
+2022,2.74,1.877,1.309,1.3789
+2023,3.05,3.712,3.592,1.3431
+2024,2.98,3.382,3.521,1.3360
+2025,2.30,1.698,1.957,1.3066

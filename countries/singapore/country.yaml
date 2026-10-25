@@ -1,0 +1,193 @@
+# Singapore. Researched in this lane on 2026-10-25.
+#
+# A CITY-STATE, and the notes have to say so rather than treat it as an
+# ordinary country. Three consequences run through every plate:
+#
+#   * GDP per person is the headline, and the denominator is not a stable
+#     quantity: the population is citizens (3.66m), permanent residents
+#     (0.54m) and non-residents (1.91m) on work, employment, student and
+#     dependant's passes. A per-capita series that does not say which
+#     population it divides by is not a statistic, and SingStat publishes all
+#     three lines precisely so the reader can see the difference.
+#   * Land area and population density are legitimate readings here — 744
+#     km2 that grows with reclamation — and they are lens material, not a
+#     comparison slot, because no other country in the atlas is also its own
+#     city.
+#   * "Country" framing misleads on trade (re-exports dominate the customs
+#     figures), on fiscal policy (gross debt near 166% of GDP is issued to
+#     hold CPF liabilities and build reserves — it is not a burden) and on
+#     monetary policy (there is no policy interest rate at all).
+#
+# LANGUAGE: Singapore's working official language is English, and the atlas
+# publishes "the country's own official language, plus English and
+# Portuguese". Here the first role and the second are the same language, so
+# the country publishes TWO locales where France publishes three. English is
+# the default and carries the source copy; Portuguese is the atlas's shared
+# second language, not a language Singapore's own publishers use.
+slug: singapore
+flag_emoji: "🇸🇬"
+wordmark: Singapore
+name:
+  en: "Singapore"
+  pt: "Singapura"
+  es: "Singapur"
+  fr: "Singapour"
+  ko: "싱가포르"
+  it: "Singapore"
+  he: "סינגפור"
+  ja: "シンガポール"
+  zh-Hans: "新加坡"
+  zh-Hant: "新加坡"
+  vi: "Singapore"
+  de: "Singapur"
+  uk: "Сінгапур"
+  pl: "Singapur"
+  ru: "Сингапур"
+
+locales:
+  - {code: en, html_lang: en,    og_locale: en_SG, endonym: English}
+  - {code: pt, html_lang: pt-BR, og_locale: pt_BR, endonym: Português}
+default_locale: en
+
+# The x-axis span every plate shares, and the last year whose annual totals
+# are complete. 2025 is complete for the national accounts (the 2025 GDP
+# totals were published in early 2026), the CPI, the labour force, the vital
+# statistics and the household balance sheet. Two per-series caveats stay
+# visible regardless of this number: the cause-of-death table's 2025 figures
+# are the publisher's own "preliminary" (external causes are coroner's cases
+# still being assigned) and 2026 exists only as a mid-year level, an
+# end-June labour reading and a partial-year price mean.
+years: {from: 2006, to: 2026}
+last_full_year: 2025
+tick_every: 2
+# On the plate spine (PLATE_SPINE.md): every plate declares its topic and
+# draws its panels in the shared slots, units and scales.
+spine: true
+
+# SHARED-SCALE CONFLICTS, RECORDED NOT FIXED (AGENTS.md: the atlas-wide
+# range lives in core/spine.py; a country never extends it locally):
+#   fiscal.debt ref 0..300 fits but MISLEADS: IMF GGXWDG_NGDP is 165.8% of
+#     GDP in 2024 and rising, and Singapore's gross debt is a liability held
+#     against assets (SGS issued to fund CPF and to build reserves). The
+#     panel must carry the "gross, no offset" note or the line is a lie.
+#   markets.policy_rate ref -5..225: Singapore has NO policy interest rate.
+#     MAS targets a trade-weighted exchange-rate band. The slot cannot hold
+#     a policy rate; the recorded decision is to keep the slot pending or
+#     draw SORA labelled as a money-market benchmark, never as a policy rate.
+#   people.gini ref 20..60 fits: 0.426 before and 0.359 after transfers and
+#     taxes in 2025 (0-1 scale, published by SingStat with six variants of
+#     which two are drawn).
+#   security.homicide ref log 0.1..100: 0.115 per 100,000 in 2025 sits on the
+#     floor of the scale and 2023 is BELOW it at 0.068. Phase B therefore
+#     leaves the slot pending (with the count on the panel) and reports one
+#     shared request: move the log floor to 0.05 and regenerate every country
+#     carrying the topic. Do not clip the 2023 point.
+#   demography.fertility ref 0..3.5 fits: TFR 0.87 in 2025 is the lowest in
+#     the atlas and among the lowest ever recorded anywhere.
+#   trade.exports/imports ref 0..100 is EXCEEDED: Singapore's exports of
+#     goods and services are 178% of GDP and imports 142% (2025), because
+#     re-exports and services dominate a small open economy. The scale
+#     decision is shared and must be widened deliberately for every country
+#     carrying the topic, not here.
+
+# Recession bands, dated on the quarterly chained-GDP series the publisher
+# supplies (M015902, seasonally adjusted quarter-on-quarter growth, pulled
+# live 2026-10-25 — the same vintage as the annual accounts in data/).
+# Negative quarters 2006-2026: 2008 Q2 (-2.5), Q3 (-0.6), Q4 (-2.3),
+# 2009 Q1 (-2.6); 2010 Q3 (-2.8); 2011 Q2 (-0.2); 2012 Q3 (-1.0);
+# 2015 Q1 (-0.4); 2018 Q4 (-0.8); 2020 Q1 (-0.1), Q2 (-12.1); 2021 Q2
+# (-0.3); 2022 Q4 (-0.1).
+# Only two runs are two quarters or longer, and only those are banded:
+#   the global financial crisis, four consecutive negative quarters
+#     2008 Q2 to 2009 Q1 (banded 2008.25-2009.25);
+#   the COVID-19 technical recession, 2020 Q1 and Q2 (banded 2020.0-2020.5),
+#     the deepest single quarter in the series at -12.1%.
+# The isolated single negative quarters are NOT banded: a recession band on
+# a one-quarter dip would put five false recessions on the plate.
+# Note the annual series shows only 2020 as a negative YEAR (+0.13% in 2009)
+# — which is why the annual line alone cannot date a band, and why the
+# quarterly series was fetched.
+bands:
+  - {from: 2008.25, to: 2009.25, label: "Global financial crisis"}
+  - {from: 2020.0,  to: 2020.5,  label: "COVID-19"}
+
+# The Singapore dollar. The en locale writes its numbers in the atlas's
+# English style and the pt locale in the Brazilian Portuguese style; both
+# need an SGD form in core (sitebuild CURRENCY_AFFIX and i18n _UNITS), which
+# this lane reports rather than edits: en "S$", pt "S$" — Singapore's own
+# convention is the S$ prefix to distinguish it from other dollars, and
+# both locales use it. The scale word (million/billion, milhão/bilhão) is
+# the style's own.
+currency:
+  code: SGD
+
+# The flag is a red band over a white band, with a white crescent and five
+# stars in the red. Pure flag red is too hot to hold a line on paper, so the
+# chart reds are darkened siblings; the paper white is the page itself.
+# There is no green in the flag, so the atlas's greens, teals and golds are
+# chosen to sit apart from the eight other red-and-white countries already
+# published (Japan's crimson, Korea's blue-and-red, Canada's maple red).
+palette:
+  RED:     "#C8102E"
+  RED_D:   "#9E0C24"
+  CRIMSON: "#8E1229"
+  BLUE:    "#1F5C8B"
+  BLUE_D:  "#164664"
+  GREEN:   "#2E7D4F"
+  GREEN_D: "#1F5F3A"
+  GOLD:    "#B8860B"
+  GOLD_D:  "#8A6508"
+  TEAL:    "#13807A"
+  PURPLE:  "#6E5BA6"
+  primary: "#8E1229"
+  alert:   "#B0442C"
+  ink:     "#1F2430"
+  muted:   "#5A6072"
+  faint:   "#9AA0AE"
+  paper:   "#FBFAF7"
+  card:    "#FFFFFF"
+  grid:    "#E7E4DD"
+  spine:   "#C9C6BE"
+  band:    "#EFECE5"
+  series:  ["#8E1229", "#1F5C8B", "#B8860B", "#2E7D4F", "#6E5BA6", "#13807A", "#B0442C", "#1F2430"]
+  # Red over paper over red: the flag laid flat. Singapore's flag is TWO
+  # bands and the masthead needs three, so the flag red repeats and the
+  # paper band between them takes the automatic outline.
+  flag_bands: ["#C8102E", "#FBFAF7", "#C8102E"]
+  # A deep strait night: darker and bluer than Canada's or the UK's, with
+  # the flag's red kept for the money family and a teal for the world
+  # family — the sea the city is built on.
+  web:
+    # S opens the wordmark: a wide, open curve, so it needs less bearing
+    # than a closed letter.
+    mark_bearing: "0.04em"
+    ground:   "#0B1620"
+    raised:   "#12222E"
+    raised_2: "#182C3A"
+    rule:     "#26404F"
+    ink:      "#EAF1F5"
+    muted:    "#9BB0BE"
+    faint:    "#667B89"
+    money:    "#E4636F"
+    world:    "#4FB3A6"
+    people:   "#D9B45A"
+
+seo:
+  title:
+    en: "Singapore — plates of official data, 2006–2025"
+    pt: "Singapura — pranchas de dados oficiais, 2006–2025"
+  description:
+    en: "Data plates on Singapore's economy, public finances, people and place in the world, built from committed CSVs: GDP per person as the headline, the resident and non-resident populations kept apart, gross debt shown with the note that it is issued against assets, and every gap left as a gap."
+    pt: "Pranchas de dados sobre a economia, as finanças públicas, a população e a posição de Singapura no mundo, a partir de CSVs versionados: o PIB por pessoa como manchete, as populações residente e não residente mantidas separadas, a dívida bruta exibida com a ressalva de que é emitida contra ativos, e cada lacuna deixada como lacuna."
+  keywords: [Singapore, Singapura, Singapore Department of Statistics, SingStat, Monetary Authority of Singapore, World Bank, IMF, UNDP, BIS, city-state, official statistics]
+  spatial: "Singapore (the whole country; there is no sub-national geography in scope)"
+
+# Named in the dek, and the institutions SOURCES.yaml must agree with.
+# Only publishers whose numbers are drawn are named: SingStat for the
+# national layer, and the IMF, World Bank, UNDP and BIS for the harmonised
+# comparators. MAS is deliberately NOT named: its API serves an HTML
+# maintenance page from this network (recorded in SOURCES.yaml
+# meta.pending), and no MAS number is drawn.
+sources:
+  en: "the Singapore Department of Statistics (SingStat), plus the IMF, World Bank, UNDP and BIS for comparisons"
+  pt: "o Departamento de Estatística de Singapura (SingStat), além de FMI, Banco Mundial, PNUD e BIS para comparações"

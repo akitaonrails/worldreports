@@ -1,0 +1,522 @@
+# Data provenance — every series Singapore publishes here.
+#
+# Research pass 2026-10-25 (DISCOVERY.md is the record of the probes),
+# curated 2026-10-25. Each entry names a curated CSV under data/, written by
+# reviewing the sidecar a fetch/*.py pulled; re-running a fetcher writes the
+# `*_from_*` sidecar again and never a curated file.
+#
+# `official: true` means the body that COMPUTES the number publishes it.
+# The World Bank, IMF, OECD and BIS harmonise or redistribute under their own
+# methods, so their rows are `official: false` here, which is the convention
+# every published country in this atlas already follows; the plates say so
+# where those lines are drawn.
+#
+# SCOPE IS PER-SERIES AND REPEATED IN EACH NOTE. Two scope splits carry most
+# of this country's risk and are never mixed inside one line:
+#
+#   * population: TOTAL (citizens + permanent residents + non-residents) vs
+#     RESIDENT (citizens + permanent residents) vs CITIZEN. The vital rates
+#     and the labour rates are the publisher's RESIDENT basis; GDP per person,
+#     the World Bank's population series and the crime rates are TOTAL.
+#   * fiscal year vs calendar year: every SingStat public-finance table is
+#     labelled by the STARTING year of a 1 April - 31 March financial year,
+#     while the IMF's general-government series is calendar. They are staged
+#     in separate files on separate keys and are never joined on "year".
+
+macro:
+  economy.csv:
+    source: "Singapore Department of Statistics (SingStat) Table Builder — M015021 (GDP at current prices), M015951 (GDP in chained 2015 dollars), M015121 (per-capita GDP), M213751 (CPI, 2024 = 100), M182332 (unemployment, end-June, seasonally adjusted); comparators from IMF WEO (NGDP_RPCH) and World Bank (FP.CPI.TOTL.ZG, SL.UEM.TOTL.ZS, NE.GDI.FTOT.ZS)"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M015021"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py and fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25 against the live payload and cross-checked across
+      publishers: real growth 2024 = 5.34% (national chained series) against
+      the IMF's 5.3 and 2025 = 5.03% against 5.0; CPI inflation 2025 = 0.90%
+      on both the national 2024-base index and the IMF's PCPIPCH. Level
+      anchors: GDP at current prices 2025 = S$789,529.2m; chained 2015 GDP
+      2025 = S$593,869.9m; GDP per person S$129,194 (US$98,878, within 0.1%
+      of the World Bank's US$98,813.98 — the residual is the exchange-rate
+      vintage). real_growth_pct is computed inside the 2015-chained series so
+      a future rebasing cannot appear as growth. CPI inflation is the
+      year-on-year change of the CALENDAR-YEAR MEAN of the monthly index, not
+      December-on-December. Unemployment is the end-June seasonally adjusted
+      rate for ages 15+; the resident rate in its own column is a SUBSET
+      population, not a second estimate. 2026 carries nine months of price
+      data and the end-June labour reading: a running year, dashed on the
+      plate, never an annual result. PHASE B: gfcf_pct_gdp_wb was promoted
+      into this curated file from the reviewed fetch sidecar
+      (macro/gfcf_from_wb.csv) on 2026-10-25, so the spending plate reads a
+      curated column instead of a sidecar. It is the World Bank's
+      NE.GDI.FTOT.ZS, a harmonised comparator over the whole economy, and
+      the national accounts carry the same aggregate in S$ in their own
+      file.
+
+fiscal:
+  fiscal_national.csv:
+    source: "SingStat Table Builder M130661 — Government Overall Fiscal Position, % of GDP"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M130661"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py
+    notes: >-
+      VERIFIED 2026-10-25. CASH-BASIS national presentation on FINANCIAL
+      YEARS labelled by starting year (FY2026 = 1 Apr 2026 - 31 Mar 2027),
+      which is why the column is `fiscal_year` and not `year`. Publisher's
+      own status: FY2024 and earlier actual, FY2025 revised estimate, FY2026
+      BUDGET estimate — three different kinds of number in one column and the
+      plate must not draw the budget year as an outturn. Anchors: FY2024
+      operating revenue 14.9% of GDP, total expenditure 14.5%, overall fiscal
+      position +0.8%. This is NOT the IMF/SNA accrual general-government
+      frame and is never spliced with the file below. SINGA interest costs
+      are the publisher's debt-service line, not COFOG D41.
+  imf_general_government.csv:
+    source: "IMF WEO and Fiscal Monitor via DataMapper — GGXCNL_NGDP (net lending/borrowing), GGXWDG_NGDP (gross debt), G_X_G01_GDP_PT (total expenditure)"
+    url: "https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP/SGP"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: 2024 balance +3.8% of GDP, gross debt 165.8% of
+      GDP (2023 peak 170.4%), expenditure 14.23%. Calendar years; the years
+      past 2025 live only in the _proj columns. THE DEBT RATIO IS GROSS AND
+      HAS NO OFFSET: Singapore issues SGS to hold the CPF Board's liabilities
+      and to build reserves, so a ratio near 166% of GDP is not a burden
+      measure and must carry that note wherever it is drawn. The national
+      cash-basis debt stock reconciles with it — fiscal/debt_national.csv
+      gives S$1,292.4bn at end-2025 against GDP of S$789.5bn, 163.7%, within
+      two points of the IMF's 165.7% on a different year basis. NO
+      general-government revenue series exists for Singapore on this route
+      (see meta.pending), so revenue is not here.
+  debt_national.csv:
+    source: "SingStat Table Builder M130191 — Government Debt By Maturity, as at end of calendar year"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M130191"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py
+    notes: >-
+      VERIFIED 2026-10-25: end-2025 domestic debt S$1,292,369.5m, of which
+      S$170,347.9m matures within a year; external debt nil in every year of
+      the window. total_debt_sgd_mn is the domestic plus external sum,
+      computed here and stated. CALENDAR year-end, unlike the fiscal-year
+      ratios above. Gross only: no net-debt series is published on this route
+      and none is derived.
+spending:
+  operating_by_head.csv:
+    source: "SingStat Table Builder M130581 — Government Operating Expenditure By Sector"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M130581"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py
+    notes: >-
+      VERIFIED 2026-10-25: FY2024 total S$88,895.7m, FY2025 revised
+      S$97,468.1m, FY2026 BUDGET S$103,269.2m. FINANCIAL YEARS labelled by
+      starting year. The heads are the publisher's own administrative
+      classification (ministries: Education, Health, Defence, Home Affairs,
+      Transport, ...), NOT COFOG — see meta.pending for the COFOG routes
+      tried. Nationwide, whole of government, no sub-national level exists to
+      consolidate.
+  development_by_head.csv:
+    source: "SingStat Table Builder M130591 — Government Development Expenditure By Sector"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M130591"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py
+    notes: >-
+      VERIFIED 2026-10-25: the capital side of the same classification, same
+      financial-year label, million SGD. Two heads the operating table does
+      not carry (Economic Development, Transport) appear here and vice versa;
+      the union is the full set of ministries in the publisher's
+      presentation. Never summed with the operating table into one
+      "government expenditure" line without saying so: the fiscal chapter's
+      ratio comes from M130661, which defines its own total.
+
+trade:
+  trade.csv:
+    source: "SingStat Table Builder M015021 — exports and imports of goods and services at current prices, over GDP at current prices; comparator from World Bank WDI NE.EXP.GNFS.ZS / NE.IMP.GNFS.ZS"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M015021"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py and fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: 2025 exports 178% of GDP and imports 142%, because
+      a city-state's customs territory re-exports what it processes and its
+      services trade is large — this EXCEEDS the spine's shared 0..100 range
+      and the scale decision is recorded in country.yaml, not taken locally.
+      Numerator and denominator come from the same table and vintage, so the
+      ratio has no splice. NATIONAL-ACCOUNTS basis (goods AND services), not
+      the customs goods series in trade/partners.csv; the two are different
+      measures and are never mixed in one line.
+  partners.csv:
+    source: "SingStat Table Builder M451521 — Merchandise Exports By Region And Market"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M451521"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py
+    notes: >-
+      VERIFIED 2026-10-25: 2025 total merchandise exports S$739.4bn; Hong
+      Kong 11.09%, Mainland China 10.94%, Malaysia 9.89%, Taiwan 8.72%,
+      United States 9.37%, and Asia as a region 72.58%. CUSTOMS goods basis:
+      total exports here are domestic exports plus re-exports, which is what
+      the publisher sums. Region rows aggregate the markets beneath them and
+      must never be added to them. The table has 160 rows but the API returns
+      at most ~5,000 cells (17.5 monthly rows) per response and `offset` is
+      inert, so each market drawn is fetched by name through the endpoint's
+      `search` filter — without that the payload silently stops at Honduras.
+      2026 is absent by construction: nine months of a monthly series are not
+      an annual total.
+
+markets:
+  markets.csv:
+    source: "SingStat Table Builder M700071 — Current Banks Interest Rates (end of period, monthly) and M700851 — Exchange Rates (average for period, annual)"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M700071"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py
+    notes: >-
+      VERIFIED 2026-10-25: 10-year SGS 2025 average 2.30% (Sep 2026 2.47%);
+      SORA 2025 average 1.698%; 3-month compounded SORA 1.957%; S$1.3066 per
+      US$ in 2025. Rates are calendar-year means of the monthly series.
+      SINGAPORE HAS NO POLICY INTEREST RATE: MAS conducts monetary policy
+      through a trade-weighted exchange-rate band (S$NEER), so SORA is a
+      money-market benchmark and is labelled as one on the plate — it is
+      never presented as a policy rate and no other country's policy rate is
+      substituted. sgd_per_usd is dollars per US dollar, so a rise is a
+      weaker Singapore dollar; the plate indexes it 2006 = 100 with up =
+      stronger.
+
+credit:
+  household.csv:
+    source: "SingStat Table Builder M700981 — Household Sector Balance Sheet (Q4) and BIS total credit WS_TC Q.SG.H.A.M.770.A.E"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M700981"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py and fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: end-2025 household liabilities S$407,531.3m
+      (mortgages S$292,407.1m, personal loans S$115,124.2m), 51.62% of that
+      year's GDP, against household net worth of S$3,296,640.5m. TWO
+      DEFINITIONS of the same idea, both official and both kept: the national
+      balance-sheet liabilities (51.62% of GDP, includes HDB housing loans)
+      and the BIS harmonised credit aggregate (44.0%, adjusted for breaks).
+      They differ by about seven points of GDP and are drawn as two labelled
+      lines, never spliced. The BIS key needs all eight WS_TC dimensions: with
+      the collection segment omitted the API does not error, it serves a
+      DIFFERENT country (the first probe returned Australia), so the fetcher
+      asserts the country name in the payload's TITLE_TS before parsing. The
+      national lending rate and the NPL ratio are MAS series and MAS is
+      unreachable (meta.pending), so those two credit panels have no staged
+      data.
+
+people:
+  income.csv:
+    source: "SingStat Table Builder M810361 — Key Indicators On Household Employment Income Among Resident Employed Households"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M810361"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py
+    notes: >-
+      VERIFIED 2026-10-25: 2025 Gini 0.426 BEFORE and 0.359 AFTER government
+      transfers and taxes, on household employment income per household
+      member; median monthly household employment income S$12,027, per
+      member S$3,909. The publisher prints SIX Gini variants (before/after,
+      three equivalisation bases); the two drawn are the per-household-member
+      pair, and the after-transfers figure is the one Singapore quotes as its
+      headline. They are two published measures of one distribution and are
+      never spliced. Income includes employer CPF contributions and is
+      EMPLOYMENT income: investment income and transfers are outside it.
+      There is NO World Bank Gini for Singapore (SI.POV.GINI returns an empty
+      series, verified 2026-10-25), so this panel has no harmonised
+      comparison line. Singapore publishes no official poverty line and has
+      no statutory minimum wage; both are findings about the country, recorded
+      in DATA_NOTES.md, not gaps in this lane.
+
+world:
+  world.csv:
+    source: "World Bank WDI — NY.GDP.MKTP.CD, NY.GDP.PCAP.CD, FI.RES.TOTL.CD; UNDP HDR 2025 (one vintage) HDI; SingStat M700031 for the SGD reserves stock"
+    url: "https://api.worldbank.org/v2/country/SGP/indicator/NY.GDP.MKTP.CD?format=json"
+    official: false
+    refreshed_by: fetch/fetch_comparables.py and fetch/fetch_singstat.py
+    notes: >-
+      VERIFIED 2026-10-25: GDP 2024 US$572.88bn; GDP per person 2025
+      US$98,813.98; reserves 2025 US$432.11bn; HDI 2023 = 0.946 (HDR 2025,
+      one vintage throughout — the HDR recomputes its whole back-series, so a
+      mixed vintage would be a splice). The SGD reserves line (SingStat
+      M700031, December observation: S$526.3bn at end-2025, S$553.6bn by
+      September 2026) and the World Bank's US$432.11bn line are the same
+      stock in two currencies, not two series. Official reserves
+      are the relevant holding for a country with no separate sovereign fund
+      statistic in the atlas; GIC and Temasek holdings are not reserves and
+      are not mixed into this line.
+
+demography:
+  demography.csv:
+    source: "SingStat Table Builder M810001 (population, mid-year), M810091 (births and fertility), M810481 (deaths), M810501 (life expectancy), M890151 (land area)"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M810001"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py
+    notes: >-
+      VERIFIED 2026-10-25: mid-2025 total population 6,111,175 — identical to
+      the World Bank's SP.POP.TOTL for the same year, which is the cross-check
+      that the two populations are the same object; residents 4,204,515,
+      citizens 3,660,683, permanent residents 543,832, non-residents
+      1,906,660. TFR 0.87 in 2025 (0.97 in 2023-24), life expectancy 83.9,
+      crude birth rate 6.5 and crude death rate 6.0 per 1,000 RESIDENTS, land
+      area 744.3 km2 (581.5 in 1960 — reclamation, a measured area). SCOPE:
+      the publisher's vital rates divide by RESIDENTS, not by everyone
+      present; the World Bank's crude death rate divides by TOTAL population.
+      The two are carried in separate columns and are never joined — the
+      resident basis reads about a third higher purely on denominator.
+      mid-2026 (6,208,523) is a level, not a completed year. The publisher's
+      own note records a de facto/de jure break at 1990, outside this window.
+
+security:
+  security.csv:
+    source: "SingStat Table Builder M890891 (selected major offences), M810131 (suicides), M651421 (road-traffic death rate); UNODC VC.IHR.PSRC.P5 and WHO SH.STA.SUIC.P5 / SH.STA.TRAF.P5 via the World Bank"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M890891"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py and fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: 7 murders in 2025 (0.115 per 100,000) against 16
+      in 2011; road deaths 2.35 per 100,000 in 2024, the publisher's own rate;
+      suicide 256 in 2025 against 441 in 2024. MURDER IS A PENAL CODE
+      CATEGORY, not the UNODC intentional-homicide definition: the UNODC line
+      is drawn beside it and never substituted. The two agree exactly on the
+      2011 denominator check (0.309 on both), which is how the total-population
+      basis for the national rate was verified against SingStat's own crime
+      rate (2025 physical-crime rate 341 = 20,857 cases over mid-2025 total
+      population 6,111,175). BOTH national rates use the TOTAL population,
+      because both counts cover everyone present. 2025 IS PRELIMINARY: the
+      publisher's footnote on the cause table says so, and the suicide and
+      accident counts fall about 40% in that year while every natural-cause
+      group holds steady — coroner's cases still being assigned, not a
+      decline, and it must never be described as one. M890891 starts in 2011,
+      so the national homicide line does; earlier years are blank, not zero.
+      No UNODC homicide figure exists for Singapore after 2023 on this route.
+
+mortality:
+  mortality.csv:
+    source: "SingStat Table Builder M810131 (deaths by broad cause groups), M810481 (deaths and rates), M810501 (life expectancy); World Bank SP.DYN.CDRT.IN and SP.DYN.LE00.IN"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M810131"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py and fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: 2025 total deaths 26,499 (25,300 residents),
+      crude death rate 6.0 per 1,000 residents, infant mortality 2.0 per
+      1,000 live births, life expectancy 83.9; malignant neoplasms 7,046 and
+      circulatory 8,621 deaths. TWO CODING BREAKS IN THIS FILE: deaths to 2011
+      are ICD-9 and from 2012 ICD-10 (publisher's footnote), so cause groups
+      are not strictly comparable across 2012 and the seam is annotated; and
+      2025 is preliminary. NO COVID-19 ROW EXISTS in the publisher's broad
+      groups, so the pandemic's deaths sit inside the respiratory and
+      infective groups and the cause-of-death chapter's COVID slot has no
+      national by-cause series (meta.pending records the routes). The
+      World Bank's crude death rate divides by TOTAL population and reads
+      lower than the resident-basis national rate by construction; both are
+      in the file and never joined.
+
+migration:
+  migration.csv:
+    source: "SingStat Table Builder M810001 (non-resident population) and M810791 (share of non-resident population by pass type); UN WPP net migration SM.POP.NETM via the World Bank"
+    url: "https://tablebuilder.singstat.gov.sg/api/table/tabledata/M810791"
+    official: true
+    refreshed_by: fetch/fetch_singstat.py and fetch/fetch_comparables.py
+    notes: >-
+      VERIFIED 2026-10-25: 1,906,660 non-residents at mid-2025, 1,976,999 at
+      mid-2026; of the non-resident population, work-permit holders are 44%,
+      migrant domestic workers 16%, long-term visit/dependant's pass holders
+      15%, employment-pass holders 11%, S-pass 9%, student-pass 5%. STOCK, NOT
+      FLOW: Singapore publishes NO immigration or emigration flow series on
+      any route probed (meta.pending), so this chapter is built on legal
+      status at a date. The pass shares are of the NON-RESIDENT population
+      only and say nothing about their share of the whole population. The
+      World Bank's net migration is the UN's model, an estimate, not a count
+      of arrivals or departures, and Singapore's borders record entries
+      rather than migration events. Nothing here is converted into a per-1,000
+      migration rate: there is no flow to convert.
+meta:
+  pending:
+    - name: Monetary Authority of Singapore statistics API (policy stance, bank lending rates, NPL ratio, MAS core inflation)
+      publisher: Monetary Authority of Singapore
+      url: https://eservices.mas.gov.sg/api/action/datastore/search.json
+      official: true
+      notes: >-
+        Probed 2026-10-25. `/api/action/datastore/search.json`,
+        `/api/3/action/package_list`, a datastore query with a resource id and
+        `/statistics/api/v1/` all return either a MAS
+        "maintenance.mas.gov.sg/eservice" HTML page under HTTP 200 or a 404
+        with content-type text/html — an HTML failure served as success,
+        which is exactly the failure mode SOURCING_A_COUNTRY.md §5 warns
+        about, so nothing from this host is parsed or cached. This is an
+        access condition on the discovery network, not evidence that the data
+        are unpublished. Blocks: the household lending rate and the
+        non-performing-loan ratio (credit slots 2 and 3), MAS core inflation,
+        and the S$NEER policy band itself. Retry is one fetch from an
+        unblocked network.
+    - name: A policy interest rate (markets slot 1)
+      publisher: none — the instrument does not exist
+      url: ''
+      official: true
+      notes: >-
+        NOT A GAP AND NOT AN ACCESS FAILURE. Singapore has no policy interest
+        rate: MAS manages the Singapore dollar's trade-weighted exchange-rate
+        band (S$NEER), and adjusts its slope, width and level rather than a
+        rate. The spine's "policy rate vs inflation" slot therefore has no
+        canonical quantity for this country. The recorded decision is to keep
+        the slot visibly pending, or to draw SORA — a money-market benchmark
+        the publisher reports — labelled as a benchmark and never as a policy
+        rate. Substituting another country's rate, or relabelling SORA, would
+        be the single most misleading line this atlas could draw.
+    - name: General-government revenue and interest paid (fiscal slots 1 and 4)
+      publisher: IMF (WEO / Fiscal Monitor), publisher coverage decision
+      url: https://www.imf.org/external/datamapper/api/v1/rev/SGP
+      official: false
+      notes: >-
+        Probed 2026-10-25. On the DataMapper, `rev`, `exp`, `ie` and `pb`
+        return an EMPTY inner object for SGP while GGXCNL_NGDP and
+        GGXWDG_NGDP are populated; the Fiscal Monitor revenue indicator
+        G_GR_G01_GDP_PT carries no SGP series either, though its expenditure
+        indicator G_X_G01_GDP_PT does. A test with a known-covered country in
+        the same key position returns values, so this is a coverage decision by
+        the publisher, not a broken request. Revenue is therefore NOT derived
+        as "expenditure minus balance": the two published series are rounded
+        separately and the subtraction would invent a precision the sources do
+        not have. The national cash-basis revenue ratio is staged separately in
+        fiscal/fiscal_national.csv and is a different definition.
+    - name: COFOG expenditure by function (spending slots 1 and 2)
+      publisher: OECD (table 11) and the national budget presentation
+      url: https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NASEC10@DF_TABLE11
+      official: true
+      notes: >-
+        Probed 2026-10-25. The OECD SDMX service answers (200) and the COFOG
+        dataflow "Annual government expenditure by function" exists and needs
+        a 13-dimension key. A query with FRA in the reference-area position
+        returns 903 KB of 2022 data; the identical query with SGP returns
+        `NoRecordsFound` (HTTP 404, SDMX body) — Singapore is not an OECD
+        member and table 11 does not carry it. The IMF's COFOG route was
+        probed at api.imf.org (the dataflow paths answer 204/404 and no
+        artefact is exposed). The national alternative is the publisher's own
+        ministry classification, staged in spending/operating_by_head.csv and
+        spending/development_by_head.csv. Mapping ministries onto the seven
+        COFOG groups is an editorial assertion the sources do not make, so the
+        canonical COFOG panel stays pending and the national classification is
+        drawn in the lens labelled as such.
+    - name: COVID-19 deaths by cause (mortality slot 3)
+      publisher: SingStat; World Health Organization
+      url: https://ghoapi.azureedge.net/api/Indicator
+      official: true
+      notes: >-
+        Probed 2026-10-25. The publisher's "Deaths By Broad Groups Of Causes"
+        (M810131) has no COVID-19 row: its groups predate the ICD-10-COVID
+        code and the pandemic's deaths sit inside "Diseases Of The Respiratory
+        System" and "Infective And Parasitic Diseases", where they cannot be
+        separated without the microdata. The WHO GHO indicator catalogue
+        answers 200 (415 KB) but carries no general COVID-19 death indicator
+        for Singapore, and covid19.who.int now follows to an HTML page rather
+        than a CSV. No official series exists for this slot on the routes
+        available; the slot stays pending with this note rather than being
+        filled from press releases.
+    - name: Immigration and emigration flows (migration slots 1 and 2)
+      publisher: Singapore Department of Statistics; Immigration & Checkpoints Authority
+      url: https://tablebuilder.singstat.gov.sg/api/table/tabledata/M810001
+      official: true
+      notes: >-
+        Probed 2026-10-25 against the full Table Builder catalogue (1,049
+        live table ids enumerated from the publisher's sitemap.xml) and
+        data.gov.sg (4,664 datasets): Singapore publishes population STOCKS
+        by citizenship and residence and the non-resident stock by pass type,
+        and it publishes the number of citizenships and PRs GRANTED
+        (M810781) — but no annual immigration or emigration flow series
+        comparable with Eurostat's migr_imm1ctz. The UN's modelled net
+        migration is staged as an estimate in its own column. Registering a
+        new permanent resident is not an arrival and granting citizenship is
+        not an immigration flow; neither is converted into one.
+    - name: Straits Times Index (markets slot 4)
+      publisher: SGX / SPH, redistributed by Yahoo Finance
+      url: https://query1.finance.yahoo.com/v8/finance/chart/%5ESTI
+      official: false
+      notes: >-
+        Partially probed 2026-10-25: Yahoo's chart API answers 200 with ^STI
+        metadata (currency SGD, exchange SES), so the series is obtainable and
+        is a redistributor — `official: false` if adopted. NOT staged in this
+        phase: a US$-denominated index at 2006 = 100 needs both the index
+        history and that year's exchange rate on one vintage, and the
+        redistributor's back-history has not been reconciled against SGX. It
+        is one fetch away and is the outstanding markets item; stooq, the
+        atlas's usual redistributor, is JavaScript-walled from this network
+        (verified 2026-10-25) and was not used.
+    - name: Transparency International Corruption Perceptions Index (world slot 3)
+      publisher: Transparency International
+      url: https://images.transparencycdn.org/images/CPI2025-Results-and-trends.xlsx
+      official: false
+      notes: >-
+        HTTP 403 S3 AccessDenied on 2026-10-25, with and without a browser
+        User-Agent and following redirects (the 307 lands on the 403). Other
+        lanes fetched the identical URL successfully, so this is a network
+        block rather than a dead endpoint. Singapore scores in the high 80s in
+        recent editions and the series has a 2012 methodology break, which the
+        spine already requires to be drawn as a seam.
+    - name: World Bank harmonised Gini (people slot 1 comparison line)
+      publisher: World Bank WDI SI.POV.GINI
+      url: https://api.worldbank.org/v2/country/SGP/indicator/SI.POV.GINI?format=json
+      official: false
+      notes: >-
+        Probed 2026-10-25: the indicator returns an EMPTY series for Singapore
+        — the World Bank's poverty and inequality database has no Singapore
+        row at all, and PIP does not cover it either. This is a coverage gap
+        in the harmonised layer, not an access failure, and it means the Gini
+        panel has no international comparison line. The national series
+        (SingStat M810361) is the only one and is drawn alone, which the plate
+        must say.
+    - name: Poverty rate (people slot 2)
+      publisher: none — Singapore publishes no official poverty line
+      url: ''
+      official: true
+      notes: >-
+        NOT A GAP AND NOT AN ACCESS FAILURE. Singapore has no official poverty
+        line and no national poverty rate: the government publishes household
+        income deciles, the ComCare scheme caseload and the Workfare top-ups
+        instead of a headcount. The World Bank's US$8.30/day line is not
+        published for Singapore either (SI.POV.* are empty on the same route).
+        The panel states this directly rather than substituting an income
+        threshold that no Singaporean publisher uses.
+    - name: Statutory minimum wage (people slot 3)
+      publisher: none — Singapore has no statutory minimum wage
+      url: ''
+      official: true
+      notes: >-
+        NOT A GAP AND NOT AN ACCESS FAILURE. Singapore has no national minimum
+        wage. It uses the Progressive Wage Model — sectoral wage floors set
+        administratively for cleaning, security, landscaping and lift
+        maintenance, plus the Local Qualifying Salary threshold that governs
+        work-pass quotas. Neither is a national minimum wage and neither is
+        converted into one here; the panel says exactly this, as the spine
+        requires for countries without the instrument.
+    - name: General Government Finance, cash-basis receipts/payments (M130601)
+      publisher: Singapore Department of Statistics
+      url: https://tablebuilder.singstat.gov.sg/api/table/tabledata/M130601
+      official: true
+      notes: >-
+        Probed 2026-10-25 and NOT curated. The table splits receipts and
+        payments by operating, investment and financing activity, and its row
+        labels repeat across those blocks ("Domestic" and "Foreign" each
+        appear twice), so a label-keyed read is ambiguous and a positional
+        read would silently pick the wrong block. It is kept only as a
+        fetcher sidecar (data/fiscal/cashflow_from_singstat.csv) as evidence
+        that the cash presentations exist; the curated fiscal ratios come from
+        M130661, which states its own perimeter.
+    - name: data.gov.sg "Adapted from" links into the Table Builder
+      publisher: Government Technology Agency (data.gov.sg)
+      url: https://api-production.data.gov.sg/v2/public/api/datasets?page=1
+      official: true
+      notes: >-
+        The portal's catalogue answers (200, 4,664 datasets) and is a useful
+        index, but it is NOT a reliable map from a dataset name to a Table
+        Builder id: several descriptions cite ids that no longer resolve
+        (M450091 returns HTTP 404 "Resource Not Found") or cite saved views
+        (`table/CT/…`) rather than tables, and at least one dataset name
+        belongs to a different table than the id beside it. Table ids in this
+        manifest come from the publisher's own sitemap and every one is
+        asserted against its metadata title by the fetcher.
+    - name: SingStat Table Builder rate limit
+      publisher: Singapore Department of Statistics
+      url: https://tablebuilder.singstat.gov.sg/api/table/metadata/M810001
+      official: true
+      notes: >-
+        Recorded as an operating condition, not a gap. A 1,049-table metadata
+        sweep began returning HTTP 403 after roughly two hundred requests and
+        recovered within minutes; a plain urllib request is also refused with
+        403 for a table that curl and requests fetch at the same instant (the
+        fetcher therefore uses requests with a browser User-Agent and an
+        Accept header, one table at a time, with backoff). Neither blocks the
+        data and both are handled rather than worked around by scraping.

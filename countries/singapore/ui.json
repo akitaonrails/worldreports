@@ -1,0 +1,200 @@
+{
+ "en": {
+  "line": "{n} plates of official data, {window}",
+  "dek": "Every figure on this page comes from a publisher that names its definition — the Singapore Department of Statistics for the national accounts, prices, population, vital statistics, crime and household finances, and the IMF, World Bank, UNDP and BIS for the harmonised layer — and every plate is regenerated from committed CSVs, so the charts and the numbers here cannot drift apart. Singapore is a city and a state at once, and three of the atlas's usual frames break on it: exports of goods and services run at 178% of GDP because a port re-exports what it imports, gross debt near 166% of GDP is issued against assets rather than as a burden, and there is no policy interest rate at all — MAS manages a trade-weighted exchange-rate band. Each of those is said on the panel that draws it. Gaps are gaps: a slot with no official number says which route was tried and why the number is not there.",
+  "notes": [
+   "2026 is a partial year. Annual totals stop at 2025; what 2026 carries is what is genuinely a point reading — the mid-2026 population, the end-June 2026 unemployment rate and the mid-2026 pass-type shares — and those points are dashed.",
+   "The population is three populations, and every rate names the one it divides by. Vital rates (births, deaths, fertility) are per RESIDENT, the publisher's own definition. Murder, suicide, road deaths and every crime rate here are per EVERYONE PRESENT, because those counts cover everyone in Singapore; the same total in 2025 is 6,111,175 people against 4,204,515 residents.",
+   "Public finances are on two different year bases and are never joined. The general-government line (revenue, balance, debt, expenditure) is on calendar years from the IMF. The national budget, staged but drawn only where a panel says so, is on 1 April to 31 March and labelled by the starting year: FY2025 ran to 31 March 2026, and FY2026 is a budget estimate, not an outturn.",
+   "Gross debt is drawn gross with no asset offset, and the panel says so. The Singapore Government Securities behind it are issued to hold CPF Board liabilities and to build the reserves that fund the Net Investment Returns Contribution; the government publishes no net-debt series on any route probed, so the ratio is real and the reading of a debt crisis would not be.",
+   "There is no policy interest rate in Singapore. MAS sets the slope, width and level of the Singapore dollar's trade-weighted band, so the markets plate keeps that slot pending rather than importing the Fed funds rate or relabelling SORA, which is a money-market benchmark the publisher reports.",
+   "Trade is drawn on the national-accounts basis (goods and services) in the trade plate and on the customs basis (domestic exports plus re-exports) in the destinations panel. The two are different objects and are never mixed on one line.",
+   "The cause-of-death groups are not strictly comparable across 2012: deaths to 2011 are coded to ICD-9 and from 2012 to ICD-10. The mortality lens draws the two codings as two segments with a gap and a rule between them, never as one joined line.",
+   "2025 is the publisher's preliminary cause-of-death year. The natural-cause groups hold steady while the external causes collapse — suicides from 441 to 256, accidents, poisonings and violence from 917 to 536 — because coroner's cases were still being assigned at publication. That is not a decline and the plate says so.",
+   "The plates are drawn in the two languages this country publishes — English, which is Singapore's working official language, and Portuguese, the atlas's shared second language — and so is this page."
+  ],
+  "unavailable": [
+   {
+    "term": "Exports and imports above 100% of GDP",
+    "detail": "The series are staged, verified and correct: exports of goods and services reach 228% of GDP in 2008 and 177.9% in 2025, imports 208% and 142.4%. The canonical slot's atlas-wide range is 0–100% of GDP, which a re-exporting port cannot fit without flattening every other country's line into the bottom third of the same pixels. The slot stays pending with the extent on the panel and both lines are drawn in the trade lens on their own axis. The shared range needs a deliberate widening to about 240%, applied to every country carrying the topic."
+   },
+   {
+    "term": "Homicide rate below the shared log floor",
+    "detail": "Staged and verified against UNODC to three decimals, but 4 murders in 2023 is 0.068 per 100,000 — under the atlas-wide log floor of 0.1 — and 7 in 2025 is 0.115, which sits on it. The slot stays pending rather than clipped, with the count on the panel. The shared floor needs moving to 0.05 for every country carrying the topic."
+   },
+   {
+    "term": "Net migration outside the shared scale",
+    "detail": "The UN/WPP estimate runs from +41.9 per 1,000 in 2007 to −25.6 in 2020, the year the borders closed, against the atlas-wide −10…+40 range. The canonical slot stays pending with the extent on the panel and the series is drawn in the migration lens on its own axis, labelled as a modelled estimate."
+   },
+   {
+    "term": "General-government revenue and interest paid",
+    "detail": "The IMF's DataMapper returns an empty object for Singapore's revenue, primary balance and interest indicators while expenditure, balance and debt are populated, and its Fiscal Monitor revenue series has no Singapore row; a known-covered country in the same key position returns values, so this is publisher coverage rather than a broken request. Revenue is not derived as expenditure minus balance, which would invent precision from two separately rounded series."
+   },
+   {
+    "term": "COFOG spending by function, and social protection",
+    "detail": "Singapore is not an OECD member: OECD table 11 returns NoRecordsFound for it where the identical query returns 903 KB for France, and the IMF's COFOG route exposes no artefact. The national ministry classification is staged and is not relabelled as COFOG, because mapping 22 ministry heads onto the seven functions is an editorial assertion the sources do not make — and Singapore's social spending runs through Education, Health and Social and Family Development, so any two-way social-protection split would invent a perimeter."
+   },
+   {
+    "term": "Public investment",
+    "detail": "No government fixed-capital-formation series is published. The capital budget — development expenditure — is on a 1 April to 31 March year with no published fiscal-year GDP, and a fiscal-year flow is not put over a calendar-year GDP here. The internationally comparable whole-economy investment rate is drawn."
+   },
+   {
+    "term": "Bank lending rate and non-performing loans",
+    "detail": "MAS's statistics API serves an HTML maintenance page under HTTP 200 (or a 404 with an HTML body) from this network — an HTML failure served as success, which is not parsed or cached. That blocks the household lending rate and the NPL ratio, and also MAS core inflation and the S$NEER band itself. Retry is one fetch from an unblocked network."
+   },
+   {
+    "term": "Straits Times Index",
+    "detail": "Obtainable and not staged: a US$-denominated index at 2006 = 100 needs the index history and each year's exchange rate reconciled on one vintage, and it would be a redistributor (official: false). Yahoo's chart API answers for ^STI; stooq, the atlas's usual redistributor, is JavaScript-walled from this network."
+   },
+   {
+    "term": "Corruption Perceptions Index",
+    "detail": "Transparency International's workbook answers 403 (S3 AccessDenied) to this network, with and without a browser User-Agent and following redirects. No proxy is substituted for a perception index."
+   },
+   {
+    "term": "World Bank Gini comparison",
+    "detail": "The World Bank's SI.POV.GINI returns an empty series for Singapore, so the inequality panel has no international comparison line. The national series prints six coefficients; the two drawn are before and after taxes and transfers among resident employed households, and the 6.7-point gap between them is the transfers' effect."
+   },
+   {
+    "term": "Poverty rate",
+    "detail": "Not applicable: Singapore has no official poverty line and publishes no headcount. It reports household income deciles, ComCare caseloads and Workfare instead. The World Bank's US$8.30/day line is not published for Singapore either, so no threshold from another publisher is substituted."
+   },
+   {
+    "term": "Statutory minimum wage",
+    "detail": "Not applicable: Singapore has no national minimum wage. The Progressive Wage Model sets sectoral floors for cleaning, security, landscaping and lift maintenance, and the Local Qualifying Salary governs work-pass quotas; neither is a national minimum wage and neither is converted into one."
+   },
+   {
+    "term": "COVID-19 deaths",
+    "detail": "No official line exists. The publisher's broad cause groups predate the ICD-10-COVID code, so pandemic deaths sit inside diseases of the respiratory system and infective and parasitic diseases and cannot be separated without microdata. WHO's GHO catalogue carries no general COVID-19 death indicator for Singapore."
+   },
+   {
+    "term": "Immigration and emigration flows",
+    "detail": "Not published on any route probed, including the full Table Builder catalogue and data.gov.sg: Singapore releases population stocks by legal status and counts of citizenships and PRs granted, but no annual arrival or departure flow comparable with a migration register. Granting permanent residence is not an arrival and granting citizenship is not an immigration flow. The stock is drawn — foreign citizens are 40% of the population — and the UN's net estimate appears in the lens."
+   },
+   {
+    "term": "Excess deaths and the shared scale",
+    "detail": "Excess deaths are drawn from the baseline period (2015–2025) because the full staged series starts at −20.8% in 2006, just under the atlas-wide floor of −20. The mortality panel says so and the baseline is unadjusted for age structure, which is stated on the panel: deaths rise every year here with an ageing population, so part of the gap is age, not pandemic."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "National accounts, prices, labour, population, vital statistics, crime, household finances",
+    "detail": "Singapore Department of Statistics (SingStat) Table Builder, tables M015021 and M015902 (GDP), M213751 (2024-base CPI), M182281 (labour force), M810001 (population), M810131 (deaths by cause), M810361 (household income), M700981 (household balance sheet), M700071 (interest rates), M451521 (merchandise exports by market) and the Singapore Police Force's recorded-offence series, all annual sums over complete calendar years"
+   },
+   {
+    "term": "General government",
+    "detail": "IMF World Economic Outlook, October 2026 vintage: overall balance, expenditure, gross debt (GGXWDG_NGDP). Calendar years. Revenue and interest are not published for Singapore"
+   },
+   {
+    "term": "Comparisons",
+    "detail": "World Bank WDI (current US$ GDP and GDP per person, reserves, GFCF, ILO-modelled unemployment), UNDP Human Development Report 2025, and the BIS total-credit statistics (WS_TC, Q4)"
+   },
+   {
+    "term": "Exchange rates",
+    "detail": "SingStat annual average S$ per US$, used to index the currency at 2006 = 100 and to convert reserves; no other conversion crosses a publisher"
+   },
+   {
+    "term": "Recession bands",
+    "detail": "The publisher's quarterly chained-GDP series (M015902), seasonally adjusted quarter-on-quarter. Only the two runs of two negative quarters or more are banded: 2008 Q2–2009 Q1 and 2020 Q1–Q2. The annual series shows only 2020 as a negative year, which is why the quarterly series was fetched"
+   }
+  ]
+ },
+ "pt": {
+  "line": "{n} pranchas de dados oficiais, {window}",
+  "dek": "Todo número desta página vem de um editor que nomeia a sua definição — o Departamento de Estatística de Singapura para as contas nacionais, os preços, a população, as estatísticas vitais, a criminalidade e as finanças das famílias, e o FMI, o Banco Mundial, o PNUD e o BIS para a camada harmonizada — e cada prancha é regenerada a partir de CSVs versionados, de modo que os gráficos e os números daqui não podem divergir. Singapura é cidade e Estado ao mesmo tempo, e três das molduras habituais do atlas quebram aqui: as exportações de bens e serviços somam 178% do PIB porque um porto reexporta o que importa, a dívida bruta perto de 166% do PIB é emitida contra ativos e não como fardo, e não existe taxa básica de juros alguma — o MAS administra uma banda cambial ponderada pelo comércio. Cada uma dessas coisas está dita no painel que a desenha. Lacuna é lacuna: uma vaga sem número oficial diz qual rota foi tentada e por que o número não está ali.",
+  "notes": [
+   "2026 é um ano incompleto. Os totais anuais param em 2025; o que 2026 traz é o que é de fato leitura pontual — a população de meados de 2026, o desemprego de fim de junho de 2026 e a composição dos passes em meados de 2026 — e esses pontos aparecem tracejados.",
+   "A população são três populações, e cada taxa nomeia por qual delas divide. As taxas vitais (nascimentos, mortes, fecundidade) são por RESIDENTE, a definição do próprio editor. Homicídio, suicídio, mortes no trânsito e toda taxa de criminalidade aqui são por TODOS OS PRESENTES, porque essas contagens cobrem todas as pessoas em Singapura; o mesmo total em 2025 é 6.111.175 pessoas contra 4.204.515 residentes.",
+   "As finanças públicas estão em duas bases anuais diferentes e nunca são unidas. A linha do governo geral (receita, saldo, dívida, despesa) é em anos civis, do FMI. O orçamento nacional, preparado mas desenhado só onde um painel o diz, é de 1º de abril a 31 de março e rotulado pelo ano de início: o exercício de 2025 foi até 31 de março de 2026, e o de 2026 é estimativa orçamentária, não execução.",
+   "A dívida bruta é desenhada bruta, sem compensação de ativos, e o painel diz isso. Os títulos do governo por trás dela são emitidos para sustentar passivos do CPF e formar as reservas que financiam a Contribuição de Retorno sobre Investimentos Líquidos; o governo não publica série de dívida líquida em nenhuma rota sondada, então a razão é real e a leitura de crise de dívida não seria.",
+   "Não existe taxa básica de juros em Singapura. O MAS define a inclinação, a largura e o nível da banda cambial ponderada pelo comércio, por isso a prancha de mercados mantém essa vaga pendente em vez de importar o juro do Fed ou renomear a SORA, que é uma referência de mercado monetário publicada pelo editor.",
+   "O comércio é desenhado na base das contas nacionais (bens e serviços) na prancha de comércio e na base aduaneira (exportações domésticas mais reexportações) no painel de destinos. Os dois são objetos diferentes e nunca são misturados numa mesma linha.",
+   "Os grupos de causa de morte não são estritamente comparáveis através de 2012: as mortes até 2011 são codificadas na CID-9 e a partir de 2012 na CID-10. A lente de mortalidade desenha as duas codificações como dois segmentos com um intervalo e uma régua entre eles, nunca como uma linha unida.",
+   "2025 é o ano preliminar de causa de morte do editor. Os grupos de causa natural se mantêm estáveis enquanto as causas externas desabam — suicídios de 441 para 256, acidentes, envenenamentos e violência de 917 para 536 — porque os casos do legista ainda estavam em atribuição na publicação. Isso não é um declínio e a prancha diz isso.",
+   "As pranchas são desenhadas nas duas línguas em que este país publica — o inglês, língua oficial de trabalho de Singapura, e o português, a segunda língua compartilhada do atlas — como esta página."
+  ],
+  "unavailable": [
+   {
+    "term": "Exportações e importações acima de 100% do PIB",
+    "detail": "As séries estão preparadas, verificadas e corretas: as exportações de bens e serviços chegam a 228% do PIB em 2008 e 177,9% em 2025, as importações a 208% e 142,4%. A faixa do atlas para a vaga canônica é 0–100% do PIB, que um porto reexportador não cabe sem achatar a linha de todos os outros países no terço inferior dos mesmos pixels. A vaga fica pendente com a extensão no painel e as duas linhas são desenhadas na lente de comércio, em eixo próprio. A faixa compartilhada precisa de um alargamento deliberado para cerca de 240%, aplicado a todos os países que carregam o tema."
+   },
+   {
+    "term": "Taxa de homicídios abaixo do piso logarítmico compartilhado",
+    "detail": "Preparada e verificada contra a UNODC até a terceira casa, mas 4 homicídios em 2023 são 0,068 por 100 mil — abaixo do piso logarítmico de 0,1 do atlas — e 7 em 2025 são 0,115, que fica sobre ele. A vaga fica pendente em vez de recortada, com a contagem no painel. O piso compartilhado precisa descer para 0,05 em todos os países que carregam o tema."
+   },
+   {
+    "term": "Migração líquida fora da escala compartilhada",
+    "detail": "A estimativa da ONU/WPP vai de +41,9 por 1.000 em 2007 a −25,6 em 2020, o ano do fechamento das fronteiras, contra a faixa −10…+40 do atlas. A vaga canônica fica pendente com a extensão no painel e a série é desenhada na lente de migração em eixo próprio, rotulada como estimativa modelada."
+   },
+   {
+    "term": "Receita e juros pagos do governo geral",
+    "detail": "O DataMapper do FMI devolve objeto vazio para a receita, o saldo primário e os juros de Singapura, enquanto despesa, saldo e dívida estão preenchidos, e a série de receita do Fiscal Monitor não tem linha de Singapura; um país sabidamente coberto na mesma posição devolve valores, então isto é cobertura do editor, não requisição quebrada. A receita não é derivada como despesa menos saldo, o que inventaria precisão a partir de duas séries arredondadas separadamente."
+   },
+   {
+    "term": "Despesa por função (COFOG) e proteção social",
+    "detail": "Singapura não é membro da OCDE: a tabela 11 devolve NoRecordsFound para o país onde a consulta idêntica devolve 903 KB para a França, e a rota COFOG do FMI não expõe artefato. A classificação nacional por ministérios está preparada e não é renomeada como COFOG, porque mapear 22 ministérios nas sete funções é uma afirmação editorial que as fontes não fazem — e a despesa social de Singapura passa por Educação, Saúde e Desenvolvimento Social e da Família, então qualquer divisão binária de proteção social inventaria um perímetro."
+   },
+   {
+    "term": "Investimento público",
+    "detail": "Não há série publicada de formação bruta de capital fixo do governo. O orçamento de capital — despesa de desenvolvimento — é de 1º de abril a 31 de março, sem PIB do exercício publicado, e um fluxo de exercício não é colocado sobre um PIB de ano civil aqui. A taxa de investimento da economia inteira, comparável internacionalmente, é desenhada."
+   },
+   {
+    "term": "Taxa de crédito bancário e inadimplência",
+    "detail": "A API de estatísticas do MAS serve uma página HTML de manutenção sob HTTP 200 (ou um 404 com corpo HTML) a partir desta rede — uma falha em HTML servida como sucesso, que não é interpretada nem guardada. Isso bloqueia a taxa de crédito às famílias e o índice de inadimplência, e também a inflação núcleo do MAS e a própria banda S$NEER. A nova tentativa é uma busca a partir de uma rede desbloqueada."
+   },
+   {
+    "term": "Índice Straits Times",
+    "detail": "Obtenível e não preparado: um índice em dólares com 2006 = 100 exige a história do índice e o câmbio de cada ano reconciliados numa única edição, e seria um redistribuidor (official: false). A API de gráficos do Yahoo responde para ^STI; o stooq, redistribuidor habitual do atlas, é bloqueado por JavaScript a partir desta rede."
+   },
+   {
+    "term": "Índice de Percepção da Corrupção",
+    "detail": "A planilha da Transparency International responde 403 (S3 AccessDenied) a esta rede, com e sem User-Agent de navegador e seguindo redirecionamentos. Nenhum substituto é usado para um índice de percepção."
+   },
+   {
+    "term": "Comparação do Gini do Banco Mundial",
+    "detail": "O SI.POV.GINI do Banco Mundial devolve série vazia para Singapura, então o painel de desigualdade não tem linha internacional de comparação. A série nacional imprime seis coeficientes; os dois desenhados são antes e depois de impostos e transferências entre famílias residentes ocupadas, e a diferença de 6,7 pontos entre eles é o efeito das transferências."
+   },
+   {
+    "term": "Taxa de pobreza",
+    "detail": "Não se aplica: Singapura não tem linha oficial de pobreza e não publica contagem de pobres. Publica decis de renda domiciliar, casos do ComCare e o Workfare. A linha de US$ 8,30 por dia do Banco Mundial também não é publicada para Singapura, então nenhum limiar de outro editor é substituído."
+   },
+   {
+    "term": "Salário mínimo legal",
+    "detail": "Não se aplica: Singapura não tem salário mínimo nacional. O Modelo de Salário Progressivo fixa pisos setoriais para limpeza, segurança, paisagismo e manutenção de elevadores, e o Salário Local Qualificador rege as cotas de vistos de trabalho; nenhum dos dois é salário mínimo nacional e nenhum é convertido em um."
+   },
+   {
+    "term": "Mortes por COVID-19",
+    "detail": "Não existe linha oficial. Os grandes grupos de causa do editor são anteriores ao código CID-10-COVID, então as mortes da pandemia ficam dentro das doenças do aparelho respiratório e das infecciosas e parasitárias e não podem ser separadas sem microdados. O catálogo GHO da OMS não traz indicador geral de mortes por COVID-19 para Singapura."
+   },
+   {
+    "term": "Fluxos de imigração e emigração",
+    "detail": "Não publicados em nenhuma rota sondada, incluindo o catálogo completo do Table Builder e o data.gov.sg: Singapura divulga estoques populacionais por status legal e contagens de cidadanias e residências permanentes concedidas, mas nenhum fluxo anual de entrada ou saída comparável com um registro migratório. Conceder residência permanente não é chegada e conceder cidadania não é fluxo imigratório. O estoque é desenhado — os estrangeiros são 40% da população — e a estimativa líquida da ONU aparece na lente."
+   },
+   {
+    "term": "Excesso de mortes e a escala compartilhada",
+    "detail": "O excesso de mortes é desenhado a partir do período de base (2015–2025) porque a série completa preparada começa em −20,8% em 2006, logo abaixo do piso de −20 do atlas. O painel de mortalidade diz isso, e a base não é ajustada pela estrutura de idade, o que está dito no painel: as mortes sobem todos os anos aqui com o envelhecimento, então parte da diferença é idade, não pandemia."
+   }
+  ],
+  "colophon": [
+   {
+    "term": "Contas nacionais, preços, trabalho, população, estatísticas vitais, criminalidade, finanças das famílias",
+    "detail": "Table Builder do Departamento de Estatística de Singapura (SingStat), tabelas M015021 e M015902 (PIB), M213751 (IPC base 2024), M182281 (força de trabalho), M810001 (população), M810131 (mortes por causa), M810361 (renda domiciliar), M700981 (balanço das famílias), M700071 (taxas de juros), M451521 (exportações de mercadorias por mercado) e a série de ocorrências registradas da Polícia de Singapura, todas somas anuais sobre anos civis completos"
+   },
+   {
+    "term": "Governo geral",
+    "detail": "World Economic Outlook do FMI, edição de outubro de 2026: saldo total, despesa e dívida bruta (GGXWDG_NGDP). Anos civis. Receita e juros não são publicados para Singapura"
+   },
+   {
+    "term": "Comparações",
+    "detail": "WDI do Banco Mundial (PIB e PIB por pessoa em US$ correntes, reservas, FBCF, desemprego modelado pela OIT), Relatório de Desenvolvimento Humano 2025 do PNUD e as estatísticas de crédito total do BIS (WS_TC, quarto trimestre)"
+   },
+   {
+    "term": "Câmbio",
+    "detail": "Média anual de S$ por US$ do SingStat, usada para indexar a moeda em 2006 = 100 e converter as reservas; nenhuma outra conversão cruza editores"
+   },
+   {
+    "term": "Faixas de recessão",
+    "detail": "Série trimestral de PIB encadeado do editor (M015902), com ajuste sazonal e variação trimestral. Só as duas sequências de dois trimestres negativos ou mais são faixadas: 2008 T2–2009 T1 e 2020 T1–T2. A série anual mostra apenas 2020 como ano negativo, e por isso a trimestral foi buscada"
+   }
+  ]
+ }
+}

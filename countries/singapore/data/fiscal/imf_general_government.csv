@@ -1,0 +1,26 @@
+# IMF WEO / Fiscal Monitor via the DataMapper, one vintage: general government net lending/borrowing (GGXCNL_NGDP), gross debt (GGXWDG_NGDP) and total expenditure (G_X_G01_GDP_PT).
+# Years past 2025 are staff PROJECTIONS and live only in the _proj columns; an observed and a projected value never share a column.
+# GROSS debt, and for Singapore that is not a burden measure: SGS are issued to hold the CPF Board's liabilities and to build reserves, and the government publishes no net-debt series on this route. The ratio near 166% of GDP is a gross number with no offset shown.
+# The IMF publishes NO general-government revenue series for Singapore on this route (see SOURCES.yaml meta.pending), so only expenditure, balance and debt are here.
+year,balance_pct_gdp,balance_pct_gdp_proj,debt_pct_gdp,debt_pct_gdp_proj,expenditure_pct_gdp,expenditure_pct_gdp_proj
+2006,2.20,,86.50,,12.28,
+2007,7.10,,87.80,,9.01,
+2008,3.60,,97.90,,13.97,
+2009,-0.10,,101.70,,15.85,
+2010,5.70,,98.70,,10.23,
+2011,8.00,,103.10,,9.66,
+2012,7.30,,106.70,,9.83,
+2013,6.00,,98.20,,10.91,
+2014,4.60,,97.70,,12.57,
+2015,2.90,,102.10,,14.42,
+2016,3.20,,105.90,,15.22,
+2017,5.20,,107.30,,13.56,
+2018,3.70,,109.20,,13.85,
+2019,3.80,,127.70,,14.00,
+2020,-6.70,,147.10,,23.97,
+2021,1.10,,139.90,,15.35,
+2022,1.20,,153.30,,14.88,
+2023,3.40,,170.40,,14.64,
+2024,3.80,,165.80,,14.23,
+2025,4.20,,165.70,,15.51,
+2026,,3.70,,166.40,,15.99

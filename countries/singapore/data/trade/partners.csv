@@ -1,0 +1,504 @@
+# Singapore Department of Statistics, Table Builder M451521: merchandise exports by region and market; annual sums over complete calendar years, computed by fetch/fetch_singstat.py.
+# CUSTOMS goods basis. Region rows (America, Asia, Europe, Oceania, Africa) aggregate the market rows beneath them and must not be added to them.
+# 2011-1990 coverage varies by market; 2026 is absent because nine months are not an annual total.
+year,market,exports_sgd_mn,share_of_exports_pct
+2006,America,54820.8,12.63
+2006,Asia,299220.6,68.94
+2006,Europe,50972.0,11.74
+2006,Oceania,22817.8,5.26
+2006,Africa,6225.3,1.43
+2006,Mainland China,42067.9,9.69
+2006,Hong Kong,43371.0,9.99
+2006,Taiwan,15073.4,3.47
+2006,United States Of America,42829.5,9.87
+2006,Malaysia,56996.3,13.13
+2006,Indonesia,39812.8,9.17
+2006,Thailand,18250.0,4.20
+2006,Viet Nam,8665.4,2.00
+2006,Philippines,8066.6,1.86
+2006,Japan,23589.3,5.43
+2006,Republic Of Korea,14001.1,3.23
+2006,India,12694.0,2.92
+2006,Australia,16500.1,3.80
+2006,Netherlands,8635.2,1.99
+2006,Germany,10417.5,2.40
+2006,United Kingdom,11540.0,2.66
+2006,France,5029.6,1.16
+2006,Switzerland,1435.5,0.33
+2006,United Arab Emirates,5047.9,1.16
+2006,Saudi Arabia,1377.4,0.32
+2007,America,54740.4,12.06
+2007,Asia,317784.4,69.98
+2007,Europe,51041.1,11.24
+2007,Oceania,23481.9,5.17
+2007,Africa,7039.0,1.55
+2007,Mainland China,43553.5,9.59
+2007,Hong Kong,47369.2,10.43
+2007,Taiwan,13795.4,3.04
+2007,United States Of America,39493.0,8.70
+2007,Malaysia,58559.8,12.90
+2007,Indonesia,44587.5,9.82
+2007,Thailand,18894.2,4.16
+2007,Viet Nam,9802.4,2.16
+2007,Philippines,9224.2,2.03
+2007,Japan,21662.6,4.77
+2007,Republic Of Korea,16001.6,3.52
+2007,India,16800.1,3.70
+2007,Australia,17043.0,3.75
+2007,Netherlands,8626.1,1.90
+2007,Germany,8951.2,1.97
+2007,United Kingdom,12358.4,2.72
+2007,France,6738.0,1.48
+2007,Switzerland,1373.4,0.30
+2007,United Arab Emirates,5265.0,1.16
+2007,Saudi Arabia,1320.5,0.29
+2008,America,54029.4,11.24
+2008,Asia,337696.1,70.23
+2008,Europe,51468.2,10.70
+2008,Oceania,27568.6,5.73
+2008,Africa,10092.9,2.10
+2008,Mainland China,43824.0,9.11
+2008,Hong Kong,49581.8,10.31
+2008,Taiwan,13411.2,2.79
+2008,United States Of America,33452.4,6.96
+2008,Malaysia,58005.9,12.06
+2008,Indonesia,51838.7,10.78
+2008,Thailand,19131.3,3.98
+2008,Viet Nam,12310.6,2.56
+2008,Philippines,10265.0,2.13
+2008,Japan,23487.0,4.88
+2008,Republic Of Korea,17318.0,3.60
+2008,India,17592.4,3.66
+2008,Australia,20021.6,4.16
+2008,Netherlands,10216.8,2.12
+2008,Germany,9378.0,1.95
+2008,United Kingdom,9300.9,1.93
+2008,France,5845.7,1.22
+2008,Switzerland,1099.2,0.23
+2008,United Arab Emirates,5873.9,1.22
+2008,Saudi Arabia,1315.1,0.27
+2009,America,43910.6,11.18
+2009,Asia,280295.3,71.34
+2009,Europe,40170.3,10.22
+2009,Oceania,20893.1,5.32
+2009,Africa,7657.1,1.95
+2009,Mainland China,38138.5,9.71
+2009,Hong Kong,45357.8,11.54
+2009,Taiwan,12600.4,3.21
+2009,United States Of America,25485.3,6.49
+2009,Malaysia,45209.2,11.51
+2009,Indonesia,38250.5,9.73
+2009,Thailand,14658.8,3.73
+2009,Viet Nam,10116.0,2.57
+2009,Philippines,7312.5,1.86
+2009,Japan,17804.2,4.53
+2009,Republic Of Korea,18219.4,4.64
+2009,India,13576.6,3.46
+2009,Australia,15379.6,3.91
+2009,Netherlands,7203.6,1.83
+2009,Germany,6012.3,1.53
+2009,United Kingdom,7167.4,1.82
+2009,France,5155.4,1.31
+2009,Switzerland,1496.4,0.38
+2009,United Arab Emirates,5392.8,1.37
+2009,Saudi Arabia,1081.0,0.28
+2010,America,49943.9,10.39
+2010,Asia,345739.3,71.92
+2010,Europe,50274.7,10.46
+2010,Oceania,24221.8,5.04
+2010,Africa,10530.0,2.19
+2010,Mainland China,49482.1,10.29
+2010,Hong Kong,56166.3,11.68
+2010,Taiwan,17441.4,3.63
+2010,United States Of America,30871.4,6.42
+2010,Malaysia,57656.1,11.99
+2010,Indonesia,45679.6,9.50
+2010,Thailand,17288.6,3.60
+2010,Viet Nam,10061.2,2.09
+2010,Philippines,9775.3,2.03
+2010,Japan,22332.1,4.65
+2010,Republic Of Korea,19547.6,4.07
+2010,India,18248.5,3.80
+2010,Australia,17149.0,3.57
+2010,Netherlands,8387.9,1.74
+2010,Germany,8370.1,1.74
+2010,United Kingdom,8333.5,1.73
+2010,France,7530.6,1.57
+2010,Switzerland,1584.1,0.33
+2010,United Arab Emirates,5214.0,1.08
+2010,Saudi Arabia,1109.6,0.23
+2011,America,53450.3,10.21
+2011,Asia,375732.9,71.80
+2011,Europe,52285.6,9.99
+2011,Oceania,29490.7,5.64
+2011,Africa,12311.0,2.35
+2011,Mainland China,53664.3,10.26
+2011,Hong Kong,56631.4,10.82
+2011,Taiwan,18356.1,3.51
+2011,United States Of America,27444.8,5.24
+2011,Malaysia,64105.3,12.25
+2011,Indonesia,56979.6,10.89
+2011,Thailand,17754.6,3.39
+2011,Viet Nam,12748.1,2.44
+2011,Philippines,8506.2,1.63
+2011,Japan,23095.0,4.41
+2011,Republic Of Korea,19458.8,3.72
+2011,India,18003.1,3.44
+2011,Australia,20210.8,3.86
+2011,Netherlands,9487.4,1.81
+2011,Germany,8408.6,1.61
+2011,United Kingdom,8327.7,1.59
+2011,France,7689.9,1.47
+2011,Switzerland,1346.5,0.26
+2011,United Arab Emirates,5981.4,1.14
+2011,Saudi Arabia,1099.6,0.21
+2012,America,51613.2,9.94
+2012,Asia,374137.9,72.04
+2012,Europe,50497.4,9.72
+2012,Oceania,31308.5,6.03
+2012,Africa,11797.5,2.27
+2012,Mainland China,55301.6,10.65
+2012,Hong Kong,57872.0,11.14
+2012,Taiwan,18058.3,3.48
+2012,United States Of America,27182.3,5.23
+2012,Malaysia,64439.4,12.41
+2012,Indonesia,56226.5,10.83
+2012,Thailand,20010.1,3.85
+2012,Viet Nam,12605.1,2.43
+2012,Philippines,7920.4,1.53
+2012,Japan,22595.7,4.35
+2012,Republic Of Korea,20713.1,3.99
+2012,India,14765.6,2.84
+2012,Australia,21262.0,4.09
+2012,Netherlands,8878.1,1.71
+2012,Germany,7441.8,1.43
+2012,United Kingdom,7715.7,1.49
+2012,France,7814.6,1.50
+2012,Switzerland,2803.8,0.54
+2012,United Arab Emirates,5914.9,1.14
+2012,Saudi Arabia,1508.1,0.29
+2013,America,53230.2,10.13
+2013,Asia,388256.4,73.88
+2013,Europe,43817.0,8.34
+2013,Oceania,28612.3,5.44
+2013,Africa,11591.4,2.21
+2013,Mainland China,61647.2,11.73
+2013,Hong Kong,57641.5,10.97
+2013,Taiwan,19142.5,3.64
+2013,United States Of America,28588.7,5.44
+2013,Malaysia,64940.5,12.36
+2013,Indonesia,54604.4,10.39
+2013,Thailand,19230.5,3.66
+2013,Viet Nam,12928.9,2.46
+2013,Philippines,8378.9,1.59
+2013,Japan,21997.9,4.19
+2013,Republic Of Korea,20797.2,3.96
+2013,India,14329.6,2.73
+2013,Australia,19432.4,3.70
+2013,Netherlands,8031.8,1.53
+2013,Germany,7309.8,1.39
+2013,United Kingdom,4318.6,0.82
+2013,France,5298.2,1.01
+2013,Switzerland,1881.1,0.36
+2013,United Arab Emirates,7086.7,1.35
+2013,Saudi Arabia,1544.8,0.29
+2014,America,49199.1,9.35
+2014,Asia,390969.0,74.32
+2014,Europe,44920.6,8.54
+2014,Oceania,29461.7,5.60
+2014,Africa,11517.0,2.19
+2014,Mainland China,69262.0,13.17
+2014,Hong Kong,58006.8,11.03
+2014,Taiwan,20438.5,3.89
+2014,United States Of America,27483.9,5.22
+2014,Malaysia,63459.2,12.06
+2014,Indonesia,48726.2,9.26
+2014,Thailand,19667.6,3.74
+2014,Viet Nam,15479.9,2.94
+2014,Philippines,8700.8,1.65
+2014,Japan,21207.5,4.03
+2014,Republic Of Korea,21137.8,4.02
+2014,India,14558.5,2.77
+2014,Australia,19568.7,3.72
+2014,Netherlands,9232.5,1.76
+2014,Germany,6824.1,1.30
+2014,United Kingdom,4566.1,0.87
+2014,France,4239.9,0.81
+2014,Switzerland,2286.1,0.43
+2014,United Arab Emirates,7688.4,1.46
+2014,Saudi Arabia,1609.5,0.31
+2015,America,46581.6,9.47
+2015,Asia,370826.9,75.40
+2015,Europe,42584.3,8.66
+2015,Oceania,22916.6,4.66
+2015,Africa,8906.4,1.81
+2015,Mainland China,70654.2,14.37
+2015,Hong Kong,56513.6,11.49
+2015,Taiwan,19843.7,4.03
+2015,United States Of America,29846.4,6.07
+2015,Malaysia,53138.1,10.80
+2015,Indonesia,40687.8,8.27
+2015,Thailand,19347.6,3.93
+2015,Viet Nam,16656.4,3.39
+2015,Philippines,8815.6,1.79
+2015,Japan,21005.2,4.27
+2015,Republic Of Korea,19901.2,4.05
+2015,India,15105.4,3.07
+2015,Australia,15852.3,3.22
+2015,Netherlands,8514.6,1.73
+2015,Germany,7624.2,1.55
+2015,United Kingdom,4247.2,0.86
+2015,France,4152.2,0.84
+2015,Switzerland,2405.8,0.49
+2015,United Arab Emirates,7457.6,1.52
+2015,Saudi Arabia,1359.3,0.28
+2016,America,43940.2,9.41
+2016,Asia,350004.7,74.96
+2016,Europe,48439.9,10.37
+2016,Oceania,19044.7,4.08
+2016,Africa,5481.9,1.17
+2016,Mainland China,61252.6,13.12
+2016,Hong Kong,59746.2,12.80
+2016,Taiwan,20349.4,4.36
+2016,United States Of America,29833.5,6.39
+2016,Malaysia,49212.7,10.54
+2016,Indonesia,36722.4,7.86
+2016,Thailand,19011.4,4.07
+2016,Viet Nam,15679.9,3.36
+2016,Philippines,8988.2,1.93
+2016,Japan,20111.0,4.31
+2016,Republic Of Korea,20053.9,4.30
+2016,India,13860.5,2.97
+2016,Australia,12940.9,2.77
+2016,Netherlands,9536.3,2.04
+2016,Germany,7919.9,1.70
+2016,United Kingdom,4074.1,0.87
+2016,France,4162.3,0.89
+2016,Switzerland,4923.2,1.05
+2016,United Arab Emirates,5633.1,1.21
+2016,Saudi Arabia,1084.7,0.23
+2017,America,47431.2,9.21
+2017,Asia,390446.4,75.81
+2017,Europe,48297.1,9.38
+2017,Oceania,22019.2,4.28
+2017,Africa,6807.1,1.32
+2017,Mainland China,74560.1,14.48
+2017,Hong Kong,63483.4,12.33
+2017,Taiwan,22916.9,4.45
+2017,United States Of America,32362.3,6.28
+2017,Malaysia,54610.6,10.60
+2017,Indonesia,38566.5,7.49
+2017,Thailand,20270.4,3.94
+2017,Viet Nam,16963.3,3.29
+2017,Philippines,10029.2,1.95
+2017,Japan,23534.1,4.57
+2017,Republic Of Korea,23102.3,4.49
+2017,India,15201.9,2.95
+2017,Australia,13805.3,2.68
+2017,Netherlands,10781.0,2.09
+2017,Germany,8548.1,1.66
+2017,United Kingdom,3793.8,0.74
+2017,France,4638.5,0.90
+2017,Switzerland,3278.0,0.64
+2017,United Arab Emirates,5064.5,0.98
+2017,Saudi Arabia,1126.4,0.22
+2018,America,58412.7,10.51
+2018,Asia,405781.8,73.03
+2018,Europe,54927.9,9.89
+2018,Oceania,27866.0,5.01
+2018,Africa,8676.9,1.56
+2018,Mainland China,68012.1,12.24
+2018,Hong Kong,65676.3,11.82
+2018,Taiwan,22886.2,4.12
+2018,United States Of America,41345.7,7.44
+2018,Malaysia,60582.2,10.90
+2018,Indonesia,44466.7,8.00
+2018,Thailand,20992.8,3.78
+2018,Viet Nam,16228.4,2.92
+2018,Philippines,10730.1,1.93
+2018,Japan,26981.2,4.86
+2018,Republic Of Korea,21125.6,3.80
+2018,India,16641.9,2.99
+2018,Australia,17098.9,3.08
+2018,Netherlands,12020.9,2.16
+2018,Germany,8657.3,1.56
+2018,United Kingdom,5820.9,1.05
+2018,France,5896.1,1.06
+2018,Switzerland,3256.7,0.59
+2018,United Arab Emirates,5009.7,0.90
+2018,Saudi Arabia,1016.5,0.18
+2019,America,60177.7,11.30
+2019,Asia,386099.7,72.51
+2019,Europe,53182.5,9.99
+2019,Oceania,25159.6,4.72
+2019,Africa,7894.7,1.48
+2019,Mainland China,70422.0,13.22
+2019,Hong Kong,60542.2,11.37
+2019,Taiwan,22358.7,4.20
+2019,United States Of America,45311.8,8.51
+2019,Malaysia,56142.7,10.54
+2019,Indonesia,37325.0,7.01
+2019,Thailand,20946.9,3.93
+2019,Viet Nam,17682.5,3.32
+2019,Philippines,11640.3,2.19
+2019,Japan,24055.6,4.52
+2019,Republic Of Korea,20750.3,3.90
+2019,India,15608.3,2.93
+2019,Australia,15410.0,2.89
+2019,Netherlands,11722.8,2.20
+2019,Germany,7973.4,1.50
+2019,United Kingdom,5983.9,1.12
+2019,France,5423.3,1.02
+2019,Switzerland,3796.5,0.71
+2019,United Arab Emirates,5535.9,1.04
+2019,Saudi Arabia,1300.2,0.24
+2020,America,67834.9,13.16
+2020,Asia,365814.6,70.94
+2020,Europe,54672.5,10.60
+2020,Oceania,20375.7,3.95
+2020,Africa,6946.8,1.35
+2020,Mainland China,70842.6,13.74
+2020,Hong Kong,63743.4,12.36
+2020,Taiwan,25134.7,4.87
+2020,United States Of America,54051.4,10.48
+2020,Malaysia,45900.6,8.90
+2020,Indonesia,29569.1,5.73
+2020,Thailand,19463.7,3.77
+2020,Viet Nam,17150.8,3.33
+2020,Philippines,10255.6,1.99
+2020,Japan,24645.3,4.78
+2020,Republic Of Korea,23117.3,4.48
+2020,India,12651.2,2.45
+2020,Australia,11798.1,2.29
+2020,Netherlands,14118.5,2.74
+2020,Germany,7663.2,1.49
+2020,United Kingdom,5850.2,1.13
+2020,France,5579.0,1.08
+2020,Switzerland,3497.0,0.68
+2020,United Arab Emirates,4211.1,0.82
+2020,Saudi Arabia,1780.9,0.35
+2021,America,66728.7,10.87
+2021,Asia,454583.9,74.03
+2021,Europe,57257.1,9.32
+2021,Oceania,27765.6,4.52
+2021,Africa,7745.4,1.26
+2021,Mainland China,90938.5,14.81
+2021,Hong Kong,80737.8,13.15
+2021,Taiwan,31286.5,5.09
+2021,United States Of America,51384.4,8.37
+2021,Malaysia,56552.7,9.21
+2021,Indonesia,38660.6,6.30
+2021,Thailand,20970.1,3.41
+2021,Viet Nam,21035.5,3.43
+2021,Philippines,12304.9,2.00
+2021,Japan,24638.5,4.01
+2021,Republic Of Korea,26444.6,4.31
+2021,India,16945.9,2.76
+2021,Australia,17502.0,2.85
+2021,Netherlands,13068.3,2.13
+2021,Germany,9538.4,1.55
+2021,United Kingdom,4651.4,0.76
+2021,France,5137.2,0.84
+2021,Switzerland,4599.0,0.75
+2021,United Arab Emirates,5393.8,0.88
+2021,Saudi Arabia,1276.4,0.21
+2022,America,81851.0,11.53
+2022,Asia,508651.3,71.64
+2022,Europe,66083.1,9.31
+2022,Oceania,39918.6,5.62
+2022,Africa,13462.7,1.90
+2022,Mainland China,88191.8,12.42
+2022,Hong Kong,79659.0,11.22
+2022,Taiwan,34808.5,4.90
+2022,United States Of America,61778.5,8.70
+2022,Malaysia,71119.4,10.02
+2022,Indonesia,51327.8,7.23
+2022,Thailand,24116.0,3.40
+2022,Viet Nam,23732.0,3.34
+2022,Philippines,14979.1,2.11
+2022,Japan,28664.4,4.04
+2022,Republic Of Korea,28729.2,4.05
+2022,India,19161.8,2.70
+2022,Australia,22871.2,3.22
+2022,Netherlands,15327.6,2.16
+2022,Germany,11168.2,1.57
+2022,United Kingdom,4699.6,0.66
+2022,France,5196.0,0.73
+2022,Switzerland,4295.9,0.61
+2022,United Arab Emirates,8188.5,1.15
+2022,Saudi Arabia,1555.8,0.22
+2023,America,78115.4,12.24
+2023,Asia,455994.0,71.43
+2023,Europe,57895.8,9.07
+2023,Oceania,34583.3,5.42
+2023,Africa,11815.2,1.85
+2023,Mainland China,88082.2,13.80
+2023,Hong Kong,67706.1,10.61
+2023,Taiwan,27601.2,4.32
+2023,United States Of America,59258.6,9.28
+2023,Malaysia,59702.8,9.35
+2023,Indonesia,47500.2,7.44
+2023,Thailand,25647.9,4.02
+2023,Viet Nam,22366.8,3.50
+2023,Philippines,13499.7,2.11
+2023,Japan,25981.5,4.07
+2023,Republic Of Korea,27732.1,4.34
+2023,India,19387.9,3.04
+2023,Australia,20317.0,3.18
+2023,Netherlands,11216.8,1.76
+2023,Germany,10775.8,1.69
+2023,United Kingdom,4715.2,0.74
+2023,France,4734.7,0.74
+2023,Switzerland,5210.3,0.82
+2023,United Arab Emirates,7247.8,1.14
+2023,Saudi Arabia,1555.8,0.24
+2024,America,78797.7,11.68
+2024,Asia,496366.0,73.59
+2024,Europe,52416.9,7.77
+2024,Oceania,34211.8,5.07
+2024,Africa,12712.3,1.88
+2024,Mainland China,94442.6,14.00
+2024,Hong Kong,73878.6,10.95
+2024,Taiwan,32469.7,4.81
+2024,United States Of America,57621.1,8.54
+2024,Malaysia,69935.7,10.37
+2024,Indonesia,53216.6,7.89
+2024,Thailand,29298.0,4.34
+2024,Viet Nam,23090.9,3.42
+2024,Philippines,13563.1,2.01
+2024,Japan,23706.9,3.51
+2024,Republic Of Korea,28422.7,4.21
+2024,India,20218.8,3.00
+2024,Australia,19890.8,2.95
+2024,Netherlands,9898.1,1.47
+2024,Germany,9447.5,1.40
+2024,United Kingdom,6809.2,1.01
+2024,France,4224.3,0.63
+2024,Switzerland,2979.1,0.44
+2024,United Arab Emirates,6846.0,1.01
+2024,Saudi Arabia,1759.4,0.26
+2025,America,94796.4,12.82
+2025,Asia,536655.0,72.58
+2025,Europe,61557.7,8.32
+2025,Oceania,34583.5,4.68
+2025,Africa,11848.8,1.60
+2025,Mainland China,80860.0,10.94
+2025,Hong Kong,81971.8,11.09
+2025,Taiwan,64451.8,8.72
+2025,United States Of America,69288.6,9.37
+2025,Malaysia,73132.6,9.89
+2025,Indonesia,50575.7,6.84
+2025,Thailand,34890.3,4.72
+2025,Viet Nam,26807.1,3.63
+2025,Philippines,14688.6,1.99
+2025,Japan,23149.3,3.13
+2025,Republic Of Korea,29741.1,4.02
+2025,India,24659.8,3.33
+2025,Australia,22103.2,2.99
+2025,Netherlands,13119.5,1.77
+2025,Germany,10175.2,1.38
+2025,United Kingdom,9541.4,1.29
+2025,France,4048.6,0.55
+2025,Switzerland,3883.7,0.53
+2025,United Arab Emirates,7495.5,1.01
+2025,Saudi Arabia,1659.3,0.22

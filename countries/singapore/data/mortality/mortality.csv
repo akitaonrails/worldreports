@@ -1,0 +1,27 @@
+# Singapore Department of Statistics M810131 (deaths by broad cause groups, counts), M810481 (deaths and rates), M810501 (life expectancy); World Bank and UN WPP for the comparison lines.
+# crude_death_rate_per_1000 is per 1,000 RESIDENTS, the publisher's definition; death_rate_per_1000_wb is per 1,000 total population. They are different denominators and are never joined.
+# deaths_total_by_cause is M810131's own total and equals M810481's Total Deaths in every year of the window; resident_deaths is the subset the vital RATES divide by.
+# ICD REVISION BREAK: deaths to 2011 are coded to ICD-9 and from 2012 to ICD-10 (the publisher's own footnote). The cause groups are not strictly comparable across 2012 and the seam is annotated, never smoothed. 2025 is preliminary (publisher's footnote).
+# NO COVID-19 ROW EXISTS: the broad cause groups predate the code, so the pandemic's deaths sit inside the respiratory and infective groups. The COVID slot has no national by-cause series on this route; see SOURCES.yaml meta.pending.
+# Cause groups are as the publisher labels them; 'neoplasms' here is malignant neoplasms, the one it publishes separately.
+year,deaths_total_by_cause,resident_deaths,crude_death_rate_per_1000,infant_mortality_per_1000,life_expectancy,death_rate_per_1000_wb,life_expectancy_wb,deaths_neoplasms,deaths_circulatory,deaths_respiratory,deaths_accidents_violence,deaths_suicides
+2006,16393,15414,4.40,3,80.30,4.40,80.14,4677,5441,2913,1027,419
+2007,17140,16045,4.50,2,80.60,4.50,80.44,4745,5835,2948,1036,374
+2008,17222,16162,4.40,2,80.90,4.40,80.79,5038,5794,2989,1006,364
+2009,17101,16013,4.30,2,81.40,4.30,81.24,5010,5611,3188,978,401
+2010,17610,16476,4.40,2,81.70,4.40,81.54,5025,5807,3434,973,353
+2011,18027,16887,4.50,2,81.90,4.50,81.74,5411,5720,3493,989,361
+2012,18481,17273,4.50,2,82.10,4.50,82.00,5565,5747,3708,1030,467
+2013,18938,17810,4.60,2,82.40,4.60,82.25,5775,5765,4061,933,422
+2014,19393,18237,4.70,2,82.60,4.70,82.50,5701,5987,4232,909,415
+2015,19862,18640,4.80,2,82.90,4.80,82.74,5903,6101,4417,895,409
+2016,20017,18856,4.80,2,83.00,4.80,82.85,5925,6107,4440,890,429
+2017,20905,19763,5.00,2,83.20,5.00,83.10,6077,6541,4757,840,361
+2018,21282,20095,5.00,2,83.40,5.00,83.30,6132,6457,4909,909,397
+2019,21446,20288,5.00,2,83.70,5.00,83.60,6097,6556,4952,856,400
+2020,22054,20985,5.20,2,83.70,5.20,83.54,6306,7296,4610,818,452
+2021,24292,23270,5.80,2,83.20,5.80,83.09,6412,8126,4941,803,378
+2022,26891,25586,6.30,2,83.00,6.30,82.90,6430,8833,5949,890,476
+2023,26888,25567,6.20,2,83.20,6.20,83.10,6623,8705,6878,873,434
+2024,26442,25171,6.00,2,83.70,6.00,83.35,7000,8457,6563,917,441
+2025,26499,25300,6.00,2,83.90,,,7046,8621,6549,536,256

@@ -1,0 +1,45 @@
+{
+ "01-economy": [
+  "macro/economy.csv",
+  "world/world.csv"
+ ],
+ "02-fiscal": [
+  "fiscal/debt_national.csv",
+  "fiscal/imf_general_government.csv",
+  "macro/economy.csv"
+ ],
+ "03-spending": [
+  "macro/economy.csv"
+ ],
+ "04-trade": [
+  "trade/partners.csv",
+  "trade/trade.csv"
+ ],
+ "05-markets": [
+  "markets/markets.csv"
+ ],
+ "06-credit": [
+  "credit/household.csv"
+ ],
+ "07-people": [
+  "people/income.csv"
+ ],
+ "08-world": [
+  "world/world.csv"
+ ],
+ "09-demography": [
+  "demography/demography.csv"
+ ],
+ "10-security": [
+  "demography/demography.csv",
+  "security/security.csv"
+ ],
+ "11-mortality": [
+  "demography/demography.csv",
+  "mortality/mortality.csv"
+ ],
+ "12-migration": [
+  "demography/demography.csv",
+  "migration/migration.csv"
+ ]
+}
