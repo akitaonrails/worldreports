@@ -225,3 +225,128 @@ their exact endpoints and failures. On the spine they cost four slots:
 The spending chapter's slot 1 will be short (2018-2024) and slot 4 short
 (2007-2012) for the reasons in §4. Everything else on the spine is
 filled.
+
+---
+
+## 7. What the plates draw, slot by slot
+
+Phase B maps every staged file onto the spine. The slot each one claims,
+and the conversions done at draw time (all of them on `core/rates.py`, none
+of them arithmetic invented in `plates.py`):
+
+| topic | slot | drawn from | conversion |
+|---|---|---|---|
+| economy | 1 growth | `macro/economy.csv: real_growth_pct` | none; bars, recession bands |
+| economy | 2 GDP per person | `world/world.csv: gdp_per_person_usd` | none; log axis, shared ladder |
+| economy | 3 inflation | `macro/economy.csv: inflation_pct` | none |
+| economy | 4 unemployment | `macro/economy.csv: unemployment_pct` | none; ILO modelled, labelled |
+| fiscal | 1 revenue/expenditure | `fiscal/fiscal.csv` | none |
+| fiscal | 2 balance | `fiscal/fiscal.csv` balance + primary | none, two series |
+| fiscal | 3 debt | `fiscal/fiscal.csv: debt_pct_gdp` | none |
+| fiscal | 4 interest | — | **pending**: DataMapper has no GG interest code; Dipres is HTML |
+| spending | 1 by function | `spending/cofog.csv` | seven groups; defence and public order stay separate `stackplot` layers, environment+housing+recreation are the spine's "other" |
+| spending | 2 social vs rest | `spending/cofog.csv` | rest = total − social protection, same file |
+| spending | 3 investment | `macro/economy.csv: gfcf_pct_gdp` | none |
+| spending | 4 public investment | `spending/public_investment.csv` | none; 2007-2012 only |
+| trade | 1 exports/imports | `trade/trade.csv` | none |
+| trade | 2 balance | `trade/trade.csv: trade_balance_pct_gdp` | already derived in the file (exports − imports) |
+| trade | 3 destinations | — | **pending**: one-year customs snapshot only |
+| trade | 4 lens | `trade/partners_2024.csv` | shares as published; top ten bars, one year |
+| markets | 1 policy vs CPI | `markets/policy_rate.csv` + `macro/economy.csv` | none (both annual means) |
+| markets | 2 10-year yield | — | **pending**: BCCh token; no BIS benchmark |
+| markets | 3 currency | `macro/fx.csv: clp_per_usd` | `ctx.fx_index` — 2006 = 100, inverted so up = stronger; 2025 = 55.7 |
+| markets | 4 equities | — | **pending**: Bolsa captcha, no Yahoo/stooq series |
+| credit | 1 household debt | `credit/household_credit.csv: hh_debt_pct_gdp_q4` | the Q4 stock, never the annual mean; 2026 has no Q4 and is not drawn |
+| credit | 2 lending rate | — | **pending**: CMF HTML/403 |
+| credit | 3 NPL | — | **pending**: CMF provisions, not an NPL ratio |
+| people | 1 Gini | `people/gini.csv` | markers only, nine CASEN surveys |
+| people | 2 poverty | `people/poverty.csv` | markers only; national line and the US$8.30 PIP line as two questions |
+| people | 3 minimum wage | — | **pending**: statutory; next route is bcn.cl/leychile |
+| world | 1 GDP | `world/world.csv: gdp_usd_bn` | none, log |
+| world | 2 HDI | `world/world.csv: hdi` | none; stops 2023 |
+| world | 3 CPI | `world/world.csv: cpi_score` | none; starts 2012 |
+| world | 4 reserves | `world/world.csv: reserves_usd_bn` | none, log |
+| demography | 1 population | `demography/demography.csv: population` | `ctx.index_2006`; 2025 = 120.3 |
+| demography | 2 fertility | `demography/demography.csv: fertility` | none; 2.1 reference line |
+| demography | 3 birth/death | `demography/demography.csv` | none, two published rates |
+| demography | 4 natural/migration | `demography/demography.csv` + `migration/migration.csv` | none; both already per 1,000 on the UN population |
+| security | 1 homicide | `security/security.csv: homicide_per_100k` | published rate used as published |
+| security | 2 suicide | `security/security.csv: suicide_per_100k` | published rate, age-standardised |
+| security | 3 road deaths | `security/security.csv: road_deaths_per_100k` | published rate |
+| mortality | 1 death rate | `mortality/mortality.csv` national + WB | national = deaths ÷ DEIS population × 1,000 (in the file); WB = its own published rate on the UN population. Two lines, never one |
+| mortality | 2 excess deaths | `mortality/mortality.csv` | in the file: (deaths ÷ mean 2015-2019 − 1) × 100; baseline 105,681 |
+| mortality | 3 COVID | — | **pending**: no cause column anywhere retrievable |
+| mortality | 4 lens | `mortality/mortality.csv: deaths` | the count itself, with the 2015-2019 mean as a dashed reference |
+| migration | 1 flows | — | **pending**: SERMIG permits, not arrivals/departures |
+| migration | 2 net | `migration/migration.csv: net_migration_per_1000` | none (count ÷ UN population × 1,000 in the file) |
+| migration | 3 foreign-born | `migration/migration.csv` share | markers only, five-year UN stock |
+| migration | 4 lens | `migration/migration.csv: net_migration` | persons a year, own scale |
+
+No canonical y-scale is set in country code, and no staged value leaves the
+shared range in `core/spine.py`: the widest reading of each slot is
+growth 11.34 / −6.14, expenditure 33.60, fiscal balance 8.00, debt 41.8,
+COFOG total 34.09, investment 26.88, exports 45.13, trade balance 14.02,
+the policy rate's 2023 mean 10.50, household debt 48.3, Gini 47.7, poverty
+28.7, GDP US$357.4bn, HDI 0.878, reserves US$51.3bn, population 120.3
+index, homicide 6.80, death rate 6.98, excess deaths 29.9, foreign-born
+7.78.
+
+### Lens choices
+
+Three lenses carry a story the canonical slots cannot:
+
+- **Trade** — the 2024 goods snapshot: China takes 37.8% of a US$98.9bn
+  total, more than the next two together. It is one year, labelled, and is
+  not the annual series slot 3 would need.
+- **Mortality** — the death count itself against its 2015-2019 mean, so a
+  reader can see the 31,586 deaths of 2021 above the baseline rather than
+  only the percentage.
+- **Migration** — persons a year, because "12.6 per 1,000" hides that the
+  2018 wave was 237,807 people and that 2020's collapse was a measurement
+  artefact as much as a border closure.
+
+Credit and security have no lens: nothing staged answers a fourth question
+there, and the panel is hidden rather than filled with a duplicate line.
+
+### Bands and events
+
+The two recession bands in `country.yaml` are exactly the years of negative
+real growth in `macro/economy.csv` (2009, 2020); a country test recomputes
+the list from the CSV, so a refetch that adds a contraction fails the
+build. Bands are drawn on every time-series panel and named only on the
+first, at a height each panel's own scale leaves empty (the 2009 name above
+a long Spanish title collided otherwise).
+
+Three events come from `events.py` and nothing else is annotated: the
+October 2019 *estallido social* on the GDP-per-person panel (the year after
+it grew 0.6%), the 2011 copper peak on trade, and the 2022-23 tightening on
+the policy-rate panel.
+
+## 8. Still not drawn, and why
+
+Five canonical slots and four national lines stay visibly pending; each
+carries its route result on the panel and a full entry in `SOURCES.yaml`
+`meta.pending` and `ui.json` `unavailable`:
+
+- markets slot 2 (10-year yield) — BCCh token; no BIS benchmark for Chile.
+- markets slot 4 (equity index) — Bolsa de Santiago captcha, no Yahoo
+  symbol, stooq challenge.
+- fiscal slot 4 (interest paid) — no general-government interest indicator
+  on DataMapper; Dipres is HTML behind article pages.
+- credit slots 2 and 3 (lending rate, NPL) — CMF HTML/403; provisions are
+  not an arrears ratio.
+- people slot 3 (minimum wage) — statutory but not machine-readable; next
+  route is the laws on bcn.cl/leychile, one per reajuste.
+- mortality slot 3 (COVID-19 deaths) — no cause column anywhere
+  retrievable.
+- trade slot 3 (annual destinations) — customs HTML; Comtrade's free
+  preview is one period.
+- migration slot 1 (gross flows) — SERMIG permits, not arrivals and
+  departures.
+
+Two national lines are pending rather than approximated: INE's own CPI and
+labour-force survey (the World Bank's republication is drawn and labelled),
+and the Carabineros/PDI and Fiscalía homicide count (UNODC's compromise
+series is drawn and labelled). The spending plate's slot 1 is short
+(2018-2024) and slot 4 short (2007-2012) for the reasons in §4; both
+panels name their window.
