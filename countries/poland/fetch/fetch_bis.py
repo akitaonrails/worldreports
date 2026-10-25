@@ -101,9 +101,11 @@ def main() -> None:
                      comment="""
 BIS total credit statistics. household_debt_pct_gdp = WS_TC
 Q.PL.H.A.M.770.A (credit to households and NPISHs from all sectors,
-break-adjusted, % of GDP), read at Q4 of each year. debt_service_ratio_pct
-= WS_DSR where the key resolves; blank means the lens series is not
-staged. Quarterly, so the year is the Q4 stock, never a sum of quarters.
+break-adjusted, % of GDP), read at Q4 of each year. Quarterly, so the year
+is the Q4 stock, never a sum of quarters. The debt-service-ratio lens is
+absent because its WS_DSR key did not resolve on 2026-10-25 (recorded in
+SOURCES.yaml meta.pending): a column of blanks would promise data that do
+not exist.
 """)
     print(f"  -> {path.relative_to(DATA)}")
     print("Done. Diff the *_from_bis.csv sidecar before adopting.")
