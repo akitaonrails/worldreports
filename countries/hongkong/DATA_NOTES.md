@@ -86,8 +86,10 @@ recomputed.
 ## 5. The seams that must not be spliced
 
 **Fiscal year versus calendar year.** `fiscal/govt.csv` labels a year by the
-start of the financial year (2024 = 1 April 2024 to 31 March 2025).
-`fiscal/gg_imf.csv` is calendar year. A ratio of the national cash accounts to
+start of the financial year (2024 = 1 April 2024 to 31 March 2025) and runs to
+FY2025; `fiscal/gg_imf.csv` is calendar year and stops at 2024, the last
+observed WEO year — the IMF payload's debt column continues to 2031 as staff
+projections, which are not staged as outcomes. A ratio of the national cash accounts to
 calendar-year GDP is therefore approximate at the March boundary; the plate
 says "financial year" on the national line and draws no such ratio without
 saying so. The two files are never joined into one series.
