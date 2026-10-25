@@ -176,6 +176,18 @@ trade:
       answers 403 and the 2023 UN Comtrade snapshot is one year, so the
       canonical destination slot stays pending (meta.pending).
 
+  partners_2023.csv:
+    source: "UN Comtrade preview API — Ukraine (804) exports, HS total, 2023, all partners"
+    url: "https://comtradeapi.un.org/public/v1/preview/C/A/HS?reporterCode=804&period=2023&cmdCode=TOTAL&flowCode=X"
+    official: false
+    refreshed_by: fetch/fetch_comtrade.py
+    notes: >-
+      VERIFIED 2026-10-25: world exports US$36.19bn; the six partners shown
+      and "rest of the world" sum to it exactly. One year, customs goods —
+      the plate draws it in the lens and says so. The canonical destination
+      slot needs an annual series; the customs service that publishes one
+      answers 403 (meta.pending).
+
 markets:
   key_rate.csv:
     source: "National Bank of Ukraine — statistics API, KEY_PolicyRate (daily), annual mean"

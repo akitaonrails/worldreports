@@ -181,6 +181,17 @@ def test_forecast_years_are_not_drawn_as_observed():
 
 
 # ------------------------------------------------------------------- trade
+def test_the_trade_lens_is_a_labelled_single_year():
+    p = by_year("trade/partners_2023.csv") if False else None
+    import csv
+    rows = list(csv.DictReader(open(DATA / "trade/partners_2023.csv")))
+    shares = [float(r["share_pct"]) for r in rows]
+    assert sum(shares) == pytest.approx(100, abs=0.2)
+    assert rows[0]["partner"] == "Poland"
+    assert shares[0] == pytest.approx(13.15, abs=0.05)
+    assert rows[-1]["partner"] == "Rest of the world"
+
+
 def test_trade_is_the_national_accounts_series_and_its_gap():
     t = by_year("trade/trade.csv")
     assert num(t[2025], "exports_pct_gdp") == pytest.approx(25.33, abs=0.01)

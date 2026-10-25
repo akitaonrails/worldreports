@@ -36,7 +36,7 @@ Portuguese**, and every plate is drawn in each of them.
 | `south-korea` | ko · en · pt | 11 | 43 |
 | `switzerland` | de · en · pt | 12 | 46 |
 | `taiwan` | zh-Hant · en · pt | 10 | 18 |
-| `ukraine` | uk · en · pt | 11 | 18 |
+| `ukraine` | uk · en · pt | 11 | 19 |
 | `united-kingdom` | en · pt | 12 | 45 |
 | `usa` | en · pt | 11 | 43 |
 | `vietnam` | vi · en · pt | 12 | 36 |

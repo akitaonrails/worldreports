@@ -341,7 +341,34 @@ def plate_trade(ctx, ig) -> None:
              "service answers 403, and the 2023 UN Comtrade snapshot is\n"
              "a single year, not the slot's time series.")
     _foot(p, ax, "SOURCES.yaml meta.pending")
+
+    ax = ig.slot("trade.lens", "Top goods-export destinations, 2023 "
+                 "(% of goods exports, one year)")
+    t = ctx.table("trade/partners_2023.csv")
+    if t and "partner" in t:
+        # The file has no year column; the column order is the fetcher's
+        # ranking, kept as written.
+        names = list(t["partner"])
+        shares = [float(v) for v in t["share_pct"]]
+        ypos = list(range(len(names)))[::-1]
+        ax.barh(ypos, shares, color=[p.BLUE if n != "Rest of the world"
+                                     else p.FAINT for n in names])
+        ax.set_yticks(ypos)
+        ax.set_yticklabels(names, fontsize=7.6)
+        for y, v in zip(ypos, shares):
+            ax.text(v + 0.6, y, f"{v:.1f}%", va="center", fontsize=7.4,
+                    color=p.MUTED)
+        ax.tick_params(axis="y", length=0)
+        ax._categorical_x = True
+        ax._lens_xlim = (0, max(shares) * 1.18)
+    _foot(p, ax, "UN Comtrade, Ukraine as reporter, 2023 — one year; the "
+          "annual series the canonical slot needs is not on an official feed")
     _finish(ctx, ig)
+    # style_axis resets every x axis to the country's year window; this lens
+    # is categorical, so its own scale goes back after the styling.
+    if hasattr(ax, "_lens_xlim"):
+        ax.set_xlim(*ax._lens_xlim)
+        ax.set_xticks([0, 10, 20, 30, 40, 50, 60])
 
 
 # ----------------------------------------------------------------- markets

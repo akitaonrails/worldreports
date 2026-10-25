@@ -14,8 +14,8 @@
   ],
   "unavailable": [
    {
-    "term": "Trade partner destinations",
-    "detail": "The customs service answers 403 to this network and the 2023 UN Comtrade snapshot is a single year, not the slot's time series. The plate keeps the destination panel pending rather than drawing one year as a trend."
+    "term": "Annual export destinations",
+    "detail": "The customs service that publishes an annual partner series answers 403, so the canonical destination slot stays pending. The trade lens draws the reviewed 2023 UN Comtrade snapshot (Poland 13.2%, Romania 10.4%, China 6.7%) and labels it as one year."
    },
    {
     "term": "Government bond yield and equity index",
@@ -80,8 +80,8 @@
   ],
   "unavailable": [
    {
-    "term": "Напрямки експорту",
-    "detail": "Митна служба відповідає 403 для цієї мережі, а знімок UN Comtrade за 2023 рік — це один рік, а не часовий ряд позиції. Панель лишається відсутньою, а не малює один рік як тренд."
+    "term": "Річні напрямки експорту",
+    "detail": "Митна служба, що публікує річний ряд за партнерами, відповідає 403, тож канонічна позиція лишається відсутньою. Лінза торгівлі малює перевірений знімок UN Comtrade за 2023 рік (Польща 13,2%, Румунія 10,4%, Китай 6,7%) і підписує його як один рік."
    },
    {
     "term": "Дохідність облігацій і фондовий індекс",
@@ -146,8 +146,8 @@
   ],
   "unavailable": [
    {
-    "term": "Destinos das exportações",
-    "detail": "O serviço aduaneiro responde 403 a esta rede e o retrato do UN Comtrade de 2023 é um único ano, não a série temporal da vaga. O painel fica pendente em vez de desenhar um ano como tendência."
+    "term": "Destinos anuais das exportações",
+    "detail": "O serviço aduaneiro que publica uma série anual por parceiro responde 403, então a vaga canônica fica pendente. A lente do comércio desenha o retrato revisado do UN Comtrade de 2023 (Polônia 13,2%, Romênia 10,4%, China 6,7%) e o rotula como um único ano."
    },
    {
     "term": "Rendimento de títulos e índice de ações",
