@@ -189,28 +189,40 @@ def write(rel: str, columns: list[tuple[str, dict[int, float], int]]) -> None:
 
 
 def write_weo(rel: str, specs, comments_key: str) -> None:
-    """Observed years in one set of columns, WEO forecasts in `_proj`."""
+    """Observed years in one set of columns, WEO forecasts in `_proj`.
+
+    A `_proj` column is written only for an indicator that actually
+    carries years past the last full year: a column that is empty in
+    every row is a promise the data do not keep (and test_data says so).
+    """
     series = {code: datamapper(code) for code, _, _ in specs}
     path = ROOT / "data" / rel
     path.parent.mkdir(parents=True, exist_ok=True)
+    projected_specs = [s for s in specs
+                       if any(y > LAST_FULL_YEAR for y in series[s[0]])]
     cols = [c for _, c, _ in specs]
+    proj_cols = [c for _, c, _ in projected_specs]
     lines = [f"# {c}" for c in COMMENTS[comments_key]]
-    lines.append("year," + ",".join(cols + [f"{c}_proj" for c in cols]))
+    lines.append("year," + ",".join(cols + [f"{c}_proj" for c in proj_cols]))
     years = sorted(set().union(*series.values()))
     rows = 0
     for y in years:
         if not YEAR_FROM <= y <= YEAR_TO:
             continue
         observed, projected = [], []
-        for code, _, dec in specs:
+        by_col = {}
+        for code, column, dec in specs:
             s = series[code]
-            observed.append(
-                f"{s[y]:.{dec}f}" if (y <= LAST_FULL_YEAR and y in s) else "")
-            projected.append(
-                f"{s[y]:.{dec}f}" if (y > LAST_FULL_YEAR and y in s) else "")
-        for a, b in zip(observed, projected):
-            assert not (a != "" and b != ""), \
-                f"{rel} {y}: observed/projected overlap"
+            value = s[y] if (y <= LAST_FULL_YEAR and y in s) else None
+            by_col[column] = value
+            observed.append("" if value is None else f"{value:.{dec}f}")
+        for code, column, dec in projected_specs:
+            s = series[code]
+            if y <= LAST_FULL_YEAR:
+                projected.append("")
+                continue
+            value = s[y] if y in s else None
+            projected.append("" if value is None else f"{value:.{dec}f}")
         lines.append(f"{y}," + ",".join(observed + projected))
         rows += 1
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")

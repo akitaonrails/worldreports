@@ -174,7 +174,7 @@ def main() -> None:
     assert abs(columns["net_lending_pct_gdp"][2025] - -2.00) < 0.01
     assert abs(columns["gdp_pyg_bn"][2022] - 292166.75) < 0.01
 
-    path = ROOT / "data" / "fiscal" / "fiscal_national.csv"
+    path = ROOT / "data" / "fiscal" / "fiscal_national_from_mef.csv"
     path.parent.mkdir(parents=True, exist_ok=True)
     names = list(columns)
     lines = [f"# {c}" for c in COMMENTS]
@@ -187,7 +187,8 @@ def main() -> None:
                          f"{v:.0f}" if name == "gdp_pyg_bn" else f"{v:.2f}")
         lines.append(f"{y}," + ",".join(cells))
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"  data/fiscal/fiscal_national.csv  {YEAR_TO - YEAR_FROM + 1} rows")
+    print(f"  data/fiscal/fiscal_national_from_mef.csv  "
+          f"{YEAR_TO - YEAR_FROM + 1} rows")
     print("Done. Diff the sidecar before adopting.")
 
 

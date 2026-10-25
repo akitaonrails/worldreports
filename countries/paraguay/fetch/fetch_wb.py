@@ -62,6 +62,9 @@ WANTED = [
     ("security/security_from_wb.csv", "VC.IHR.PSRC.P5", "homicide_per_100k", 2),
     ("security/security_from_wb.csv", "SH.STA.SUIC.P5", "suicide_per_100k", 2),
     ("security/security_from_wb.csv", "SH.STA.TRAF.P5", "road_deaths_per_100k", 2),
+    ("credit/credit_from_wb.csv", "FB.AST.NPER.ZS", "npl_ratio", 2),
+    ("credit/credit_from_wb.csv", "FS.AST.PRVT.GD.ZS",
+     "private_credit_pct_gdp", 2),
 ]
 
 COMMENTS = {
@@ -89,6 +92,15 @@ COMMENTS = {
         "year) and SM.POP.TOTL (UN DESA migrant stock, five-yearly points).",
         "Modelled: the plate labels it so. INE's own net-migration rate from",
         "the revision-2024 projection is the national line.",
+    ],
+    "credit/credit_from_wb.csv": [
+        "World Bank FB.AST.NPER.ZS bank non-performing loans to total gross",
+        "loans (%) and FS.AST.PRVT.GD.ZS domestic credit to the private",
+        "sector by banks (% of GDP). Both are the Banco Central del",
+        "Paraguay's supervisory data as the World Bank records them:",
+        "bcp.gov.py itself answers a Cloudflare challenge. The second is",
+        "PRIVATE-sector credit, not household debt — BIS total credit has",
+        "no Paraguay series, so the household-debt slot stays pending.",
     ],
     "security/security_from_wb.csv": [
         "UNODC homicide (VC.IHR.PSRC.P5), WHO suicide (SH.STA.SUIC.P5) and",
