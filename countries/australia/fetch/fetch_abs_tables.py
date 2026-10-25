@@ -50,6 +50,10 @@ CRIME = ("https://www.abs.gov.au/statistics/people/crime-and-justice/"
          "recorded-crime-victims/2025/"
          "1.%20Victims%20of%20crime%2C%20Australia%20%28Tables%201%20to%208%29"
          ".xlsx")
+HIES = ("https://www.abs.gov.au/statistics/economy/finance/"
+        "household-income-and-wealth-australia/2019-20/"
+        "1.%20Household%20income%20and%20income%20distribution%2C%20"
+        "Australia.xlsx")
 CAUSES = ("https://www.abs.gov.au/statistics/health/causes-death/"
           "causes-death-australia/2024/"
           "2024_01%20Underlying%20causes%20of%20death%20%28Australia%29.xlsx")
@@ -318,6 +322,36 @@ def causes() -> list[dict]:
     return out
 
 
+def gini() -> list[dict]:
+    """Gini of equivalised disposable household income, HIES 2019-20.
+
+    The survey runs every two years and ABS labels each observation by
+    the financial year it covers (2007-08 ... 2019-20). The CSV carries
+    the financial-year label AND the calendar year the financial year
+    ENDS in, because the plate's axis is calendar years and a reader must
+    not have to guess which convention the dot is on.
+    """
+    wb = workbook(HIES, "hies_2019_20_table1_1.xlsx")
+    ws = wb["Table 1.1"]
+    rows = list(ws.iter_rows(min_row=1, max_row=60, max_col=10,
+                             values_only=True))
+    years = [str(c) for c in rows[4] if c not in (None, "")]
+    fy = [y for y in years if "\u2013" in y or "-" in y]
+    for r in rows:
+        if str(r[0] or "").strip().lower().startswith("gini coefficient"):
+            vals = r[2:2 + len(fy)]
+            out = []
+            for label, v in zip(fy, vals):
+                if v in (None, ""):
+                    continue
+                end = 2000 + int(str(label).split("\u2013")[-1][-2:])
+                out.append({"financial_year": label, "year": end,
+                            "gini_hies": round(float(v) * 100, 1)})
+            print(f"  HIES Gini: {len(out)} survey years")
+            return out
+    raise FetchError("HIES: Gini row not found")
+
+
 def main() -> None:
     try:
         print("ABS tables — Government Finance Statistics (fiscal years)")
@@ -339,6 +373,9 @@ def main() -> None:
         print("ABS tables — Recorded Crime, Victims")
         write_csv(DATA / "security" / "homicide_from_abs.csv",
                   ["year", "homicide_count", "homicide_per_100k"], crime())
+        print("ABS tables — Household Income and Wealth (Gini)")
+        write_csv(DATA / "people" / "gini_from_abs.csv",
+                  ["financial_year", "year", "gini_hies"], gini())
         print("ABS tables — Causes of Death (2024 vintage)")
         write_csv(DATA / "mortality" / "causes_from_abs.csv",
                   ["year", "deaths_underlying", "suicide_deaths",

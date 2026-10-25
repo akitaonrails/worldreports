@@ -210,6 +210,29 @@ def migration() -> list[dict]:
     return out
 
 
+def foreign_born() -> list[dict]:
+    """Overseas-born residents as a share of the resident population.
+
+    ERP_COB: AGE.SEX.COUNTRY_BIRTH.REGION.FREQ. Australia-born is code
+    1101, the total is TOT; the difference is the overseas-born
+    population on 30 June of each year. The census revision lands in this
+    series, so the step at a census year is a revision, not a migration
+    event, and is annotated on the plate.
+    """
+    a = {int(r["TIME_PERIOD"]): int(float(r["OBS_VALUE"]))
+         for r in abs_data("ERP_COB", "TOT.3.1101.AUS.A", "2005")}
+    t = {int(r["TIME_PERIOD"]): int(float(r["OBS_VALUE"]))
+         for r in abs_data("ERP_COB", "TOT.3.TOT.AUS.A", "2005")}
+    print(f"  ERP_COB: {len(t)} years")
+    out = []
+    for y in sorted(set(a) & set(t)):
+        out.append({"year": y, "population_ausborn": a[y],
+                    "population_total": t[y],
+                    "overseas_born_share_pct": round(
+                        100 * (t[y] - a[y]) / t[y], 2)})
+    return out
+
+
 def births() -> list[dict]:
     """Registered births and the crude birth rate, year of occurrence."""
     b = {int(r["TIME_PERIOD"]): int(float(r["OBS_VALUE"]))
@@ -292,6 +315,9 @@ def main() -> None:
         write_csv(DATA / "migration" / "nom_from_abs.csv",
                   ["year", "nom_arrivals", "nom_departures", "nom_net"],
                   migration())
+        write_csv(DATA / "migration" / "foreign_born_from_abs.csv",
+                  ["year", "population_ausborn", "population_total",
+                   "overseas_born_share_pct"], foreign_born())
         write_csv(DATA / "demography" / "births_from_abs.csv",
                   ["year", "births", "crude_birth_rate"], births())
         write_csv(DATA / "mortality" / "deaths_from_abs.csv",
