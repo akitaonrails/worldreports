@@ -398,7 +398,9 @@ def fig_trade(ctx, ig) -> None:
                [usbi.get((y, p), 0) for y in pick], width=width,
                label=PRODUCT_LABEL[p], color=pal[p], edgecolor="white",
                linewidth=0.4, zorder=3)
-    legend(ax, loc="upper left", ncol=4, fontsize=7.2)
+    # opaque, so the 70 gridline does not run through the legend text
+    legend(ax, loc="upper left", ncol=4, fontsize=7.2, frameon=True,
+           facecolor="white", framealpha=1, edgecolor="none")
     resid = usbi.get((pick[-1], "others"), 0)
     note(ax, f"excludes the 'others' residual (US${resid:,.0f}bn in "
          f"{pick[-1]})", x=0.5, y=-0.13, ha="center", size=7.6)
