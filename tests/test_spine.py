@@ -14,6 +14,7 @@ import itertools
 import math
 import re
 import textwrap
+import warnings
 from pathlib import Path
 
 import matplotlib
@@ -58,8 +59,13 @@ def drawn(country) -> list[tuple[render.Plate, style.Infographic, str]]:
     return out
 
 
-def check_plate(ig: style.Infographic) -> list[str]:
-    """What is wrong with one composed spine plate, or nothing."""
+def check_plate(ig: style.Infographic, cells: bool = True) -> list[str]:
+    """What is wrong with one composed spine plate, or nothing.
+
+    `cells` holds it to the cells the viewer finds its panels by; that only
+    matters to a plate that has stories to open, so a country is held to it
+    chapter by chapter as it writes them (see check_country).
+    """
     where = f"{ig.country.slug}/{ig.topic}"
     if ig.topic is None:
         return [f"{ig.country.slug}: a plate with no topic"]
@@ -106,6 +112,9 @@ def check_plate(ig: style.Infographic) -> list[str]:
         if getattr(ax, "spine_extended", False):
             bad.append(f"{where}: {s.key} has a country-local extension")
 
+    if cells:
+        bad += cell_faults(ig)
+
     # Across every axes on the plate, twins and lenses included: nothing
     # inverted and nothing clipped.
     for ax in fig.axes:
@@ -121,6 +130,40 @@ def check_plate(ig: style.Infographic) -> list[str]:
                     or ext[1] > hi + TOL * max(1, abs(hi))):
             bad.append(f"{where}: {name} clips its data: {ext} outside "
                        f"({lo:g}, {hi:g})")
+    return bad
+
+
+def cell_faults(ig: style.Infographic) -> list[str]:
+    """Panels that draw outside the cell the spine says they occupy.
+
+    The viewer finds the panel under a click from `spine.panel_cell`, which
+    repeats the margins this figure was built with. A panel whose title,
+    ticks or labels spill out of its cell would answer to its neighbour, and
+    a margin changed in one place and not the other would do it to all of
+    them, so every spine plate is held to its cells here.
+    """
+    where = f"{ig.country.slug}/{ig.topic}"
+    renderer = ig.fig.canvas.get_renderer()
+    to_figure = ig.fig.transFigure.inverted()
+    bad = []
+    for i, ax in enumerate(ig.axes_flat):
+        if not ax.get_visible():
+            continue
+        left, top, width, height = spine.panel_cell(i)
+        x0, y0, x1, y1 = left, 1 - top - height, left + width, 1 - top
+        with warnings.catch_warnings():
+            # Measuring draws the tick labels for the first time, and a
+            # signed axis asks the font for a minus sign it may not have.
+            # The plate is written through the same font, so this says
+            # nothing about the layout being checked.
+            warnings.filterwarnings("ignore", message="Glyph 8722")
+            ink = ax.get_tightbbox(renderer).transformed(to_figure)
+        if (ink.x0 < x0 - TOL or ink.x1 > x1 + TOL
+                or ink.y0 < y0 - TOL or ink.y1 > y1 + TOL):
+            bad.append(f"{where}: panel {i + 1} draws "
+                       f"({ink.x0:.3f}, {ink.y0:.3f})–({ink.x1:.3f}, "
+                       f"{ink.y1:.3f}) outside its cell "
+                       f"({x0:.3f}, {y0:.3f})–({x1:.3f}, {y1:.3f})")
     return bad
 
 
@@ -143,8 +186,10 @@ def check_country(country) -> list[str]:
                 bad.append(f"{country.slug}: chapter {ch['id']} is topic "
                            f"{ch.get('topic')!r}, its plate declares "
                            f"{ig.topic!r}")
-        for _, ig, _ in plates:
-            bad += check_plate(ig)
+        told = {ch["id"] for ch in sitebuild.chapters_for(country)
+                if ch.get("stories")}
+        for _, ig, stem in plates:
+            bad += check_plate(ig, cells=stem in told)
         return bad
     finally:
         plt.close("all")
@@ -476,6 +521,49 @@ def test_next_panel_is_refused_on_a_spine_plate(tmp_path):
     with pytest.raises(spine.SpineError, match="slot"):
         ig.next_panel("x")
     plt.close("all")
+
+
+def test_the_panel_cells_tile_the_plate_in_reading_order():
+    cells = [spine.panel_cell(i) for i in range(4)]
+    for left, top, width, height in cells:
+        assert width > 0 and height > 0
+        assert left >= 0 and top >= 0
+        assert left + width <= 1 + TOL and top + height <= 1 + TOL
+    for a, b in itertools.combinations(cells, 2):
+        apart_x = a[0] + a[2] <= b[0] + TOL or b[0] + b[2] <= a[0] + TOL
+        apart_y = a[1] + a[3] <= b[1] + TOL or b[1] + b[3] <= a[1] + TOL
+        assert apart_x or apart_y, f"{a} overlaps {b}"
+    # 1 top-left, 2 top-right, 3 bottom-left, 4 bottom-right: each row sits
+    # above the next and each left panel left of its right-hand neighbour.
+    for left, right in ((0, 1), (2, 3)):
+        assert cells[left][0] + cells[left][2] <= cells[right][0] + TOL
+    for upper, lower in ((0, 2), (1, 3)):
+        assert cells[upper][1] + cells[upper][3] <= cells[lower][1] + TOL
+
+
+def test_the_four_cells_are_the_same_size():
+    """So the panels lift, and are isolated, at one size."""
+    sizes = {(round(c[2], 4), round(c[3], 4))
+             for c in (spine.panel_cell(i) for i in range(4))}
+    assert len(sizes) == 1, sizes
+
+
+def test_a_cell_exists_only_for_the_four_panels():
+    for bad in (-1, 4):
+        with pytest.raises(IndexError):
+            spine.panel_cell(bad)
+
+
+def test_a_panel_that_leaves_its_cell_is_caught(tmp_path):
+    """The check is known to bite: move the margins and it says so."""
+    c = synthetic(tmp_path)
+    try:
+        ig = _plate(c, "security")
+        assert cell_faults(ig) == []
+        ig.fig.subplots_adjust(left=0.30)
+        assert any("outside its cell" in b for b in cell_faults(ig))
+    finally:
+        plt.close("all")
 
 
 def test_a_plate_off_the_spine_is_untouched(tmp_path):

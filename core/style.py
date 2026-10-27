@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 from matplotlib import ticker as mticker
 
-from core import i18n, spine
+from core import hover, i18n, spine
 
 
 # ---------------------------------------------------------------- fonts
@@ -439,6 +439,7 @@ class Infographic:
         clean = re.sub(rb"[ \t]+(?=\r?$)", b"", raw, flags=re.MULTILINE)
         if clean != raw:
             svg.write_bytes(clean)
+        hover.write(path, self.axes_flat)
         plt.close(self.fig)
         return path
 

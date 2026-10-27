@@ -512,6 +512,18 @@ def translate(text: str) -> str:
     return "\n".join(out)
 
 
+def known(text: str) -> str | None:
+    """A string in the target language if the catalog has it, else None.
+
+    Unlike translate(), a miss is not recorded as a gap: it is for text that
+    is not drawn on the plate (a series name that is only read back from it),
+    where a missing translation costs nothing and must not fail the build.
+    """
+    if LANG == "en":
+        return text
+    return _load_catalog(LANG).get(text.strip())
+
+
 class _LocalizedFormatter(mticker.Formatter):
     """Wraps a tick formatter so its output is localized.
 
