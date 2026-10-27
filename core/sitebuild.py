@@ -28,6 +28,9 @@ from pathlib import Path
 
 from core import numstyle
 
+#: How many beats (mini-stories) a story may have.
+MIN_BEATS, MAX_BEATS = 3, 6
+
 # A no-break space, not U+202F: see core.numstyle.
 NBSP = numstyle.NBSP
 
@@ -43,7 +46,7 @@ NUMFMT = {
     "pct": "{:,.1f}", "pct_s": "{:+,.1f}", "pct2": "{:,.2f}",
     "pct_gdp": "{:,.1f}", "pct_gdp_s": "{:+,.1f}",
     "count": "{:,.0f}", "rank": "{:,.0f}", "score100": "{:,.0f}",
-    "dec3": "{:,.3f}", "dec2": "{:,.2f}",
+    "dec3": "{:,.3f}", "dec2": "{:,.2f}", "dec1": "{:,.1f}",
     "pop_mn": "{:,.1f}", "per100k": "{:,.1f}", "per100k2": "{:,.2f}",
     "years": "{:,.1f}", "index": "{:,.0f}",
 }
@@ -68,6 +71,7 @@ AFFIX = {
     "count":     {l: ("", "") for l in ("en", "fr", "pt", "es", "ko")},
     "dec3":      {l: ("", "") for l in ("en", "fr", "pt", "es", "ko")},
     "dec2":      {l: ("", "") for l in ("en", "fr", "pt", "es", "ko")},
+    "dec1":      {l: ("", "") for l in ("en", "fr", "pt", "es", "ko")},
     "index":     {l: ("", "") for l in ("en", "fr", "pt", "es", "ko")},
     "rank":      {l: ("#", "") for l in ("en", "fr", "pt", "es", "ko")},
     "score100":  {l: ("", "/100") for l in ("en", "fr", "pt", "es", "ko")},
@@ -277,7 +281,7 @@ _STYLE_AFFIX = {
     },
 }
 for _style, _forms in _STYLE_AFFIX.items():
-    for _spec in ("count", "dec3", "dec2", "index"):
+    for _spec in ("count", "dec3", "dec2", "dec1", "index"):
         _forms.setdefault(_spec, ("", ""))
     for _spec, _form in _forms.items():
         AFFIX[_spec][_style] = _form
@@ -582,6 +586,81 @@ class SiteContext:
                 f"{self.c.slug}: copy is missing {missing} "
                 f"(got {sorted(per_locale)})")
         return {l: per_locale[l] for l in self.locales}
+
+    def fact(self, pairs, spec: str, year=None, kind="flow") -> dict:
+        """One figure for a story to quote: its value per locale, and its year.
+
+        Reads the series the way `stat` does — a flow stops at the last full
+        year, a level (kind='level') may be the running one, and `year`
+        picks one — but there is no label to write, because the sentence
+        around it is the label. A year with no value is an error: a story
+        that quotes a number the data do not have is the failure this
+        exists to prevent.
+        """
+        if kind == "flow" and year is None:
+            pairs = [p for p in pairs if p[0] <= self.LAST_FULL_YEAR]
+        p = self.last(pairs, year)
+        if p is None:
+            raise KeyError(f"{self.c.slug}: no value for a story fact "
+                           f"(year={year!r}, kind={kind!r})")
+        return {"value": self.render(p[1], spec), "year": p[0]}
+
+    def story(self, title: dict, beats: list, facts: dict | None = None
+              ) -> dict[str, dict]:
+        """The plain-language reading of one panel, one per locale.
+
+        A `title`, which states what the panel says rather than naming it,
+        and a few short `beats`: mini-stories, each a (head, text) pair of
+        `ctx.text(...)`. The first says how to read this kind of chart, the
+        middle ones take one thing the panel shows each (what it puts in
+        front, what it leaves behind), the last says what it does not tell.
+        Three to six, because fewer is a caption and more is a wall.
+
+        `{name}` anywhere in the title, a head or a text is filled with that
+        fact's value in the locale's own number style and `{name_year}` with
+        its year, so the sentence says what the CSV says and a refetch moves
+        both. A placeholder with no fact, or a fact nothing uses, fails the
+        build: the first prints a brace to a reader, the second is a number
+        that was reworded out of the story and will be wrong the next time
+        the data move.
+        """
+        if not MIN_BEATS <= len(beats) <= MAX_BEATS:
+            raise ValueError(
+                f"{self.c.slug}: a story has {MIN_BEATS} to {MAX_BEATS} "
+                f"beats, got {len(beats)}")
+        facts = facts or {}
+        used: set[str] = set()
+
+        def fill_in(text: str, loc: str) -> str:
+            def fill(m):
+                name, tail = m.group(1), m.group(2)
+                if name not in facts:
+                    raise KeyError(f"{self.c.slug}: story has no fact "
+                                   f"{name!r} for {{{name}{tail}}}")
+                used.add(name)
+                f = facts[name]
+                return str(f["year"] if tail else f["value"][loc])
+            return re.sub(r"\{(\w+?)(_year)?\}", fill, text)
+
+        def pick(copy: dict, what: str, loc: str) -> str:
+            if loc not in copy:
+                raise KeyError(f"{self.c.slug}: story {what} is missing "
+                               f"[{loc}] (got {sorted(copy)})")
+            return fill_in(copy[loc], loc)
+
+        out: dict[str, dict] = {}
+        for loc in self.locales:
+            out[loc] = {
+                "title": pick(title, "title", loc),
+                "beats": [{"head": pick(head, f"beat {i + 1} head", loc),
+                           "text": pick(text, f"beat {i + 1} text", loc)}
+                          for i, (head, text) in enumerate(beats)],
+            }
+        unused = sorted(set(facts) - used)
+        if unused:
+            raise KeyError(f"{self.c.slug}: story facts {unused} are "
+                           f"never used")
+        return out
 
     def stat(self, label: dict, pairs, spec: str, year=None, kind="flow"):
         """One headline figure, with the year it belongs to.
