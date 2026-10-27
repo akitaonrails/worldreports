@@ -12,8 +12,6 @@ an official forward estimate.
 """
 from __future__ import annotations
 
-import math
-
 from core.sideload import sibling
 
 MONEY, WORLD, PEOPLE = "money", "world", "people"
