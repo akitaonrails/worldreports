@@ -15,7 +15,7 @@ from pathlib import Path
 
 import pytest
 
-from core import page, sitebuild
+from core import page, sitebuild, spine
 
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link",
         "meta", "param", "source", "track", "wbr"}
@@ -627,3 +627,85 @@ def test_each_page_tells_the_script_which_locale_it_is(site, country):
             .read_text(encoding="utf-8")
         assert f'data-loc="{loc.code}"' in text, \
             f"{country.slug}/{loc.code}: the body does not declare its locale"
+
+
+# --------------------------------------------------------------- stories
+def _with_stories(country):
+    return [d for d in sitebuild.chapters_for(country) if d.get("stories")]
+
+
+def _card_of(text: str, chapter_id: str) -> str:
+    """The markup of one chapter's card."""
+    start = text.index(f'data-id="{chapter_id}"')
+    return text[start:text.index("</article>", start)]
+
+
+def test_a_card_carries_the_stories_of_its_panels(site, country):
+    """The viewer reads the stories from the card, so the page works — and
+    can be read — without the script."""
+    from html import escape
+    for d in _with_stories(country):
+        order = [s.key for s in spine.slots(d["topic"])]
+        for loc in country.locales:
+            text = (site / country.slug / loc.code / "index.html"
+                    ).read_text(encoding="utf-8")
+            card = _card_of(text, d["id"])
+            assert card.count('<li class="story"') == len(d["stories"])
+            for key, story in d["stories"].items():
+                cell = ",".join(f"{v:.4f}" for v in
+                                spine.panel_cell(order.index(key)))
+                assert (f'data-slot="{key}" data-cell="{cell}"') in card, \
+                    f"{country.slug}/{loc.code}/{key}: no card entry"
+                told = story[loc.code]
+                wanted = [told["title"]] + [x for b in told["beats"]
+                                            for x in (b["head"], b["text"])]
+                for text in wanted:
+                    assert escape(text, quote=True) in card, \
+                        f"{country.slug}/{loc.code}/{key}: {text[:30]!r} missing"
+            assert card.count('class="story__part"') == \
+                sum(len(s[loc.code]["beats"]) for s in d["stories"].values())
+
+
+def test_only_a_chapter_with_stories_gets_a_story_section(site, country):
+    for loc in country.locales:
+        text = (site / country.slug / loc.code / "index.html"
+                ).read_text(encoding="utf-8")
+        assert text.count('class="data stories"') == \
+            len(_with_stories(country)), \
+            f"{country.slug}/{loc.code}: story sections out of step"
+
+
+def test_the_viewer_has_a_place_for_the_story(site):
+    for path in sorted(site.glob("*/*/index.html")):
+        text = path.read_text(encoding="utf-8")
+        assert 'id="v-story"' in text, f"{path}: the viewer has no story"
+        assert 'id="v-story-close"' in text, f"{path}: nothing closes it"
+        assert 'id="v-tip"' in text, f"{path}: no hover card"
+        assert 'id="v-read"' in text, f"{path}: no readout for the isolated chart"
+        for key in ("story.kicker", "story.hint", "story.keys"):
+            assert f'"{key}"' in text, f"{path}: the script is not given {key}"
+
+
+def test_the_comparison_index_carries_each_countrys_own_stories(countries):
+    """A reader comparing with Brazil clicks Brazil's side and gets
+    Brazil's story, so the index has to carry it — and only where a
+    country wrote one."""
+    index = page.compare_index(countries)
+    by_slug = {c.slug: c for c in countries}
+    for entries in index["topics"].values():
+        for entry in entries:
+            country = by_slug[entry["slug"]]
+            written = {d["id"]: d for d in _with_stories(country)}
+            for loc, plate in entry["plates"].items():
+                if entry["id"] not in written:
+                    assert "stories" not in plate, \
+                        f'{entry["slug"]}/{entry["id"]}: stories from nowhere'
+                    continue
+                d = written[entry["id"]]
+                assert set(plate["stories"]) == set(d["stories"])
+                for key, got in plate["stories"].items():
+                    told = d["stories"][key][loc]
+                    assert got["title"] == told["title"]
+                    assert [(p["label"], p["text"]) for p in got["parts"]] == \
+                        [(b["head"], b["text"]) for b in told["beats"]]
+                    assert len(got["cell"]) == 4

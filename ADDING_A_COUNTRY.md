@@ -315,6 +315,36 @@ only comparable once the year is complete; `level` for a stock or a rate
 read at a moment; `projection` for an official forward estimate. Getting
 this wrong puts a half-finished year on a card as though it were a result.
 
+#### Stories (optional)
+
+A chapter may carry a `"stories"` entry: for each of its panels, a short reading
+the viewer opens beside the isolated chart. Brazil's are the reference
+(`countries/brasil/stories.py`, one `<topic>_stories(ctx)` function per chapter,
+loaded from `chapters.py` with `core.sideload.sibling`):
+
+```python
+"stories": {"economy.growth": ctx.story(
+    title=ctx.text(en="GDP only passed its 2014 level in {back_year}", pt="..."),
+    beats=[(ctx.text(en="Two falls add up to double the covid one", pt="..."),
+            ctx.text(en="Chained, {y1} and {y2} take {loss} off GDP...", pt="..."))],
+    facts={"back": ..., "loss": ...})}
+```
+
+- 3 to 4 insights per panel, each a head of at most 7 words and one or two
+  sentences of at most 32. An insight says what the chart shows but does not
+  say (a ratio, an accumulation, who overtook whom, what a highlight implies,
+  what the picture leaves out); it never recaps the chart or explains how to
+  read it. The title is the one sentence a reader keeps, so it must be true on
+  its own.
+- Every number and year is a `{placeholder}` filled from the country's CSVs
+  (`ctx.fact`), in each locale's number style. A claim that is only true while
+  the data keep a certain shape is guarded with a `need(...)` that raises, so a
+  refetch that falsifies a sentence breaks the build instead of publishing it.
+- No cause that is not in the data, no judgement of governments or people, no
+  hypothetical.
+- Every locale the country publishes is written (`tests/test_stories.py` fails
+  on a gap).
+
 ### 5. `i18n.json` and `ui.json`
 
 `i18n.json` maps each English string the plates emit to its translations:

@@ -37,7 +37,7 @@ import shutil
 import sys
 from pathlib import Path
 
-from core import sitebuild
+from core import sitebuild, spine
 from core.country import COUNTRIES_DIR, ROOT, Country
 
 SITE = ROOT / "site"
@@ -489,6 +489,8 @@ def compare_index(countries: list[Country]) -> dict:
                     "title": (d["title"] or {}).get(code) or "",
                     "alt": (d.get("alt") or {}).get(code) or "",
                 }
+                if d.get("stories"):
+                    plates[code]["stories"] = _stories_for(d, code)
             topics.setdefault(topic, []).append({
                 "slug": c.slug,
                 "flag": c.flag_emoji,
@@ -527,6 +529,60 @@ def _plate_files(ch_data: dict, locale: str, default: str) -> tuple[str, str, st
             f"../output/{stem}.png")
 
 
+def _cell(topic: str, key: str) -> list[float]:
+    """Where a panel answers a click, as fractions of its plate."""
+    order = [s.key for s in spine.slots(topic)]
+    return [round(v, 4) for v in spine.panel_cell(order.index(key))]
+
+
+def _stories_for(ch_data: dict, locale: str) -> dict:
+    """One locale's stories for the comparison index: text and cell, by slot.
+
+    The viewer knows only the plate it is showing, so the other country's
+    side of a comparison needs its own story and its own cell carried here.
+    """
+    return {key: {"title": s[locale]["title"],
+                  "parts": [{"label": b["head"], "text": b["text"]}
+                            for b in s[locale]["beats"]],
+                  "cell": _cell(ch_data["topic"], key)}
+            for key, s in ch_data["stories"].items() if locale in s}
+
+
+def _stories(ch: Chrome, d: dict) -> str:
+    """What each panel of a plate says, for a reader who is not an expert.
+
+    In the card, in the document, folded away: like the data table it is
+    reachable without the script, indexable, and what the viewer's balloon
+    reads from. Panels are listed in the spine's reading order, each with
+    the cell the viewer treats as that panel.
+    """
+    stories = d.get("stories")
+    if not stories:
+        return ""
+    items = []
+    for slot in spine.slots(d["topic"]):
+        s = stories.get(slot.key)
+        if not s:
+            continue
+        cell = ",".join(f"{v:.4f}" for v in _cell(d["topic"], slot.key))
+        title = ch.tx({loc: v["title"] for loc, v in s.items()})
+        loc = next(l for l in ch._chain if l in s)
+        parts = "".join(
+            f'<p class="story__part"><strong class="story__label">'
+            f'{e(b["head"])}</strong> '
+            f'<span class="story__text">{e(b["text"])}</span></p>'
+            for b in s[loc]["beats"])
+        items.append(
+            f'<li class="story" data-slot="{e(slot.key)}" '
+            f'data-cell="{cell}">'
+            f'<h4 class="story__title">{e(title)}</h4>{parts}</li>')
+    return f"""<details class="data stories">
+          <summary>{e(ch.t("stories.show"))} · {len(items)}</summary>
+          <p class="src__lead">{e(ch.t("stories.lead"))}</p>
+          <ol class="story__list">{"".join(items)}</ol>
+        </details>"""
+
+
 def _card(country: Country, ch: Chrome, d: dict, i: int,
           provenance: dict, by_file: dict) -> str:
     title, blurb = ch.tx(d["title"]), ch.tx(d["blurb"])
@@ -559,6 +615,7 @@ def _card(country: Country, ch: Chrome, d: dict, i: int,
           <a href="{e(svg)}" download>{e(ch.t("download"))}</a>
           {_data_table(ch, d)}
           {_provenance(ch, provenance.get(d["id"], []), by_file)}
+          {_stories(ch, d)}
         </div>
         {_spark(ch, d["spark"]) if d.get("spark") else ""}
         <div class="stats">{stats}</div>
@@ -696,7 +753,8 @@ def _ui_json(ch: Chrome) -> str:
     runtime from countries this page does not otherwise mention.
     """
     keys = ("compare.none", "compare.lang", "compare.loading",
-            "compare.hint", "compare.clear")
+            "compare.hint", "compare.clear",
+            "story.kicker", "story.hint", "story.keys")
     return json.dumps({k: ch.t(k) for k in keys}, ensure_ascii=False)
 
 
@@ -742,6 +800,24 @@ def _viewer(ch: Chrome) -> str:
     <div class="viewer__stage" id="v-stage">
       <img class="viewer__img" id="v-img" alt="">
       <img class="viewer__img viewer__cmp" id="v-cmp" alt="" hidden>
+      <div class="hot" id="v-hot" hidden></div>
+      <div class="tip" id="v-tip" role="tooltip">
+        <strong class="tip__title" id="v-tip-title"></strong>
+        <span class="tip__cue">{e(ch.t("story.cue"))}</span>
+      </div>
+      <div class="read" id="v-read" aria-hidden="true">
+        <span class="read__line" id="v-read-line"></span>
+        <div class="read__card" id="v-read-card"></div>
+      </div>
+      <aside class="balloon" id="v-story" hidden role="dialog"
+             aria-labelledby="v-story-title">
+        <button type="button" class="tool tool--close balloon__close"
+                id="v-story-close"
+                aria-label="{e(ch.t("story.close"))}">×</button>
+        <span class="balloon__from" id="v-story-from"></span>
+        <h3 class="balloon__heading" id="v-story-title"></h3>
+        <div class="balloon__parts" id="v-story-body"></div>
+      </aside>
       <div class="vcmp" id="v-wipe" hidden>
         <span class="vcmp__edge"></span>
         <span class="vcmp__grip" tabindex="0" role="slider"
@@ -753,7 +829,8 @@ def _viewer(ch: Chrome) -> str:
     </div>
     <div class="viewer__foot">
       <button type="button" class="step" id="v-prev">←&nbsp;{e(ch.t("viewer.prev"))}</button>
-      <span class="viewer__hint">{e(ch.t("viewer.hint"))}</span>
+      <span class="viewer__hint">{e(ch.t("viewer.hint"))}
+        <span id="v-story-hint" hidden>{e(ch.t("story.hint"))}</span></span>
       <button type="button" class="step" id="v-next">{e(ch.t("viewer.next"))}&nbsp;→</button>
     </div>
   </div>"""

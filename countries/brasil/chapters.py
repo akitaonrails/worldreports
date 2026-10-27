@@ -12,6 +12,8 @@ an official forward estimate.
 """
 from __future__ import annotations
 
+from core.sideload import sibling
+
 MONEY, WORLD, PEOPLE = "money", "world", "people"
 
 
@@ -59,6 +61,7 @@ def headline(ctx) -> list[dict]:
 
 
 def build(ctx) -> list[dict]:
+    stories = sibling(__file__, "stories")
     chapters = [
         {
             "id": "01_economy", "topic": "economy", "n": "01", "family": MONEY,
@@ -76,6 +79,7 @@ def build(ctx) -> list[dict]:
                 ctx.stat({"en": "Inflation", "pt": "Inflação"},
                      ctx.col("macro/ipca.csv", "value"), "pct"),
             ],
+            "stories": stories.economy_stories(ctx),
         },
         {
             "id": "02_fiscal", "topic": "fiscal", "n": "02", "family": MONEY,
@@ -97,6 +101,7 @@ def build(ctx) -> list[dict]:
                 ctx.stat({"en": "Interest (NFSP)", "pt": "Juros (NFSP)"},
                      ctx.col("fiscal/nfsp.csv", "interest"), "pct_gdp"),
             ],
+            "stories": stories.fiscal_stories(ctx),
         },
         {
             "id": "03_spending", "topic": "spending", "n": "03", "family": MONEY,
@@ -113,6 +118,7 @@ def build(ctx) -> list[dict]:
                 ctx.stat({"en": "Investment", "pt": "Investimento"},
                      ctx.col("fiscal/spending_by_function_rbi.csv", "investimento_gnd4"), "money_bn"),
             ],
+            "stories": stories.spending_stories(ctx),
         },
         {
             "id": "06_trade", "topic": "trade", "n": "06", "family": WORLD,
@@ -129,6 +135,7 @@ def build(ctx) -> list[dict]:
                 ctx.stat({"en": "Balance", "pt": "Saldo"},
                      ctx.col("trade/trade.csv", "balance"), "usd_bn_s"),
             ],
+            "stories": stories.trade_stories(ctx),
         },
         {
             "id": "04_markets", "topic": "markets", "n": "04", "family": MONEY,
@@ -146,6 +153,7 @@ def build(ctx) -> list[dict]:
                 ctx.stat({"en": "Ibovespa", "pt": "Ibovespa"},
                      ctx.col("markets/ibov.csv", "close"), "count", kind="level"),
             ],
+            "stories": stories.markets_stories(ctx),
         },
         {
             "id": "08_people", "topic": "people", "n": "08", "family": PEOPLE,
@@ -163,6 +171,7 @@ def build(ctx) -> list[dict]:
                      ctx.col("macro/minimum_wage.csv", "value"), "count",
                      kind="level"),
             ],
+            "stories": stories.people_stories(ctx),
         },
         {
             "id": "07_world", "topic": "world", "n": "07", "family": WORLD,
@@ -180,6 +189,7 @@ def build(ctx) -> list[dict]:
                 ctx.stat({"en": "HDI", "pt": "IDH"},
                      ctx.col("social/hdi.csv", "value"), "dec3"),
             ],
+            "stories": stories.world_stories(ctx),
         },
         {
             "id": "09_demographics", "topic": "demography", "n": "09", "family": PEOPLE,
@@ -198,6 +208,7 @@ def build(ctx) -> list[dict]:
                      ctx.col("social/population.csv", "pop_mn"), "pop_mn",
                      year=2026, kind="projection"),
             ],
+            "stories": stories.demography_stories(ctx),
         },
         {
             "id": "10_security", "topic": "security", "n": "10", "family": PEOPLE,
@@ -215,6 +226,7 @@ def build(ctx) -> list[dict]:
                 ctx.stat({"en": "Femicides", "pt": "Feminicídios"},
                      ctx.col("social/violence_fbsp.csv", "femicides"), "count"),
             ],
+            "stories": stories.security_stories(ctx),
         },
         {
             "id": "11_epidemics", "topic": "mortality", "n": "11", "family": PEOPLE,
@@ -234,6 +246,7 @@ def build(ctx) -> list[dict]:
                 ctx.stat({"en": "Dengue deaths", "pt": "Óbitos por dengue"},
                      ctx.col("social/epidemic_deaths.csv", "dengue"), "count"),
             ],
+            "stories": stories.mortality_stories(ctx),
         },
         {
             "id": "05_credit", "topic": "credit", "n": "05", "family": MONEY,
@@ -256,6 +269,7 @@ def build(ctx) -> list[dict]:
                      ctx.col("macro/credit.csv", "credit_gdp"), "pct_gdp",
                      kind="level"),
             ],
+            "stories": stories.credit_stories(ctx),
         },
         {
             "id": "12_migration", "topic": "migration", "n": "12", "family": PEOPLE,
@@ -264,6 +278,7 @@ def build(ctx) -> list[dict]:
             "spark": ctx.col("migration/stock_census.csv", "foreign_born_pct"),
             "spark_level": True,
             "stats": [ctx.stat({"en": "Foreign-born", "pt": "Nascidos no exterior"}, ctx.col("migration/stock_census.csv", "foreign_born_pct"), "pct", kind="level")],
+            "stories": stories.migration_stories(ctx),
         },
     ]
 

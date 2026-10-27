@@ -70,6 +70,25 @@ executable form, and `tests/test_spine.py` holds every country to it.
     sidecars and a manifest entry. `ctx.pending` is only for data that
     genuinely do not exist, and its note says why.
 
+## What the viewer reads off a spine plate
+
+Because every spine plate is the same 2×2 frame, the viewer can find the panel
+under a click or a pointer without being told where it is.
+
+- **Panel cells.** `spine.panel_cell(i)` is the cell panel `i` occupies on the
+  picture, as fractions of its width and height. It repeats the margins the
+  figure is built with (`PANEL_INK`, `INK_PAD`) and is measured from the
+  panel's ink (title, ticks, labels), so all four crops are the same size.
+  `tests/test_spine.py` draws every plate that has stories and fails if a panel
+  spills out of its cell.
+- **The readout.** `Infographic.save` writes `<plate>[.<lang>].hover.json`
+  beside the picture (`core/hover.py`): where each panel's axes sit, its limits
+  and the series it drew, read off the finished figure. The viewer uses it to
+  say what each series was at the year under the pointer. It is generated, so
+  it is committed with the plate like a thumbnail; a plate with none simply has
+  no readout. A panel on a calendar axis, with bars grouped by year, is read;
+  bars laid on their side, or a panel with no year to point at, are not.
+
 ## Topics and slots
 
 Slot numbers are reading order (1 top-left, 2 top-right, 3 bottom-left,

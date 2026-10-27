@@ -935,6 +935,259 @@ table.srctable .is-other { color: var(--faint); }
 .availability__list strong { color: var(--ink); font-weight: 650; }
 .availability__list span:empty { display: none; }
 
+/* ----------------------------------------------------------- the stories
+
+   A plate is a picture, and a picture explains nothing to someone who has
+   never read a chart. Each panel can carry a story. Pointed at, a panel
+   shows a small card with its conclusion; pressed,
+   it is brought to the front, the rest of the plate fades back and the story
+   settles beside it. Everything moves with opacity and transform only, so it
+   stays light, and --fam is the chapter's colour, so a money plate's story is
+   blue and a people plate's red, like its card. */
+.hot {
+  position: absolute; top: 0; left: 0; max-width: none;
+  transform-origin: 0 0; pointer-events: none;
+}
+.hot[hidden] { display: none; }
+
+/* The plate drops back by fading a veil in, which a GPU does for nothing; a
+   shadow grown to the size of the screen would not be free. It is larger than
+   the plate so no zoom or pan can show an edge of it. */
+.hot__veil {
+  position: absolute; left: -150%; top: -150%; width: 400%; height: 400%;
+  background: rgb(10 31 56 / .95); opacity: 0;
+  transition: opacity .5s var(--ease);
+}
+.hot__veil.is-on { opacity: 1; }
+
+/* The panel as its own element: the plate's vector cropped to its cell (the
+   background is set by app.js), so what lifts is exactly as sharp as the
+   plate. */
+.hot__cut {
+  position: absolute; pointer-events: none;
+  background-color: var(--paper); background-repeat: no-repeat;
+  border-radius: 3px;
+  opacity: 0; visibility: hidden;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0), 0 0 0 rgb(0 0 0 / 0);
+  /* Shown only while a story is open: it fades in over the plate as the view
+     eases in on it, and out again when the story closes. */
+  transition:
+    opacity .32s var(--ease), visibility 0s .32s,
+    transform .45s cubic-bezier(.2, .7, .2, 1),
+    box-shadow .45s cubic-bezier(.2, .7, .2, 1),
+    left .45s cubic-bezier(.2, .7, .2, 1), top .45s cubic-bezier(.2, .7, .2, 1),
+    width .45s cubic-bezier(.2, .7, .2, 1), height .45s cubic-bezier(.2, .7, .2, 1),
+    background-size .45s cubic-bezier(.2, .7, .2, 1),
+    background-position .45s cubic-bezier(.2, .7, .2, 1);
+  will-change: transform, opacity;
+}
+.hot__cut.is-open {
+  opacity: 1; visibility: visible;
+  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
+}
+.hot__cut.is-open {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--fam, var(--world)) 55%, transparent),
+              0 24px 64px rgb(0 0 0 / .45);
+}
+/* placed where it will appear, without travelling there */
+.is-snap { transition: none !important; }
+.viewer__stage.is-hot:not(.is-dragging) { cursor: pointer; }
+.viewer__stage.is-isolated { cursor: default; }
+.viewer__stage.is-isolated .vcmp { visibility: hidden; }
+
+/* The view eases in on the panel and back; every other move of the plate is
+   immediate, because a pan that lags behind the hand is a broken pan. */
+.viewer__stage.is-tween .viewer__img,
+.viewer__stage.is-tween .viewer__cmp,
+.viewer__stage.is-tween .hot {
+  transition: transform .7s cubic-bezier(.2, .7, .2, 1);
+}
+
+/* Keyboard stand-ins for the panels: invisible, focusable, not clickable. */
+.hot__key {
+  position: absolute; pointer-events: none; opacity: 0;
+  background: none; border: 0; padding: 0;
+}
+.hot__key:focus-visible {
+  opacity: 1; outline: 2px solid var(--fam, var(--world)); outline-offset: -2px;
+}
+
+/* The hover card: the conclusion, for a reader who will not open the story. */
+.tip {
+  position: absolute; top: 0; left: 0; z-index: 7; pointer-events: none;
+  width: max-content; max-width: calc(100% - 1rem);
+  display: grid; gap: .3rem; padding: .7rem .95rem .75rem;
+  background: color-mix(in srgb, var(--raised) 94%, transparent);
+  border: 1px solid var(--rule); border-left: 2px solid var(--fam, var(--world));
+  border-radius: var(--r); box-shadow: 0 12px 32px rgb(0 0 0 / .4);
+  opacity: 0; visibility: hidden;
+  transition: opacity .22s var(--ease), visibility 0s .22s,
+              transform .16s cubic-bezier(.2, .7, .2, 1);
+}
+.tip.is-on { opacity: 1; visibility: visible; transition-delay: 0s; }
+.tip__title {
+  font-size: .95rem; line-height: 1.3; font-weight: 650; color: var(--ink);
+  text-wrap: balance;
+}
+.tip__cue {
+  font-size: .72rem; letter-spacing: .02em; color: var(--fam, var(--world));
+}
+
+/* The story. Sized in em from --bs, which app.js raises with the stage, so on a
+   large screen it grows with the panel instead of shrinking to a note. */
+.balloon {
+  position: absolute; z-index: 6; box-sizing: border-box;
+  font-size: calc(1rem * var(--bs, 1));
+  width: min(23rem, calc(100% - 1rem));
+  max-height: calc(100% - 1rem); overflow: auto;
+  padding: 1.15em 1.35em 1.2em;
+  color: var(--ink);
+  border: 1px solid var(--rule); border-top: 3px solid transparent;
+  /* the country's own colours along the top, as on the plate; the layer
+     is tied to the box, so it stays put while the text scrolls */
+  background:
+    linear-gradient(90deg, var(--flag-1) 0 33.3%, var(--flag-2) 0 66.6%,
+                    var(--flag-3) 0) top / 100% 3px no-repeat,
+    var(--raised);
+  background-origin: border-box;
+  border-radius: var(--r); box-shadow: 0 24px 64px rgb(0 0 0 / .45);
+  cursor: auto; user-select: text; touch-action: pan-y;
+  animation: balloon-in .6s cubic-bezier(.2, .7, .2, 1) .12s both;
+}
+.balloon[hidden] { display: none; }
+.balloon.is-leaving { animation: balloon-out .3s var(--ease) both; pointer-events: none; }
+@keyframes balloon-out { to { opacity: 0; transform: translateY(8px); } }
+.balloon.is-peer {
+  background: linear-gradient(var(--people), var(--people)) top / 100% 3px no-repeat,
+              var(--raised);
+  background-origin: border-box;
+}
+@keyframes balloon-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+.balloon__close {
+  position: absolute; font-size: 1rem;
+  top: calc(.45rem * max(1, var(--bs, 1))); right: calc(.45rem * max(1, var(--bs, 1)));
+  transform: scale(max(1, var(--bs, 1))); transform-origin: top right;
+}
+.balloon__from {
+  display: block; font-size: .72em; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 1em; padding-right: 2.6em;
+}
+.balloon__heading {
+  margin: 0 0 1em; font-size: 1.02em; line-height: 1.25; font-weight: 700;
+  font-variation-settings: "wdth" 92;
+  /* breaks only where it has to, and never leaves a lone word on the end;
+     'balance' split a title that fitted on one line into two */
+  text-wrap: pretty;
+}
+
+/* The insights: one sharp point each, set off by a small mark in the
+   chapter's colour so the eye can move down them. */
+.balloon__parts { display: grid; }
+.balloon__part {
+  position: relative; padding-left: 1.35em;
+  animation: balloon-part .6s cubic-bezier(.2, .7, .2, 1) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 260ms);
+}
+.balloon__part + .balloon__part {
+  margin-top: .85em; padding-top: .85em; border-top: 1px solid var(--rule);
+}
+@keyframes balloon-part {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+.balloon__label {
+  position: relative; margin: 0 0 .3em; font-size: 1.04em; font-weight: 700;
+  line-height: 1.3; color: var(--ink); text-wrap: pretty;
+}
+/* the mark sits on the middle of the head's first line, whatever follows */
+.balloon__label::before {
+  content: ""; position: absolute; left: -1.15em; top: .65em;
+  width: .42em; height: .42em; background: var(--fam, var(--world));
+  transform: translateY(-50%) rotate(45deg);
+}
+.balloon__text {
+  margin: 0; font-size: .9em; line-height: 1.5; color: var(--muted);
+  text-wrap: pretty;      /* no lone '1,7.' on a last line */
+}
+
+/* In the card: the stories, folded like the data tables beside them. */
+.story__list { margin: .7rem 0 0; padding: 0; list-style: none; display: grid; gap: .9rem; }
+.story { padding-left: .8rem; border-left: 2px solid var(--fam, var(--rule)); }
+.story__title { margin: 0 0 .25rem; font-size: .88rem; color: var(--ink); }
+.story__part { margin: 0 0 .35rem; font-size: .84rem; line-height: 1.55; color: var(--muted); }
+.story__label { color: var(--ink); font-weight: 600; margin-right: .3rem; }
+
+@media (max-width: 560px) {
+  .balloon { padding: 1rem 1rem 1.05rem; }
+  .balloon__text { font-size: .9rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* the stagger is a delay, which the blanket rule above does not shorten,
+     so a reader who asked for no motion would still wait for it */
+  .balloon, .balloon.is-leaving, .balloon__part { animation: none; }
+}
+
+/* The readout: what the isolated chart says at the year under the pointer.
+   A rule down the panel, a dot on each series, and one card. It lives in
+   stage pixels, not on the plate, so it keeps its size however far the
+   plate is enlarged. */
+.read {
+  position: absolute; inset: 0; z-index: 5; pointer-events: none;
+  --k: max(1, var(--bs, 1));   /* grows with the text on a big window */
+}
+.read__line {
+  position: absolute; top: 0; left: 0; width: 1px;
+  background: color-mix(in srgb, var(--ink) 55%, transparent);
+  opacity: 0; transition: opacity .18s var(--ease), transform .09s ease-out;
+}
+.read__dot {
+  position: absolute; top: 0; left: 0;
+  width: calc(9px * var(--k)); height: calc(9px * var(--k));
+  margin: calc(-4.5px * var(--k)) 0 0 calc(-4.5px * var(--k)); border-radius: 50%;
+  border: 2px solid #fff; box-shadow: 0 1px 4px rgb(0 0 0 / .4);
+  opacity: 0; transition: opacity .18s var(--ease), transform .09s ease-out;
+}
+.read__card {
+  position: absolute; top: 0; left: 0; width: max-content;
+  max-width: calc(22rem * var(--k));
+  display: grid; gap: .3em; padding: .6em .8em .65em;
+  font-size: calc(.84rem * var(--k));
+  background: color-mix(in srgb, var(--raised) 95%, transparent);
+  border: 1px solid var(--rule); border-radius: var(--r);
+  box-shadow: 0 12px 32px rgb(0 0 0 / .4);
+  opacity: 0; transition: opacity .18s var(--ease), transform .12s ease-out;
+}
+.read.is-on .read__line, .read.is-on .read__dot, .read.is-on .read__card { opacity: 1; }
+.read.is-snap .read__line, .read.is-snap .read__dot, .read.is-snap .read__card { transition: none; }
+/* on a phone the chart is a few hundred px wide, so the readout is set in the
+   chart's own small type to leave it in view */
+@media (max-width: 760px) {
+  .read__card { font-size: .62rem; max-width: 15rem; }
+  .read__dot { width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; }
+}
+.read__head {
+  font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums;
+}
+.read__head small { font-weight: 500; color: var(--muted); margin-left: .5em; }
+.read__row {
+  display: flex; align-items: baseline; gap: .5em; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.read__swatch {
+  flex: none; width: .6em; height: .6em; border-radius: 50%;
+  background: var(--sw, var(--muted)); transform: translateY(.02em);
+}
+.read__name { flex: 1; }
+.read__value { color: var(--ink); font-weight: 650; }
+@media (prefers-reduced-motion: reduce) {
+  .read__line, .read__dot, .read__card { transition: none; }
+}
+
 /* Fingers, not cursors: the viewer controls are 2.1rem squares, which is
    a precise hover target and a frustrating touch one. Coarse pointers get
    the same controls at the 44px a thumb can actually hit; the desktop,

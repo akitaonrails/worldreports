@@ -83,6 +83,7 @@ CARDS = [
     ("de", "usd_bn", None, 684.4, f"684{N}Mrd.{N}US-$"),
     ("de", "pop_mn", None, 8.96, f"9,0{N}Mio."),
     ("de", "dec2", None, 1234.567, "1.234,57"),
+    ("de", "dec1", None, 1234.56, "1.234,6"),
     ("de", "rank", None, 24, "Platz 24"),
     ("de", "years", None, 83.4, "83,4 Jahre"),
 

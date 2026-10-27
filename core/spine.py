@@ -53,6 +53,28 @@ FRAME = {"nrows": 2, "ncols": 2, "figsize": (16.0, 10.2), "right": 0.955}
 #: Label every second year (rule 2).
 TICK_EVERY = 2
 
+#: What each panel's drawing occupies on the plate, as (left, bottom, right,
+#: top) in figure fractions with y up, in reading order. It is the envelope of
+#: everything every country draws for that slot — axes, title, tick labels,
+#: axis labels, partial-year captions — measured over all the spine plates, so
+#: the cell a viewer cuts out of a plate is the panel and nothing around it:
+#: no blank margin, none of the footer. The two columns and the two rows are
+#: given the same size (the narrower column is widened to the wider), so the
+#: four panels lift and isolate at the same size and sit alike in the plate's
+#: margins. tests/test_spine.py draws every plate and fails if one ink strays
+#: outside its cell, which is how a panel that outgrows this gets noticed;
+#: re-measure with the same check.
+PANEL_INK = (
+    (0.0133, 0.4686, 0.4811, 0.8705),
+    (0.5070, 0.4686, 0.9748, 0.8705),
+    (0.0133, 0.0395, 0.4811, 0.4414),
+    (0.5070, 0.0395, 0.9748, 0.4414),
+)
+#: Room kept around that envelope: (left, bottom, right, top). Little at the
+#: bottom, where the line of sources starts just below the lowest caption.
+INK_PAD = (0.004, 0.0005, 0.004, 0.004)
+
+
 @dataclass(frozen=True)
 class Slot:
     key: str
@@ -229,6 +251,30 @@ def slots(topic: str) -> tuple[Slot, ...]:
     except KeyError:
         raise SpineError(f"{topic!r} is not a spine topic; the spine has "
                          f"{sorted(SPINE)}") from None
+
+
+def panel_cell(index: int) -> tuple[float, float, float, float]:
+    """Where one slot's panel is, and answers a click: (left, top, width, height).
+
+    As fractions of the image, measured from its top-left corner, so a
+    viewer can place it over the plate at any size. `index` is the slot's
+    place in reading order (0 top-left … 3 bottom-right).
+
+    The cell is the panel with everything it draws around the axes — its
+    title, the y-axis label and tick labels, the year ticks — and not the
+    axes rectangle alone, so a click on a panel's title lands on that panel
+    and a copy of the cell shows the whole panel. It is the measured
+    envelope in PANEL_INK plus INK_PAD. The frame is the same for every
+    spine plate in every country, so this is one table for all of them.
+    """
+    if not 0 <= index < len(PANEL_INK):
+        raise IndexError(f"a spine plate has {len(PANEL_INK)} panels, "
+                         f"not a panel {index}")
+    x0, y0, x1, y1 = PANEL_INK[index]
+    pl, pb, pr, pt = INK_PAD
+    left, right = max(0.0, x0 - pl), min(1.0, x1 + pr)
+    bottom, top = max(0.0, y0 - pb), min(1.0, y1 + pt)
+    return left, 1 - top, right - left, top - bottom
 
 
 def strings() -> list[str]:
